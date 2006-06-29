@@ -6,8 +6,9 @@ __id__ = "$Id$"
 import copy
 import math
 import types
-import numarray as num
-import numarray.linear_algebra as numalg
+import numpy as num
+import numpy.linalg as numalg
+
 
 
 ##############################################################################
@@ -52,7 +53,7 @@ class Lattice:
 
     def __init__(self, a=None, b=None, c=None,
             alpha=None, beta=None, gamma=None,
-            baserot=num.identity(3, type=num.Float), base=None ):
+            baserot=num.identity(3, dtype=num.Float), base=None ):
         """define new coordinate system, the default is Cartesian
         There are 4 ways how to create Lattice instance:
 
@@ -127,16 +128,16 @@ class Lattice:
                 [ self.a*self.a,     self.a*self.b*cg,  self.a*self.c*cb ],
                 [ self.b*self.a*cg,  self.b*self.b,     self.b*self.c*ca ],
                 [ self.c*self.a*cb,  self.c*self.b*ca,  self.c*self.c    ] ],
-                type=num.Float )
+                dtype=num.Float )
         # standard cartesian coordinates of lattice vectors
         self.stdbase = num.array( [
                 [ 1.0/self.ar, -cgr/sgr/self.ar, cb*self.a ],
                 [ 0.0,         self.b*sa,        self.b*ca ],
                 [ 0.0,         0.0,              self.c    ] ],
-                type=num.Float )
+                dtype=num.Float )
         # cartesian coordinates of lattice vectors
         self.base = num.dot(self.stdbase, self.baserot)
-        self.recbase = numalg.inverse(self.base)
+        self.recbase = numalg.inv(self.base)
         # bases normalized to unit reciprocal vectors
         self.normbase = num.array([ self.base[0,:]*self.ar,
                                     self.base[1,:]*self.br,
@@ -183,10 +184,10 @@ class Lattice:
                 [ 1.0/self.ar, -cgr/sgr/self.ar, cb*self.a ],
                 [ 0.0,         self.b*sa,        self.b*ca ],
                 [ 0.0,         0.0,              self.c    ] ],
-                type=num.Float )
+                dtype=num.Float )
         # calculate unit cell rotation matrix,  base = stdbase*baserot
-        self.baserot = num.dot( numalg.inverse(self.stdbase), self.base )
-        self.recbase = numalg.inverse(self.base)
+        self.baserot = num.dot( numalg.inv(self.stdbase), self.base )
+        self.recbase = numalg.inv(self.base)
         # bases normalized to unit reciprocal vectors
         self.normbase = num.array([ self.base[0,:]*self.ar,
                                     self.base[1,:]*self.br,
@@ -200,7 +201,7 @@ class Lattice:
                 [ self.a*self.a,     self.a*self.b*cg,  self.a*self.c*cb ],
                 [ self.b*self.a*cg,  self.b*self.b,     self.b*self.c*ca ],
                 [ self.c*self.a*cb,  self.c*self.b*ca,  self.c*self.c    ] ],
-                type=num.Float )
+                dtype=num.Float )
         return self
 
     def reciprocal(self):
@@ -222,7 +223,8 @@ class Lattice:
 
     def norm(self, u):
         """return norm of a lattice vector"""
-        return math.sqrt(self.dot(u, u))
+        # CLF - duplicated code from dot for the sake of speed
+        return math.sqrt(num.dot(u, num.dot(self.metrics, u)))
 
     def dist(self, u, v):
         """return distance of 2 points in lattice coordinates"""
@@ -237,7 +239,7 @@ class Lattice:
     def __repr__(self):
         """string representation of this lattice"""
         epsilon = 1.0e-8
-        I3 = num.identity(3, type=num.Float)
+        I3 = num.identity(3, dtype=num.Float)
         abcABG = num.array([self.a, self.b, self.c,
                             self.alpha, self.beta, self.gamma] )
         rotbaseI3diff = max(num.reshape(num.abs(self.baserot - I3), 9))

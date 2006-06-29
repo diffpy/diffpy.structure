@@ -2,7 +2,7 @@
 
 __id__ = "$Id$"
 
-import numarray as num
+import numpy as num
 
 ##############################################################################
 class Atom:
@@ -19,12 +19,12 @@ class Atom:
     def __init__(self, element, xyz, name='', occupancy=1.0, U=None):
         """create atom of a specified type at given lattice coordinates"""
         self.element = element
-        self.xyz = num.array(xyz, type=num.Float)
+        self.xyz = num.array(xyz, dtype=num.Float)
         self.name = name
         if U is None:
-            self.U = num.zeros((3,3), type=num.Float)
+            self.U = num.zeros((3,3), dtype=num.Float)
         else:
-            self.U = num.array(U, type=num.Float)
+            self.U = num.array(U, dtype=num.Float)
         self.occupancy = occupancy
         return
 
@@ -40,7 +40,7 @@ class Atom:
 
     def setUiso(self, Uiso):
         """set temperature coefficients matrix U to Uiso*identity(3)"""
-        self.U = Uiso * num.identity(3, type=num.Float)
+        self.U = Uiso * num.identity(3, dtype=num.Float)
         return
 
     def setBiso(self, Biso):

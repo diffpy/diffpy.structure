@@ -5,8 +5,8 @@ __id__ = "$Id$"
 
 import copy
 import math
-import numarray as num
-import numarray.linear_algebra as numalg
+import numpy as num
+import numpy.linalg as numalg
 from lattice import Lattice
 from atom import Atom
 
@@ -76,11 +76,11 @@ class Structure(list):
 
         return mean square displacement
         """
-        vln = num.array(vl, type=num.Float)/self.lattice.norm(vl)
+        vln = num.array(vl, dtype=num.Float)/self.lattice.norm(vl)
         G = self.lattice.metrics
         rhs = num.array([ G[0]*self.lattice.ar,
                           G[1]*self.lattice.br,
-                          G[2]*self.lattice.cr ], type=num.Float)
+                          G[2]*self.lattice.cr ], dtype=num.Float)
         rhs = num.dot(rhs, vln)
         msd = num.dot(rhs, num.dot(a.U, rhs))
         return msd
@@ -93,7 +93,7 @@ class Structure(list):
 
         return mean square displacement
         """
-        vcn = num.array(vc, type=num.Float)
+        vcn = num.array(vc, dtype=num.Float)
         vcn /= num.sqrt(num.sum(vcn**2))
         F1 = self.lattice.normbase
         Uc = num.dot(num.transpose(F1), num.dot(a.U, F1))

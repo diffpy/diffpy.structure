@@ -11,9 +11,9 @@ from Structure.structure import Structure, InvalidStructureFormat
 from Structure.lattice import Lattice
 from Structure.atom import Atom
 from StructureParser import StructureParser
-import numarray as num
-import numarray.linear_algebra as numalg
-from numarray import pi
+import numpy as num
+import numpy.linalg as numalg
+from numpy import pi
 
 class Parser(StructureParser):
     """Parser --> StructureParser subclass for basic parser for CIF format"""

@@ -10,9 +10,9 @@ from Structure.structure import Structure, InvalidStructureFormat
 from Structure.lattice import Lattice
 from Structure.atom import Atom
 from StructureParser import StructureParser
-import numarray as num
-import numarray.linear_algebra as numalg
-from numarray import pi
+import numpy as num
+import numpy.linalg as numalg
+from numpy import pi
 
 orderOfRecords = [
     "HEADER", "OBSLTE", "TITLE", "CAVEAT", "COMPND", "SOURCE", "KEYWDS",
@@ -44,8 +44,8 @@ class Parser(StructureParser):
         """
         try:
             stru = Structure()
-            scale = num.identity(3, type=num.Float)
-            scaleU = num.zeros(3, type=num.Float)
+            scale = num.identity(3, dtype=num.Float)
+            scaleU = num.zeros(3, dtype=num.Float)
             p_nl = 0
             for line in lines:
                 # make sure line has 80 characters
@@ -70,7 +70,7 @@ class Parser(StructureParser):
                     stru.lattice.setLatPar(a, b, c, alpha, beta, gamma)
                     scale = num.transpose(stru.lattice.recbase)
                 elif record == "SCALE1":
-                    sc = num.zeros(3, type=num.Float)
+                    sc = num.zeros(3, dtype=num.Float)
                     sc[0,:] = [float(x) for x in line[10:40].split()]
                     scaleU[0] = float(line[45:55])
                 elif record == "SCALE2":
@@ -97,7 +97,7 @@ class Parser(StructureParser):
                         B = float(line[60:66])
                         U = num.identity(3)*B/(8*pi**2)
                     except ValueError:
-                        U = num.zeros((3,3), type=num.Float)
+                        U = num.zeros((3,3), dtype=num.Float)
                     element = line[76:78].strip()
                     if element == "":
                         element = line[12:14].strip()
@@ -116,7 +116,7 @@ class Parser(StructureParser):
                         sigB = float(line[60:66])
                         sigU = num.identity(3)*sigB/(8*pi**2)
                     except ValueError:
-                        sigU = num.zeros((3,3), type=num.Float)
+                        sigU = num.zeros((3,3), dtype=num.Float)
                     last_atom.sigxyz = sigxyz
                     last_atom.sigo = sigo
                     last_atom.sigU = sigU
@@ -214,13 +214,13 @@ class Parser(StructureParser):
             line = "ANISOU" + atomline[6:27] + mid + atomline[72:80]
             lines.append(line)
         # default values of standard deviations
-        d_sigxyz = num.zeros(3, type=num.Float)
-        d_sigo = 0.0
-        d_sigU = num.zeros((3,3), type=num.Float)
+        d_sigxyz = num.zeros(3, dtype=num.Float)
+        d_sigo = [0.0]
+        d_sigU = num.zeros((3,3), dtype=num.Float)
         sigxyz = ad.get("sigxyz", d_sigxyz)
-        sigo = ad.get("sigo", d_sigo)
+        sigo = [ad.get("sigo", d_sigo)]
         sigU = ad.get("sigU", d_sigU)
-        sigB = 8*pi**2*num.average( [sigU[i,i] for i in range(3)] )
+        sigB = [8*pi**2*num.average( [sigU[i,i] for i in range(3)] )]
         sigmas = num.concatenate( (sigxyz, sigo, sigB) )
         # no need to print sigmas if they all round to zero
         hassigmas = num.any(num.abs(sigmas) >= num.array(3*[5e-4]+2*[5e-3])) \
