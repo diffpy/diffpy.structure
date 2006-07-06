@@ -242,7 +242,7 @@ class Lattice:
         I3 = num.identity(3, dtype=num.Float)
         abcABG = num.array([self.a, self.b, self.c,
                             self.alpha, self.beta, self.gamma] )
-        rotbaseI3diff = max(num.reshape(num.abs(self.baserot - I3), 9))
+        rotbaseI3diff = max(num.reshape(num.absolute(self.baserot - I3), 9))
         if rotbaseI3diff > epsilon:
             s = "Lattice(base=%r)" % self.base
         elif max(abcABG - [1.0, 1.0, 1.0 , 90.0, 90.0, 90.0]) < epsilon :

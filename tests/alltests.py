@@ -50,7 +50,7 @@ class TestLattice(unittest.TestCase):
 
     def test_setLatPar(self):
         """check calculation of standard unit cell vectors"""
-        from numarray import dot
+        from numpy import dot
         from math import radians, sqrt, cos, sin
         norm = lambda x : sqrt(sum([xi**2 for xi in x]))
         cosd = lambda x : cos(radians(x))
@@ -69,8 +69,8 @@ class TestLattice(unittest.TestCase):
 
     def test_setLatBase(self):
         """check calculation of unit cell rotation"""
-        import numarray as num
-        import numarray.linear_algebra as numalg
+        import numpy as num
+        import numpy.linalg as numalg
         base = num.array([[ 1.0,  1.0,  0.0],
                           [ 0.0,  1.0,  1.0],
                           [ 1.0,  0.0,  1.0]])
@@ -81,7 +81,7 @@ class TestLattice(unittest.TestCase):
         self.assertAlmostEqual(self.lattice.alpha, 60.0, self.places)
         self.assertAlmostEqual(self.lattice.beta,  60.0, self.places)
         self.assertAlmostEqual(self.lattice.gamma, 60.0, self.places)
-        detR0 = numalg.determinant(self.lattice.baserot)
+        detR0 = numalg.det(self.lattice.baserot)
         self.assertAlmostEqual(detR0, 1.0, self.places)
         # try if rotation matrix works
         self.assertEqual(num.all(base == self.lattice.base), True)

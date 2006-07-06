@@ -79,9 +79,9 @@ class Parser(StructureParser):
                 elif record == "SCALE3":
                     sc[2,:] = [float(x) for x in line[10:40].split()]
                     scaleU[2] = float(line[45:55])
-                    den = num.maximum(num.abs(sc), num.abs(scale))
+                    den = num.maximum(num.absolute(sc), num.absolute(scale))
                     den[den==0] = 1.0
-                    reldiff = num.abs( (sc - scale)/den )
+                    reldiff = num.absolute( (sc - scale)/den )
                     if not num.all(reldiff < 1.0e-4):
                         raise InvalidStructureFormat, ( "%d: SCALE and " +
                                 "CRYST1 records are inconsistent." ) % p_nl
@@ -223,8 +223,8 @@ class Parser(StructureParser):
         sigB = [8*pi**2*num.average( [sigU[i,i] for i in range(3)] )]
         sigmas = num.concatenate( (sigxyz, sigo, sigB) )
         # no need to print sigmas if they all round to zero
-        hassigmas = num.any(num.abs(sigmas) >= num.array(3*[5e-4]+2*[5e-3])) \
-                or num.any(num.abs(sigU) > 5.0e-5)
+        hassigmas = num.any(num.absolute(sigmas) >= num.array(3*[5e-4]+2*[5e-3])) \
+                or num.any(num.absolute(sigU) > 5.0e-5)
         if hassigmas:
             mid = "   %8.3f%8.3f%8.3f%6.2f%6.2f      " % tuple(sigmas)
             line = "SIGATM" + atomline[6:27] + mid + atomline[72:80]
