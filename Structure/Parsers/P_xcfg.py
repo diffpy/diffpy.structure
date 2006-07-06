@@ -114,7 +114,7 @@ class Parser(StructureParser):
                 else:
                     p_exprs.append( "a.__dict__[%r]=fields[%d]" % \
                             (prop, col) )
-            p_assign_expr = "; ".join(p_exprs[3:])
+            p_assign_expr = "pass; " + "; ".join(p_exprs[3:])
             exec "def p_assign_atom(a, fields) : %s" % p_assign_expr
             # here we are inside data
             p_element = None
