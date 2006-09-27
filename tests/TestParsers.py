@@ -1,151 +1,23 @@
-#!/usr/bin/env python
+"""Unit tests for Structure.Parsers module.
+"""
 
 __id__ = "$Id$"
 
-import sys, os
 import unittest
-try:
-    from Structure.structure import Structure, InvalidStructureFormat
-    from Structure.lattice import Lattice
-    from Structure.atom import Atom
-except:
-    print >> sys.stderr, "parent directory should be in PYTHONPATH"
-    raise
+import os
 
-##############################################################################
-class TestPackageIds(unittest.TestCase):
-    """test _get_package_id() in Parsers and Structure packages"""
+from Structure.structure import Structure, InvalidStructureFormat
+from Structure.lattice import Lattice
+from Structure.atom import Atom
 
-    def setUp(self):
-        self.stru = Structure()
-        self.format = "cif"
-        self.places = 6
+# useful variables
+testsDir = os.path.dirname(os.path.abspath(__file__))
+testdataDir = os.path.join(testsDir, 'testdata')
 
-    def test_Parsers_get_package_id(self):
-        """check _get_package_id() in Parsers package"""
-        import Structure.Parsers
-        parsers_id = Structure.Parsers._get_package_id()
-
-    def test_Structure_get_package_id(self):
-        """check _get_package_id() in Structure package"""
-        import Structure
-        structure_id = Structure._get_package_id()
-
-# End of TestPackageIds
-
-##############################################################################
-class TestLattice(unittest.TestCase):
-    """test methods of Lattice class"""
-
-    def setUp(self):
-        self.lattice = Lattice()
-        self.places = 12
-
-    def assertListAlmostEqual(self, l1, l2, places=None):
-        """wrapper for list comparison"""
-        if places is None: places = self.places
-        self.assertEqual(len(l1), len(l2))
-        for i in range(len(l1)):
-            self.assertAlmostEqual(l1[i], l2[i], places)
-
-    def test_setLatPar(self):
-        """check calculation of standard unit cell vectors"""
-        from numpy import dot
-        from math import radians, sqrt, cos, sin
-        norm = lambda x : sqrt(sum([xi**2 for xi in x]))
-        cosd = lambda x : cos(radians(x))
-        sind = lambda x : sin(radians(x))
-        self.lattice.setLatPar(1.0, 2.0, 3.0, 80, 100, 120)
-        base = self.lattice.base
-        self.assertAlmostEqual(1.0, norm(base[0]), self.places)
-        self.assertAlmostEqual(2.0, norm(base[1]), self.places)
-        self.assertAlmostEqual(3.0, norm(base[2]), self.places)
-        self.assertAlmostEqual(cosd(80.0),
-                dot(base[1],base[2])/(2*3), self.places)
-        self.assertAlmostEqual(cosd(100.0),
-                dot(base[0],base[2])/(1*3), self.places)
-        self.assertAlmostEqual(cosd(120.0),
-                dot(base[0],base[1])/(1*2), self.places)
-
-    def test_setLatBase(self):
-        """check calculation of unit cell rotation"""
-        import numpy as num
-        import numpy.linalg as numalg
-        base = num.array([[ 1.0,  1.0,  0.0],
-                          [ 0.0,  1.0,  1.0],
-                          [ 1.0,  0.0,  1.0]])
-        self.lattice.setLatBase(base)
-        self.assertAlmostEqual(self.lattice.a, num.sqrt(2.0), self.places)
-        self.assertAlmostEqual(self.lattice.b, num.sqrt(2.0), self.places)
-        self.assertAlmostEqual(self.lattice.c, num.sqrt(2.0), self.places)
-        self.assertAlmostEqual(self.lattice.alpha, 60.0, self.places)
-        self.assertAlmostEqual(self.lattice.beta,  60.0, self.places)
-        self.assertAlmostEqual(self.lattice.gamma, 60.0, self.places)
-        detR0 = numalg.det(self.lattice.baserot)
-        self.assertAlmostEqual(detR0, 1.0, self.places)
-        # try if rotation matrix works
-        self.assertEqual(num.all(base == self.lattice.base), True)
-        self.lattice.setLatPar(alpha=44, beta=66, gamma=88)
-        self.assertNotEqual(num.all(base == self.lattice.base), True)
-        self.lattice.setLatPar(alpha=60, beta=60, gamma=60)
-        self.assertListAlmostEqual(base[0], self.lattice.base[0])
-        self.assertListAlmostEqual(base[1], self.lattice.base[1])
-        self.assertListAlmostEqual(base[2], self.lattice.base[2])
-
-    def test_repr(self):
-        """check string representation of this lattice"""
-        r = repr(self.lattice)
-        self.assertEqual(r, "Lattice()")
-        self.lattice.setLatPar(1, 2, 3, 10, 20, 30)
-        r = repr(self.lattice)
-        r0 = "Lattice(a=1, b=2, c=3, alpha=10, beta=20, gamma=30)"
-        self.assertEqual(r, r0)
-        base = [[ 1.0,  1.0,  0.0],
-                [ 0.0,  2.0,  2.0],
-                [ 3.0,  0.0,  3.0]]
-        self.lattice.setLatBase(base)
-        r = repr(self.lattice)
-        self.assertEqual(r, "Lattice(base=%r)" % self.lattice.base)
-
-# End of TestLattice
-
-##############################################################################
-class TestStructure(unittest.TestCase):
-    """test methods of Structure class"""
-
-    def setUp(self):
-        self.stru = Structure( [ Atom('C', [0,0,0]), Atom('C', [1,1,1]) ],
-                lattice=Lattice(1, 1, 1, 90, 90, 120) )
-        self.places = 12
-
-    def assertListAlmostEqual(self, l1, l2, places=None):
-        """wrapper for list comparison"""
-        if places is None: places = self.places
-        self.assertEqual(len(l1), len(l2))
-        for i in range(len(l1)):
-            self.assertAlmostEqual(l1[i], l2[i], places)
-
-    def test_cartesian(self):
-        """check conversion to cartesian coordinates"""
-        from math import sqrt
-        stru = self.stru
-        s_rc0 = stru.cartesian(stru[0])
-        f_rc0 = 3*[0.0]
-        s_rc1 = stru.cartesian(stru[1])
-        f_rc1 = [sqrt(0.75), 0.5, 1.]
-        self.assertListAlmostEqual(s_rc0, f_rc0)
-        self.assertListAlmostEqual(s_rc1, f_rc1)
-
-    def test_placeInLattice(self):
-        """check conversion of coordinates when placed in new lattice"""
-        stru = self.stru
-        new_lattice = Lattice(.5, .5, .5, 90, 90, 60)
-        stru.placeInLattice(new_lattice)
-        a0 = stru[0]
-        self.assertListAlmostEqual(a0.xyz, 3*[0.0])
-        a1 = stru[1]
-        self.assertListAlmostEqual(a1.xyz, [2.0, 0.0, 2.0])
-# End of TestStructure
+def datafile(filename):
+    """prepend testdataDir to filename
+    """
+    return os.path.join(testdataDir, filename)
 
 ##############################################################################
 class TestP_xyz(unittest.TestCase):
@@ -165,7 +37,7 @@ class TestP_xyz(unittest.TestCase):
     def test_read_xyz(self):
         """check reading of normal xyz file"""
         stru = self.stru
-        stru.read('testdata/bucky.xyz', self.format)
+        stru.read(datafile('bucky.xyz'), self.format)
         s_els = [a.element for a in stru]
         self.assertEqual(stru.title, 'bucky-ball')
         self.assertEqual(s_els, 60*['C'])
@@ -174,13 +46,13 @@ class TestP_xyz(unittest.TestCase):
         """check exceptions when reading invalid xyz file"""
         stru = self.stru
         self.assertRaises(InvalidStructureFormat, stru.read,
-                'testdata/bucky-bad1.xyz', self.format )
+                datafile('bucky-bad1.xyz'), self.format )
         self.assertRaises(InvalidStructureFormat, stru.read,
-                'testdata/bucky-bad2.xyz', self.format )
+                datafile('bucky-bad2.xyz'), self.format )
         self.assertRaises(InvalidStructureFormat, stru.read,
-                'testdata/bucky-plain.xyz', self.format )
+                datafile('bucky-plain.xyz'), self.format )
         self.assertRaises(InvalidStructureFormat, stru.read,
-                'testdata/hexagon-raw.xy', self.format )
+                datafile('hexagon-raw.xy'), self.format )
 
     def test_writeStr_xyz(self):
         """check string representation of normal xyz file"""
@@ -212,6 +84,7 @@ class TestP_xyz(unittest.TestCase):
         f_s = re.sub('[ \t]+', ' ', f_s)
         s_s = "2\n%s\nH 1 2 3\nCl 3 4 3\n" % stru.title
         self.assertEqual(f_s, s_s)
+
 # End of TestP_xyz
 
 ##############################################################################
@@ -225,7 +98,7 @@ class TestP_rawxyz(unittest.TestCase):
     def test_read_plainxyz(self):
         """check reading of a plain xyz file"""
         stru = self.stru
-        stru.read('testdata/bucky-plain.xyz', self.format)
+        stru.read(datafile('bucky-plain.xyz'), self.format)
         s_els = [a.element for a in stru]
         self.assertEqual(stru.title, '')
         self.assertEqual(s_els, 60*['C'])
@@ -234,16 +107,16 @@ class TestP_rawxyz(unittest.TestCase):
         """check exceptions when reading invalid plain xyz file"""
         stru = self.stru
         self.assertRaises(InvalidStructureFormat, stru.read,
-                'testdata/bucky-plain-bad.xyz', self.format)
+                datafile('bucky-plain-bad.xyz'), self.format)
 
     def test_read_rawxyz(self):
         """check reading of raw xyz file"""
         stru = self.stru
-        stru.read('testdata/bucky-raw.xyz', self.format)
+        stru.read(datafile('bucky-raw.xyz'), self.format)
         s_els = [a.element for a in stru]
         self.assertEqual(stru.title, "")
         self.assertEqual(s_els, 60*[''])
-        stru.read('testdata/hexagon-raw.xyz', self.format)
+        stru.read(datafile('hexagon-raw.xyz'), self.format)
         zs = [a.xyz[-1] for a in stru]
         self.assertEqual(zs, 6*[0.0])
 
@@ -251,9 +124,9 @@ class TestP_rawxyz(unittest.TestCase):
         """check exceptions when reading unsupported xy file"""
         stru = self.stru
         self.assertRaises(InvalidStructureFormat, stru.read,
-                'testdata/hexagon-raw-bad.xyz', self.format)
+                datafile('hexagon-raw-bad.xyz'), self.format)
         self.assertRaises(InvalidStructureFormat, stru.read,
-                'testdata/hexagon-raw.xy', self.format)
+                datafile('hexagon-raw.xy'), self.format)
 
     def test_writeStr_rawxyz(self):
         """check writing of normal xyz file"""
@@ -271,6 +144,7 @@ class TestP_rawxyz(unittest.TestCase):
         s1 = stru.writeStr(self.format)
         s0 = "1 2 3\n"
         self.assertEqual(s1, s0)
+
 # End of TestP_rawxyz
 
 ##############################################################################
@@ -292,7 +166,7 @@ class TestP_pdffit(unittest.TestCase):
     def test_read_pdffit_ZnSb(self):
         """check reading of ZnSb pdffit structure file"""
         stru = self.stru
-        stru.read('testdata/ZnSb_RT_Q28X_VM_20_fxiso.rstr', self.format)
+        stru.read(datafile('ZnSb_RT_Q28X_VM_20_fxiso.rstr'), self.format)
         f_title = "Cell structure file of Zn4Sb3 #167 interstitial"
         self.assertEqual(stru.title, f_title)
         self.assertAlmostEqual(stru.pdffit['scale'], 0.826145)
@@ -331,7 +205,7 @@ class TestP_pdffit(unittest.TestCase):
     def test_read_pdffit_Ni(self):
         """check reading of Ni pdffit structure file"""
         stru = self.stru
-        stru.read('testdata/Ni.stru', self.format)
+        stru.read(datafile('Ni.stru'), self.format)
         f_title = "structure Ni  FCC"
         self.assertEqual(stru.title, f_title)
         self.assertEqual(stru.pdffit['spcgr'], 'Fm-3m')
@@ -358,7 +232,7 @@ class TestP_pdffit(unittest.TestCase):
     def test_read_pdffit_Ni_prim123(self):
         """check reading of Ni_prim supercell 1x2x3"""
         stru = self.stru
-        stru.read('testdata/Ni_prim123.stru', self.format)
+        stru.read(datafile('Ni_prim123.stru'), self.format)
         s_lat = [ stru.lattice.a, stru.lattice.b, stru.lattice.c,
             stru.lattice.alpha, stru.lattice.beta, stru.lattice.gamma ]
         f_lat = [2.489016,  2*2.489016,  3*2.489016, 60.0, 60.0, 60.0]
@@ -384,21 +258,22 @@ class TestP_pdffit(unittest.TestCase):
         """check exceptions when reading invalid pdffit file"""
         stru = self.stru
         self.assertRaises(InvalidStructureFormat, stru.read,
-                'testdata/Ni-bad.stru', self.format)
+                datafile('Ni-bad.stru'), self.format)
         self.assertRaises(InvalidStructureFormat, stru.read,
-                'testdata/bucky.xyz', self.format)
+                datafile('bucky.xyz'), self.format)
 
     def test_writeStr_pdffit(self):
         """check writing of normal xyz file"""
         import re
         stru = self.stru
-        stru.read('testdata/Ni.stru', self.format)
-        f_s = open('testdata/Ni.stru').read()
+        stru.read(datafile('Ni.stru'), self.format)
+        f_s = open(datafile('Ni.stru')).read()
         f_s = re.sub('[ \t]+', ' ', f_s)
         f_s = re.sub('[ \t]+\n', '\n', f_s)
         s_s = stru.writeStr(self.format)
         s_s = re.sub('[ \t]+', ' ', s_s)
         self.assertEqual(f_s, s_s)
+
 # End of TestP_pdffit
 
 ##############################################################################
@@ -420,7 +295,7 @@ class TestP_pdb(unittest.TestCase):
     def test_read_pdb_arginine(self):
         """check reading of arginine PDB file"""
         stru = self.stru
-        stru.read('testdata/arginine.pdb', self.format)
+        stru.read(datafile('arginine.pdb'), self.format)
         f_els = [ "N", "C", "C", "O", "C", "C", "C", "N", "C", "N", "N", "H",
             "H", "H", "H", "H", "H", "H", "H", "H", "H", "H", "H", "H", "H",
             "O", "H" ]
@@ -436,7 +311,7 @@ class TestP_pdb(unittest.TestCase):
     def test_rwStr_pdb_CdSe(self):
         """check conversion to PDB file format"""
         stru = self.stru
-        stru.read('testdata/CdSe_bulk.stru', 'pdffit')
+        stru.read(datafile('CdSe_bulk.stru'), 'pdffit')
         s = stru.writeStr(self.format)
         # all lines should be 80 characters long
         linelens = [ len(l) for l in s.split('\n') if l != "" ]
@@ -483,7 +358,7 @@ class TestP_xcfg(unittest.TestCase):
     def test_read_xcfg(self):
         """check reading of BubbleRaft XCFG file"""
         stru = self.stru
-        stru.read('testdata/BubbleRaftShort.xcfg', self.format)
+        stru.read(datafile('BubbleRaftShort.xcfg'), self.format)
         f_els = 500* [ "Ar" ]
         s_els = [a.element for a in stru]
         self.assertEqual(s_els, f_els)
@@ -496,7 +371,7 @@ class TestP_xcfg(unittest.TestCase):
     def test_rwStr_xcfg_CdSe(self):
         """check conversion to XCFG file format"""
         stru = self.stru
-        stru.read('testdata/CdSe_bulk.stru', 'pdffit')
+        stru.read(datafile('CdSe_bulk.stru'), 'pdffit')
         s = stru.writeStr(self.format)
         stru = Structure()
         stru.readStr(s, self.format)
@@ -526,32 +401,13 @@ class TestP_cif(unittest.TestCase):
     def test_writeStr_cif(self):
         """check conversion to CIF string"""
         stru = self.stru
-        stru.read('testdata/CdSe_bulk.stru', 'pdffit')
+        stru.read(datafile('CdSe_bulk.stru'), 'pdffit')
         s_s = stru.writeStr(self.format)
 
 # End of TestP_cif
 
-##############################################################################
-def ParsersSuite():
-    suite = unittest.TestSuite()
-    suite.addTest( unittest.makeSuite(TestLattice) )
-    suite.addTest( unittest.makeSuite(TestStructure) )
-    suite.addTest( unittest.makeSuite(TestP_xyz) )
-    suite.addTest( unittest.makeSuite(TestP_rawxyz) )
-    suite.addTest( unittest.makeSuite(TestP_pdffit) )
-    suite.addTest( unittest.makeSuite(TestP_pdb) )
-    suite.addTest( unittest.makeSuite(TestP_xcfg) )
-    suite.addTest( unittest.makeSuite(TestP_cif) )
-    return suite
 
 if __name__ == '__main__':
-    # change to directory of this script
-    os.chdir(os.path.abspath(os.path.dirname(sys.argv[0])))
-#   seltests = unittest.TestSuite()
-#   seltests.addTest( ParsersSuite() )
-#   seltests.addTest( unittest.makeSuite(TestLattice) )
-    # this runs all tests:
     unittest.main()
-    # and this only some:
-#   unittest.TextTestRunner().run(seltests)
-#   unittest.TextTestRunner(verbosity=100).run(seltests)
+
+# End of file
