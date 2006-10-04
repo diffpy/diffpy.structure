@@ -8,6 +8,7 @@ import math
 import types
 import numpy as num
 import numpy.linalg as numalg
+import SpaceGroups
 
 
 
@@ -37,6 +38,7 @@ class Lattice:
                their values are set by setLatPar() and setLatBase()
         ar, br, cr, alphar, betar, gammar -- read-only parameters of
                reciprocal lattice, set by setLatPar() and setLatBase()
+        spacegroup  --  Space group of lattice
         metrics  -- metrics tensor
         base     -- matrix of base vectors in cartesian coordinates,
                     base = stdbase*baserot
@@ -53,7 +55,8 @@ class Lattice:
 
     def __init__(self, a=None, b=None, c=None,
             alpha=None, beta=None, gamma=None,
-            baserot=num.identity(3, dtype=num.Float), base=None ):
+            baserot=num.identity(3, dtype=num.Float), base=None, spacegroup =
+            "P1" ):
         """define new coordinate system, the default is Cartesian
         There are 4 ways how to create Lattice instance:
 
@@ -64,6 +67,9 @@ class Lattice:
                              abc is a 3x3 matrix (or nested list), of row
                              base vectors
         Lattice(lat)      -- create a copy of existing Lattice lat
+
+        Lattice also accepts the 'spacegroup' key-word argument. 
+        spacegroup  --  Space group name (default 'P1')
         """
         # initialize data members, they values will be set by setLatPar()
         self.a = self.b = self.c = None
@@ -88,6 +94,15 @@ class Lattice:
         else:
             self.setLatPar( float(a), float(b), float(c),
                     float(alpha), float(beta), float(gamma), baserot )
+        self.spacegroup = SpaceGroups.GetSpaceGroup(spacegroup)
+        return
+
+    def setSpaceGroup(self, spacegroup):
+        """Set the space group.
+
+        spacegroup  --  Space group name
+        """
+        self.spacegroup = SpaceGroups.GetSpaceGroup(spacegroup)
         return
 
     def setLatPar(self, a=None, b=None, c=None,

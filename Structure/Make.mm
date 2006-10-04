@@ -33,6 +33,7 @@ EXPORT_PYTHON_MODULES = \
     atom.py 		\
     lattice.py 		\
     structure.py 	\
+    SpaceGroups.py  \
     Parsers
 
 export:: export-python-modules
