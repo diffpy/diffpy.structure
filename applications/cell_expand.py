@@ -4,17 +4,17 @@ import copy
 import sys
 import numpy as num
 import numpy.linalg as numalg
-import structure 
-from structure import Structure
-from lattice import Lattice
-from atom import Atom 
+import Structure.structure 
+from Structure.structure import Structure
+from Structure.lattice import Lattice
+from Structure.atom import Atom 
 from cctbx import xray
 from cctbx import crystal
 from cctbx.array_family import flex
 
 #############################################
     
-def  super_structure_expand(spcgr, init_structure=None, l=1, m=1, n=1):
+def  super_structure_expand(spcgr, parameter_lists, parameter_initvalue_lists, init_structure=None, l=1, m=1, n=1):
     """ This function expand the cell using the space group given and   
     expand to a supercell using given l,m,n, it doesn't change the unitcell    
     for the lattice. Constraints are return in one string.     
@@ -28,6 +28,22 @@ def  super_structure_expand(spcgr, init_structure=None, l=1, m=1, n=1):
         osymm = crystal.symmetry(unit_cell=unitcell, space_group_symbol=spcgr)
       
         scatterers=flex.xray_scatterer([xray.scatterer(label='H', u=0.2)]*len(ini_stru))
+
+        constr_atom_para=['']*10
+        constr_allatoms_para=[constr_atom_para]*len(ini_stru)
+        atom_para_flag=[1]*10
+        allatoms_para_flag=[atom_para_flag]*len(ini_stru)
+        for atom_count in range(len(ini_stru)):
+            for parameter_count in range(10):
+                if   parameter_lists[atom_count][parameter_count].strip(' @')=='':
+                    constr_allatoms_para[atom_count][parameter_count]=str(parameter_initvalue_lists[atom_count][parameter_count])
+                    if parameter_initvalue_lists[atom_count][parameter_count]==0.0:
+                        allatoms_para_flag[atom_count][parameter_count]=0                   
+          
+                else:
+                    constr_allatoms_para[atom_count][parameter_count]=parameter_lists[atom_count][parameter_count].strip(' ')
+      
+
       
         for atom in ini_stru: 
             print atom.name
@@ -47,7 +63,7 @@ def  super_structure_expand(spcgr, init_structure=None, l=1, m=1, n=1):
 
 # step 2: write the scatterers (atoms)
 
-        j=10
+#        j=10
 
         unitcell_atoms=[]   # store the information for atoms
         list_conts=[]
@@ -63,7 +79,7 @@ def  super_structure_expand(spcgr, init_structure=None, l=1, m=1, n=1):
                 one_op=oequiv.sym_op(i)
                 mtx_ar=one_op.as_double_array()  # it is a 12 field tuple
       
-      # the currenet approach is to calculate by ourself, though we can get those numbers from the oequiv too.
+      # the current approach is to calculate by ourself, though we can get those numbers from the oequiv too.
                 x=mtx_or[0]*mtx_ar[0] + mtx_or[1]*mtx_ar[1] + mtx_or[2]*mtx_ar[2] + mtx_ar[9]
                 y=mtx_or[0]*mtx_ar[3] + mtx_or[1]*mtx_ar[4] + mtx_or[2]*mtx_ar[5] + mtx_ar[10]
                 z=mtx_or[0]*mtx_ar[6] + mtx_or[1]*mtx_ar[7] + mtx_or[2]*mtx_ar[8] + mtx_ar[11]
@@ -71,23 +87,23 @@ def  super_structure_expand(spcgr, init_structure=None, l=1, m=1, n=1):
                 unitcell_atoms.append(New_atom)
                 unitcell_num_atoms = unitcell_num_atoms + 1
       #
-                pstr=["*@%d" % ij for ij in range(j,j+3)]
-                xstr=("".join([("%+f" % mtx_ar[ij]).rstrip("00") + pstr[ij]  for ij in range(0,3) if mtx_ar[ij] != 0.0])).lstrip('+')
+
+                xstr=("".join([("%+f" % mtx_ar[ij]).rstrip("0") + '*(' + constr_allatoms_para[origin_atom_count][ij] +')' for ij in range(0,3) if (mtx_ar[ij] != 0.0 and allatoms_para_flag[origin_atom_count][ij] !=0) ])).lstrip('+')
                 if mtx_ar[9] != 0.0 :
-                    xstr=xstr + ("%+f" % mtx_ar[9]).rstrip('00')
-      #
-                ystr=("".join([("%+f" % mtx_ar[ij+3]).rstrip("00") + pstr[ij]  for ij in range(0,3) if mtx_ar[ij+3] != 0.0])).lstrip('+')
+                    xstr=xstr + ("%+f" % mtx_ar[9]).rstrip('0')
+                    
+                ystr=("".join([("%+f" % mtx_ar[ij]).rstrip("0") + '*(' + constr_allatoms_para[origin_atom_count][ij - 3] +')' for ij in range(3,6) if (mtx_ar[ij] != 0.0 and allatoms_para_flag[origin_atom_count][ij - 3] !=0) ])).lstrip('+')
                 if mtx_ar[10] != 0.0 :
-                    ystr=ystr + ("%+f" % mtx_ar[10]).rstrip('00')
-      #
-                zstr= ("".join([("%+f" % mtx_ar[ij+6]).rstrip("00") + pstr[ij]  for ij in range(0,3) if mtx_ar[ij+6] != 0.0])).lstrip('+')
+                    ystr=ystr + ("%+f" % mtx_ar[10]).rstrip('0')
+
+                zstr=("".join([("%+f" % mtx_ar[ij]).rstrip("0") + '*(' + constr_allatoms_para[origin_atom_count][ij - 6] +')' for ij in range(6,9) if (mtx_ar[ij] != 0.0 and allatoms_para_flag[origin_atom_count][ij - 6] !=0) ])).lstrip('+')
                 if mtx_ar[11] != 0.0 :
-                    zstr=zstr + ("%+f" % mtx_ar[11]).rstrip('00')
-      #  
-                ustr="1.*@%d" % ( j+3)   
-      #
+                    zstr=zstr + ("%+f" % mtx_ar[11]).rstrip('0')
+
+                ustr=constr_allatoms_para[origin_atom_count][3]
+#               list_conts.extend([xstr+"\n", ystr+"\n", zstr+"\n", ustr + "\n"])
                 list_conts.extend([xstr, ystr, zstr, ustr])
-            j=j+4     
+
 
         allatoms=[] 
         allconstrain=[]
@@ -116,7 +132,7 @@ def  super_structure_expand(spcgr, init_structure=None, l=1, m=1, n=1):
         return super_structure 
 ##########################################
   
-def  cell_spcgr_expand(spcgr, init_structure=None):
+def  cell_spcgr_expand(spcgr, parameter_lists, parameter_initvalue_lists, init_structure=None):
     """ This function only expand the structure using the space  
     group,constraints are returned. """ 
     if not isinstance(init_structure, Structure):
@@ -128,7 +144,20 @@ def  cell_spcgr_expand(spcgr, init_structure=None):
         osymm = crystal.symmetry(unit_cell=unitcell, space_group_symbol=spcgr)
       
         scatterers=flex.xray_scatterer([xray.scatterer(label='H', u=0.2)]*len(ini_stru))
-      
+        constr_atom_para=['']*10
+        constr_allatoms_para=[constr_atom_para]*len(ini_stru)
+        atom_para_flag=[1]*10
+        allatoms_para_flag=[atom_para_flag]*len(ini_stru)
+        for atom_count in range(len(ini_stru)):
+            for parameter_count in range(10):
+                if  parameter_lists[atom_count][parameter_count].strip(' @')=='':
+                    constr_allatoms_para[atom_count][parameter_count]=str(parameter_initvalue_lists[atom_count][parameter_count])
+                    if  parameter_initvalue_lists[atom_count][parameter_count]==0.0:
+                        allatoms_para_flag[atom_count][parameter_count]=0                   
+          
+                else:
+                    constr_allatoms_para[atom_count][parameter_count]=parameter_lists[atom_count][parameter_count].strip(' ')
+     
         for atom in ini_stru: 
             print atom.name
             scatterers[ini_stru.index(atom)].label=atom.name
@@ -144,7 +173,6 @@ def  cell_spcgr_expand(spcgr, init_structure=None):
     
 # step 2: write the scatterers (atoms)
 
-        j=10
 
         unitcell_atoms=[]   # store the information for atoms
         list_conts=[]
@@ -168,23 +196,24 @@ def  cell_spcgr_expand(spcgr, init_structure=None):
                 unitcell_atoms.append(New_atom)
                 unitcell_num_atoms = unitcell_num_atoms + 1
       #
-                pstr=["*@%d" % ij for ij in range(j,j+3)]
-                xstr=("".join([("%+f" % mtx_ar[ij]).rstrip("00") + pstr[ij]  for ij in range(0,3) if mtx_ar[ij] != 0.0])).lstrip('+')
+                xstr=("".join([("%+f" % mtx_ar[ij]).rstrip("0") + '*(' + constr_allatoms_para[origin_atom_count][ij] +')' for ij in range(0,3) if (mtx_ar[ij] != 0.0 and allatoms_para_flag[origin_atom_count][ij] !=0) ])).lstrip('+')
                 if mtx_ar[9] != 0.0 :
-                    xstr=xstr + ("%+f" % mtx_ar[9]).rstrip('00')
-      #
-                ystr=("".join([("%+f" % mtx_ar[ij+3]).rstrip("00") + pstr[ij]  for ij in range(0,3) if mtx_ar[ij+3] != 0.0])).lstrip('+')
+                    xstr=xstr + ("%+f" % mtx_ar[9]).rstrip('0')
+                    
+                ystr=("".join([("%+f" % mtx_ar[ij]).rstrip("0") + '*(' + constr_allatoms_para[origin_atom_count][ij - 3] +')' for ij in range(3,6) if (mtx_ar[ij] != 0.0 and allatoms_para_flag[origin_atom_count][ij - 3] !=0) ])).lstrip('+')
                 if mtx_ar[10] != 0.0 :
-                    ystr=ystr + ("%+f" % mtx_ar[10]).rstrip('00')
-      #
-                zstr= ("".join([("%+f" % mtx_ar[ij+6]).rstrip("00") + pstr[ij]  for ij in range(0,3) if mtx_ar[ij+6] != 0.0])).lstrip('+')
+                    ystr=ystr + ("%+f" % mtx_ar[10]).rstrip('0')
+                
+                zstr=("".join([("%+f" % mtx_ar[ij]).rstrip("0") + '*(' + constr_allatoms_para[origin_atom_count][ij - 6] +')' for ij in range(6,9) if (mtx_ar[ij] != 0.0 and allatoms_para_flag[origin_atom_count][ij - 6] !=0) ])).lstrip('+')
                 if mtx_ar[11] != 0.0 :
-                    zstr=zstr + ("%+f" % mtx_ar[11]).rstrip('00')
-      #   
-                ustr="1.*@%d" % ( j+3)   
+                    zstr=zstr + ("%+f" % mtx_ar[11]).rstrip('0')
+                
+                ustr=constr_allatoms_para[origin_atom_count][3]
+                list_conts.extend([xstr+"\n", ystr+"\n", zstr+"\n", ustr + "\n"])
                 list_conts.extend([xstr, ystr, zstr, ustr])
-            j=j+4
 
+
+      # 
         unitcell=Structure(unitcell_atoms, ini_lat)
         unitcell.allconstrain=list_conts
         return unitcell     

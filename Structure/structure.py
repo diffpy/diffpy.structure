@@ -164,37 +164,6 @@ class Structure(list):
         from Parsers import tostring
         return tostring(self, format)
 
-    def expandStructure(self):
-        """Expand the unit cell based upon its space group.
-
-        Returns a new Structure object.
-        """
-        # Want a new instance of whatever 'self' is. It may be a PDFStructure
-        # object
-        Snew = copy.deepcopy(self)
-        # Is there a faster way to clear the atoms?
-        for i in range(len(self)):
-            Snew.pop(-1)
-        Snew.lattice.setSpaceGroup('P1')
-        zeros = num.zeros(3)
-        spacegroup = self.lattice.spacegroup
-        
-        for atom in self:
-            equivstr = []
-            equivpos = []
-            # Weed out duplicates and those xyzs with negative coordinates.
-            for pos in spacegroup.iter_equivalent_positions(atom.xyz):
-                if str(pos) not in equivstr and not (pos < zeros).any():
-                    equivpos.append(pos)
-                    equivstr.append(str(pos))
-
-            for i in range(len(equivpos)):
-                A = copy.deepcopy(atom)
-                A.name = "%s_%i" % (atom.name, i)
-                A.xyz = equivpos[i]
-                Snew.append(A)
-        return Snew
-
 # End of Structure
 
 ##############################################################################

@@ -11,6 +11,9 @@ import numpy.linalg as numalg
 import SpaceGroups
 
 
+# FIXME The space group name does not change the pdffit dictionary of the
+# PDFFitStructure class. Perhaps the 'spcgr' entry should be removed from that
+# dictionary.
 
 ##############################################################################
 # helper functions
