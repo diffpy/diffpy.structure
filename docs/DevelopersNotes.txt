@@ -1,0 +1,15 @@
+* Other Structure Packages *
+
+Chris investigated pymmLib, and decided that it overemphasizes molecules and is
+therefore too complex for our purposes. It also appears that the software is
+developing very slowly. Very few of the support requests on the project page
+have been answered.
+
+The space group code from pymmLib was useful, however, and merged into the
+Structure package. For the time being, there is no need to use cctbx.
+
+* Cif read/write *
+
+The package PyCifRW can be used for cif file reading. OpenBabel was
+investigated, and it does not support cif. OpenBabel deals only with molecular
+structure formats, such as pdb.

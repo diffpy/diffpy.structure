@@ -35,15 +35,15 @@ def expandStructureConstraints(S, clists):
 
 
 
-    Snew = expandStructure(S) 
     # Get the exact operations applied to get Snew
     symoplists = getEssentialOperations(S)
+    Snew = expandStructure(S, symoplists) 
 
     # Create the new constraints list. 
     cnew = []
-    # In order to update the space group equations, we have to apply the
-    # rotation and translation operators of the essential symmetry operations to
-    # the constraint equations. The u values and occ values don't change.
+    # In order to update the constraint equations, apply the rotation and
+    # translation operators of the essential symmetry operations.  The u values
+    # and occ values don't change.
     anum = 0 # keep track of which of the new atoms we're dealing with
     for i in range(len(S)):
         symops = symoplists[i]
@@ -120,14 +120,18 @@ def getEssentialOperations(S):
 
     return symoplists
 
-def expandStructure(S):
+def expandStructure(S, symoplists = None):
     """Expand the structure based upon its space group.
 
-    S       --  A structure to expand
+    S           --  A structure to expand
+    symopilsts  --  A list of symmetry operations to be applied by each atom. If
+                    symoplist is None (default), this is generated from the
+                    space group.
 
     Returns a new Structure object.
     """
-    symoplists = getEssentialOperations(S)
+    if symoplists is None:
+        symoplists = getEssentialOperations(S)
     # Want a new instance of whatever 'S' is. It may be a PDFStructure
     # object.
     Snew = copy.deepcopy(S)
