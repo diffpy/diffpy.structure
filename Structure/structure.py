@@ -42,7 +42,7 @@ class Structure(list):
         elif lattice is None:
             self.lattice = Lattice()
         elif not isinstance(lattice, Lattice):
-            raise RuntimeError, "expected instance of Structure"
+            raise RuntimeError, "expected instance of Lattice"
         else:
             self.lattice = lattice
         return

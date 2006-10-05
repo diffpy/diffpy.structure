@@ -97,7 +97,7 @@ class Lattice:
         else:
             self.setLatPar( float(a), float(b), float(c),
                     float(alpha), float(beta), float(gamma), baserot )
-        self.spacegroup = SpaceGroups.GetSpaceGroup(spacegroup)
+        self.setSpaceGroup(spacegroup)
         return
 
     def setSpaceGroup(self, spacegroup):
