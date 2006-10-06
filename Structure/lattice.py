@@ -55,7 +55,7 @@ class Lattice:
                their values are set by setLatPar() and setLatBase()
         ar, br, cr, alphar, betar, gammar -- read-only parameters of
                reciprocal lattice, set by setLatPar() and setLatBase()
-        spacegroup  --  Space group of lattice
+        spacegroup  --  Space group of lattice or None if non-periodic
         metrics  -- metrics tensor
         base     -- matrix of base vectors in cartesian coordinates,
                     base = stdbase*baserot
@@ -73,7 +73,7 @@ class Lattice:
     def __init__(self, a=None, b=None, c=None,
             alpha=None, beta=None, gamma=None,
             baserot=num.identity(3, dtype=num.Float), base=None,
-            spacegroup = "P1"):
+            spacegroup=None):
         """define new coordinate system, the default is Cartesian
         There are 4 ways how to create Lattice instance:
 
@@ -125,6 +125,9 @@ class Lattice:
 
         spacegroup  --  Space group name (no blanks) or number
         """
+        if spacegroup is None:
+            self.spacegroup = None
+            return
         self.spacegroup = SpaceGroups.GetSpaceGroup(spacegroup)
         self._checkLatParSanity()
         return
@@ -148,7 +151,7 @@ class Lattice:
           "CUBIC"      : 'a == b == c and alpha == beta == gamma == 90',
         }
         rule = crystal_system_rules[self.spacegroup.crystal_system]
-        if not eval(rule, self.__dict__):
+        if not eval(rule, dict(self.__dict__) ):
             raise InvalidLattice, \
                 "lattice parameters %r not possible in %s lattice" % \
                 ( (self.a, self.b, self.c, self.alpha, self.beta, self.gamma),
