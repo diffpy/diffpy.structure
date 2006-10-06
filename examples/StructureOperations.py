@@ -107,8 +107,7 @@ def expandStructure(S, symoplists = None):
     # Want a new instance of whatever 'S' is. It may be a PDFStructure
     # object.
     Snew = copy.deepcopy(S)
-    # Is there a faster way to clear the atoms?
-    for i in range(len(S)): Snew.pop(-1)
+    del Snew[:]
     Snew.lattice.setSpaceGroup('P1')
 
     for i in range(len(S)):
@@ -136,19 +135,14 @@ def getEssentialOperations(S):
     
     symoplists = []
     for atom in S:
-        equivstr = []
-        equivpos = []
+        equivstr = {}
         symops = []
         # Weed out duplicates and those xyzs that go outside the unit cell.
         for symop in spacegroup.iter_symops():
-            pos = symop(atom.xyz)
-            if str(pos) not in equivstr \
-                and not (pos < zeros).any() \
-                and not (pos >= ones).any():
-
-                equivpos.append(pos)
-                equivstr.append(str(pos))
-                symops.append(symop)
+            pos = numpy.remainder(symop(atom.xyz), 1.0)
+            if str(pos) in equivstr: continue
+            equivstr[str(pos)] = None
+            symops.append(symop)
         symoplists.append(symops)
 
     return symoplists
@@ -231,7 +225,7 @@ def makeSupercell(S, l=1, m=1, n=1):
     Snew = copy.deepcopy(S)
     Lnew = Lattice(l*L.a, m*L.b, n*L.c, L.alpha, L.beta, L.gamma, spacegroup = 'P1')
     # Is there a faster way to clear the atoms?
-    for i in range(len(S)): Snew.pop(-1)
+    del Snew[:]
     Snew.lattice = Lnew
 
     for atom in S:
