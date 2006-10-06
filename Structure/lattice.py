@@ -125,17 +125,7 @@ class Lattice:
 
         spacegroup  --  Space group name (no blanks) or number
         """
-        if type(spacegroup) is types.IntType:
-            try:
-                expr = "sg%i" % spacegroup
-                self.spacegroup = eval(expr, SpaceGroups.locals())
-            except NameError:
-                # do the same what happens in GetSpaceGroup
-                warning("space group number %i not found" % spacegroup)
-                exc_traceback = sys.exc_info()[2]
-                self.spacegroup = SpaceGroups.GetSpaceGroup("P1")
-        else:
-            self.spacegroup = SpaceGroups.GetSpaceGroup(spacegroup)
+        self.spacegroup = SpaceGroups.GetSpaceGroup(spacegroup)
         self._checkLatParSanity()
         return
 
@@ -144,7 +134,7 @@ class Lattice:
 
         raise InvalidLattice exception if not
         """
-        if type(self.spacegroup) is not types.InstanceType:  return
+        if self.spacegroup is None: return
         # ref: Benjamin, W. A., Introduction to crystallography, 
         # New York (1969), p.60
         crystal_system_rules = {
@@ -152,7 +142,7 @@ class Lattice:
           "MONOCLINIC" : 'alpha == gamma == 90',
           "ORTHORHOMBIC" : 'alpha == beta == gamma == 90',
           "TETRAGONAL" : 'a == b and alpha == beta == gamma == 90',
-          "TRIGONAL"   : 'a == b == c and alpha == beta == gamma or' +
+          "TRIGONAL"   : 'a == b == c and alpha == beta == gamma or ' +
                          'a == b and alpha == beta == 90 and gamma == 120',
           "HEXAGONAL"  : 'a == b and alpha == beta == 90 and gamma == 120',
           "CUBIC"      : 'a == b == c and alpha == beta == gamma == 90',

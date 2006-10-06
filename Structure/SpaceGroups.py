@@ -6,6 +6,7 @@
 """
 from   __future__ import generators
 import numpy
+import os, sys, types
 
 # Move me!
 def warning(x):
@@ -13,7 +14,7 @@ def warning(x):
     STRUCTURE_WARNING.  This can be set to a file path, "stdout", "stderr", or a
     empty string for no action.  
     """
-    x = "[STRUCTURE:WARNING] %s\n" % (x)
+    x = "WARNING: %s\n" % (x)
     path = os.environ.get("STRUCTURE_WARNING", "stderr")
 
     try:
@@ -7778,8 +7779,10 @@ def GetSpaceGroup(name):
     for sg in SpaceGroupList:
         if sg.check_group_name(name):
             return sg
-
-    warning("GetSpaceGroup('%s') not found" % (name))
+    
+    if type(name) is types.StringType:
+        name = '%s' % name
+    warning("Space group %s not found. Using 'P1'." % name)
 
     ## return P1
     return sg1
