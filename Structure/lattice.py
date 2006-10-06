@@ -106,8 +106,13 @@ class Lattice:
             self.setLatBase(base)
         # Lattice(lat)
         elif isinstance(a, Lattice):
+            copythese = dict.fromkeys( ('baserot', 'base',
+                'recbase', 'normbase', 'recnormbase') )
             for attribute, value in a.__dict__.iteritems():
-                setattr(self, attribute, copy.deepcopy(value))
+                if attribute in copythese:
+                    setattr(self, attribute, copy.deepcopy(value))
+                    continue
+                setattr(self, attribute, value)
         # otherwise do default Lattice(a, b, c, alpha, beta, gamma)
         else:
             self.setLatPar( float(a), float(b), float(c),
@@ -118,10 +123,17 @@ class Lattice:
     def setSpaceGroup(self, spacegroup):
         """Set the space group.
 
-        spacegroup  --  Space group name
+        spacegroup  --  Space group name (no blanks) or number
         """
-        if isinstance(spacegroup, SpaceGroups.SpaceGroup):
-            self.spacegroup = spacegroup
+        if type(spacegroup) is types.IntType:
+            try:
+                expr = "sg%i" % spacegroup
+                self.spacegroup = eval(expr, SpaceGroups.locals())
+            except NameError:
+                # do the same what happens in GetSpaceGroup
+                warning("space group number %i not found" % spacegroup)
+                exc_traceback = sys.exc_info()[2]
+                self.spacegroup = SpaceGroups.GetSpaceGroup("P1")
         else:
             self.spacegroup = SpaceGroups.GetSpaceGroup(spacegroup)
         self._checkLatParSanity()
@@ -132,7 +144,7 @@ class Lattice:
 
         raise InvalidLattice exception if not
         """
-        if not isinstance(self.spacegroup, SpaceGroups.SpaceGroup):  return
+        if type(self.spacegroup) is not types.InstanceType:  return
         # ref: Benjamin, W. A., Introduction to crystallography, 
         # New York (1969), p.60
         crystal_system_rules = {
@@ -143,14 +155,14 @@ class Lattice:
           "TRIGONAL"   : 'a == b == c and alpha == beta == gamma or' +
                          'a == b and alpha == beta == 90 and gamma == 120',
           "HEXAGONAL"  : 'a == b and alpha == beta == 90 and gamma == 120',
-          "CUBIC"      : 'a == b == c == 90 and alpha == beta == gamma == 90',
+          "CUBIC"      : 'a == b == c and alpha == beta == gamma == 90',
         }
         rule = crystal_system_rules[self.spacegroup.crystal_system]
         if not eval(rule, self.__dict__):
-            raise InvalidLattice, "lattice parameters %r are not" + \
-                "possible in %s lattice" % ( (self.a, self.b, self.c,
-                    self.alpha, self.beta, self.gamma),
-                    self.spacegroup.crystal_system )
+            raise InvalidLattice, \
+                "lattice parameters %r not possible in %s lattice" % \
+                ( (self.a, self.b, self.c, self.alpha, self.beta, self.gamma),
+                  self.spacegroup.crystal_system )
         return
 
     def setLatPar(self, a=None, b=None, c=None,
