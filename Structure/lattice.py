@@ -1,5 +1,6 @@
 """class Lattice stores properites and provides simple operations in lattice
-coordinate system"""
+coordinate system.  This module also provides InvalidLattice exception.
+"""
 
 __id__ = "$Id$"
 
@@ -32,6 +33,19 @@ def sind(x):
 
 
 ##############################################################################
+class InvalidLattice(Exception):
+    """exception raised when lattice is inconsistent with space group"""
+
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return self.value
+
+# End of InvalidLattice
+
+
+##############################################################################
 class Lattice:
     """Lattice --> general coordinate system
 
@@ -58,8 +72,8 @@ class Lattice:
 
     def __init__(self, a=None, b=None, c=None,
             alpha=None, beta=None, gamma=None,
-            baserot=num.identity(3, dtype=num.Float), base=None, spacegroup =
-            "P1" ):
+            baserot=num.identity(3, dtype=num.Float), base=None,
+            spacegroup = "P1"):
         """define new coordinate system, the default is Cartesian
         There are 4 ways how to create Lattice instance:
 
@@ -82,6 +96,7 @@ class Lattice:
         self.baserot = None
         self.base = self.recbase = None
         self.normbase = self.recnormbase = None
+        self.spacegroup = None
         # work out argument variants
         # Lattice()
         if [a,b,c,alpha,beta,gamma,base] == 7*[None]:
@@ -105,7 +120,37 @@ class Lattice:
 
         spacegroup  --  Space group name
         """
-        self.spacegroup = SpaceGroups.GetSpaceGroup(spacegroup)
+        if isinstance(spacegroup, SpaceGroups.SpaceGroup):
+            self.spacegroup = spacegroup
+        else:
+            self.spacegroup = SpaceGroups.GetSpaceGroup(spacegroup)
+        self._checkLatParSanity()
+        return
+
+    def _checkLatParSanity(self):
+        """Check if lattice parameters are consistent with spacegroup.
+
+        raise InvalidLattice exception if not
+        """
+        if not isinstance(self.spacegroup, SpaceGroups.SpaceGroup):  return
+        # ref: Benjamin, W. A., Introduction to crystallography, 
+        # New York (1969), p.60
+        crystal_system_rules = {
+          "TRICLINIC"  : 'True',
+          "MONOCLINIC" : 'alpha == gamma == 90',
+          "ORTHORHOMBIC" : 'alpha == beta == gamma == 90',
+          "TETRAGONAL" : 'a == b and alpha == beta == gamma == 90',
+          "TRIGONAL"   : 'a == b == c and alpha == beta == gamma or' +
+                         'a == b and alpha == beta == 90 and gamma == 120',
+          "HEXAGONAL"  : 'a == b and alpha == beta == 90 and gamma == 120',
+          "CUBIC"      : 'a == b == c == 90 and alpha == beta == gamma == 90',
+        }
+        rule = crystal_system_rules[self.spacegroup.crystal_system]
+        if not eval(rule, self.__dict__):
+            raise InvalidLattice, "lattice parameters %r are not" + \
+                "possible in %s lattice" % ( (self.a, self.b, self.c,
+                    self.alpha, self.beta, self.gamma),
+                    self.spacegroup.crystal_system )
         return
 
     def setLatPar(self, a=None, b=None, c=None,
@@ -125,6 +170,7 @@ class Lattice:
         if alpha is not None: self.alpha = float(alpha)
         if beta is not None: self.beta = float(beta)
         if gamma is not None: self.gamma = float(gamma)
+        self._checkLatParSanity()
         if baserot is not None: self.baserot = num.array(baserot)
         (ca, sa) = ( cosd(self.alpha), sind(self.alpha) )
         (cb, sb) = ( cosd(self.beta),  sind(self.beta) )
@@ -185,6 +231,7 @@ class Lattice:
         self.alpha = math.degrees(math.acos(ca))
         self.beta = math.degrees(math.acos(cb))
         self.gamma = math.degrees(math.acos(cg))
+        self._checkLatParSanity()
         # Vunit is a volume of unit cell with a=b=c=1
         Vunit = math.sqrt(1.0 + 2.0*ca*cb*cg - ca*ca - cb*cb - cg*cg)
         # reciprocal lattice
