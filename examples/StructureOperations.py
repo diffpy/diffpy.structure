@@ -139,7 +139,8 @@ def getEssentialOperations(S):
         symops = []
         # Weed out duplicates and those xyzs that go outside the unit cell.
         for symop in spacegroup.iter_symops():
-            pos = numpy.remainder(symop(atom.xyz), 1.0)
+            pos = symop(atom.xyz)
+            pos = pos - numpy.floor(pos)
             if str(pos) in equivstr: continue
             equivstr[str(pos)] = None
             symops.append(symop)
