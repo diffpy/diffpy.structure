@@ -86,7 +86,7 @@ class Lattice:
         Lattice(lat)      -- create a copy of existing Lattice lat
 
         Lattice also accepts the 'spacegroup' key-word argument. 
-        spacegroup  --  Space group name (default 'P1')
+        spacegroup        -- space group name or number (default None)
         """
         # initialize data members, they values will be set by setLatPar()
         self.a = self.b = self.c = None
@@ -138,20 +138,10 @@ class Lattice:
         raise InvalidLattice exception if not
         """
         if self.spacegroup is None: return
-        # ref: Benjamin, W. A., Introduction to crystallography, 
-        # New York (1969), p.60
-        crystal_system_rules = {
-          "TRICLINIC"  : 'True',
-          "MONOCLINIC" : 'alpha == gamma == 90',
-          "ORTHORHOMBIC" : 'alpha == beta == gamma == 90',
-          "TETRAGONAL" : 'a == b and alpha == beta == gamma == 90',
-          "TRIGONAL"   : 'a == b == c and alpha == beta == gamma or ' +
-                         'a == b and alpha == beta == 90 and gamma == 120',
-          "HEXAGONAL"  : 'a == b and alpha == beta == 90 and gamma == 120',
-          "CUBIC"      : 'a == b == c and alpha == beta == gamma == 90',
-        }
-        rule = crystal_system_rules[self.spacegroup.crystal_system]
-        if not eval(rule, dict(self.__dict__) ):
+        from SymmetryUtilities import isSpaceGroupLatPar
+        good = isSpaceGroupLatPar(self.spacegroup, self.a, self.b, self.c,
+                self.alpha, self.beta, self.gamma)
+        if not good:
             raise InvalidLattice, \
                 "lattice parameters %r not possible in %s lattice" % \
                 ( (self.a, self.b, self.c, self.alpha, self.beta, self.gamma),
