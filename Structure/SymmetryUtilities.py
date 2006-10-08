@@ -1,6 +1,9 @@
 """Symmetry utility functions such as expansion of asymmetric unit
 """
 
+# version
+__id__ = '$Id$'
+
 import sys
 import numpy
 

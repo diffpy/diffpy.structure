@@ -4,7 +4,7 @@
 """
 
 # version
-__id__ = '$Id'
+__id__ = '$Id$'
 
 import os
 import sys
