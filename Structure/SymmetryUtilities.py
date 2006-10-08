@@ -70,7 +70,51 @@ class Position2Tuple:
 
 # End of Position2Tuple
 
-def expandPosition(spacegroup, xyz, eps=1E-8):
+def siteDifference(xyz0, xyz1):
+    """Smallest difference between 2 sites in periodic lattice.
+
+    xyz0, xyz1 -- fractional coordinates
+
+    return numpy.array of dxyz with 0 <= dxyz <= 0.5
+    """
+    dxyz = numpy.array(xyz0) - xyz1
+    # map differences to [0,0.5]
+    dxyz = dxyz - numpy.floor(dxyz)
+    mask = (dxyz > 0.5)
+    dxyz[mask] = 1.0 - dxyz[mask]
+    return dxyz
+
+# End of siteDifference
+
+def nearestSiteIndex(sites, xyz):
+    """Index of the nearest site to a specified position
+
+    sites -- list of positions or 2-dimensional numpy.array
+    xyz   -- single position
+
+    return integer
+    """
+    dsites = siteDifference(sites, len(sites)*[xyz])
+    # siteDifference gives numpy.array, so
+    nearindex = numpy.argmin(numpy.sum(dsites,1))
+    return nearindex
+
+# End of nearestSiteIndex
+
+def equalPositions(xyz0, xyz1, eps=0.0):
+    """Equivalence of two positions with optional tolerance.
+
+    xyz0, xyz1 -- fractional coordinates
+    eps        -- tolerance on coordinate difference
+
+    return bool
+    """
+    dxyz = siteDifference(xyz0, xyz1)
+    return numpy.all(dxyz <= eps)
+
+# End of equalPositions
+
+def expandPosition(spacegroup, xyz, eps=0.0):
     """Obtain unique equivalent positions and corresponding operations.
 
     spacegroup -- instance of SpaceGroup
@@ -91,13 +135,9 @@ def expandPosition(spacegroup, xyz, eps=1E-8):
             site_symops[tpl] = []
             # but double check if there is any position nearby
             if positions:
-                dpos = numpy.array([p-pos for p in positions])
-                dpos = dpos - numpy.floor(dpos)
-                dpos[dpos > 0.5] = 1.0 - dpos[dpos > 0.5]
-                nearindex = numpy.argmin(sum(dpos,1))
-                dnear = dpos[nearindex]
-                # there is an equivalent position
-                if numpy.all(dnear < eps):
+                nearindex = nearestSiteIndex(positions, pos)
+                # is it an equivalent position?
+                if equalPositions(positions[nearindex], pos):
                     # tpl should map to existing list
                     neartpl = pos2tuple(positions[nearindex])
                     site_symops[tpl] = site_symops[neartpl]
@@ -111,3 +151,23 @@ def expandPosition(spacegroup, xyz, eps=1E-8):
     return positions, pos_symops, multiplicities
 
 # End of expandPosition
+
+def expandAsymmetricUnit(spacegroup, asymunit, eps=0.0):
+    """Obtain unique equivalent positions and corresponding operations.
+
+    spacegroup -- instance of SpaceGroup
+    asymunit   -- list of positions in asymmetric unit, it may
+                  contain duplicates
+    eps        -- cutoff for duplicate positions
+
+    returns a nested list of equivalent positions, per each site in asymunit
+    """
+    # By design Atom instances are not accepted so that the number
+    # of required modules is low.
+    expanded = []
+    for xyz in asymunit:
+        eqsites = expandPosition(spacegroup, xyz, eps)[0]
+        expanded.append(eqsites)
+    return expanded
+
+# End of expandAsymmetricUnit
