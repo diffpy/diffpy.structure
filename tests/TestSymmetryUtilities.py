@@ -56,7 +56,7 @@ class TestRoutines(unittest.TestCase):
         self.failUnless(numpy.all(pos[0] == 0.0))
         self.assertEqual(4, len(pos))
         self.assertEqual(192, sum([len(l) for l in pops]))
-        self.failUnless( 4*[48] == pmult )
+        self.assertEqual(4, pmult)
         return
 
 # End of class TestRoutines

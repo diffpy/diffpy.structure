@@ -1,4 +1,5 @@
-"""Symmetry utility functions such as expansion of asymmetric unit
+"""Symmetry utility functions such as expansion of asymmetric unit,
+and generation of positional constraints.
 """
 
 # version
@@ -8,13 +9,18 @@ import sys
 import re
 import numpy
 
+# Constants:
+# Default tolerance for equality of 2 positions, also
+# used for identification of special positions.
+epsilon = 1.0e-5
+
 def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
     """Check if space group allows passed lattice parameters
 
     spacegroup -- instance of SpaceGroup
     a, b, c, alpha, beta, gamma -- lattice parameters
 
-    return bool
+    Return bool
     """
     # ref: Benjamin, W. A., Introduction to crystallography, 
     # New York (1969), p.60
@@ -33,20 +39,21 @@ def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
 
 # End of isSpaceGroupLatPar
 
-# helper class to be used only inside this module
+# Helper class intended for this module only:
 class Position2Tuple:
     """Create callable object that converts fractional coordinates to
-    a tuple of integers with given precision.  For very high presision it
-    returns tuples of doubles.
+    a tuple of integers with given precision.  For presision close to zero
+    it will return a tuples of double.
 
     Data members:
-    eps      -- cutoff for duplicate coordinates.  Positions closer than eps
-                yield intersecting pairs of tuples.
-    """
-    def __init__(self, eps):
-        """Initialize Position2Tuple given the 
 
-        eps  -- cutoff for duplicate coordinates
+    eps -- cutoff for equivalent coordinates.  When two coordiantes map to the
+           same tuple, they are closer than eps.
+    """
+    def __init__(self, eps=epsilon):
+        """Initialize Position2Tuple
+
+        eps -- cutoff for equivalent coordinates
         """
         # ensure self.eps has exact machine representation
         self.eps = eps + 1.0
@@ -57,12 +64,11 @@ class Position2Tuple:
         return
 
     def __call__(self, xyz):
-        """Low and high tuple hashes of fractional coordinates. 
-        Coordinates xyz are mapped to 0.0 <= xyz < 1.0.
+        """Convert array of fractional coordinates to a tuple.
 
         xyz -- fractional coordinates
 
-        Returns a tuple of integer equivalents.
+        Return a tuple of 3 numbers.
         """
         # no conversion case
         if self.eps == 0.0:
@@ -72,14 +78,14 @@ class Position2Tuple:
         tpl = tuple( [int((xi - numpy.floor(xi))/self.eps) for xi in xyz] )
         return tpl
 
-# End of Position2Tuple
+# End of class Position2Tuple
 
 def positionDifference(xyz0, xyz1):
-    """Smallest difference between 2 sites in periodic lattice.
+    """Smallest difference between two coordinates in periodic lattice.
 
     xyz0, xyz1  -- fractional coordinates
 
-    return dxyz -- numpy.array where 0 <= dxyz <= 0.5
+    Return dxyz, a numpy.array dxyz with 0 <= dxyz <= 0.5.
     """
     dxyz = numpy.array(xyz0) - xyz1
     # map differences to [0,0.5]
@@ -91,92 +97,94 @@ def positionDifference(xyz0, xyz1):
 # End of positionDifference
 
 def nearestSiteIndex(sites, xyz):
-    """Index of the nearest site to a specified position
+    """Index of the nearest site to a specified position.
 
-    sites -- list of positions or 2-dimensional numpy.array
+    sites -- list of coordinates or a 2-dimensional numpy.array
     xyz   -- single position
 
-    return integer
+    Return integer.
     """
-    dsites = positionDifference(sites, len(sites)*[xyz])
-    nearindex = numpy.argmin(numpy.sum(dsites,1))
+    # we use box distance to be consistent with Position2Tuple conversion
+    dbox = positionDifference(sites, xyz).max(axis=1)
+    nearindex = numpy.argmin(dbox)
     return nearindex
 
 # End of nearestSiteIndex
 
-def equalPositions(xyz0, xyz1, eps=0.0):
-    """Equivalence of two positions with optional tolerance.
+def equalPositions(xyz0, xyz1, eps=epsilon):
+    """Equality of two coordinates with optional tolerance.
 
     xyz0, xyz1 -- fractional coordinates
-    eps        -- tolerance on coordinate difference
+    eps        -- tolerance for equality of coordinates
 
-    return bool
+    Return bool.
     """
+    # we use box distance to be consistent with Position2Tuple conversion
     dxyz = positionDifference(xyz0, xyz1)
     return numpy.all(dxyz <= eps)
 
 # End of equalPositions
 
-def expandPosition(spacegroup, xyz, eps=0.0):
+def expandPosition(spacegroup, xyz, eps=epsilon):
     """Obtain unique equivalent positions and corresponding operations.
 
     spacegroup -- instance of SpaceGroup
-    xyz        -- original position
-    eps        -- cutoff for duplicate positions
+    xyz        -- expanded position
+    eps        -- cutoff for equal positions
 
-    returns a tuple with (list of unique equivalent positions, nested
+    Return a tuple with (list of unique equivalent positions, nested
     list of SpaceGroups.SymOp instances, site multiplicity)
     """
     pos2tuple = Position2Tuple(eps)
     positions = []
-    site_symops = {}    # hashed position : related symops
+    site_symops = {}    # position tuples with [related symops]
     for symop in spacegroup.iter_symops():
         pos = symop(xyz)
         tpl = pos2tuple(pos)
         if not tpl in site_symops:
             pos_is_new = True
             site_symops[tpl] = []
-            # but double check if there is any position nearby
+            # double check if there is any position nearby
             if positions:
-                nearindex = nearestSiteIndex(positions, pos)
+                nearpos = positions[nearestSiteIndex(positions, pos)]
                 # is it an equivalent position?
-                if equalPositions(positions[nearindex], pos):
-                    # tpl should map to the same list as neartpl
-                    neartpl = pos2tuple(positions[nearindex])
-                    site_symops[tpl] = site_symops[neartpl]
+                if equalPositions(nearpos, pos, eps):
+                    # tpl should map to the same list as nearpos
+                    site_symops[tpl] = site_symops[ pos2tuple(nearpos) ]
                     pos_is_new = False
             if pos_is_new:  positions.append(pos)
         # here tpl is inside site_symops
         site_symops[tpl].append(symop)
-    # pos_symops contains symops associated with each position
+    # pos_symops is nested list of symops associated with each position
     pos_symops = [ site_symops[pos2tuple(pos)] for pos in positions ]
-    multiplicity = len(pos_symops[0])
+    multiplicity = len(positions)
     return positions, pos_symops, multiplicity
 
 # End of expandPosition
 
 def expandAsymmetricUnit(spacegroup, asymunit, eps=0.0):
-    """Obtain unique equivalent positions and corresponding operations.
+    """Expand positions in the asymmetric unit.
 
-    spacegroup  -- instance of SpaceGroup
-    asymunit    -- list of positions in asymmetric unit, it may
-                   contain duplicates
-    eps         -- cutoff for duplicate positions
+    spacegroup   -- instance of SpaceGroup
+    asymunit     -- list of positions in asymmetric unit, it may
+                    contain duplicates
+    eps          -- cutoff for duplicate positions
 
-    returns a nested list of equivalent positions, per each site in asymunit
+    Return a tuple of (expandedunit, multiplicities).
+    expandedunit -- list of equivalent positions per each site in asymunit
+    multiplicities -- multiplicity of sites in asymunit
     """
-    # By design Atom instances are not accepted so that the number
-    # of required modules is low.
-    expanded = []
+    # By design Atom instances are not accepted as arguments to keep the
+    # number of required imports low.
+    expandedunit = []
+    multiplicities = []
     for xyz in asymunit:
-        eqsites = expandPosition(spacegroup, xyz, eps)[0]
-        expanded.append(eqsites)
-    return expanded
+        eqsites, ignore, m = expandPosition(spacegroup, xyz, eps)
+        expandedunit.append(eqsites)
+        multiplicities.append(m)
+    return expandedunit, multiplicities
 
 # End of expandAsymmetricUnit
-
-# machine precision
-epsilon = 1.0e-15
 
 def nullSpace(A):
     """Null space of matrix A.
@@ -189,28 +197,34 @@ def nullSpace(A):
     null_space = numpy.compress(mask, v, axis=0)
     return null_space
 
+# End of nullSpace
+
 class GeneratorSite:
     """Storage of data related to a generator positions
 
     Data members:
         xyz          -- fractional coordinates of generator position
+        eps          -- cutoff for equal positions
         eqxyz        -- list of equivalent positions
-        symops       -- list of equivalent positions
-        multiplicity -- generator site multiplicity (Wyckoff number)
-        invariants   -- list of invariant operations for xyz
-        null_space   -- numpy.array null space for differences of rotational
+        symops       -- nested list of operations per each eqxyz
+        multiplicity -- generator site multiplicity
+        invariants   -- list of invariant operations for generator site
+        null_space   -- null space for all possible differences of rotational
                         matrices from invariant operations.
-        linked       -- list for indices of linked positions and related
-                        transformations - to be filled by GeneratorSite user
+        variables    -- dictionary of "x", "y", "z" and their values for
+                        generator position
+        varnames     -- sorted variables.keys()
     """
 
-    def __init__(self, spacegroup, xyz, eps=0.0):
-        """Initialize GeneratorSite
+    def __init__(self, spacegroup, xyz, eps=epsilon):
+        """Initialize GeneratorSite.
 
         spacegroup -- instance of SpaceGroup
-        xyz        -- fractional coordinates of site nearest to [0,0,0]
-        eps        -- cutoff for duplicate positions
+        xyz        -- generating site.  When xyz is close to special
+                      position self.xyz will be adjusted.
+        eps        -- cutoff for equal positions
         """
+        # just declare the variables
         self.xyz = None
         self.eps = eps
         self.eqxyz = None
@@ -220,147 +234,163 @@ class GeneratorSite:
         self.null_space = None
         self.variables = {}
         self.varnames = []
-        self.linked = []
-        self.xyz = numpy.array(xyz)
-        # calculate multiplicity and invariants
+        # fill in the values
+        self.xyz = xyz
         sites, ops, mult = expandPosition(spacegroup, xyz, eps)
+        # shift self.xyz exactly to the special position
+        if mult > 1:
+            xyzdups = numpy.array([op(xyz) for op in ops[0]])
+            dxyz = xyzdups - xyz
+            dxyz = numpy.mean(dxyz - dxyz.round(), axis=0)
+            # recalculate if needed
+            if numpy.any(dxyz != 0.0):
+                self.xyz = xyz + dxyz
+                sites, ops, mult = expandPosition(spacegroup, self.xyz, eps)
+        # self.xyz, sites, ops are all adjusted here
         self.eqxyz = sites
         self.symops = ops
         self.multiplicity = mult
-        # invariant operations come always first in self.symop
+        # invariant operations are always first in self.symop
         self.invariants = self.symops[0]
         self._findNullSpace()
         self._findVariables()
         return
 
     def _findNullSpace(self):
-        """Calculate null_space from self.invariants
+        """Calculate self.null_space from self.invariants.
+        Try to represent self.null_space using small integers.
         """
         R0 = self.invariants[0].R
         Rdiff = [ (symop.R - R0) for symop in self.invariants ]
         Rdiff = numpy.concatenate(Rdiff, 0)
         self.null_space = nullSpace(Rdiff)
-        # reverse sort null_space rows by absolute value
+        # reverse sort rows of null_space rows by absolute value
         key = tuple(numpy.fabs(numpy.transpose(self.null_space))[::-1])
         order = numpy.lexsort(key)
         self.null_space = self.null_space[order[::-1]]
-        # rationalize by the smallest, nonzero element
+        # rationalize by the smallest element larger than cutoff
         cutoff = 1.0/32
         for i in range(len(self.null_space)):
             row = self.null_space[i]
-            small = min( numpy.fabs(row[numpy.fabs(row) > cutoff]) )
+            small = numpy.fabs(row[numpy.fabs(row) > cutoff]).min()
             signedsmall = row[numpy.fabs(row) == small][0]
             self.null_space[i] = self.null_space[i] / signedsmall
         return
 
     def _findVariables(self):
-        """Determine txyz from null_space
+        """Find necessary variables and their values for expressing self.xyz
         """
-        nsrank = numpy.rank(self.null_space)
-        # xyz offset txyz cannot be expressed using null_space vectors
-        self.txyz = self.xyz
+        # variable values depend on offset of self.xyz
+        txyz = self.xyz
+        # define txyz such that most of its elements are zero
         for nvec in self.null_space:
             idx = numpy.where(numpy.fabs(nvec) >= epsilon)[0][0]
-            projection = self.txyz[idx]/nvec[idx]
-            self.txyz = self.txyz - projection*nvec
+            varvalue = txyz[idx]/nvec[idx]
+            txyz = txyz - varvalue*nvec
             # determine variable name
-            vname = "xyz"[idx]
-            self.variables[vname] = projection
+            vname = [c for c in "xyz"[idx:] if not c in self.variables][0]
+            self.variables[vname] = varvalue
         self.varnames = self.variables.keys()
         self.varnames.sort()
         return
 
     def positionFormula(self, pos, xyzsymbols=("x","y","z")):
-        """Formula of equivalent position with respect to generator position
+        """Formula of equivalent position with respect to generator site
 
         pos        -- fractional coordinates of possibly equivalent site
-        xyzsymbols -- symbols for generator position
+        xyzsymbols -- symbols for parametrized coordinates
 
-        return tuple of (xformula, yformula, zformula) formulas or empty tuple when
-        pos is not equivalent to generator.
+        Return tuple of (xformula, yformula, zformula) formulas or empty tuple
+        when pos is not equivalent to generator.  Formulas are formatted as
+        "[[-][%g*]{x|y|z}] [{+|-}%g]", for example "z +0.5", "0.25", where
+        <space> is required between parameter and constant part.
         """
         # find pos in eqxyz
         idx = nearestSiteIndex(self.eqxyz, pos)
-        if not equalPositions(self.eqxyz[idx], pos):    return ( )
+        eqpos = self.eqxyz[idx]
+        if not equalPositions(eqpos, pos, self.eps):    return ( )
         # any rotation matrix should do fine
         R = self.symops[idx][0].R
-        nsrot = numpy.dot(self.null_space, numpy.transpose(R))
-        tpos = numpy.array(pos)
-        for nvec, vname in zip(list(nsrot), self.varnames):
-            tpos -= nvec*self.variables[vname] 
-        # build formulas
+        nsrotated = numpy.dot(self.null_space, numpy.transpose(R))
+        # build formulas using eqpos
+        # find offset
+        teqpos = numpy.array(eqpos)
+        for nvec, vname in zip(nsrotated, self.varnames):
+            teqpos -= nvec * self.variables[vname] 
         # map varnames to xyzsymbols
         name2sym = dict( zip(("x", "y", "z"), xyzsymbols) )
         xyzformula = 3*[""]
-        for nvec, vname in zip(list(nsrot), self.varnames):
+        for nvec, vname in zip(nsrotated, self.varnames):
             for i in range(3):
                 if abs(nvec[i]) < epsilon:  continue
                 xyzformula[i] += "%+g*%s " % (nvec[i], name2sym[vname])
-        # add constant offset tpos to the formulas
+        # add constant offset teqpos to all formulas
         for i in range(3):
-            if xyzformula[i] and tpos[i] < epsilon: continue
-            xyzformula[i] += "%+g" % tpos[i]
-        # reduce +1* and -1*
+            if xyzformula[i] and teqpos[i] < epsilon: continue
+            xyzformula[i] += "%+g" % teqpos[i]
+        # reduce unnecessary +1* and -1*
         xyzformula = [ re.sub('^[+]1[*]|(?<=-)1[*]', '', f).strip()
-                        for f in xyzformula ]
+                       for f in xyzformula ]
         return tuple(xyzformula)
 
-# End of GeneratorSite
+# End of class GeneratorSite
 
-def positionConstraints(spacegroup, positions, eps=0.0):
+def positionConstraints(spacegroup, positions, eps=epsilon):
     """Obtain symmetry constraints for specified positions.
 
-    Procedure starts with initial list of constraints of
-    [ ["x0","y0","zo"], ["x1","y1","z1"], ... ] and it reduces
-    this list to contain only independent variables.
+    Procedure starts with initial list of parameter symbols of
+    [ ["x0","y0","z0"], ["x1","y1","z1"], ... ] which is reduced
+    to contain only independent parameters.
 
     spacegroup -- instance of SpaceGroup
-    positions  -- list of all positions in to be constrained
+    positions  -- list of all positions to be constrained
     eps        -- cutoff for equivalent positions
 
-    returns a tuple of (poseqns, variables) where
+    Return a tuple of (poseqns, variables), where
 
-    poseqns    -- nested list of coordinate formulas.  Formulas are formatted
-                  as [{+|-}{x|y|z}i] [{+|-}c], for example: "x0", "-x3",
-                  "z7 +0.5", "0.25".
+    poseqns    -- list of coordinate formulas.  Formulas are formatted
+                  as [[-]{x|y|z}%i] [{+|-}%g], for example: "x0", "-x3",
+                  "z7 +0.5", "0.25".  Space before constant is required.
     variables  -- dictionary of variable names and values
     """
-# FIXME
-    # generators maps index of independent position to GeneratorSite
-    generators = {}
+    # positions returned by expandAsymmetricUnit have 3 dimensions
+    positions = numpy.array(positions)
+    if positions.ndim == 3:     positions = numpy.concatenate(positions, 0)
     numpos = len(positions)
+    poseqns = numpos*[[]]
+    variables = {}
     independent = dict.fromkeys(range(numpos))
     for genidx in range(numpos):
         if not genidx in independent:   continue
         # it is a generator
-        del independent[genidx]
-        generators[genidx] = gen = GeneratorSite()
-        gen.xyz = positions[genidx]
-        eqpos, symops, mults = expandPosition(spacegroup, gen.xyz, eps)
-        # find where in eqpos is gen.xyz
-        geneqposidx = eqpos.index(gen.xyz)
-        gen.multiplicity = mults[geneqposidx]
-        gen.invariants = symops[geneqposidx]
+        xyzsymbols = tuple([k+str(genidx) for k in "xyz"])
+        genpos = positions[genidx]
+        gen = GeneratorSite(spacegroup, genpos, eps)
+        newvars = dict([ (k+str(genidx), v) 
+            for k, v in gen.variables.iteritems() ])
+        variables.update(newvars)
         # search for equivalents inside indies
         indies = independent.keys()
         indies.sort()
         for indidx in indies:
             indpos = positions[indidx]
-            for eqidx in range(len(eqpos)):
-                if not equalPositions(indpos, eqpos[eqidx]):    continue
-                # indpos is linked to generator via any of symops[eqidx]
-                gen.linked.append( (indidx, symops[eqidx][0]) )
-                del independent[indidx]
-                # no need to search eqpos anymore
-                break
-    # all generators should be found here
-
+            formula = gen.positionFormula(indpos, xyzsymbols)
+            # formula is empty when indidx is independent
+            if not formula:  continue
+            # indidx is dependent here
+            del independent[indidx]
+            poseqns[indidx] = formula
+    # all done here
+    return poseqns, variables
 
 # basic demonstration
 if __name__ == "__main__":
-    from SpaceGroups import sg100
+    from SpaceGroups import sg1, sg100
     site = [.125, .625, .13]
     g = GeneratorSite(sg100, site)
+    fm100 = g.positionFormula(site)
     print "g = GeneratorSite(sg100, %r)" % site
-    print "g.positionFormula(%r) = %s" % (site, g.positionFormula(site))
-    print "g.variables =", g.positionFormula(site)
+    print "g.positionFormula(%r) = %s" % (site, fm100)
+    print "g.variables =", g.variables
+
+# End of file
