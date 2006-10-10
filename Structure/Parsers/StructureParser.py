@@ -2,7 +2,7 @@
 
 __id__ = "$Id$"
 
-from Structure.structure import InvalidStructureFormat
+from Structure.Structure import InvalidStructureFormat
 
 ##############################################################################
 class StructureParser:

@@ -3,9 +3,9 @@
 __id__ = "$Id$"
 
 from Structure.PDFFitStructure import PDFFitStructure
-from Structure.structure import InvalidStructureFormat
-from Structure.lattice import Lattice
-from Structure.atom import Atom
+from Structure.Structure import InvalidStructureFormat
+from Structure.Lattice import Lattice
+from Structure.Atom import Atom
 from StructureParser import StructureParser
 import numpy as num
 import sys

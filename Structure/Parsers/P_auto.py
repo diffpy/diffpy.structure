@@ -5,7 +5,7 @@ This Parser leaves undefined the toLines() method
 
 __id__ = "$Id$"
 
-from Structure.structure import InvalidStructureFormat
+from Structure.Structure import InvalidStructureFormat
 from StructureParser import StructureParser
 
 class Parser(StructureParser):

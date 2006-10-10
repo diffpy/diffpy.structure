@@ -4,10 +4,9 @@ import copy
 import sys
 import numpy as num
 import numpy.linalg as numalg
-import Structure.structure 
-from Structure.structure import Structure
-from Structure.lattice import Lattice
-from Structure.atom import Atom 
+from Structure import Structure
+from Structure import Lattice
+from Structure import Atom 
 from cctbx import xray
 from cctbx import crystal
 from cctbx.array_family import flex

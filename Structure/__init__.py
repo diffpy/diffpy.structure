@@ -14,9 +14,9 @@ __id__ = "$Id$"
 # interface definitions
 ##############################################################################
 
-from Structure.structure import Structure, InvalidStructureFormat
-from Structure.lattice import Lattice
-from Structure.atom import Atom
+from Structure import Structure, InvalidStructureFormat
+from Lattice import Lattice
+from Atom import Atom
 from PDFFitStructure import PDFFitStructure
 
 ##############################################################################
@@ -25,17 +25,17 @@ from PDFFitStructure import PDFFitStructure
 
 def _get_module_ids():
     """return list of __id__ values from all modules in this package"""
-    import atom
-    import lattice
-    import structure
+    import Atom
+    import Lattice
+    import Structure
     import PDFFitStructure
     import PeriodicTable
     import Parsers
     ids = [
         __id__,
-        atom.__id__,
-        lattice.__id__,
-        structure.__id__,
+        Atom.__id__,
+        Lattice.__id__,
+        Structure.__id__,
         PDFFitStructure.__id__,
         PeriodicTable.__id__,
         Parsers._get_package_id()

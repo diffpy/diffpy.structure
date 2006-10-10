@@ -4,7 +4,7 @@
 __id__ = "$Id$"
 
 import unittest
-from Structure.lattice import Lattice
+from Structure import Lattice
 
 ##############################################################################
 class TestLattice(unittest.TestCase):

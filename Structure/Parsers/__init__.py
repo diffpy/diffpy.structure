@@ -10,7 +10,7 @@ methods of this module.
 
 __id__ = "$Id$"
 
-from Structure.structure import Structure, InvalidStructureFormat
+from Structure.Structure import Structure, InvalidStructureFormat
 
 def _findParsers():
     """return dictionary of recognized formats with associated modules"""
@@ -59,7 +59,7 @@ def tostring(stru, format):
 
 def inputFormats():
     """return list of implemented input structure formats"""
-    from Structure.structure import InvalidStructureFormat
+    from Structure.Structure import InvalidStructureFormat
     input_formats = []
     for format, module in modules.items():
         try:
@@ -74,7 +74,7 @@ def inputFormats():
 
 def outputFormats():
     """return list of implemented output structure formats"""
-    from Structure.structure import InvalidStructureFormat
+    from Structure.Structure import InvalidStructureFormat
     output_formats = []
     stru = Structure()
     for format, module in modules.items():

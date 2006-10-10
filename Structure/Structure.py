@@ -7,8 +7,8 @@ import copy
 import math
 import numpy as num
 import numpy.linalg as numalg
-from lattice import Lattice
-from atom import Atom
+from Lattice import Lattice
+from Atom import Atom
 
 ##############################################################################
 class Structure(list):

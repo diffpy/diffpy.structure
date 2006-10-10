@@ -6,9 +6,9 @@ __id__ = "$Id$"
 import os
 import unittest
 
-from Structure.structure import Structure, InvalidStructureFormat
-from Structure.lattice import Lattice
-from Structure.atom import Atom
+from Structure import Structure, InvalidStructureFormat
+from Structure import Lattice
+from Structure import Atom
 
 ##############################################################################
 class TestStructure(unittest.TestCase):

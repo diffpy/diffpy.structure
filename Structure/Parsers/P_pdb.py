@@ -6,9 +6,9 @@ Ref.: http://www.rcsb.org/pdb/docs/format/pdbguide2.2/guide2.2_frame.html
 __id__ = "$Id$"
 
 import sys
-from Structure.structure import Structure, InvalidStructureFormat
-from Structure.lattice import Lattice
-from Structure.atom import Atom
+from Structure.Structure import Structure, InvalidStructureFormat
+from Structure.Lattice import Lattice
+from Structure.Atom import Atom
 from StructureParser import StructureParser
 import numpy as num
 import numpy.linalg as numalg

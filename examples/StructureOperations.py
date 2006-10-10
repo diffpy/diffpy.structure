@@ -2,10 +2,9 @@
 """
 import copy, types
 import numpy
-import Structure.structure 
-from Structure.structure import Structure
-from Structure.lattice import Lattice
-from Structure.atom import Atom 
+from Structure import Structure
+from Structure import Lattice
+from Structure import Atom 
 
 ################################################################################
 

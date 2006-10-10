@@ -6,9 +6,9 @@ __id__ = "$Id$"
 import unittest
 import os
 
-from Structure.structure import Structure, InvalidStructureFormat
-from Structure.lattice import Lattice
-from Structure.atom import Atom
+from Structure import Structure, InvalidStructureFormat
+from Structure import Lattice
+from Structure import Atom
 
 # useful variables
 testsDir = os.path.dirname(os.path.abspath(__file__))
