@@ -211,9 +211,7 @@ class GeneratorSite:
         invariants   -- list of invariant operations for generator site
         null_space   -- null space for all possible differences of rotational
                         matrices from invariant operations.
-        variables    -- dictionary of "x", "y", "z" and their values for
-                        generator position
-        varnames     -- sorted variables.keys()
+        variables    -- list of (xyz symbol, value) pairs
     """
 
     def __init__(self, spacegroup, xyz, eps=epsilon):
@@ -232,8 +230,7 @@ class GeneratorSite:
         self.multiplicity = None
         self.invariants = []
         self.null_space = None
-        self.variables = {}
-        self.varnames = []
+        self.variables = []
         # fill in the values
         self.xyz = xyz
         sites, ops, mult = expandPosition(spacegroup, xyz, eps)
@@ -264,6 +261,7 @@ class GeneratorSite:
         Rdiff = [ (symop.R - R0) for symop in self.invariants ]
         Rdiff = numpy.concatenate(Rdiff, 0)
         self.null_space = nullSpace(Rdiff)
+        if self.null_space.size == 0:   return
         # reverse sort rows of null_space rows by absolute value
         key = tuple(numpy.fabs(numpy.transpose(self.null_space))[::-1])
         order = numpy.lexsort(key)
@@ -280,6 +278,7 @@ class GeneratorSite:
     def _findVariables(self):
         """Find necessary variables and their values for expressing self.xyz
         """
+        usedsymbol = {}
         # variable values depend on offset of self.xyz
         txyz = self.xyz
         # define txyz such that most of its elements are zero
@@ -288,10 +287,9 @@ class GeneratorSite:
             varvalue = txyz[idx]/nvec[idx]
             txyz = txyz - varvalue*nvec
             # determine variable name
-            vname = [c for c in "xyz"[idx:] if not c in self.variables][0]
-            self.variables[vname] = varvalue
-        self.varnames = self.variables.keys()
-        self.varnames.sort()
+            vname = [s for s in "xyz"[idx:] if not s in usedsymbol][0]
+            self.variables.append( (vname, varvalue) )
+            usedsymbol[vname] = True
         return
 
     def positionFormula(self, pos, xyzsymbols=("x","y","z")):
@@ -315,12 +313,12 @@ class GeneratorSite:
         # build formulas using eqpos
         # find offset
         teqpos = numpy.array(eqpos)
-        for nvec, vname in zip(nsrotated, self.varnames):
-            teqpos -= nvec * self.variables[vname] 
+        for nvec, (vname, varvalue) in zip(nsrotated, self.variables):
+            teqpos -= nvec * varvalue
         # map varnames to xyzsymbols
         name2sym = dict( zip(("x", "y", "z"), xyzsymbols) )
         xyzformula = 3*[""]
-        for nvec, vname in zip(nsrotated, self.varnames):
+        for nvec, (vname, varvalue) in zip(nsrotated, self.variables):
             for i in range(3):
                 if abs(nvec[i]) < epsilon:  continue
                 xyzformula[i] += "%+g*%s " % (nvec[i], name2sym[vname])
@@ -329,13 +327,13 @@ class GeneratorSite:
             if xyzformula[i] and teqpos[i] < epsilon: continue
             xyzformula[i] += "%+g" % teqpos[i]
         # reduce unnecessary +1* and -1*
-        xyzformula = [ re.sub('^[+]1[*]|(?<=-)1[*]', '', f).strip()
+        xyzformula = [ re.sub('^[+]1[*]|(?<=[+-])1[*]', '', f).strip()
                        for f in xyzformula ]
         return tuple(xyzformula)
 
 # End of class GeneratorSite
 
-def positionConstraints(spacegroup, positions, eps=epsilon):
+def positionConstraints(spacegroup, positions, eps=epsilon, xyzsymbols=None):
     """Obtain symmetry constraints for specified positions.
 
     Procedure starts with initial list of parameter symbols of
@@ -345,36 +343,45 @@ def positionConstraints(spacegroup, positions, eps=epsilon):
     spacegroup -- instance of SpaceGroup
     positions  -- list of all positions to be constrained
     eps        -- cutoff for equivalent positions
+    xyzsymbols -- custom symbols for "x", "y", "z" per every coordinate
 
     Return a tuple of (poseqns, variables), where
 
     poseqns    -- list of coordinate formulas.  Formulas are formatted
                   as [[-]{x|y|z}%i] [{+|-}%g], for example: "x0", "-x3",
                   "z7 +0.5", "0.25".  Space before constant is required.
-    variables  -- dictionary of variable names and values
+    variables  -- list of (xyz symbol, value) pairs
     """
     # positions returned by expandAsymmetricUnit have 3 dimensions
     positions = numpy.array(positions)
     if positions.ndim == 3:     positions = numpy.concatenate(positions, 0)
     numpos = len(positions)
+    # check xyzsymbols
+    if xyzsymbols is None:
+        xyzsymbols = [ smbl+str(i) for i in range(numpos) for smbl in "xyz" ]
+    if len(xyzsymbols) < positions.size:
+        emsg = "Not enough xyz symbols for %i coordinates" % positions.size
+        raise RuntimeError, emsg
+    # we should be fine here
     poseqns = numpos*[[]]
-    variables = {}
+    variables = []
     independent = dict.fromkeys(range(numpos))
     for genidx in range(numpos):
         if not genidx in independent:   continue
         # it is a generator
-        xyzsymbols = tuple([k+str(genidx) for k in "xyz"])
         genpos = positions[genidx]
         gen = GeneratorSite(spacegroup, genpos, eps)
-        newvars = dict([ (k+str(genidx), v) 
-            for k, v in gen.variables.iteritems() ])
-        variables.update(newvars)
+        # append new variable if there are any
+        gensymbols = xyzsymbols[3*genidx : 3*(genidx+1)]
+        for k, v in gen.variables:
+            smbl = gensymbols["xyz".index(k)]
+            variables.append( (smbl, v) )
         # search for equivalents inside indies
         indies = independent.keys()
         indies.sort()
         for indidx in indies:
             indpos = positions[indidx]
-            formula = gen.positionFormula(indpos, xyzsymbols)
+            formula = gen.positionFormula(indpos, gensymbols)
             # formula is empty when indidx is independent
             if not formula:  continue
             # indidx is dependent here
