@@ -30,10 +30,11 @@ EXPORT_PYTHON_MODULES = \
     __init__.py         \
     PDFFitStructure.py  \
     PeriodicTable.py    \
-    atom.py 		\
-    lattice.py 		\
-    structure.py 	\
+    Atom.py 		\
+    Lattice.py 		\
+    Structure.py 	\
     SpaceGroups.py  \
+    SymmetryUtilities.py \
     Parsers
 
 export:: export-python-modules
