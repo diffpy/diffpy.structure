@@ -42,7 +42,7 @@ reply = raw_input('> ')
 try:
     sgid = int(reply)
 except ValueError:
-    sgid = reply.replace(' ', '').upper()
+    sgid = reply.replace(' ', '')
 sg_constrainment = GetSpaceGroup(sgid)
 
 # Generate constraint equations

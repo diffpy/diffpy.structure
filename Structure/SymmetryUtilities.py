@@ -174,7 +174,7 @@ def expandAsymmetricUnit(spacegroup, asymunit, eps=0.0):
     expandedunit -- list of equivalent positions per each site in asymunit
     multiplicities -- multiplicity of sites in asymunit
     """
-    # By design Atom instances are not accepted as arguments to keep the
+    # By design Atom instances are not accepted as arguments to keep
     # number of required imports low.
     expandedunit = []
     multiplicities = []
@@ -300,8 +300,7 @@ class GeneratorSite:
 
         Return tuple of (xformula, yformula, zformula) formulas or empty tuple
         when pos is not equivalent to generator.  Formulas are formatted as
-        "[[-][%g*]{x|y|z}] [{+|-}%g]", for example "z +0.5", "0.25", where
-        <space> is required between parameter and constant part.
+        "[[-][%g*]{x|y|z}] [{+|-}%g]", for example "-x", "z +0.5", "0.25".
         """
         # find pos in eqxyz
         idx = nearestSiteIndex(self.eqxyz, pos)
@@ -324,7 +323,7 @@ class GeneratorSite:
                 xyzformula[i] += "%+g*%s " % (nvec[i], name2sym[vname])
         # add constant offset teqpos to all formulas
         for i in range(3):
-            if xyzformula[i] and teqpos[i] < epsilon: continue
+            if xyzformula[i] and abs(teqpos[i]) < epsilon: continue
             xyzformula[i] += "%+g" % teqpos[i]
         # reduce unnecessary +1* and -1*
         xyzformula = [ re.sub('^[+]1[*]|(?<=[+-])1[*]', '', f).strip()
@@ -349,7 +348,7 @@ def positionConstraints(spacegroup, positions, eps=epsilon, xyzsymbols=None):
 
     poseqns    -- list of coordinate formulas.  Formulas are formatted
                   as [[-]{x|y|z}%i] [{+|-}%g], for example: "x0", "-x3",
-                  "z7 +0.5", "0.25".  Space before constant is required.
+                  "z7 +0.5", "0.25".
     variables  -- list of (xyz symbol, value) pairs
     """
     # positions returned by expandAsymmetricUnit have 3 dimensions
