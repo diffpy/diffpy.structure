@@ -392,7 +392,7 @@ def positionConstraints(spacegroup, positions, eps=epsilon, xyzsymbols=None):
 
 # basic demonstration
 if __name__ == "__main__":
-    from SpaceGroups import sg1, sg100
+    from SpaceGroups import sg100
     site = [.125, .625, .13]
     g = GeneratorSite(sg100, site)
     fm100 = g.positionFormula(site)
