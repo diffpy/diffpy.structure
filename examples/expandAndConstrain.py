@@ -23,7 +23,7 @@ reply = raw_input('> ')
 try:
     sgid = int(reply)
 except ValueError:
-    sgid = reply.replace(' ', '')
+    sgid = reply.strip()
 sg_expansion = GetSpaceGroup(sgid)
 
 # Expand coordinate
@@ -42,7 +42,7 @@ reply = raw_input('> ')
 try:
     sgid = int(reply)
 except ValueError:
-    sgid = reply.replace(' ', '')
+    sgid = reply.strip()
 sg_constrainment = GetSpaceGroup(sgid)
 
 # Generate constraint equations
