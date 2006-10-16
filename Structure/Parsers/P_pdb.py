@@ -215,7 +215,7 @@ class Parser(StructureParser):
             lines.append(line)
         # default values of standard deviations
         d_sigxyz = num.zeros(3, dtype=float)
-        d_sigo = [0.0]
+        d_sigo = 0.0
         d_sigU = num.zeros((3,3), dtype=float)
         sigxyz = ad.get("sigxyz", d_sigxyz)
         sigo = [ad.get("sigo", d_sigo)]
