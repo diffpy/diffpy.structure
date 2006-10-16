@@ -24,7 +24,7 @@ class Parser(StructureParser):
         """
         xcfg_Number_of_particles = None
         xcfg_A = None
-        xcfg_H0 = num.zeros((3,3), dtype=num.Float)
+        xcfg_H0 = num.zeros((3,3), dtype=float)
         xcfg_H0_set = num.zeros((3,3), dtype=num.Bool)
         xcfg_NO_VELOCITY = False
         xcfg_entry_count = None
@@ -93,7 +93,7 @@ class Parser(StructureParser):
                         "a.xyz[1]=fields[1]",
                         "a.xyz[2]=fields[2]" ]
             if not xcfg_NO_VELOCITY:
-                p_exprs += [  "a.v=num.zeros(3, dtype=num.Float)",
+                p_exprs += [  "a.v=num.zeros(3, dtype=float)",
                               "a.v[0]=fields[3]",
                               "a.v[1]=fields[4]",
                               "a.v[2]=fields[5]" ]
@@ -168,7 +168,7 @@ class Parser(StructureParser):
             p_A = num.ceil(3.5 / hi_ucvect)
         lines.append( "A = %.8g Angstrom" % p_A )
         # how much do we need to shift the coordinates?
-        p_dxyz = num.zeros(3, dtype=num.Float)
+        p_dxyz = num.zeros(3, dtype=float)
         for i in range(3):
             if lo_xyz[i]/p_A < 0.0 or hi_xyz[i]/p_A >= 1.0 \
             or (lo_xyz[i] == hi_xyz[i] and lo_xyz[i] == 0.0) :

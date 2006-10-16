@@ -72,7 +72,7 @@ class Lattice:
 
     def __init__(self, a=None, b=None, c=None,
             alpha=None, beta=None, gamma=None,
-            baserot=num.identity(3, dtype=num.Float), base=None,
+            baserot=num.identity(3, dtype=float), base=None,
             spacegroup=None):
         """define new coordinate system, the default is Cartesian
         There are 4 ways how to create Lattice instance:
@@ -187,13 +187,13 @@ class Lattice:
                 [ self.a*self.a,     self.a*self.b*cg,  self.a*self.c*cb ],
                 [ self.b*self.a*cg,  self.b*self.b,     self.b*self.c*ca ],
                 [ self.c*self.a*cb,  self.c*self.b*ca,  self.c*self.c    ] ],
-                dtype=num.Float )
+                dtype=float )
         # standard cartesian coordinates of lattice vectors
         self.stdbase = num.array( [
                 [ 1.0/self.ar, -cgr/sgr/self.ar, cb*self.a ],
                 [ 0.0,         self.b*sa,        self.b*ca ],
                 [ 0.0,         0.0,              self.c    ] ],
-                dtype=num.Float )
+                dtype=float )
         # cartesian coordinates of lattice vectors
         self.base = num.dot(self.stdbase, self.baserot)
         self.recbase = numalg.inv(self.base)
@@ -244,7 +244,7 @@ class Lattice:
                 [ 1.0/self.ar, -cgr/sgr/self.ar, cb*self.a ],
                 [ 0.0,         self.b*sa,        self.b*ca ],
                 [ 0.0,         0.0,              self.c    ] ],
-                dtype=num.Float )
+                dtype=float )
         # calculate unit cell rotation matrix,  base = stdbase*baserot
         self.baserot = num.dot( numalg.inv(self.stdbase), self.base )
         self.recbase = numalg.inv(self.base)
@@ -261,7 +261,7 @@ class Lattice:
                 [ self.a*self.a,     self.a*self.b*cg,  self.a*self.c*cb ],
                 [ self.b*self.a*cg,  self.b*self.b,     self.b*self.c*ca ],
                 [ self.c*self.a*cb,  self.c*self.b*ca,  self.c*self.c    ] ],
-                dtype=num.Float )
+                dtype=float )
         return self
 
     def reciprocal(self):
@@ -299,7 +299,7 @@ class Lattice:
     def __repr__(self):
         """string representation of this lattice"""
         epsilon = 1.0e-8
-        I3 = num.identity(3, dtype=num.Float)
+        I3 = num.identity(3, dtype=float)
         abcABG = num.array([self.a, self.b, self.c,
                             self.alpha, self.beta, self.gamma] )
         rotbaseI3diff = max(num.reshape(num.absolute(self.baserot - I3), 9))

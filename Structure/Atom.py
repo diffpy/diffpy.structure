@@ -19,12 +19,12 @@ class Atom:
     def __init__(self, element, xyz, name='', occupancy=1.0, U=None):
         """create atom of a specified type at given lattice coordinates"""
         self.element = element
-        self.xyz = num.array(xyz, dtype=num.Float)
+        self.xyz = num.array(xyz, dtype=float)
         self.name = name
         if U is None:
-            self.U = num.zeros((3,3), dtype=num.Float)
+            self.U = num.zeros((3,3), dtype=float)
         else:
-            self.U = num.array(U, dtype=num.Float)
+            self.U = num.array(U, dtype=float)
         self.occupancy = occupancy
         return
 
@@ -40,7 +40,7 @@ class Atom:
 
     def setUiso(self, Uiso):
         """set temperature coefficients matrix U to Uiso*identity(3)"""
-        self.U = Uiso * num.identity(3, dtype=num.Float)
+        self.U = Uiso * num.identity(3, dtype=float)
         return
 
     def setBiso(self, Biso):

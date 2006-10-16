@@ -86,7 +86,7 @@ class TestPosition2Tuple(unittest.TestCase):
         """
         pos2tuple = self.pos2tuple
         import numpy
-        positions = numpy.zeros((100,3), dtype=numpy.float64)
+        positions = numpy.zeros((100,3), dtype=float)
         positions[:,0] = numpy.arange(100)/100.0*pos2tuple.eps + 0.1
         positions = positions - numpy.floor(positions)
         # pos2tuple should generate at most 2 distinct tuples
