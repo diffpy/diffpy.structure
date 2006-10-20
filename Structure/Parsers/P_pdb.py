@@ -24,7 +24,7 @@ orderOfRecords = [
     "MTRIX2", "MTRIX3", "TVECT", "MODEL", "ATOM", "SIGATM", "ANISOU",
     "SIGUIJ", "TER", "HETATM", "ENDMDL", "CONECT", "MASTER", "END",
 ]
-validRecords = dict( zip(orderOfRecords, len(orderOfRecords)*[True]) )
+validRecords = dict.fromkeys(orderOfRecords)
 
 # Parsed records:
 #   TITLE CRYST1 SCALE1 SCALE2 SCALE3 ATOM
@@ -100,6 +100,7 @@ class Parser(StructureParser):
                         U = num.zeros((3,3), dtype=float)
                     element = line[76:78].strip()
                     if element == "":
+                        # get element from the first 2 characters of name record
                         element = line[12:14].strip()
                         element = element[0].upper() + element[1:].lower()
                     last_atom = Atom(element, xyz,
@@ -141,7 +142,7 @@ class Parser(StructureParser):
                             "%d: invalid record name '%r'" % (p_nl, record)
         except (ValueError, IndexError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise InvalidStructureFormat, "%d: file is not in PDB format" % \
+            raise InvalidStructureFormat, "%d: invalid PDB record" % \
                     p_nl, exc_traceback
         return stru
     # End of parseLines
