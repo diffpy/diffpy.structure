@@ -96,7 +96,7 @@ class Parser(StructureParser):
                 wl5 = ilines.next().split()
                 p_nl += 1
                 wl6 = ilines.next().split()
-                a.sigU = num.zeros((3,3), dtype=num.Float)
+                a.sigU = num.zeros((3,3), dtype=float)
                 for i in range(3):
                     a.U[i][i] = float(wl3[i])
                     a.sigU[i][i] = float(wl4[i])
@@ -133,9 +133,9 @@ class Parser(StructureParser):
             stru = pfstru
         lines = []
         # default values of standard deviations
-        d_sigxyz = num.zeros(3, dtype=num.Float)
+        d_sigxyz = num.zeros(3, dtype=float)
         d_sigo = 0.0
-        d_sigU = num.zeros((3,3), dtype=num.Float)
+        d_sigU = num.zeros((3,3), dtype=float)
         # here we can start
         l = "title  " + stru.title
         lines.append( l.strip() )
