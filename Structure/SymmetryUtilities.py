@@ -125,21 +125,26 @@ def equalPositions(xyz0, xyz1, eps=epsilon):
 
 # End of equalPositions
 
-def expandPosition(spacegroup, xyz, eps=epsilon):
+def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=epsilon):
     """Obtain unique equivalent positions and corresponding operations.
 
     spacegroup -- instance of SpaceGroup
-    xyz        -- expanded position
+    xyz        -- position to be expanded
+    sgoffset   -- offset of space group origin [0, 0, 0]
     eps        -- cutoff for equal positions
 
     Return a tuple with (list of unique equivalent positions, nested
     list of SpaceGroups.SymOp instances, site multiplicity)
     """
+    sgoffset = numpy.array(sgoffset, dtype=float)
     pos2tuple = Position2Tuple(eps)
     positions = []
     site_symops = {}    # position tuples with [related symops]
     for symop in spacegroup.iter_symops():
-        pos = symop(xyz)
+        # operate on coordinates in non-shifted spacegroup
+        pos = symop(xyz + sgoffset) - sgoffset
+        mask = numpy.logical_or(pos < 0.0, pos >= 1.0)
+        pos -= numpy.floor(pos)
         tpl = pos2tuple(pos)
         if not tpl in site_symops:
             pos_is_new = True
@@ -162,12 +167,13 @@ def expandPosition(spacegroup, xyz, eps=epsilon):
 
 # End of expandPosition
 
-def expandAsymmetricUnit(spacegroup, asymunit, eps=0.0):
+def expandAsymmetricUnit(spacegroup, asymunit, sgoffset=[0, 0, 0], eps=0.0):
     """Expand positions in the asymmetric unit.
 
     spacegroup   -- instance of SpaceGroup
     asymunit     -- list of positions in asymmetric unit, it may
                     contain duplicates
+    sgoffset     -- offset of space group origin [0, 0, 0]
     eps          -- cutoff for duplicate positions
 
     Return a tuple of (expandedunit, multiplicities).
@@ -179,7 +185,7 @@ def expandAsymmetricUnit(spacegroup, asymunit, eps=0.0):
     expandedunit = []
     multiplicities = []
     for xyz in asymunit:
-        eqsites, ignore, m = expandPosition(spacegroup, xyz, eps)
+        eqsites, ignore, m = expandPosition(spacegroup, xyz, sgoffset, eps)
         expandedunit.append(eqsites)
         multiplicities.append(m)
     return expandedunit, multiplicities
@@ -204,6 +210,7 @@ class GeneratorSite:
 
     Data members:
         xyz          -- fractional coordinates of generator position
+        sgoffset   -- offset of space group origin [0, 0, 0]
         eps          -- cutoff for equal positions
         eqxyz        -- list of equivalent positions
         symops       -- nested list of operations per each eqxyz
@@ -214,16 +221,18 @@ class GeneratorSite:
         variables    -- list of (xyz symbol, value) pairs
     """
 
-    def __init__(self, spacegroup, xyz, eps=epsilon):
+    def __init__(self, spacegroup, xyz, sgoffset=[0, 0, 0], eps=epsilon):
         """Initialize GeneratorSite.
 
         spacegroup -- instance of SpaceGroup
         xyz        -- generating site.  When xyz is close to special
                       position self.xyz will be adjusted.
+        sgoffset   -- offset of space group origin [0, 0, 0]
         eps        -- cutoff for equal positions
         """
         # just declare the variables
         self.xyz = None
+        self.sgoffset = numpy.array(sgoffset, dtype=float)
         self.eps = eps
         self.eqxyz = None
         self.symops = None
@@ -233,16 +242,18 @@ class GeneratorSite:
         self.variables = []
         # fill in the values
         self.xyz = xyz
-        sites, ops, mult = expandPosition(spacegroup, xyz, eps)
+        sites, ops, mult = expandPosition(spacegroup, xyz, sgoffset, eps)
         # shift self.xyz exactly to the special position
         if mult > 1:
-            xyzdups = numpy.array([op(xyz) for op in ops[0]])
+            xyzdups = numpy.array([op(xyz + self.sgoffset) - self.sgoffset
+                for op in ops[0]])
             dxyz = xyzdups - xyz
             dxyz = numpy.mean(dxyz - dxyz.round(), axis=0)
             # recalculate if needed
             if numpy.any(dxyz != 0.0):
                 self.xyz = xyz + dxyz
-                sites, ops, mult = expandPosition(spacegroup, self.xyz, eps)
+                sites, ops, mult = expandPosition(spacegroup,
+                        self.xyz, self.sgoffset, eps)
         # self.xyz, sites, ops are all adjusted here
         self.eqxyz = sites
         self.symops = ops
@@ -305,7 +316,7 @@ class GeneratorSite:
         # find pos in eqxyz
         idx = nearestSiteIndex(self.eqxyz, pos)
         eqpos = self.eqxyz[idx]
-        if not equalPositions(eqpos, pos, self.eps):    return ( )
+        if not equalPositions(eqpos, pos, self.eps):    return ()
         # any rotation matrix should do fine
         R = self.symops[idx][0].R
         nsrotated = numpy.dot(self.null_space, numpy.transpose(R))
@@ -332,7 +343,8 @@ class GeneratorSite:
 
 # End of class GeneratorSite
 
-def positionConstraints(spacegroup, positions, eps=epsilon, xyzsymbols=None):
+def positionConstraints(spacegroup, positions, sgoffset=[0, 0, 0],
+        eps=epsilon, xyzsymbols=None):
     """Obtain symmetry constraints for specified positions.
 
     Procedure starts with initial list of parameter symbols of
@@ -341,6 +353,7 @@ def positionConstraints(spacegroup, positions, eps=epsilon, xyzsymbols=None):
 
     spacegroup -- instance of SpaceGroup
     positions  -- list of all positions to be constrained
+    sgoffset   -- offset of space group origin [0, 0, 0]
     eps        -- cutoff for equivalent positions
     xyzsymbols -- custom symbols for "x", "y", "z" per every coordinate
 
@@ -351,9 +364,13 @@ def positionConstraints(spacegroup, positions, eps=epsilon, xyzsymbols=None):
                   "z7 +0.5", "0.25".
     variables  -- list of (xyz symbol, value) pairs
     """
-    # positions returned by expandAsymmetricUnit have 3 dimensions
     positions = numpy.array(positions)
-    if positions.ndim == 3:     positions = numpy.concatenate(positions, 0)
+    # positions returned by expandAsymmetricUnit have 3 dimensions
+    if positions.ndim == 3:
+        positions = numpy.concatenate(positions, 0)
+    # make if work for a single position
+    elif positions.ndim == 1 and positions.size == 3:
+        positions = positions.reshape((1,3))
     numpos = len(positions)
     # check xyzsymbols
     if xyzsymbols is None:
@@ -369,7 +386,7 @@ def positionConstraints(spacegroup, positions, eps=epsilon, xyzsymbols=None):
         if not genidx in independent:   continue
         # it is a generator
         genpos = positions[genidx]
-        gen = GeneratorSite(spacegroup, genpos, eps)
+        gen = GeneratorSite(spacegroup, genpos, sgoffset, eps)
         # append new variable if there are any
         gensymbols = xyzsymbols[3*genidx : 3*(genidx+1)]
         for k, v in gen.variables:

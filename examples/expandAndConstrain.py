@@ -12,9 +12,9 @@ from Structure.SpaceGroups import GetSpaceGroup
 print "Enter xyz coordinates (can be fractions): "
 reply = raw_input('> ')
 # split reply on commas or whitespace
-sxyz = re.split('[,\s]+', reply.strip())
+words = re.split('[,\s]+', reply.strip())
 # prepend "1.0*" to avoid integer division
-xyz = [ eval("1.0*" + e) for e in sxyz[:3] ]
+xyz = [ eval("1.0*" + e) for e in words[:3] ]
 
 # Get space group for expansion
 print "Enter space group (symbol or number): "
@@ -25,9 +25,18 @@ try:
 except ValueError:
     sgid = reply.strip()
 sg_expansion = GetSpaceGroup(sgid)
+# get optional offset
+sg_expoffset = [0.0, 0.0, 0.0]
+print "Space group origin offset (<Enter> if none): "
+reply = raw_input('> ').strip()
+if reply:
+    # split reply on commas or whitespace
+    words = re.split('[,\s]+', reply)
+    # prepend "1.0*" to avoid integer division
+    sg_expoffset = [ eval("1.0*" + e) for e in words[:3] ]
 
 # Expand coordinate
-xyz_expanded, ignore, mltp = expandPosition(sg_expansion, xyz)
+xyz_expanded, ignore, mltp = expandPosition(sg_expansion, xyz, sg_expoffset)
 print
 print "Site multiplicity:", mltp
 print "Expanded positions:"
@@ -44,9 +53,19 @@ try:
 except ValueError:
     sgid = reply.strip()
 sg_constrainment = GetSpaceGroup(sgid)
+# get optional offset
+sg_consoffset = [0.0, 0.0, 0.0]
+print "Space group origin offset (<Enter> if none): "
+reply = raw_input('> ').strip()
+if reply:
+    # split reply on commas or whitespace
+    words = re.split('[,\s]+', reply)
+    # prepend "1.0*" to avoid integer division
+    sg_consoffset = [ eval("1.0*" + e) for e in words[:3] ]
 
 # Generate constraint equations
-eqns, pars = positionConstraints(sg_constrainment, xyz_expanded)
+print repr(sg_consoffset)
+eqns, pars = positionConstraints(sg_constrainment, xyz_expanded, sg_consoffset)
 print
 print "Position formulas:"
 for eqxyz in eqns:
@@ -77,7 +96,7 @@ firstpar = 11
 parsymbols = [ "@"+str(i) for i in range(firstpar, firstpar+numcoordinates) ]
 
 # create constraints using these symbols
-eqns, pars = positionConstraints(sg_constrainment, xyz_expanded,
+eqns, pars = positionConstraints(sg_constrainment, xyz_expanded, sg_consoffset,
         xyzsymbols=parsymbols)
 
 # print constrain commands
