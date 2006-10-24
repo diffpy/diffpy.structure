@@ -9,12 +9,8 @@ import math
 import types
 import numpy as num
 import numpy.linalg as numalg
-import SpaceGroups
 
 
-# FIXME The space group name does not change the pdffit dictionary of the
-# PDFFitStructure class. Perhaps the 'spcgr' entry should be removed from that
-# dictionary.
 
 ##############################################################################
 # helper functions
@@ -34,7 +30,7 @@ def sind(x):
 
 ##############################################################################
 class InvalidLattice(Exception):
-    """exception raised when lattice is inconsistent with space group"""
+    """exception raised when lattice is not right-handed"""
 
     def __init__(self, value):
         self.value = value
@@ -55,7 +51,6 @@ class Lattice:
                their values are set by setLatPar() and setLatBase()
         ar, br, cr, alphar, betar, gammar -- read-only parameters of
                reciprocal lattice, set by setLatPar() and setLatBase()
-        spacegroup  --  Space group of lattice or None if non-periodic
         metrics  -- metrics tensor
         base     -- matrix of base vectors in cartesian coordinates,
                     base = stdbase*baserot
@@ -72,8 +67,7 @@ class Lattice:
 
     def __init__(self, a=None, b=None, c=None,
             alpha=None, beta=None, gamma=None,
-            baserot=num.identity(3, dtype=float), base=None,
-            spacegroup=None):
+            baserot=num.identity(3, dtype=float), base=None):
         """define new coordinate system, the default is Cartesian
         There are 4 ways how to create Lattice instance:
 
@@ -84,9 +78,6 @@ class Lattice:
                              abc is a 3x3 matrix (or nested list), of row
                              base vectors
         Lattice(lat)      -- create a copy of existing Lattice lat
-
-        Lattice also accepts the 'spacegroup' key-word argument. 
-        spacegroup        -- space group name or number (default None)
         """
         # initialize data members, they values will be set by setLatPar()
         self.a = self.b = self.c = None
@@ -96,7 +87,6 @@ class Lattice:
         self.baserot = None
         self.base = self.recbase = None
         self.normbase = self.recnormbase = None
-        self.spacegroup = None
         # work out argument variants
         # Lattice()
         if [a,b,c,alpha,beta,gamma,base] == 7*[None]:
@@ -117,35 +107,6 @@ class Lattice:
         else:
             self.setLatPar( float(a), float(b), float(c),
                     float(alpha), float(beta), float(gamma), baserot )
-        self.setSpaceGroup(spacegroup)
-        return
-
-    def setSpaceGroup(self, spacegroup):
-        """Set the space group.
-
-        spacegroup  --  Space group name (no blanks) or number
-        """
-        if spacegroup is None:
-            self.spacegroup = None
-            return
-        self.spacegroup = SpaceGroups.GetSpaceGroup(spacegroup)
-        self._checkLatParSanity()
-        return
-
-    def _checkLatParSanity(self):
-        """Check if lattice parameters are consistent with spacegroup.
-
-        raise InvalidLattice exception if not
-        """
-        if self.spacegroup is None: return
-        from SymmetryUtilities import isSpaceGroupLatPar
-        good = isSpaceGroupLatPar(self.spacegroup, self.a, self.b, self.c,
-                self.alpha, self.beta, self.gamma)
-        if not good:
-            raise InvalidLattice, \
-                "lattice parameters %r not possible in %s lattice" % \
-                ( (self.a, self.b, self.c, self.alpha, self.beta, self.gamma),
-                  self.spacegroup.crystal_system )
         return
 
     def setLatPar(self, a=None, b=None, c=None,
@@ -165,7 +126,6 @@ class Lattice:
         if alpha is not None: self.alpha = float(alpha)
         if beta is not None: self.beta = float(beta)
         if gamma is not None: self.gamma = float(gamma)
-        self._checkLatParSanity()
         if baserot is not None: self.baserot = num.array(baserot)
         (ca, sa) = ( cosd(self.alpha), sind(self.alpha) )
         (cb, sb) = ( cosd(self.beta),  sind(self.beta) )
@@ -214,6 +174,11 @@ class Lattice:
         return self
         """
         self.base = num.array(base)
+        detbase = numalg.det(self.base)
+        if abs(detbase) < 1.0e-8:
+            raise InvalidLattice, "base vectors are degenerate"
+        elif detbase < 0.0:
+            raise InvalidLattice, "base is not right-handed"
         self.a = num.sqrt(num.dot(self.base[0,:], self.base[0,:]))
         self.b = num.sqrt(num.dot(self.base[1,:], self.base[1,:]))
         self.c = num.sqrt(num.dot(self.base[2,:], self.base[2,:]))
@@ -226,7 +191,6 @@ class Lattice:
         self.alpha = math.degrees(math.acos(ca))
         self.beta = math.degrees(math.acos(cb))
         self.gamma = math.degrees(math.acos(cg))
-        self._checkLatParSanity()
         # Vunit is a volume of unit cell with a=b=c=1
         Vunit = math.sqrt(1.0 + 2.0*ca*cb*cg - ca*ca - cb*cb - cg*cg)
         # reciprocal lattice

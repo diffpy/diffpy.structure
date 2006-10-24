@@ -4,7 +4,7 @@
 __id__ = "$Id$"
 
 import unittest
-from Structure import Lattice
+from Structure import Lattice, InvalidLattice
 
 ##############################################################################
 class TestLattice(unittest.TestCase):
@@ -65,6 +65,12 @@ class TestLattice(unittest.TestCase):
         self.assertListAlmostEqual(base[0], self.lattice.base[0])
         self.assertListAlmostEqual(base[1], self.lattice.base[1])
         self.assertListAlmostEqual(base[2], self.lattice.base[2])
+        # try base checking
+        self.assertRaises(InvalidLattice, self.lattice.setLatBase,
+                [[1, 0, 0], [1,0,0], [0,0,1]])
+        self.assertRaises(InvalidLattice, self.lattice.setLatBase,
+                [[1, 0, 0], [0,0,1], [0,1,0]])
+        return
 
     def test_repr(self):
         """check string representation of this lattice"""

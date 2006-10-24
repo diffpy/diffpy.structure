@@ -6,6 +6,7 @@ Classes:
     PDFFitStructure
 Exceptions:
     InvalidStructureFormat
+    InvalidLattice
 """
 
 __id__ = "$Id$"
@@ -15,7 +16,7 @@ __id__ = "$Id$"
 ##############################################################################
 
 from Structure import Structure, InvalidStructureFormat
-from Lattice import Lattice
+from Lattice import Lattice, InvalidLattice
 from Atom import Atom
 from PDFFitStructure import PDFFitStructure
 
