@@ -8,6 +8,7 @@ __id__ = '$Id$'
 import sys
 import re
 import numpy
+from utils import isfloat
 
 # Constants:
 # Default tolerance for equality of 2 positions, also
@@ -22,7 +23,7 @@ def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
 
     Return bool
     """
-    # ref: Benjamin, W. A., Introduction to crystallography, 
+    # ref: Benjamin, W. A., Introduction to crystallography,
     # New York (1969), p.60
     crystal_system_rules = {
       "TRICLINIC"  : 'True',
@@ -343,68 +344,186 @@ class GeneratorSite:
 
 # End of class GeneratorSite
 
-def positionConstraints(spacegroup, positions, sgoffset=[0, 0, 0],
-        eps=epsilon, xyzsymbols=None):
-    """Obtain symmetry constraints for specified positions.
+# Helper function for SymmetryConstraints class
+def pruneFormulaTuple(equations):
+    """Replace constants with empty strings.
 
-    Procedure starts with initial list of parameter symbols of
-    [ ["x0","y0","z0"], ["x1","y1","z1"], ... ] which is reduced
-    to contain only independent parameters.
-
-    spacegroup -- instance of SpaceGroup
-    positions  -- list of all positions to be constrained
-    sgoffset   -- offset of space group origin [0, 0, 0]
-    eps        -- cutoff for equivalent positions
-    xyzsymbols -- custom symbols for "x", "y", "z" per every coordinate
-
-    Return a tuple of (poseqns, variables), where
-
-    poseqns    -- list of coordinate formulas.  Formulas are formatted
-                  as [[-]{x|y|z}%i] [{+|-}%g], for example: "x0", "-x3",
-                  "z7 +0.5", "0.25".
-    variables  -- list of (xyz symbol, value) pairs
+    Return tuple of pruned formulas.
     """
-    positions = numpy.array(positions)
-    # positions returned by expandAsymmetricUnit have 3 dimensions
-    if positions.ndim == 3:
-        positions = numpy.concatenate(positions, 0)
-    # make if work for a single position
-    elif positions.ndim == 1 and positions.size == 3:
-        positions = positions.reshape((1,3))
-    numpos = len(positions)
-    # check xyzsymbols
-    if xyzsymbols is None:
+    pruned = [ not isfloat(eq) and eq or '' for eq in equations ]
+    return tuple(pruned)
+
+# End of pruneFormulaTuple
+
+class SymmetryConstraints:
+    """Generate symmetry constraints for specified positions
+
+    Data members:
+        spacegroup -- instance of SpaceGroup
+        positions  -- list of all positions to be constrained
+        sgoffset   -- optional offset of space group origin [0, 0, 0]
+        eps        -- cutoff for equivalent positions
+    Calculated data members:
+        poseqns    -- list of coordinate formulas.  Formulas are formatted
+                      as [[-]{x|y|z}%i] [{+|-}%g], for example: "x0", "-x3",
+                      "z7 +0.5", "0.25".
+        posvars    -- list of (xyz symbol, value) pairs
+        Ueqns      -- list of anisotropic atomic displacement formula tuples
+                      of (U11, U22, U33, U12, U13, U23).  Formulas are
+                      formatted as {[%g*][Uij%i]|0}, for example: "U110",
+                      "0.5*U2213"-x3", "0"
+        Uvars      -- list of (U symbol, value) pairs
+        isotropic  -- list of bool flags for isotropic site
+    """
+
+    def __init__(self, spacegroup, positions, xyz,
+            sgoffset=[0, 0, 0], eps=epsilon):
+        """Initialize and calculate SymmetryConstraints.
+
+        spacegroup -- instance of SpaceGroup
+        positions  -- list of all positions to be constrained
+        sgoffset   -- optional offset of space group origin [0, 0, 0]
+        eps        -- cutoff for equivalent positions
+        """
+        # fill in data members
+        self.spacegroup = spacegroup
+        self.positions = numpy.array(positions)
+        self.sgoffset = numpy.array(sgoffset)
+        self.eps = eps
+        self.poseqns = None
+        self.posvars = []
+        self.Ueqns = None
+        self.Uvars = []
+        self.isotropic = None
+        # positions returned by expandAsymmetricUnit have 3 dimensions
+        if self.positions.ndim == 3:
+            self.positions = numpy.concatenate(self.positions, 0)
+        # and make if work for a single position
+        elif self.positions.ndim == 1 and self.positions.size == 3:
+            self.positions = self.positions.reshape((1,3))
+        numpos = len(self.positions)
+        self.poseqns = numpos*[[]]
+        self.Ueqns = numpos*[[]]
+        self.isotropic = numpos*[False]
+        # all members should be initialized here
+        self._findConstraints()
+        return
+
+    def _findConstraints(self):
+        """Find constraints for positions and anisotropic displacements Uij
+        """
+        # TODO: implement Uij constraints generation
+        numpos = len(self.positions)
+        # canonical xyzsymbols
         xyzsymbols = [ smbl+str(i) for i in range(numpos) for smbl in "xyz" ]
-    if len(xyzsymbols) < positions.size:
-        emsg = "Not enough xyz symbols for %i coordinates" % positions.size
-        raise RuntimeError, emsg
-    # we should be fine here
-    poseqns = numpos*[[]]
-    variables = []
-    independent = dict.fromkeys(range(numpos))
-    for genidx in range(numpos):
-        if not genidx in independent:   continue
-        # it is a generator
-        genpos = positions[genidx]
-        gen = GeneratorSite(spacegroup, genpos, sgoffset, eps)
-        # append new variable if there are any
-        gensymbols = xyzsymbols[3*genidx : 3*(genidx+1)]
-        for k, v in gen.variables:
-            smbl = gensymbols["xyz".index(k)]
-            variables.append( (smbl, v) )
-        # search for equivalents inside indies
-        indies = independent.keys()
-        indies.sort()
-        for indidx in indies:
-            indpos = positions[indidx]
-            formula = gen.positionFormula(indpos, gensymbols)
-            # formula is empty when indidx is independent
-            if not formula:  continue
-            # indidx is dependent here
-            del independent[indidx]
-            poseqns[indidx] = formula
-    # all done here
-    return poseqns, variables
+        independent = dict.fromkeys(range(numpos))
+        for genidx in range(numpos):
+            if not genidx in independent:   continue
+            # it is a generator
+            genpos = self.positions[genidx]
+            gen = GeneratorSite(self.spacegroup, genpos, self.sgoffset,
+                    self.eps)
+            # append new variables if there are any
+            gensymbols = xyzsymbols[3*genidx : 3*(genidx+1)]
+            for k, v in gen.variables:
+                smbl = gensymbols["xyz".index(k)]
+                self.posvars.append( (smbl, v) )
+            # search for equivalents inside indies
+            indies = independent.keys()
+            indies.sort()
+            for indidx in indies:
+                indpos = self.positions[indidx]
+                formula = gen.positionFormula(indpos, gensymbols)
+                # formula is empty when indidx is independent
+                if not formula:  continue
+                # indidx is dependent here
+                del independent[indidx]
+                self.poseqns[indidx] = formula
+        # all done here
+        return
+
+    def posvarNames(self):
+        """Return list of position variable names.
+        """
+        return [n for n, v in self.posvars]
+
+    def posvarValues(self):
+        """Return list of position variable values.
+        """
+        return [v for n, v in self.posvars]
+
+    def positionFormulas(self, xyzsymbols=None):
+        """List of position formulas with custom variable symbols.
+
+        xyzsymbols -- list of custom symbols for self.posvars
+
+        Return list of coordinate formulas.  Formulas are formatted as
+        [[-]{symbol}] [{+|-}%g], for example: "x0", "-sym", "@7 +0.5", "0.25".
+        """
+        if not xyzsymbols:  return list(self.poseqns)
+        # check xyzsymbols
+        if len(xyzsymbols) < len(self.posvars):
+            emsg = "Not enough symbols for %i variables" % len(self.posvars)
+            raise SymmetryError, emsg
+        # build translation dictionary
+        xyz2symbols = dict(zip(self.posvarNames(), xyzsymbols))
+        def trxyz(matchobj):
+            return xyz2symbols[matchobj.group(0)]
+        xyzpat = re.compile(r'\b[xyz]\d+')
+        rv = []
+        for eqx, eqy, eqz in self.poseqns:
+            rv.append(( re.sub(xyzpat, trxyz, eqx),
+                        re.sub(xyzpat, trxyz, eqy),
+                        re.sub(xyzpat, trxyz, eqz) ))
+        return rv
+
+    def positionFormulasPruned(self, xyzsymbols=None):
+        """List of position formulas with empty strings where constant.
+        
+        xyzsymbols -- list of custom symbols for self.posvars
+
+        Return list of coordinate formulas.
+        """
+        rv = [  pruneFormulaTuple(eqns)
+                for eqns in self.positionFormulas(xyzsymbols) ]
+        return rv
+
+    def UvarNames(self):
+        """Return list of atom displacement variable names.
+        """
+        return [n for n, v in self.Uvars]
+
+    def UvarValues(self):
+        """Return list of atom displacement variable values.
+        """
+        return [v for n, v in self.Uvars]
+
+    def UFormulas(self, Usymbols=None):
+        """List of atom displacement formulas with custom variable symbols.
+
+        Usymbols -- list of custom symbols for self.Uvars
+
+        Return list of atom displacement formulas in tuples of
+        (U11, U22, U33, U12, U13, U23).
+        """
+        raise NotImplementedError, "UFormulas not yet implemented"
+        rv = []
+        return rv
+
+    def UFormulasPruned(self, Usymbols=None):
+        """List of atom displacement formulas with empty strings where zero.
+
+        Usymbols -- list of custom symbols for self.Uvars
+
+        Return list of atom displacement formulas in tuples of
+        (U11, U22, U33, U12, U13, U23).
+        """
+        raise NotImplementedError, "UFormulas not yet implemented"
+        rv = [  pruneFormulaTuple(eqns)
+                for eqns in self.UFormulas(Usymbols) ]
+        return rv
+
+# End of SymmetryConstraints
 
 # basic demonstration
 if __name__ == "__main__":
