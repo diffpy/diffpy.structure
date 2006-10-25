@@ -16,12 +16,12 @@ from utils import isfloat
 epsilon = 1.0e-5
 
 def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
-    """Check if space group allows passed lattice parameters
+    """Check if space group allows passed lattice parameters.
 
     spacegroup -- instance of SpaceGroup
     a, b, c, alpha, beta, gamma -- lattice parameters
 
-    Return bool
+    Return bool.
     """
     # ref: Benjamin, W. A., Introduction to crystallography,
     # New York (1969), p.60
@@ -45,6 +45,8 @@ class Position2Tuple:
     """Create callable object that converts fractional coordinates to
     a tuple of integers with given precision.  For presision close to zero
     it will return a tuples of double.
+
+    Note: Helper class intended for local use only.
 
     Data members:
 
@@ -135,7 +137,7 @@ def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=epsilon):
     eps        -- cutoff for equal positions
 
     Return a tuple with (list of unique equivalent positions, nested
-    list of SpaceGroups.SymOp instances, site multiplicity)
+    list of SpaceGroups.SymOp instances, site multiplicity).
     """
     sgoffset = numpy.array(sgoffset, dtype=float)
     pos2tuple = Position2Tuple(eps)
@@ -207,7 +209,7 @@ def nullSpace(A):
 # End of nullSpace
 
 class GeneratorSite:
-    """Storage of data related to a generator positions
+    """Storage of data related to a generator positions.
 
     Data members:
         xyz          -- fractional coordinates of generator position
