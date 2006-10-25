@@ -35,6 +35,8 @@ EXPORT_PYTHON_MODULES = \
     Structure.py 	\
     SpaceGroups.py  \
     SymmetryUtilities.py \
+    utils.py        \
+    exceptions.py   \
     Parsers
 
 export:: export-python-modules

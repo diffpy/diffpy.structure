@@ -126,6 +126,10 @@ class Structure(list):
         return self
         """
         self.readStr(open(filename,'r').read(), format)
+        if not self.title:
+            import os.path
+            self.title = os.path.basename(filename)
+            self.title = self.title.split('.')[0]
         return self
 
     def readStr(self, s, format='auto'):
