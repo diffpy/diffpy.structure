@@ -2,13 +2,14 @@
 
 __id__ = "$Id$"
 
+import sys
+import numpy as num
+
 from Structure.PDFFitStructure import PDFFitStructure
-from Structure.Structure import InvalidStructureFormat
 from Structure.Lattice import Lattice
 from Structure.Atom import Atom
 from StructureParser import StructureParser
-import numpy as num
-import sys
+from Structure.exceptions import InvalidStructureFormat
 
 class Parser(StructureParser):
     """Parser --> StructureParser subclass for PDFFit format"""
@@ -18,9 +19,9 @@ class Parser(StructureParser):
         return
 
     def parseLines(self, lines):
-        """parse list of lines in PDFFit format
+        """Parse list of lines in PDFFit format.
 
-        return Structure object or raise InvalidStructureFormat exception
+        Return Structure object or raise InvalidStructureFormat.
         """
         p_nl = 0
         rlist = []
@@ -124,7 +125,10 @@ class Parser(StructureParser):
     # End of parseLines
 
     def toLines(self, stru):
-        """convert Structure stru to a list of lines in PDFFit format"""
+        """Convert Structure stru to a list of lines in PDFFit format.
+
+        Return list of strings.
+        """
         # first, convert stru to PDFFitStructure
         if not isinstance(stru, PDFFitStructure):
             pfstru = PDFFitStructure()

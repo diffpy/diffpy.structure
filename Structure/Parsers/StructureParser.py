@@ -2,7 +2,7 @@
 
 __id__ = "$Id$"
 
-from Structure.Structure import InvalidStructureFormat
+from Structure.exceptions import InvalidStructureFormat
 
 ##############################################################################
 class StructureParser:
@@ -18,7 +18,7 @@ class StructureParser:
 
     def parseLines(self, lines):
         """parse list of lines obtained from structure file
-        
+
         return Structure object or raise InvalidStructureFormat exception.
         This method has to be overloaded in a derived class
         """
@@ -27,23 +27,12 @@ class StructureParser:
         return
 
     def toLines(self, stru):
-        """convert Structure stru to a list of lines
-        
-        return a list of strings. 
+        """Convert Structure stru to a list of lines.
         This method has to be overloaded in a derived class.
+
+        Return list of strings.
         """
         raise NotImplementedError, \
                 "toLines not defined for '%s' format" % self.format
 
 # End of StructureParser
-
-##############################################################################
-# helper function
-
-def isfloat(s):
-    """True if argument can be converted to float"""
-    try:
-        x = float(s)
-        return True
-    except ValueError:
-        return False

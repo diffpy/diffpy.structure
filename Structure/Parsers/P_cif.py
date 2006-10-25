@@ -7,13 +7,15 @@ __id__ = "$Id$"
 
 import sys
 import time
-from Structure.Structure import Structure, InvalidStructureFormat
-from Structure.Lattice import Lattice
-from Structure.Atom import Atom
-from StructureParser import StructureParser
 import numpy as num
 import numpy.linalg as numalg
 from numpy import pi
+
+from Structure.Structure import Structure
+from Structure.Lattice import Lattice
+from Structure.Atom import Atom
+from StructureParser import StructureParser
+from Structure.exceptions import InvalidStructureFormat
 
 class Parser(StructureParser):
     """Parser --> StructureParser subclass for basic parser for CIF format"""
@@ -24,14 +26,17 @@ class Parser(StructureParser):
 
 #   parse Lines is not implemented, we probably want to use babel here
 #   def parseLines(self, lines):
-#       """parse list of lines in CIF format
+#       """Parse list of lines in CIF format.
 #
-#       return Structure object or raise InvalidStructureFormat exception
+#       Return Structure instance or raise InvalidStructureFormat.
 #       """
 #   # End of parseLines
 
     def toLines(self, stru):
-        """convert Structure stru to a list of lines in basic CIF format"""
+        """Convert Structure stru to a list of lines in basic CIF format.
+
+        Return list of strings.
+        """
         lines = []
         # may be replaced with filtered Structure.title
         # for now, we can add the title as a comment

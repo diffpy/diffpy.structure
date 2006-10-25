@@ -3,10 +3,12 @@
 __id__ = "$Id$"
 
 import sys
-from Structure.Structure import Structure, InvalidStructureFormat
+from Structure.Structure import Structure
 from Structure.Lattice import Lattice
 from Structure.Atom import Atom
-from StructureParser import StructureParser, isfloat
+from StructureParser import StructureParser
+from Structure.utils import isfloat
+from Structure.exceptions import InvalidStructureFormat
 
 class Parser(StructureParser):
     """Parser --> StructureParser subclass for RAWXYZ format"""
@@ -16,9 +18,9 @@ class Parser(StructureParser):
         return
 
     def parseLines(self, lines):
-        """parse list of lines in RAWXYZ format
+        """Parse list of lines in RAWXYZ format.
 
-        return Structure object or raise InvalidStructureFormat exception
+        Return Structure object or raise InvalidStructureFormat.
         """
         linefields = [l.split() for l in lines]
         # prepare output structure
@@ -74,7 +76,10 @@ class Parser(StructureParser):
     # End of parseLines
 
     def toLines(self, stru):
-        """convert Structure stru to a list of lines in XYZ format"""
+        """Convert Structure stru to a list of lines in XYZ format.
+
+        Return list of strings.
+        """
         lines = []
         for a in stru:
             rc = stru.cartesian(a)

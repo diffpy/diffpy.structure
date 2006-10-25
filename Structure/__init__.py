@@ -7,6 +7,7 @@ Classes:
 Exceptions:
     InvalidStructureFormat
     InvalidLattice
+    SymmetryError
 """
 
 __id__ = "$Id$"
@@ -15,10 +16,13 @@ __id__ = "$Id$"
 # interface definitions
 ##############################################################################
 
-from Structure import Structure, InvalidStructureFormat
-from Lattice import Lattice, InvalidLattice
+from Structure import Structure
+from Lattice import Lattice
 from Atom import Atom
 from PDFFitStructure import PDFFitStructure
+from exceptions import InvalidStructureFormat, InvalidLattice, SymmetryError
+
+from PeriodicTable import __id__ as aaaa
 
 ##############################################################################
 # version info
@@ -26,29 +30,29 @@ from PDFFitStructure import PDFFitStructure
 
 def _get_module_ids():
     """return list of __id__ values from all modules in this package"""
-    import Atom
-    import Lattice
-    import Structure
-    import PDFFitStructure
-    import PeriodicTable
-    import Parsers
-    ids = [
-        __id__,
-        Atom.__id__,
-        Lattice.__id__,
-        Structure.__id__,
-        PDFFitStructure.__id__,
-        PeriodicTable.__id__,
-        Parsers._get_package_id()
-    ]
+    import os.path
+    import glob
+    myFile = os.path.abspath(__file__)
+    myDir = os.path.dirname(myFile)
+    sourcefiles = glob.glob(os.path.join(myDir, '*.py'))
+    modnames = [os.path.splitext(os.path.basename(f))[0] for f in sourcefiles]
+    modnames.remove('__init__')
+    ids = [__id__]
+    for modname in modnames:
+        try:
+            exec "from %s import __id__ as i" % modname
+            ids.append(i)
+        except ImportError:
+            pass
     return ids
 
 def _get_package_id():
     """build cumulative ID of this package from module IDs"""
     name = __name__
     id_words = [i.split() for i in _get_module_ids()]
-    # are all ids expanded?
-    if [ True for idw in id_words if len(idw) < 5 ] != [] :
+    # keep only expanded ids:
+    id_words = [idw for idw in id_words if len(idw) >= 5]
+    if not id_words:
         package_id = __id__
     # do we have CVS-style ids?
     elif len([ 1 for idw in id_words if "." in idw[2] ]) == len(id_words):
@@ -64,3 +68,5 @@ def _get_package_id():
         last = id_words[-1]
         package_id = " ".join(last[:1]+[name]+last[2:])
     return package_id
+
+# End of file

@@ -1,4 +1,4 @@
-"""this module defines class Structure and InvalidStructureFormat exception
+"""This module defines class Structure.
 """
 
 __id__ = "$Id$"
@@ -165,15 +165,3 @@ class Structure(list):
         return tostring(self, format)
 
 # End of Structure
-
-##############################################################################
-class InvalidStructureFormat(Exception):
-    """exception for guess what three times"""
-
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return self.value
-
-# End of InvalidStructureFormat

@@ -5,7 +5,7 @@ This Parser leaves undefined the toLines() method
 
 __id__ = "$Id$"
 
-from Structure.Structure import InvalidStructureFormat
+from Structure.exceptions import InvalidStructureFormat
 from StructureParser import StructureParser
 
 class Parser(StructureParser):
@@ -17,9 +17,10 @@ class Parser(StructureParser):
         return
 
     def parseLines(self, lines):
-        """detect the format and parse the given list of lines
+        """Detect format and parse given list of lines.
 
-        return Structure_t object, or raise InvalidStructureFormat exception"""
+        Return Structure instance, or raise InvalidStructureFormat.
+        """
         stru = None
         # try all parsers in sequence
         import Structure.Parsers as Parsers

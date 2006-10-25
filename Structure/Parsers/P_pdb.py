@@ -6,13 +6,15 @@ Ref.: http://www.rcsb.org/pdb/docs/format/pdbguide2.2/guide2.2_frame.html
 __id__ = "$Id$"
 
 import sys
-from Structure.Structure import Structure, InvalidStructureFormat
-from Structure.Lattice import Lattice
-from Structure.Atom import Atom
-from StructureParser import StructureParser
 import numpy as num
 import numpy.linalg as numalg
 from numpy import pi
+
+from Structure.Structure import Structure
+from Structure.Lattice import Lattice
+from Structure.Atom import Atom
+from StructureParser import StructureParser
+from Structure.exceptions import InvalidStructureFormat
 
 orderOfRecords = [
     "HEADER", "OBSLTE", "TITLE", "CAVEAT", "COMPND", "SOURCE", "KEYWDS",
@@ -38,9 +40,9 @@ class Parser(StructureParser):
         return
 
     def parseLines(self, lines):
-        """parse list of lines in PDB format
+        """Parse list of lines in PDB format.
 
-        return Structure object or raise InvalidStructureFormat exception
+        Return Structure instance or raise InvalidStructureFormat.
         """
         try:
             stru = Structure()
@@ -241,7 +243,10 @@ class Parser(StructureParser):
     # End of atomLines
 
     def toLines(self, stru):
-        """convert Structure stru to a list of lines in PDFFit format"""
+        """Convert Structure stru to a list of lines in PDFFit format.
+
+        Return list of strings.
+        """
         lines = []
         lines.extend( self.titleLines(stru) )
         lines.extend( self.cryst1Lines(stru) )

@@ -2,13 +2,15 @@
 
 __id__ = "$Id$"
 
-from Structure.Structure import Structure, InvalidStructureFormat
-from Structure.Lattice import Lattice
-from Structure.Atom import Atom
-from StructureParser import StructureParser, isfloat
-import numpy as num
 import sys
 import re
+import numpy as num
+from Structure.Structure import Structure
+from Structure.Lattice import Lattice
+from Structure.Atom import Atom
+from StructureParser import StructureParser
+from Structure.utils import isfloat
+from Structure.exceptions import InvalidStructureFormat
 
 class Parser(StructureParser):
     """Parser --> StructureParser subclass for extended CFG format"""
@@ -18,9 +20,9 @@ class Parser(StructureParser):
         return
 
     def parseLines(self, lines):
-        """parse list of lines in PDB format
+        """Parse list of lines in PDB format.
 
-        return Structure object or raise InvalidStructureFormat exception
+        Return Structure object or raise InvalidStructureFormat.
         """
         xcfg_Number_of_particles = None
         xcfg_A = None
@@ -148,7 +150,10 @@ class Parser(StructureParser):
     # End of parseLines
 
     def toLines(self, stru):
-        """convert Structure stru to a list of lines in XCFG atomeye format"""
+        """Convert Structure stru to a list of lines in XCFG atomeye format.
+
+        Return list of strings.
+        """
         from Structure.PeriodicTable import AtomicMass
         if len(stru) == 0:
             raise InvalidStructureFormat, \

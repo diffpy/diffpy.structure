@@ -1,5 +1,5 @@
 """class Lattice stores properites and provides simple operations in lattice
-coordinate system.  This module also provides InvalidLattice exception.
+coordinate system.
 """
 
 __id__ = "$Id$"
@@ -9,7 +9,7 @@ import math
 import types
 import numpy as num
 import numpy.linalg as numalg
-
+from exceptions import InvalidLattice
 
 
 ##############################################################################
@@ -26,19 +26,6 @@ def sind(x):
     return cosd(90.0 - x)
 
 # End of helper functions
-
-
-##############################################################################
-class InvalidLattice(Exception):
-    """exception raised when lattice is not right-handed"""
-
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return self.value
-
-# End of InvalidLattice
 
 
 ##############################################################################

@@ -10,7 +10,8 @@ methods of this module.
 
 __id__ = "$Id$"
 
-from Structure.Structure import Structure, InvalidStructureFormat
+from Structure.Structure import Structure
+from Structure.exceptions import InvalidStructureFormat
 
 def _findParsers():
     """return dictionary of recognized formats with associated modules"""
@@ -53,7 +54,7 @@ def tostring(stru, format):
         raise InvalidStructureFormat, "no parser for '%s' format" % format
     exec('from ' + pmod + ' import Parser')
     p = Parser()
-    lines = p.toLines(stru) 
+    lines = p.toLines(stru)
     s = "\n".join(lines) + "\n"
     return s
 
