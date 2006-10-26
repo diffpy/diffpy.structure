@@ -100,7 +100,7 @@ class TestP_rawxyz(unittest.TestCase):
         stru = self.stru
         stru.read(datafile('bucky-plain.xyz'), self.format)
         s_els = [a.element for a in stru]
-        self.assertEqual(stru.title, '')
+        self.assertEqual(stru.title, 'bucky-plain')
         self.assertEqual(s_els, 60*['C'])
 
     def test_read_plainxyz_bad(self):
@@ -114,7 +114,7 @@ class TestP_rawxyz(unittest.TestCase):
         stru = self.stru
         stru.read(datafile('bucky-raw.xyz'), self.format)
         s_els = [a.element for a in stru]
-        self.assertEqual(stru.title, "")
+        self.assertEqual(stru.title, 'bucky-raw')
         self.assertEqual(s_els, 60*[''])
         stru.read(datafile('hexagon-raw.xyz'), self.format)
         zs = [a.xyz[-1] for a in stru]
