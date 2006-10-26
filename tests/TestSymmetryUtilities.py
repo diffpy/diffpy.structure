@@ -1,4 +1,18 @@
 #!/usr/bin/env python
+########################################################################
+#
+# <PackageName>     by DANSE Diffraction group
+#                   Simon J.L. Billinge
+#                   Michigan State University
+#
+# File coded by:    Pavol Juhas
+#
+# See AUTHORS.txt for a list of people who contributed.
+# See COPYRIGHT.txt for copying and usage conditions.
+# See LICENSE.txt for license information.
+#
+########################################################################
+
 
 """Unit tests for SymmetryUtilities.py
 """

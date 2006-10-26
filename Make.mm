@@ -1,15 +1,17 @@
 # -*- Makefile -*-
+########################################################################
 #
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# <PackageName>     by DANSE Diffraction group
+#                   Simon J.L. Billinge
+#                   Michigan State University
 #
-#                               Michael A.G. Aivazis
-#                        California Institute of Technology
-#                        (C) 1998-2005  All Rights Reserved
+# File coded by:    Pavol Juhas
 #
-# <LicenseText>
+# See AUTHORS.txt for a list of people who contributed.
+# See COPYRIGHT.txt for copying and usage conditions.
+# See LICENSE.txt for license information.
 #
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
+########################################################################
 
 PROJECT = Structure
 
