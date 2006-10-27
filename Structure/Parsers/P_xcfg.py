@@ -41,7 +41,7 @@ class Parser(StructureParser):
         xcfg_Number_of_particles = None
         xcfg_A = None
         xcfg_H0 = num.zeros((3,3), dtype=float)
-        xcfg_H0_set = num.zeros((3,3), dtype=num.Bool)
+        xcfg_H0_set = num.zeros((3,3), dtype=bool)
         xcfg_NO_VELOCITY = False
         xcfg_entry_count = None
         xcfg_auxiliary = []
