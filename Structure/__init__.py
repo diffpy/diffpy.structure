@@ -35,6 +35,6 @@ from Lattice import Lattice
 from Atom import Atom
 from PDFFitStructure import PDFFitStructure
 from exceptions import InvalidStructureFormat, InvalidLattice, SymmetryError
-from version import version
+from version import __version__
 
 # End of file

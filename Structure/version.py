@@ -12,17 +12,18 @@
 #
 ########################################################################
 
-"""Definition of version for Structure container package.
+"""Definition of __version__ for Structure container package.
 """
 
-# to update version add hashmark below just before committing
+# to update __version__ add hashmark below just before committing
 ##
 
 __id__ = "$Id$"
 
-version = "0.1."
+__version__ = "0.1."
+
 svnrevision = __id__.split()[2:3]
-if svnrevision:     version += svnrevision[0]
-else:               version += "?"
+if svnrevision:     __version__ += svnrevision[0]
+else:               __version__ += "?"
 
 # End of file
