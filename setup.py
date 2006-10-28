@@ -3,8 +3,8 @@
 from distutils.core import setup
 import sys
 
-import Structure.version
-package_version = Structure.version
+from Structure import __version__
+package_version = __version__
 
 # define distribution
 dist = setup(
