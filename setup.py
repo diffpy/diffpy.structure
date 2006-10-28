@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
 from distutils.core import setup
-import sys
+
+__id__ = "$Id$"
 
 from Structure import __version__
 package_version = __version__
 
 # define distribution
-dist = setup(
+distribution = setup(
     name = "Structure",
     description = "Crystal structure container.",
     version = package_version,
