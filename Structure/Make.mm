@@ -48,6 +48,7 @@ EXPORT_PYTHON_MODULES = \
     SymmetryUtilities.py \
     utils.py        \
     exceptions.py   \
+    version.py      \
     Parsers
 
 export:: export-python-modules
