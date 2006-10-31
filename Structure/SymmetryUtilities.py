@@ -227,16 +227,31 @@ class GeneratorSite:
 
     Data members:
         xyz          -- fractional coordinates of generator position
-        sgoffset   -- offset of space group origin [0, 0, 0]
+        sgoffset     -- offset of space group origin [0, 0, 0]
         eps          -- cutoff for equal positions
         eqxyz        -- list of equivalent positions
         symops       -- nested list of operations per each eqxyz
         multiplicity -- generator site multiplicity
+        Uisotropy    -- bool flag for isotropic thermal factors
         invariants   -- list of invariant operations for generator site
-        null_space   -- null space for all possible differences of rotational
-                        matrices from invariant operations.
-        variables    -- list of (xyz symbol, value) pairs
+        null_space   -- null space of all possible differences of invariant
+                        rotational matrices, this is a base of symmetry
+                        allowed shifts.
+        Uspace       -- 3D array of independent components of U matrices.
+        pvariables   -- list of (xyz symbol, value) pairs
+        Uvariables   -- list of (U symbol, value) pairs
     """
+
+    Ucomponents = numpy.array([
+            [[1,0,0],[0,0,0],[0,0,0]],
+            [[0,0,0],[0,1,0],[0,0,0]],
+            [[0,0,0],[0,0,0],[0,0,1]],
+            [[0,1,0],[1,0,0],[0,0,0]],
+            [[0,0,1],[0,0,0],[1,0,0]],
+            [[0,0,0],[0,0,1],[0,1,0]] ], dtype=float)
+    idx2Usymbol = { 0 : 'U11', 1 : 'U12', 2 : 'U13',
+                    3 : 'U12', 4 : 'U22', 5 : 'U23',
+                    6 : 'U13', 7 : 'U23', 8 : 'U33' }
 
     def __init__(self, spacegroup, xyz, sgoffset=[0, 0, 0], eps=epsilon):
         """Initialize GeneratorSite.
@@ -247,16 +262,19 @@ class GeneratorSite:
         sgoffset   -- offset of space group origin [0, 0, 0]
         eps        -- cutoff for equal positions
         """
-        # just declare the variables
+        # just declare the members
         self.xyz = None
         self.sgoffset = numpy.array(sgoffset, dtype=float)
         self.eps = eps
         self.eqxyz = None
         self.symops = None
         self.multiplicity = None
+        self.Uisotropy = False
         self.invariants = []
         self.null_space = None
-        self.variables = []
+        self.Uspace = None
+        self.pvariables = []
+        self.Uvariables = []
         # fill in the values
         self.xyz = xyz
         sites, ops, mult = expandPosition(spacegroup, xyz, sgoffset, eps)
@@ -278,7 +296,9 @@ class GeneratorSite:
         # invariant operations are always first in self.symop
         self.invariants = self.symops[0]
         self._findNullSpace()
-        self._findVariables()
+        self._findPosVariables()
+        self._findUSpace()
+        self.setUVariablesFrom()
         return
 
     def _findNullSpace(self):
@@ -303,8 +323,8 @@ class GeneratorSite:
             self.null_space[i] = self.null_space[i] / signedsmall
         return
 
-    def _findVariables(self):
-        """Find necessary variables and their values for expressing self.xyz
+    def _findPosVariables(self):
+        """Find pvariables and their values for expressing self.xyz
         """
         usedsymbol = {}
         # variable values depend on offset of self.xyz
@@ -316,9 +336,61 @@ class GeneratorSite:
             txyz = txyz - varvalue*nvec
             # determine variable name
             vname = [s for s in "xyz"[idx:] if not s in usedsymbol][0]
-            self.variables.append( (vname, varvalue) )
+            self.pvariables.append( (vname, varvalue) )
             usedsymbol[vname] = True
         return
+
+    def _findUSpace(self):
+        """find independent U components with respect to invariant
+        rotations.
+        """
+        self.Uspace = []
+        independent = dict.fromkeys(range(6))
+        for idx in range(6):
+            if idx not in independent:   continue
+            # new U space matrix
+            Usp = numpy.zeros((3,3), dtype=float)
+            Uc = self.Ucomponents[idx]
+            for op in self.invariants:
+                R = op.R
+                Rt = R.transpose()
+                Uceq = numpy.dot(R, numpy.dot(Uc, Rt))
+                # does Uceq contain -Uc?
+                if numpy.all(Uceq*Uc == -Uc):
+                    Usp[:] = 0.0
+                    break
+                for icomp in range(idx,6):
+                    if icomp not in independent:   continue
+                    Uceqcomp = Uceq * self.Ucomponents[icomp]
+                    if not numpy.any(Uceqcomp): continue
+                    # here Uceq contains U component icomp
+                    Usp += Uceqcomp
+                    del independent[icomp]
+            if not numpy.any(Usp):  continue
+            # make sure first element is 1.0
+            flat = Usp.flatten()
+            first = flat[flat != 0.0][0]
+            Usp /= first
+            self.Uspace.append(Usp)
+        # finally convert this to 3D array
+        self.Uspace = numpy.array(self.Uspace)
+        self.Uisotropy = ( len(self.Uspace) == 1 )
+        return
+
+    def setUVariablesFrom(self, Uij=numpy.zeros((3,3))):
+        """Set self.Uvariables according to given Uij matrix.
+
+        Uij     -- atom displacement matrix at self.xyz site
+
+        Return self.Uvariables.
+        """
+        self.Uvariables = []
+        for Usp in self.Uspace:
+            idx = numpy.where(Usp.flatten())[0][0]
+            vname = self.idx2Usymbol[idx]
+            varvalue = ((Uij + numpy.transpose(Uij))*Usp).sum()/(2*Usp.sum())
+            self.Uvariables.append( (vname, varvalue) )
+        return self.Uvariables
 
     def positionFormula(self, pos, xyzsymbols=("x","y","z")):
         """Formula of equivalent position with respect to generator site
@@ -340,12 +412,12 @@ class GeneratorSite:
         # build formulas using eqpos
         # find offset
         teqpos = numpy.array(eqpos)
-        for nvec, (vname, varvalue) in zip(nsrotated, self.variables):
+        for nvec, (vname, varvalue) in zip(nsrotated, self.pvariables):
             teqpos -= nvec * varvalue
         # map varnames to xyzsymbols
         name2sym = dict( zip(("x", "y", "z"), xyzsymbols) )
         xyzformula = 3*[""]
-        for nvec, (vname, varvalue) in zip(nsrotated, self.variables):
+        for nvec, (vname, ignore) in zip(nsrotated, self.pvariables):
             for i in range(3):
                 if abs(nvec[i]) < epsilon:  continue
                 xyzformula[i] += "%+g*%s " % (nvec[i], name2sym[vname])
@@ -357,6 +429,36 @@ class GeneratorSite:
         xyzformula = [ re.sub('^[+]1[*]|(?<=[+-])1[*]', '', f).strip()
                        for f in xyzformula ]
         return tuple(xyzformula)
+
+    def UFormula(self, pos, Usymbols=('U11','U22','U33','U12','U13','U23')):
+        """List of atom displacement formulas with custom variable symbols.
+
+        pos        -- fractional coordinates of possibly equivalent site
+        Usymbols   -- 6 symbols for possible U matrix parameters
+
+        Return U element formulas in a dictionary where keys are from
+        ('U11','U22','U33','U12','U13','U23') or empty dictionary when
+        pos is not equivalent to generator.
+        """
+        # find pos in eqxyz
+        idx = nearestSiteIndex(self.eqxyz, pos)
+        eqpos = self.eqxyz[idx]
+        if not equalPositions(eqpos, pos, self.eps):    return {}
+        # any rotation matrix should do fine
+        R = self.symops[idx][0].R
+        Rt = R.transpose()
+        Usrotated = [numpy.dot(R, numpy.dot(Us, Rt)) for Us in self.Uspace]
+        stdsym = ('U11','U22','U33','U12','U13','U23')
+        Uformula = dict.fromkeys(stdsym, '0')
+        name2sym = dict(zip(stdsym, Usymbols))
+        for Usr, (vname, ignore) in zip(Usrotated, self.Uvariables):
+            Usrflat = Usr.flatten()
+            for i in numpy.where(Usrflat)[0]:
+                f = '%+g*%s' % (Usrflat[i], name2sym[vname])
+                f = re.sub('^[+-]1[*]', '', f).strip()
+                smbl = self.idx2Usymbol[i]
+                Uformula[smbl] = f
+        return Uformula
 
 # End of class GeneratorSite
 
@@ -377,6 +479,7 @@ class SymmetryConstraints:
     Data members:
         spacegroup -- instance of SpaceGroup
         positions  -- list of all positions to be constrained
+        Uijs       -- thermal factors for all positions, defaults to zeros
         sgoffset   -- optional offset of space group origin [0, 0, 0]
         eps        -- cutoff for equivalent positions
     Calculated data members:
@@ -385,32 +488,34 @@ class SymmetryConstraints:
                       "z7 +0.5", "0.25".
         posvars    -- list of (xyz symbol, value) pairs
         Ueqns      -- list of anisotropic atomic displacement formula tuples
-                      of (U11, U22, U33, U12, U13, U23).  Formulas are
+                      for (U11, U22, U33, U12, U13, U23).  Formulas are
                       formatted as {[%g*][Uij%i]|0}, for example: "U110",
                       "0.5*U2213"-x3", "0"
         Uvars      -- list of (U symbol, value) pairs
-        isotropic  -- list of bool flags for isotropic site
+        Uisotropy  -- list of bool flags for isotropic thermal displacements
     """
 
-    def __init__(self, spacegroup, positions, xyz,
+    def __init__(self, spacegroup, positions, Uijs=None,
             sgoffset=[0, 0, 0], eps=epsilon):
         """Initialize and calculate SymmetryConstraints.
 
         spacegroup -- instance of SpaceGroup
         positions  -- list of all positions to be constrained
+        Uijs       -- list of U matrices for all constrained positions
         sgoffset   -- optional offset of space group origin [0, 0, 0]
         eps        -- cutoff for equivalent positions
         """
         # fill in data members
         self.spacegroup = spacegroup
         self.positions = numpy.array(positions)
+        self.Uijs = Uijs
         self.sgoffset = numpy.array(sgoffset)
         self.eps = eps
         self.poseqns = None
         self.posvars = []
         self.Ueqns = None
         self.Uvars = []
-        self.isotropic = None
+        self.Uisotropy = None
         # positions returned by expandAsymmetricUnit have 3 dimensions
         if self.positions.ndim == 3:
             self.positions = numpy.concatenate(self.positions, 0)
@@ -418,9 +523,12 @@ class SymmetryConstraints:
         elif self.positions.ndim == 1 and self.positions.size == 3:
             self.positions = self.positions.reshape((1,3))
         numpos = len(self.positions)
+        # adjust Uijs if not specified
+        if not self.Uijs:
+            self.Uijs = numpy.zeros((numpos,3,3), dtype=float)
         self.poseqns = numpos*[[]]
         self.Ueqns = numpos*[[]]
-        self.isotropic = numpos*[False]
+        self.Uisotropy = numpos*[False]
         # all members should be initialized here
         self._findConstraints()
         return
@@ -439,9 +547,9 @@ class SymmetryConstraints:
             genpos = self.positions[genidx]
             gen = GeneratorSite(self.spacegroup, genpos, self.sgoffset,
                     self.eps)
-            # append new variables if there are any
+            # append new pvariables if there are any
             gensymbols = xyzsymbols[3*genidx : 3*(genidx+1)]
-            for k, v in gen.variables:
+            for k, v in gen.pvariables:
                 smbl = gensymbols["xyz".index(k)]
                 self.posvars.append( (smbl, v) )
             # search for equivalents inside indies
@@ -495,7 +603,7 @@ class SymmetryConstraints:
 
     def positionFormulasPruned(self, xyzsymbols=None):
         """List of position formulas with empty strings where constant.
-        
+
         xyzsymbols -- list of custom symbols for self.posvars
 
         Return list of coordinate formulas.
@@ -545,10 +653,14 @@ class SymmetryConstraints:
 if __name__ == "__main__":
     from SpaceGroups import sg100
     site = [.125, .625, .13]
+    site = 3*[0]
     g = GeneratorSite(sg100, site)
     fm100 = g.positionFormula(site)
     print "g = GeneratorSite(sg100, %r)" % site
     print "g.positionFormula(%r) = %s" % (site, fm100)
-    print "g.variables =", g.variables
+    g.setUVariablesFrom([[1,2,3],[2,4,5],[3,5,6]])
+    print "g.pvariables =", g.pvariables
+    print "g.Uvariables =", g.Uvariables
+    print "g.UFormula(%r) =" % site, g.UFormula(site)
 
 # End of file
