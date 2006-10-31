@@ -28,6 +28,7 @@ from utils import isfloat
 # Default tolerance for equality of 2 positions, also
 # used for identification of special positions.
 epsilon = 1.0e-5
+stdUsymbols = ['U11', 'U22', 'U33', 'U12', 'U13', 'U23']
 
 def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
     """Check if space group allows passed lattice parameters.
@@ -160,8 +161,8 @@ def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=epsilon):
     for symop in spacegroup.iter_symops():
         # operate on coordinates in non-shifted spacegroup
         pos = symop(xyz + sgoffset) - sgoffset
-        mask = numpy.logical_or(pos < 0.0, pos >= 1.0)
-        pos -= numpy.floor(pos)
+        mask = numpy.logical_or(pos <= -0.5, pos >= 1.0)
+        pos[mask] -= numpy.floor(pos[mask])
         tpl = pos2tuple(pos)
         if not tpl in site_symops:
             pos_is_new = True
@@ -184,31 +185,6 @@ def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=epsilon):
 
 # End of expandPosition
 
-def expandAsymmetricUnit(spacegroup, asymunit, sgoffset=[0, 0, 0], eps=0.0):
-    """Expand positions in the asymmetric unit.
-
-    spacegroup   -- instance of SpaceGroup
-    asymunit     -- list of positions in asymmetric unit, it may
-                    contain duplicates
-    sgoffset     -- offset of space group origin [0, 0, 0]
-    eps          -- cutoff for duplicate positions
-
-    Return a tuple of (expandedunit, multiplicities).
-    expandedunit -- list of equivalent positions per each site in asymunit
-    multiplicities -- multiplicity of sites in asymunit
-    """
-    # By design Atom instances are not accepted as arguments to keep
-    # number of required imports low.
-    expandedunit = []
-    multiplicities = []
-    for xyz in asymunit:
-        eqsites, ignore, m = expandPosition(spacegroup, xyz, sgoffset, eps)
-        expandedunit.append(eqsites)
-        multiplicities.append(m)
-    return expandedunit, multiplicities
-
-# End of expandAsymmetricUnit
-
 def nullSpace(A):
     """Null space of matrix A.
     """
@@ -226,10 +202,12 @@ class GeneratorSite:
     """Storage of data related to a generator positions.
 
     Data members:
-        xyz          -- fractional coordinates of generator position
+        xyz          -- fractional coordinates of generator site
+        Uij          -- anisotropic thermal displacement at generator site
         sgoffset     -- offset of space group origin [0, 0, 0]
         eps          -- cutoff for equal positions
         eqxyz        -- list of equivalent positions
+        eqUij        -- list of displacement matrices at equivalent positions
         symops       -- nested list of operations per each eqxyz
         multiplicity -- generator site multiplicity
         Uisotropy    -- bool flag for isotropic thermal factors
@@ -253,20 +231,25 @@ class GeneratorSite:
                     3 : 'U12', 4 : 'U22', 5 : 'U23',
                     6 : 'U13', 7 : 'U23', 8 : 'U33' }
 
-    def __init__(self, spacegroup, xyz, sgoffset=[0, 0, 0], eps=epsilon):
+    def __init__(self, spacegroup, xyz, Uij=numpy.zeros((3,3)),
+            sgoffset=[0, 0, 0], eps=epsilon):
         """Initialize GeneratorSite.
 
         spacegroup -- instance of SpaceGroup
         xyz        -- generating site.  When xyz is close to special
                       position self.xyz will be adjusted.
+        Uij        -- thermal factors at generator site.  Yields self.Uij
+                      after adjusting to spacegroup symmetry.
         sgoffset   -- offset of space group origin [0, 0, 0]
         eps        -- cutoff for equal positions
         """
         # just declare the members
         self.xyz = None
+        self.Uij = Uij
         self.sgoffset = numpy.array(sgoffset, dtype=float)
         self.eps = eps
-        self.eqxyz = None
+        self.eqxyz = []
+        self.eqUij = []
         self.symops = None
         self.multiplicity = None
         self.Uisotropy = False
@@ -298,7 +281,8 @@ class GeneratorSite:
         self._findNullSpace()
         self._findPosVariables()
         self._findUSpace()
-        self.setUVariablesFrom()
+        self._findUVariables()
+        self._findeqUij()
         return
 
     def _findNullSpace(self):
@@ -324,7 +308,7 @@ class GeneratorSite:
         return
 
     def _findPosVariables(self):
-        """Find pvariables and their values for expressing self.xyz
+        """Find pvariables and their values for expressing self.xyz.
         """
         usedsymbol = {}
         # variable values depend on offset of self.xyz
@@ -341,7 +325,7 @@ class GeneratorSite:
         return
 
     def _findUSpace(self):
-        """find independent U components with respect to invariant
+        """Find independent U components with respect to invariant
         rotations.
         """
         self.Uspace = []
@@ -377,20 +361,32 @@ class GeneratorSite:
         self.Uisotropy = ( len(self.Uspace) == 1 )
         return
 
-    def setUVariablesFrom(self, Uij=numpy.zeros((3,3))):
-        """Set self.Uvariables according to given Uij matrix.
-
-        Uij     -- atom displacement matrix at self.xyz site
-
-        Return self.Uvariables.
+    def _findUVariables(self):
+        """Find Uvariables and their values for expressing self.Uij.
         """
-        self.Uvariables = []
+        Uij = self.Uij
         for Usp in self.Uspace:
             idx = numpy.where(Usp.flatten())[0][0]
             vname = self.idx2Usymbol[idx]
             varvalue = ((Uij + numpy.transpose(Uij))*Usp).sum()/(2*Usp.sum())
             self.Uvariables.append( (vname, varvalue) )
-        return self.Uvariables
+        return
+
+    def _findeqUij(self):
+        """Adjust self.Uij and self.eqUij to be consistent with spacegroup
+        """
+        self.Uij = numpy.zeros((3,3), dtype=float)
+        for i in range(len(self.Uvariables)):
+            Usp = self.Uspace[i]
+            varvalue = self.Uvariables[i][1]
+            self.Uij += varvalue*Usp
+        # now determine eqUij
+        for ops in self.symops:
+            # take first rotation matrix
+            R = ops[0].R
+            Rt = R.transpose()
+            self.eqUij.append( numpy.dot(R, numpy.dot(self.Uij, Rt)) )
+        return
 
     def positionFormula(self, pos, xyzsymbols=("x","y","z")):
         """Formula of equivalent position with respect to generator site
@@ -398,14 +394,15 @@ class GeneratorSite:
         pos        -- fractional coordinates of possibly equivalent site
         xyzsymbols -- symbols for parametrized coordinates
 
-        Return tuple of (xformula, yformula, zformula) formulas or empty tuple
-        when pos is not equivalent to generator.  Formulas are formatted as
-        "[[-][%g*]{x|y|z}] [{+|-}%g]", for example "-x", "z +0.5", "0.25".
+        Return position formulas in a dictionary with keys equal ("x", "y", "z")
+        or an empty dictionary when pos is not equivalent to generator.
+        Formulas are formatted as "[[-][%g*]{x|y|z}] [{+|-}%g]", for example
+        "-x", "z +0.5", "0.25".
         """
         # find pos in eqxyz
         idx = nearestSiteIndex(self.eqxyz, pos)
         eqpos = self.eqxyz[idx]
-        if not equalPositions(eqpos, pos, self.eps):    return ()
+        if not equalPositions(eqpos, pos, self.eps):    return {}
         # any rotation matrix should do fine
         R = self.symops[idx][0].R
         nsrotated = numpy.dot(self.null_space, numpy.transpose(R))
@@ -428,9 +425,9 @@ class GeneratorSite:
         # reduce unnecessary +1* and -1*
         xyzformula = [ re.sub('^[+]1[*]|(?<=[+-])1[*]', '', f).strip()
                        for f in xyzformula ]
-        return tuple(xyzformula)
+        return dict( zip(("x","y","z"), xyzformula) )
 
-    def UFormula(self, pos, Usymbols=('U11','U22','U33','U12','U13','U23')):
+    def UFormula(self, pos, Usymbols=stdUsymbols):
         """List of atom displacement formulas with custom variable symbols.
 
         pos        -- fractional coordinates of possibly equivalent site
@@ -448,9 +445,8 @@ class GeneratorSite:
         R = self.symops[idx][0].R
         Rt = R.transpose()
         Usrotated = [numpy.dot(R, numpy.dot(Us, Rt)) for Us in self.Uspace]
-        stdsym = ('U11','U22','U33','U12','U13','U23')
-        Uformula = dict.fromkeys(stdsym, '0')
-        name2sym = dict(zip(stdsym, Usymbols))
+        Uformula = dict.fromkeys(stdUsymbols, '0')
+        name2sym = dict(zip(stdUsymbols, Usymbols))
         for Usr, (vname, ignore) in zip(Usrotated, self.Uvariables):
             Usrflat = Usr.flatten()
             for i in numpy.where(Usrflat)[0]:
@@ -460,26 +456,95 @@ class GeneratorSite:
                 Uformula[smbl] = f
         return Uformula
 
+    def eqIndex(self, pos):
+        """Index of the nearest generator equivalent site
+
+        pos -- fractional coordinates
+
+        Return integer.
+        """
+        return nearestSiteIndex(self.eqxyz, pos)
+
 # End of class GeneratorSite
 
+class ExpandAsymmetricUnit:
+    """Expand asymmetric unit and anisotropic thermal displacement
+
+    Data members:
+        spacegroup  -- instance of SpaceGroup
+        corepos     -- list of positions in asymmetric unit,
+                       it may contain duplicates
+        coreUijs    -- thermal factors for corepos (defaults to zeros)
+        sgoffset    -- optional offset of space group origin [0, 0, 0]
+        eps         -- cutoff for equivalent positions
+    Calculated data members:
+        multiplicities -- multiplicity of sites in corepos
+        Uisotropy   -- bool flags for isotropic sites in corepos
+        expandedpos -- list of equivalent positions per each site in corepos
+        expandedUijs -- list of thermal factors per each site in corepos
+    """
+
+    # By design Atom instances are not accepted as arguments to keep
+    # number of required imports low.
+    def __init__(self, spacegroup, corepos, coreUijs=None,
+            sgoffset=[0, 0, 0], eps=0.0):
+        """Initialize and calculate instance of ExpandAsymmetricUnit
+
+        spacegroup   -- instance of SpaceGroup
+        corepos      -- list of positions in asymmetric unit,
+                        it may contain duplicates
+        coreUijs     -- thermal factors for corepos (defaults to zeros)
+        sgoffset     -- offset of space group origin [0, 0, 0]
+        eps          -- cutoff for duplicate positions
+        """
+        # declare data members
+        self.spacegroup = spacegroup
+        self.corepos = corepos
+        self.coreUijs = None
+        self.sgoffset = numpy.array(sgoffset)
+        self.eps = eps
+        self.multiplicity = []
+        self.Uisotropy = []
+        self.expandedpos = []
+        self.expandedUijs = []
+        # obtain their values
+        corelen = len(self.corepos)
+        if coreUijs:
+            self.coreUijs = coreUijs
+        else:
+            self.coreUijs = numpy.zeros((corelen,3,3), dtype=float)
+        for cpos, cUij in zip(self.corepos, self.coreUijs):
+            gen = GeneratorSite(self.spacegroup, cpos, cUij,
+                    self.sgoffset, self.eps)
+            self.multiplicity.append(gen.multiplicity)
+            self.Uisotropy.append(gen.Uisotropy)
+            self.expandedpos.append(gen.eqxyz)
+            self.expandedUijs.append(gen.eqUij)
+        return
+
+# End of ExpandAsymmetricUnit
+
 # Helper function for SymmetryConstraints class
-def pruneFormulaTuple(equations):
-    """Replace constants with empty strings.
+def pruneFormulaDictionary(eqdict):
+    """Replace constant values in formula dictionary with empty strings.
 
     Return tuple of pruned formulas.
     """
-    pruned = [ not isfloat(eq) and eq or '' for eq in equations ]
-    return tuple(pruned)
+    pruned = {}
+    for smb, eq in eqdict.iteritems():
+        if isfloat(eq): pruned[smb] = ''
+        else:           pruned[smb] = eq
+    return pruned
 
-# End of pruneFormulaTuple
+# End of pruneFormulaDictionary
 
 class SymmetryConstraints:
     """Generate symmetry constraints for specified positions
 
     Data members:
         spacegroup -- instance of SpaceGroup
-        positions  -- list of all positions to be constrained
-        Uijs       -- thermal factors for all positions, defaults to zeros
+        positions  -- all positions to be constrained
+        Uijs       -- thermal factors for all positions (defaults to zeros)
         sgoffset   -- optional offset of space group origin [0, 0, 0]
         eps        -- cutoff for equivalent positions
     Calculated data members:
@@ -508,7 +573,7 @@ class SymmetryConstraints:
         # fill in data members
         self.spacegroup = spacegroup
         self.positions = numpy.array(positions)
-        self.Uijs = Uijs
+        self.Uijs = None
         self.sgoffset = numpy.array(sgoffset)
         self.eps = eps
         self.poseqns = None
@@ -526,6 +591,8 @@ class SymmetryConstraints:
         # adjust Uijs if not specified
         if not self.Uijs:
             self.Uijs = numpy.zeros((numpos,3,3), dtype=float)
+        else:
+            self.Uijs = numpy.array(self.Uijs)
         self.poseqns = numpos*[[]]
         self.Ueqns = numpos*[[]]
         self.Uisotropy = numpos*[False]
@@ -536,33 +603,44 @@ class SymmetryConstraints:
     def _findConstraints(self):
         """Find constraints for positions and anisotropic displacements Uij
         """
-        # TODO: implement Uij constraints generation
         numpos = len(self.positions)
-        # canonical xyzsymbols
+        # canonical xyzsymbols and Usymbols
         xyzsymbols = [ smbl+str(i) for i in range(numpos) for smbl in "xyz" ]
+        Usymbols = [smbl+str(i) for i in range(numpos) for smbl in stdUsymbols]
         independent = dict.fromkeys(range(numpos))
         for genidx in range(numpos):
             if not genidx in independent:   continue
             # it is a generator
             genpos = self.positions[genidx]
-            gen = GeneratorSite(self.spacegroup, genpos, self.sgoffset,
-                    self.eps)
+            genUij = self.Uijs[genidx]
+            gen = GeneratorSite(self.spacegroup, genpos, genUij,
+                    self.sgoffset, self.eps)
             # append new pvariables if there are any
-            gensymbols = xyzsymbols[3*genidx : 3*(genidx+1)]
+            gxyzsymbols = xyzsymbols[3*genidx : 3*(genidx+1)]
             for k, v in gen.pvariables:
-                smbl = gensymbols["xyz".index(k)]
+                smbl = gxyzsymbols["xyz".index(k)]
                 self.posvars.append( (smbl, v) )
+            gUsymbols = Usymbols[6*genidx : 6*(genidx+1)]
+            for k, v in gen.Uvariables:
+                smbl = gUsymbols[stdUsymbols.index(k)]
+                self.Uvars.append( (smbl, v) )
             # search for equivalents inside indies
             indies = independent.keys()
             indies.sort()
             for indidx in indies:
                 indpos = self.positions[indidx]
-                formula = gen.positionFormula(indpos, gensymbols)
+                formula = gen.positionFormula(indpos, gxyzsymbols)
                 # formula is empty when indidx is independent
                 if not formula:  continue
                 # indidx is dependent here
                 del independent[indidx]
                 self.poseqns[indidx] = formula
+                self.Ueqns[indidx] = gen.UFormula(indpos, gUsymbols)
+                # make sure positions and Uijs are consistent with spacegroup
+                eqidx = gen.eqIndex(indpos)
+                dxyz = gen.eqxyz[eqidx] - indpos
+                self.positions[indidx] += dxyz - dxyz.round()
+                self.Uijs[indidx] = gen.eqUij[eqidx]
         # all done here
         return
 
@@ -587,18 +665,20 @@ class SymmetryConstraints:
         if not xyzsymbols:  return list(self.poseqns)
         # check xyzsymbols
         if len(xyzsymbols) < len(self.posvars):
-            emsg = "Not enough symbols for %i variables" % len(self.posvars)
+            emsg = "Not enough symbols for %i position variables" % \
+                    len(self.posvars)
             raise SymmetryError, emsg
         # build translation dictionary
-        xyz2symbols = dict(zip(self.posvarNames(), xyzsymbols))
-        def trxyz(matchobj):
-            return xyz2symbols[matchobj.group(0)]
-        xyzpat = re.compile(r'\b[xyz]\d+')
+        trsmbl = dict(zip(self.posvarNames(), xyzsymbols))
+        def translatesymbol(matchobj):
+            return trsmbl[matchobj.group(0)]
+        pat = re.compile(r'\b[xyz]\d+')
         rv = []
-        for eqx, eqy, eqz in self.poseqns:
-            rv.append(( re.sub(xyzpat, trxyz, eqx),
-                        re.sub(xyzpat, trxyz, eqy),
-                        re.sub(xyzpat, trxyz, eqz) ))
+        for eqns in self.poseqns:
+            treqns = {}
+            for smbl, eq in eqns.iteritems():
+                treqns[smbl] = re.sub(pat, translatesymbol, eq)
+            rv.append(treqns)
         return rv
 
     def positionFormulasPruned(self, xyzsymbols=None):
@@ -608,7 +688,7 @@ class SymmetryConstraints:
 
         Return list of coordinate formulas.
         """
-        rv = [  pruneFormulaTuple(eqns)
+        rv = [  pruneFormulaDictionary(eqns)
                 for eqns in self.positionFormulas(xyzsymbols) ]
         return rv
 
@@ -630,8 +710,22 @@ class SymmetryConstraints:
         Return list of atom displacement formulas in tuples of
         (U11, U22, U33, U12, U13, U23).
         """
-        raise NotImplementedError, "UFormulas not yet implemented"
+        if not Usymbols:  return list(self.Ueqns)
+        # check Usymbols
+        if len(Usymbols) < len(self.Uvars):
+            emsg = "Not enough symbols for %i U variables" % len(self.Uvars)
+            raise SymmetryError, emsg
+        # build translation dictionary
+        trsmbl = dict(zip(self.UvarNames(), Usymbols))
+        def translatesymbol(matchobj):
+            return trsmbl[matchobj.group(0)]
+        pat = re.compile(r'\bU\d\d\d+')
         rv = []
+        for eqns in self.Ueqns:
+            treqns = {}
+            for smbl, eq in eqns.iteritems():
+                treqns[smbl] = re.sub(pat, translatesymbol, eq)
+            rv.append(treqns)
         return rv
 
     def UFormulasPruned(self, Usymbols=None):
@@ -643,7 +737,7 @@ class SymmetryConstraints:
         (U11, U22, U33, U12, U13, U23).
         """
         raise NotImplementedError, "UFormulas not yet implemented"
-        rv = [  pruneFormulaTuple(eqns)
+        rv = [  pruneFormulaDictionary(eqns)
                 for eqns in self.UFormulas(Usymbols) ]
         return rv
 
@@ -653,12 +747,11 @@ class SymmetryConstraints:
 if __name__ == "__main__":
     from SpaceGroups import sg100
     site = [.125, .625, .13]
-    site = 3*[0]
-    g = GeneratorSite(sg100, site)
+    Uij = [[1,2,3],[2,4,5],[3,5,6]]
+    g = GeneratorSite(sg100, site, Uij=Uij)
     fm100 = g.positionFormula(site)
     print "g = GeneratorSite(sg100, %r)" % site
     print "g.positionFormula(%r) = %s" % (site, fm100)
-    g.setUVariablesFrom([[1,2,3],[2,4,5],[3,5,6]])
     print "g.pvariables =", g.pvariables
     print "g.Uvariables =", g.Uvariables
     print "g.UFormula(%r) =" % site, g.UFormula(site)

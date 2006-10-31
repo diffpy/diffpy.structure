@@ -65,13 +65,13 @@ if reply:
 
 # Generate constraint equations
 print repr(sg_consoffset)
-eqns, pars = positionConstraints(sg_constrainment, xyz_expanded, sg_consoffset)
+symcon = SymmetryConstraints(sg_constrainment, xyz_expanded, sgoffset=sg_consoffset)
 print
 print "Position formulas:"
-for eqxyz in eqns:
-    print "   ", str(eqxyz)
+for eq in symcon.positionFormulas():
+    print "    (%r, %r, %r)" % (eq["x"], eq["y"], eq["z"])
 print "Parameters:"
-for symbol, value in pars:
+for symbol, value in symcon.posvars:
     print "   ", symbol, value
 
 # PDFFIT2 macros
@@ -81,39 +81,29 @@ reply = raw_input('> ')
 if reply[:1].lower() != "y":
     sys.exit()
 
-# check if string is float:
-def isfloat(s):
-    try:
-        x = float(s)
-        return True
-    except ValueError:
-        return False
-# End of isfloat
-
 # generate symbol for every possible coordinate
-numcoordinates = 3*len(xyz_expanded)
+numcoordinates = len(symcon.posvars)
 firstpar = 11
 parsymbols = [ "@"+str(i) for i in range(firstpar, firstpar+numcoordinates) ]
 
 # create constraints using these symbols
-eqns, pars = positionConstraints(sg_constrainment, xyz_expanded, sg_consoffset,
-        xyzsymbols=parsymbols)
+eqns = symcon.positionFormulasPruned(parsymbols)
 
 # print constrain commands
 print 78*"#"
 siteindex = 0
-for (eqx, eqy, eqz) in eqns:
+for eq in eqns:
     siteindex += 1
-    for varname, formula in [ ("x",eqx), ("y",eqy), ("z",eqz) ]:
-        if isfloat(formula):    continue
+    for smbl in ("x", "y", "z"):
+        if not eq[smbl]:    continue
         # here formula contains parameter
-        print "constrain(%s(%i), %r)" % (varname, siteindex, formula)
+        print "constrain(%s(%i), %r)" % (smbl, siteindex, eq[smbl])
 
 # print setpar commands
-for symbol, value in pars:
+for symbol, value in symcon.posvars:
     print "setpar(%s, %s)" % ( symbol.lstrip('@'), value )
 
-if not pars:
+if not symcon.posvars:
     print "# special fixed positions, no constraints"
 
 print 78*"#"
