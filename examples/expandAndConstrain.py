@@ -71,7 +71,7 @@ print "Position formulas:"
 for eq in symcon.positionFormulas():
     print "    (%r, %r, %r)" % (eq["x"], eq["y"], eq["z"])
 print "Parameters:"
-for symbol, value in symcon.posvars:
+for symbol, value in symcon.pospars:
     print "   ", symbol, value
 
 # PDFFIT2 macros
@@ -82,7 +82,7 @@ if reply[:1].lower() != "y":
     sys.exit()
 
 # generate symbol for every possible coordinate
-numcoordinates = len(symcon.posvars)
+numcoordinates = len(symcon.pospars)
 firstpar = 11
 parsymbols = [ "@"+str(i) for i in range(firstpar, firstpar+numcoordinates) ]
 
@@ -93,17 +93,17 @@ eqns = symcon.positionFormulasPruned(parsymbols)
 print 78*"#"
 siteindex = 0
 for eq in eqns:
+    sortedkeys = eq.keys()
+    sortedkeys.sort()
     siteindex += 1
-    for smbl in ("x", "y", "z"):
-        if not eq[smbl]:    continue
-        # here formula contains parameter
+    for smbl in sortedkeys:
         print "constrain(%s(%i), %r)" % (smbl, siteindex, eq[smbl])
 
 # print setpar commands
-for symbol, value in symcon.posvars:
+for symbol, value in zip(parsymbols, symcon.posparValues()):
     print "setpar(%s, %s)" % ( symbol.lstrip('@'), value )
 
-if not symcon.posvars:
+if not symcon.pospars:
     print "# special fixed positions, no constraints"
 
 print 78*"#"

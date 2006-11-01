@@ -143,7 +143,7 @@ def equalPositions(xyz0, xyz1, eps=epsilon):
 
 # End of equalPositions
 
-def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=epsilon):
+def expandPosition(spacegroup, xyz, sgoffset=[0,0,0], eps=epsilon):
     """Obtain unique equivalent positions and corresponding operations.
 
     spacegroup -- instance of SpaceGroup
@@ -216,8 +216,8 @@ class GeneratorSite:
                         rotational matrices, this is a base of symmetry
                         allowed shifts.
         Uspace       -- 3D array of independent components of U matrices.
-        pvariables   -- list of (xyz symbol, value) pairs
-        Uvariables   -- list of (U symbol, value) pairs
+        pparameters   -- list of (xyz symbol, value) pairs
+        Uparameters   -- list of (U symbol, value) pairs
     """
 
     Ucomponents = numpy.array([
@@ -232,7 +232,7 @@ class GeneratorSite:
                     6 : 'U13', 7 : 'U23', 8 : 'U33' }
 
     def __init__(self, spacegroup, xyz, Uij=numpy.zeros((3,3)),
-            sgoffset=[0, 0, 0], eps=epsilon):
+            sgoffset=[0,0,0], eps=epsilon):
         """Initialize GeneratorSite.
 
         spacegroup -- instance of SpaceGroup
@@ -256,8 +256,8 @@ class GeneratorSite:
         self.invariants = []
         self.null_space = None
         self.Uspace = None
-        self.pvariables = []
-        self.Uvariables = []
+        self.pparameters = []
+        self.Uparameters = []
         # fill in the values
         self.xyz = xyz
         sites, ops, mult = expandPosition(spacegroup, xyz, sgoffset, eps)
@@ -279,9 +279,9 @@ class GeneratorSite:
         # invariant operations are always first in self.symop
         self.invariants = self.symops[0]
         self._findNullSpace()
-        self._findPosVariables()
+        self._findPosParameters()
         self._findUSpace()
-        self._findUVariables()
+        self._findUParameters()
         self._findeqUij()
         return
 
@@ -307,20 +307,20 @@ class GeneratorSite:
             self.null_space[i] = self.null_space[i] / signedsmall
         return
 
-    def _findPosVariables(self):
-        """Find pvariables and their values for expressing self.xyz.
+    def _findPosParameters(self):
+        """Find pparameters and their values for expressing self.xyz.
         """
         usedsymbol = {}
-        # variable values depend on offset of self.xyz
+        # parameter values depend on offset of self.xyz
         txyz = self.xyz
         # define txyz such that most of its elements are zero
         for nvec in self.null_space:
             idx = numpy.where(numpy.fabs(nvec) >= epsilon)[0][0]
             varvalue = txyz[idx]/nvec[idx]
             txyz = txyz - varvalue*nvec
-            # determine variable name
+            # determine standard parameter name
             vname = [s for s in "xyz"[idx:] if not s in usedsymbol][0]
-            self.pvariables.append( (vname, varvalue) )
+            self.pparameters.append( (vname, varvalue) )
             usedsymbol[vname] = True
         return
 
@@ -361,24 +361,24 @@ class GeneratorSite:
         self.Uisotropy = ( len(self.Uspace) == 1 )
         return
 
-    def _findUVariables(self):
-        """Find Uvariables and their values for expressing self.Uij.
+    def _findUParameters(self):
+        """Find Uparameters and their values for expressing self.Uij.
         """
         Uij = self.Uij
         for Usp in self.Uspace:
             idx = numpy.where(Usp.flatten())[0][0]
             vname = self.idx2Usymbol[idx]
             varvalue = ((Uij + numpy.transpose(Uij))*Usp).sum()/(2*Usp.sum())
-            self.Uvariables.append( (vname, varvalue) )
+            self.Uparameters.append( (vname, varvalue) )
         return
 
     def _findeqUij(self):
         """Adjust self.Uij and self.eqUij to be consistent with spacegroup
         """
         self.Uij = numpy.zeros((3,3), dtype=float)
-        for i in range(len(self.Uvariables)):
+        for i in range(len(self.Uparameters)):
             Usp = self.Uspace[i]
-            varvalue = self.Uvariables[i][1]
+            varvalue = self.Uparameters[i][1]
             self.Uij += varvalue*Usp
         # now determine eqUij
         for ops in self.symops:
@@ -409,12 +409,12 @@ class GeneratorSite:
         # build formulas using eqpos
         # find offset
         teqpos = numpy.array(eqpos)
-        for nvec, (vname, varvalue) in zip(nsrotated, self.pvariables):
+        for nvec, (vname, varvalue) in zip(nsrotated, self.pparameters):
             teqpos -= nvec * varvalue
         # map varnames to xyzsymbols
         name2sym = dict( zip(("x", "y", "z"), xyzsymbols) )
         xyzformula = 3*[""]
-        for nvec, (vname, ignore) in zip(nsrotated, self.pvariables):
+        for nvec, (vname, ignore) in zip(nsrotated, self.pparameters):
             for i in range(3):
                 if abs(nvec[i]) < epsilon:  continue
                 xyzformula[i] += "%+g*%s " % (nvec[i], name2sym[vname])
@@ -428,7 +428,7 @@ class GeneratorSite:
         return dict( zip(("x","y","z"), xyzformula) )
 
     def UFormula(self, pos, Usymbols=stdUsymbols):
-        """List of atom displacement formulas with custom variable symbols.
+        """List of atom displacement formulas with custom parameter symbols.
 
         pos        -- fractional coordinates of possibly equivalent site
         Usymbols   -- 6 symbols for possible U matrix parameters
@@ -447,7 +447,7 @@ class GeneratorSite:
         Usrotated = [numpy.dot(R, numpy.dot(Us, Rt)) for Us in self.Uspace]
         Uformula = dict.fromkeys(stdUsymbols, '0')
         name2sym = dict(zip(stdUsymbols, Usymbols))
-        for Usr, (vname, ignore) in zip(Usrotated, self.Uvariables):
+        for Usr, (vname, ignore) in zip(Usrotated, self.Uparameters):
             Usrflat = Usr.flatten()
             for i in numpy.where(Usrflat)[0]:
                 f = '%+g*%s' % (Usrflat[i], name2sym[vname])
@@ -487,7 +487,7 @@ class ExpandAsymmetricUnit:
     # By design Atom instances are not accepted as arguments to keep
     # number of required imports low.
     def __init__(self, spacegroup, corepos, coreUijs=None,
-            sgoffset=[0, 0, 0], eps=0.0):
+            sgoffset=[0,0,0], eps=0.0):
         """Initialize and calculate instance of ExpandAsymmetricUnit
 
         spacegroup   -- instance of SpaceGroup
@@ -526,14 +526,13 @@ class ExpandAsymmetricUnit:
 
 # Helper function for SymmetryConstraints class
 def pruneFormulaDictionary(eqdict):
-    """Replace constant values in formula dictionary with empty strings.
+    """Remove constant items from formula dictionary.
 
-    Return tuple of pruned formulas.
+    Return pruned formula dictionary.
     """
     pruned = {}
     for smb, eq in eqdict.iteritems():
-        if isfloat(eq): pruned[smb] = ''
-        else:           pruned[smb] = eq
+        if not isfloat(eq):     pruned[smb] = eq
     return pruned
 
 # End of pruneFormulaDictionary
@@ -548,20 +547,22 @@ class SymmetryConstraints:
         sgoffset   -- optional offset of space group origin [0, 0, 0]
         eps        -- cutoff for equivalent positions
     Calculated data members:
-        poseqns    -- list of coordinate formulas.  Formulas are formatted
-                      as [[-]{x|y|z}%i] [{+|-}%g], for example: "x0", "-x3",
-                      "z7 +0.5", "0.25".
-        posvars    -- list of (xyz symbol, value) pairs
-        Ueqns      -- list of anisotropic atomic displacement formula tuples
-                      for (U11, U22, U33, U12, U13, U23).  Formulas are
-                      formatted as {[%g*][Uij%i]|0}, for example: "U110",
-                      "0.5*U2213"-x3", "0"
-        Uvars      -- list of (U symbol, value) pairs
+        poseqns    -- list of coordinate formula dictionaries per each site.
+                      Formula dictionary keys are from ("x", "y", "z") and
+                      the values are formatted as [[-]{x|y|z}%i] [{+|-}%g],
+                      for example: "x0", "-x3", "z7 +0.5", "0.25".
+        pospars    -- list of (xyz symbol, value) pairs
+        Ueqns      -- list of anisotropic atomic displacement formula
+                      dictionaries per each position.  Formula dictionary
+                      keys are from ('U11','U22','U33','U12','U13','U23')
+                      and the values are formatted as {[%g*][Uij%i]|0},
+                      for example: "U110", "0.5*U2213", "0"
+        Upars      -- list of (U symbol, value) pairs
         Uisotropy  -- list of bool flags for isotropic thermal displacements
     """
 
     def __init__(self, spacegroup, positions, Uijs=None,
-            sgoffset=[0, 0, 0], eps=epsilon):
+            sgoffset=[0,0,0], eps=epsilon):
         """Initialize and calculate SymmetryConstraints.
 
         spacegroup -- instance of SpaceGroup
@@ -577,9 +578,9 @@ class SymmetryConstraints:
         self.sgoffset = numpy.array(sgoffset)
         self.eps = eps
         self.poseqns = None
-        self.posvars = []
+        self.pospars = []
         self.Ueqns = None
-        self.Uvars = []
+        self.Upars = []
         self.Uisotropy = None
         # positions returned by expandAsymmetricUnit have 3 dimensions
         if self.positions.ndim == 3:
@@ -593,8 +594,8 @@ class SymmetryConstraints:
             self.Uijs = numpy.zeros((numpos,3,3), dtype=float)
         else:
             self.Uijs = numpy.array(self.Uijs)
-        self.poseqns = numpos*[[]]
-        self.Ueqns = numpos*[[]]
+        self.poseqns = numpos*[None]
+        self.Ueqns = numpos*[None]
         self.Uisotropy = numpos*[False]
         # all members should be initialized here
         self._findConstraints()
@@ -615,15 +616,15 @@ class SymmetryConstraints:
             genUij = self.Uijs[genidx]
             gen = GeneratorSite(self.spacegroup, genpos, genUij,
                     self.sgoffset, self.eps)
-            # append new pvariables if there are any
+            # append new pparameters if there are any
             gxyzsymbols = xyzsymbols[3*genidx : 3*(genidx+1)]
-            for k, v in gen.pvariables:
+            for k, v in gen.pparameters:
                 smbl = gxyzsymbols["xyz".index(k)]
-                self.posvars.append( (smbl, v) )
+                self.pospars.append( (smbl, v) )
             gUsymbols = Usymbols[6*genidx : 6*(genidx+1)]
-            for k, v in gen.Uvariables:
+            for k, v in gen.Uparameters:
                 smbl = gUsymbols[stdUsymbols.index(k)]
-                self.Uvars.append( (smbl, v) )
+                self.Upars.append( (smbl, v) )
             # search for equivalents inside indies
             indies = independent.keys()
             indies.sort()
@@ -644,32 +645,33 @@ class SymmetryConstraints:
         # all done here
         return
 
-    def posvarNames(self):
-        """Return list of position variable names.
+    def posparSymbols(self):
+        """Return list of standard position parameter symbols.
         """
-        return [n for n, v in self.posvars]
+        return [n for n, v in self.pospars]
 
-    def posvarValues(self):
-        """Return list of position variable values.
+    def posparValues(self):
+        """Return list of position parameters values.
         """
-        return [v for n, v in self.posvars]
+        return [v for n, v in self.pospars]
 
     def positionFormulas(self, xyzsymbols=None):
-        """List of position formulas with custom variable symbols.
+        """List of position formulas with custom parameter symbols.
 
-        xyzsymbols -- list of custom symbols for self.posvars
+        xyzsymbols -- list of custom symbols used in formula strings
 
-        Return list of coordinate formulas.  Formulas are formatted as
+        Return list of coordinate formulas dictionaries.  Formulas dictionary
+        keys are from ("x", "y", "z") and the values are formatted as
         [[-]{symbol}] [{+|-}%g], for example: "x0", "-sym", "@7 +0.5", "0.25".
         """
         if not xyzsymbols:  return list(self.poseqns)
         # check xyzsymbols
-        if len(xyzsymbols) < len(self.posvars):
-            emsg = "Not enough symbols for %i position variables" % \
-                    len(self.posvars)
+        if len(xyzsymbols) < len(self.pospars):
+            emsg = "Not enough symbols for %i position parameters" % \
+                    len(self.pospars)
             raise SymmetryError, emsg
         # build translation dictionary
-        trsmbl = dict(zip(self.posvarNames(), xyzsymbols))
+        trsmbl = dict(zip(self.posparSymbols(), xyzsymbols))
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
         pat = re.compile(r'\b[xyz]\d+')
@@ -682,41 +684,44 @@ class SymmetryConstraints:
         return rv
 
     def positionFormulasPruned(self, xyzsymbols=None):
-        """List of position formulas with empty strings where constant.
+        """List of position formula dictionaries with constant items removed.
+        See also positionFormulas().
 
-        xyzsymbols -- list of custom symbols for self.posvars
+        xyzsymbols -- list of custom symbols used in formula strings
 
-        Return list of coordinate formulas.
+        Return list of coordinate formula dictionaries.
         """
         rv = [  pruneFormulaDictionary(eqns)
                 for eqns in self.positionFormulas(xyzsymbols) ]
         return rv
 
-    def UvarNames(self):
-        """Return list of atom displacement variable names.
+    def UparSymbols(self):
+        """Return list of standard atom displacement parameter symbols.
         """
-        return [n for n, v in self.Uvars]
+        return [n for n, v in self.Upars]
 
-    def UvarValues(self):
-        """Return list of atom displacement variable values.
+    def UparValues(self):
+        """Return list of atom displacement parameters values.
         """
-        return [v for n, v in self.Uvars]
+        return [v for n, v in self.Upars]
 
     def UFormulas(self, Usymbols=None):
-        """List of atom displacement formulas with custom variable symbols.
+        """List of atom displacement formulas with custom parameter symbols.
 
-        Usymbols -- list of custom symbols for self.Uvars
+        Usymbols -- list of custom symbols used in formula strings
 
-        Return list of atom displacement formulas in tuples of
-        (U11, U22, U33, U12, U13, U23).
+        Return list of atom displacement formula dictionaries per each site.
+        Formula dictionary keys are from ('U11','U22','U33','U12','U13','U23')
+        and the values are formatted as {[%g*][Usymbol]|0}, for example:
+        "U11", "0.5*@37", "0".
         """
         if not Usymbols:  return list(self.Ueqns)
         # check Usymbols
-        if len(Usymbols) < len(self.Uvars):
-            emsg = "Not enough symbols for %i U variables" % len(self.Uvars)
+        if len(Usymbols) < len(self.Upars):
+            emsg = "Not enough symbols for %i U parameters" % len(self.Upars)
             raise SymmetryError, emsg
         # build translation dictionary
-        trsmbl = dict(zip(self.UvarNames(), Usymbols))
+        trsmbl = dict(zip(self.UparSymbols(), Usymbols))
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
         pat = re.compile(r'\bU\d\d\d+')
@@ -729,14 +734,14 @@ class SymmetryConstraints:
         return rv
 
     def UFormulasPruned(self, Usymbols=None):
-        """List of atom displacement formulas with empty strings where zero.
+        """List of atom displacement formula dictionaries with constant items
+        removed.  See also UFormulas().
 
-        Usymbols -- list of custom symbols for self.Uvars
+        Usymbols -- list of custom symbols used in formula strings
 
         Return list of atom displacement formulas in tuples of
         (U11, U22, U33, U12, U13, U23).
         """
-        raise NotImplementedError, "UFormulas not yet implemented"
         rv = [  pruneFormulaDictionary(eqns)
                 for eqns in self.UFormulas(Usymbols) ]
         return rv
@@ -752,8 +757,8 @@ if __name__ == "__main__":
     fm100 = g.positionFormula(site)
     print "g = GeneratorSite(sg100, %r)" % site
     print "g.positionFormula(%r) = %s" % (site, fm100)
-    print "g.pvariables =", g.pvariables
-    print "g.Uvariables =", g.Uvariables
+    print "g.pparameters =", g.pparameters
+    print "g.Uparameters =", g.Uparameters
     print "g.UFormula(%r) =" % site, g.UFormula(site)
 
 # End of file
