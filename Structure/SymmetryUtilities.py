@@ -22,7 +22,6 @@ __id__ = '$Id$'
 import sys
 import re
 import numpy
-from utils import isfloat
 
 # Constants:
 # Default tolerance for equality of 2 positions, also
@@ -54,6 +53,15 @@ def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
     return eval(rule, locals())
 
 # End of isSpaceGroupLatPar
+
+def isconstantFormula(s):
+    """Check if formula string is constant.
+    """
+    # check for floats or fractions
+    pat = '[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$|[-+]?\d+[.]?\d*/[-+]?\d+$'
+    return bool( re.match(pat, s.replace(' ', '')) )
+
+# End of isconstantFormula
 
 # Helper class intended for this module only:
 class Position2Tuple:
@@ -285,6 +293,22 @@ class GeneratorSite:
         self._findeqUij()
         return
 
+    def signedRatStr(self, x):
+        """Convert floating point number to signed rational representation.
+        Possible fractional are multiples of 1/3, 1/6, 1/7, 1/9, if these
+        are not close, return "%+g" format.
+
+        Return string.
+        """
+        s = str(x)
+        if len(s) < 6:  return "%+g" % x
+        den = numpy.array([3.0, 6.0, 7.0, 9.0])
+        nom = x * den
+        idx = numpy.where(numpy.fabs(nom - nom.round()) < self.eps)[0]
+        if idx.size == 0:   return "%+g" % x
+        # here we have fraction
+        return "%+.0f/%.0f" % (nom[idx[0]], den[idx[0]])
+
     def _findNullSpace(self):
         """Calculate self.null_space from self.invariants.
         Try to represent self.null_space using small integers.
@@ -417,11 +441,12 @@ class GeneratorSite:
         for nvec, (vname, ignore) in zip(nsrotated, self.pparameters):
             for i in range(3):
                 if abs(nvec[i]) < epsilon:  continue
-                xyzformula[i] += "%+g*%s " % (nvec[i], name2sym[vname])
+                xyzformula[i] += "%s*%s " % \
+                        (self.signedRatStr(nvec[i]), name2sym[vname])
         # add constant offset teqpos to all formulas
         for i in range(3):
             if xyzformula[i] and abs(teqpos[i]) < epsilon: continue
-            xyzformula[i] += "%+g" % teqpos[i]
+            xyzformula[i] += self.signedRatStr(teqpos[i])
         # reduce unnecessary +1* and -1*
         xyzformula = [ re.sub('^[+]1[*]|(?<=[+-])1[*]', '', f).strip()
                        for f in xyzformula ]
@@ -451,7 +476,7 @@ class GeneratorSite:
             Usrflat = Usr.flatten()
             for i in numpy.where(Usrflat)[0]:
                 f = '%+g*%s' % (Usrflat[i], name2sym[vname])
-                f = re.sub('^[+-]1[*]', '', f).strip()
+                f = re.sub('^[+]1[*]|(?<=[+-])1[*]', '', f).strip()
                 smbl = self.idx2Usymbol[i]
                 Uformula[smbl] = f
         return Uformula
@@ -532,7 +557,7 @@ def pruneFormulaDictionary(eqdict):
     """
     pruned = {}
     for smb, eq in eqdict.iteritems():
-        if not isfloat(eq):     pruned[smb] = eq
+        if not isconstantFormula(eq):     pruned[smb] = eq
     return pruned
 
 # End of pruneFormulaDictionary
