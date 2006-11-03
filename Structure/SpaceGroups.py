@@ -149,7 +149,7 @@ class SymOp(object):
     def __call__(self, vec):
         """Return the symmetry operation on argument vector and.
         """
-        return numpy.matrixmultiply(self.R, vec) + self.t
+        return numpy.dot(self.R, vec) + self.t
 
     def __eq__(self, symop):
         return numpy.allclose(self.R, symop[0]) and numpy.allclose(self.t, symop[1])
@@ -7780,9 +7780,9 @@ def GetSpaceGroup(name):
         if sg.check_group_name(name):
             return sg
     
-    if type(name) is types.StringType:
-        name = '%s' % name
-    warning("Space group %s not found. Using 'P1'." % name)
+    #if type(name) is types.StringType:
+    #    name = '%s' % name
+    #warning("Space group %s not found. Using 'P1'." % name)
 
     ## return P1
     return sg1
