@@ -48,17 +48,17 @@ class Atom:
         # assign them as needed
         if isinstance(atype, Atom):
             self.element = atype.element
-            self.xyz = numpy.array(atype.xyz)
+            self.xyz = numpy.array(atype.xyz, dtype=float)
             self.name = atype.name
             self.occupancy = atype.occupancy
-            self.U = numpy.array(atype.U)
+            self.U = numpy.array(atype.U, dtype=float)
         else:
             self.element = atype
         # take care of remaining arguments
-        if xyz is not None:         self.xyz = numpy.array(xyz)
+        if xyz is not None:         self.xyz = numpy.array(xyz, dtype=float)
         if name is not None:        self.name = name
         if occupancy is not None:   self.occupancy = float(occupancy)
-        if U is not None:           self.U = numpy.array(U)
+        if U is not None:           self.U = numpy.array(U, dtype=float)
         return
 
     def Uiso(self):
