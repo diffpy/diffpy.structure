@@ -503,7 +503,7 @@ class ExpandAsymmetricUnit:
         sgoffset    -- optional offset of space group origin [0, 0, 0]
         eps         -- cutoff for equivalent positions
     Calculated data members:
-        multiplicities -- multiplicity of sites in corepos
+        multiplicity -- multiplicity of each site in corepos
         Uisotropy   -- bool flags for isotropic sites in corepos
         expandedpos -- list of equivalent positions per each site in corepos
         expandedUijs -- list of thermal factors per each site in corepos
