@@ -25,14 +25,14 @@ from Structure import Lattice
 from Structure import Atom
 
 # useful variables
-thisFile = locals().get('__file__', 'TestParsers.py')
-testsDir = os.path.dirname(os.path.abspath(thisFile))
-testdataDir = os.path.join(testsDir, 'testdata')
+thisfile = locals().get('__file__', 'TestParsers.py')
+tests_dir = os.path.dirname(os.path.abspath(thisfile))
+testdata_dir = os.path.join(tests_dir, 'testdata')
 
 def datafile(filename):
-    """prepend testdataDir to filename
+    """prepend testdata_dir to filename
     """
-    return os.path.join(testdataDir, filename)
+    return os.path.join(testdata_dir, filename)
 
 ##############################################################################
 class TestP_xyz(unittest.TestCase):
