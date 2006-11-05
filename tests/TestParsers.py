@@ -25,7 +25,8 @@ from Structure import Lattice
 from Structure import Atom
 
 # useful variables
-testsDir = os.path.dirname(os.path.abspath(__file__))
+thisFile = locals().get('__file__', 'TestParsers.py')
+testsDir = os.path.dirname(os.path.abspath(thisFile))
 testdataDir = os.path.join(testsDir, 'testdata')
 
 def datafile(filename):
