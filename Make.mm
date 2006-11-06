@@ -1,8 +1,8 @@
 # -*- Makefile -*-
 ########################################################################
 #
-# <PackageName>     by DANSE Diffraction group
-#                   Simon J.L. Billinge
+# Structure         by DANSE Diffraction group
+#                   Simon J. L. Billinge
 #                   Michigan State University
 #
 # File coded by:    Pavol Juhas
