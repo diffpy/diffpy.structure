@@ -21,7 +21,7 @@ __id__ = "$Id$"
 
 import sys
 import time
-import numpy as num
+import numpy
 import numpy.linalg as numalg
 from numpy import pi
 
@@ -85,7 +85,7 @@ class Parser(StructureParser):
         for a in stru:
             cnt = element_count[a.element] = element_count.get(a.element,0)+1
             a_site_label.append( "%s%i" % (a.element, cnt) )
-            if num.all(a.U == a.U[0,0]*num.identity(3)):
+            if numpy.all(a.U == a.U[0,0]*numpy.identity(3)):
                 a_adp_type.append("Uiso")
             else:
                 a_adp_type.append("Uani")

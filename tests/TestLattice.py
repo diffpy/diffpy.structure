@@ -57,24 +57,24 @@ class TestLattice(unittest.TestCase):
 
     def test_setLatBase(self):
         """check calculation of unit cell rotation"""
-        import numpy as num
+        import numpy
         import numpy.linalg as numalg
-        base = num.array([[ 1.0,  1.0,  0.0],
+        base = numpy.array([[ 1.0,  1.0,  0.0],
                           [ 0.0,  1.0,  1.0],
                           [ 1.0,  0.0,  1.0]])
         self.lattice.setLatBase(base)
-        self.assertAlmostEqual(self.lattice.a, num.sqrt(2.0), self.places)
-        self.assertAlmostEqual(self.lattice.b, num.sqrt(2.0), self.places)
-        self.assertAlmostEqual(self.lattice.c, num.sqrt(2.0), self.places)
+        self.assertAlmostEqual(self.lattice.a, numpy.sqrt(2.0), self.places)
+        self.assertAlmostEqual(self.lattice.b, numpy.sqrt(2.0), self.places)
+        self.assertAlmostEqual(self.lattice.c, numpy.sqrt(2.0), self.places)
         self.assertAlmostEqual(self.lattice.alpha, 60.0, self.places)
         self.assertAlmostEqual(self.lattice.beta,  60.0, self.places)
         self.assertAlmostEqual(self.lattice.gamma, 60.0, self.places)
         detR0 = numalg.det(self.lattice.baserot)
         self.assertAlmostEqual(detR0, 1.0, self.places)
         # try if rotation matrix works
-        self.assertEqual(num.all(base == self.lattice.base), True)
+        self.assertEqual(numpy.all(base == self.lattice.base), True)
         self.lattice.setLatPar(alpha=44, beta=66, gamma=88)
-        self.assertNotEqual(num.all(base == self.lattice.base), True)
+        self.assertNotEqual(numpy.all(base == self.lattice.base), True)
         self.lattice.setLatPar(alpha=60, beta=60, gamma=60)
         self.assertListAlmostEqual(base[0], self.lattice.base[0])
         self.assertListAlmostEqual(base[1], self.lattice.base[1])

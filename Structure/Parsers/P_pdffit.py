@@ -17,7 +17,7 @@
 __id__ = "$Id$"
 
 import sys
-import numpy as num
+import numpy
 
 from Structure.PDFFitStructure import PDFFitStructure
 from Structure.Lattice import Lattice
@@ -111,7 +111,7 @@ class Parser(StructureParser):
                 wl5 = ilines.next().split()
                 p_nl += 1
                 wl6 = ilines.next().split()
-                a.sigU = num.zeros((3,3), dtype=float)
+                a.sigU = numpy.zeros((3,3), dtype=float)
                 for i in range(3):
                     a.U[i][i] = float(wl3[i])
                     a.sigU[i][i] = float(wl4[i])
@@ -151,9 +151,9 @@ class Parser(StructureParser):
             stru = pfstru
         lines = []
         # default values of standard deviations
-        d_sigxyz = num.zeros(3, dtype=float)
+        d_sigxyz = numpy.zeros(3, dtype=float)
         d_sigo = 0.0
-        d_sigU = num.zeros((3,3), dtype=float)
+        d_sigU = numpy.zeros((3,3), dtype=float)
         # here we can start
         l = "title  " + stru.title
         lines.append( l.strip() )
@@ -176,7 +176,7 @@ class Parser(StructureParser):
             ad = a.__dict__
             lines.append( "%-4s%18.8f%18.8f%18.8f%13.4f" % (
                 a.element.upper(), a.xyz[0], a.xyz[1], a.xyz[2], a.occupancy) )
-            sigmas = num.concatenate(
+            sigmas = numpy.concatenate(
                 ( ad.get("sigxyz", d_sigxyz),  [ad.get("sigo", d_sigo)] )  )
             lines.append( "    %18.8f%18.8f%18.8f%13.4f" % tuple(sigmas) )
             sigU = ad.get("sigU", d_sigU)

@@ -20,7 +20,7 @@ Ref.: http://www.rcsb.org/pdb/docs/format/pdbguide2.2/guide2.2_frame.html
 __id__ = "$Id$"
 
 import sys
-import numpy as num
+import numpy
 import numpy.linalg as numalg
 from numpy import pi
 
@@ -60,8 +60,8 @@ class Parser(StructureParser):
         """
         try:
             stru = Structure()
-            scale = num.identity(3, dtype=float)
-            scaleU = num.zeros(3, dtype=float)
+            scale = numpy.identity(3, dtype=float)
+            scaleU = numpy.zeros(3, dtype=float)
             p_nl = 0
             for line in lines:
                 # make sure line has 80 characters
@@ -84,9 +84,9 @@ class Parser(StructureParser):
                     beta = float(line[40:47])
                     gamma = float(line[47:54])
                     stru.lattice.setLatPar(a, b, c, alpha, beta, gamma)
-                    scale = num.transpose(stru.lattice.recbase)
+                    scale = numpy.transpose(stru.lattice.recbase)
                 elif record == "SCALE1":
-                    sc = num.zeros(3, dtype=float)
+                    sc = numpy.zeros(3, dtype=float)
                     sc[0,:] = [float(x) for x in line[10:40].split()]
                     scaleU[0] = float(line[45:55])
                 elif record == "SCALE2":
@@ -95,28 +95,28 @@ class Parser(StructureParser):
                 elif record == "SCALE3":
                     sc[2,:] = [float(x) for x in line[10:40].split()]
                     scaleU[2] = float(line[45:55])
-                    den = num.maximum(num.absolute(sc), num.absolute(scale))
+                    den = numpy.maximum(numpy.fabs(sc), numpy.fabs(scale))
                     den[den==0] = 1.0
-                    reldiff = num.absolute( (sc - scale)/den )
-                    if not num.all(reldiff < 1.0e-4):
+                    reldiff = numpy.fabs( (sc - scale)/den )
+                    if not numpy.all(reldiff < 1.0e-4):
                         raise InvalidStructureFormat, ( "%d: SCALE and " +
                                 "CRYST1 records are inconsistent." ) % p_nl
                 elif record in ("ATOM", "HETATM"):
                     name = line[12:16].strip()
                     rc = [float(x) for x in line[30:54].split()]
-                    xyz = num.dot(scale, rc) + scaleU
+                    xyz = numpy.dot(scale, rc) + scaleU
                     try:
                         occupancy = float(line[54:60])
                     except ValueError:
                         occupancy = 1.0
                     try:
                         B = float(line[60:66])
-                        U = num.identity(3)*B/(8*pi**2)
+                        U = numpy.identity(3)*B/(8*pi**2)
                     except ValueError:
-                        U = num.zeros((3,3), dtype=float)
+                        U = numpy.zeros((3,3), dtype=float)
                     element = line[76:78].strip()
                     if element == "":
-                        # get element from the first 2 characters of name record
+                        # get element from the first 2 characters of name
                         element = line[12:14].strip()
                         element = element[0].upper() + element[1:].lower()
                     last_atom = Atom(element, xyz,
@@ -124,16 +124,16 @@ class Parser(StructureParser):
                     stru.append(last_atom)
                 elif record == "SIGATM":
                     sigrc = [float(x) for x in line[30:54].split()]
-                    sigxyz = num.dot(scale, sigrc)
+                    sigxyz = numpy.dot(scale, sigrc)
                     try:
                         sigo = float(line[54:60])
                     except ValueError:
                         sigo = 0.0
                     try:
                         sigB = float(line[60:66])
-                        sigU = num.identity(3)*sigB/(8*pi**2)
+                        sigU = numpy.identity(3)*sigB/(8*pi**2)
                     except ValueError:
-                        sigU = num.zeros((3,3), dtype=float)
+                        sigU = numpy.zeros((3,3), dtype=float)
                     last_atom.sigxyz = sigxyz
                     last_atom.sigo = sigo
                     last_atom.sigU = sigU
@@ -223,33 +223,34 @@ class Parser(StructureParser):
                   "occupancy" : a.occupancy,  "tempFactor" : B,  "segID" : "",
                   "element" : a.element,  "charge" : "" }
         lines.append(atomline)
-        isotropic = num.all(a.U == a.U[0,0]*num.identity(3))
+        isotropic = numpy.all(a.U == a.U[0,0]*numpy.identity(3))
         if not isotropic:
-            mid = " %7i%7i%7i%7i%7i%7i  " % tuple( num.around(1e4 *
-                num.array([ a.U[0,0], a.U[1,1], a.U[2,2],
+            mid = " %7i%7i%7i%7i%7i%7i  " % tuple( numpy.around(1e4 *
+                numpy.array([ a.U[0,0], a.U[1,1], a.U[2,2],
                     a.U[0,1], a.U[0,2], a.U[1,2] ])) )
             line = "ANISOU" + atomline[6:27] + mid + atomline[72:80]
             lines.append(line)
         # default values of standard deviations
-        d_sigxyz = num.zeros(3, dtype=float)
+        d_sigxyz = numpy.zeros(3, dtype=float)
         d_sigo = 0.0
-        d_sigU = num.zeros((3,3), dtype=float)
+        d_sigU = numpy.zeros((3,3), dtype=float)
         sigxyz = ad.get("sigxyz", d_sigxyz)
         sigo = [ad.get("sigo", d_sigo)]
         sigU = ad.get("sigU", d_sigU)
-        sigB = [8*pi**2*num.average( [sigU[i,i] for i in range(3)] )]
-        sigmas = num.concatenate( (sigxyz, sigo, sigB) )
+        sigB = [8*pi**2*numpy.average( [sigU[i,i] for i in range(3)] )]
+        sigmas = numpy.concatenate( (sigxyz, sigo, sigB) )
         # no need to print sigmas if they all round to zero
-        hassigmas = num.any(num.absolute(sigmas) >= num.array(3*[5e-4]+2*[5e-3])) \
-                or num.any(num.absolute(sigU) > 5.0e-5)
+        hassigmas = \
+            numpy.any(numpy.fabs(sigmas) >= numpy.array(3*[5e-4]+2*[5e-3])) \
+            or numpy.any(numpy.fabs(sigU) > 5.0e-5)
         if hassigmas:
             mid = "   %8.3f%8.3f%8.3f%6.2f%6.2f      " % tuple(sigmas)
             line = "SIGATM" + atomline[6:27] + mid + atomline[72:80]
             lines.append(line)
             # do we need SIGUIJ record?
-            if not num.all(sigU == sigU[0,0]*num.identity(3)):
-                mid = " %7i%7i%7i%7i%7i%7i  " % tuple( num.around(1e4 *
-                    num.array([ sigU[0,0], sigU[1,1], sigU[2,2],
+            if not numpy.all(sigU == sigU[0,0]*numpy.identity(3)):
+                mid = " %7i%7i%7i%7i%7i%7i  " % tuple( numpy.around(1e4 *
+                    numpy.array([ sigU[0,0], sigU[1,1], sigU[2,2],
                         sigU[0,1], sigU[0,2], sigU[1,2] ])) )
                 line = "SIGUIJ" + atomline[6:27] + mid + atomline[72:80]
                 lines.append(line)

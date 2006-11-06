@@ -19,7 +19,7 @@ __id__ = "$Id$"
 
 import copy
 import math
-import numpy as num
+import numpy
 import numpy.linalg as numalg
 from Lattice import Lattice
 from Atom import Atom
@@ -90,13 +90,13 @@ class Structure(list):
 
         return mean square displacement
         """
-        vln = num.array(vl, dtype=float)/self.lattice.norm(vl)
+        vln = numpy.array(vl, dtype=float)/self.lattice.norm(vl)
         G = self.lattice.metrics
-        rhs = num.array([ G[0]*self.lattice.ar,
+        rhs = numpy.array([ G[0]*self.lattice.ar,
                           G[1]*self.lattice.br,
                           G[2]*self.lattice.cr ], dtype=float)
-        rhs = num.dot(rhs, vln)
-        msd = num.dot(rhs, num.dot(a.U, rhs))
+        rhs = numpy.dot(rhs, vln)
+        msd = numpy.dot(rhs, numpy.dot(a.U, rhs))
         return msd
 
     def msdCart(self, a, vc):
@@ -107,11 +107,11 @@ class Structure(list):
 
         return mean square displacement
         """
-        vcn = num.array(vc, dtype=float)
-        vcn /= num.sqrt(num.sum(vcn**2))
+        vcn = numpy.array(vc, dtype=float)
+        vcn /= numpy.sqrt(numpy.sum(vcn**2))
         F1 = self.lattice.normbase
-        Uc = num.dot(num.transpose(F1), num.dot(a.U, F1))
-        msd = num.dot(vcn, num.dot(Uc, vcn))
+        Uc = numpy.dot(numpy.transpose(F1), numpy.dot(a.U, F1))
+        msd = numpy.dot(vcn, numpy.dot(Uc, vcn))
         return msd
 
     def placeInLattice(self, new_lattice):
@@ -122,11 +122,11 @@ class Structure(list):
 
         return self
         """
-        Tx = num.dot(self.lattice.base, new_lattice.recbase)
-        Tu = num.dot(self.lattice.normbase, new_lattice.recnormbase)
+        Tx = numpy.dot(self.lattice.base, new_lattice.recbase)
+        Tu = numpy.dot(self.lattice.normbase, new_lattice.recnormbase)
         for a in self:
-            a.xyz = num.dot(a.xyz, Tx)
-            a.U = num.dot(num.transpose(Tu), num.dot(a.U, Tu))
+            a.xyz = numpy.dot(a.xyz, Tx)
+            a.U = numpy.dot(numpy.transpose(Tu), numpy.dot(a.U, Tu))
         self.lattice = new_lattice
         return self
 
@@ -182,4 +182,4 @@ class Structure(list):
         from Parsers import tostring
         return tostring(self, format)
 
-# End of Structure
+# End of class Structure

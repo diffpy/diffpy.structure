@@ -18,7 +18,7 @@ __id__ = "$Id$"
 
 import sys
 import re
-import numpy as num
+import numpy
 from Structure.Structure import Structure
 from Structure.Lattice import Lattice
 from Structure.Atom import Atom
@@ -40,8 +40,8 @@ class Parser(StructureParser):
         """
         xcfg_Number_of_particles = None
         xcfg_A = None
-        xcfg_H0 = num.zeros((3,3), dtype=float)
-        xcfg_H0_set = num.zeros((3,3), dtype=bool)
+        xcfg_H0 = numpy.zeros((3,3), dtype=float)
+        xcfg_H0_set = numpy.zeros((3,3), dtype=bool)
         xcfg_NO_VELOCITY = False
         xcfg_entry_count = None
         xcfg_auxiliary = []
@@ -85,7 +85,7 @@ class Parser(StructureParser):
                 else:
                     break
             # check header for consistency
-            if num.any(xcfg_H0_set == False):
+            if numpy.any(xcfg_H0_set == False):
                 raise InvalidStructureFormat, \
                         "H0 tensor is not properly defined"
             p_auxnum = len(p_auxiliary) and max(p_auxiliary.keys())+1
@@ -109,7 +109,7 @@ class Parser(StructureParser):
                         "a.xyz[1]=fields[1]",
                         "a.xyz[2]=fields[2]" ]
             if not xcfg_NO_VELOCITY:
-                p_exprs += [  "a.v=num.zeros(3, dtype=float)",
+                p_exprs += [  "a.v=numpy.zeros(3, dtype=float)",
                               "a.v[0]=fields[3]",
                               "a.v[1]=fields[4]",
                               "a.v[2]=fields[5]" ]
@@ -175,19 +175,19 @@ class Parser(StructureParser):
         lines = []
         lines.append( "Number of particles = %i" % len(stru) )
         # figure out length unit A
-        allxyz = num.array([a.xyz for a in stru])
-        lo_xyz = num.array([ allxyz[:,i].min() for i in range(3) ])
-        hi_xyz = num.array([ allxyz[:,i].max() for i in range(3) ])
+        allxyz = numpy.array([a.xyz for a in stru])
+        lo_xyz = numpy.array([ allxyz[:,i].min() for i in range(3) ])
+        hi_xyz = numpy.array([ allxyz[:,i].max() for i in range(3) ])
         max_range_xyz = (hi_xyz-lo_xyz).max()
         # range of CFG coordinates must be less than 1
-        p_A = num.ceil(max_range_xyz + 1.0e-13)
+        p_A = numpy.ceil(max_range_xyz + 1.0e-13)
         # atomeye draws rubbish when boxsize is less than 3.5
-        hi_ucvect = max([num.sqrt(num.dot(v,v)) for v in stru.lattice.base])
+        hi_ucvect = max([numpy.sqrt(numpy.dot(v,v)) for v in stru.lattice.base])
         if hi_ucvect*p_A < 3.5:
-            p_A = num.ceil(3.5 / hi_ucvect)
+            p_A = numpy.ceil(3.5 / hi_ucvect)
         lines.append( "A = %.8g Angstrom" % p_A )
         # how much do we need to shift the coordinates?
-        p_dxyz = num.zeros(3, dtype=float)
+        p_dxyz = numpy.zeros(3, dtype=float)
         for i in range(3):
             if lo_xyz[i]/p_A < 0.0 or hi_xyz[i]/p_A >= 1.0 \
             or (lo_xyz[i] == hi_xyz[i] and lo_xyz[i] == 0.0) :
@@ -221,9 +221,9 @@ class Parser(StructureParser):
         p_allUzero = True
         p_allUiso = True
         for a in stru:
-            if p_allUzero and num.any(a.U != 0.0):
+            if p_allUzero and numpy.any(a.U != 0.0):
                 p_allUzero = False
-            if not num.all(a.U == a.U[0,0]*num.identity(3)):
+            if not numpy.all(a.U == a.U[0,0]*numpy.identity(3)):
                 p_allUiso = False
                 # here p_allUzero must be false
                 break
@@ -236,12 +236,12 @@ class Parser(StructureParser):
                                    ('U22', 'a.U[1,1]'),
                                    ('U33', 'a.U[2,2]') ])
             # check if there are off-diagonal elements
-            allU = num.array([a.U for a in stru])
-            if num.any(allU[:,0,1] != 0.0):
+            allU = numpy.array([a.U for a in stru])
+            if numpy.any(allU[:,0,1] != 0.0):
                 p_auxiliaries.append( ('U12', 'a.U[0,1]') )
-            if num.any(allU[:,0,2] != 0.0):
+            if numpy.any(allU[:,0,2] != 0.0):
                 p_auxiliaries.append( ('U13', 'a.U[0,2]') )
-            if num.any(allU[:,1,2] != 0.0):
+            if numpy.any(allU[:,1,2] != 0.0):
                 p_auxiliaries.append( ('U23', 'a.U[1,2]') )
         # count entries
         p_entry_count = 6 - 3*p_NO_VELOCITY + len(p_auxiliaries)

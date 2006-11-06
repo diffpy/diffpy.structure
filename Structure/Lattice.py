@@ -272,7 +272,7 @@ class Lattice:
         I3 = numpy.identity(3, dtype=float)
         abcABG = numpy.array([self.a, self.b, self.c,
                             self.alpha, self.beta, self.gamma] )
-        rotbaseI3diff = max(numpy.reshape(numpy.absolute(self.baserot-I3), 9))
+        rotbaseI3diff = max(numpy.reshape(numpy.fabs(self.baserot-I3), 9))
         cartlatpar = numpy.array([1.0, 1.0, 1.0 , 90.0, 90.0, 90.0])
         latpardiff = cartlatpar - self.abcABG()
         if rotbaseI3diff > epsilon:
