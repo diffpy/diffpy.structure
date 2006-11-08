@@ -74,7 +74,6 @@ def tostring(stru, format):
 
 def inputFormats():
     """return list of implemented input structure formats"""
-    from Structure.Structure import InvalidStructureFormat
     input_formats = []
     for format, module in modules.items():
         try:
@@ -89,7 +88,6 @@ def inputFormats():
 
 def outputFormats():
     """return list of implemented output structure formats"""
-    from Structure.Structure import InvalidStructureFormat
     output_formats = []
     stru = Structure()
     for format, module in modules.items():
