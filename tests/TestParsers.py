@@ -185,8 +185,8 @@ class TestP_pdffit(unittest.TestCase):
         f_title = "Cell structure file of Zn4Sb3 #167 interstitial"
         self.assertEqual(stru.title, f_title)
         self.assertAlmostEqual(stru.pdffit['scale'], 0.826145)
-        self.assertAlmostEqual(stru.pdffit['delta'], 4.687951)
-        self.assertAlmostEqual(stru.pdffit['gamma'], 0.01)
+        self.assertAlmostEqual(stru.pdffit['delta2'], 4.687951)
+        self.assertAlmostEqual(stru.pdffit['delta1'], 0.01)
         self.assertAlmostEqual(stru.pdffit['srat'], 1.02)
         self.assertAlmostEqual(stru.pdffit['rcut'], 0.03)
         self.assertEqual(stru.pdffit['spcgr'], 'R-3c')
