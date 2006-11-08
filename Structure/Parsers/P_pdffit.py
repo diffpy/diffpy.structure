@@ -60,12 +60,12 @@ class Parser(StructureParser):
                     l1 = l.replace(',', ' ')
                     sharp_pars = [ float(w) for w in l1.split()[1:] ]
                     if len(sharp_pars) < 4:
-                        stru.pdffit['delta'] = sharp_pars[0]
+                        stru.pdffit['delta2'] = sharp_pars[0]
                         stru.pdffit['srat'] = sharp_pars[1]
                         stru.pdffit['rcut'] = sharp_pars[2]
                     else:
-                        stru.pdffit['delta'] = sharp_pars[0]
-                        stru.pdffit['gamma'] = sharp_pars[1]
+                        stru.pdffit['delta2'] = sharp_pars[0]
+                        stru.pdffit['delta1'] = sharp_pars[1]
                         stru.pdffit['srat'] = sharp_pars[2]
                         stru.pdffit['rcut'] = sharp_pars[3]
                 elif words[0] == 'spcgr':
@@ -160,8 +160,8 @@ class Parser(StructureParser):
         lines.append( "format pdffit" )
         lines.append( "scale  %9.6f" % stru.pdffit["scale"] )
         lines.append( "sharp  %9.6f, %9.6f, %9.6f, %9.6f" % (
-            stru.pdffit["delta"],
-            stru.pdffit["gamma"],
+            stru.pdffit["delta2"],
+            stru.pdffit["delta1"],
             stru.pdffit["srat"],
             stru.pdffit["rcut"]) )
         lines.append( "spcgr   " + stru.pdffit["spcgr"] )

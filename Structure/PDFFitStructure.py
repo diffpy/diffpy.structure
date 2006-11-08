@@ -26,7 +26,7 @@ class PDFFitStructure(Structure):
     Data members:
         pdffit -- dictionary for storing following extra parameters from
                   PDFFit structure files:
-                      'scale', 'delta', 'gamma', 'srat',
+                      'scale', 'delta1', 'delta2', 'srat',
                       'rcut', 'spcgr', 'dcell', 'ncell'
     """
 
@@ -34,8 +34,8 @@ class PDFFitStructure(Structure):
         Structure.__init__(self, *args, **kwargs)
         self.pdffit = {
             'scale'  :  1.0,
-            'delta'  :  0.0,
-            'gamma'  :  0.0,
+            'delta1' :  0.0,
+            'delta2' :  0.0,
             'srat'   :  1.0,
             'rcut'   :  0.0,
             'spcgr'  :  'P1',
