@@ -2,8 +2,7 @@
 
 # This script is usually called from top level diffpy installation.
 
-"""Structure - crystal structure container with import and export support
-for several file formats and mighty symmetry utilities.
+"""Structure - objects for storage and manipulation of crystal structures.
 
 Installs to:    diffpy.Structure
 """
