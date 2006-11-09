@@ -9,8 +9,8 @@ To install or update the Structure package only:
 
     python setup.py install         # installs as diffpy.Structure
 
-Structure requires NumPy, a numerical Python library.  NumPy is available
-as Fedora package numpy or from http://numpy.scipy.org/.
+Structure requires NumPy 0.9.8 or more.  NumPy is available at
+http://numpy.scipy.org/.
 
 For more information on Structure please visit the project web-page:
 
