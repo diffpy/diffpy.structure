@@ -19,7 +19,9 @@ __id__ = "$Id$"
 
 import unittest
 import os
+import re
 
+import diffpy
 from Structure import Structure, InvalidStructureFormat
 from Structure import Lattice
 from Structure import Atom
@@ -41,7 +43,7 @@ class TestP_xyz(unittest.TestCase):
     def setUp(self):
         self.stru = Structure()
         self.format = 'xyz'
-        import os, tempfile
+        import tempfile
         handle, self.tmpname = tempfile.mkstemp()
         os.close(handle)
 
@@ -71,7 +73,6 @@ class TestP_xyz(unittest.TestCase):
 
     def test_writeStr_xyz(self):
         """check string representation of normal xyz file"""
-        import re
         stru = self.stru
         stru.title = "test of writeStr"
         stru.lattice = Lattice(1.0, 2.0, 3.0, 90.0, 90.0, 90.0)
@@ -86,7 +87,6 @@ class TestP_xyz(unittest.TestCase):
 
     def test_write_xyz(self):
         """check writing of normal xyz file"""
-        import re
         stru = self.stru
         stru.title = "test of writeStr"
         stru.lattice = Lattice(1.0, 2.0, 3.0, 90.0, 90.0, 90.0)
@@ -145,7 +145,6 @@ class TestP_rawxyz(unittest.TestCase):
 
     def test_writeStr_rawxyz(self):
         """check writing of normal xyz file"""
-        import re
         stru = self.stru
         stru.title = "test of writeStr"
         stru.lattice = Lattice(1.0, 2.0, 3.0, 90.0, 90.0, 90.0)
@@ -279,7 +278,6 @@ class TestP_pdffit(unittest.TestCase):
 
     def test_writeStr_pdffit(self):
         """check writing of normal xyz file"""
-        import re
         stru = self.stru
         stru.read(datafile('Ni.stru'), self.format)
         f_s = open(datafile('Ni.stru')).read()

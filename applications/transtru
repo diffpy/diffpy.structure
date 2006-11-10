@@ -23,8 +23,9 @@ __id__ = "$Id$"
 import sys
 import os, os.path
 import re
-import signal
-from diffpy.Structure import Structure, InvalidStructureFormat
+
+import diffpy
+from Structure import Structure, InvalidStructureFormat
 
 def usage(style = None):
     """show usage info, for style=="brief" show only first 2 lines"""

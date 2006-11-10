@@ -18,6 +18,8 @@
 __id__ = "$Id$"
 
 import unittest
+
+import diffpy
 from Structure import Lattice, InvalidLattice
 
 ##############################################################################

@@ -22,6 +22,7 @@ import os
 import sys
 import unittest
 
+import diffpy
 from Structure.SpaceGroups import GetSpaceGroup
 from Structure.SymmetryUtilities import *
 

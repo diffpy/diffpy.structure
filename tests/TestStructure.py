@@ -20,6 +20,7 @@ __id__ = "$Id$"
 import os
 import unittest
 
+import diffpy
 from Structure import Structure, InvalidStructureFormat
 from Structure import Lattice
 from Structure import Atom
