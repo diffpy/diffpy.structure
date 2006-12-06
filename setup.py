@@ -46,18 +46,13 @@ if mydir not in sys.path:   sys.path.insert(0, mydir)
 """.lstrip()
 
 def check_diffpy__init__(distribution):
-    """check if diffpy has __init__.py and create one if not
+    """check if diffpy/__init__.py exists and create one if not
     """
     from distutils import log
-    install_lib = None
-    if 'install' in distribution.commands:
-        opts = distribution.get_option_dict('install')
-        install_lib = opts.get('install_lib', 2*[None])[1]
-    if 'install_lib' in distribution.commands and not install_lib:
-        opts = distribution.get_option_dict('install_lib')
-        install_lib = opts.get('install_dir', 2*[None])[1]
-    if not install_lib:             return
-    initfile = os.path.join(install_lib, 'diffpy', '__init__.py')
+    if distribution.dry_run:    return
+    if 'install_lib' not in distribution.command_obj:   return
+    lib_install_dir = distribution.get_command_obj('install_lib').install_dir
+    initfile = os.path.join(lib_install_dir, 'diffpy', '__init__.py')
     if os.path.isfile(initfile):    return
     # we need to create and compile the file
     log.info("creating " + initfile)
