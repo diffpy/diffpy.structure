@@ -119,6 +119,7 @@ class Parser(StructureParser):
                 "  _atom_site_aniso_U_13",
                 "  _atom_site_aniso_U_23" ])
             for i in idx_aniso:
+                a = stru[i]
                 line = "  %-5s %9.6f %9.6f %9.6f %9.6f %9.6f %9.6f" % (
                         a_site_label[i], a.U[0,0], a.U[1,1], a.U[2,2],
                         a.U[0,1], a.U[0,2], a.U[1,2] )
