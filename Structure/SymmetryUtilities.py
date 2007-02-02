@@ -37,20 +37,37 @@ def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
 
     Return bool.
     """
+    # crystal system rules
     # ref: Benjamin, W. A., Introduction to crystallography,
     # New York (1969), p.60
+    def check_triclinic():
+        return True
+    def check_monoclinic():
+        rv = (alpha == gamma == 90) or (alpha == beta == 90)
+        return rv
+    def check_orthorhombic():
+        return (alpha == beta == gamma == 90)
+    def check_tetragonal():
+        return (a == b and alpha == beta == gamma == 90)
+    def check_trigonal():
+        rv = (a == b == c and alpha == beta == gamma) or \
+             (a == b and alpha == beta == 90 and gamma == 120)
+        return rv
+    def check_hexagonal():
+        return (a == b and alpha == beta == 90 and gamma == 120)
+    def check_cubic():
+        return (a == b == c and alpha == beta == gamma == 90)
     crystal_system_rules = {
-      "TRICLINIC"  : 'True',
-      "MONOCLINIC" : 'alpha == gamma == 90',
-      "ORTHORHOMBIC" : 'alpha == beta == gamma == 90',
-      "TETRAGONAL" : 'a == b and alpha == beta == gamma == 90',
-      "TRIGONAL"   : 'a == b == c and alpha == beta == gamma or ' +
-                     'a == b and alpha == beta == 90 and gamma == 120',
-      "HEXAGONAL"  : 'a == b and alpha == beta == 90 and gamma == 120',
-      "CUBIC"      : 'a == b == c and alpha == beta == gamma == 90',
+      "TRICLINIC"  : check_triclinic,
+      "MONOCLINIC" : check_monoclinic,
+      "ORTHORHOMBIC" : check_orthorhombic,
+      "TETRAGONAL" : check_tetragonal,
+      "TRIGONAL"   : check_trigonal,
+      "HEXAGONAL"  : check_hexagonal,
+      "CUBIC"      : check_cubic
     }
     rule = crystal_system_rules[spacegroup.crystal_system]
-    return eval(rule, locals())
+    return rule()
 
 # End of isSpaceGroupLatPar
 
