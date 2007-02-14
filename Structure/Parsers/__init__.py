@@ -60,8 +60,6 @@ def parse(s, format):
 
 def tostring(stru, format):
     """convert Structure stru to string using the specified format"""
-    if not isinstance(stru, Structure):
-        raise RuntimeError, "expected instance of Structure"
     try:
         pmod = modules[format]
     except KeyError:
