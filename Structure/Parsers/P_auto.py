@@ -37,7 +37,7 @@ class Parser(StructureParser):
         """
         stru = None
         # try all parsers in sequence
-        import Structure.Parsers as Parsers
+        import diffpy.Structure.Parsers as Parsers
         mods = {}
         mods.update(Parsers.modules)
         del mods[self.format]
