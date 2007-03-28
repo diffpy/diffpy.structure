@@ -37,18 +37,18 @@ RECURSE_DIRS = Parsers
 #
 # export
 
-EXPORT_PYTHON_MODULES = \
-    __init__.py         \
-    PDFFitStructure.py  \
-    PeriodicTable.py    \
-    Atom.py 		\
-    Lattice.py 		\
-    Structure.py 	\
-    SpaceGroups.py  \
-    SymmetryUtilities.py \
-    utils.py        \
-    exceptions.py   \
-    version.py      \
+EXPORT_PYTHON_MODULES =     \
+    __init__.py		    \
+    PDFFitStructure.py	    \
+    PeriodicTable.py	    \
+    Atom.py		    \
+    Lattice.py		    \
+    Structure.py	    \
+    SpaceGroups.py	    \
+    SymmetryUtilities.py    \
+    utils.py		    \
+    StructureErrors.py	    \
+    version.py		    \
     Parsers
 
 export:: export-python-modules
