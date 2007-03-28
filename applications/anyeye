@@ -32,7 +32,7 @@ def usage(style = None):
         msg = msg.split("\n")[1] + "\n" + \
                 "Try `%s --help' for more information." % myname
     else:
-        from Structure.Parsers import inputFormats
+        from diffpy.Structure.Parsers import inputFormats
         fmts = [ f for f in inputFormats() if f != 'auto' ]
         msg = msg.replace("inputFormats", " ".join(fmts))
     print msg
@@ -50,12 +50,12 @@ def loadStructureFile(filename, format="auto"):
     file = open(filename)
     # use Parsers directly to get the detected format
     if format == "auto":
-        from Structure.Parsers import P_auto
+        from diffpy.Structure.Parsers import P_auto
         pa = P_auto.Parser()
         stru = pa.parseLines(file.readlines())
         format = pa.lastformat
     else:
-        from Structure.Parsers import parse
+        from diffpy.Structure.Parsers import parse
         stru = parse(file.read(), format)
     return stru, format
 
@@ -114,7 +114,7 @@ def cleanUp(pd):
 
 def parseFormula(formula):
     """parse chemical formula and return a list of elements"""
-    from Structure.PeriodicTable import is_element
+    from diffpy.Structure.PeriodicTable import is_element
     # remove all blanks
     formula = re.sub('\s', '', formula)
     if not re.match('^[A-Z]', formula):

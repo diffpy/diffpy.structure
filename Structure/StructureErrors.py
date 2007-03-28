@@ -12,8 +12,7 @@
 #
 ########################################################################
 
-"""Exceptions used in Structure package:
-    InvalidLattice
+"""Exceptions used in Structure package.
 """
 
 __id__ = "$Id$"

@@ -21,11 +21,10 @@ Options:
 __id__ = "$Id$"
 
 import sys
-import os, os.path
+import os
 import re
 
-import diffpy
-from Structure import Structure, InvalidStructureFormat
+from diffpy.Structure import Structure, InvalidStructureFormat
 
 def usage(style = None):
     """show usage info, for style=="brief" show only first 2 lines"""
@@ -36,14 +35,14 @@ def usage(style = None):
         msg = msg.split("\n")[1] + "\n" + \
                 "Try `%s --help' for more information." % myname
     else:
-        from Structure.Parsers import inputFormats, outputFormats
+        from diffpy.Structure.Parsers import inputFormats, outputFormats
         msg = msg.replace("inputFormats", " ".join(inputFormats()))
         msg = msg.replace("outputFormats", " ".join(outputFormats()))
     print msg
     return
 
 def version():
-    from Structure import __version__
+    from diffpy.Structure import __version__
     print __id__
     print "diffpy.Structure", __version__
 
@@ -54,12 +53,12 @@ def loadStructureFile(filename, format="auto"):
     file = open(filename)
     # use Parsers directly to get the detected format
     if format == "auto":
-        from Structure.Parsers import P_auto
+        from diffpy.Structure.Parsers import P_auto
         pa = P_auto.Parser()
         stru = pa.parseLines(file.readlines())
         format = pa.lastformat
     else:
-        from Structure.Parsers import parse
+        from diffpy.Structure.Parsers import parse
         stru = parse(file.read(), format)
     return stru, format
 
@@ -84,7 +83,7 @@ def main():
         usage('brief')
         sys.exit()
     # process arguments
-    from Structure.Parsers import inputFormats, outputFormats
+    from diffpy.Structure.Parsers import inputFormats, outputFormats
     try:
         infmt, outfmt = args[0].split('..', 1)
         if infmt not in inputFormats():

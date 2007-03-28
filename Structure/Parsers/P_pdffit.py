@@ -19,11 +19,11 @@ __id__ = "$Id$"
 import sys
 import numpy
 
-from Structure.PDFFitStructure import PDFFitStructure
-from Structure.Lattice import Lattice
-from Structure.Atom import Atom
+from diffpy.Structure.PDFFitStructure import PDFFitStructure
+from diffpy.Structure.Lattice import Lattice
+from diffpy.Structure.Atom import Atom
+from diffpy.Structure.StructureErrors import InvalidStructureFormat
 from StructureParser import StructureParser
-from Structure.exceptions import InvalidStructureFormat
 
 class Parser(StructureParser):
     """Parser --> StructureParser subclass for PDFFit format"""

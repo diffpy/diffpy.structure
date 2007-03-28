@@ -17,12 +17,12 @@
 __id__ = "$Id$"
 
 import sys
-from Structure.Structure import Structure
-from Structure.Lattice import Lattice
-from Structure.Atom import Atom
+from diffpy.Structure.Structure import Structure
+from diffpy.Structure.Lattice import Lattice
+from diffpy.Structure.Atom import Atom
+from diffpy.Structure.utils import isfloat
+from diffpy.Structure.StructureErrors import InvalidStructureFormat
 from StructureParser import StructureParser
-from Structure.utils import isfloat
-from Structure.exceptions import InvalidStructureFormat
 
 class Parser(StructureParser):
     """Parser --> StructureParser subclass for RAWXYZ format"""

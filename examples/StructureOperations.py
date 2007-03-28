@@ -2,9 +2,9 @@
 """
 import copy, types
 import numpy
-from Structure import Structure
-from Structure import Lattice
-from Structure import Atom 
+from diffpy.Structure import Structure
+from diffpy.Structure import Lattice
+from diffpy.Structure import Atom 
 
 ################################################################################
 

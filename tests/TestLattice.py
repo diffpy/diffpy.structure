@@ -19,8 +19,7 @@ __id__ = "$Id$"
 
 import unittest
 
-import diffpy
-from Structure import Lattice, InvalidLattice
+from diffpy.Structure import Lattice, InvalidLattice
 
 ##############################################################################
 class TestLattice(unittest.TestCase):

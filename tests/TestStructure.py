@@ -20,10 +20,9 @@ __id__ = "$Id$"
 import os
 import unittest
 
-import diffpy
-from Structure import Structure, InvalidStructureFormat
-from Structure import Lattice
-from Structure import Atom
+from diffpy.Structure import Structure, InvalidStructureFormat
+from diffpy.Structure import Lattice
+from diffpy.Structure import Atom
 
 ##############################################################################
 class TestStructure(unittest.TestCase):

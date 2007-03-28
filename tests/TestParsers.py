@@ -21,10 +21,9 @@ import unittest
 import os
 import re
 
-import diffpy
-from Structure import Structure, InvalidStructureFormat
-from Structure import Lattice
-from Structure import Atom
+from diffpy.Structure import Structure, InvalidStructureFormat
+from diffpy.Structure import Lattice
+from diffpy.Structure import Atom
 
 # useful variables
 thisfile = locals().get('__file__', 'TestParsers.py')

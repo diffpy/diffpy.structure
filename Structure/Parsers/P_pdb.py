@@ -24,11 +24,11 @@ import numpy
 import numpy.linalg as numalg
 from numpy import pi
 
-from Structure.Structure import Structure
-from Structure.Lattice import Lattice
-from Structure.Atom import Atom
+from diffpy.Structure.Structure import Structure
+from diffpy.Structure.Lattice import Lattice
+from diffpy.Structure.Atom import Atom
+from diffpy.Structure.StructureErrors import InvalidStructureFormat
 from StructureParser import StructureParser
-from Structure.exceptions import InvalidStructureFormat
 
 orderOfRecords = [
     "HEADER", "OBSLTE", "TITLE", "CAVEAT", "COMPND", "SOURCE", "KEYWDS",

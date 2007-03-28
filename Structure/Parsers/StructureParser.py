@@ -16,7 +16,7 @@
 
 __id__ = "$Id$"
 
-from Structure.exceptions import InvalidStructureFormat
+from diffpy.Structure.StructureErrors import InvalidStructureFormat
 
 ##############################################################################
 class StructureParser:

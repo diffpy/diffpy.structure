@@ -23,7 +23,7 @@ import math
 import types
 import numpy
 import numpy.linalg as numalg
-from exceptions import InvalidLattice
+from StructureErrors import InvalidLattice
 
 ##############################################################################
 # helper functions

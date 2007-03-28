@@ -5,8 +5,8 @@ import os.path
 import re
 import numpy
 
-from Structure.SymmetryUtilities import *
-from Structure.SpaceGroups import GetSpaceGroup
+from diffpy.Structure.SymmetryUtilities import *
+from diffpy.Structure.SpaceGroups import GetSpaceGroup
 
 # Get and process coordinates
 print "Enter xyz coordinates (can be fractions): "

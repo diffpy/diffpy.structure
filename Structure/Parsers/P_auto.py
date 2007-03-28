@@ -19,7 +19,7 @@ This Parser leaves undefined the toLines() method
 
 __id__ = "$Id$"
 
-from Structure.exceptions import InvalidStructureFormat
+from diffpy.Structure.StructureErrors import InvalidStructureFormat
 from StructureParser import StructureParser
 
 class Parser(StructureParser):

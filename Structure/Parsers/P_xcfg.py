@@ -19,12 +19,12 @@ __id__ = "$Id$"
 import sys
 import re
 import numpy
-from Structure.Structure import Structure
-from Structure.Lattice import Lattice
-from Structure.Atom import Atom
+from diffpy.Structure.Structure import Structure
+from diffpy.Structure.Lattice import Lattice
+from diffpy.Structure.Atom import Atom
 from StructureParser import StructureParser
-from Structure.utils import isfloat
-from Structure.exceptions import InvalidStructureFormat
+from diffpy.Structure.utils import isfloat
+from diffpy.Structure.StructureErrors import InvalidStructureFormat
 
 class Parser(StructureParser):
     """Parser --> StructureParser subclass for extended CFG format"""
@@ -168,7 +168,7 @@ class Parser(StructureParser):
 
         Return list of strings.
         """
-        from Structure.PeriodicTable import AtomicMass
+        from diffpy.Structure.PeriodicTable import AtomicMass
         if len(stru) == 0:
             raise InvalidStructureFormat, \
                     "cannot convert empty structure to XCFG format"

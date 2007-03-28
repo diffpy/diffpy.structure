@@ -22,9 +22,8 @@ import os
 import sys
 import unittest
 
-import diffpy
-from Structure.SpaceGroups import GetSpaceGroup
-from Structure.SymmetryUtilities import *
+from diffpy.Structure.SpaceGroups import GetSpaceGroup
+from diffpy.Structure.SymmetryUtilities import *
 
 ##############################################################################
 class TestRoutines(unittest.TestCase):

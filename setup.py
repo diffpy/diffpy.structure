@@ -19,7 +19,7 @@ thisfile = os.path.abspath(locals().get('__file__', 'setup.py'))
 setup_dir = os.path.dirname(thisfile)
 
 sys.path.insert(0, setup_dir)
-from Structure import __version__
+from diffpy.Structure import __version__
 sys.path.pop(0)
 package_version = __version__
 

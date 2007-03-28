@@ -24,8 +24,7 @@ methods of this module.
 
 __id__ = "$Id$"
 
-from Structure.Structure import Structure
-from Structure.exceptions import InvalidStructureFormat
+from diffpy.Structure.StructureErrors import InvalidStructureFormat
 
 def _findParsers():
     """return dictionary of recognized formats with associated modules"""
