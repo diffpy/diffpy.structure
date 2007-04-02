@@ -13,14 +13,13 @@
 #
 ########################################################################
 
-PROJECT = Structure
+PROJECT = diffpy
+PACKAGE = Structure
 
 # directory structure
 
 BUILD_DIRS = \
     Structure \
-#    libStructure \
-#    Structuremodule \
 
 OTHER_DIRS = \
     tests \

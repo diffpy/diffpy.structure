@@ -13,7 +13,7 @@
 #
 ########################################################################
 
-PROJECT = Structure
+PROJECT = diffpy
 PACKAGE = Structure
 
 # directory structure
@@ -30,8 +30,6 @@ RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
 
 all: export
 	BLD_ACTION="all" $(MM) recurse
-
-RECURSE_DIRS = Parsers
 
 #--------------------------------------------------------------------------
 #
@@ -51,7 +49,7 @@ EXPORT_PYTHON_MODULES =     \
     version.py		    \
     Parsers
 
-export:: export-python-modules
+export:: export-package-python-modules
 
 unittests:
 	PYTHONPATH=$(dir $(PWD) ):$$PYTHONPATH ./alltests.py

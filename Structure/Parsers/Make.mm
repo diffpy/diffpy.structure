@@ -13,8 +13,8 @@
 #
 ########################################################################
 
-PROJECT = Structure/Parsers
-PACKAGE = Parsers
+PROJECT = diffpy
+PACKAGE = Structure/Parsers
 
 #--------------------------------------------------------------------------
 #
@@ -36,7 +36,7 @@ EXPORT_PYTHON_MODULES = \
     StructureParser.py  \
     __init__.py
 
-export:: export-python-modules
+export:: export-package-python-modules
 
 # version
 # $Id$
