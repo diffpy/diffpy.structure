@@ -28,35 +28,44 @@ from Atom import Atom
 class Structure(list):
     """Structure --> group of atoms
 
-    Structure class is inherited from Python list
+    Structure class is inherited from Python list.  It contains
+    a list of Atom instances.
 
     Data members:
         title   -- structure description
         lattice -- coordinate system (instance of Lattice)
+        fileformat -- last format used for reading or writing of file
     """
 
     def __init__(self, atoms=[], lattice=None, title=""):
-        """define group of atoms in a specified lattice
+        """define group of atoms in a specified lattice.
 
-        atoms   -- list of Atom instances, when atoms is Structure,
-                   create a deep copy of atoms
+        atoms   -- list of Atom instances to be included in this Structure.
+                   When atoms argument is an existing Structure instance,
+                   the new Structure is its deep copy.
         lattice -- instance of Lattice that defines coordinate system
-        title   -- string title
+        title   -- string description of the structure
 
-        because Structure is inherited from a list it can use list expansions,
+        Structure(stru)     create a copy of Structure instance stru.
+
+        Because Structure is inherited from a list it can use list expansions,
         for example:
             oxygen_atoms = [ for a in stru if a.element == "O" ]
             oxygen_stru = Structure(oxygen_atoms, lattice=stru.lattice)
         """
         self.extend(atoms)
-        self.title = title
+        self.title = None
+        self.lattice = None
+        self.fileformat = None
         if isinstance(atoms, Structure):
-            for attribute, value in atoms.__dict__.iteritems():
-                setattr(self, attribute, copy.deepcopy(value))
-        elif lattice is None:
-            self.lattice = Lattice()
+            stru = atoms
+            self.extend([Atom(a) for a in stru])
+            self.lattice = Lattice(stru.lattice)
+            self.title = stru.title
+        if lattice is None:
+            if not self.lattice:    self.lattice = Lattice()
         elif not isinstance(lattice, Lattice):
-            raise RuntimeError, "expected instance of Lattice"
+            raise TypeError, "expected instance of Lattice"
         else:
             self.lattice = lattice
         return
@@ -133,8 +142,8 @@ class Structure(list):
     def read(self, filename, format='auto'):
         """load structure from file, original data get lost
 
-        filename -- self explanatory
-        format   -- all structure formats are defined in Parsers submodulede,
+        filename -- file to be loaded
+        format   -- all structure formats are defined in Parsers submodule,
                     when format == 'auto' all Parsers are tried one by one
 
         return self
@@ -150,7 +159,7 @@ class Structure(list):
         """load structure from a string, original data get lost
 
         s        -- string with structure definition
-        format   -- all structure formats are defined in Parsers submodulede,
+        format   -- all structure formats are defined in Parsers submodule,
                     when format == 'auto' all Parsers are tried one by one
 
         return self
