@@ -54,7 +54,7 @@ class Structure(list):
             oxygen_stru = Structure(oxygen_atoms, lattice=stru.lattice)
         """
         self.extend(atoms)
-        self.title = None
+        self.title = ""
         self.lattice = None
         self.fileformat = None
         if isinstance(atoms, Structure):
