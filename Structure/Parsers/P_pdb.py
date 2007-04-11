@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -12,7 +12,7 @@
 #
 ########################################################################
 
-"""Parser for basic PDB file format
+"""Basic parser for PDB structure format.
 
 Ref.: http://www.rcsb.org/pdb/docs/format/pdbguide2.2/guide2.2_frame.html
 """
@@ -21,35 +21,38 @@ __id__ = "$Id$"
 
 import sys
 import numpy
-import numpy.linalg as numalg
 from numpy import pi
 
-from diffpy.Structure.Structure import Structure
-from diffpy.Structure.Lattice import Lattice
-from diffpy.Structure.Atom import Atom
-from diffpy.Structure.StructureErrors import InvalidStructureFormat
+from import_helper import Structure, Lattice, Atom
+from import_helper import InvalidStructureFormat
 from StructureParser import StructureParser
 
-orderOfRecords = [
-    "HEADER", "OBSLTE", "TITLE", "CAVEAT", "COMPND", "SOURCE", "KEYWDS",
-    "EXPDTA", "AUTHOR", "REVDAT", "SPRSDE", "JRNL", "REMARK", "REMARK",
-    "REMARK", "REMARK", "DBREF", "SEQADV", "SEQRES", "MODRES", "HET",
-    "HETNAM", "HETSYN", "FORMUL", "HELIX", "SHEET", "TURN", "SSBOND",
-    "LINK", "HYDBND", "SLTBRG", "CISPEP", "SITE", "CRYST1", "ORIGX1",
-    "ORIGX2", "ORIGX3", "SCALE1", "SCALE2", "SCALE3", "MTRIX1",
-    "MTRIX2", "MTRIX3", "TVECT", "MODEL", "ATOM", "SIGATM", "ANISOU",
-    "SIGUIJ", "TER", "HETATM", "ENDMDL", "CONECT", "MASTER", "END",
-]
-validRecords = dict.fromkeys(orderOfRecords)
+class P_pdb(StructureParser):
+    """Simple parser for PDB format.
+    The parser understands following PDB records: TITLE, CRYST1, SCALE1,
+    SCALE2, SCALE3, ATOM, SIGATM, ANISOU, SIGUIJ, TER, HETATM, END
 
-# Parsed records:
-#   TITLE CRYST1 SCALE1 SCALE2 SCALE3 ATOM
-#   SIGATM ANISOU SIGUIJ TER HETATM END
+    Static data members:
 
-class Parser(StructureParser):
-    """Parser --> StructureParser subclass for basic PDB format"""
+    orderOfRecords -- order of PDB record labels
+    validRecords   -- dictionary of valid PDB records
+    """
+
+    # Static data members
+    orderOfRecords = [
+        "HEADER", "OBSLTE", "TITLE", "CAVEAT", "COMPND", "SOURCE", "KEYWDS",
+        "EXPDTA", "AUTHOR", "REVDAT", "SPRSDE", "JRNL", "REMARK", "REMARK",
+        "REMARK", "REMARK", "DBREF", "SEQADV", "SEQRES", "MODRES", "HET",
+        "HETNAM", "HETSYN", "FORMUL", "HELIX", "SHEET", "TURN", "SSBOND",
+        "LINK", "HYDBND", "SLTBRG", "CISPEP", "SITE", "CRYST1", "ORIGX1",
+        "ORIGX2", "ORIGX3", "SCALE1", "SCALE2", "SCALE3", "MTRIX1",
+        "MTRIX2", "MTRIX3", "TVECT", "MODEL", "ATOM", "SIGATM", "ANISOU",
+        "SIGUIJ", "TER", "HETATM", "ENDMDL", "CONECT", "MASTER", "END",
+    ]
+    validRecords = dict.fromkeys(orderOfRecords)
 
     def __init__(self):
+        StructureParser.__init__(self)
         self.format = "pdb"
         return
 
@@ -151,7 +154,7 @@ class Parser(StructureParser):
                     last_atom.sigU[0,1] = last_atom.sigU[1,0] = sigUij[3]
                     last_atom.sigU[0,2] = last_atom.sigU[2,0] = sigUij[4]
                     last_atom.sigU[1,2] = last_atom.sigU[2,1] = sigUij[5]
-                elif record in validRecords:
+                elif record in P_pdb.validRecords:
                     pass
                 else:
                     raise InvalidStructureFormat, \
@@ -282,4 +285,11 @@ class Parser(StructureParser):
         return lines
     # End of toLines
 
-# End of Parser
+# End of class P_pdb
+
+# Routines
+
+def getParser():
+    return P_pdb()
+
+# End of file

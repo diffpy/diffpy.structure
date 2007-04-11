@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -12,22 +12,25 @@
 #
 ########################################################################
 
-"""Parser for raw XYZ file format"""
+"""Parser for raw XYZ file format.  Raw XYZ is a 3 or 4 column text
+file with cartesian coordinates of atoms and an optional first column
+for atom types.
+"""
 
 __id__ = "$Id$"
 
 import sys
-from diffpy.Structure.Structure import Structure
-from diffpy.Structure.Lattice import Lattice
-from diffpy.Structure.Atom import Atom
-from diffpy.Structure.utils import isfloat
-from diffpy.Structure.StructureErrors import InvalidStructureFormat
+
+from import_helper import Structure, Lattice, Atom
+from import_helper import InvalidStructureFormat
+from import_helper import isfloat
 from StructureParser import StructureParser
 
-class Parser(StructureParser):
+class P_rawxyz(StructureParser):
     """Parser --> StructureParser subclass for RAWXYZ format"""
 
     def __init__(self):
+        StructureParser.__init__(self)
         self.format = "rawxyz"
         return
 
@@ -102,4 +105,11 @@ class Parser(StructureParser):
         return lines
     # End of toLines
 
-# End of Parser
+# End of class P_rawxyz
+
+# Routines
+
+def getParser():
+    return P_rawxyz()
+
+# End of file

@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -19,17 +19,18 @@ __id__ = "$Id$"
 import sys
 import re
 import numpy
-from diffpy.Structure.Structure import Structure
-from diffpy.Structure.Lattice import Lattice
-from diffpy.Structure.Atom import Atom
-from StructureParser import StructureParser
-from diffpy.Structure.utils import isfloat
-from diffpy.Structure.StructureErrors import InvalidStructureFormat
 
-class Parser(StructureParser):
-    """Parser --> StructureParser subclass for extended CFG format"""
+from import_helper import Structure, Lattice, Atom
+from import_helper import InvalidStructureFormat
+from import_helper import isfloat
+from StructureParser import StructureParser
+
+class P_xcfg(StructureParser):
+    """Parser for AtomEye extended CFG format.
+    """
 
     def __init__(self):
+        StructureParser.__init__(self)
         self.format = "xcfg"
         return
 
@@ -272,4 +273,11 @@ class Parser(StructureParser):
         return lines
     # End of toLines
 
-# End of Parser
+# End of class P_xcfg
+
+# Routines
+
+def getParser():
+    return P_xcfg()
+
+# End of file

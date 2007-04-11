@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -12,28 +12,29 @@
 #
 ########################################################################
 
-"""Parser for PDFFit file format"""
+"""Parser for PDFfit structure format
+"""
 
 __id__ = "$Id$"
 
 import sys
 import numpy
 
-from diffpy.Structure.PDFFitStructure import PDFFitStructure
-from diffpy.Structure.Lattice import Lattice
-from diffpy.Structure.Atom import Atom
-from diffpy.Structure.StructureErrors import InvalidStructureFormat
+from import_helper import PDFFitStructure, Lattice, Atom
+from import_helper import InvalidStructureFormat
 from StructureParser import StructureParser
 
-class Parser(StructureParser):
-    """Parser --> StructureParser subclass for PDFFit format"""
+class P_pdffit(StructureParser):
+    """Parser for PDFfit structure format.
+    """
 
     def __init__(self):
+        StructureParser.__init__(self)
         self.format = "pdffit"
         return
 
     def parseLines(self, lines):
-        """Parse list of lines in PDFFit format.
+        """Parse list of lines in PDFfit format.
 
         Return Structure object or raise InvalidStructureFormat.
         """
@@ -84,12 +85,12 @@ class Parser(StructureParser):
                 elif words[0] == 'format':
                     if words[1] != 'pdffit':
                         raise InvalidStructureFormat, \
-                                "%d: file is not in PDFFit format" % p_nl
+                                "%d: file is not in PDFfit format" % p_nl
                 elif words[0] == 'atoms' and cell_line_read:
                     break
                 else:
                     raise InvalidStructureFormat, \
-                            "%d: file is not in PDFFit format" % p_nl
+                            "%d: file is not in PDFfit format" % p_nl
             # header was successfully read, we can create Structure instance
             p_natoms = reduce(lambda x,y : x*y, stru.pdffit['ncell'])
             # we are now inside data block
@@ -134,12 +135,12 @@ class Parser(StructureParser):
         except (ValueError, IndexError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             raise InvalidStructureFormat, \
-                    "%d: file is not in PDFFit format" % p_nl, exc_traceback
+                    "%d: file is not in PDFfit format" % p_nl, exc_traceback
         return stru
     # End of parseLines
 
     def toLines(self, stru):
-        """Convert Structure stru to a list of lines in PDFFit format.
+        """Convert Structure stru to a list of lines in PDFfit format.
 
         Return list of strings.
         """
@@ -191,4 +192,11 @@ class Parser(StructureParser):
         return lines
     # End of toLines
 
-# End of Parser
+# End of class P_pdffit
+
+# Routines
+
+def getParser():
+    return P_pdffit()
+
+# End of file

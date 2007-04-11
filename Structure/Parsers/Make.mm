@@ -3,7 +3,8 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   Michigan State University
+#                   (c) 2007 trustees of the Michigan State University.
+#                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
 #
@@ -34,6 +35,8 @@ EXPORT_PYTHON_MODULES = \
     P_xcfg.py           \
     P_xyz.py            \
     StructureParser.py  \
+    import_helper.py	\
+    parser_index.py	\
     __init__.py
 
 export:: export-package-python-modules

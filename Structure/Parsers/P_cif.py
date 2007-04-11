@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -19,22 +19,19 @@ http://www.iucr.org/iucr-top/cif/home.html
 
 __id__ = "$Id$"
 
-import sys
 import time
 import numpy
-import numpy.linalg as numalg
-from numpy import pi
 
-from diffpy.Structure.Structure import Structure
-from diffpy.Structure.Lattice import Lattice
-from diffpy.Structure.Atom import Atom
-from diffpy.Structure.StructureErrors import InvalidStructureFormat
+from import_helper import Structure, Lattice, Atom
+from import_helper import InvalidStructureFormat
 from StructureParser import StructureParser
 
-class Parser(StructureParser):
-    """Parser --> StructureParser subclass for basic parser for CIF format"""
+class P_cif(StructureParser):
+    """Simple parser for CIF structure format.
+    """
 
     def __init__(self):
+        StructureParser.__init__(self)
         self.format = "cif"
         return
 
@@ -127,4 +124,11 @@ class Parser(StructureParser):
         return lines
     # End of toLines
 
-# End of Parser
+# End of class P_cif
+
+# Routines
+
+def getParser():
+    return P_cif()
+
+# End of file

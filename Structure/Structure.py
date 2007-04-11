@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -34,7 +34,7 @@ class Structure(list):
     Data members:
         title   -- structure description
         lattice -- coordinate system (instance of Lattice)
-        fileformat -- last format used for reading or writing of file
+        fileformat -- last format used for reading or writing a file
     """
 
     def __init__(self, atoms=[], lattice=None, title=""):
@@ -148,11 +148,19 @@ class Structure(list):
 
         return self
         """
-        self.readStr(open(filename,'r').read(), format)
+        s = open(filename, 'rb').read()
+        from Parsers import getParser
+        p = getParser(format)
+        p.filename = filename
+        new_structure = p.parse(s)
+        self.__dict__.clear()
+        self.__dict__.update(new_structure.__dict__)
+        self[:] = new_structure[:]
         if not self.title:
             import os.path
             self.title = os.path.basename(filename)
             self.title = os.path.splitext(self.title)[0]
+        self.fileformat = p.format
         return self
 
     def readStr(self, s, format='auto'):
@@ -164,10 +172,12 @@ class Structure(list):
 
         return self
         """
-        from Parsers import parse
-        new_structure = parse(s, format)
+        from Parsers import getParser
+        p = getParser(format)
+        new_structure = p.parse(s)
         self.__dict__.update(new_structure.__dict__)
         self[:] = new_structure[:]
+        self.fileformat = p.format
         return self
 
     def write(self, filename, format):
@@ -176,10 +186,14 @@ class Structure(list):
         Note: available structure formats can be obtained by:
             from Parsers import formats
         """
-        s = self.writeStr(format)
-        file = open(filename,'w')
-        file.write(s)
-        file.close()
+        from Parsers import getParser
+        p = getParser(format)
+        p.filename = filename
+        s = p.tostring(self)
+        self.fileformat = p.format
+        f = open(filename, 'wb')
+        f.write(s)
+        f.close()
         return
 
     def writeStr(self, format):
@@ -188,7 +202,10 @@ class Structure(list):
         Note: available structure formats can be obtained by:
             from Parsers import formats
         """
-        from Parsers import tostring
-        return tostring(self, format)
+        from Parsers import getParser
+        p = getParser(format)
+        s = p.tostring(self)
+        self.fileformat = p.format
+        return s
 
 # End of class Structure

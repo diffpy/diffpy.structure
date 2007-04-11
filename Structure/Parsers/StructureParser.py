@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -12,29 +12,29 @@
 #
 ########################################################################
 
-"""definition of StructureParser superclass"""
+"""Definition of StructureParser, a base class for specific parsers.
+"""
 
 __id__ = "$Id$"
 
-from diffpy.Structure.StructureErrors import InvalidStructureFormat
-
-##############################################################################
 class StructureParser:
-    """StructureParser --> superclass for structure parsers
+    """Base class for all structure parsers.
 
     Data members:
-        format -- format of particular parser
+        format   -- format of particular parser
+        filename -- path to structure file that is read or written
     """
 
     def __init__(self):
         self.format = None
+        self.filename = None
         return
 
     def parseLines(self, lines):
-        """parse list of lines obtained from structure file
+        """Create Structure instance from a list of lines.
 
-        return Structure object or raise InvalidStructureFormat exception.
-        This method has to be overloaded in a derived class
+        Return Structure object or raise InvalidStructureFormat exception.
+        This method has to be overloaded in derived class.
         """
         raise NotImplementedError, \
                 "parseLines not defined for '%s' format" % self.format
@@ -42,11 +42,27 @@ class StructureParser:
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines.
-        This method has to be overloaded in a derived class.
+        This method has to be overloaded in derived class.
 
         Return list of strings.
         """
         raise NotImplementedError, \
                 "toLines not defined for '%s' format" % self.format
+
+    def parse(self, s):
+        """Create Structure instance from a string.
+
+        Return Structure object or raise InvalidStructureFormat exception.
+        """
+        lines = s.rstrip('\n').split('\n')
+        stru = self.parseLines(lines)
+        return stru
+
+    def tostring(self, stru):
+        """Convert Structure instance to a string.
+        """
+        lines = self.toLines(stru)
+        s = '\n'.join(lines) + '\n'
+        return s
 
 # End of StructureParser

@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -12,41 +12,65 @@
 #
 ########################################################################
 
-"""Parser with automatic file format detection
+"""Parser for automatic file format detection
 
-This Parser leaves undefined the toLines() method
+This Parser does not provide the the toLines() method.
 """
 
 __id__ = "$Id$"
 
-from diffpy.Structure.StructureErrors import InvalidStructureFormat
+from import_helper import InvalidStructureFormat
 from StructureParser import StructureParser
+from parser_index import parser_index
 
-class Parser(StructureParser):
-    """Parser --> StructureParser subclass for automatic format"""
+class P_auto(StructureParser):
+    """Parser with automatic detection of structure format.
+    When successful, it sets its format attribute to detected
+    structure format.
+    """
 
     def __init__(self):
+        StructureParser.__init__(self)
         self.format = "auto"
-        self.lastformat = None
         return
+
+    # parseLines helpers
+    def getOrderedFormats(self):
+        """Build a list of relevance ordered structure formats.
+        This only works when self.filename has a known extension.
+        """
+        import os.path
+        from __init__ import inputFormats
+        ofmts = [fmt in inputFormats() if fmt != 'auto']
+        if not self.filename:   return ofmts
+        # filename is defined here
+        filebase = os.path.basename(self.filename)
+        from fnmatch import fnmatch
+        # loop over copy of ofmts
+        for fmt in list(ofmts):
+            pattern = parser_index[fmt]['file_pattern']
+            if pattern in ('*.*', '*'):     continue
+            anymatch = [1 for p in pattern.split('|') if fnmatch(basename, p)]
+            if anymatch:
+                ofmts.remove(fmt)
+                ofmts.insert(0, fmt)
+        return ofmts
 
     def parseLines(self, lines):
         """Detect format and parse given list of lines.
+        Set format attribute to the detected file format.
 
         Return Structure instance, or raise InvalidStructureFormat.
         """
+        ofmts = self.getOrderedFormats()
+        from __init__ import getParser
         stru = None
         # try all parsers in sequence
-        import diffpy.Structure.Parsers as Parsers
-        mods = {}
-        mods.update(Parsers.modules)
-        del mods[self.format]
-        for pfmt, pmod in mods.iteritems():
+        for fmt in ofmts:
+            p = getParser(fmt)
             try:
-                exec('from ' + pmod + ' import Parser')
-                p = Parser()
                 stru = p.parseLines(lines)
-                self.lastformat = pfmt
+                self.format = fmt
                 break
             except (InvalidStructureFormat, NotImplementedError):
                 pass
@@ -55,4 +79,11 @@ class Parser(StructureParser):
         return stru
     # End of parseLines
 
-# End of Parser
+# End of class P_auto
+
+# Routines
+
+def getParser():
+    return P_auto()
+
+# End of file

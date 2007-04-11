@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -12,8 +12,7 @@
 #
 ########################################################################
 
-"""Parser for XYZ file format
-
+"""Parser for XYZ file format, where
 first line gives number of atoms
 second one has optional title
 remaining lines contain element, x, y, z
@@ -22,16 +21,17 @@ remaining lines contain element, x, y, z
 __id__ = "$Id$"
 
 import sys
-from diffpy.Structure.Structure import Structure
-from diffpy.Structure.Lattice import Lattice
-from diffpy.Structure.Atom import Atom
-from StructureParser import StructureParser
-from diffpy.Structure.StructureErrors import InvalidStructureFormat
 
-class Parser(StructureParser):
-    """Parser --> StructureParser subclass for XYZ format"""
+from import_helper import Structure, Lattice, Atom
+from import_helper import InvalidStructureFormat
+from StructureParser import StructureParser
+
+class P_xyz(StructureParser):
+    """Parser for standard XYZ structure format.
+    """
 
     def __init__(self):
+        StructureParser.__init__(self)
         self.format = "xyz"
         return
 
@@ -117,4 +117,11 @@ class Parser(StructureParser):
         return lines
     # End of toLines
 
-# End of Parser
+# End of class P_xyz
+
+# Routines
+
+def getParser():
+    return P_xyz()
+
+# End of file
