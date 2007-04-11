@@ -46,22 +46,6 @@ def version():
     print __id__
     print "diffpy.Structure", __version__
 
-def loadStructureFile(filename, format="auto"):
-    """load structure from specified file
-
-    return tuple with Structure instance and detected format"""
-    file = open(filename)
-    # use Parsers directly to get the detected format
-    if format == "auto":
-        from diffpy.Structure.Parsers import P_auto
-        pa = P_auto.Parser()
-        stru = pa.parseLines(file.readlines())
-        format = pa.lastformat
-    else:
-        from diffpy.Structure.Parsers import parse
-        stru = parse(file.read(), format)
-    return stru, format
-
 def main():
     import getopt
     # default parameters

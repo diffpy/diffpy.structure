@@ -41,7 +41,7 @@ class P_auto(StructureParser):
         """
         import os.path
         from __init__ import inputFormats
-        ofmts = [fmt in inputFormats() if fmt != 'auto']
+        ofmts = [fmt for fmt in inputFormats() if fmt != 'auto']
         if not self.filename:   return ofmts
         # filename is defined here
         filebase = os.path.basename(self.filename)
@@ -50,7 +50,7 @@ class P_auto(StructureParser):
         for fmt in list(ofmts):
             pattern = parser_index[fmt]['file_pattern']
             if pattern in ('*.*', '*'):     continue
-            anymatch = [1 for p in pattern.split('|') if fnmatch(basename, p)]
+            anymatch = [1 for p in pattern.split('|') if fnmatch(filebase, p)]
             if anymatch:
                 ofmts.remove(fmt)
                 ofmts.insert(0, fmt)

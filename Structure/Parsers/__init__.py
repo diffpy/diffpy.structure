@@ -40,15 +40,17 @@ def getParser(format):
 def inputFormats():
     """Return list of implemented input structure formats"""
     from parser_index import parser_index
-    input_formats = [ fmt for fmt in formats
-            if parser_index[fmt]['has_input'] ]
+    input_formats = [ fmt for fmt, prop in parser_index.iteritems()
+            if prop['has_input'] ]
+    input_formats.sort()
     return input_formats
 
 def outputFormats():
     """return list of implemented output structure formats"""
     from parser_index import parser_index
-    output_formats = [ fmt for fmt in formats
-            if parser_index[fmt]['has_output'] ]
+    output_formats = [ fmt for fmt, prop in parser_index.iteritems()
+            if prop['has_output'] ]
+    output_formats.sort()
     return output_formats
 
 # End of file
