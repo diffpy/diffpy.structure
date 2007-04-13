@@ -153,7 +153,6 @@ class Structure(list):
         p = getParser(format)
         p.filename = filename
         new_structure = p.parse(s)
-        self.__dict__.clear()
         self.__dict__.update(new_structure.__dict__)
         self[:] = new_structure[:]
         if not self.title:
