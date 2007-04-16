@@ -78,7 +78,7 @@ class Atom:
 
     def setBiso(self, Biso):
         """set matrix U to isotropic Debye-Waler factor Biso"""
-        self.U = self.setUiso( Biso/(8.0*numpy.pi**2) )
+        self.setUiso( Biso/(8.0*numpy.pi**2) )
         return
 
     def __repr__(self):

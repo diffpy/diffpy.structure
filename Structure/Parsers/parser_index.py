@@ -49,13 +49,13 @@ parser_index = {
         },
 
     # Discus structure format
-#   'discus' : {
-#       'module' : 'P_discus',
-#       'file_extension' : '.stru',
-#       'file_pattern' : '*.stru|*.rstr',
-#       'has_input' : True,
-#       'has_output' : True,
-#       },
+    'discus' : {
+        'module' : 'P_discus',
+        'file_extension' : '.stru',
+        'file_pattern' : '*.stru|*.rstr',
+        'has_input' : True,
+        'has_output' : True,
+        },
 
     # PDFfit structure format
     'pdffit' : {
