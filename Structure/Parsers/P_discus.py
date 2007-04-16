@@ -74,12 +74,13 @@ class P_discus(StructureParser):
             # parse atoms
             for self.line in ilines:
                 words = self.line.split()
+                if not words or words[0][0] == '#': continue
                 self._parse_atom(words)
             # self consistency check
             exp_natoms = reduce(lambda x,y : x*y, self.stru.pdffit['ncell'])
             # only check if ncell record exists
             if self.ncell_read and exp_natoms != len(self.stru):
-                emsg = 'Expected %d atoms, but read %d.' % \
+                emsg = 'Expected %d atoms, read %d.' % \
                     (exp_natoms, len(self.stru))
                 raise InvalidStructureFormat, emsg
             # take care of superlattice
@@ -136,10 +137,15 @@ class P_discus(StructureParser):
     def _parse_cell(self, words):
         """Process the cell record from DISCUS structure file.
         """
-        # strip words of any commas
-        words = [w.replace(',', '') for w in words if w != ',']
+        # split again on spaces or commas
+        words = self.line.replace(',', ' ').split()
         latpars = [ float(w) for w in words[1:7] ]
-        self.stru.lattice.setLatPar(*latpars)
+        try:
+            self.stru.lattice.setLatPar(*latpars)
+        except ZeroDivisionError:
+            emsg = "%d: Invalid lattice parameters - zero cell volume" % \
+                    self.nl
+            raise InvalidStructureFormat, emsg
         self.cell_read = True
         return
 
@@ -154,8 +160,8 @@ class P_discus(StructureParser):
     def _parse_ncell(self, words):
         """Process the ncell record from DISCUS structure file.
         """
-        # strip words of any commas
-        words = [w.replace(',', '') for w in words if w != ',']
+        # split again on spaces or commas
+        words = self.line.replace(',', ' ').split()
         self.stru.pdffit['ncell'] = [ int(w) for w in words[1:5] ]
         self.ncell_read = True
         return
@@ -177,7 +183,7 @@ class P_discus(StructureParser):
         """
         element = words[0][0:1].upper() + words[0][1:].lower()
         xyz = [float(w) for w in words[1:4]]
-        Biso = float(w[4])
+        Biso = float(words[4])
         a = Atom(element, xyz)
         a.setBiso(Biso)
         self.stru.append(a)
