@@ -62,12 +62,12 @@ class P_pdffit(StructureParser):
                     sharp_pars = [ float(w) for w in l1.split()[1:] ]
                     if len(sharp_pars) < 4:
                         stru.pdffit['delta2'] = sharp_pars[0]
-                        stru.pdffit['srat'] = sharp_pars[1]
+                        stru.pdffit['sratio'] = sharp_pars[1]
                         stru.pdffit['rcut'] = sharp_pars[2]
                     else:
                         stru.pdffit['delta2'] = sharp_pars[0]
                         stru.pdffit['delta1'] = sharp_pars[1]
-                        stru.pdffit['srat'] = sharp_pars[2]
+                        stru.pdffit['sratio'] = sharp_pars[2]
                         stru.pdffit['rcut'] = sharp_pars[3]
                 elif words[0] == 'spcgr':
                     stru.pdffit['spcgr'] = ''.join(words[1:])
@@ -163,7 +163,7 @@ class P_pdffit(StructureParser):
         lines.append( "sharp  %9.6f, %9.6f, %9.6f, %9.6f" % (
             stru.pdffit["delta2"],
             stru.pdffit["delta1"],
-            stru.pdffit["srat"],
+            stru.pdffit["sratio"],
             stru.pdffit["rcut"]) )
         lines.append( "spcgr   " + stru.pdffit["spcgr"] )
         lat = stru.lattice

@@ -185,7 +185,7 @@ class TestP_pdffit(unittest.TestCase):
         self.assertAlmostEqual(stru.pdffit['scale'], 0.826145)
         self.assertAlmostEqual(stru.pdffit['delta2'], 4.687951)
         self.assertAlmostEqual(stru.pdffit['delta1'], 0.01)
-        self.assertAlmostEqual(stru.pdffit['srat'], 1.02)
+        self.assertAlmostEqual(stru.pdffit['sratio'], 1.02)
         self.assertAlmostEqual(stru.pdffit['rcut'], 0.03)
         self.assertEqual(stru.pdffit['spcgr'], 'R-3c')
         s_lat = [ stru.lattice.a, stru.lattice.b, stru.lattice.c,
