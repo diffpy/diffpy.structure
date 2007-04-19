@@ -62,6 +62,7 @@ class TestRoutines(unittest.TestCase):
     def test_expandPosition(self):
         """check expandPosition()
         """
+        import numpy
         # ok again Ni example
         fcc = GetSpaceGroup(225)
         pos,pops,pmult = expandPosition(fcc, [0,0,0])
