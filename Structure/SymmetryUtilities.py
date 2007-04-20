@@ -295,6 +295,7 @@ class GeneratorSite:
             # recalculate if needed
             if numpy.any(dxyz != 0.0):
                 self.xyz = xyz + dxyz
+                self.xyz[numpy.fabs(self.xyz) < self.eps] = 0.0
                 sites, ops, mult = expandPosition(spacegroup,
                         self.xyz, self.sgoffset, eps)
         # self.xyz, sites, ops are all adjusted here
