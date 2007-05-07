@@ -1,6 +1,8 @@
 # This module is imported from top level diffpy setup.py.
 # It has to define the following variables:
 #     name, description, diffpy_deps, other_deps, setup_args
+# Optional variables:
+#     makefiles -- a list of Makefiles to be build before installation
 
 """Structure - objects for storage and manipulation of crystal structures.
 
@@ -15,6 +17,9 @@ import os.path
 
 thisfile = os.path.abspath(locals().get('__file__', 'setup_args.py'))
 thisdir = os.path.dirname(thisfile)
+
+def prependThisDir(files):
+    return [os.path.join(thisdir, f) for f in files]
 
 # name of this subpackage
 name = "diffpy.Structure"
@@ -39,10 +44,10 @@ setup_args = {
     "package_dir" : {
         "diffpy.Structure" : os.path.join(thisdir, "Structure")
         },
-    "scripts" : [
-        os.path.join(thisdir, "applications/anyeye"),
-        os.path.join(thisdir, "applications/transtru")
-        ],
+#   "scripts" : prependThisDir([
+#       "applications/anyeye",
+#       "applications/transtru",
+#       ]),
 }
 
 # End of file 
