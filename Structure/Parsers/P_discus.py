@@ -153,7 +153,7 @@ class P_discus(StructureParser):
         """Process the format record from DISCUS structure file.
         """
         if words[1] == 'pdffit':
-            emsg = "%d: file is not in DISCUS format" % self.p_nl
+            emsg = "%d: file is not in DISCUS format" % self.nl
             raise InvalidStructureFormat, emsg
         return
 
