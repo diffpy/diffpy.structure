@@ -186,7 +186,7 @@ def expandPosition(spacegroup, xyz, sgoffset=[0,0,0], eps=epsilon):
     for symop in spacegroup.iter_symops():
         # operate on coordinates in non-shifted spacegroup
         pos = symop(xyz + sgoffset) - sgoffset
-        mask = numpy.logical_or(pos <= -0.5, pos >= 1.0)
+        mask = numpy.logical_or(pos < 0.0, pos >= 1.0)
         pos[mask] -= numpy.floor(pos[mask])
         tpl = pos2tuple(pos)
         if not tpl in site_symops:
