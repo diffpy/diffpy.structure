@@ -197,7 +197,7 @@ class TestGeneratorSite(unittest.TestCase):
         x, y, z = self.x, self.y, self.z
         pfm143d = self.g143d.positionFormula([-x+y, -x, z])
         self.assertEqual("-x+y", pfm143d["x"].replace(' ',''))
-        self.assertEqual("-x", pfm143d["y"].replace(' ',''))
+        self.assertEqual("-x+1", pfm143d["y"].replace(' ',''))
         self.failUnless(re.match("[+]?z", pfm143d["z"].strip()))
         # 227a
         self.assertEqual([], self.g227a.pparameters)
