@@ -13,15 +13,6 @@ To install or update the Structure package only:
 Structure requires:
     numpy 0.9.8
 
-Also recommended:
-    AtomEye         http://alum.mit.edu/www/liju99/Graphics/A
-                    (Needs to be saved as "atomeye".)
-
-Structure installs the following executables:
-    transtru        translation between supported structure formats
-    anyeye          display structure in the AtomEye viewer
-
-
 For more information on Structure please visit the project web-page:
 
     http://www.diffpy.org
