@@ -35,7 +35,7 @@ parser_index = {
         'module' : 'P_cif',
         'file_extension' : '.cif',
         'file_pattern' : '*.cif',
-        'has_input' : False,
+        'has_input' : True,
         'has_output' : True,
         },
 

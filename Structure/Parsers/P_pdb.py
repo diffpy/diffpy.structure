@@ -122,9 +122,9 @@ class P_pdb(StructureParser):
                         # get element from the first 2 characters of name
                         element = line[12:14].strip()
                         element = element[0].upper() + element[1:].lower()
-                    last_atom = Atom(element, xyz,
+                    stru.addNewAtom(element, xyz,
                             occupancy=occupancy, name=name, U=U)
-                    stru.append(last_atom)
+                    last_atom = stru.getLastAtom()
                 elif record == "SIGATM":
                     sigrc = [float(x) for x in line[30:54].split()]
                     sigxyz = numpy.dot(scale, sigrc)
@@ -203,8 +203,8 @@ class P_pdb(StructureParser):
         lines = []
         a = stru[idx]
         ad = a.__dict__
-        rc = stru.cartesian(a)
-        B = a.Biso()
+        rc = a.xyz_cartn
+        B = a.Bisoequiv
         atomline = ( "ATOM  " +                         # 1-6
                      "%(serial)5i " +                   # 7-11, 12
                      "%(name)-4s" +                     # 13-16

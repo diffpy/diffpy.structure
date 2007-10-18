@@ -148,10 +148,10 @@ class P_xcfg(StructureParser):
                         p_element = w[0].upper() + w[1:].lower()
                 elif len(words) == xcfg_entry_count and p_element is not None:
                     fields = [ float(w) for w in words ]
-                    a = Atom(p_element, fields[:3])
+                    stru.addNewAtom(p_element, fields[:3])
+                    a = stru.getLastAtom()
                     a.xyz *= xcfg_A
                     p_assign_atom(a, fields)
-                    stru.append(a)
                 else:
                     raise InvalidStructureFormat, "%d: invalid record" % p_nl
             if len(stru) != p_natoms:

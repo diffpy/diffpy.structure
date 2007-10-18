@@ -46,11 +46,13 @@ def version():
 def loadStructureFile(filename, format="auto"):
     """Load structure from specified file.
 
-    Return Structure instance.
+    Return a tuple of (Structure, fileformat).
     """
     from diffpy.Structure import Structure
-    stru = Structure().read(filename, format)
-    return stru
+    stru = Structure()
+    p = stru.read(filename, format)
+    fileformat = p.format
+    return (stru, fileformat)
 
 def convertStructureFile(pd):
     # make temporary directory on the first pass
@@ -62,8 +64,7 @@ def convertStructureFile(pd):
     format  = pd.get('format', 'auto')
     stru = None
     if format == 'auto':
-        stru = loadStructureFile(strufile, format)
-        format = stru.fileformat
+        stru, format = loadStructureFile(strufile, format)
         pd['format'] = format
     # format is detected here
     if format in ('pdb', 'xcfg') and 'formula' not in pd:
@@ -72,7 +73,7 @@ def convertStructureFile(pd):
         os.rename(tmpfile+'.tmp', tmpfile)
     else:
         if stru is None:
-            stru = loadStructureFile(strufile, format)
+            stru, ignore = loadStructureFile(strufile, format)
         if 'formula' in pd:
             formula = pd['formula']
             if len(formula) != len(stru):

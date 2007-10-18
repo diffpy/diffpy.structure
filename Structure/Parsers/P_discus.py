@@ -184,9 +184,9 @@ class P_discus(StructureParser):
         element = words[0][0:1].upper() + words[0][1:].lower()
         xyz = [float(w) for w in words[1:4]]
         Biso = float(words[4])
-        a = Atom(element, xyz)
+        self.stru.addNewAtom(element, xyz)
+        a = self.stru.getLastAtom()
         a.setBiso(Biso)
-        self.stru.append(a)
         return
 
     def _parse_invalid_record(self, words):

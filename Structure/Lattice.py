@@ -14,6 +14,9 @@
 
 """class Lattice stores properites and provides simple operations in lattice
 coordinate system.
+
+Module variables:
+    cartesian   -- constant instance of Lattice, default Cartesian system
 """
 
 __id__ = "$Id$"
@@ -51,6 +54,10 @@ class Lattice:
                their values are set by setLatPar() and setLatBase()
         ar, br, cr, alphar, betar, gammar -- read-only parameters of
                reciprocal lattice, set by setLatPar() and setLatBase()
+        ca, cb, cg, sa, sb, sg -- read-only cosines and sines of direct
+               lattice angles, they get set by setLatPar() and setLatBase()
+        car, cbr, cgr, sar, sbr, sgr -- read-only cosines and sines of
+               reciprocal lattice angles, set by setLatPar() and setLatBase()
         metrics  -- metrics tensor
         base     -- matrix of base vectors in cartesian coordinates,
                     base = stdbase*baserot
@@ -82,8 +89,12 @@ class Lattice:
         # initialize data members, they values will be set by setLatPar()
         self.a = self.b = self.c = None
         self.alpha = self.beta = self.gamma = None
+        self.ca = self.cb = self.cg = None
+        self.sa = self.sb = self.sg = None
         self.ar = self.br = self.cr = None
         self.alphar = self.betar = self.gammar = None
+        self.car = self.cbr = self.cgr = None
+        self.sar = self.sbr = self.sgr = None
         self.baserot = None
         self.base = self.recbase = None
         self.normbase = self.recnormbase = None
@@ -127,18 +138,21 @@ class Lattice:
         if beta is not None: self.beta = float(beta)
         if gamma is not None: self.gamma = float(gamma)
         if baserot is not None: self.baserot = numpy.array(baserot)
-        (ca, sa) = ( cosd(self.alpha), sind(self.alpha) )
-        (cb, sb) = ( cosd(self.beta),  sind(self.beta) )
-        (cg, sg) = ( cosd(self.gamma), sind(self.gamma) )
+        (self.ca, self.sa) = (ca, sa) = ( cosd(self.alpha), sind(self.alpha) )
+        (self.cb, self.sb) = (cb, sb) = ( cosd(self.beta),  sind(self.beta) )
+        (self.cg, self.sg) = (cg, sg) = ( cosd(self.gamma), sind(self.gamma) )
         # Vunit is a volume of unit cell with a=b=c=1
         Vunit = math.sqrt(1.0 + 2.0*ca*cb*cg - ca*ca - cb*cb - cg*cg)
         # reciprocal lattice
         self.ar = sa/(self.a*Vunit)
         self.br = sb/(self.b*Vunit)
         self.cr = sg/(self.c*Vunit)
-        car = (cb*cg - ca)/(sb*sg); sar = math.sqrt(1.0 - car**2)
-        cbr = (ca*cg - cb)/(sa*sg); sbr = math.sqrt(1.0 - cbr**2)
-        cgr = (ca*cb - cg)/(sa*sb); sgr = math.sqrt(1.0 - cgr**2)
+        self.car = car = (cb*cg - ca)/(sb*sg); sar = math.sqrt(1.0 - car**2)
+        self.cbr = cbr = (ca*cg - cb)/(sa*sg); sbr = math.sqrt(1.0 - cbr**2)
+        self.cgr = cgr = (ca*cb - cg)/(sa*sb); sgr = math.sqrt(1.0 - cgr**2)
+        self.sar = numpy.sqrt(1.0 - car*car)
+        self.sbr = numpy.sqrt(1.0 - cbr*cbr)
+        self.sgr = numpy.sqrt(1.0 - cgr*cgr)
         self.alphar = math.degrees(math.acos(car))
         self.betar = math.degrees(math.acos(cbr))
         self.gammar = math.degrees(math.acos(cgr))
@@ -182,12 +196,15 @@ class Lattice:
         self.a = numpy.sqrt(numpy.dot(self.base[0,:], self.base[0,:]))
         self.b = numpy.sqrt(numpy.dot(self.base[1,:], self.base[1,:]))
         self.c = numpy.sqrt(numpy.dot(self.base[2,:], self.base[2,:]))
-        ca = numpy.dot(self.base[1,:], self.base[2,:]) / (self.b*self.c)
-        cb = numpy.dot(self.base[0,:], self.base[2,:]) / (self.a*self.c)
-        cg = numpy.dot(self.base[0,:], self.base[1,:]) / (self.a*self.b)
-        sa = numpy.sqrt(1.0 - ca**2)
-        sb = numpy.sqrt(1.0 - cb**2)
-        sg = numpy.sqrt(1.0 - cg**2)
+        ca = ca = numpy.dot(self.base[1,:], self.base[2,:]) / (self.b*self.c)
+        cb = cb = numpy.dot(self.base[0,:], self.base[2,:]) / (self.a*self.c)
+        cg = cg = numpy.dot(self.base[0,:], self.base[1,:]) / (self.a*self.b)
+        sa = sa = numpy.sqrt(1.0 - ca**2)
+        sb = sb = numpy.sqrt(1.0 - cb**2)
+        sg = sg = numpy.sqrt(1.0 - cg**2)
+        (self.ca, self.sa) = (ca, sa)
+        (self.cb, self.sb) = (cb, sb)
+        (self.cg, self.sg) = (cg, sg)
         self.alpha = math.degrees(math.acos(ca))
         self.beta = math.degrees(math.acos(cb))
         self.gamma = math.degrees(math.acos(cg))
@@ -200,6 +217,9 @@ class Lattice:
         car = (cb*cg - ca)/(sb*sg); sar = math.sqrt(1.0 - car**2)
         cbr = (ca*cg - cb)/(sa*sg); sbr = math.sqrt(1.0 - cbr**2)
         cgr = (ca*cb - cg)/(sa*sb); sgr = math.sqrt(1.0 - cgr**2)
+        (self.car, self.sar) = (car, sar)
+        (self.cbr, self.sbr) = (cbr, sbr)
+        (self.cgr, self.sgr) = (cgr, sgr)
         self.alphar = math.degrees(math.acos(car))
         self.betar = math.degrees(math.acos(cbr))
         self.gammar = math.degrees(math.acos(cgr))
@@ -246,6 +266,11 @@ class Lattice:
         rc = numpy.dot(u, self.base)
         return rc
 
+    def fractional(self, rc):
+        """return fractional coordinates of a cartesian vector"""
+        u = numpy.dot(rc, self.recbase)
+        return u
+
     def dot(self, u, v):
         """return dot product of 2 lattice vectors"""
         dp = numpy.dot(u, numpy.dot(self.metrics, v))
@@ -285,3 +310,8 @@ class Lattice:
         return s
 
 # End of Lattice
+
+##############################################################################
+# module variables
+
+cartesian = Lattice()

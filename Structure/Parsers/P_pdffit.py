@@ -99,7 +99,9 @@ class P_pdffit(StructureParser):
                 wl1 = l.split()
                 element = wl1[0][0].upper() + wl1[0][1:].lower()
                 xyz = [ float(w) for w in wl1[1:4] ]
-                a = Atom(element, xyz=xyz, occupancy=float(wl1[4]))
+                occ = float(wl1[4])
+                stru.addNewAtom(element, xyz=xyz, occupancy=occ)
+                a = stru.getLastAtom()
                 p_nl += 1
                 wl2 = ilines.next().split()
                 a.sigxyz = [ float(w) for w in wl2[0:3] ]
@@ -122,7 +124,6 @@ class P_pdffit(StructureParser):
                 a.sigU[0][1] = a.sigU[1][0] = float(wl6[0])
                 a.sigU[0][2] = a.sigU[2][0] = float(wl6[1])
                 a.sigU[1][2] = a.sigU[2][1] = float(wl6[2])
-                stru.append(a)
             if len(stru) != p_natoms:
                 raise InvalidStructureFormat, \
                         "expected %d atoms, read %d" % (p_natoms, len(stru))

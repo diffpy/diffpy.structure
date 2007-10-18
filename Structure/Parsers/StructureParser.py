@@ -65,4 +65,18 @@ class StructureParser:
         s = '\n'.join(lines) + '\n'
         return s
 
+    def parseFile(self, filename):
+        """Create Structure instance from an existing file.
+        
+        filename  -- path to structure file
+
+        Return Structure object.
+        Raise InvalidStructureFormat or IOError.
+        """
+        self.filename = filename
+        f = open(filename)
+        lines = f.readlines()
+        stru = self.parseLines(lines)
+        return stru
+
 # End of StructureParser

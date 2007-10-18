@@ -54,3 +54,16 @@ class SymmetryError(Exception):
         return self.value
 
 # End of SymmetryError
+
+
+class IsotropyError(Exception):
+    """Exception raised for invalid operations on isotropic atoms.
+    """
+
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return self.value
+
+# End of IsotropyError

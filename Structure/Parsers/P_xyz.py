@@ -90,7 +90,7 @@ class P_xyz(StructureParser):
                 element = fields[0]
                 element = element[0].upper() + element[1:].lower()
                 xyz = [ float(f) for f in fields[1:4] ]
-                stru.append(Atom(element, xyz=xyz))
+                stru.addNewAtom(element, xyz=xyz)
         except ValueError:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             raise InvalidStructureFormat, \
@@ -111,7 +111,7 @@ class P_xyz(StructureParser):
         lines.append( str(len(stru)) )
         lines.append( stru.title )
         for a in stru:
-            rc = stru.cartesian(a)
+            rc = a.xyz_cartn
             s = "%-3s %g %g %g" % (a.element, rc[0], rc[1], rc[2])
             lines.append(s)
         return lines

@@ -44,4 +44,28 @@ class PDFFitStructure(Structure):
         }
         return
 
+    def read(self, filename, format='auto'):
+        """Same as Structure.read, but update spcgr value in
+        self.pdffit when parser can get spacegroup.
+
+        Return instance of StructureParser used to load the data.
+        See Structure.read() for more info.
+        """
+        p = Structure.read(self, filename, format)
+        sg = getattr(p, 'spacegroup', None)
+        if sg:  self.pdffit['spcgr'] = sg.short_name
+        return p
+
+    def readStr(self, s, format='auto'):
+        """Same as Structure.readStr, but update spcgr value in
+        self.pdffit when parser can get spacegroup.
+
+        Return instance of StructureParser used to load the data.
+        See Structure.readStr() for more info.
+        """
+        p = Structure.readStr(self, s, format)
+        sg = getattr(p, 'spacegroup', None)
+        if sg:  self.pdffit['spcgr'] = sg.short_name
+        return p
+
 # End of PDFFitStructure
