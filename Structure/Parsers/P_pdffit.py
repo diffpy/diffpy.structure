@@ -70,7 +70,10 @@ class P_pdffit(StructureParser):
                         stru.pdffit['sratio'] = sharp_pars[2]
                         stru.pdffit['rcut'] = sharp_pars[3]
                 elif words[0] == 'spcgr':
-                    stru.pdffit['spcgr'] = ''.join(words[1:])
+                    key = 'spcgr'
+                    start = l.find(key) + len(key)
+                    value = l[start:].strip()
+                    stru.pdffit['spcgr'] = value
                 elif words[0] == 'cell':
                     cell_line_read = True
                     l1 = l.replace(',', ' ')

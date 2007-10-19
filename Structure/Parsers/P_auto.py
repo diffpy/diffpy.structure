@@ -66,16 +66,23 @@ class P_auto(StructureParser):
         from __init__ import getParser
         stru = None
         # try all parsers in sequence
+        parsers_emsgs = []
         for fmt in ofmts:
             p = getParser(fmt)
             try:
                 stru = p.parseLines(lines)
                 self.format = fmt
                 break
-            except (InvalidStructureFormat, NotImplementedError):
+            except InvalidStructureFormat, err:
+                parsers_emsgs.append("%s: %s" % (fmt, err))
+            except NotImplementedError:
                 pass
         if stru is None:
-            raise InvalidStructureFormat, "unknown structure format"
+            emsg = "\n".join([
+                "Unknown or invalid structure format.",
+                "Errors per each tested structure format:"] + parsers_emsgs)
+            raise InvalidStructureFormat, emsg
+        self.__dict__.update(p.__dict__)
         return stru
     # End of parseLines
 

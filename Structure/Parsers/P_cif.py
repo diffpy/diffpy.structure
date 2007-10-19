@@ -263,7 +263,7 @@ class P_cif(StructureParser):
                 if self.stru:   break
         except (StarError, ValueError, IndexError), err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            emsg = str(err)
+            emsg = str(err).strip()
             raise InvalidStructureFormat, emsg, exc_traceback
         # all good here
         return self.stru
@@ -401,8 +401,17 @@ class P_cif(StructureParser):
         # define new spacegroup when not found
         if self.spacegroup is None:
             from diffpy.Structure.SpaceGroups import SpaceGroup
+            new_short_name = "CIF " + (
+                    block.get('_space_group_name_Hall') or
+                    block.get('_symmetry_space_group_name_Hall') or 
+                    'data' )
+            new_crystal_system = (
+                    block.get('_space_group_crystal_system') or
+                    block.get('_symmetry_cell_setting') or
+                    'MONOCLINIC' ).upper()
             self.spacegroup = SpaceGroup(
-                    short_name="CIFdata",
+                    short_name=new_short_name,
+                    crystal_system=new_crystal_system,
                     symop_list=symop_list)
         self._expandAsymmetricUnit()
         return
