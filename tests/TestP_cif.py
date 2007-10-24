@@ -116,45 +116,45 @@ class TestP_cif(unittest.TestCase):
                 pfile2.parseFile, self.badciffile)
         return
 
-    def test__parseCifBlock(self):
-        """check P_cif._parseCifBlock()
-        """
-        return
-
-    def test__parse_lattice(self):
-        """check P_cif._parse_lattice()
-        """
-        return
-
-    def test__parse_atom_site_label(self):
-        """check P_cif._parse_atom_site_label()
-        """
-        return
-
-    def test__parse_atom_site_aniso_label(self):
-        """check P_cif._parse_atom_site_aniso_label()
-        """
-        return
-
-    def test__parse_space_group_symop_operation_xyz(self):
-        """check P_cif._parse_space_group_symop_operation_xyz()
-        """
-        return
-
-    def test__expandAsymmetricUnit(self):
-        """check P_cif._expandAsymmetricUnit()
-        """
-        return
-
-    def test_toLines(self):
-        """check P_cif.toLines()
-        """
-        return
-
-    def test_tostring(self):
-        """check P_cif.tostring()
-        """
-        return
+#   def test__parseCifBlock(self):
+#       """check P_cif._parseCifBlock()
+#       """
+#       return
+#
+#   def test__parse_lattice(self):
+#       """check P_cif._parse_lattice()
+#       """
+#       return
+#
+#   def test__parse_atom_site_label(self):
+#       """check P_cif._parse_atom_site_label()
+#       """
+#       return
+#
+#   def test__parse_atom_site_aniso_label(self):
+#       """check P_cif._parse_atom_site_aniso_label()
+#       """
+#       return
+#
+#   def test__parse_space_group_symop_operation_xyz(self):
+#       """check P_cif._parse_space_group_symop_operation_xyz()
+#       """
+#       return
+#
+#   def test__expandAsymmetricUnit(self):
+#       """check P_cif._expandAsymmetricUnit()
+#       """
+#       return
+#
+#   def test_toLines(self):
+#       """check P_cif.toLines()
+#       """
+#       return
+#
+#   def test_tostring(self):
+#       """check P_cif.tostring()
+#       """
+#       return
 
 # End of class TestP_cif
 
