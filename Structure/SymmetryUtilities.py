@@ -241,8 +241,8 @@ class GeneratorSite:
                         rotational matrices, this is a base of symmetry
                         allowed shifts.
         Uspace       -- 3D array of independent components of U matrices.
-        pparameters   -- list of (xyz symbol, value) pairs
-        Uparameters   -- list of (U symbol, value) pairs
+        pparameters  -- list of (xyz symbol, value) pairs
+        Uparameters  -- list of (U symbol, value) pairs
     """
 
     Ucomponents = numpy.array([
@@ -590,6 +590,9 @@ class SymmetryConstraints:
         sgoffset   -- optional offset of space group origin [0, 0, 0]
         eps        -- cutoff for equivalent positions
     Calculated data members:
+        corepos    -- list of of positions in the asymmetric unit
+        coremap    -- dictionary mapping indices of asymmetric core positions
+                      to indices of all symmetry related positions
         poseqns    -- list of coordinate formula dictionaries per each site.
                       Formula dictionary keys are from ("x", "y", "z") and
                       the values are formatted as [[-]{x|y|z}%i] [{+|-}%g],
@@ -616,21 +619,29 @@ class SymmetryConstraints:
         """
         # fill in data members
         self.spacegroup = spacegroup
-        self.positions = numpy.array(positions)
+        self.positions = None
         self.Uijs = None
         self.sgoffset = numpy.array(sgoffset)
         self.eps = eps
+        self.corepos = []
+        self.coremap = {}
         self.poseqns = None
         self.pospars = []
         self.Ueqns = None
         self.Upars = []
         self.Uisotropy = None
-        # positions returned by expandAsymmetricUnit have 3 dimensions
-        if self.positions.ndim == 3:
-            self.positions = numpy.concatenate(self.positions, 0)
-        # and make if work for a single position
-        elif self.positions.ndim == 1 and self.positions.size == 3:
-            self.positions = self.positions.reshape((1,3))
+        # handle single position:
+        import types
+        number_types = (types.IntType, types.LongType, types.FloatType)
+        if len(positions) and type(positions[0]) in number_types:
+            self.positions = numpy.array(positions, dtype=float).reshape((1,3))
+        else:
+            # create flat array of position so we can handle nested lists
+            # from ExpandAsymmetricUnit
+            flatpos = numpy.array(sum(positions, []), dtype=float)
+            flatpos = flatpos.flatten()
+            self.positions = flatpos.reshape((flatpos.size/3,3))
+        # here self.positions should be a 2D numpy array
         numpos = len(self.positions)
         # adjust Uijs if not specified
         if not self.Uijs:
@@ -655,6 +666,7 @@ class SymmetryConstraints:
         for genidx in range(numpos):
             if not genidx in independent:   continue
             # it is a generator
+            self.coremap[genidx] = []
             genpos = self.positions[genidx]
             genUij = self.Uijs[genidx]
             gen = GeneratorSite(self.spacegroup, genpos, genUij,
@@ -678,6 +690,7 @@ class SymmetryConstraints:
                 if not formula:  continue
                 # indidx is dependent here
                 del independent[indidx]
+                self.coremap[genidx].append(indidx)
                 self.poseqns[indidx] = formula
                 self.Ueqns[indidx] = gen.UFormula(indpos, gUsymbols)
                 # make sure positions and Uijs are consistent with spacegroup
@@ -686,6 +699,9 @@ class SymmetryConstraints:
                 self.positions[indidx] += dxyz - dxyz.round()
                 self.Uijs[indidx] = gen.eqUij[eqidx]
         # all done here
+        coreidx = self.coremap.keys()
+        coreidx.sort()
+        self.corepos = [self.positions[i] for i in coreidx]
         return
 
     def posparSymbols(self):

@@ -41,8 +41,8 @@ class TestRoutines(unittest.TestCase):
         monoclinic = GetSpaceGroup("P2")
         orthorhombic = GetSpaceGroup("P222")
         tetragonal = GetSpaceGroup("P4")
-        trigonal = GetSpaceGroup("P3") 
-        hexagonal = GetSpaceGroup("P6") 
+        trigonal = GetSpaceGroup("P3")
+        hexagonal = GetSpaceGroup("P6")
         cubic = GetSpaceGroup("P23")
         self.failUnless(isSpaceGroupLatPar(triclinic, 1, 2, 3, 40, 50, 60))
         self.failIf(isSpaceGroupLatPar(monoclinic, 1, 2, 3, 40, 50, 60))
@@ -134,7 +134,7 @@ class TestGeneratorSite(unittest.TestCase):
 
     def setUp(self):
         x, y, z = 0.07, 0.11, 0.13
-        self.x, self.y, self.z = x, y, z 
+        self.x, self.y, self.z = x, y, z
         if TestGeneratorSite.generators:
             self.__dict__.update(TestGeneratorSite.generators)
             return
@@ -152,7 +152,7 @@ class TestGeneratorSite(unittest.TestCase):
         g227oa = GeneratorSite(sg227, 3*[1./8], sgoffset=3*[1./8])
         g227oc = GeneratorSite(sg227, [0, 0, 0], sgoffset=3*[1./8])
         TestGeneratorSite.generators = {
-                'g117c' : g117c,  'g117h' : g117h, 
+                'g117c' : g117c,  'g117h' : g117h,
                 'g143a' : g143a,  'g143b' : g143b,
                 'g143c' : g143c,  'g143d' : g143d,
                 'g227a' : g227a,  'g227c' : g227c,
@@ -254,6 +254,85 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
 # End of class TestGeneratorSite
+
+##############################################################################
+class TestSymmetryConstraints(unittest.TestCase):
+
+    def setUp(self):
+        return
+
+    def tearDown(self):
+        return
+
+#   def test___init__(self):
+#       """check SymmetryConstraints.__init__()
+#       """
+#       return
+
+    def test_corepos(self):
+        """test_corepos - find positions in the asymmetric unit.
+        """
+        import numpy
+        sg225 = GetSpaceGroup(225)
+        corepos = [[0, 0, 0], [0.1, 0.13, 0.17]]
+        eau = ExpandAsymmetricUnit(sg225, corepos)
+        sc = SymmetryConstraints(sg225, eau.expandedpos)
+        self.assertEqual(2, len(sc.corepos))
+        self.failUnless(numpy.all(corepos[0] == sc.corepos[0]))
+        self.failUnless(numpy.all(corepos[1] == sc.corepos[1]))
+        self.assertEqual(2, len(sc.coremap))
+        mapped_count = sum([len(idcs) for idcs in sc.coremap.values()])
+        self.assertEqual(len(sc.positions), mapped_count)
+        self.failUnless(sc.coremap[0] == range(4))
+        self.failUnless(sc.coremap[4] == range(4, 4+192))
+        return
+
+#   def test__findConstraints(self):
+#       """check SymmetryConstraints._findConstraints()
+#       """
+#       return
+#
+#   def test_posparSymbols(self):
+#       """check SymmetryConstraints.posparSymbols()
+#       """
+#       return
+#
+#   def test_posparValues(self):
+#       """check SymmetryConstraints.posparValues()
+#       """
+#       return
+#
+#   def test_positionFormulas(self):
+#       """check SymmetryConstraints.positionFormulas()
+#       """
+#       return
+#
+#   def test_positionFormulasPruned(self):
+#       """check SymmetryConstraints.positionFormulasPruned()
+#       """
+#       return
+#
+#   def test_UparSymbols(self):
+#       """check SymmetryConstraints.UparSymbols()
+#       """
+#       return
+#
+#   def test_UparValues(self):
+#       """check SymmetryConstraints.UparValues()
+#       """
+#       return
+#
+#   def test_UFormulas(self):
+#       """check SymmetryConstraints.UFormulas()
+#       """
+#       return
+#
+#   def test_UFormulasPruned(self):
+#       """check SymmetryConstraints.UFormulasPruned()
+#       """
+#       return
+
+# End of class TestSymmetryConstraints
 
 if __name__ == '__main__':
     unittest.main()

@@ -173,7 +173,9 @@ class Structure(list):
         return p
 
     def write(self, filename, format):
-        """save structure to file in the specified format
+        """Save structure to file in the specified format
+
+        No return value.
 
         Note: available structure formats can be obtained by:
             from Parsers import formats
