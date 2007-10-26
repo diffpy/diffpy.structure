@@ -25,6 +25,11 @@ import unittest
 from diffpy.Structure.SpaceGroups import GetSpaceGroup
 from diffpy.Structure.SymmetryUtilities import *
 
+# useful variables
+thisfile = locals().get('__file__', 'TestSymmetryUtilities.py')
+tests_dir = os.path.dirname(os.path.abspath(thisfile))
+testdata_dir = os.path.join(tests_dir, 'testdata')
+
 ##############################################################################
 class TestRoutines(unittest.TestCase):
 
@@ -264,10 +269,30 @@ class TestSymmetryConstraints(unittest.TestCase):
     def tearDown(self):
         return
 
-#   def test___init__(self):
-#       """check SymmetryConstraints.__init__()
-#       """
-#       return
+    def test___init__(self):
+        """check SymmetryConstraints.__init__()
+        """
+        sg225 = GetSpaceGroup(225)
+        # initialize from nested lists and arrays from ExpandAsymmetricUnit
+        eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
+        sc0 = SymmetryConstraints(sg225, eau.expandedpos)
+        self.assertEqual(1, len(sc0.coremap))
+        # initialize from list of arrays of coordinates
+        poslistarrays = [xyz for xyz in sc0.positions]
+        sc1 = SymmetryConstraints(sg225, poslistarrays)
+        self.assertEqual(1, len(sc1.coremap))
+        # initialize from list of lists of coordinates
+        poslistlist = [list(xyz) for xyz in poslistarrays]
+        sc2 = SymmetryConstraints(sg225, poslistlist)
+        self.assertEqual(1, len(sc2.coremap))
+        # initialize from nx3 array
+        posarray = numpy.array(poslistlist)
+        sc3 = SymmetryConstraints(sg225, posarray)
+        self.assertEqual(1, len(sc3.coremap))
+        # finally initialize from a single coordinate
+        sc4 = SymmetryConstraints(sg225, [0, 0, 0])
+        self.assertEqual(1, len(sc4.coremap))
+        return
 
     def test_corepos(self):
         """test_corepos - find positions in the asymmetric unit.

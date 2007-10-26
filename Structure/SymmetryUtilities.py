@@ -632,14 +632,15 @@ class SymmetryConstraints:
         self.Uisotropy = None
         # handle single position:
         import types
-        number_types = (types.IntType, types.LongType, types.FloatType)
-        if len(positions) and type(positions[0]) in number_types:
-            self.positions = numpy.array(positions, dtype=float).reshape((1,3))
+        # handle list of lists returned by ExpandAsymmetricUnit
+        if len(positions) and type(positions[0]) is types.ListType:
+            # concatenate lists before converting to Nx3 array
+            flatpos = sum(positions, [])
+            flatpos = numpy.array(flatpos, dtype=float).flatten()
+            self.positions = flatpos.reshape((flatpos.size/3,3))
+        # otherwise convert to array
         else:
-            # create flat array of position so we can handle nested lists
-            # from ExpandAsymmetricUnit
-            flatpos = numpy.array(sum(positions, []), dtype=float)
-            flatpos = flatpos.flatten()
+            flatpos = numpy.array(positions, dtype=float).flatten()
             self.positions = flatpos.reshape((flatpos.size/3,3))
         # here self.positions should be a 2D numpy array
         numpos = len(self.positions)
