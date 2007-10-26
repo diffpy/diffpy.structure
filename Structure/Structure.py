@@ -37,14 +37,16 @@ class Structure(list):
         lattice -- coordinate system (instance of Lattice)
     """
 
-    def __init__(self, atoms=[], lattice=None, title=""):
+    def __init__(self, atoms=[], lattice=None, title="", filename=None):
         """define group of atoms in a specified lattice.
 
-        atoms   -- list of Atom instances to be included in this Structure.
-                   When atoms argument is an existing Structure instance,
-                   the new Structure is its deep copy.
-        lattice -- instance of Lattice defining coordinate systems, property.
-        title   -- string description of the structure
+        atoms    -- list of Atom instances to be included in this Structure.
+                    When atoms argument is an existing Structure instance,
+                    the new Structure is its deep copy.
+        lattice  -- instance of Lattice defining coordinate systems, property.
+        title    -- string description of the structure
+        filename -- optional, name of a file to load the structure from.
+                    Overrides atoms argument when specified.
 
         Structure(stru)     create a copy of Structure instance stru.
 
@@ -70,8 +72,12 @@ class Structure(list):
         # override from title argument
         if title:
             self.title = title
-        # finally assign list of atoms to self
-        self[:] = atoms
+        # finally check if data should be loaded from file
+        if filename is not None:
+            self.read(filename)
+        # otherwise assign list of atoms to self
+        else:
+            self[:] = atoms
         return
 
     def __str__(self):
