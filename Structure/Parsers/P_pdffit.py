@@ -118,15 +118,18 @@ class P_pdffit(StructureParser):
                 p_nl += 1
                 wl6 = ilines.next().split()
                 a.sigU = numpy.zeros((3,3), dtype=float)
-                for i in range(3):
-                    a.U[i][i] = float(wl3[i])
-                    a.sigU[i][i] = float(wl4[i])
-                a.U[0][1] = a.U[1][0] = float(wl5[0])
-                a.U[0][2] = a.U[2][0] = float(wl5[1])
-                a.U[1][2] = a.U[2][1] = float(wl5[2])
-                a.sigU[0][1] = a.sigU[1][0] = float(wl6[0])
-                a.sigU[0][2] = a.sigU[2][0] = float(wl6[1])
-                a.sigU[1][2] = a.sigU[2][1] = float(wl6[2])
+                a.U11 = float(wl3[0])
+                a.U22 = float(wl3[1])
+                a.U33 = float(wl3[2])
+                a.sigU[0,0] = float(wl4[0])
+                a.sigU[1,1] = float(wl4[1])
+                a.sigU[2,2] = float(wl4[2])
+                a.U12 = float(wl5[0])
+                a.U13 = float(wl5[1])
+                a.U23 = float(wl5[2])
+                a.sigU[0,1] = a.sigU[1,0] = float(wl6[0])
+                a.sigU[0,2] = a.sigU[2,0] = float(wl6[1])
+                a.sigU[1,2] = a.sigU[2,1] = float(wl6[2])
             if len(stru) != p_natoms:
                 raise InvalidStructureFormat, \
                         "expected %d atoms, read %d" % (p_natoms, len(stru))

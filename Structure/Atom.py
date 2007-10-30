@@ -20,6 +20,10 @@ import numpy
 import Lattice
 from StructureErrors import IsotropyError
 
+# conversion constants
+_BtoU = 1.0/(8 * numpy.pi**2)
+_UtoB = 1.0/_BtoU
+
 class CartesianCoordinatesArray(numpy.ndarray):
     """Helper array for accessing Cartesian coordinates.
     Converts and updates related array of corresponding fractional
@@ -75,7 +79,8 @@ class Atom(object):
     Private data:
         _U          -- storage of U property, 3x3 numpy matrix
         _Uisoequiv  -- storage of Uisoequiv property, float
-        _anisotropy -- storage of anisotropy property, bool
+        _anisotropy -- storage of anisotropy property, bool or
+                       None when not determined
         _Uijsynced  -- flag for consistency of _U with _Uisoequiv,
                        it is meaningful only for isotropic atoms
 
@@ -105,7 +110,7 @@ class Atom(object):
         self.xyz = numpy.zeros(3, dtype=float)
         self.name = ''
         self.occupancy = 1.0
-        self._anisotropy = True
+        self._anisotropy = None
         self._U = numpy.zeros((3,3), dtype=float)
         self._Uisoequiv = 0.0
         self._Usynced = True
@@ -125,25 +130,6 @@ class Atom(object):
         if Uisoequiv is not None:   self._Uisoequiv = Uisoequiv
         if lattice is not None:     self.lattice = lattice
         return
-
-    def determineAnisotropy(self):
-        """Get anisotropy flag by comparing thermal displacement tensor
-        with expected value in isotropic case.
-
-        Return bool anisotropy flag.
-        """
-        # make sure Uisoequiv gets calculated from Uij elements
-        self._anisotropy = True
-        Uisoequiv = self._get_Uisoequiv()
-        # calculate isotropic tensor Uisoij
-        lat = self.lattice or Lattice.cartesian
-        Tu = lat.recnormbase
-        Uisoij = numpy.dot(numpy.transpose(Tu), Uisoequiv*Tu)
-        # compare with new value
-        maxUdiff = numpy.max(numpy.fabs(self._U - Uisoij))
-        self._anisotropy = maxUdiff > Atom.tol_anisotropy
-        self._Uijsynced = False
-        return self.anisotropy
 
     def msdLat(self, vl):
         """mean square displacement of an atom along lattice vector
@@ -225,6 +211,17 @@ class Atom(object):
     # anisotropy
 
     def _get_anisotropy(self):
+        # determine when unknown
+        if self._anisotropy is None:
+            Uisoequiv = self._get_Uisoequiv()
+            # calculate isotropic tensor Uisoij
+            lat = self.lattice or Lattice.cartesian
+            Tu = lat.recnormbase
+            Uisoij = numpy.dot(numpy.transpose(Tu), Uisoequiv*Tu)
+            # compare with new value
+            maxUdiff = numpy.max(numpy.fabs(self._U - Uisoij))
+            self._anisotropy = maxUdiff > Atom.tol_anisotropy
+            self._Uijsynced = False
         return self._anisotropy
 
     def _set_anisotropy(self, value):
@@ -248,16 +245,17 @@ class Atom(object):
     def _get_U(self):
         # for isotropic non-synced case we need to
         # calculate _U from _Uisoequiv
-        if not self.anisotropy and not self._Uijsynced:
+        if self._anisotropy is False and not self._Uijsynced:
             lat = self.lattice or Lattice.cartesian
             Tu = lat.recnormbase
             self._U = numpy.dot(numpy.transpose(Tu), self._Uisoequiv*Tu)
             self._Uijsynced = True
+        # handle can be changed by the caller
+        self._anisotropy = None
         return self._U
 
     def _set_U(self, value):
-        if not self._anisotropy:
-            raise IsotropyError, "Cannot modify tensor U of isotropic atom"
+        self._anisotropy = None
         self._U = numpy.array(value, dtype=float)
         return
 
@@ -271,8 +269,7 @@ class Atom(object):
         return Uij[i,j]
 
     def _set_Uij(self, i, j, value):
-        if not self._anisotropy:
-            raise IsotropyError, "Cannot modify tensor U of isotropic atom"
+        self._anisotropy = None
         self._U[i,j] = value
         self._U[j,i] = value
 
@@ -298,7 +295,7 @@ class Atom(object):
     # Uisoequiv
 
     def _get_Uisoequiv(self):
-        if self._anisotropy:
+        if self._anisotropy is None or self._anisotropy is True:
             lat = self.lattice or Lattice.cartesian
             Uequiv = (
                     self._U[0,0]*lat.ar*lat.ar*lat.a*lat.a + 
@@ -312,9 +309,9 @@ class Atom(object):
 
     def _set_Uisoequiv(self, value):
         double_eps = (1.0 + numpy.sqrt(2.0**-52)) - 1.0
-        self._Uisoequiv = value
+        self._Uisoequiv = float(value)
         self._Uijsynced = False
-        if self._anisotropy:
+        if self._get_anisotropy():
             Uequiv = self._get_Uisoequiv()
             # scale if Uequiv is not zero
             if numpy.fabs(Uequiv) > double_eps:
@@ -330,13 +327,34 @@ class Atom(object):
     Uisoequiv = property(_get_Uisoequiv, _set_Uisoequiv, doc =
             "isotropic thermal displacement or equivalent value")
 
+    # Bij elements
+
+    B11 = property(lambda self: _UtoB*self._get_Uij(0, 0),
+            lambda self, value: self._set_Uij(0, 0, _BtoU*value), doc =
+            "B11 element of Debye-Waler displacement tensor")
+    B22 = property(lambda self: _UtoB*self._get_Uij(1, 1),
+            lambda self, value: self._set_Uij(1, 1, _BtoU*value), doc =
+            "B22 element of Debye-Waler displacement tensor")
+    B33 = property(lambda self: _UtoB*self._get_Uij(2, 2),
+            lambda self, value: self._set_Uij(2, 2, _BtoU*value), doc =
+            "B33 element of Debye-Waler displacement tensor")
+    B12 = property(lambda self: _UtoB*self._get_Uij(0, 1),
+            lambda self, value: self._set_Uij(0, 1, _BtoU*value), doc =
+            "B12 element of Debye-Waler displacement tensor")
+    B13 = property(lambda self: _UtoB*self._get_Uij(0, 2),
+            lambda self, value: self._set_Uij(0, 2, _BtoU*value), doc =
+            "B13 element of Debye-Waler displacement tensor")
+    B23 = property(lambda self: _UtoB*self._get_Uij(1, 2),
+            lambda self, value: self._set_Uij(1, 2, _BtoU*value), doc =
+            "B23 element of Debye-Waler displacement tensor")
+
     # Bisoequiv
 
     def _get_Bisoequiv(self):
-        return 8 * numpy.pi**2 * self._Uisoequiv
+        return _UtoB * self._get_Uisoequiv()
 
     def _set_Bisoequiv(self, value):
-        self._set_Uisoequiv(value / (8 * numpy.pi**2))
+        self._set_Uisoequiv(_BtoU*value)
 
     Bisoequiv = property(_get_Bisoequiv, _set_Bisoequiv, doc =
             "Debye-Waler isotropic thermal displacement or equivalent value")
