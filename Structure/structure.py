@@ -21,8 +21,8 @@ import copy
 import math
 import numpy
 import numpy.linalg as numalg
-from Lattice import Lattice
-from Atom import Atom
+from lattice import Lattice
+from atom import Atom
 
 ##############################################################################
 class Structure(list):

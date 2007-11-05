@@ -17,7 +17,7 @@
 
 __id__ = "$Id$"
 
-from Structure import Structure
+from structure import Structure
 
 ##############################################################################
 class PDFFitStructure(Structure):

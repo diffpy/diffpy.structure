@@ -17,7 +17,7 @@
 __id__ = "$Id$"
 
 import numpy
-import Lattice
+from lattice import cartesian as cartesian_lattice
 from StructureErrors import IsotropyError
 
 # conversion constants
@@ -140,7 +140,7 @@ class Atom(object):
         """
         if not self.anisotropy:     return self._Uisoequiv
         # here we need to calculate msd
-        lat = self.lattice or Lattice.cartesian
+        lat = self.lattice or cartesian_lattice
         vln = numpy.array(vl, dtype=float)/lat.norm(vl)
         G = lat.metrics
         rhs = numpy.array([ G[0]*lat.ar,
@@ -159,7 +159,7 @@ class Atom(object):
         """
         if not self.anisotropy:     return self._Uisoequiv
         # here we need to calculate msd
-        lat = self.lattice or Lattice.cartesian
+        lat = self.lattice or cartesian_lattice
         vcn = numpy.array(vc, dtype=float)
         vcn /= numpy.sqrt(numpy.sum(vcn**2))
         F1 = lat.normbase
@@ -215,7 +215,7 @@ class Atom(object):
         if self._anisotropy is None:
             Uisoequiv = self._get_Uisoequiv()
             # calculate isotropic tensor Uisoij
-            lat = self.lattice or Lattice.cartesian
+            lat = self.lattice or cartesian_lattice
             Tu = lat.recnormbase
             Uisoij = numpy.dot(numpy.transpose(Tu), Uisoequiv*Tu)
             # compare with new value
@@ -246,7 +246,7 @@ class Atom(object):
         # for isotropic non-synced case we need to
         # calculate _U from _Uisoequiv
         if self._anisotropy is False and not self._Uijsynced:
-            lat = self.lattice or Lattice.cartesian
+            lat = self.lattice or cartesian_lattice
             Tu = lat.recnormbase
             self._U = numpy.dot(numpy.transpose(Tu), self._Uisoequiv*Tu)
             self._Uijsynced = True
@@ -296,7 +296,7 @@ class Atom(object):
 
     def _get_Uisoequiv(self):
         if self._anisotropy is None or self._anisotropy is True:
-            lat = self.lattice or Lattice.cartesian
+            lat = self.lattice or cartesian_lattice
             Uequiv = (
                     self._U[0,0]*lat.ar*lat.ar*lat.a*lat.a + 
                     self._U[1,1]*lat.br*lat.br*lat.b*lat.b +
@@ -318,7 +318,7 @@ class Atom(object):
                 self._U *= value/Uequiv
             # otherwise just convert from Uiso value
             else:
-                lat = self.lattice or Lattice.cartesian
+                lat = self.lattice or cartesian_lattice
                 Tu = lat.recnormbase
                 self._U = numpy.dot(numpy.transpose(Tu), Uequiv*Tu)
                 self._Uijsynced = True

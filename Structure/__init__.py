@@ -30,10 +30,10 @@ __id__ = "$Id$"
 # interface definitions
 ##############################################################################
 
-from Structure import Structure
-from Lattice import Lattice
-from Atom import Atom
-from PDFFitStructure import PDFFitStructure
+from structure import Structure
+from lattice import Lattice
+from atom import Atom
+from pdffitstructure import PDFFitStructure
 from StructureErrors import InvalidStructureFormat
 from StructureErrors import InvalidLattice
 from StructureErrors import SymmetryError
