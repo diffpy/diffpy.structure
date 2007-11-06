@@ -19,5 +19,5 @@ from diffpy.Structure.structure import Structure
 from diffpy.Structure.lattice import Lattice
 from diffpy.Structure.atom import Atom
 from diffpy.Structure.pdffitstructure import PDFFitStructure
-from diffpy.Structure.StructureErrors import InvalidStructureFormat
+from diffpy.Structure.StructureErrors import StructureFormatError
 from diffpy.Structure.utils import isfloat

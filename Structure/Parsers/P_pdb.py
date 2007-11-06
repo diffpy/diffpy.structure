@@ -24,7 +24,7 @@ import numpy
 from numpy import pi
 
 from import_helper import Structure, Lattice, Atom
-from import_helper import InvalidStructureFormat
+from import_helper import StructureFormatError
 from StructureParser import StructureParser
 
 class P_pdb(StructureParser):
@@ -59,7 +59,7 @@ class P_pdb(StructureParser):
     def parseLines(self, lines):
         """Parse list of lines in PDB format.
 
-        Return Structure instance or raise InvalidStructureFormat.
+        Return Structure instance or raise StructureFormatError.
         """
         try:
             stru = Structure()
@@ -102,7 +102,7 @@ class P_pdb(StructureParser):
                     den[den==0] = 1.0
                     reldiff = numpy.fabs( (sc - scale)/den )
                     if not numpy.all(reldiff < 1.0e-4):
-                        raise InvalidStructureFormat, ( "%d: SCALE and " +
+                        raise StructureFormatError, ( "%d: SCALE and " +
                                 "CRYST1 records are inconsistent." ) % p_nl
                 elif record in ("ATOM", "HETATM"):
                     name = line[12:16].strip()
@@ -157,11 +157,11 @@ class P_pdb(StructureParser):
                 elif record in P_pdb.validRecords:
                     pass
                 else:
-                    raise InvalidStructureFormat, \
+                    raise StructureFormatError, \
                             "%d: invalid record name '%r'" % (p_nl, record)
         except (ValueError, IndexError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise InvalidStructureFormat, "%d: invalid PDB record" % \
+            raise StructureFormatError, "%d: invalid PDB record" % \
                     p_nl, exc_traceback
         return stru
     # End of parseLines

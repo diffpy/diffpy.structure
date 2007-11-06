@@ -19,7 +19,7 @@ __id__ = "$Id$"
 
 import unittest
 
-from diffpy.Structure import Lattice, InvalidLattice
+from diffpy.Structure import Lattice, LatticeError
 
 ##############################################################################
 class TestLattice(unittest.TestCase):
@@ -81,9 +81,9 @@ class TestLattice(unittest.TestCase):
         self.assertListAlmostEqual(base[1], self.lattice.base[1])
         self.assertListAlmostEqual(base[2], self.lattice.base[2])
         # try base checking
-        self.assertRaises(InvalidLattice, self.lattice.setLatBase,
+        self.assertRaises(LatticeError, self.lattice.setLatBase,
                 [[1, 0, 0], [1,0,0], [0,0,1]])
-        self.assertRaises(InvalidLattice, self.lattice.setLatBase,
+        self.assertRaises(LatticeError, self.lattice.setLatBase,
                 [[1, 0, 0], [0,0,1], [0,1,0]])
         return
 

@@ -21,7 +21,7 @@ import sys
 import numpy
 
 from import_helper import PDFFitStructure, Lattice, Atom
-from import_helper import InvalidStructureFormat
+from import_helper import StructureFormatError
 from StructureParser import StructureParser
 
 class P_pdffit(StructureParser):
@@ -36,7 +36,7 @@ class P_pdffit(StructureParser):
     def parseLines(self, lines):
         """Parse list of lines in PDFfit format.
 
-        Return Structure object or raise InvalidStructureFormat.
+        Return Structure object or raise StructureFormatError.
         """
         p_nl = 0
         rlist = []
@@ -87,12 +87,12 @@ class P_pdffit(StructureParser):
                     stru.pdffit['ncell'] = [ int(w) for w in l1.split()[1:5] ]
                 elif words[0] == 'format':
                     if words[1] != 'pdffit':
-                        raise InvalidStructureFormat, \
+                        raise StructureFormatError, \
                                 "%d: file is not in PDFfit format" % p_nl
                 elif words[0] == 'atoms' and cell_line_read:
                     break
                 else:
-                    raise InvalidStructureFormat, \
+                    raise StructureFormatError, \
                             "%d: file is not in PDFfit format" % p_nl
             # header was successfully read, we can create Structure instance
             p_natoms = reduce(lambda x,y : x*y, stru.pdffit['ncell'])
@@ -131,7 +131,7 @@ class P_pdffit(StructureParser):
                 a.sigU[0,2] = a.sigU[2,0] = float(wl6[1])
                 a.sigU[1,2] = a.sigU[2,1] = float(wl6[2])
             if len(stru) != p_natoms:
-                raise InvalidStructureFormat, \
+                raise StructureFormatError, \
                         "expected %d atoms, read %d" % (p_natoms, len(stru))
             if stru.pdffit['ncell'][:3] != [1,1,1]:
                 superlatpars = [ latpars[i]*stru.pdffit['ncell'][i]
@@ -141,7 +141,7 @@ class P_pdffit(StructureParser):
                 stru.pdffit['ncell'] = [1, 1, 1, p_natoms]
         except (ValueError, IndexError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise InvalidStructureFormat, \
+            raise StructureFormatError, \
                     "%d: file is not in PDFfit format" % p_nl, exc_traceback
         return stru
     # End of parseLines

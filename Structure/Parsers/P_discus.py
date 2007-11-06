@@ -21,7 +21,7 @@ import sys
 import numpy
 
 from import_helper import PDFFitStructure, Lattice, Atom
-from import_helper import InvalidStructureFormat
+from import_helper import StructureFormatError
 from StructureParser import StructureParser
 
 class P_discus(StructureParser):
@@ -44,7 +44,7 @@ class P_discus(StructureParser):
     def parseLines(self, lines):
         """Parse list of lines in DISCUS format.
 
-        Return PDFFitStructure instance or raise InvalidStructureFormat.
+        Return PDFFitStructure instance or raise StructureFormatError.
         """
         self.lines = lines
         ilines = self.linesIterator()
@@ -70,7 +70,7 @@ class P_discus(StructureParser):
             # check if cell has been defined
             if not self.cell_read:
                 emsg = "%d: unit cell not defined" % self.nl
-                raise InvalidStructureFormat, emsg
+                raise StructureFormatError, emsg
             # parse atoms
             for self.line in ilines:
                 words = self.line.split()
@@ -82,7 +82,7 @@ class P_discus(StructureParser):
             if self.ncell_read and exp_natoms != len(self.stru):
                 emsg = 'Expected %d atoms, read %d.' % \
                     (exp_natoms, len(self.stru))
-                raise InvalidStructureFormat, emsg
+                raise StructureFormatError, emsg
             # take care of superlattice
             if self.stru.pdffit['ncell'][:3] != [1,1,1]:
                 latpars = list(self.stru.lattice.abcABG())
@@ -94,7 +94,7 @@ class P_discus(StructureParser):
         except (ValueError, IndexError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: file is not in DISCUS format" % self.nl
-            raise InvalidStructureFormat, emsg, exc_traceback
+            raise StructureFormatError, emsg, exc_traceback
         return self.stru
     # End of parseLines
 
@@ -145,7 +145,7 @@ class P_discus(StructureParser):
         except ZeroDivisionError:
             emsg = "%d: Invalid lattice parameters - zero cell volume" % \
                     self.nl
-            raise InvalidStructureFormat, emsg
+            raise StructureFormatError, emsg
         self.cell_read = True
         return
 
@@ -154,7 +154,7 @@ class P_discus(StructureParser):
         """
         if words[1] == 'pdffit':
             emsg = "%d: file is not in DISCUS format" % self.nl
-            raise InvalidStructureFormat, emsg
+            raise StructureFormatError, emsg
         return
 
     def _parse_ncell(self, words):
@@ -191,11 +191,11 @@ class P_discus(StructureParser):
 
     def _parse_invalid_record(self, words):
         """Process invalid record in DISCUS structure file.
-        Raises InvalidStructureFormat.
+        Raises StructureFormatError.
         """
         emsg = "%d: Invalid DISCUS record %r." % \
                 (self.nl, words[0])
-        raise InvalidStructureFormat, emsg
+        raise StructureFormatError, emsg
 
     def _parse_not_implemented(self, words):
         """Process the unimplemented records from DISCUS structure file.

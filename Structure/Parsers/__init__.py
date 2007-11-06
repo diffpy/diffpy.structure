@@ -27,12 +27,12 @@ __id__ = "$Id$"
 
 def getParser(format):
     """Return Parser instance for a given structure format.
-    Raises InvalidStructureFormat exception when format is not defined.
+    Raises StructureFormatError exception when format is not defined.
     """
-    from import_helper import InvalidStructureFormat
+    from import_helper import StructureFormatError
     from parser_index import parser_index
     if format not in parser_index:
-        raise InvalidStructureFormat, "no parser for '%s' format" % format
+        raise StructureFormatError, "no parser for '%s' format" % format
     pmod = parser_index[format]['module']
     exec "import %s as pm" % pmod
     return pm.getParser()

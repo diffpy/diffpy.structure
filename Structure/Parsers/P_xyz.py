@@ -23,7 +23,7 @@ __id__ = "$Id$"
 import sys
 
 from import_helper import Structure, Lattice, Atom
-from import_helper import InvalidStructureFormat
+from import_helper import StructureFormatError
 from StructureParser import StructureParser
 
 class P_xyz(StructureParser):
@@ -38,7 +38,7 @@ class P_xyz(StructureParser):
     def parseLines(self, lines):
         """Parse list of lines in XYZ format.
 
-        Return Structure object or raise InvalidStructureFormat.
+        Return Structure object or raise StructureFormatError.
         """
         linefields = [l.split() for l in lines]
         # prepare output structure
@@ -59,11 +59,11 @@ class P_xyz(StructureParser):
                 stru.title = lines[start+1].strip()
                 start += 2
             else:
-                raise InvalidStructureFormat, ("%d: invalid XYZ format, " +
+                raise StructureFormatError, ("%d: invalid XYZ format, " +
                         "missing number of atoms") % (start+1)
         except (IndexError, ValueError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise InvalidStructureFormat, ("%d: invalid XYZ format, " +
+            raise StructureFormatError, ("%d: invalid XYZ format, " +
                     "missing number of atoms") % (start+1), exc_traceback
         # find the last valid record
         stop = len(lines)
@@ -75,7 +75,7 @@ class P_xyz(StructureParser):
         # here we have at least one valid record line
         nfields = len(linefields[start])
         if nfields != 4:
-            raise InvalidStructureFormat, ("%d: invalid XYZ format, " +
+            raise StructureFormatError, ("%d: invalid XYZ format, " +
                     "expected 4 columns") % (start+1)
         # now try to read all record lines
         try:
@@ -85,7 +85,7 @@ class P_xyz(StructureParser):
                 if fields == []:
                     continue
                 elif len(fields) != nfields:
-                    raise InvalidStructureFormat, ('%d: all lines must have ' +
+                    raise StructureFormatError, ('%d: all lines must have ' +
                             'the same number of columns') % p_nl
                 element = fields[0]
                 element = element[0].upper() + element[1:].lower()
@@ -93,11 +93,11 @@ class P_xyz(StructureParser):
                 stru.addNewAtom(element, xyz=xyz)
         except ValueError:
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise InvalidStructureFormat, \
+            raise StructureFormatError, \
                     "%d: invalid number format" % p_nl, exc_traceback
         # finally check if all the atoms have been read
         if p_natoms is not None and len(stru) != p_natoms:
-            raise InvalidStructureFormat, \
+            raise StructureFormatError, \
                     "expected %d atoms, read %d" % (p_natoms, len(stru))
         return stru
     # End of parseLines

@@ -33,7 +33,7 @@ class StructureParser:
     def parseLines(self, lines):
         """Create Structure instance from a list of lines.
 
-        Return Structure object or raise InvalidStructureFormat exception.
+        Return Structure object or raise StructureFormatError exception.
         This method has to be overloaded in derived class.
         """
         raise NotImplementedError, \
@@ -52,7 +52,7 @@ class StructureParser:
     def parse(self, s):
         """Create Structure instance from a string.
 
-        Return Structure object or raise InvalidStructureFormat exception.
+        Return Structure object or raise StructureFormatError exception.
         """
         lines = s.rstrip('\n').split('\n')
         stru = self.parseLines(lines)
@@ -71,7 +71,7 @@ class StructureParser:
         filename  -- path to structure file
 
         Return Structure object.
-        Raise InvalidStructureFormat or IOError.
+        Raise StructureFormatError or IOError.
         """
         self.filename = filename
         f = open(filename)

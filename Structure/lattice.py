@@ -26,7 +26,7 @@ import math
 import types
 import numpy
 import numpy.linalg as numalg
-from StructureErrors import InvalidLattice
+from StructureErrors import LatticeError
 
 ##############################################################################
 # helper functions
@@ -202,9 +202,9 @@ class Lattice:
         self.base = numpy.array(base)
         detbase = numalg.det(self.base)
         if abs(detbase) < 1.0e-8:
-            raise InvalidLattice, "base vectors are degenerate"
+            raise LatticeError, "base vectors are degenerate"
         elif detbase < 0.0:
-            raise InvalidLattice, "base is not right-handed"
+            raise LatticeError, "base is not right-handed"
         self.a = numpy.sqrt(numpy.dot(self.base[0,:], self.base[0,:]))
         self.b = numpy.sqrt(numpy.dot(self.base[1,:], self.base[1,:]))
         self.c = numpy.sqrt(numpy.dot(self.base[2,:], self.base[2,:]))

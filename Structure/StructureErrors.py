@@ -17,7 +17,7 @@
 
 __id__ = "$Id$"
 
-class InvalidStructureFormat(Exception):
+class StructureFormatError(Exception):
     """Exception for failed IO from Structure file
     """
 
@@ -27,10 +27,10 @@ class InvalidStructureFormat(Exception):
     def __str__(self):
         return self.value
 
-# End of InvalidStructureFormat
+# End of StructureFormatError
 
 
-class InvalidLattice(Exception):
+class LatticeError(Exception):
     """Exception for impossible lattice parameters.
     """
 
@@ -40,7 +40,7 @@ class InvalidLattice(Exception):
     def __str__(self):
         return self.value
 
-# End of InvalidLattice
+# End of LatticeError
 
 
 class SymmetryError(Exception):

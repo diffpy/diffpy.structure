@@ -15,7 +15,7 @@ tests_dir = os.path.dirname(os.path.abspath(thisfile))
 testdata_dir = os.path.join(tests_dir, 'testdata')
 
 from diffpy.Structure.Parsers.P_cif import *
-from diffpy.Structure import InvalidStructureFormat
+from diffpy.Structure import StructureFormatError
 
 ##############################################################################
 class TestRoutines(unittest.TestCase):
@@ -71,7 +71,7 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(pfile.spacegroup.short_name,
             ptest.spacegroup.short_name)
         ptestb = P_cif()
-        self.assertRaises(InvalidStructureFormat,
+        self.assertRaises(StructureFormatError,
             ptestb.parse, sbad)
         return
 
@@ -88,7 +88,7 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(pfile.spacegroup.short_name,
             ptest.spacegroup.short_name)
         ptest2 = P_cif()
-        self.assertRaises(InvalidStructureFormat,
+        self.assertRaises(StructureFormatError,
                 ptest2.parseLines, badlines)
         return
 
@@ -112,7 +112,7 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(1.0, a0.occ)
         self.assertEqual(0.0225566, a0.Uisoequiv)
         pfile2 = P_cif()
-        self.assertRaises(InvalidStructureFormat,
+        self.assertRaises(StructureFormatError,
                 pfile2.parseFile, self.badciffile)
         return
 

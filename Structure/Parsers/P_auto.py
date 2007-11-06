@@ -19,7 +19,7 @@ This Parser does not provide the the toLines() method.
 
 __id__ = "$Id$"
 
-from import_helper import InvalidStructureFormat
+from import_helper import StructureFormatError
 from StructureParser import StructureParser
 from parser_index import parser_index
 
@@ -60,7 +60,7 @@ class P_auto(StructureParser):
         """Detect format and parse given list of lines.
         Set format attribute to the detected file format.
 
-        Return Structure instance, or raise InvalidStructureFormat.
+        Return Structure instance, or raise StructureFormatError.
         """
         ofmts = self.getOrderedFormats()
         from __init__ import getParser
@@ -73,7 +73,7 @@ class P_auto(StructureParser):
                 stru = p.parseLines(lines)
                 self.format = fmt
                 break
-            except InvalidStructureFormat, err:
+            except StructureFormatError, err:
                 parsers_emsgs.append("%s: %s" % (fmt, err))
             except NotImplementedError:
                 pass
@@ -81,7 +81,7 @@ class P_auto(StructureParser):
             emsg = "\n".join([
                 "Unknown or invalid structure format.",
                 "Errors per each tested structure format:"] + parsers_emsgs)
-            raise InvalidStructureFormat, emsg
+            raise StructureFormatError, emsg
         self.__dict__.update(p.__dict__)
         return stru
     # End of parseLines

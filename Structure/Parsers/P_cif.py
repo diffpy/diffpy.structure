@@ -24,7 +24,7 @@ import numpy
 import re
 
 from import_helper import Structure, Lattice, Atom
-from import_helper import InvalidStructureFormat
+from import_helper import StructureFormatError
 from StructureParser import StructureParser
 
 
@@ -219,7 +219,7 @@ class P_cif(StructureParser):
     def parse(self, s):
         """Create Structure instance from a string in CIF format.
 
-        Return Structure instance or raise InvalidStructureFormat.
+        Return Structure instance or raise StructureFormatError.
         """
         # CifFile seems to be only able to read from existing files
         import os
@@ -239,7 +239,7 @@ class P_cif(StructureParser):
 
         lines -- list of strings stripped of line terminator
  
-        Return Structure instance or raise InvalidStructureFormat.
+        Return Structure instance or raise StructureFormatError.
         """
         s = "\n".join(lines) + '\n'
         return self.parse(s)
@@ -250,7 +250,7 @@ class P_cif(StructureParser):
         filename  -- path to structure file
 
         Return Structure object.
-        Raise InvalidStructureFormat or IOError.
+        Raise StructureFormatError or IOError.
         """
         import CifFile
         from StarFile import StarError
@@ -264,7 +264,7 @@ class P_cif(StructureParser):
         except (StarError, ValueError, IndexError), err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err).strip()
-            raise InvalidStructureFormat, emsg, exc_traceback
+            raise StructureFormatError, emsg, exc_traceback
         # all good here
         return self.stru
 
@@ -311,7 +311,7 @@ class P_cif(StructureParser):
         except KeyError, err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err)
-            raise InvalidStructureFormat, emsg, exc_traceback
+            raise StructureFormatError, emsg, exc_traceback
         self.stru.lattice = Lattice(*latpars)
         return
 

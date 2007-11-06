@@ -19,8 +19,8 @@ Classes:
     Structure
     PDFFitStructure
 Exceptions:
-    InvalidStructureFormat
-    InvalidLattice
+    StructureFormatError
+    LatticeError
     SymmetryError
 """
 
@@ -34,8 +34,8 @@ from structure import Structure
 from lattice import Lattice
 from atom import Atom
 from pdffitstructure import PDFFitStructure
-from StructureErrors import InvalidStructureFormat
-from StructureErrors import InvalidLattice
+from StructureErrors import StructureFormatError
+from StructureErrors import LatticeError
 from StructureErrors import SymmetryError
 from version import __version__
 

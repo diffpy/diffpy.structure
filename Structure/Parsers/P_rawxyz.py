@@ -22,7 +22,7 @@ __id__ = "$Id$"
 import sys
 
 from import_helper import Structure, Lattice, Atom
-from import_helper import InvalidStructureFormat
+from import_helper import StructureFormatError
 from import_helper import isfloat
 from StructureParser import StructureParser
 
@@ -37,7 +37,7 @@ class P_rawxyz(StructureParser):
     def parseLines(self, lines):
         """Parse list of lines in RAWXYZ format.
 
-        Return Structure object or raise InvalidStructureFormat.
+        Return Structure object or raise StructureFormatError.
         """
         linefields = [l.split() for l in lines]
         # prepare output structure
@@ -61,14 +61,14 @@ class P_rawxyz(StructureParser):
         floatfields = [ isfloat(f) for f in linefields[start] ]
         nfields = len(linefields[start])
         if nfields not in (3, 4):
-            raise InvalidStructureFormat, ("%d: invalid RAWXYZ format, " +
+            raise StructureFormatError, ("%d: invalid RAWXYZ format, " +
                     "expected 3 or 4 columns") % (start+1)
         if floatfields[:3] == [True, True, True]:
             el_idx, x_idx = (None, 0)
         elif floatfields[:4] == [False, True, True, True]:
             el_idx, x_idx = (0, 1)
         else:
-            raise InvalidStructureFormat, \
+            raise StructureFormatError, \
                     "%d: invalid RAWXYZ format" % (start+1)
         # now try to read all record lines
         try:
@@ -78,7 +78,7 @@ class P_rawxyz(StructureParser):
                 if fields == []:
                     continue
                 elif len(fields) != nfields:
-                    raise InvalidStructureFormat, ('%d: all lines must have ' +
+                    raise StructureFormatError, ('%d: all lines must have ' +
                             'the same number of columns') % p_nl
                 element = el_idx is not None and fields[el_idx] or ""
                 xyz = [ float(f) for f in fields[x_idx:x_idx+3] ]
@@ -87,7 +87,7 @@ class P_rawxyz(StructureParser):
                 stru.addNewAtom(element, xyz=xyz)
         except ValueError:
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise InvalidStructureFormat, \
+            raise StructureFormatError, \
                     "%d: invalid number" % p_nl, exc_traceback
         return stru
     # End of parseLines
