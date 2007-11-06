@@ -31,14 +31,22 @@ from StructureErrors import InvalidLattice
 ##############################################################################
 # helper functions
 
+# cache of exact values of cosd
+_EXACT_COSD = {
+        0.0 : +1.0,   60.0 : +0.5,   90.0 : 0.0,  120.0 : -0.5,
+      180.0 : -1.0,  240.0 : -0.5,  270.0 : 0.0,  300.0 : +0.5
+}
+
 def cosd(x):
-    """return the cosine of x (measured in degrees)"""
-    c = {  0.0 : +1.0,   60.0 : +0.5,   90.0 : 0.0,  120.0 : -0.5,
-         180.0 : -1.0,  240.0 : -0.5,  270.0 : 0.0,  300.0 : +0.5 }
-    return c.get(x % 360.0, math.cos(math.radians(x)))
+    """Return the cosine of x (measured in degrees).
+    Avoid round-off errors for exact cosine values.
+    """
+    return _EXACT_COSD.get(x % 360.0, math.cos(math.radians(x)))
 
 def sind(x):
-    """return the sine of x (measured in degrees)"""
+    """Return the sine of x (measured in degrees).
+    Avoid round-off errors for exact sine values.
+    """
     return cosd(90.0 - x)
 
 # End of helper functions
