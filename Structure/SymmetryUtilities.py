@@ -24,10 +24,16 @@ import re
 import numpy
 
 # Constants:
+
 # Default tolerance for equality of 2 positions, also
 # used for identification of special positions.
 epsilon = 1.0e-5
+
+# Standard symbols denoting elements of anisotropic thermal
+# displacement tensor.
 stdUsymbols = ['U11', 'U22', 'U33', 'U12', 'U13', 'U23']
+
+# End of constants
 
 def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
     """Check if space group allows passed lattice parameters.
@@ -71,17 +77,31 @@ def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
 
 # End of isSpaceGroupLatPar
 
+
+# Constant regular expression used in isconstantFormula().
+# isconstantFormula runs faster when regular expression is not
+# compiled per every single call.
+
+_rx_constant_formula = re.compile(
+    '[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)??(/[-+]?\d+)?$')
+
 def isconstantFormula(s):
-    """Check if formula string is constant.
+    """Check if formula string is constant.  True when argument
+    is a floating point number or a fraction of float with integer.
+    
+    s   -- formula string
+    
+    Return bool.
     """
-    # check for floats or fractions
-    pat = '[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$|[-+]?\d+[.]?\d*/[-+]?\d+$'
-    return bool( re.match(pat, s.replace(' ', '')) )
+    res = _rx_constant_formula.match(s.replace(' ', ''))
+    return bool(res)
 
 # End of isconstantFormula
 
+
 # Helper class intended for this module only:
-class Position2Tuple:
+
+class _Position2Tuple:
     """Create callable object that converts fractional coordinates to
     a tuple of integers with given precision.  For presision close to zero
     it will return a tuples of double.
@@ -94,7 +114,7 @@ class Position2Tuple:
            same tuple, they are closer than eps.
     """
     def __init__(self, eps=epsilon):
-        """Initialize Position2Tuple
+        """Initialize _Position2Tuple
 
         eps -- cutoff for equivalent coordinates
         """
@@ -121,7 +141,7 @@ class Position2Tuple:
         tpl = tuple( [int((xi - numpy.floor(xi))/self.eps) for xi in xyz] )
         return tpl
 
-# End of class Position2Tuple
+# End of class _Position2Tuple
 
 def positionDifference(xyz0, xyz1):
     """Smallest difference between two coordinates in periodic lattice.
@@ -147,7 +167,7 @@ def nearestSiteIndex(sites, xyz):
 
     Return integer.
     """
-    # we use box distance to be consistent with Position2Tuple conversion
+    # we use box distance to be consistent with _Position2Tuple conversion
     dbox = positionDifference(sites, xyz).max(axis=1)
     nearindex = numpy.argmin(dbox)
     return nearindex
@@ -162,7 +182,7 @@ def equalPositions(xyz0, xyz1, eps=epsilon):
 
     Return bool.
     """
-    # we use box distance to be consistent with Position2Tuple conversion
+    # we use box distance to be consistent with _Position2Tuple conversion
     dxyz = positionDifference(xyz0, xyz1)
     return numpy.all(dxyz <= eps)
 
@@ -180,7 +200,7 @@ def expandPosition(spacegroup, xyz, sgoffset=[0,0,0], eps=epsilon):
     list of SpaceGroups.SymOp instances, site multiplicity).
     """
     sgoffset = numpy.array(sgoffset, dtype=float)
-    pos2tuple = Position2Tuple(eps)
+    pos2tuple = _Position2Tuple(eps)
     positions = []
     site_symops = {}    # position tuples with [related symops]
     for symop in spacegroup.iter_symops():
@@ -216,7 +236,8 @@ def nullSpace(A):
     from numpy import linalg
     u, s, v = linalg.svd(A)
     # s may have smaller dimension than v
-    mask = numpy.array([True]*numpy.shape(v)[0])
+    vnrows = numpy.shape(v)[0]
+    mask = numpy.ones(vnrows, dtype=bool)
     mask[s > epsilon] = False
     null_space = numpy.compress(mask, v, axis=0)
     return null_space
@@ -567,9 +588,15 @@ class ExpandAsymmetricUnit:
 
 # End of ExpandAsymmetricUnit
 
-# Helper function for SymmetryConstraints class
+
+# Helper function for SymmetryConstraints class.  It may be useful
+# elsewhere therefore its name does not start with underscore.
+
 def pruneFormulaDictionary(eqdict):
     """Remove constant items from formula dictionary.
+
+    eqdict -- formula dictionary which maps standard variable symbols
+              ("x", "U11") to string formulas ("0", "-x3", "z7 +0.5")
 
     Return pruned formula dictionary.
     """

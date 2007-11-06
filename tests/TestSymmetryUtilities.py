@@ -24,6 +24,7 @@ import unittest
 
 from diffpy.Structure.SpaceGroups import GetSpaceGroup
 from diffpy.Structure.SymmetryUtilities import *
+from diffpy.Structure.SymmetryUtilities import _Position2Tuple
 
 # useful variables
 thisfile = locals().get('__file__', 'TestSymmetryUtilities.py')
@@ -98,11 +99,11 @@ class TestRoutines(unittest.TestCase):
 # End of class TestRoutines
 
 ##############################################################################
-class TestPosition2Tuple(unittest.TestCase):
+class Test_Position2Tuple(unittest.TestCase):
 
     def setUp(self):
         self.eps = 1.0e-4
-        self.pos2tuple = Position2Tuple(self.eps)
+        self.pos2tuple = _Position2Tuple(self.eps)
         return
 
     def tearDown(self):
@@ -110,15 +111,15 @@ class TestPosition2Tuple(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check Position2Tuple.__init__()
+        """check _Position2Tuple.__init__()
         """
         self.assertNotEqual(0.0, self.pos2tuple.eps)
-        self.pos2tuple = Position2Tuple(1.0/sys.maxint/2)
+        self.pos2tuple = _Position2Tuple(1.0/sys.maxint/2)
         self.assertEqual(0.0, self.pos2tuple.eps)
         return
 
     def test___call__(self):
-        """check Position2Tuple.__call__()
+        """check _Position2Tuple.__call__()
         """
         pos2tuple = self.pos2tuple
         import numpy
@@ -130,7 +131,7 @@ class TestPosition2Tuple(unittest.TestCase):
         self.failIf(len(alltuples) > 2)
         return
 
-# End of class TestPosition2Tuple
+# End of class Test_Position2Tuple
 
 ##############################################################################
 class TestGeneratorSite(unittest.TestCase):
