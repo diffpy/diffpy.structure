@@ -59,9 +59,11 @@ class Lattice:
     Data members:
 
         a, b, c, alpha, beta, gamma -- read-only lattice parameters,
-               their values are set by setLatPar() and setLatBase()
+               unit cell angles are in degrees.  The values of lattice
+               parameters are set by setLatPar() and setLatBase().
         ar, br, cr, alphar, betar, gammar -- read-only parameters of
-               reciprocal lattice, set by setLatPar() and setLatBase()
+               reciprocal lattice, set by setLatPar() and setLatBase().
+               All reciprocal angles are in degrees.
         ca, cb, cg, sa, sb, sg -- read-only cosines and sines of direct
                lattice angles, they get set by setLatPar() and setLatBase()
         car, cbr, cgr, sar, sbr, sgr -- read-only cosines and sines of
@@ -88,7 +90,8 @@ class Lattice:
 
         Lattice()         -- create cartesian coordinates
         Lattice(a, b, c, alpha, beta, gamma) -- define coordinate system
-                             from specified lattice parameters
+                             from specified lattice parameters.  Unit cell
+                             angles are all in degrees.
         Lattice(base=abc) -- create coordinate system using the given base,
                              abc is a 3x3 matrix (or nested list), of row
                              base vectors
@@ -132,12 +135,13 @@ class Lattice:
             alpha=None, beta=None, gamma=None, baserot=None):
         """set lattice parameters and all related tensors
 
-        a, b, c, alpha, beta, gamma -- lattice parameters
-        baserot -- unit cell rotation, base = stdbase*baserot
+        a, b, c, alpha, beta, gamma -- lattice parameters, unit cell angles
+                    are in degrees.
+        baserot  -- unit cell rotation, base = stdbase*baserot
 
         Note: parameters with value None will remain unchanged.
 
-        return self
+        Return self.
         """
         if a is not None: self.a = float(a)
         if b is not None: self.b = float(b)
@@ -190,10 +194,10 @@ class Lattice:
         return self
 
     def setLatBase(self, base):
-        """set matrix of unit cell base vectors and calculate corresponding
-        lattice parameters and stdbase, baserot and metrics tensors
+        """Set matrix of unit cell base vectors and calculate corresponding
+        lattice parameters and stdbase, baserot and metrics tensors.
 
-        return self
+        Return self.
         """
         self.base = numpy.array(base)
         detbase = numalg.det(self.base)
@@ -257,13 +261,13 @@ class Lattice:
         return self
 
     def abcABG(self):
-        """Return tuple of 6 lattice parameters.
+        """Return a tuple of 6 lattice parameters.
         """
         rv = (self.a, self.b, self.c, self.alpha, self.beta, self.gamma)
         return rv
 
     def reciprocal(self):
-        """return the reciprocal lattice to self"""
+        """Return the reciprocal lattice to self."""
         from copy import deepcopy
         rec = deepcopy(self)
         rec.setLatBase(numpy.transpose(self.recbase))
@@ -290,17 +294,20 @@ class Lattice:
         return math.sqrt(numpy.dot(u, numpy.dot(self.metrics, u)))
 
     def dist(self, u, v):
-        """return distance of 2 points in lattice coordinates"""
+        """Return distance of 2 points in lattice coordinates.
+        """
         duv = numpy.array(u) - numpy.array(v)
         return self.norm(duv)
 
     def angle(self, u, v):
-        """return angle(u, v) --> angle of 2 lattice vectors in degrees"""
+        """Return angle(u, v) --> angle of 2 lattice vectors in degrees.
+        """
         ca = self.dot(u, v)/( self.norm(u)*self.norm(v) )
         return math.degrees(math.acos(ca))
 
     def __repr__(self):
-        """string representation of this lattice"""
+        """String representation of this lattice.
+        """
         epsilon = 1.0e-8
         I3 = numpy.identity(3, dtype=float)
         abcABG = numpy.array([self.a, self.b, self.c,
