@@ -294,7 +294,6 @@ class P_xcfg(StructureParser):
 
         Return list of strings.
         """
-        from diffpy.Structure.PeriodicTable import AtomicMass
         if len(stru) == 0:
             raise StructureFormatError, \
                     "cannot convert empty structure to XCFG format"
