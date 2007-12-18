@@ -31,6 +31,7 @@ diffpy_deps = []
 # third-party dependencies
 other_deps = [
     "numpy",
+    "CifFile",
     ]
 
 # define distribution arguments for this subpackage
