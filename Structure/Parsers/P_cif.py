@@ -20,6 +20,7 @@ http://www.iucr.org/iucr-top/cif/home.html
 __id__ = "$Id$"
 
 import sys
+import os
 import numpy
 import re
 
@@ -222,7 +223,6 @@ class P_cif(StructureParser):
         Return Structure instance or raise StructureFormatError.
         """
         # CifFile seems to be only able to read from existing files
-        import os
         import tempfile
         out, tmpfile = tempfile.mkstemp()
         os.write(out, s)
@@ -256,7 +256,8 @@ class P_cif(StructureParser):
         from StarFile import StarError
         self.filename = filename
         try:
-            self.ciffile = CifFile.CifFile(filename)
+            fileurl = fixIfWindowsPath(filename)
+            self.ciffile = CifFile.CifFile(fileurl)
             for blockname, ignore in self.ciffile.items():
                 self._parseCifBlock(blockname)
                 # stop after reading the first structure
@@ -590,6 +591,21 @@ def getSymOp(s):
     t -= numpy.floor(t)
     rv = SymOp(R, t)
     return rv
+
+
+def fixIfWindowsPath(filename):
+    """Convert Windows-style path to valid local URL. 
+    CifFile loads files using urlopen, which fails for Windows-style paths.
+
+    filename -- path to be fixed
+
+    Return fixed URL when run on Windows, otherwise return filename.
+    """
+    fixedname = filename
+    if os.name == "nt" and re.match(r'^[a-z]:\\', filename, re.I):
+        import urllib
+        fixedname = urllib.pathname2url(filename)
+    return fixedname
 
 
 def getParser():
