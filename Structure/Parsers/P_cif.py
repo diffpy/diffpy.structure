@@ -88,10 +88,17 @@ class P_cif(StructureParser):
 
     def _tr_atom_site_label(a, value):
         a.name = value
+        # set element when not specified by _atom_site_type_symbol
+        if a.element is None:
+            P_cif._tr_atom_site_type_symbol(a, value)
     _tr_atom_site_label = staticmethod(_tr_atom_site_label)
 
+    # 3 regexp groups for nucleon number, atom symbol, and oxidation state
+    _psymb = re.compile(r'(\d+-)?([a-zA-Z]+)(\d[+-])?')
+
     def _tr_atom_site_type_symbol(a, value):
-        a.element = value
+        rx = P_cif._psymb.match(value)
+        a.element = rx and rx.group(0) or value
     _tr_atom_site_type_symbol = staticmethod(_tr_atom_site_type_symbol)
 
     def _tr_atom_site_fract_x(a, value):
@@ -238,7 +245,7 @@ class P_cif(StructureParser):
         """Parse list of lines in CIF format.
 
         lines -- list of strings stripped of line terminator
- 
+
         Return Structure instance or raise StructureFormatError.
         """
         s = "\n".join(lines) + '\n'
@@ -246,7 +253,7 @@ class P_cif(StructureParser):
 
     def parseFile(self, filename):
         """Create Structure from an existing CIF file.
-        
+
         filename  -- path to structure file
 
         Return Structure object.
@@ -332,7 +339,8 @@ class P_cif(StructureParser):
         prop_fset, prop_ignored = P_cif._get_atom_setters(atom_site_loop)
         # loop through the values and call appropriate setters
         for values in atom_site_loop:
-            self.labelindex[values['_atom_site_label']] = len(self.stru)
+            curlabel = values['_atom_site_label']
+            self.labelindex[curlabel] = len(self.stru)
             self.stru.addNewAtom()
             a = self.stru.getLastAtom()
             for prop, fset in prop_fset.iteritems():
@@ -404,7 +412,7 @@ class P_cif(StructureParser):
             from diffpy.Structure.SpaceGroups import SpaceGroup
             new_short_name = "CIF " + (
                     block.get('_space_group_name_Hall') or
-                    block.get('_symmetry_space_group_name_Hall') or 
+                    block.get('_symmetry_space_group_name_Hall') or
                     'data' )
             new_crystal_system = (
                     block.get('_space_group_crystal_system') or
@@ -594,7 +602,7 @@ def getSymOp(s):
 
 
 def fixIfWindowsPath(filename):
-    """Convert Windows-style path to valid local URL. 
+    """Convert Windows-style path to valid local URL.
     CifFile loads files using urlopen, which fails for Windows-style paths.
 
     filename -- path to be fixed
