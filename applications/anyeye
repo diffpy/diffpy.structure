@@ -21,7 +21,7 @@ import sys
 import os, os.path
 import re
 import signal
-from diffpy.Structure import InvalidStructureFormat
+from diffpy.Structure import StructureFormatError
 
 def usage(style = None):
     """show usage info, for style=="brief" show only first 2 lines"""
@@ -200,7 +200,7 @@ def main():
     except IOError, (errno, errmsg):
         print >> sys.stderr, "%s: %s" % (args[0], errmsg)
         die(1, pd)
-    except InvalidStructureFormat, errmsg:
+    except StructureFormatError, errmsg:
         print >> sys.stderr, "%s: %s" % (args[0], errmsg)
         die(1, pd)
 

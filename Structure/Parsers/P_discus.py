@@ -116,7 +116,7 @@ class P_discus(StructureParser):
         lines.append( "atoms" )
         for a in self.stru:
             lines.append( "%-4s %17.8f %17.8f %17.8f %12.4f" % (
-                a.element.upper(), a.xyz[0], a.xyz[1], a.xyz[2], a.Biso() ))
+                a.element.upper(), a.xyz[0], a.xyz[1], a.xyz[2], a.Bisoequiv))
         return lines
     # End of toLines
 
@@ -186,7 +186,7 @@ class P_discus(StructureParser):
         Biso = float(words[4])
         self.stru.addNewAtom(element, xyz)
         a = self.stru.getLastAtom()
-        a.setBiso(Biso)
+        a.Bisoequiv = Biso
         return
 
     def _parse_invalid_record(self, words):
