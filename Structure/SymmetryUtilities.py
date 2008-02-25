@@ -427,11 +427,13 @@ class GeneratorSite:
     def _findUParameters(self):
         """Find Uparameters and their values for expressing self.Uij.
         """
-        Uij = self.Uij
+        Uijflat = self.Uij.flatten()
         for Usp in self.Uspace:
-            idx = numpy.where(Usp.flatten())[0][0]
+            Uspflat = Usp.flatten()
+            Uspnorm2 = numpy.dot(Uspflat, Uspflat)
+            idx = numpy.where(Uspflat)[0][0]
             vname = self.idx2Usymbol[idx]
-            varvalue = ((Uij + numpy.transpose(Uij))*Usp).sum()/(2*Usp.sum())
+            varvalue = numpy.dot(Uijflat, Uspflat) / Uspnorm2
             self.Uparameters.append( (vname, varvalue) )
         return
 
