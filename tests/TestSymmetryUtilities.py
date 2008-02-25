@@ -253,6 +253,24 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual(rule18, ufm)
         return
 
+    def test__findUParameters(self):
+        """check GeneratorSite._findUParameters()
+        """
+        # by default all Uparameters equal zero, this would fail for NaNs
+        for gen in TestGeneratorSite.generators.values():
+            for usym, uval in gen.Uparameters:
+                self.assertEqual(0.0, uval)
+        # special test for g117h
+        Uij = numpy.array([[1, 3, 4], [3, 1, -4], [4, -4, 2]])
+        sg117 = GetSpaceGroup(117)
+        g117h = GeneratorSite(sg117, self.g117h.xyz, Uij)
+        upd = dict(g117h.Uparameters)
+        self.assertEqual(1, upd['U11'])
+        self.assertEqual(2, upd['U33'])
+        self.assertEqual(3, upd['U12'])
+        self.assertEqual(4, upd['U13'])
+        return
+
     def test_eqIndex(self):
         """check GeneratorSite.eqIndex()
         """
