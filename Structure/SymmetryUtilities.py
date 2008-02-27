@@ -88,9 +88,9 @@ _rx_constant_formula = re.compile(
 def isconstantFormula(s):
     """Check if formula string is constant.  True when argument
     is a floating point number or a fraction of float with integer.
-    
+
     s   -- formula string
-    
+
     Return bool.
     """
     res = _rx_constant_formula.match(s.replace(' ', ''))
@@ -553,7 +553,7 @@ class ExpandAsymmetricUnit:
     # By design Atom instances are not accepted as arguments to keep
     # number of required imports low.
     def __init__(self, spacegroup, corepos, coreUijs=None,
-            sgoffset=[0,0,0], eps=0.0):
+            sgoffset=[0,0,0], eps=epsilon):
         """Initialize and calculate instance of ExpandAsymmetricUnit
 
         spacegroup   -- instance of SpaceGroup

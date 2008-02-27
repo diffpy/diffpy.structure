@@ -47,7 +47,7 @@ class P_cif(StructureParser):
     Data members used for input only:
 
     spacegroup  -- instance of SpaceGroup used for symmetry expansion
-    eau         -- instance of ExpandAssymetricUnit from SymmetryUtilities
+    eau         -- instance of ExpandAsymmetricUnit from SymmetryUtilities
     labelindex  -- dictionary mapping unique atom label to index in self.stru
     """
 
@@ -593,7 +593,7 @@ def getSymOp(s):
     for i in (0, 1, 2):
         eqparts = re.split('([+-]?[xyz])', eqlist[i])
         for Rpart in eqparts[1::2]:
-            R[:,i] += symvec[Rpart]
+            R[i,:] += symvec[Rpart]
         for tpart in eqparts[::2]:
             t[i] += eval('1.0*%s+0' % tpart)
     t -= numpy.floor(t)
