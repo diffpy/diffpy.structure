@@ -374,7 +374,7 @@ class TestP_xcfg(unittest.TestCase):
         f_els = 500* [ "Ar" ]
         s_els = [a.element for a in stru]
         self.assertEqual(s_els, f_els)
-        self.assertAlmostEqual(stru.dist(stru[82],stru[357]), 47.5627, 3)
+        self.assertAlmostEqual(stru.distance(82, 357), 47.5627, 3)
         s_lat = [ stru.lattice.a, stru.lattice.b, stru.lattice.c,
             stru.lattice.alpha, stru.lattice.beta, stru.lattice.gamma ]
         f_lat = [127.5, 119.5, 3.0, 90.0, 90.0, 90.0]
