@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 """This module contains methods for simple structure manipulation."""
 
+__id__ = "$Id$"
+
 from diffpy.Structure import Structure, Atom
 import numpy
+
 
 def createSuperCell(S, l = 1, m = 1, n = 1):
     """Perform supercell expansion for a structure.
@@ -27,24 +30,20 @@ def createSuperCell(S, l = 1, m = 1, n = 1):
         raise TypeError("Must pass a structure instance as the first argument")
 
     newS = Structure(S)
-    # label the atoms for sim
     if lmn == (1,1,1):
         return newS
 
-
     # back to business
-    ijkiter = iter(
-            [(i,j,k) 
+    ijklist = [(i,j,k) 
                 for i in range(lmn[0]) 
                     for j in range(lmn[1]) 
                         for k in range(lmn[2])]
-            )
     lmnfloats = numpy.array(lmn[:], dtype=float)
 
     # build a list of new atoms
     newAtoms = []
     for a in S:
-        for ijk in ijkiter:
+        for ijk in ijklist:
             adup = Atom(a)
             adup.xyz = (a.xyz + ijk)/lmnfloats
             newAtoms.append(adup)
@@ -59,8 +58,15 @@ def createSuperCell(S, l = 1, m = 1, n = 1):
 
 if __name__ == "__main__":
 
+    import os.path
+    datadir = "../../tests/testdata"
     S = Structure()
-    S.read("Ni.stru", "pdffit")
+    S.read(os.path.join(datadir, "Ni.stru"), "pdffit")
     newS = createSuperCell(S, 2, 2, 2)
-    S.write("Ni_2x2x2.stru", "pdffit")
+    newS.write("Ni_2x2x2.stru", "pdffit")
+
+    S = Structure()
+    S.read(os.path.join(datadir, "CdSe-wurtzite.stru"), "pdffit")
+    newS = createSuperCell(S, 2, 2, 2)
+    newS.write("CdSe_2x2x2.stru", "pdffit")
 

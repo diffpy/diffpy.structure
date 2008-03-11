@@ -1,71 +1,100 @@
 #!/usr/bin/env python
 """Make a spheroid nanoparticle from a template structure."""
 
+__id__ = "$Id$"
+
 from diffpy.Structure import Structure, Atom
 from numpy import array
+from math import ceil
 
-def makeSpheroid(S, radius, v = 1.0):
+def makeEllipsoid(S, a, b=None, c=None):
     """Cut a structure out of another one.
 
     Arguments
     S       --  A Structure instance
-    radius  --  radius of spheroid
-    v       --  ellipticity of spheroid (defined along c-axis, default 1.0)
+    a       --  primary equatorial radius (along x-axis)
+    b       --  secondary equatorial radius (along y-axis). If b is None
+                (default) then it is set equal to a
+    c       --  polar radius (along z-axis). If c is None (default), then it is
+                set equal to a.
 
     Returns a new structure instance
     """
-
-    abc = array([S.lattice.a, S.lattice.b, S.lattice.c])
-    sabc = array([radius, radius, v*radius])
+    if b is None: b = a
+    if c is None: c = a
+    sabc = array([a, b, c])
 
     # Create a supercell large enough for the ellipsoid
-    l = ceil(radius/S.lattice.a) + 1
-    m = ceil(radius/S.lattice.b) + 1
-    n = ceil(v*radius/S.lattice.c) + 1
-    # Make these odd for simplicty
-    if not l%2: l+=1
-    if not m%2: m+=1
-    if not n%2: n+=1
+    frac = S.lattice.fractional(sabc)
+    lmn = map(ceil, 2*frac)
+    # Make the supercell
+    from supercell import createSuperCell
+    newS = createSuperCell(S, *lmn)
+    lat = newS.lattice
 
     # Find the central atom
-    cl = l/2 + 1
-    cm = m/2 + 1
-    cn = n/2 + 1
-    ci = 
+    ncenter = findCenter(newS)
 
-    # This will become our [0,0,0]
-    cxyz += shift
+    cxyz = lat.cartesian(newS[ncenter].xyz)
+    abc = array(newS.lattice.base.diagonal())
 
-    for i in range(len(S), 0, -1):
-        i -= 1
-        S[i].xyz -= cxyz
-        S2[i].xyz -= cxyz
+    delList = []
+    N = len(newS)
+    j = N
+    for i in xrange(N):
+        j -= 1
 
-        darray = (S[i].xyz*abc/sabc)**2
+        # Calculate (x/a)**2 + (y/b)**2 + (z/c)**2
+        xyz = lat.cartesian(newS[j].xyz)
+        darray = ((xyz-cxyz)/sabc)**2
         d = sum(darray)**0.5
 
+        # Discard atom if (x/a)**2 + (y/b)**2 + (z/c)**2 > 1
         if d > 1:
-            del S2[i]
+            delList.append(j)
 
-    return S2
+    for i in delList:
+        newS.pop(i)
 
+    return newS
 
 def findCenter(S):
-    """find the approximate center atom of a structure.
+    """Find the approximate center atom of a structure.
 
-    Returns the xyz coordinates of the atom.
+    The center of the structure is the atom closest to (0.5, 0.5, 0.5)
+
+    Returns the index of the atom.
     """
+    best = -1
+    bestd = len(S)
+    center = [0.5, 0.5, 0.5] # the cannonical center
 
     for i in range(len(S)):
-        if (S[i].xyz < 0.6).all() and (S[i].xyz > 0.4).all():
-            return array(S[i].xyz)
+        d = S.lattice.dist(S[i].xyz, center)
+        if d < bestd:
+            bestd = d
+            best = i
 
-    raise RuntimeError("Can't find it!")
-
+    return best
 
 if __name__ == "__main__":
 
+    import os.path
+    datadir = "../../tests/testdata"
+    S = Structure()
+    S.read(os.path.join(datadir, "CdSe-wurtzite.stru"), "pdffit")
+    newS = makeEllipsoid(S, 20)
+    newS.write("CdSe_d20.stru", "pdffit")
+    newS = makeEllipsoid(S, 20, 10, 10)
+    newS.write("CdSe_a20_b10_c10.stru", "pdffit")
+    newS = makeEllipsoid(S, 20, 15, 10)
+    newS.write("CdSe_a20_b15_c10.stru", "pdffit")
+    S = Structure()
+    S.read(os.path.join(datadir, "Ni.stru"), "pdffit")
+    newS = makeEllipsoid(S, 20)
+    newS.write("Ni_d20.stru", "pdffit")
+    newS = makeEllipsoid(S, 20, 4)
+    newS.write("Ni_a20_b4_c20.stru", "pdffit")
+    newS = makeEllipsoid(S, 20, 15, 10)
+    newS.write("Ni_a20_b15_c10.stru", "pdffit")
 
-    S = cutSpheroid("Ni_10x10x10.stru", 10.0, 1.0, [0,0,0.05])
-    S.write("Ni_d20b.xcfg", "xcfg")
-    S.write("Ni_d20b.stru", "pdffit")
