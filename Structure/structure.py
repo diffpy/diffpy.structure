@@ -17,7 +17,6 @@
 
 __id__ = "$Id$"
 
-import copy
 import math
 import numpy
 import numpy.linalg as numalg
@@ -42,7 +41,7 @@ class Structure(list):
 
         atoms    -- list of Atom instances to be included in this Structure.
                     When atoms argument is an existing Structure instance,
-                    the new Structure is its deep copy.
+                    the new Structure is its copy.
         lattice  -- instance of Lattice defining coordinate systems, property.
         title    -- string description of the structure
         filename -- optional, name of a file to load the structure from.
