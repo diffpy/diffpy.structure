@@ -1,8 +1,28 @@
-"""Methods and classes extending Structure.
+########################################################################
+#
+# Structure         by DANSE Diffraction group
+#                   Simon J. L. Billinge
+#                   (c) 2008 trustees of the Michigan State University.
+#                   All rights reserved.
+#
+# File coded by:    Chris Farrow, Pavol Juhas
+#
+# See AUTHORS.txt for a list of people who contributed.
+# See LICENSE.txt for license information.
+#
+########################################################################
 
-These methods and classes create Structures from Structures.
+"""Methods and classes for manipulating Structure instances.
+
+Package content:
+
+supercell   -- create a supercell from an existing Structure.
 """
 
 __id__ = "$Id$"
+
+# Import below whatever should be available at package namespace.
+
+from diffpy.Structure.expansion.supercell import supercell
 
 # End of file

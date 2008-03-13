@@ -1,72 +1,81 @@
-#!/usr/bin/env python
-"""This module contains methods for simple structure manipulation."""
+########################################################################
+#
+# Structure         by DANSE Diffraction group
+#                   Simon J. L. Billinge
+#                   (c) 2008 trustees of the Michigan State University.
+#                   All rights reserved.
+#
+# File coded by:    Chris Farrow, Pavol Juhas
+#
+# See AUTHORS.txt for a list of people who contributed.
+# See LICENSE.txt for license information.
+#
+########################################################################
+
+"""This module contains functions for simple structure manipulation.
+"""
 
 __id__ = "$Id$"
 
-from diffpy.Structure import Structure, Atom
+
 import numpy
+from diffpy.Structure import Structure, Atom
 
 
-def createSuperCell(S, l = 1, m = 1, n = 1):
+def supercell(S, mno):
     """Perform supercell expansion for a structure.
     
-    New lattice parameters are multiplied and fractional coordinates divided by
-    corresponding multiplier.  New atoms are grouped with their source in the
-    original cell.
+    New lattice parameters are multiplied and fractional coordinates
+    divided by corresponding multiplier.  New atoms are grouped with
+    their source in the original cell.
 
-    Arguments
-    S       --  A Structure instance
-    l       --  Cell multiplier along a-axis (positive integer, default 1)
-    m       --  Cell multiplier along b-axis (positive integer, default 1)
-    n       --  Cell multiplier along c-axis (positive integer, default 1)
+    S   -- an instance of Structure from diffpy.Structure.
+    mno -- sequence of 3 integers for cell multipliers along
+           the a, b and c axes.
     
-    Returns a new expanded structure instance
+    Return a new expanded structure instance.
+    Raise TypeError when S is not Structure instance.
+    Raise ValueError for invalid mno argument.
     """
     # check arguments
-    lmn = tuple(map(int, (l,m,n)))
-    if min(lmn) < 1:
-        raise ValueError("Multipliers must be >= 1")
+    if len(mno) != 3:
+        emsg = "Argument mno must contain 3 numbers."
+        raise ValueError, emsg
+    elif min(mno) < 1:
+        emsg = "Multipliers must be greater or equal 1"
+        raise ValueError, emsg
     if not isinstance(S, Structure):
-        raise TypeError("Must pass a structure instance as the first argument")
+        emsg = "The first argument must be a Structure instance."
+        raise TypeError, emsg
 
+    # create return instance
     newS = Structure(S)
-    if lmn == (1,1,1):
+    if tuple(mno) == (1, 1, 1):
         return newS
 
     # back to business
     ijklist = [(i,j,k) 
-                for i in range(lmn[0]) 
-                    for j in range(lmn[1]) 
-                        for k in range(lmn[2])]
-    lmnfloats = numpy.array(lmn[:], dtype=float)
+                for i in range(mno[0]) 
+                    for j in range(mno[1]) 
+                        for k in range(mno[2])]
+    # numpy.floor returns float array
+    mnofloats = numpy.floor(mno)
 
     # build a list of new atoms
     newAtoms = []
     for a in S:
         for ijk in ijklist:
             adup = Atom(a)
-            adup.xyz = (a.xyz + ijk)/lmnfloats
+            adup.xyz = (a.xyz + ijk)/mnofloats
             newAtoms.append(adup)
-    newS[:] = newAtoms
+    # newS can own references in newAtoms, no need to make copies
+    newS.__setslice__(0, len(newS), newAtoms, copy=False)
 
     # take care of lattice parameters
     newS.lattice.setLatPar(
-            a=lmn[0]*S.lattice.a,
-            b=lmn[1]*S.lattice.b,
-            c=lmn[2]*S.lattice.c )
+            a=mno[0]*S.lattice.a,
+            b=mno[1]*S.lattice.b,
+            c=mno[2]*S.lattice.c )
     return newS
 
-if __name__ == "__main__":
-
-    import os.path
-    datadir = "../../tests/testdata"
-    S = Structure()
-    S.read(os.path.join(datadir, "Ni.stru"), "pdffit")
-    newS = createSuperCell(S, 2, 2, 2)
-    newS.write("Ni_2x2x2.stru", "pdffit")
-
-    S = Structure()
-    S.read(os.path.join(datadir, "CdSe-wurtzite.stru"), "pdffit")
-    newS = createSuperCell(S, 2, 2, 2)
-    newS.write("CdSe_2x2x2.stru", "pdffit")
-
+# End of supercell
