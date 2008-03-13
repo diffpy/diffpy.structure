@@ -26,10 +26,10 @@ def makeEllipsoid(S, a, b=None, c=None):
 
     # Create a supercell large enough for the ellipsoid
     frac = S.lattice.fractional(sabc)
-    lmn = map(ceil, 2*frac)
+    mno = map(ceil, 2*frac)
     # Make the supercell
-    from supercell import createSuperCell
-    newS = createSuperCell(S, *lmn)
+    from supercell import supercell
+    newS = supercell(S, mno)
     lat = newS.lattice
 
     # Find the central atom
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     import os.path
     datadir = "../../tests/testdata"
     S = Structure()
-    S.read(os.path.join(datadir, "CdSe-wurtzite.stru"), "pdffit")
+    S.read(os.path.join(datadir, "CdSe_bulk.stru"), "pdffit")
     newS = makeEllipsoid(S, 20)
     newS.write("CdSe_d20.stru", "pdffit")
     newS = makeEllipsoid(S, 20, 10, 10)

@@ -48,9 +48,12 @@ def supercell(S, mno):
         emsg = "The first argument must be a Structure instance."
         raise TypeError, emsg
 
+    # convert mno to a tuple of integers so it can be used as range limit.
+    mno = (int(mno[0]), int(mno[1]), int(mno[2]))
+
     # create return instance
     newS = Structure(S)
-    if tuple(mno) == (1, 1, 1):
+    if mno == (1, 1, 1):
         return newS
 
     # back to business
@@ -59,7 +62,7 @@ def supercell(S, mno):
                     for j in range(mno[1]) 
                         for k in range(mno[2])]
     # numpy.floor returns float array
-    mnofloats = numpy.floor(mno)
+    mnofloats = numpy.array(mno, dtype=float)
 
     # build a list of new atoms
     newAtoms = []
