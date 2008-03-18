@@ -6,6 +6,18 @@ __id__ = "$Id$"
 from diffpy.Structure import Structure, Atom
 from numpy import array
 from math import ceil
+from shapeUtils import findCenter
+
+def makeSphere(S, radius):
+    """Create a spherical nanoparticle.
+
+    Arguments
+    S       --  A Structure instance
+    radius  --  primary equatorial radius (along x-axis)
+
+    Returns a new structure instance
+    """
+    return makeEllipsoid(S, radius)
 
 def makeEllipsoid(S, a, b=None, c=None):
     """Cut a structure out of another one.
@@ -36,7 +48,6 @@ def makeEllipsoid(S, a, b=None, c=None):
     ncenter = findCenter(newS)
 
     cxyz = lat.cartesian(newS[ncenter].xyz)
-    abc = array(newS.lattice.base.diagonal())
 
     delList = []
     N = len(newS)
@@ -57,25 +68,6 @@ def makeEllipsoid(S, a, b=None, c=None):
         newS.pop(i)
 
     return newS
-
-def findCenter(S):
-    """Find the approximate center atom of a structure.
-
-    The center of the structure is the atom closest to (0.5, 0.5, 0.5)
-
-    Returns the index of the atom.
-    """
-    best = -1
-    bestd = len(S)
-    center = [0.5, 0.5, 0.5] # the cannonical center
-
-    for i in range(len(S)):
-        d = S.lattice.dist(S[i].xyz, center)
-        if d < bestd:
-            bestd = d
-            best = i
-
-    return best
 
 if __name__ == "__main__":
 
