@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2007 trustees of the Michigan State University.
+#                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -14,7 +14,9 @@
 
 """Basic parser for PDB structure format.
 
-Ref.: http://www.rcsb.org/pdb/docs/format/pdbguide2.2/guide2.2_frame.html
+References
+
+    http://www.wwpdb.org/documentation/format30/index.html
 """
 
 __id__ = "$Id$"
@@ -67,10 +69,12 @@ class P_pdb(StructureParser):
             scaleU = numpy.zeros(3, dtype=float)
             p_nl = 0
             for line in lines:
+                p_nl += 1
+                # skip blank lines
+                if not line.strip():    continue
                 # make sure line has 80 characters
                 if len(line) < 80:
                     line = "%-80s" % line
-                p_nl += 1
                 words = line.split()
                 record = words[0]
                 if record == "TITLE":
@@ -89,7 +93,7 @@ class P_pdb(StructureParser):
                     stru.lattice.setLatPar(a, b, c, alpha, beta, gamma)
                     scale = numpy.transpose(stru.lattice.recbase)
                 elif record == "SCALE1":
-                    sc = numpy.zeros(3, dtype=float)
+                    sc = numpy.zeros((3,3), dtype=float)
                     sc[0,:] = [float(x) for x in line[10:40].split()]
                     scaleU[0] = float(line[45:55])
                 elif record == "SCALE2":
@@ -98,12 +102,18 @@ class P_pdb(StructureParser):
                 elif record == "SCALE3":
                     sc[2,:] = [float(x) for x in line[10:40].split()]
                     scaleU[2] = float(line[45:55])
-                    den = numpy.maximum(numpy.fabs(sc), numpy.fabs(scale))
-                    den[den==0] = 1.0
-                    reldiff = numpy.fabs( (sc - scale)/den )
+                    base = numpy.transpose(numpy.linalg.inv(sc))
+                    abcABGcryst = numpy.array(stru.lattice.abcABG())
+                    stru.lattice.setLatBase(base)
+                    abcABGscale = numpy.array(stru.lattice.abcABG())
+                    reldiff = numpy.fabs(1.0 - abcABGscale/abcABGcryst)
                     if not numpy.all(reldiff < 1.0e-4):
-                        raise StructureFormatError, ( "%d: SCALE and " +
-                                "CRYST1 records are inconsistent." ) % p_nl
+                        emsg = "%d: " % p_nl + \
+                                "SCALE and CRYST1 are not consistent."
+                        raise StructureFormatError, emsg
+                    if numpy.any(scaleU != 0.0):
+                        emsg = "Origin offset not yet implemented."
+                        raise NotImplementedError, emsg
                 elif record in ("ATOM", "HETATM"):
                     name = line[12:16].strip()
                     rc = [float(x) for x in line[30:54].split()]
@@ -122,9 +132,10 @@ class P_pdb(StructureParser):
                         # get element from the first 2 characters of name
                         element = line[12:14].strip()
                         element = element[0].upper() + element[1:].lower()
-                    stru.addNewAtom(element, xyz,
+                    stru.addNewAtom(element,
                             occupancy=occupancy, name=name, U=U)
                     last_atom = stru.getLastAtom()
+                    last_atom.xyz_cartn = rc
                 elif record == "SIGATM":
                     sigrc = [float(x) for x in line[30:54].split()]
                     sigxyz = numpy.dot(scale, sigrc)

@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2007 trustees of the Michigan State University.
+#                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -54,7 +54,7 @@ class StructureParser:
 
         Return Structure object or raise StructureFormatError exception.
         """
-        lines = s.rstrip('\n').split('\n')
+        lines = s.rstrip('\r\n').split('\n')
         stru = self.parseLines(lines)
         return stru
 
@@ -67,7 +67,7 @@ class StructureParser:
 
     def parseFile(self, filename):
         """Create Structure instance from an existing file.
-        
+
         filename  -- path to structure file
 
         Return Structure object.

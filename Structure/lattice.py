@@ -2,7 +2,7 @@
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -69,7 +69,7 @@ class Lattice:
         car, cbr, cgr, sar, sbr, sgr -- read-only cosines and sines of
                reciprocal lattice angles, set by setLatPar() and setLatBase()
         metrics  -- metrics tensor
-        base     -- matrix of base vectors in cartesian coordinates,
+        base     -- matrix of row base vectors in cartesian coordinates,
                     base = stdbase*baserot
         stdbase  -- matrix of base vectors in standard orientation
         baserot  -- base rotation matrix
