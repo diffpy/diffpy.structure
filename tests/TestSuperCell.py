@@ -28,9 +28,9 @@ class TestSuperCell(unittest.TestCase):
         # load test structures once
         if self.stru_cdse is None:
             cdsefile = os.path.join(testdata_dir, "CdSe_bulk.stru")
-            self.stru_cdse = Structure(filename=cdsefile)
+            TestSuperCell.stru_cdse = Structure(filename=cdsefile)
             nifile = os.path.join(testdata_dir, "Ni.stru")
-            self.stru_ni = Structure(filename=nifile)
+            TestSuperCell.stru_ni = Structure(filename=nifile)
         return
 
     def tearDown(self):
