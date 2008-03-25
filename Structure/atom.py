@@ -316,12 +316,12 @@ class Atom(object):
             # scale if Uequiv is not zero
             if numpy.fabs(Uequiv) > double_eps:
                 self._U *= value/Uequiv
-            # otherwise just convert from Uiso value
-            else:
-                lat = self.lattice or cartesian_lattice
-                Tu = lat.recnormbase
-                self._U = numpy.dot(numpy.transpose(Tu), Uequiv*Tu)
-                self._Uijsynced = True
+        # otherwise just convert from Uiso value
+        else:
+            lat = self.lattice or cartesian_lattice
+            Tu = lat.recnormbase
+            self._U = numpy.dot(numpy.transpose(Tu), value*Tu)
+            self._Uijsynced = True
         return
 
     Uisoequiv = property(_get_Uisoequiv, _set_Uisoequiv, doc =
