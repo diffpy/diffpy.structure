@@ -13,13 +13,15 @@ def makeCuboctahedron(S, dist):
     Arguments
     S       --  A Structure instance
     dist    --  Distance from center to nearest face
+    axis    --  Tuple defining the z-axis of the cuboctahedron (default
+                (0,0,1)).
 
     Returns a new structure instance
     """
 
     # Create a supercell large enough for the ellipsoid
     frac = S.lattice.fractional((dist, dist, dist))
-    mno = map(ceil, 4*frac)
+    mno = map(ceil, 2*frac)
     # Make the supercell
     from supercell import supercell
     newS = supercell(S, mno)
@@ -30,24 +32,19 @@ def makeCuboctahedron(S, dist):
 
     # Make the cuboctahedron template
     from geometry.composites import cuboctahedron
-    from geometry.operations import translate
+    from geometry.operations import translate, rotate
     c0 = translate(cuboctahedron(dist), lat.cartesian(newS[ncenter].xyz))
 
     # Cut out an octahedron
     from geometry import locate
-    delList = []
 
     N = len(newS)
     j = N
     for i in xrange(N):
-        j -= 1
 
-        xyz = lat.cartesian(newS[j].xyz)
+        xyz = lat.cartesian(newS[N-1-i].xyz)
         if locate(xyz, c0) == 1:
-            delList.append(j)
-
-    for i in delList:
-        newS.pop(i)
+            newS.pop(N-1-i)
 
     return newS
 

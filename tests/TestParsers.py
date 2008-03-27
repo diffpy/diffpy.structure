@@ -416,6 +416,21 @@ class TestP_cif(unittest.TestCase):
         stru.read(datafile('CdSe_bulk.stru'), 'pdffit')
         s_s = stru.writeStr(self.format)
 
+##############################################################################
+class TestP_bratoms(unittest.TestCase):
+    """test Parser for Bruce Ravel's atoms file format"""
+
+    def setUp(self):
+        self.stru = Structure()
+        self.format = "bratoms"
+        self.places = 6
+
+    def test_writeStr_cif(self):
+        """check conversion to CIF string"""
+        stru = self.stru
+        stru.read(datafile('GaAs.inp'), 'bratoms')
+        s_s = stru.writeStr(self.format)
+
 # End of TestP_cif
 
 

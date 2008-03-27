@@ -164,7 +164,7 @@ class P_bratoms(StructureParser):
         lines = []
 
         # title
-        titles = structure.title.split("\n")
+        titles = stru.title.split("\n")
         for t in titles:
             lines.append("title = %s"%t)
 
@@ -221,20 +221,3 @@ def getParser():
     return P_bratoms()
 
 # End of file
-
-if __name__ == "__main__":
-
-    files = ["GaAs.inp"]
-
-    ep = getParser()
-
-    for fn in files:
-        infile = file(fn, 'r')
-        fstr = infile.read()
-        infile.close()
-        lines = fstr.split("\n")
-        structure = ep.parseLines(lines)
-        lines = ep.toLines(structure)
-        print "\n".join(lines)
-
-
