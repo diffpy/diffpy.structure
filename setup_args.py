@@ -40,10 +40,11 @@ setup_args = {
     "description" : description,
     "packages" : [
         "diffpy.Structure",
-        "diffpy.Structure.Parsers"
+        "diffpy.Structure.Parsers",
+        "diffpy.Structure.expansion",
         ],
     "package_dir" : {
-        "diffpy.Structure" : os.path.join(thisdir, "Structure")
+        "diffpy.Structure" : os.path.join(thisdir, "Structure"),
         },
 #   "scripts" : prependThisDir([
 #       "applications/anyeye",
