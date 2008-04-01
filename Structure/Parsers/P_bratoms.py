@@ -50,85 +50,99 @@ class P_bratoms(StructureParser):
         meta = structure.bratoms
         pdict = dict.fromkeys(self.plist)
 
-        for line in lines:
 
-            # Strip comments from the line
-            for c in comlist:
-                idx = line.find(c)
-                if idx != -1:
-                    line = line[:idx]
+        # Count the lines
+        ln = 0
+        try:
+        
+            for line in lines:
+                ln += 1
 
-            # Move on if there is not a line
-            if not line: continue
+                # Strip comments from the line
+                for c in comlist:
+                    idx = line.find(c)
+                    if idx != -1:
+                        line = line[:idx]
 
-            # Move on if there was only white space in the line
-            sline = line.split()
-            if not sline: continue
+                # Move on if there is not a line
+                if not line: continue
 
-            # Check if we have atoms following
-            if sline[0].startswith("atom"):
-                anext = True
-                continue
+                # Move on if there was only white space in the line
+                sline = line.split()
+                if not sline: continue
 
-            # Check for title
-            if sline[0].startswith("title"):
-                if title: title += "\n"
-                title += line[5:]
-                continue
+                # Check if we have atoms following
+                if sline[0].startswith("atom"):
+                    anext = True
+                    continue
 
-            # Get rid of pesky "=" and "," signs
-            while "=" in sline: sline.remove("=")
-            while "," in sline: sline.remove(",")
+                # Check for title
+                if sline[0].startswith("title"):
+                    if title: title += "\n"
+                    title += line[5:]
+                    continue
 
-            # space group
-            if sline and sline[0].startswith("space"):
-                meta["space"] = line[5:].strip()
-                continue
+                # Get rid of pesky "=" and "," signs
+                while "=" in sline: sline.remove("=")
+                while "," in sline: sline.remove(",")
 
-            # output
-            if sline and sline[0].startswith("output"):
-                meta["output"] = line[6:].strip()
-                continue
+                # space group
+                if sline and sline[0].startswith("space"):
+                    meta["space"] = line[5:].strip()
+                    continue
 
-            # shift
-            if sline and sline[0].startswith("shift"):
-                meta["shift"] = line[5:].strip()
-                continue
+                # output
+                if sline and sline[0].startswith("output"):
+                    meta["output"] = line[6:].strip()
+                    continue
 
-            # Check for other metadata
-            while sline and sline[0].strip() in meta:
-                key = sline.pop(0).strip()
-                if key == "central": key = "core"
-                meta[key] = sline.pop(0).strip()
-                
-            # Check for lattice information. 
-            while sline and sline[0].strip() in self.plist:
-                key = sline.pop(0).strip()
-                pdict[key] = float(sline.pop(0))
-                
-            # Check for atom information
-            if sline and anext:
+                # shift
+                if sline and sline[0].startswith("shift"):
+                    meta["shift"] = line[5:].strip()
+                    continue
 
-                el = sline.pop(0).strip()
-                x = float(sline.pop(0))
-                y = float(sline.pop(0))
-                z = float(sline.pop(0))
+                # Check for other metadata
+                while sline and sline[0].strip() in meta:
+                    key = sline.pop(0).strip()
+                    if key == "central": key = "core"
+                    meta[key] = sline.pop(0).strip()
+                    
+                # Check for lattice information. 
+                while sline and sline[0].strip() in self.plist:
+                    key = sline.pop(0).strip()
+                    pdict[key] = float(sline.pop(0))
+                    
+                # Check for atom information
+                if sline and anext:
 
-                tag = ""
-                if sline:
-                    tag = sline.pop(0).strip()
-                occ = 1.0
-                if sline:
-                    occ = float(sline.pop(0))
-                
-                a = Atom( atype = el,
-                    xyz = [x,y,z],
-                    name = tag,
-                    occupancy = occ)
+                    el = sline.pop(0).strip()
+                    x = float(sline.pop(0))
+                    y = float(sline.pop(0))
+                    z = float(sline.pop(0))
 
-                atoms.append(a)
+                    tag = ""
+                    if sline:
+                        tag = sline.pop(0).strip()
+                    occ = 1.0
+                    if sline:
+                        occ = float(sline.pop(0))
+                    
+                    a = Atom( atype = el,
+                        xyz = [x,y,z],
+                        name = tag,
+                        occupancy = occ)
 
+                    atoms.append(a)
 
+        except (ValueError, IndexError), e:
+            raise StructureFormatError, \
+                    "%d: file is not in Atoms format" % (ln, e)
+
+        # Make sure we have atoms.
+        if len(atoms) == 0:
+            raise StructureFormatError, "File contains no atoms"
+
+        # Fill in optional information if it was missing.
         if pdict["alpha"] is None:
             pdict["alpha"] = 90.0
         if pdict["beta"] is None:
