@@ -244,6 +244,32 @@ def nullSpace(A):
 
 # End of nullSpace
 
+
+def _findInvariants(symops):
+    """Find a list of symmetry operations which contains identity.
+
+    symops  -- nested list of SymOp instances
+
+    Return the list-item in symops which contains identity.
+    Raise ValueError when identity was not found.
+    """
+    invrnts = None
+    R0 = numpy.identity(3, dtype=float)
+    t0 = numpy.zeros(3, dtype=float)
+    for ops in symops:
+        for op in ops:
+            if numpy.all(op.R == R0) and numpy.all(op.t == t0):
+                invrnts = ops
+                break
+        if invrnts:  break
+    if invrnts is None:
+        emsg = "Could not find identity operation."
+        raise ValueError, emsg
+    return invrnts
+
+# End of _findInvariants
+
+
 class GeneratorSite:
     """Storage of data related to a generator positions.
 
@@ -307,10 +333,11 @@ class GeneratorSite:
         # fill in the values
         self.xyz = xyz
         sites, ops, mult = expandPosition(spacegroup, xyz, sgoffset, eps)
+        invariants = _findInvariants(ops)
         # shift self.xyz exactly to the special position
         if mult > 1:
             xyzdups = numpy.array([op(xyz + self.sgoffset) - self.sgoffset
-                for op in ops[0]])
+                for op in invariants])
             dxyz = xyzdups - xyz
             dxyz = numpy.mean(dxyz - dxyz.round(), axis=0)
             # recalculate if needed
@@ -319,12 +346,12 @@ class GeneratorSite:
                 self.xyz[numpy.fabs(self.xyz) < self.eps] = 0.0
                 sites, ops, mult = expandPosition(spacegroup,
                         self.xyz, self.sgoffset, eps)
+                invariants = _findInvariants(ops)
         # self.xyz, sites, ops are all adjusted here
         self.eqxyz = sites
         self.symops = ops
         self.multiplicity = mult
-        # invariant operations are always first in self.symop
-        self.invariants = self.symops[0]
+        self.invariants = invariants
         self._findNullSpace()
         self._findPosParameters()
         self._findUSpace()
