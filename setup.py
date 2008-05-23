@@ -11,7 +11,7 @@ Scripts:    transtry, anyeye
 # version
 __id__ = "$Id$"
 
-from setuptools import setup, find_packages
+from setuptools import setup
 import fix_setuptools_chmod
 
 # define distribution
