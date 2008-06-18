@@ -8,9 +8,6 @@ Packages:   diffpy.Structure
 Scripts:    transtry, anyeye
 """
 
-# version
-__id__ = "$Id$"
-
 from setuptools import setup
 import fix_setuptools_chmod
 
@@ -32,7 +29,8 @@ dist = setup(
 
         author = "Simon J.L. Billinge",
         author_email = "sb2896@columbia.edu",
-        description = "Empty namespace module for the diffpy library.",
+        description = "Crystal structure container " + \
+                      "and parsers for structure formats.",
         license = "BSD",
         url = "http://www.diffpy.org/",
         keywords = "diffpy Structure container",
