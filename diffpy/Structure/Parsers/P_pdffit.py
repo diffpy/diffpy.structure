@@ -182,20 +182,20 @@ class P_pdffit(StructureParser):
         lines.append( "atoms" )
         for a in stru:
             ad = a.__dict__
-            lines.append( "%-4s%18.8f%18.8f%18.8f%13.4f" % (
+            lines.append( "%-4s %17.8f %17.8f %17.8f %12.4f" % (
                 a.element.upper(), a.xyz[0], a.xyz[1], a.xyz[2], a.occupancy) )
             sigmas = numpy.concatenate(
                 ( ad.get("sigxyz", d_sigxyz),  [ad.get("sigo", d_sigo)] )  )
-            lines.append( "    %18.8f%18.8f%18.8f%13.4f" % tuple(sigmas) )
+            lines.append( "    %18.8f %17.8f %17.8f %12.4f" % tuple(sigmas) )
             sigU = ad.get("sigU", d_sigU)
             Uii = ( a.U[0][0], a.U[1][1], a.U[2][2] )
             Uij = ( a.U[0][1], a.U[0][2], a.U[1][2] )
             sigUii = ( sigU[0][0], sigU[1][1], sigU[2][2] )
             sigUij = ( sigU[0][1], sigU[0][2], sigU[1][2] )
-            lines.append( "    %18.8f%18.8f%18.8f" % Uii )
-            lines.append( "    %18.8f%18.8f%18.8f" % sigUii )
-            lines.append( "    %18.8f%18.8f%18.8f" % Uij )
-            lines.append( "    %18.8f%18.8f%18.8f" % sigUij )
+            lines.append( "    %18.8f %17.8f %17.8f" % Uii )
+            lines.append( "    %18.8f %17.8f %17.8f" % sigUii )
+            lines.append( "    %18.8f %17.8f %17.8f" % Uij )
+            lines.append( "    %18.8f %17.8f %17.8f" % sigUij )
         return lines
     # End of toLines
 

@@ -180,49 +180,50 @@ class P_bratoms(StructureParser):
         # title
         titles = stru.title.split("\n")
         for t in titles:
-            lines.append("title = %s"%t)
+            lines.append("title = %s" % t)
 
         # a, b, c
-        lines.append("a = %f    b = %f    c = %f"%(lat.a, lat.b, lat.c))
+        lines.append("a = %f    b = %f    c = %f" % (lat.a, lat.b, lat.c))
         # alpha, beta, gamma
-        lines.append("alpha = %f    beta = %f    gamma = %f"%\
+        lines.append("alpha = %f    beta = %f    gamma = %f" % \
                 (lat.alpha, lat.beta, lat.gamma))
 
         # space
-        lines.append("space = %s"%meta.get("space", "P 1"))
+        lines.append("space = %s" % meta.get("space", "P 1"))
 
         # edge
-        lines.append("edge = %s"%meta.get("edge", "K"))
+        lines.append("edge = %s" % meta.get("edge", "K"))
 
         # core
         tag = meta.get("core") or stru[0].name or stru[0].element.title()
-        lines.append("core = %s"%tag)
+        lines.append("core = %s" % tag)
 
         # rmax
-        lines.append("rmax = %s"%meta.get("rmax", 6.0))
+        lines.append("rmax = %s" % meta.get("rmax", 6.0))
 
         # Other keys
         if meta.get('shift'):
-            lines.append("shift = %s"%meta["shift"])
+            lines.append("shift = %s" % meta["shift"])
         if meta.get('output'):
-            lines.append("output = %s"%meta["output"])
+            lines.append("output = %s" % meta["output"])
         if meta.get('nitrogen'):
-            lines.append("nitrogen = %s"%meta["nitrogen"])
+            lines.append("nitrogen = %s" % meta["nitrogen"])
         if meta.get('argon'):
-            lines.append("argon = %s"%meta["argon"])
+            lines.append("argon = %s" % meta["argon"])
         if meta.get('krypton'):
-            lines.append("krypton = %s"%meta["krypton"])
+            lines.append("krypton = %s" % meta["krypton"])
 
         # Add atoms
         lines.append("atoms")
-        lines.append("%-8s%-10s%-10s%-10s%-10s%-10s"%
+        lines.append("%-8s%-10s%-10s%-10s%-10s%s" %
                 ("!", "x", "y", "z", "tag", "occ"))
         for a in stru:
             el = a.element.title()
             name = a.name or el
             x, y, z = a.xyz
             occ = a.occupancy
-            lines.append("%-8s%-10f%-10f%-10f%-10s%-10f"%(el, x, y, z, name, occ))
+            lines.append("%-7s %-9f %-9f %-9f %-9s %f" % \
+                    (el, x, y, z, name, occ))
 
         return lines
     # End of toLines

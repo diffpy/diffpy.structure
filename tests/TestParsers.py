@@ -286,6 +286,16 @@ class TestP_pdffit(unittest.TestCase):
         s_s = re.sub('[ \t]+', ' ', s_s)
         self.assertEqual(f_s, s_s)
 
+    def test_huge_occupancy(self):
+        """check structure with huge occupancy can be read.
+        """
+        self.stru.read(datafile('Ni.stru'), self.format)
+        self.stru[0].occupancy = 16e16
+        s_s = self.stru.writeStr(self.format)
+        stru1 = Structure()
+        stru1.readStr(s_s, self.format)
+        self.assertEqual(16e16, stru1[0].occupancy)
+
 # End of TestP_pdffit
 
 ##############################################################################

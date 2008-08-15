@@ -68,6 +68,7 @@ class P_cif(StructureParser):
         '_tr_atom_site_cartn_y',
         '_tr_atom_site_cartn_z',
         '_tr_atom_site_U_iso_or_equiv',
+        '_tr_atom_site_B_iso_or_equiv',
         '_tr_atom_site_adp_type', '_tr_atom_site_thermal_displace_type',
         '_tr_atom_site_occupancy',
         '_tr_atom_site_aniso_U_11',
@@ -128,6 +129,10 @@ class P_cif(StructureParser):
     def _tr_atom_site_U_iso_or_equiv(a, value):
         a.Uisoequiv = leading_float(value)
     _tr_atom_site_U_iso_or_equiv = staticmethod(_tr_atom_site_U_iso_or_equiv)
+
+    def _tr_atom_site_B_iso_or_equiv(a, value):
+        a.Uisoequiv = P_cif.BtoU * leading_float(value)
+    _tr_atom_site_B_iso_or_equiv = staticmethod(_tr_atom_site_B_iso_or_equiv)
 
     def _tr_atom_site_adp_type(a, value):
         a.anisotropy = value not in ("Uiso", "Biso")

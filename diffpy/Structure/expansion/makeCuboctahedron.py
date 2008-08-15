@@ -13,8 +13,6 @@ def makeCuboctahedron(S, dist):
     Arguments
     S       --  A Structure instance
     dist    --  Distance from center to nearest face
-    axis    --  Tuple defining the z-axis of the cuboctahedron (default
-                (0,0,1)).
 
     Returns a new structure instance
     """

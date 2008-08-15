@@ -83,7 +83,7 @@ if __name__ == "__main__":
     newS.write("CdSe_a20_b15_c10.stru", "pdffit")
     S = Structure()
     S.read(os.path.join(datadir, "Ni.stru"), "pdffit")
-    newS = makeEllipsoid(S, 20)
+    newS = makeEllipsoid(S, 10)
     newS.write("Ni_d20.stru", "pdffit")
     newS = makeEllipsoid(S, 20, 4)
     newS.write("Ni_a20_b4_c20.stru", "pdffit")

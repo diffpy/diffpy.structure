@@ -16,6 +16,7 @@
 
 References
 
+    http://www.wwpdb.org/documentation/format23/v2.3.html
     http://www.wwpdb.org/documentation/format30/index.html
 """
 
