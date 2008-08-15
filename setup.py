@@ -8,20 +8,15 @@ Packages:   diffpy.Structure
 Scripts:    transtry, anyeye
 """
 
-from setuptools import setup
+from setuptools import setup, find_packages
 import fix_setuptools_chmod
 
 # define distribution
 dist = setup(
         name = "diffpy.Structure",
-        namespace_packages = ['diffpy'],
         version = "1.0c1",
-        packages = [
-            "diffpy",
-            "diffpy.Structure",
-            "diffpy.Structure.Parsers",
-            "diffpy.Structure.expansion",
-        ],
+        namespace_packages = ['diffpy'],
+        packages = find_packages(),
         install_requires = ['PyCifRW'],
         dependency_links = [
             "http://diffpy.org/packages/",
