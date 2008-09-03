@@ -52,8 +52,8 @@ if __name__ == "__main__":
     datadir = "../../tests/testdata"
     S = Structure()
     S.read(os.path.join(datadir, "CdSe_bulk.stru"), "pdffit")
-    newS = makeCuboctahedron(S, 10)
-    newS.write("CdSe_cuboct20.stru", "pdffit")
+    newS = makeCuboctahedron(S, 12)
+    newS.write("CdSe_cuboct24.stru", "pdffit")
     S = Structure()
     S.read(os.path.join(datadir, "Ni.stru"), "pdffit")
     newS = makeCuboctahedron(S, 10)

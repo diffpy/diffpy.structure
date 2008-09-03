@@ -39,6 +39,7 @@ def makeEllipsoid(S, a, b=None, c=None):
     # Create a supercell large enough for the ellipsoid
     frac = S.lattice.fractional(sabc)
     mno = map(ceil, 2*frac)
+    mno = max(map(ceil, 2*frac))*array([1,1,1])
     # Make the supercell
     from supercell import supercell
     newS = supercell(S, mno)
@@ -75,8 +76,8 @@ if __name__ == "__main__":
     datadir = "../../tests/testdata"
     S = Structure()
     S.read(os.path.join(datadir, "CdSe_bulk.stru"), "pdffit")
-    newS = makeEllipsoid(S, 20)
-    newS.write("CdSe_d20.stru", "pdffit")
+    newS = makeEllipsoid(S, 12)
+    newS.write("CdSe_d24.stru", "pdffit")
     newS = makeEllipsoid(S, 20, 10, 10)
     newS.write("CdSe_a20_b10_c10.stru", "pdffit")
     newS = makeEllipsoid(S, 20, 15, 10)
