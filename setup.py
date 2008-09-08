@@ -19,7 +19,7 @@ dist = setup(
         packages = find_packages(),
         install_requires = ['PyCifRW'],
         dependency_links = [
-            "http://diffpy.org/packages/",
+            "http://www.diffpy.org/packages/",
         ],
 
         author = "Simon J.L. Billinge",
