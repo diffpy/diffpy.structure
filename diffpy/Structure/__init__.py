@@ -30,19 +30,15 @@ __id__ = "$Id$"
 # interface definitions
 ##############################################################################
 
-from structure import Structure
-from lattice import Lattice
-from atom import Atom
-from pdffitstructure import PDFFitStructure
-from StructureErrors import StructureFormatError
-from StructureErrors import LatticeError
-from StructureErrors import SymmetryError
+from diffpy.Structure.structure import Structure
+from diffpy.Structure.lattice import Lattice
+from diffpy.Structure.atom import Atom
+from diffpy.Structure.pdffitstructure import PDFFitStructure
+from diffpy.Structure.StructureErrors import StructureFormatError
+from diffpy.Structure.StructureErrors import LatticeError
+from diffpy.Structure.StructureErrors import SymmetryError
 
 # obtain version information
-from pkg_resources import get_distribution
-__version__ = get_distribution(__name__).version
-
-# cleanup what should not get imported
-del get_distribution
+from diffpy.Structure.version import __version__
 
 # End of file
