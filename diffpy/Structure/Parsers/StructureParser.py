@@ -75,8 +75,8 @@ class StructureParser:
         """
         self.filename = filename
         f = open(filename)
-        lines = f.readlines()
-        stru = self.parseLines(lines)
+        s = f.read()
+        stru = self.parse(s)
         return stru
 
 # End of StructureParser
