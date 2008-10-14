@@ -136,11 +136,16 @@ class P_bratoms(StructureParser):
 
         except (ValueError, IndexError), e:
             raise StructureFormatError, \
-                    "%d: file is not in Atoms format" % (ln, e)
+                    "%d: file is not in Atoms format" % ln
 
         # Make sure we have atoms.
         if len(atoms) == 0:
             raise StructureFormatError, "File contains no atoms"
+
+        # Make sure we have unit cell parameters
+        if pdict["a"] is None:
+            emsg = "Missing definition of cell parameter"
+            raise StructureFormatError, emsg
 
         # Fill in optional information if it was missing.
         if pdict["alpha"] is None:

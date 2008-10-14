@@ -35,6 +35,13 @@ def datafile(filename):
     """
     return os.path.join(testdata_dir, filename)
 
+def assertListAlmostEqual(self, l1, l2, places=None):
+    """wrapper for list comparison"""
+    if places is None: places = self.places
+    self.assertEqual(len(l1), len(l2))
+    for i in range(len(l1)):
+        self.assertAlmostEqual(l1[i], l2[i], places)
+
 ##############################################################################
 class TestP_xyz(unittest.TestCase):
     """test Parser for xyz file format"""
@@ -164,17 +171,12 @@ class TestP_rawxyz(unittest.TestCase):
 class TestP_pdffit(unittest.TestCase):
     """test Parser for PDFFit file format"""
 
+    assertListAlmostEqual = assertListAlmostEqual
+
     def setUp(self):
         self.stru = Structure()
         self.format = "pdffit"
         self.places = 8
-
-    def assertListAlmostEqual(self, l1, l2, places=None):
-        """wrapper for list comparison"""
-        if places is None: places = self.places
-        self.assertEqual(len(l1), len(l2))
-        for i in range(len(l1)):
-            self.assertAlmostEqual(l1[i], l2[i], places)
 
     def test_read_pdffit_ZnSb(self):
         """check reading of ZnSb pdffit structure file"""
@@ -415,6 +417,8 @@ class TestP_xcfg(unittest.TestCase):
 class TestP_cif(unittest.TestCase):
     """test Parser for CIF file format"""
 
+    assertListAlmostEqual = assertListAlmostEqual
+
     def setUp(self):
         self.stru = Structure()
         self.format = "cif"
@@ -422,9 +426,29 @@ class TestP_cif(unittest.TestCase):
 
     def test_writeStr_cif(self):
         """check conversion to CIF string"""
-        stru = self.stru
-        stru.read(datafile('CdSe_bulk.stru'), 'pdffit')
-        s_s = stru.writeStr(self.format)
+        self.stru.read(datafile('CdSe_bulk.stru'), 'pdffit')
+        s_s = self.stru.writeStr(self.format)
+        f_stru = Structure()
+        f_stru.readStr(s_s, self.format)
+        self.assertAlmostEqual(4.2352, f_stru.lattice.a, self.places)
+        self.assertAlmostEqual(4.2352, f_stru.lattice.b, self.places)
+        self.assertAlmostEqual(6.90603, f_stru.lattice.c, self.places)
+        self.assertEqual(4, len(f_stru))
+        a0 = f_stru[0]
+        self.assertEqual('Cd', a0.element)
+        self.assertListAlmostEqual([0.3334, 0.6667, 0.0], a0.xyz)
+        self.assertAlmostEqual(0.01303, a0.U[0,0])
+        self.assertAlmostEqual(0.01303, a0.U[1,1])
+        self.assertAlmostEqual(0.01402, a0.U[2,2])
+        a3 = f_stru[3]
+        self.assertEqual('Se', a3.element)
+        self.assertListAlmostEqual([0.6666, 0.333300, 0.87667], a3.xyz)
+        self.assertAlmostEqual(0.015673, a3.U[0,0])
+        self.assertAlmostEqual(0.015673, a3.U[1,1])
+        self.assertAlmostEqual(0.046164, a3.U[2,2])
+        return
+
+# End of TestP_cif
 
 ##############################################################################
 class TestP_bratoms(unittest.TestCase):
@@ -441,7 +465,33 @@ class TestP_bratoms(unittest.TestCase):
         stru.read(datafile('GaAs.inp'), 'bratoms')
         s_s = stru.writeStr(self.format)
 
-# End of TestP_cif
+    def test_read_bratoms_bad(self):
+        """check exceptions when reading invalid bratoms file"""
+        badfiles = [
+                'LiCl-bad.cif',
+                'PbTe.cif',
+                'arginine.pdb',
+                'ZnSb_RT_Q28X_VM_20_fxiso.rstr',
+                'Ni-bad.stru',
+                'Ni-discus.stru',
+                'Ni.stru',
+                'BubbleRaftShort.xcfg',
+                'bucky-bad1.xyz',
+                'bucky-bad2.xyz',
+                'bucky-plain-bad.xyz',
+                'bucky-plain.xyz',
+                'bucky-raw.xyz',
+                'bucky.xyz',
+                'hexagon-raw-bad.xyz',
+                'hexagon-raw.xyz',
+        ]
+        for ft in badfiles:
+            ff = datafile(ft)
+            self.assertRaises(StructureFormatError,
+                    self.stru.read, ff, format=self.format)
+        return
+
+# End of TestP_bratoms
 
 
 if __name__ == '__main__':
