@@ -15,6 +15,7 @@ tests_dir = os.path.dirname(os.path.abspath(thisfile))
 testdata_dir = os.path.join(tests_dir, 'testdata')
 
 from diffpy.Structure.Parsers.P_cif import *
+from diffpy.Structure import Structure
 from diffpy.Structure import StructureFormatError
 
 ##############################################################################
@@ -53,12 +54,15 @@ class TestRoutines(unittest.TestCase):
 ##############################################################################
 class TestP_cif(unittest.TestCase):
 
+    goodciffile = os.path.join(testdata_dir, 'PbTe.cif')
+    badciffile = os.path.join(testdata_dir, 'LiCl-bad.cif')
+    graphiteciffile = os.path.join(testdata_dir, 'graphite.cif')
+    cdsebulkpdffitfile = os.path.join(testdata_dir, 'CdSe_bulk.stru')
+    places = 6
+
     def setUp(self):
         self.ptest = P_cif()
         self.pfile = P_cif()
-        self.goodciffile = os.path.join(testdata_dir, 'PbTe.cif')
-        self.badciffile = os.path.join(testdata_dir, 'LiCl-bad.cif')
-        self.graphiteciffile = os.path.join(testdata_dir, 'graphite.cif')
         return
 
     def tearDown(self):
@@ -167,6 +171,45 @@ class TestP_cif(unittest.TestCase):
 #       """check P_cif.tostring()
 #       """
 #       return
+
+    def test_write_and_read(self):
+        """high-level check of P_cif.tostring()
+        """
+        # high-level check
+        stru_check = Structure()
+        stru_check.read(self.cdsebulkpdffitfile)
+        s_s = stru_check.writeStr('cif')
+        stru = Structure()
+        stru.readStr(s_s, 'cif')
+        self.assertAlmostEqual(4.2352, stru.lattice.a, self.places)
+        self.assertAlmostEqual(4.2352, stru.lattice.b, self.places)
+        self.assertAlmostEqual(6.90603, stru.lattice.c, self.places)
+        self.assertEqual(4, len(stru))
+        a0 = stru[0]
+        self.assertEqual('Cd', a0.element)
+        self.assertListAlmostEqual([0.3334, 0.6667, 0.0], a0.xyz)
+        self.assertAlmostEqual(0.01303, a0.U[0,0])
+        self.assertAlmostEqual(0.01303, a0.U[1,1])
+        self.assertAlmostEqual(0.01402, a0.U[2,2])
+        a3 = stru[3]
+        self.assertEqual('Se', a3.element)
+        self.assertListAlmostEqual([0.6666, 0.333300, 0.87667], a3.xyz)
+        self.assertAlmostEqual(0.015673, a3.U[0,0])
+        self.assertAlmostEqual(0.015673, a3.U[1,1])
+        self.assertAlmostEqual(0.046164, a3.U[2,2])
+        return
+
+    ########################################################################
+    # helpers
+    ########################################################################
+
+    def assertListAlmostEqual(self, l1, l2, places=None):
+        """wrapper for list comparison"""
+        if places is None: places = self.places
+        self.assertEqual(len(l1), len(l2))
+        for i in range(len(l1)):
+            self.assertAlmostEqual(l1[i], l2[i], places)
+        return
 
 # End of class TestP_cif
 

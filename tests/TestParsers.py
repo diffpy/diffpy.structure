@@ -413,42 +413,6 @@ class TestP_xcfg(unittest.TestCase):
 
 # End of TestP_xcfg
 
-##############################################################################
-class TestP_cif(unittest.TestCase):
-    """test Parser for CIF file format"""
-
-    assertListAlmostEqual = assertListAlmostEqual
-
-    def setUp(self):
-        self.stru = Structure()
-        self.format = "cif"
-        self.places = 6
-
-    def test_writeStr_cif(self):
-        """check conversion to CIF string"""
-        self.stru.read(datafile('CdSe_bulk.stru'), 'pdffit')
-        s_s = self.stru.writeStr(self.format)
-        f_stru = Structure()
-        f_stru.readStr(s_s, self.format)
-        self.assertAlmostEqual(4.2352, f_stru.lattice.a, self.places)
-        self.assertAlmostEqual(4.2352, f_stru.lattice.b, self.places)
-        self.assertAlmostEqual(6.90603, f_stru.lattice.c, self.places)
-        self.assertEqual(4, len(f_stru))
-        a0 = f_stru[0]
-        self.assertEqual('Cd', a0.element)
-        self.assertListAlmostEqual([0.3334, 0.6667, 0.0], a0.xyz)
-        self.assertAlmostEqual(0.01303, a0.U[0,0])
-        self.assertAlmostEqual(0.01303, a0.U[1,1])
-        self.assertAlmostEqual(0.01402, a0.U[2,2])
-        a3 = f_stru[3]
-        self.assertEqual('Se', a3.element)
-        self.assertListAlmostEqual([0.6666, 0.333300, 0.87667], a3.xyz)
-        self.assertAlmostEqual(0.015673, a3.U[0,0])
-        self.assertAlmostEqual(0.015673, a3.U[1,1])
-        self.assertAlmostEqual(0.046164, a3.U[2,2])
-        return
-
-# End of TestP_cif
 
 ##############################################################################
 class TestP_bratoms(unittest.TestCase):
