@@ -109,7 +109,6 @@ def cleanUp(pd):
 
 def parseFormula(formula):
     """parse chemical formula and return a list of elements"""
-    from diffpy.Structure.PeriodicTable import is_element
     # remove all blanks
     formula = re.sub('\s', '', formula)
     if not re.match('^[A-Z]', formula):
@@ -121,9 +120,6 @@ def parseFormula(formula):
             el = elcnt[i]
             cnt = elcnt[i+1]
             cnt = (cnt == "") and 1 or int(cnt)
-            if not is_element(el):
-                raise RuntimeError, \
-                    "Invalid formula: %s is not element" % el
             ellst.extend(cnt*[el])
     except ValueError:
         raise RuntimeError, \
