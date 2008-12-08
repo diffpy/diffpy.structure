@@ -99,7 +99,8 @@ class P_cif(StructureParser):
 
     def _tr_atom_site_type_symbol(a, value):
         rx = P_cif._psymb.match(value)
-        a.element = rx and rx.group(0) or value
+        smbl = rx and rx.group(0) or value
+        a.element = smbl[:1].upper() + smbl[1:].lower()
     _tr_atom_site_type_symbol = staticmethod(_tr_atom_site_type_symbol)
 
     def _tr_atom_site_fract_x(a, value):

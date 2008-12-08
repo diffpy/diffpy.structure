@@ -115,7 +115,8 @@ class P_bratoms(StructureParser):
                 # Check for atom information
                 if sline and anext:
 
-                    el = sline.pop(0).strip()
+                    elraw = sline.pop(0).strip()
+                    el = elraw[:1].upper() + elraw[1:].lower()
                     x = float(sline.pop(0))
                     y = float(sline.pop(0))
                     z = float(sline.pop(0))
