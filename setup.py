@@ -5,7 +5,7 @@
 """Structure - objects for storage and manipulation of crystal structures.
 
 Packages:   diffpy.Structure
-Scripts:    transtry, anyeye
+Scripts:    transtru, anyeye
 """
 
 from setuptools import setup, find_packages
