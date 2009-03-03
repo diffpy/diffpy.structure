@@ -12,7 +12,7 @@
 #
 ########################################################################
 
-"""Unit tests for Structure.Parsers module.
+"""Unit tests for diffpy.Structure.Parsers.P_pdffit module
 """
 
 __id__ = "$Id$"
