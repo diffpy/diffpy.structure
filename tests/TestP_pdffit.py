@@ -22,8 +22,6 @@ import os
 import re
 
 from diffpy.Structure import Structure, StructureFormatError
-from diffpy.Structure import Lattice
-from diffpy.Structure import Atom
 
 # useful variables
 thisfile = locals().get('__file__', 'TestParsers.py')
