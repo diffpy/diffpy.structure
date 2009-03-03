@@ -26,11 +26,15 @@ from StructureParser import StructureParser
 
 class P_pdffit(StructureParser):
     """Parser for PDFfit structure format.
+
+    stru -- Structure instance used for cif input or output
     """
 
     def __init__(self):
         StructureParser.__init__(self)
         self.format = "pdffit"
+        self.ignored_lines = []
+        self.stru = None
         return
 
     def parseLines(self, lines):
@@ -41,7 +45,8 @@ class P_pdffit(StructureParser):
         p_nl = 0
         rlist = []
         try:
-            stru = PDFFitStructure()
+            self.stru = PDFFitStructure()
+            stru = self.stru
             cell_line_read = False
             stop = len(lines)
             while stop>0 and lines[stop-1].strip() == "":
@@ -74,6 +79,8 @@ class P_pdffit(StructureParser):
                     start = l.find(key) + len(key)
                     value = l[start:].strip()
                     stru.pdffit['spcgr'] = value
+                elif words[0] == 'shape':
+                    self._parse_shape(l)
                 elif words[0] == 'cell':
                     cell_line_read = True
                     l1 = l.replace(',', ' ')
@@ -92,9 +99,12 @@ class P_pdffit(StructureParser):
                 elif words[0] == 'atoms' and cell_line_read:
                     break
                 else:
-                    raise StructureFormatError, \
-                            "%d: file is not in PDFfit format" % p_nl
-            # header was successfully read, we can create Structure instance
+                    self.ignored_lines.append(l)
+            # Header reading finished, check if required lines were present.
+            if not cell_line_read:
+                emsg = "%d: file is not in PDFfit format" % p_nl
+                raise StructureFormatError, p_nl
+            # Load data from atom entries.
             p_natoms = reduce(lambda x,y : x*y, stru.pdffit['ncell'])
             # we are now inside data block
             for l in ilines:
@@ -144,7 +154,9 @@ class P_pdffit(StructureParser):
             raise StructureFormatError, \
                     "%d: file is not in PDFfit format" % p_nl, exc_traceback
         return stru
+
     # End of parseLines
+
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in PDFfit format.
@@ -173,6 +185,9 @@ class P_pdffit(StructureParser):
             stru.pdffit["sratio"],
             stru.pdffit["rcut"]) )
         lines.append( "spcgr   " + stru.pdffit["spcgr"] )
+        if stru.pdffit.get('spdiameter', 0.0) > 0.0:
+            line = 'shape   sphere  %g' % stru.pdffit['spdiameter']
+            lines.append(line)
         lat = stru.lattice
         lines.append( "cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % (
             lat.a, lat.b, lat.c, lat.alpha, lat.beta, lat.gamma) )
@@ -197,7 +212,32 @@ class P_pdffit(StructureParser):
             lines.append( "    %18.8f %17.8f %17.8f" % Uij )
             lines.append( "    %18.8f %17.8f %17.8f" % sigUij )
         return lines
+
     # End of toLines
+
+
+    # Protected methods
+
+
+    def _parse_shape(self, line):
+        """Process shape line from PDFfit file and update self.stru
+
+        line -- line containing data for particle shape correction
+
+        No return value.
+        Raise StructureFormatError for invalid record.
+        """
+        line_nocommas = line.replace(',', ' ')
+        words = line_nocommas.split()
+        assert words[0] == 'shape'
+        shapetype = words[1]
+        if shapetype == 'sphere':
+            self.stru.pdffit['spdiameter'] = float(words[2])
+        else:
+            emsg = 'Invalid type of particle shape correction %r' % shapetype
+            raise StructureFormatError, emsg
+        return
+
 
 # End of class P_pdffit
 
