@@ -292,7 +292,7 @@ class Structure(list):
         self._uncache('labels')
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
-        list.insert(idx, adup)
+        list.insert(self, idx, adup)
         return
 
     def extend(self, atoms, copy=True):
