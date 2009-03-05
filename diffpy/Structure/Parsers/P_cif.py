@@ -24,9 +24,9 @@ import os
 import numpy
 import re
 
-from import_helper import Structure, Lattice, Atom
-from import_helper import StructureFormatError
-from StructureParser import StructureParser
+from diffpy.Structure import Structure, Lattice, Atom
+from diffpy.Structure import StructureFormatError
+from diffpy.Structure.Parsers import StructureParser
 
 
 ############################################################################

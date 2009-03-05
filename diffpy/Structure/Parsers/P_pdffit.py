@@ -20,9 +20,9 @@ __id__ = "$Id$"
 import sys
 import numpy
 
-from import_helper import PDFFitStructure, Lattice, Atom
-from import_helper import StructureFormatError
-from StructureParser import StructureParser
+from diffpy.Structure import PDFFitStructure, Lattice, Atom
+from diffpy.Structure import StructureFormatError
+from diffpy.Structure.Parsers import StructureParser
 
 class P_pdffit(StructureParser):
     """Parser for PDFfit structure format.
@@ -94,8 +94,8 @@ class P_pdffit(StructureParser):
                     stru.pdffit['ncell'] = [ int(w) for w in l1.split()[1:5] ]
                 elif words[0] == 'format':
                     if words[1] != 'pdffit':
-                        raise StructureFormatError, \
-                                "%d: file is not in PDFfit format" % p_nl
+                        emsg = "%d: file is not in PDFfit format" % p_nl
+                        raise StructureFormatError(emsg)
                 elif words[0] == 'atoms' and cell_line_read:
                     break
                 else:
@@ -103,7 +103,7 @@ class P_pdffit(StructureParser):
             # Header reading finished, check if required lines were present.
             if not cell_line_read:
                 emsg = "%d: file is not in PDFfit format" % p_nl
-                raise StructureFormatError, p_nl
+                raise StructureFormatError(emsg)
             # Load data from atom entries.
             p_natoms = reduce(lambda x,y : x*y, stru.pdffit['ncell'])
             # we are now inside data block
@@ -141,8 +141,8 @@ class P_pdffit(StructureParser):
                 a.sigU[0,2] = a.sigU[2,0] = float(wl6[1])
                 a.sigU[1,2] = a.sigU[2,1] = float(wl6[2])
             if len(stru) != p_natoms:
-                raise StructureFormatError, \
-                        "expected %d atoms, read %d" % (p_natoms, len(stru))
+                emsg = "expected %d atoms, read %d" % (p_natoms, len(stru))
+                raise StructureFormatError(emsg)
             if stru.pdffit['ncell'][:3] != [1,1,1]:
                 superlatpars = [ latpars[i]*stru.pdffit['ncell'][i]
                                  for i in range(3) ] + latpars[3:]
@@ -150,9 +150,9 @@ class P_pdffit(StructureParser):
                 stru.placeInLattice(superlattice)
                 stru.pdffit['ncell'] = [1, 1, 1, p_natoms]
         except (ValueError, IndexError):
+            emsg = "%d: file is not in PDFfit format" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, \
-                    "%d: file is not in PDFfit format" % p_nl, exc_traceback
+            raise StructureFormatError, emsg, exc_traceback
         return stru
 
     # End of parseLines

@@ -30,13 +30,11 @@ __id__ = "$Id$"
 # interface definitions
 ##############################################################################
 
-from diffpy.Structure.structure import Structure
-from diffpy.Structure.lattice import Lattice
+from diffpy.Structure.StructureErrors import *
 from diffpy.Structure.atom import Atom
+from diffpy.Structure.lattice import Lattice
+from diffpy.Structure.structure import Structure
 from diffpy.Structure.pdffitstructure import PDFFitStructure
-from diffpy.Structure.StructureErrors import StructureFormatError
-from diffpy.Structure.StructureErrors import LatticeError
-from diffpy.Structure.StructureErrors import SymmetryError
 
 # obtain version information
 from diffpy.Structure.version import __version__

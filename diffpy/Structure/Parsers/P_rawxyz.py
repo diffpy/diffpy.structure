@@ -21,10 +21,10 @@ __id__ = "$Id$"
 
 import sys
 
-from import_helper import Structure, Lattice, Atom
-from import_helper import StructureFormatError
-from import_helper import isfloat
-from StructureParser import StructureParser
+from diffpy.Structure import Structure, Lattice, Atom
+from diffpy.Structure import StructureFormatError
+from diffpy.Structure.utils import isfloat
+from diffpy.Structure.Parsers import StructureParser
 
 class P_rawxyz(StructureParser):
     """Parser --> StructureParser subclass for RAWXYZ format"""
@@ -61,15 +61,16 @@ class P_rawxyz(StructureParser):
         floatfields = [ isfloat(f) for f in linefields[start] ]
         nfields = len(linefields[start])
         if nfields not in (3, 4):
-            raise StructureFormatError, ("%d: invalid RAWXYZ format, " +
-                    "expected 3 or 4 columns") % (start+1)
+            emsg = ("%d: invalid RAWXYZ format, expected 3 or 4 columns" %
+                    (start + 1))
+            raise StructureFormatError(emsg)
         if floatfields[:3] == [True, True, True]:
             el_idx, x_idx = (None, 0)
         elif floatfields[:4] == [False, True, True, True]:
             el_idx, x_idx = (0, 1)
         else:
-            raise StructureFormatError, \
-                    "%d: invalid RAWXYZ format" % (start+1)
+            emsg = "%d: invalid RAWXYZ format" % (start + 1)
+            raise StructureFormatError(emsg)
         # now try to read all record lines
         try:
             p_nl = start
@@ -78,17 +79,18 @@ class P_rawxyz(StructureParser):
                 if fields == []:
                     continue
                 elif len(fields) != nfields:
-                    raise StructureFormatError, ('%d: all lines must have ' +
+                    emsg = ('%d: all lines must have ' +
                             'the same number of columns') % p_nl
+                    raise StructureFormatError, emsg
                 element = el_idx is not None and fields[el_idx] or ""
                 xyz = [ float(f) for f in fields[x_idx:x_idx+3] ]
                 if len(xyz) == 2:
                     xyz.append(0.0)
                 stru.addNewAtom(element, xyz=xyz)
         except ValueError:
+            emsg = "%d: invalid number" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, \
-                    "%d: invalid number" % p_nl, exc_traceback
+            raise StructureFormatError, emsg, exc_traceback
         return stru
     # End of parseLines
 

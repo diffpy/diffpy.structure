@@ -17,7 +17,7 @@
 
 __id__ = "$Id$"
 
-from structure import Structure
+from diffpy.Structure import Structure
 
 ##############################################################################
 class PDFFitStructure(Structure):

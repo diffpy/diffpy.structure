@@ -17,8 +17,8 @@
 __id__ = "$Id$"
 
 import numpy
-from lattice import cartesian as cartesian_lattice
-from StructureErrors import IsotropyError
+from diffpy.Structure.lattice import cartesian as cartesian_lattice
+from diffpy.Structure import IsotropyError
 
 # conversion constants
 _BtoU = 1.0/(8 * numpy.pi**2)

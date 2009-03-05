@@ -21,25 +21,36 @@ Any structure parser needs to be registered in parser_index module.
 
 For normal usage it should be sufficient to use the routines provided
 in this module.
+
+Content:
+    StructureParser -- base class for concrete Parsers
+    parser_index    -- dictionary of known structure formats
+    getParser       -- factory for Parser at given format
+    inputFormats    -- list of available input formats
+    outputFormats   -- list of available output formats
 """
 
 __id__ = "$Id$"
+
+
+from diffpy.Structure import StructureFormatError
+from diffpy.Structure.Parsers.StructureParser import StructureParser
+from diffpy.Structure.Parsers.parser_index import parser_index
 
 def getParser(format):
     """Return Parser instance for a given structure format.
     Raises StructureFormatError exception when format is not defined.
     """
-    from import_helper import StructureFormatError
-    from parser_index import parser_index
     if format not in parser_index:
-        raise StructureFormatError, "no parser for '%s' format" % format
+        emsg = "no parser for '%s' format" % format
+        raise StructureFormatError(emsg)
     pmod = parser_index[format]['module']
-    exec "import %s as pm" % pmod
+    import_cmd = 'from diffpy.Structure.Parsers import %s as pm' % pmod
+    exec(import_cmd)
     return pm.getParser()
 
 def inputFormats():
     """Return list of implemented input structure formats"""
-    from parser_index import parser_index
     input_formats = [ fmt for fmt, prop in parser_index.iteritems()
             if prop['has_input'] ]
     input_formats.sort()
@@ -47,7 +58,6 @@ def inputFormats():
 
 def outputFormats():
     """return list of implemented output structure formats"""
-    from parser_index import parser_index
     output_formats = [ fmt for fmt, prop in parser_index.iteritems()
             if prop['has_output'] ]
     output_formats.sort()

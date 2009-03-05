@@ -20,9 +20,9 @@ __id__ = "$Id$"
 import sys
 import numpy
 
-from import_helper import PDFFitStructure, Lattice, Atom
-from import_helper import StructureFormatError
-from StructureParser import StructureParser
+from diffpy.Structure import PDFFitStructure, Lattice, Atom
+from diffpy.Structure import StructureFormatError
+from diffpy.Structure.Parsers import StructureParser
 
 class P_discus(StructureParser):
     """Parser for DISCUS structure format.  The parser chokes
@@ -70,7 +70,7 @@ class P_discus(StructureParser):
             # check if cell has been defined
             if not self.cell_read:
                 emsg = "%d: unit cell not defined" % self.nl
-                raise StructureFormatError, emsg
+                raise StructureFormatError(emsg)
             # parse atoms
             for self.line in ilines:
                 words = self.line.split()
@@ -82,7 +82,7 @@ class P_discus(StructureParser):
             if self.ncell_read and exp_natoms != len(self.stru):
                 emsg = 'Expected %d atoms, read %d.' % \
                     (exp_natoms, len(self.stru))
-                raise StructureFormatError, emsg
+                raise StructureFormatError(emsg)
             # take care of superlattice
             if self.stru.pdffit['ncell'][:3] != [1,1,1]:
                 latpars = list(self.stru.lattice.abcABG())
@@ -145,7 +145,7 @@ class P_discus(StructureParser):
         except ZeroDivisionError:
             emsg = "%d: Invalid lattice parameters - zero cell volume" % \
                     self.nl
-            raise StructureFormatError, emsg
+            raise StructureFormatError(emsg)
         self.cell_read = True
         return
 
@@ -154,7 +154,7 @@ class P_discus(StructureParser):
         """
         if words[1] == 'pdffit':
             emsg = "%d: file is not in DISCUS format" % self.nl
-            raise StructureFormatError, emsg
+            raise StructureFormatError(emsg)
         return
 
     def _parse_ncell(self, words):
@@ -195,7 +195,7 @@ class P_discus(StructureParser):
         """
         emsg = "%d: Invalid DISCUS record %r." % \
                 (self.nl, words[0])
-        raise StructureFormatError, emsg
+        raise StructureFormatError(emsg)
 
     def _parse_not_implemented(self, words):
         """Process the unimplemented records from DISCUS structure file.
@@ -203,7 +203,7 @@ class P_discus(StructureParser):
         """
         emsg = "%d: reading of DISCUS record %r is not implemented." % \
                 (self.nl, words[0])
-        raise NotImplementedError, emsg
+        raise NotImplementedError(emsg)
 
 # End of class P_pdffit
 

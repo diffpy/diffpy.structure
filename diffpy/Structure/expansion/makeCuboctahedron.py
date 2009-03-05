@@ -3,9 +3,9 @@
 
 __id__ = "$Id$"
 
-from diffpy.Structure import Structure, Atom
 from math import ceil
-from shapeUtils import findCenter
+from diffpy.Structure import Structure, Atom
+from diffpy.Structure.expansion.shapeUtils import findCenter
 
 def makeCuboctahedron(S, dist):
     """Make a cuboctahedron nanoparticle.
@@ -21,7 +21,7 @@ def makeCuboctahedron(S, dist):
     frac = S.lattice.fractional((dist, dist, dist))
     mno = map(ceil, 2*frac)
     # Make the supercell
-    from supercell import supercell
+    from diffpy.Structure.expansion.supercell import supercell
     newS = supercell(S, mno)
     lat = newS.lattice
 

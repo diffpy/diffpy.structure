@@ -17,11 +17,8 @@
 
 __id__ = "$Id$"
 
-import math
 import numpy
-import numpy.linalg as numalg
-from lattice import Lattice
-from atom import Atom
+from diffpy.Structure import Lattice, Atom
 
 ##############################################################################
 class Structure(list):
@@ -67,7 +64,8 @@ class Structure(list):
         if lattice is None:
             if not self.lattice:    self.lattice = Lattice()
         elif not isinstance(lattice, Lattice):
-            raise TypeError, "expected instance of Lattice"
+            emsg = "expected instance of Lattice"
+            raise TypeError(emsg)
         else:
             self.lattice = lattice
         # override from title argument
@@ -127,7 +125,7 @@ class Structure(list):
                 rv = self._labels[id]
         except (IndexError, KeyError):
             emsg = "Invalid atom identifier %r." % id
-            raise ValueError, emsg
+            raise ValueError(emsg)
         return rv
 
 
@@ -195,7 +193,10 @@ class Structure(list):
         Return instance of data Parser used to process file.  This
         can be inspected for information related to particular format.
         """
-        from Parsers import getParser
+        import diffpy.Structure
+        import diffpy.Structure.Parsers
+        getParser = diffpy.Structure.Parsers.getParser
+#       from diffpy.Structure.Parsers import getParser
         p = getParser(format)
         new_structure = p.parseFile(filename)
         # reinitialize data after successful parsing
@@ -221,7 +222,7 @@ class Structure(list):
         Return instance of data Parser used to process input string.  This
         can be inspected for information related to particular format.
         """
-        from Parsers import getParser
+        from diffpy.Structure.Parsers import getParser
         p = getParser(format)
         new_structure = p.parse(s)
         # reinitialize data after successful parsing
@@ -240,7 +241,7 @@ class Structure(list):
         Note: available structure formats can be obtained by:
             from Parsers import formats
         """
-        from Parsers import getParser
+        from diffpy.Structure.Parsers import getParser
         p = getParser(format)
         p.filename = filename
         s = p.tostring(self)
@@ -255,7 +256,7 @@ class Structure(list):
         Note: available structure formats can be obtained by:
             from Parsers import formats
         """
-        from Parsers import getParser
+        from diffpy.Structure.Parsers import getParser
         p = getParser(format)
         s = p.tostring(self)
         return s

@@ -19,9 +19,9 @@ This Parser does not provide the the toLines() method.
 
 __id__ = "$Id$"
 
-from import_helper import StructureFormatError
-from StructureParser import StructureParser
-from parser_index import parser_index
+from diffpy.Structure import StructureFormatError
+from diffpy.Structure.Parsers import StructureParser
+from diffpy.Structure.Parsers import parser_index
 
 class P_auto(StructureParser):
     """Parser with automatic detection of structure format.
@@ -40,7 +40,7 @@ class P_auto(StructureParser):
         This only works when self.filename has a known extension.
         """
         import os.path
-        from __init__ import inputFormats
+        from diffpy.Structure.Parsers import inputFormats
         ofmts = [fmt for fmt in inputFormats() if fmt != 'auto']
         if not self.filename:   return ofmts
         # filename is defined here
@@ -62,8 +62,8 @@ class P_auto(StructureParser):
 
         Return Structure instance, or raise StructureFormatError.
         """
+        from diffpy.Structure.Parsers import getParser
         ofmts = self.getOrderedFormats()
-        from __init__ import getParser
         stru = None
         # try all parsers in sequence
         parsers_emsgs = []
@@ -81,7 +81,7 @@ class P_auto(StructureParser):
             emsg = "\n".join([
                 "Unknown or invalid structure format.",
                 "Errors per each tested structure format:"] + parsers_emsgs)
-            raise StructureFormatError, emsg
+            raise StructureFormatError(emsg)
         self.__dict__.update(p.__dict__)
         return stru
     # End of parseLines

@@ -20,10 +20,10 @@ import sys
 import re
 import numpy
 
-from import_helper import Structure, Lattice, Atom
-from import_helper import StructureFormatError
-from import_helper import isfloat
-from StructureParser import StructureParser
+from diffpy.Structure import Structure, Lattice, Atom
+from diffpy.Structure import StructureFormatError
+from diffpy.Structure.utils import isfloat
+from diffpy.Structure.Parsers import StructureParser
 
 
 ########################################################################
@@ -190,8 +190,9 @@ class P_xcfg(StructureParser):
                     continue
                 elif xcfg_Number_of_particles is None:
                     if line.find("Number of particles =") != 0:
-                        raise StructureFormatError, ("%d: first line must "+
+                        emsg = ("%d: first line must " +
                                 "contain 'Number of particles ='") % p_nl
+                        raise StructureFormatError(emsg)
                     xcfg_Number_of_particles = int(line[21:].split(None, 1)[0])
                     p_natoms = xcfg_Number_of_particles
                 elif line.find("A =") == 0:
@@ -212,8 +213,8 @@ class P_xcfg(StructureParser):
                     break
             # check header for consistency
             if numpy.any(xcfg_H0_set == False):
-                raise StructureFormatError, \
-                        "H0 tensor is not properly defined"
+                emsg = "H0 tensor is not properly defined"
+                raise StructureFormatError(emsg)
             p_auxnum = len(p_auxiliary) and max(p_auxiliary.keys())+1
             for i in range(p_auxnum):
                 if not i in p_auxiliary:
@@ -226,8 +227,9 @@ class P_xcfg(StructureParser):
                                       for k in sorted_aux_keys ]
                 }
             if 6-3*xcfg_NO_VELOCITY+len(p_auxiliary) != xcfg_entry_count:
-                raise StructureFormatError, ("%d: auxiliary fields " +
+                emsg = ("%d: auxiliary fields " +
                         "not consistent with entry_count") % p_nl
+                raise StructureFormatError(emsg)
             # define proper lattice
             stru.lattice.setLatBase(xcfg_H0)
             # build p_assign_atom function to assign entries to proper fields
@@ -278,14 +280,15 @@ class P_xcfg(StructureParser):
                     a.xyz *= xcfg_A
                     p_assign_atom(a, fields)
                 else:
-                    raise StructureFormatError, "%d: invalid record" % p_nl
+                    emsg = "%d: invalid record" % p_nl
+                    raise StructureFormatError(emsg)
             if len(stru) != p_natoms:
-                raise StructureFormatError, \
-                        "expected %d atoms, read %d" % (p_natoms, len(stru))
+                emsg = "expected %d atoms, read %d" % (p_natoms, len(stru))
+                raise StructureFormatError(emsg)
         except (ValueError, IndexError):
+            emsg = "%d: file is not in XCFG format" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, \
-                    "%d: file is not in XCFG format" % p_nl, exc_traceback
+            raise StructureFormatError, emsg, exc_traceback
         return stru
     # End of parseLines
 
@@ -295,8 +298,8 @@ class P_xcfg(StructureParser):
         Return list of strings.
         """
         if len(stru) == 0:
-            raise StructureFormatError, \
-                    "cannot convert empty structure to XCFG format"
+            emsg = "cannot convert empty structure to XCFG format"
+            raise StructureFormatError(emsg)
         lines = []
         lines.append( "Number of particles = %i" % len(stru) )
         # figure out length unit A

@@ -3,10 +3,10 @@
 
 __id__ = "$Id$"
 
-from diffpy.Structure import Structure, Atom
-from numpy import array
 from math import ceil
-from shapeUtils import findCenter
+from numpy import array
+from diffpy.Structure import Structure, Atom
+from diffpy.Structure.expansion.shapeUtils import findCenter
 
 def makeSphere(S, radius):
     """Create a spherical nanoparticle.
@@ -41,7 +41,7 @@ def makeEllipsoid(S, a, b=None, c=None):
     mno = map(ceil, 2*frac)
     mno = max(map(ceil, 2*frac))*array([1,1,1])
     # Make the supercell
-    from supercell import supercell
+    from diffpy.Structure.expansion.supercell import supercell
     newS = supercell(S, mno)
     lat = newS.lattice
 

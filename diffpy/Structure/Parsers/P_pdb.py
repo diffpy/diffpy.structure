@@ -26,9 +26,9 @@ import sys
 import numpy
 from numpy import pi
 
-from import_helper import Structure, Lattice, Atom
-from import_helper import StructureFormatError
-from StructureParser import StructureParser
+from diffpy.Structure import Structure, Lattice, Atom
+from diffpy.Structure import StructureFormatError
+from diffpy.Structure.Parsers import StructureParser
 
 class P_pdb(StructureParser):
     """Simple parser for PDB format.
@@ -111,10 +111,10 @@ class P_pdb(StructureParser):
                     if not numpy.all(reldiff < 1.0e-4):
                         emsg = "%d: " % p_nl + \
                                 "SCALE and CRYST1 are not consistent."
-                        raise StructureFormatError, emsg
+                        raise StructureFormatError(emsg)
                     if numpy.any(scaleU != 0.0):
                         emsg = "Origin offset not yet implemented."
-                        raise NotImplementedError, emsg
+                        raise NotImplementedError(emsg)
                 elif record in ("ATOM", "HETATM"):
                     name = line[12:16].strip()
                     rc = [float(x) for x in line[30:54].split()]
@@ -169,12 +169,12 @@ class P_pdb(StructureParser):
                 elif record in P_pdb.validRecords:
                     pass
                 else:
-                    raise StructureFormatError, \
-                            "%d: invalid record name '%r'" % (p_nl, record)
+                    emsg = "%d: invalid record name '%r'" % (p_nl, record)
+                    raise StructureFormatError(emsg)
         except (ValueError, IndexError):
+            emsg = "%d: invalid PDB record" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, "%d: invalid PDB record" % \
-                    p_nl, exc_traceback
+            raise StructureFormatError, emsg, exc_traceback
         return stru
     # End of parseLines
 

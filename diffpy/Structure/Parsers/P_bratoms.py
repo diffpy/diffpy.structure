@@ -20,9 +20,9 @@ __id__ = "$Id$"
 import sys
 import numpy
 
-from import_helper import BRAtomsStructure, Lattice, Atom
-from import_helper import StructureFormatError
-from StructureParser import StructureParser
+from diffpy.Structure import Lattice, Atom, StructureFormatError
+from diffpy.Structure.bratomsstructure import BRAtomsStructure
+from diffpy.Structure.Parsers import StructureParser
 
 class P_bratoms(StructureParser):
     """Parser for Bruce Ravel's Atoms structure format.
@@ -136,17 +136,17 @@ class P_bratoms(StructureParser):
                     atoms.append(a)
 
         except (ValueError, IndexError), e:
-            raise StructureFormatError, \
-                    "%d: file is not in Atoms format" % ln
+            emsg = "%d: file is not in Atoms format" % ln
+            raise StructureFormatError(emsg)
 
         # Make sure we have atoms.
         if len(atoms) == 0:
-            raise StructureFormatError, "File contains no atoms"
+            raise StructureFormatError("File contains no atoms")
 
         # Make sure we have unit cell parameters
         if pdict["a"] is None:
             emsg = "Missing definition of cell parameter"
-            raise StructureFormatError, emsg
+            raise StructureFormatError(emsg)
 
         # Fill in optional information if it was missing.
         if pdict["alpha"] is None:

@@ -264,7 +264,7 @@ def _findInvariants(symops):
         if invrnts:  break
     if invrnts is None:
         emsg = "Could not find identity operation."
-        raise ValueError, emsg
+        raise ValueError(emsg)
     return invrnts
 
 # End of _findInvariants
@@ -783,9 +783,9 @@ class SymmetryConstraints:
         if not xyzsymbols:  return list(self.poseqns)
         # check xyzsymbols
         if len(xyzsymbols) < len(self.pospars):
-            emsg = "Not enough symbols for %i position parameters" % \
-                    len(self.pospars)
-            raise SymmetryError, emsg
+            emsg = ("Not enough symbols for %i position parameters" %
+                    len(self.pospars))
+            raise SymmetryError(emsg)
         # build translation dictionary
         trsmbl = dict(zip(self.posparSymbols(), xyzsymbols))
         def translatesymbol(matchobj):
@@ -835,7 +835,7 @@ class SymmetryConstraints:
         # check Usymbols
         if len(Usymbols) < len(self.Upars):
             emsg = "Not enough symbols for %i U parameters" % len(self.Upars)
-            raise SymmetryError, emsg
+            raise SymmetryError(emsg)
         # build translation dictionary
         trsmbl = dict(zip(self.UparSymbols(), Usymbols))
         def translatesymbol(matchobj):
@@ -866,7 +866,7 @@ class SymmetryConstraints:
 
 # basic demonstration
 if __name__ == "__main__":
-    from SpaceGroups import sg100
+    from diffpy.Structure.SpaceGroups import sg100
     site = [.125, .625, .13]
     Uij = [[1,2,3],[2,4,5],[3,5,6]]
     g = GeneratorSite(sg100, site, Uij=Uij)
