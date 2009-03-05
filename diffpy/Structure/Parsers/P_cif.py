@@ -48,7 +48,14 @@ class P_cif(StructureParser):
 
     spacegroup  -- instance of SpaceGroup used for symmetry expansion
     eau         -- instance of ExpandAsymmetricUnit from SymmetryUtilities
-    labelindex  -- dictionary mapping unique atom label to index in self.stru
+    asymmetric_unit -- list of atom instances for the original asymmetric
+                   unit in the CIF file
+    labelindex  -- dictionary mapping unique atom label to index of atom
+                   in self.asymmetric_unit
+    cif_sgname  -- space group name obtained by looking up the value of
+                   _space_group_name_Hall, _symmetry_space_group_name_Hall,
+                   _space_group_name_H-M_alt, _symmetry_space_group_name_H-M
+                   items.  None when neither is defined.
     """
 
     ########################################################################
@@ -227,7 +234,9 @@ class P_cif(StructureParser):
         self.stru = None
         self.spacegroup = None
         self.eau = None
+        self.asymmetric_unit = None
         self.labelindex = {}
+        self.cif_sgname = None
         pass
 
     def parse(self, s):
@@ -384,6 +393,7 @@ class P_cif(StructureParser):
 
         No return value.
         """
+        self.asymmetric_unit = list(self.stru)
         sym_synonyms = ('_space_group_symop_operation_xyz',
                         '_symmetry_equiv_pos_as_xyz')
         sym_loop_name = [n for n in sym_synonyms if block.has_key(n)]
@@ -396,10 +406,14 @@ class P_cif(StructureParser):
             op = getSymOp(eqxyz)
             symop_list.append(op)
         # determine space group number
-        sgid = int(block.get('_space_group_IT_number', '0')) or \
-               int(block.get('_symmetry_Int_Tables_number', '0')) or \
-               block.get('_space_group_name_H-M_alt', '').replace(' ', '') or \
-               block.get('_symmetry_space_group_name_H-M', '').replace(' ', '')
+        sg_nameHall = (block.get('_space_group_name_Hall', '') or
+                block.get('_symmetry_space_group_name_Hall', ''))
+        sg_nameHM = (block.get('_space_group_name_H-M_alt', '') or
+                block.get('_symmetry_space_group_name_H-M', ''))
+        self.cif_sgname = (sg_nameHall or sg_nameHM or None)
+        sgid = (int(block.get('_space_group_IT_number', '0')) or
+                int(block.get('_symmetry_Int_Tables_number', '0')) or
+                sg_nameHM.replace(' ', ''))
         # try to reuse existing space group
         self.spacegroup = None
         if sgid:
@@ -416,10 +430,7 @@ class P_cif(StructureParser):
         # define new spacegroup when not found
         if self.spacegroup is None:
             from diffpy.Structure.SpaceGroups import SpaceGroup
-            new_short_name = "CIF " + (
-                    block.get('_space_group_name_Hall') or
-                    block.get('_symmetry_space_group_name_Hall') or
-                    'data' )
+            new_short_name = "CIF " + (sg_nameHall or 'data')
             new_crystal_system = (
                     block.get('_space_group_crystal_system') or
                     block.get('_symmetry_cell_setting') or
@@ -439,16 +450,12 @@ class P_cif(StructureParser):
         """
         from diffpy.Structure.SymmetryUtilities import ExpandAsymmetricUnit
         # get reverse-ordered unique indices
-        ruindices = range(len(self.stru))
-        ruindices.reverse()
-        coreatoms = [self.stru[i] for i in ruindices]
-        corepos = [a.xyz for a in coreatoms]
-        coreUijs = [a.U for a in coreatoms]
+        corepos = [a.xyz for a in self.stru]
+        coreUijs = [a.U for a in self.stru]
         self.eau = ExpandAsymmetricUnit(self.spacegroup, corepos, coreUijs)
         # build a nested list of new atoms:
         newatoms = []
-        for i in range(len(coreatoms)):
-            ca = coreatoms[i]
+        for i, ca in enumerate(self.stru):
             eca = []    # expanded core atom
             for j in range(self.eau.multiplicity[i]):
                 a = Atom(ca)
@@ -458,8 +465,7 @@ class P_cif(StructureParser):
                 eca.append(a)
             newatoms.append(eca)
         # insert new atoms where they belong
-        for i, atomlist in zip(ruindices, newatoms):
-            self.stru[i:i+1] = atomlist
+        self.stru[:] = sum(newatoms, [])
         return
 
 
