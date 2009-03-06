@@ -210,16 +210,17 @@ class TestP_pdffit(unittest.TestCase):
         stru = self.stru
         stru.read(datafile('Ni.stru'), self.format)
         self.assertEqual(0, stru.pdffit['spdiameter'])
-        self.failUnless('shape ' not in stru.writeStr(format=self.format))
+        snoshape = stru.writeStr(format=self.format)
+        self.failUnless(not re.search('(?m)^shape', snoshape))
         # produce a string with non-zero spdiameter
         stru.pdffit['spdiameter'] = 13
         s13 = stru.writeStr(format=self.format)
-        self.failUnless('shape ' in s13)
+        self.failUnless(re.search('(?m)^shape +sphere, ', s13))
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['spdiameter'])
         ni_lines = open(datafile('Ni.stru')).readlines()
-        ni_lines.insert(3, 'shape invalid 7\n')
+        ni_lines.insert(3, 'shape invalid, 7\n')
         sbad = ''.join(ni_lines)
         self.assertRaises(StructureFormatError, self.stru.readStr,
                 sbad, format=self.format)

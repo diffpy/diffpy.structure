@@ -186,7 +186,7 @@ class P_pdffit(StructureParser):
             stru.pdffit["rcut"]) )
         lines.append( "spcgr   " + stru.pdffit["spcgr"] )
         if stru.pdffit.get('spdiameter', 0.0) > 0.0:
-            line = 'shape   sphere  %g' % stru.pdffit['spdiameter']
+            line = 'shape   sphere, %g' % stru.pdffit['spdiameter']
             lines.append(line)
         lat = stru.lattice
         lines.append( "cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % (
