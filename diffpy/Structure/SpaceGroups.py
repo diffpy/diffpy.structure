@@ -12,7 +12,7 @@ import os, sys, types
 def warning(x):
     """Writes warnings out to the file given in the environment variable
     STRUCTURE_WARNING.  This can be set to a file path, "stdout", "stderr", or a
-    empty string for no action.  
+    empty string for no action.
     """
     x = "WARNING: %s\n" % (x)
     path = os.environ.get("STRUCTURE_WARNING", "stderr")
@@ -172,7 +172,7 @@ class SpaceGroup(object):
                  num_sym_equiv           = None,
                  num_primitive_sym_equiv = None,
                  short_name              = None,
-                 alt_name                = None, 
+                 alt_name                = None,
                  point_group_name        = None,
                  crystal_system          = None,
                  pdb_name                = None,
@@ -8018,7 +8018,7 @@ def GetSpaceGroup(name):
     for sg in SpaceGroupList:
         if sg.check_group_name(name):
             return sg
-    
+
     #if type(name) is types.StringType:
     #    name = '%s' % name
     #warning("Space group %s not found. Using 'P1'." % name)

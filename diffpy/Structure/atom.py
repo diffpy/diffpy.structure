@@ -1,4 +1,4 @@
-########################################################################
+##############################################################################
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -10,7 +10,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 """class Atom for storing properties of a single atom"""
 
@@ -39,13 +39,13 @@ class CartesianCoordinatesArray(numpy.ndarray):
 
     def __init__(self, lattice, xyz):
         self.lattice = lattice
-        self.xyz = xyz 
+        self.xyz = xyz
         self[:] = self.lattice.cartesian(self.xyz)
         pass
 
     def __setitem__(self, idx, value):
         """Set idx-th coordinate and update linked self.xyz
- 
+
         idx     -- index in xyz array
         value   -- new value of x, y or z
         """
@@ -298,7 +298,7 @@ class Atom(object):
         if self._anisotropy is None or self._anisotropy is True:
             lat = self.lattice or cartesian_lattice
             Uequiv = (
-                    self._U[0,0]*lat.ar*lat.ar*lat.a*lat.a + 
+                    self._U[0,0]*lat.ar*lat.ar*lat.a*lat.a +
                     self._U[1,1]*lat.br*lat.br*lat.b*lat.b +
                     self._U[2,2]*lat.cr*lat.cr*lat.c*lat.c +
                     2*self._U[0,1]*lat.ar*lat.br*lat.a*lat.b*lat.cg +

@@ -1,4 +1,4 @@
-########################################################################
+##############################################################################
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -10,7 +10,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 """Parser for Bruce Ravel's Atoms structure format
 """
@@ -54,7 +54,7 @@ class P_bratoms(StructureParser):
         # Count the lines
         ln = 0
         try:
-        
+
             for line in lines:
                 ln += 1
 
@@ -106,12 +106,12 @@ class P_bratoms(StructureParser):
                     key = sline.pop(0).strip()
                     if key == "central": key = "core"
                     meta[key] = sline.pop(0).strip()
-                    
-                # Check for lattice information. 
+
+                # Check for lattice information.
                 while sline and sline[0].strip() in self.plist:
                     key = sline.pop(0).strip()
                     pdict[key] = float(sline.pop(0))
-                    
+
                 # Check for atom information
                 if sline and anext:
 
@@ -127,7 +127,7 @@ class P_bratoms(StructureParser):
                     occ = 1.0
                     if sline:
                         occ = float(sline.pop(0))
-                    
+
                     a = Atom( atype = el,
                         xyz = [x,y,z],
                         name = tag,

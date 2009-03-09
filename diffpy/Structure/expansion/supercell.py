@@ -1,4 +1,4 @@
-########################################################################
+##############################################################################
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -10,7 +10,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 """This module contains functions for simple structure manipulation.
 """
@@ -24,7 +24,7 @@ from diffpy.Structure import Structure, Atom
 
 def supercell(S, mno):
     """Perform supercell expansion for a structure.
-    
+
     New lattice parameters are multiplied and fractional coordinates
     divided by corresponding multiplier.  New atoms are grouped with
     their source in the original cell.
@@ -32,7 +32,7 @@ def supercell(S, mno):
     S   -- an instance of Structure from diffpy.Structure.
     mno -- sequence of 3 integers for cell multipliers along
            the a, b and c axes.
-    
+
     Return a new expanded structure instance.
     Raise TypeError when S is not Structure instance.
     Raise ValueError for invalid mno argument.
@@ -57,9 +57,9 @@ def supercell(S, mno):
         return newS
 
     # back to business
-    ijklist = [(i,j,k) 
-                for i in range(mno[0]) 
-                    for j in range(mno[1]) 
+    ijklist = [(i,j,k)
+                for i in range(mno[0])
+                    for j in range(mno[1])
                         for k in range(mno[2])]
     # numpy.floor returns float array
     mnofloats = numpy.array(mno, dtype=float)

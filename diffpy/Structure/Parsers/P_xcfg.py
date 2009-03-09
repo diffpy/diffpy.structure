@@ -1,4 +1,4 @@
-########################################################################
+##############################################################################
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -10,7 +10,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 """Parser for extended CFG format used by atomeye"""
 
@@ -26,7 +26,7 @@ from diffpy.Structure.utils import isfloat
 from diffpy.Structure.Parsers import StructureParser
 
 
-########################################################################
+##############################################################################
 # Constants
 
 # Atomic Mass of elements
@@ -149,7 +149,7 @@ AtomicMass = {
 # End of Constants
 
 
-########################################################################
+##############################################################################
 class P_xcfg(StructureParser):
     """Parser for AtomEye extended CFG format.
     """

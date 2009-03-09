@@ -1,4 +1,4 @@
-########################################################################
+##############################################################################
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -10,7 +10,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 """Index of recognized structure formats, their IO capabilities and
 associated modules where they are defined.  Plugins for new structure
@@ -31,7 +31,7 @@ parser_index = {
         },
 
     # CIF format
-    'cif' : { 
+    'cif' : {
         'module' : 'P_cif',
         'file_extension' : '.cif',
         'file_pattern' : '*.cif',

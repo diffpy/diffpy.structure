@@ -1,4 +1,4 @@
-########################################################################
+##############################################################################
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -10,7 +10,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 """This module defines class Structure.
 """
@@ -269,7 +269,7 @@ class Structure(list):
         """Append atom to a structure and update its lattice attribute.
 
         a    -- instance of Atom
-        copy -- flag for appending a copy of a.  
+        copy -- flag for appending a copy of a.
                 When False, append a and update a.owner.
 
         No return value.
@@ -285,7 +285,7 @@ class Structure(list):
 
         idx  -- position in atom list
         a    -- instance of Atom
-        copy -- flag for inserting a copy of a.  
+        copy -- flag for inserting a copy of a.
                 When False, append a and update a.lattice.
 
         No return value.
@@ -318,7 +318,7 @@ class Structure(list):
 
         idx  -- index of atom in this Structure
         a    -- instance of Atom
-        copy -- flag for setting to a copy of a.  
+        copy -- flag for setting to a copy of a.
                 When False, set to a and update a.lattice.
 
         No return value.

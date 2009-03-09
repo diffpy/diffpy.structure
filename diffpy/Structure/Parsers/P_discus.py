@@ -1,4 +1,4 @@
-########################################################################
+##############################################################################
 #
 # Structure         by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -10,7 +10,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 """Parser for DISCUS structure format
 """
@@ -131,7 +131,7 @@ class P_discus(StructureParser):
     def linesIterator(self):
         """Iterator over self.lines, which increments self.nl
         """
-        # ignore trailing empty lines 
+        # ignore trailing empty lines
         stop = len(self.lines)
         while stop > 0 and self.lines[stop-1].strip() == "":
             stop -= 1
