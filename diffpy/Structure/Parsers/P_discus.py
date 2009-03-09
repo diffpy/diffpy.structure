@@ -37,6 +37,7 @@ class P_discus(StructureParser):
         self.lines = None
         self.line = None
         self.stru = None
+        self.ignored_lines = []
         self.cell_read = False
         self.ncell_read = False
         return
@@ -58,6 +59,7 @@ class P_discus(StructureParser):
             "spcgr" : self._parse_spcgr,
             "symmetry" : self._parse_not_implemented,
             "title" : self._parse_title,
+            "shape" : self._parse_shape,
         }
         try:
             # parse header
@@ -65,7 +67,7 @@ class P_discus(StructureParser):
                 words = self.line.split()
                 if not words or words[0][0] == '#': continue
                 if words[0] == 'atoms':             break
-                rp = record_parsers.get(words[0], self._parse_invalid_record)
+                rp = record_parsers.get(words[0], self._parse_unknown_record)
                 rp(words)
             # check if cell has been defined
             if not self.cell_read:
@@ -110,6 +112,12 @@ class P_discus(StructureParser):
         self.lines = lines = []
         lines.append( "title   " + self.stru.title.strip() )
         lines.append( "spcgr   " + self.stru.pdffit["spcgr"] )
+        if stru.pdffit.get('spdiameter', 0.0) > 0.0:
+            line = 'shape   sphere, %g' % stru.pdffit['spdiameter']
+            lines.append(line)
+        if stru.pdffit.get('stepcut', 0.0) > 0.0:
+            line = 'shape   stepcut, %g' % stru.pdffit['stepcut']
+            lines.append(line)
         lines.append( "cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" %
                 self.stru.lattice.abcABG() )
         lines.append( "ncell  %9i, %9i, %9i, %9i" % (1, 1, 1, len(self.stru)) )
@@ -178,6 +186,22 @@ class P_discus(StructureParser):
         self.stru.title = self.line.lstrip()[5:].strip()
         return
 
+    def _parse_shape(self, words):
+        """Process the shape record from DISCUS structure file.
+        """
+        # strip away any commas
+        linefixed = " ".join(words).replace(',', ' ')
+        wordsfixed = linefixed.split()
+        shapetype = wordsfixed[1]
+        if shapetype == 'sphere':
+            self.stru.pdffit['spdiameter'] = float(words[2])
+        elif shapetype == 'stepcut':
+            self.stru.pdffit['stepcut'] = float(words[2])
+        else:
+            emsg = 'Invalid type of particle shape correction %r' % shapetype
+            raise StructureFormatError, emsg
+        return
+
     def _parse_atom(self, words):
         """Process atom records in DISCUS structure file.
         """
@@ -189,13 +213,13 @@ class P_discus(StructureParser):
         a.Bisoequiv = Biso
         return
 
-    def _parse_invalid_record(self, words):
-        """Process invalid record in DISCUS structure file.
+    def _parse_unknown_record(self, words):
+        """Process unknown record in DISCUS structure file.
+        Silently ignores the line and adds it to self.ignored_lines
         Raises StructureFormatError.
         """
-        emsg = "%d: Invalid DISCUS record %r." % \
-                (self.nl, words[0])
-        raise StructureFormatError(emsg)
+        self.ignored_lines.append(self.line)
+        return
 
     def _parse_not_implemented(self, words):
         """Process the unimplemented records from DISCUS structure file.

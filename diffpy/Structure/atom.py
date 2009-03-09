@@ -305,6 +305,8 @@ class Atom(object):
                     2*self._U[0,2]*lat.ar*lat.cr*lat.a*lat.c*lat.cb +
                     2*self._U[1,2]*lat.br*lat.cr*lat.b*lat.c*lat.ca ) / 3.0
             self._Uisoequiv = Uequiv
+        else:
+            self._Uisoequiv = self._U[0,0]
         return self._Uisoequiv
 
     def _set_Uisoequiv(self, value):
