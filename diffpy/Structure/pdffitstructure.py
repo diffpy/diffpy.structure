@@ -40,6 +40,7 @@ class PDFFitStructure(Structure):
             'rcut' : 0.0,
             'spcgr' : 'P1',
             'spdiameter' : 0.0,
+            'stepcut' : 0.0,
             'dcell' : 6*[0.0],
             'ncell' : [1, 1, 1, 0],
         }

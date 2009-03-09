@@ -188,6 +188,9 @@ class P_pdffit(StructureParser):
         if stru.pdffit.get('spdiameter', 0.0) > 0.0:
             line = 'shape   sphere, %g' % stru.pdffit['spdiameter']
             lines.append(line)
+        if stru.pdffit.get('stepcut', 0.0) > 0.0:
+            line = 'shape   stepcut, %g' % stru.pdffit['stepcut']
+            lines.append(line)
         lat = stru.lattice
         lines.append( "cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % (
             lat.a, lat.b, lat.c, lat.alpha, lat.beta, lat.gamma) )
@@ -233,6 +236,8 @@ class P_pdffit(StructureParser):
         shapetype = words[1]
         if shapetype == 'sphere':
             self.stru.pdffit['spdiameter'] = float(words[2])
+        elif shapetype == 'stepcut':
+            self.stru.pdffit['stepcut'] = float(words[2])
         else:
             emsg = 'Invalid type of particle shape correction %r' % shapetype
             raise StructureFormatError, emsg

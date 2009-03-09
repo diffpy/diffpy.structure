@@ -204,8 +204,8 @@ class TestP_pdffit(unittest.TestCase):
         return
 
 
-    def test_shape_parsing(self):
-        """check parsing of shape record from a file.
+    def test_spdiameter_parsing(self):
+        """check parsing of spdiameter record from a file.
         """
         stru = self.stru
         stru.read(datafile('Ni.stru'), self.format)
@@ -219,6 +219,29 @@ class TestP_pdffit(unittest.TestCase):
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['spdiameter'])
+        ni_lines = open(datafile('Ni.stru')).readlines()
+        ni_lines.insert(3, 'shape invalid, 7\n')
+        sbad = ''.join(ni_lines)
+        self.assertRaises(StructureFormatError, self.stru.readStr,
+                sbad, format=self.format)
+        return
+
+
+    def test_stepcut_parsing(self):
+        """check parsing of stepcut record from a file.
+        """
+        stru = self.stru
+        stru.read(datafile('Ni.stru'), self.format)
+        self.assertEqual(0, stru.pdffit['stepcut'])
+        snoshape = stru.writeStr(format=self.format)
+        self.failUnless(not re.search('(?m)^shape', snoshape))
+        # produce a string with non-zero stepcut
+        stru.pdffit['stepcut'] = 13
+        s13 = stru.writeStr(format=self.format)
+        self.failUnless(re.search('(?m)^shape +stepcut, ', s13))
+        stru13 = Structure()
+        stru13.readStr(s13)
+        self.assertEqual(13, stru13.pdffit['stepcut'])
         ni_lines = open(datafile('Ni.stru')).readlines()
         ni_lines.insert(3, 'shape invalid, 7\n')
         sbad = ''.join(ni_lines)
