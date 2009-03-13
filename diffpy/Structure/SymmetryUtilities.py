@@ -664,7 +664,7 @@ class SymmetryConstraints:
     """
 
     def __init__(self, spacegroup, positions, Uijs=None,
-            sgoffset=[0,0,0], eps=epsilon):
+            sgoffset=[0, 0, 0], eps=epsilon):
         """Initialize and calculate SymmetryConstraints.
 
         spacegroup -- instance of SpaceGroup
@@ -693,18 +693,18 @@ class SymmetryConstraints:
             # concatenate lists before converting to Nx3 array
             flatpos = sum(positions, [])
             flatpos = numpy.array(flatpos, dtype=float).flatten()
-            self.positions = flatpos.reshape((flatpos.size/3,3))
+            self.positions = flatpos.reshape((flatpos.size/3, 3))
         # otherwise convert to array
         else:
             flatpos = numpy.array(positions, dtype=float).flatten()
-            self.positions = flatpos.reshape((flatpos.size/3,3))
+            self.positions = flatpos.reshape((flatpos.size/3, 3))
         # here self.positions should be a 2D numpy array
         numpos = len(self.positions)
         # adjust Uijs if not specified
-        if not self.Uijs:
-            self.Uijs = numpy.zeros((numpos,3,3), dtype=float)
+        if Uijs is not None:
+            self.Uijs = numpy.array(Uijs)
         else:
-            self.Uijs = numpy.array(self.Uijs)
+            self.Uijs = numpy.zeros((numpos, 3, 3), dtype=float)
         self.poseqns = numpos*[None]
         self.Ueqns = numpos*[None]
         self.Uisotropy = numpos*[False]

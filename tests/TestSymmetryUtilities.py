@@ -22,6 +22,7 @@ import os
 import sys
 import unittest
 
+import numpy
 from diffpy.Structure.SpaceGroups import GetSpaceGroup
 from diffpy.Structure.SymmetryUtilities import *
 from diffpy.Structure.SymmetryUtilities import _Position2Tuple
@@ -68,7 +69,6 @@ class TestRoutines(unittest.TestCase):
     def test_expandPosition(self):
         """check expandPosition()
         """
-        import numpy
         # ok again Ni example
         fcc = GetSpaceGroup(225)
         pos,pops,pmult = expandPosition(fcc, [0,0,0])
@@ -122,7 +122,6 @@ class Test_Position2Tuple(unittest.TestCase):
         """check _Position2Tuple.__call__()
         """
         pos2tuple = self.pos2tuple
-        import numpy
         positions = numpy.zeros((100,3), dtype=float)
         positions[:,0] = numpy.arange(100)/100.0*pos2tuple.eps + 0.1
         positions = positions - numpy.floor(positions)
@@ -316,7 +315,6 @@ class TestSymmetryConstraints(unittest.TestCase):
     def test_corepos(self):
         """test_corepos - find positions in the asymmetric unit.
         """
-        import numpy
         sg225 = GetSpaceGroup(225)
         corepos = [[0, 0, 0], [0.1, 0.13, 0.17]]
         eau = ExpandAsymmetricUnit(sg225, corepos)
@@ -356,16 +354,37 @@ class TestSymmetryConstraints(unittest.TestCase):
 #       """
 #       return
 #
-#   def test_UparSymbols(self):
-#       """check SymmetryConstraints.UparSymbols()
-#       """
-#       return
-#
-#   def test_UparValues(self):
-#       """check SymmetryConstraints.UparValues()
-#       """
-#       return
-#
+    def test_UparSymbols(self):
+        """check SymmetryConstraints.UparSymbols()
+        """
+        sg1 = GetSpaceGroup(1)
+        sg225 = GetSpaceGroup(225)
+        pos = [[0, 0, 0]]
+        Uijs = numpy.zeros((1, 3, 3))
+        sc1 = SymmetryConstraints(sg1, pos, Uijs)
+        self.assertEqual(6, len(sc1.UparSymbols()))
+        sc225 = SymmetryConstraints(sg225, pos, Uijs)
+        self.assertEqual(['U110'], sc225.UparSymbols())
+        return
+
+    def test_UparValues(self):
+        """check SymmetryConstraints.UparValues()
+        """
+        places = 12
+        sg1 = GetSpaceGroup(1)
+        sg225 = GetSpaceGroup(225)
+        pos = [[0, 0, 0]]
+        Uijs = [[[0.1, 0.4, 0.5],
+                 [0.4, 0.2, 0.6],
+                 [0.5, 0.6, 0.3]]]
+        sc1 = SymmetryConstraints(sg1, pos, Uijs)
+        duv = 0.1 * numpy.arange(1, 7) - sc1.UparValues()
+        self.assertAlmostEqual(0, max(numpy.fabs(duv)), places)
+        sc225 = SymmetryConstraints(sg225, pos, Uijs)
+        self.assertEqual(1, len(sc225.UparValues()))
+        self.assertAlmostEqual(0.2, sc225.UparValues()[0], places)
+        return
+
 #   def test_UFormulas(self):
 #       """check SymmetryConstraints.UFormulas()
 #       """
