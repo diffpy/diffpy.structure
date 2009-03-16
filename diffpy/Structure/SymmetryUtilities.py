@@ -293,12 +293,12 @@ class GeneratorSite:
     """
 
     Ucomponents = numpy.array([
-            [[1,0,0],[0,0,0],[0,0,0]],
-            [[0,0,0],[0,1,0],[0,0,0]],
-            [[0,0,0],[0,0,0],[0,0,1]],
-            [[0,1,0],[1,0,0],[0,0,0]],
-            [[0,0,1],[0,0,0],[1,0,0]],
-            [[0,0,0],[0,0,1],[0,1,0]] ], dtype=float)
+            [[1, 0, 0],  [0, 0, 0],  [0, 0, 0]],
+            [[0, 0, 0],  [0, 1, 0],  [0, 0, 0]],
+            [[0, 0, 0],  [0, 0, 0],  [0, 0, 1]],
+            [[0, 1, 0],  [1, 0, 0],  [0, 0, 0]],
+            [[0, 0, 1],  [0, 0, 0],  [1, 0, 0]],
+            [[0, 0, 0],  [0, 0, 1],  [0, 1, 0]],], dtype=float)
     idx2Usymbol = { 0 : 'U11', 1 : 'U12', 2 : 'U13',
                     3 : 'U12', 4 : 'U22', 5 : 'U23',
                     6 : 'U13', 7 : 'U23', 8 : 'U33' }
@@ -423,42 +423,72 @@ class GeneratorSite:
         for idx in range(6):
             if idx not in independent:   continue
             # new U space matrix
-            Usp = numpy.zeros((3,3), dtype=float)
             Uc = self.Ucomponents[idx]
+            Usp = numpy.zeros((3, 3), dtype=float)
             for op in self.invariants:
                 R = op.R
                 Rt = R.transpose()
-                Uceq = numpy.dot(R, numpy.dot(Uc, Rt))
-                # does Uceq contain -Uc?
-                if numpy.all(Uceq*Uc == -Uc):
-                    Usp[:] = 0.0
-                    break
-                for icomp in range(idx,6):
-                    if icomp not in independent:   continue
-                    Uceqcomp = Uceq * self.Ucomponents[icomp]
-                    if not numpy.any(Uceqcomp): continue
-                    # here Uceq contains U component icomp
-                    Usp += Uceqcomp
-                    del independent[icomp]
-            if not numpy.any(Usp):  continue
-            # make sure first element is 1.0
-            flat = Usp.flatten()
-            first = flat[flat != 0.0][0]
-            Usp /= first
+                mxrot = lambda M : numpy.dot(R, numpy.dot(M, Rt))
+                opUsp = numpy.zeros((3, 3), dtype=float)
+                uceqnext = Uc
+                while True:
+                    opUsp += uceqnext
+                    uceqnext = mxrot(uceqnext)
+                    # does uceqnext contain -Uc?
+                    # if yes, the component Uc is not in the Uspace
+                    if numpy.all(uceqnext*Uc == -Uc):
+                        opUsp[:] = 0.0
+                        Usp[:] = 0.0
+                        break
+                    # all Uc rotations were visited when we are back to Uc
+                    if numpy.all(uceqnext == Uc):
+                        break
+                found_superspace = (numpy.all(opUsp[Usp != 0]) and
+                        numpy.any(opUsp[Usp == 0]))
+                if found_superspace:
+                    Usp = opUsp
+                # Usp is all zero here only when component Uc is not
+                # in the Uspace. Do not check the remaining invariants.
+                if numpy.all(Usp == 0.0):   break
+            # Find which U components are contained in Usp
+            Usp_contains = [i for i in independent
+                    if numpy.any(Usp * self.Ucomponents[i])]
+            # Usp must be all zero if it does not contain any component
+            if not Usp_contains:
+                assert numpy.all(Usp == 0.0)
+                independent.pop(idx)
+                continue
+            # U components contained in Usp are not independent anymore.
+            for i in Usp_contains:   del independent[i]
+            # orthogonalize Usp with respect to preceding Uspace components
+            Uspflat = Usp.flatten()
+            for Usp0 in self.Uspace:
+                Usp0flat = Usp0.flatten()
+                projection = numpy.dot(Uspflat, Usp0flat)
+                if projection != 0:
+                    projection /= numpy.dot(Usp0flat, Usp0flat)
+                    Uspflat -= projection * Usp0flat
+            # normalize Uspflat by its maximum component
+            maxidx = numpy.argmax(numpy.fabs(Uspflat))
+            Uspflat /= Uspflat[maxidx]
+            Usp = Uspflat.reshape(3, 3)
             self.Uspace.append(Usp)
         # finally convert this to 3D array
         self.Uspace = numpy.array(self.Uspace)
-        self.Uisotropy = ( len(self.Uspace) == 1 )
+        self.Uisotropy = (len(self.Uspace) == 1)
         return
 
     def _findUParameters(self):
         """Find Uparameters and their values for expressing self.Uij.
         """
+        # permute indices as     00 11 22 01 02 12 10 20 21
+        diagorder = numpy.array((0, 4, 8, 1, 2, 5, 3, 6, 7))
         Uijflat = self.Uij.flatten()
         for Usp in self.Uspace:
             Uspflat = Usp.flatten()
             Uspnorm2 = numpy.dot(Uspflat, Uspflat)
-            idx = numpy.where(Uspflat)[0][0]
+            permidx = numpy.where(Uspflat[diagorder])[0][0]
+            idx = diagorder[permidx]
             vname = self.idx2Usymbol[idx]
             varvalue = numpy.dot(Uijflat, Uspflat) / Uspnorm2
             self.Uparameters.append( (vname, varvalue) )
@@ -543,8 +573,8 @@ class GeneratorSite:
         for Usr, (vname, ignore) in zip(Usrotated, self.Uparameters):
             Usrflat = Usr.flatten()
             for i in numpy.where(Usrflat)[0]:
-                f = '%+g*%s' % (Usrflat[i], name2sym[vname])
-                f = re.sub('^[+]1[*]|(?<=[+-])1[*]', '', f).strip()
+                f = '%g*%s' % (Usrflat[i], name2sym[vname])
+                f = re.sub('^[+]?1[*]|(?<=[+-])1[*]', '', f).strip()
                 smbl = self.idx2Usymbol[i]
                 Uformula[smbl] = f
         return Uformula
