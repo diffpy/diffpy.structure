@@ -8048,6 +8048,7 @@ def _buildSGLookupTable():
     _sg_lookup_table.clear()
     for sg in SpaceGroupList:
         _sg_lookup_table.setdefault(sg.number, sg)
+        _sg_lookup_table.setdefault(str(sg.number), sg)
         _sg_lookup_table.setdefault(sg.short_name, sg)
         _sg_lookup_table.setdefault(sg.pdb_name, sg)
         _sg_lookup_table.setdefault(sg.alt_name, sg)
