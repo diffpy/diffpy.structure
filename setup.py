@@ -5,7 +5,6 @@
 """Structure - objects for storage and manipulation of crystal structures.
 
 Packages:   diffpy.Structure
-Scripts:    transtru, anyeye
 """
 
 from setuptools import setup, find_packages
@@ -14,7 +13,7 @@ import fix_setuptools_chmod
 # define distribution
 dist = setup(
         name = "diffpy.Structure",
-        version = "1.0c1",
+        version = "1.0",
         namespace_packages = ['diffpy'],
         packages = find_packages(),
         install_requires = ['PyCifRW'],
