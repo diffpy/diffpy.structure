@@ -4,8 +4,10 @@
 ## included as part of this package.
 """Symmetry operations as functions on vectors or arrays.
 """
+import os
+import sys
+import types
 import numpy
-import os, sys, types
 
 # Move me!
 def warning(x):
@@ -8021,10 +8023,24 @@ def GetSpaceGroup(sgid):
     """
     if not _sg_lookup_table:
         _buildSGLookupTable()
-    if not sgid in _sg_lookup_table:
-        emsg = "Unknown space group identifier %r" % sgid
+    if sgid in _sg_lookup_table:
+        return _sg_lookup_table[sgid]
+    # Try different versions of sgid, first make sure it is a string
+    emsg = "Unknown space group identifier %r" % sgid
+    if type(sgid) not in types.StringTypes:
         raise ValueError(emsg)
-    return _sg_lookup_table[sgid]
+    # short name case adjusted
+    sgkey = sgid.strip()
+    sgkey = sgkey[:1].upper() + sgkey[1:].lower()
+    if sgkey in _sg_lookup_table:
+        return _sg_lookup_table[sgkey]
+    # long name all upper case
+    sgkey = sgid.strip().upper()
+    if sgkey in _sg_lookup_table:
+        return _sg_lookup_table[sgkey]
+    # nothing worked, sgid is unknown identifier
+    raise ValueError(emsg)
+
 
 _sg_lookup_table = {}
 
@@ -8034,9 +8050,12 @@ def IsSpaceGroupIdentifier(sgid):
 
     Return bool.
     """
-    if not _sg_lookup_table:
-        _buildSGLookupTable()
-    return sgid in _sg_lookup_table
+    try:
+        GetSpaceGroup(sgid)
+        rv = True
+    except ValueError:
+        rv = False
+    return rv
 
 
 def _buildSGLookupTable():

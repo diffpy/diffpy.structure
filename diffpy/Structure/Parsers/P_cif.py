@@ -21,8 +21,9 @@ __id__ = "$Id$"
 
 import sys
 import os
-import numpy
 import re
+import copy
+import numpy
 
 from diffpy.Structure import Structure, Lattice, Atom
 from diffpy.Structure import StructureFormatError
@@ -393,6 +394,8 @@ class P_cif(StructureParser):
 
         No return value.
         """
+        from diffpy.Structure.SpaceGroups import IsSpaceGroupIdentifier
+        from diffpy.Structure.SpaceGroups import SpaceGroup, GetSpaceGroup
         self.asymmetric_unit = list(self.stru)
         sym_synonyms = ('_space_group_symop_operation_xyz',
                         '_symmetry_equiv_pos_as_xyz')
@@ -416,9 +419,7 @@ class P_cif(StructureParser):
                 sg_nameHM.replace(' ', ''))
         # try to reuse existing space group
         self.spacegroup = None
-        if sgid:
-            import copy
-            from diffpy.Structure.SpaceGroups import GetSpaceGroup
+        if sgid and IsSpaceGroupIdentifier(sgid):
             sgstd = GetSpaceGroup(sgid)
             oprep_std = [str(op) for op in sgstd.iter_symops()]
             oprep_std.sort()
@@ -429,7 +430,6 @@ class P_cif(StructureParser):
                 self.spacegroup.symop_list = symop_list
         # define new spacegroup when not found
         if self.spacegroup is None:
-            from diffpy.Structure.SpaceGroups import SpaceGroup
             new_short_name = "CIF " + (sg_nameHall or 'data')
             new_crystal_system = (
                     block.get('_space_group_crystal_system') or
