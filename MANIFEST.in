@@ -1,4 +1,4 @@
 prune tests
 prune devutils
+prune doc/epydoc
 exclude MANIFEST.in
-exclude doc/epydoc.cfg doc/Makefile

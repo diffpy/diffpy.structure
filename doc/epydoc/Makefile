@@ -4,7 +4,8 @@ WEBDOCDIR = login.cacr.caltech.edu:/cacr/home/proj/danse/docs.danse.us/docroot/d
 
 
 all:
-	epydoc --config=epydoc.cfg --output=$(OUTPUT)
+	epydoc --config=epydoc.cfg --output=$(OUTPUT) \
+	       --name=$(PKGNAME) $(PKGNAME)
 
 
 clean:
