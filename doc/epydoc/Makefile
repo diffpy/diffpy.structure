@@ -1,10 +1,9 @@
 PKGNAME = diffpy.Structure
-OUTPUT = ../build/epydoc-html
+OUTPUT = html
 WEBDOCDIR = login.cacr.caltech.edu:/cacr/home/proj/danse/docs.danse.us/docroot/diffraction
 
 
 all:
-	mkdir -p $(dir $(OUTPUT))
 	epydoc --config=epydoc.cfg --output=$(OUTPUT)
 
 
