@@ -35,7 +35,7 @@ def makeCuboctahedron(S, dist):
     frac = S.lattice.fractional((dist, dist, dist))
     mno = map(ceil, 2*frac)
     # Make the supercell
-    from diffpy.Structure.expansion.supercell import supercell
+    from diffpy.Structure.expansion import supercell
     newS = supercell(S, mno)
     lat = newS.lattice
 

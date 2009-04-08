@@ -34,8 +34,8 @@ __id__ = "$Id$"
 
 
 from diffpy.Structure import StructureFormatError
-from diffpy.Structure.Parsers.StructureParser import StructureParser
-from diffpy.Structure.Parsers.parser_index import parser_index
+from diffpy.Structure.Parsers.structureparser import StructureParser
+from diffpy.Structure.Parsers.parser_index_mod import parser_index
 
 def getParser(format):
     """Return Parser instance for a given structure format.

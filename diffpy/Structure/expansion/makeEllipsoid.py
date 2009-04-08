@@ -55,7 +55,7 @@ def makeEllipsoid(S, a, b=None, c=None):
     mno = map(ceil, 2*frac)
     mno = max(map(ceil, 2*frac))*array([1,1,1])
     # Make the supercell
-    from diffpy.Structure.expansion.supercell import supercell
+    from diffpy.Structure.expansion import supercell
     newS = supercell(S, mno)
     lat = newS.lattice
 

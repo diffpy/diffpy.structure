@@ -23,6 +23,6 @@ __id__ = "$Id$"
 
 # Import below whatever should be available at package namespace.
 
-from diffpy.Structure.expansion.supercell import supercell
+from diffpy.Structure.expansion.supercell_mod import supercell
 
 # End of file
