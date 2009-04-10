@@ -6,6 +6,11 @@ It also provides imports and exports in several structure file formats
 and space group definitions and utilities for symmetry expansion and 
 generation of symmetry constraints on positions and thermal factors.
 
+To learn more about diffpy.Structure library, see the examples directory
+included in this distribution or the API documentation at
+
+    http://docs.danse.us/diffraction/diffpy.Structure
+
 
 REQUIREMENTS
 
@@ -22,7 +27,7 @@ the system package manager:
 
 For other Linux distributions use their respective package manager; note
 the packages may have slightly different names.  diffpy.Structure should work
-on other Unix-like operating systems and on MAC as well.  Please, search the
+on other Unix-like operating systems and on Mac as well.  Please, search the
 web for instructions how to install external dependencies on your particular
 system.
 
