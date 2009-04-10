@@ -2,8 +2,8 @@ This code was developed as part of the DiffPy project to create python
 modules for structure investigations from diffraction data.  The main
 contributors to this package were
 
-Pavol Juhas
-Chris Farrow
+    Pavol Juhas
+    Chris Farrow
 
 The DiffPy team is located in the Billinge-group at the Applied Physics
 and Applied Mathematics Department of the Columbia University in New York. 
