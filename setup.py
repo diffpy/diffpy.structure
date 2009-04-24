@@ -31,7 +31,7 @@ setup(
         download_url = 'http://www.diffpy.org/packages/',
         description = "Crystal structure container " + \
                       "and parsers for structure formats.",
-        license = open('LICENSE.txt').read(),
+        license = 'BSD',
         keywords = "diffpy Structure container",
         classifiers = [
             # List of possible values at
