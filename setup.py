@@ -11,23 +11,40 @@ from setuptools import setup, find_packages
 import fix_setuptools_chmod
 
 # define distribution
-dist = setup(
+setup(
         name = "diffpy.Structure",
         version = "1.0",
         namespace_packages = ['diffpy'],
         packages = find_packages(),
-        install_requires = ['PyCifRW'],
+        install_requires = [
+            'PyCifRW',
+        ],
         dependency_links = [
-            "http://www.diffpy.org/packages/",
+            'http://www.diffpy.org/packages/',
         ],
 
-        author = "Simon J.L. Billinge",
-        author_email = "sb2896@columbia.edu",
+        author = 'Simon J.L. Billinge',
+        author_email = 'sb2896@columbia.edu',
+        maintainer = 'Pavol Juhas',
+        maintainer_email = 'pj2192@columbia.edu',
+        url = 'http://www.diffpy.org/',
+        download_url = 'http://www.diffpy.org/packages/',
         description = "Crystal structure container " + \
                       "and parsers for structure formats.",
-        license = "BSD",
-        url = "http://www.diffpy.org/",
+        license = open('LICENSE.txt').read(),
         keywords = "diffpy Structure container",
+        classifiers = [
+            # List of possible values at
+            # http://pypi.python.org/pypi?:action=list_classifiers
+            'Development Status :: 5 - Production/Stable',
+            'Environment :: Console',
+            'Intended Audience :: Science/Research',
+            'Operating System :: MacOS',
+            'Operating System :: Microsoft :: Windows',
+            'Operating System :: POSIX',
+            'Programming Language :: Python :: 2.5',
+            'Topic :: Scientific/Engineering :: Physics',
+        ],
 )
 
 # End of file
