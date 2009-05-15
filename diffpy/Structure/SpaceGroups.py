@@ -8038,6 +8038,10 @@ def GetSpaceGroup(sgid):
     sgkey = sgid.strip().upper()
     if sgkey in _sg_lookup_table:
         return _sg_lookup_table[sgkey]
+    # try to remove any blanks
+    sgkey = sgid.replace(' ', '')
+    if sgkey in _sg_lookup_table:
+        return _sg_lookup_table[sgkey]
     # nothing worked, sgid is unknown identifier
     raise ValueError(emsg)
 
