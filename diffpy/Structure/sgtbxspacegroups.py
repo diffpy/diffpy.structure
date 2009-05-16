@@ -4967,8 +4967,4 @@ sgtbxSpaceGroupList = [
         sg3074, sg4074, sg5074,
 ]
 
-# extend SpaceGroupList
-from diffpy.Structure.SpaceGroups import SpaceGroupList, mmLibSpaceGroupList
-SpaceGroupList[:] = mmLibSpaceGroupList + sgtbxSpaceGroupList
-
 # End of file
