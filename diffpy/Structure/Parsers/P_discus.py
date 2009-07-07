@@ -112,11 +112,11 @@ class P_discus(StructureParser):
         self.lines = lines = []
         lines.append( "title   " + self.stru.title.strip() )
         lines.append( "spcgr   " + self.stru.pdffit["spcgr"] )
-        if stru.pdffit.get('spdiameter', 0.0) > 0.0:
-            line = 'shape   sphere, %g' % stru.pdffit['spdiameter']
+        if self.stru.pdffit.get('spdiameter', 0.0) > 0.0:
+            line = 'shape   sphere, %g' % self.stru.pdffit['spdiameter']
             lines.append(line)
-        if stru.pdffit.get('stepcut', 0.0) > 0.0:
-            line = 'shape   stepcut, %g' % stru.pdffit['stepcut']
+        if self.stru.pdffit.get('stepcut', 0.0) > 0.0:
+            line = 'shape   stepcut, %g' % self.stru.pdffit['stepcut']
             lines.append(line)
         lines.append( "cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" %
                 self.stru.lattice.abcABG() )
