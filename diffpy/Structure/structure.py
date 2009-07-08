@@ -56,10 +56,11 @@ class Structure(list):
         self._labels = {}
         self._labels_cached = False
         if isinstance(atoms, Structure):
-            # copy lattice and title
             stru = atoms
+            # create a shallow copy of all source attributes
+            self.__dict__.update(stru.__dict__)
+            # make a deep copy of source lattice
             self.lattice = Lattice(stru.lattice)
-            self.title = stru.title
         # override from lattice argument
         if lattice is None:
             if not self.lattice:    self.lattice = Lattice()
