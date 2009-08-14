@@ -15,7 +15,8 @@ setup(
         name = "diffpy.Structure",
         version = "1.0",
         namespace_packages = ['diffpy'],
-        packages = find_packages(),
+        packages = find_packages(exclude=['tests']),
+        test_suite = 'tests',
         install_requires = [
             'PyCifRW',
         ],
