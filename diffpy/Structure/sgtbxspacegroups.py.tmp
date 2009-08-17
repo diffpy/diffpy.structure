@@ -26,8 +26,13 @@ __id__ = "$Id$"
 
 
 from diffpy.Structure.SpaceGroups import SpaceGroup, SymOp
-# brandon: had to put all these on same line or VP-uml would choke...
-from diffpy.Structure.SpaceGroups import Rot_X_Y_Z, Rot_X_mY_mZ, Rot_mX_Y_mZ, Rot_mX_mY_Z, Rot_mX_Y_Z, Rot_X_mY_Z, Rot_X_Y_mZ, Rot_mX_mY_mZ,Tr_0_0_0, Tr_12_0_0, Tr_0_12_12, Tr_12_12_12, Tr_12_0_12,Tr_12_12_0, Tr_0_12_0, Tr_0_0_12, Tr_14_14_14, Tr_14_34_34,Tr_34_14_34, Tr_34_34_14
+from diffpy.Structure.SpaceGroups import (
+        Rot_X_Y_Z, Rot_X_mY_mZ, Rot_mX_Y_mZ, Rot_mX_mY_Z, Rot_mX_Y_Z,
+        Rot_X_mY_Z, Rot_X_Y_mZ, Rot_mX_mY_mZ,
+        Tr_0_0_0, Tr_12_0_0, Tr_0_12_12, Tr_12_12_12, Tr_12_0_12,
+        Tr_12_12_0, Tr_0_12_0, Tr_0_0_12, Tr_14_14_14, Tr_14_34_34,
+        Tr_34_14_34, Tr_34_34_14
+)
 
 
 ##############################################################################
