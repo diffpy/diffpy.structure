@@ -48,7 +48,7 @@ class P_discus(StructureParser):
         Return PDFFitStructure instance or raise StructureFormatError.
         """
         self.lines = lines
-        ilines = self.linesIterator()
+        ilines = self._linesIterator()
         self.stru = PDFFitStructure()
         record_parsers = {
             "cell" : self._parse_cell,
@@ -128,7 +128,7 @@ class P_discus(StructureParser):
         return lines
     # End of toLines
 
-    def linesIterator(self):
+    def _linesIterator(self):
         """Iterator over self.lines, which increments self.nl
         """
         # ignore trailing empty lines
@@ -140,7 +140,7 @@ class P_discus(StructureParser):
         for self.line in self.lines[:stop]:
             self.nl += 1
             yield self.line
-        # end of linesIterator
+        # end of _linesIterator
 
     def _parse_cell(self, words):
         """Process the cell record from DISCUS structure file.
