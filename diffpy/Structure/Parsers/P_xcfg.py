@@ -266,13 +266,13 @@ class P_xcfg(StructureParser):
             for line in lines[p_nl:stop]:
                 p_nl += 1
                 words = line.split()
-                if len(words) == 1:
-                    # ignore atom mass
-                    if isfloat(words[0]):
-                        continue
-                    else:
-                        w = words[0]
-                        p_element = w[0].upper() + w[1:].lower()
+                # ignore atom mass
+                if len(words) == 1 and isfloat(words[0]):
+                    continue
+                # parse element allowing empty symbol
+                elif len(words) <= 1:
+                    w = line.strip()
+                    p_element = w[:1].upper() + w[1:].lower()
                 elif len(words) == xcfg_entry_count and p_element is not None:
                     fields = [ float(w) for w in words ]
                     stru.addNewAtom(p_element, fields[:3])
