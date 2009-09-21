@@ -63,7 +63,7 @@ def makeCuboctahedron(S, dist):
 if __name__ == "__main__":
 
     import os.path
-    datadir = "../../tests/testdata"
+    datadir = "../../../tests/testdata"
     S = Structure()
     S.read(os.path.join(datadir, "CdSe_bulk.stru"), "pdffit")
     newS = makeCuboctahedron(S, 12)

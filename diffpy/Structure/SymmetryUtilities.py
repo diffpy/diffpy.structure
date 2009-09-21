@@ -23,6 +23,8 @@ import sys
 import re
 import numpy
 
+from diffpy.Structure.StructureErrors import SymmetryError
+
 # Constants:
 
 # Default tolerance for equality of 2 positions, also
@@ -898,7 +900,7 @@ class SymmetryConstraints:
 if __name__ == "__main__":
     from diffpy.Structure.SpaceGroups import sg100
     site = [.125, .625, .13]
-    Uij = [[1,2,3],[2,4,5],[3,5,6]]
+    Uij = numpy.array([[1,2,3],[2,4,5],[3,5,6]], dtype=float)
     g = GeneratorSite(sg100, site, Uij=Uij)
     fm100 = g.positionFormula(site)
     print "g = GeneratorSite(sg100, %r)" % site
