@@ -318,8 +318,8 @@ class GeneratorSite:
         eps        -- cutoff for equal positions
         """
         # just declare the members
-        self.xyz = None
-        self.Uij = Uij
+        self.xyz = numpy.array(xyz, dtype=float)
+        self.Uij = numpy.array(Uij, dtype=float)
         self.sgoffset = numpy.array(sgoffset, dtype=float)
         self.eps = eps
         self.eqxyz = []
@@ -333,7 +333,6 @@ class GeneratorSite:
         self.pparameters = []
         self.Uparameters = []
         # fill in the values
-        self.xyz = xyz
         sites, ops, mult = expandPosition(spacegroup, xyz, sgoffset, eps)
         invariants = _findInvariants(ops)
         # shift self.xyz exactly to the special position
@@ -900,7 +899,7 @@ class SymmetryConstraints:
 if __name__ == "__main__":
     from diffpy.Structure.SpaceGroups import sg100
     site = [.125, .625, .13]
-    Uij = numpy.array([[1,2,3],[2,4,5],[3,5,6]], dtype=float)
+    Uij = [[1,2,3],[2,4,5],[3,5,6]]
     g = GeneratorSite(sg100, site, Uij=Uij)
     fm100 = g.positionFormula(site)
     print "g = GeneratorSite(sg100, %r)" % site
