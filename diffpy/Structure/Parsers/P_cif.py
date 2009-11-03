@@ -400,14 +400,15 @@ class P_cif(StructureParser):
         sym_synonyms = ('_space_group_symop_operation_xyz',
                         '_symmetry_equiv_pos_as_xyz')
         sym_loop_name = [n for n in sym_synonyms if block.has_key(n)]
-        if not sym_loop_name:   return
-        # sym_loop exists here and we know its cif name
-        sym_loop_name = sym_loop_name[0]
-        sym_loop = block.GetLoop(sym_loop_name)
+        # recover explicit list of symmetry operations
         symop_list = []
-        for eqxyz in sym_loop.GetLoopItem(sym_loop_name):
-            op = getSymOp(eqxyz)
-            symop_list.append(op)
+        if sym_loop_name:
+            # sym_loop exists here and we know its cif name
+            sym_loop_name = sym_loop_name[0]
+            sym_loop = block.GetLoop(sym_loop_name)
+            for eqxyz in sym_loop.GetLoopItem(sym_loop_name):
+                op = getSymOp(eqxyz)
+                symop_list.append(op)
         # determine space group number
         sg_nameHall = (block.get('_space_group_name_Hall', '') or
                 block.get('_symmetry_space_group_name_Hall', ''))
@@ -425,11 +426,16 @@ class P_cif(StructureParser):
             oprep_std.sort()
             oprep_cif = [str(op) for op in symop_list]
             oprep_cif.sort()
+            # make sure symmetry operations have the same order
             if oprep_std == oprep_cif:
                 self.spacegroup = copy.copy(sgstd)
                 self.spacegroup.symop_list = symop_list
-        # define new spacegroup when not found
-        if self.spacegroup is None:
+            # use standard definition when symmetry operations were not listed
+            elif not symop_list:
+                self.spacegroup = sgstd
+        # define new spacegroup when symmetry operations were listed, but
+        # there is no match to an existing definition
+        if symop_list and self.spacegroup is None:
             new_short_name = "CIF " + (sg_nameHall or 'data')
             new_crystal_system = (
                     block.get('_space_group_crystal_system') or
