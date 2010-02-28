@@ -33,7 +33,8 @@ class Structure(list):
         lattice -- coordinate system (instance of Lattice)
     """
 
-    def __init__(self, atoms=[], lattice=None, title="", filename=None):
+    def __init__(self, atoms=[], lattice=None, title="", filename=None,
+            format=None):
         """define group of atoms in a specified lattice.
 
         atoms    -- list of Atom instances to be included in this Structure.
@@ -43,6 +44,9 @@ class Structure(list):
         title    -- string description of the structure
         filename -- optional, name of a file to load the structure from.
                     Overrides atoms argument when specified.
+        format   -- optional structure format of the loaded filename.  By default
+                    all structure formats are tried one by one.  Ignored when
+                    filename has not been specified.
 
         Structure(stru)     create a copy of Structure instance stru.
 
@@ -74,7 +78,9 @@ class Structure(list):
             self.title = title
         # finally check if data should be loaded from file
         if filename is not None:
-            self.read(filename)
+            readkwargs = {}
+            if format is not None:  readkwargs['format'] = format
+            self.read(filename, **readkwargs)
         # otherwise assign list of atoms to self
         else:
             self[:] = atoms
