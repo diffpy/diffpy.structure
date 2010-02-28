@@ -19,6 +19,8 @@ This Parser does not provide the the toLines() method.
 
 __id__ = "$Id$"
 
+import os
+
 from diffpy.Structure import StructureFormatError
 from diffpy.Structure.Parsers import StructureParser
 from diffpy.Structure.Parsers import parser_index
@@ -35,11 +37,10 @@ class P_auto(StructureParser):
         return
 
     # parseLines helpers
-    def getOrderedFormats(self):
+    def _getOrderedFormats(self):
         """Build a list of relevance ordered structure formats.
         This only works when self.filename has a known extension.
         """
-        import os.path
         from diffpy.Structure.Parsers import inputFormats
         ofmts = [fmt for fmt in inputFormats() if fmt != 'auto']
         if not self.filename:   return ofmts
@@ -56,21 +57,56 @@ class P_auto(StructureParser):
                 ofmts.insert(0, fmt)
         return ofmts
 
+
     def parseLines(self, lines):
-        """Detect format and parse given list of lines.
+        """Detect format and create Structure instance from a list of lines.
         Set format attribute to the detected file format.
 
+        Return Structure object or raise StructureFormatError exception.
+        """
+        return self._wrapParseMethod("parseLines", lines)
+
+
+    def parse(self, s):
+        """Detect format and create Structure instance from a string.
+        Set format attribute to the detected file format.
+
+        Return Structure object or raise StructureFormatError exception.
+        """
+        return self._wrapParseMethod('parse', s)
+
+
+    def parseFile(self, filename):
+        '''Detect format and create Structure instance from an existing file.
+        Set format attribute to the detected file format.
+
+        filename  -- path to structure file
+
+        Return Structure object.
+        Raise StructureFormatError or IOError.
+        '''
+        return self._wrapParseMethod("parseFile", filename)
+
+
+    def _wrapParseMethod(self, method, *args, **kwargs):
+        """A helper evaluator method.  Try the specified parse method with
+        each registered structure parser and return the first successful
+        resul.  Structure parsers that match structure file extension are
+        tried first.
+
+        Set format attribute to the detected file format.
         Return Structure instance, or raise StructureFormatError.
         """
         from diffpy.Structure.Parsers import getParser
-        ofmts = self.getOrderedFormats()
+        ofmts = self._getOrderedFormats()
         stru = None
         # try all parsers in sequence
         parsers_emsgs = []
         for fmt in ofmts:
             p = getParser(fmt)
             try:
-                stru = p.parseLines(lines)
+                pmethod = getattr(p, method)
+                stru = pmethod(*args, **kwargs)
                 self.format = fmt
                 break
             except StructureFormatError, err:
