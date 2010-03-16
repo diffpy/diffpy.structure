@@ -277,6 +277,9 @@ class P_cif(StructureParser):
         """
         import CifFile
         from StarFile import StarError
+        # CifFile fails when filename is a unicode string
+        if type(filename) is unicode:
+            filename = str(filename)
         self.filename = filename
         try:
             fileurl = fixIfWindowsPath(filename)

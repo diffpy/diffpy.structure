@@ -85,6 +85,7 @@ class P_auto(StructureParser):
         Return Structure object.
         Raise StructureFormatError or IOError.
         '''
+        self.filename = filename
         return self._wrapParseMethod("parseFile", filename)
 
 
