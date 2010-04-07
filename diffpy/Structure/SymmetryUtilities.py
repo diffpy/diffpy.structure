@@ -786,6 +786,7 @@ class SymmetryConstraints:
                 dxyz = gen.eqxyz[eqidx] - indpos
                 self.positions[indidx] += dxyz - dxyz.round()
                 self.Uijs[indidx] = gen.eqUij[eqidx]
+                self.Uisotropy[indidx] = gen.Uisotropy
         # all done here
         coreidx = self.coremap.keys()
         coreidx.sort()
