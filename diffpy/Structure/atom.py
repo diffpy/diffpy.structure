@@ -220,12 +220,12 @@ class Atom(object):
             Uisoij = numpy.dot(numpy.transpose(Tu), Uisoequiv*Tu)
             # compare with new value
             maxUdiff = numpy.max(numpy.fabs(self._U - Uisoij))
-            self._anisotropy = maxUdiff > Atom.tol_anisotropy
+            self._anisotropy = bool(maxUdiff > Atom.tol_anisotropy)
             self._Uijsynced = False
         return self._anisotropy
 
     def _set_anisotropy(self, value):
-        if bool(value) == self._anisotropy: return
+        if bool(value) is self._anisotropy: return
         # convert from isotropic to anisotropic
         if value:
             self._U = self._get_U()
