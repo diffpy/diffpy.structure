@@ -569,15 +569,21 @@ class GeneratorSite:
         R = self.symops[idx][0].R
         Rt = R.transpose()
         Usrotated = [numpy.dot(R, numpy.dot(Us, Rt)) for Us in self.Uspace]
-        Uformula = dict.fromkeys(stdUsymbols, '0')
+        Uformula = dict.fromkeys(stdUsymbols, '')
         name2sym = dict(zip(stdUsymbols, Usymbols))
         for Usr, (vname, ignore) in zip(Usrotated, self.Uparameters):
+            # avoid adding off-diagonal elements twice
+            assert numpy.all(Usr == Usr.T)
+            Usr -= numpy.tril(Usr, -1)
             Usrflat = Usr.flatten()
             for i in numpy.where(Usrflat)[0]:
-                f = '%g*%s' % (Usrflat[i], name2sym[vname])
-                f = re.sub('^[+]?1[*]|(?<=[+-])1[*]', '', f).strip()
+                f = '%+g*%s' % (Usrflat[i], name2sym[vname])
                 smbl = self.idx2Usymbol[i]
-                Uformula[smbl] = f
+                Uformula[smbl] += f
+        for smbl, f in Uformula.items():
+            if not f:  f = '0'
+            f = re.sub(r'^[+]?1[*]|^[+](?=\d)|(?<=[+-])1[*]', '', f).strip()
+            Uformula[smbl] = f
         return Uformula
 
     def eqIndex(self, pos):

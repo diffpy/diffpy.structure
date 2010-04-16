@@ -146,6 +146,7 @@ class TestGeneratorSite(unittest.TestCase):
         sg117 = GetSpaceGroup(117)
         sg143 = GetSpaceGroup(143)
         sg164 = GetSpaceGroup(164)
+        sg186 = GetSpaceGroup(186)
         sg227 = GetSpaceGroup(227)
         g117c = GeneratorSite(sg117, [0, 0.5, 0])
         g117h = GeneratorSite(sg117, [x, x+0.5, 0.5])
@@ -157,6 +158,7 @@ class TestGeneratorSite(unittest.TestCase):
         g164f = GeneratorSite(sg164, (0.5, 0, 0.5))
         g164g = GeneratorSite(sg164, (x, 0, 0))
         g164h = GeneratorSite(sg164, (x, 0, 0.5))
+        g186c = GeneratorSite(sg186, (0.1695, 1.0 - 0.1695, 0.6365))
         g227a = GeneratorSite(sg227, [0, 0, 0])
         g227c = GeneratorSite(sg227, 3*[1./8])
         g227oa = GeneratorSite(sg227, 3*[1./8], sgoffset=3*[1./8])
@@ -167,6 +169,7 @@ class TestGeneratorSite(unittest.TestCase):
                 'g143c' : g143c,  'g143d' : g143d,
                 'g164e' : g164e,  'g164f' : g164f,
                 'g164g' : g164g,  'g164h' : g164h,
+                'g186c' : g186c,
                 'g227a' : g227a,  'g227c' : g227c,
                 'g227oa' : g227oa,  'g227oc' : g227oc
         }
@@ -263,6 +266,8 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual(rule15, ufm)
         ufm = self.g164h.UFormula(self.g164h.xyz, smbl)
         self.assertEqual(rule15, ufm)
+        ufm = self.g186c.UFormula(self.g186c.xyz, smbl)
+        self.assertEqual(rule07, ufm)
         ufm = self.g227a.UFormula(self.g227a.xyz, smbl)
         self.assertEqual(rule17, ufm)
         ufm = self.g227c.UFormula(self.g227c.xyz, smbl)
@@ -272,6 +277,49 @@ class TestGeneratorSite(unittest.TestCase):
         ufm = self.g227oc.UFormula(self.g227oc.xyz, smbl)
         self.assertEqual(rule18, ufm)
         return
+
+
+    def test_UFormula_g186c_eqxyz(self):
+        '''Check rotated U formulas at the symmetry positions of c-site in 186.
+        '''
+        sg186 = GetSpaceGroup(186)
+        crules = [
+                {'U11': 'A', 'U22': 'A', 'U33': 'C',
+                    'U12': 'D', 'U13': 'E', 'U23': '-E'},
+                {'U11': 'A', 'U22': '2*A-2*D', 'U33': 'C',
+                    'U12': 'A-D', 'U13': 'E', 'U23': '2*E'},
+                {'U11': '2*A-2*D', 'U22': 'A', 'U33': 'C',
+                    'U12': 'A-D', 'U13': '-2*E', 'U23': '-E'},
+                {'U11': 'A', 'U22': 'A', 'U33': 'C',
+                    'U12': 'D', 'U13': '-E', 'U23': 'E'},
+                {'U11': 'A', 'U22': '2*A-2*D', 'U33': 'C',
+                    'U12': 'A-D', 'U13': '-E', 'U23': '-2*E'},
+                {'U11': '2*A-2*D', 'U22': 'A', 'U33': 'C',
+                    'U12': 'A-D', 'U13': '2*E', 'U23': 'E'},
+                ]
+        self.assertEqual(6, len(self.g186c.eqxyz))
+        gc = self.g186c
+        for idx in range(6):
+            self.assertEqual(crules[idx], gc.UFormula(gc.eqxyz[idx], 'ABCDEF'))
+        uiso = numpy.array([[2, 1, 0], [1, 2, 0], [0, 0, 2]])
+        eau = ExpandAsymmetricUnit(sg186, [gc.xyz], [uiso])
+        for u in eau.expandedUijs:
+            du = numpy.linalg.norm((uiso - u).flatten())
+            self.assertAlmostEqual(0.0, du, 8)
+        symcon = SymmetryConstraints(sg186, sum(eau.expandedpos, []),
+                sum(eau.expandedUijs, []))
+        upd = dict(symcon.Upars)
+        self.assertEqual(2.0, upd['U110'])
+        self.assertEqual(2.0, upd['U330'])
+        self.assertEqual(1.0, upd['U120'])
+        self.assertEqual(0.0, upd['U130'])
+        uisod = {'U11' : 2.0, 'U22' : 2.0, 'U33' : 2.0,
+                 'U12' : 1.0, 'U13' : 0.0, 'U23' : 0.0}
+        for ufms in symcon.UFormulas():
+            for n, fm in ufms.items():
+                self.assertEqual(uisod[n], eval(fm, upd))
+        return
+
 
     def test__findUParameters(self):
         """check GeneratorSite._findUParameters()
