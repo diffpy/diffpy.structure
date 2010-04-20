@@ -149,7 +149,7 @@ class P_cif(StructureParser):
     _tr_atom_site_thermal_displace_type = _tr_atom_site_adp_type
 
     def _tr_atom_site_occupancy(a, value):
-        a.occ = leading_float(value)
+        a.occupancy = leading_float(value)
     _tr_atom_site_occupancy = staticmethod(_tr_atom_site_occupancy)
 
     def _tr_atom_site_aniso_U_11(a, value):

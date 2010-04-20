@@ -120,7 +120,7 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(0.5, a0.xyz[1])
         self.assertEqual(0.5, a0.xyz[2])
         self.assertEqual(False, a0.anisotropy)
-        self.assertEqual(1.0, a0.occ)
+        self.assertEqual(1.0, a0.occupancy)
         self.assertEqual(0.0225566, a0.Uisoequiv)
         # badciffile
         pfile2 = P_cif()
