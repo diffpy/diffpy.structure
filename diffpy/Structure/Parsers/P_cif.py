@@ -420,7 +420,7 @@ class P_cif(StructureParser):
         self.cif_sgname = (sg_nameHall or sg_nameHM or None)
         sgid = (int(block.get('_space_group_IT_number', '0')) or
                 int(block.get('_symmetry_Int_Tables_number', '0')) or
-                sg_nameHM.replace(' ', ''))
+                sg_nameHM)
         # try to reuse existing space group
         self.spacegroup = None
         if sgid and IsSpaceGroupIdentifier(sgid):

@@ -1,0 +1,36 @@
+data_MnO2
+_audit_creation_date            2010-04-13
+_audit_creation_method          P_cif.py
+
+_symmetry_space_group_name_H-M  'C 1 2/m 1'
+
+_cell_length_a                  4.96787
+_cell_length_b                  2.8436
+_cell_length_c                  7.17692
+_cell_angle_alpha               90
+_cell_angle_beta                98.0016
+_cell_angle_gamma               90
+
+loop_
+  _atom_site_label
+  _atom_site_type_symbol
+  _atom_site_fract_x
+  _atom_site_fract_y
+  _atom_site_fract_z
+  _atom_site_U_iso_or_equiv
+  _atom_site_adp_type
+  _atom_site_occupancy
+  Mn1   Mn     0.000000    0.000000    0.000000    0.045984 Uani  0.9284
+  O1    O      0.346874    0.000000    0.137349    0.008885 Uani  1.0000
+  O2    O      0.508749    0.000000    0.552092    0.004086 Uiso  0.4296
+loop_
+  _atom_site_aniso_label
+  _atom_site_aniso_U_11
+  _atom_site_aniso_U_22
+  _atom_site_aniso_U_33
+  _atom_site_aniso_U_12
+  _atom_site_aniso_U_13
+  _atom_site_aniso_U_23
+  Mn1    0.004442  0.004442  0.126482  0.000000  0.000000  0.000000
+  O1     0.004442  0.004442  0.017339  0.000000  0.000000  0.000000
+  O2     0.004442  0.004442  0.017339  0.000000  0.000000  0.000000
