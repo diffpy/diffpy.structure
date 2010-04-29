@@ -1,3 +1,5 @@
+include *.txt
+include *.py
 prune tests
 prune devutils
 prune doc/epydoc
