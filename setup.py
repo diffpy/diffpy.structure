@@ -18,7 +18,7 @@ setup(
         packages = find_packages(exclude=['tests']),
         test_suite = 'tests',
         install_requires = [
-            'PyCifRW',
+            'PyCifRW < 3.2',
         ],
         dependency_links = [
             'http://www.diffpy.org/packages/',
