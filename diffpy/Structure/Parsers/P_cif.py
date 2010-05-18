@@ -572,7 +572,7 @@ class P_cif(StructureParser):
 ##############################################################################
 
 # constant regular expression for leading_float()
-rx_float = re.compile(r'\s*[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?')
+rx_float = re.compile(r'[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?')
 
 def leading_float(s):
     """Obtain first float from a string and ignore any trailing characters.
@@ -580,8 +580,10 @@ def leading_float(s):
 
     Return float.
     """
-    mx = rx_float.match(s)
+    sbare = s.strip()
+    mx = rx_float.match(sbare)
     if mx:  rv = float(mx.group())
+    elif s == '.':   rv = 0.0
     else:   rv = float(s)
     return rv
 
