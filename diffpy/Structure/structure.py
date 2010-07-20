@@ -18,6 +18,7 @@
 __id__ = "$Id$"
 
 import numpy
+import copy
 from diffpy.Structure import Lattice, Atom
 
 ##############################################################################
@@ -63,8 +64,10 @@ class Structure(list):
             stru = atoms
             # create a shallow copy of all source attributes
             self.__dict__.update(stru.__dict__)
-            # make a deep copy of source lattice
+            # make a deep copy of source lattice and of the pdffit dictionary
             self.lattice = Lattice(stru.lattice)
+            if hasattr(self, 'pdffit'):
+                self.pdffit = copy.copy(self.pdffit)
         # override from lattice argument
         if lattice is None:
             if not self.lattice:    self.lattice = Lattice()
