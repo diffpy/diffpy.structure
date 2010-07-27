@@ -443,7 +443,7 @@ class P_cif(StructureParser):
             new_crystal_system = (
                     block.get('_space_group_crystal_system') or
                     block.get('_symmetry_cell_setting') or
-                    'MONOCLINIC' ).upper()
+                    'TRICLINIC' ).upper()
             self.spacegroup = SpaceGroup(
                     short_name=new_short_name,
                     crystal_system=new_crystal_system,
