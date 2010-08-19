@@ -12,10 +12,10 @@ Currently the team consists of
     Simon Billinge
     Pavol Juhas
     Chris Farrow
+    Jiwu Liu
+    Yingrui Shang
     Emil Bozin
-    Wenduo Zhou
     Peng Tian
-    Timur Dykhne
 
 Please see the header of each source file for a detailed list of
 contributors.  This is an open-source project and we hope and expect
