@@ -53,7 +53,7 @@ def sind(x):
 
 
 ##############################################################################
-class Lattice:
+class Lattice(object):
     """Lattice --> general coordinate system
 
     Data members:
