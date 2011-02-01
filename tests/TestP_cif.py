@@ -117,9 +117,9 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(90.0, stru.lattice.gamma)
         self.assertEqual('Fm-3m', self.pfile.spacegroup.short_name)
         a0 = stru[0]
-        self.assertEqual(0.5, a0.xyz[0])
-        self.assertEqual(0.5, a0.xyz[1])
-        self.assertEqual(0.5, a0.xyz[2])
+        self.assertEqual(0.5, a0.x)
+        self.assertEqual(0.5, a0.y)
+        self.assertEqual(0.5, a0.z)
         self.assertEqual(False, a0.anisotropy)
         self.assertEqual(1.0, a0.occupancy)
         self.assertEqual(0.0225566, a0.Uisoequiv)

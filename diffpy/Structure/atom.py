@@ -61,7 +61,8 @@ class Atom(object):
 
     Data members:
         element     -- type of the atom
-        xyz         -- fractional coordinates
+        xyz         -- fractional coordinates, numpy array
+        x, y, z     -- fractional coordiantes, float properties synced with xyz
         name        -- atom label
         occupancy   -- fractional occupancy
         xyz_cartn   -- absolute Cartesian coordinates, property synced with xyz
@@ -130,6 +131,13 @@ class Atom(object):
         if Uisoequiv is not None:   self._Uisoequiv = Uisoequiv
         if lattice is not None:     self.lattice = lattice
         return
+
+    x = property( lambda self : self.xyz[0],
+            lambda self, val : self.xyz.__setitem__(0, val) )
+    y = property( lambda self : self.xyz[1],
+            lambda self, val : self.xyz.__setitem__(1, val) )
+    z = property( lambda self : self.xyz[2],
+            lambda self, val : self.xyz.__setitem__(2, val) )
 
     def msdLat(self, vl):
         """mean square displacement of an atom along lattice vector
