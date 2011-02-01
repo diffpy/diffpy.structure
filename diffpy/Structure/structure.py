@@ -156,9 +156,9 @@ class Structure(list):
     def distance(self, id0, id1):
         """Distance between 2 atoms, no periodic boundary conditions.
 
-        id0 -- zero based index of the first atom or a string label
-               such as "Na1"
-        id1 -- zero based index or string label of the second atom.
+        id0  -- zero based index of the first atom or a string label
+                such as "Na1"
+        id1  -- zero based index or string label of the second atom.
 
         Return float.
         Raise ValueError for invalid arguments.
@@ -168,8 +168,21 @@ class Structure(list):
         return self.lattice.dist(a0.xyz, a1.xyz)
 
 
-    def angle(self, a0, a1, a2):
-        """angle at atom a1 in degrees"""
+    def angle(self, id0, id1, id2):
+        """The bond angle at the second of three atoms in degrees.
+
+        id0  -- zero based index of the first atom or a string label
+                such as "Na1"
+        id1  -- index or string label for the second atom,
+                where the angle is formed
+        id2  -- index or string label for the third atom
+
+        Return float.
+        Raise ValueError for invalid arguments.
+        """
+        a0 = self.getAtom(id0)
+        a1 = self.getAtom(id1)
+        a2 = self.getAtom(id2)
         u10 = a0.xyz - a1.xyz
         u12 = a2.xyz - a1.xyz
         return self.lattice.angle(u10, u12)
