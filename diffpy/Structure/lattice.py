@@ -125,11 +125,11 @@ class Lattice(object):
             self.setLatBase(base)
         # Lattice(lat)
         elif isinstance(a, Lattice):
-            self.setLatPar(*a.abcABG(), baserot=a.baserot)
+            self.setLatPar(a.a, a.b, a.c, a.alpha, a.beta, a.gamma,
+                    baserot=a.baserot)
         # otherwise do default Lattice(a, b, c, alpha, beta, gamma)
         else:
-            self.setLatPar(float(a), float(b), float(c),
-                    float(alpha), float(beta), float(gamma), baserot)
+            self.setLatPar(a, b, c, alpha, beta, gamma, baserot=baserot)
         return
 
 
