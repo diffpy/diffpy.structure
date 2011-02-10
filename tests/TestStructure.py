@@ -18,6 +18,7 @@
 __id__ = "$Id$"
 
 import os
+import copy
 import unittest
 
 # useful variables
@@ -61,7 +62,20 @@ class TestStructure(unittest.TestCase):
 #       """check Structure.__init__()
 #       """
 #       return
-#
+
+    def test___copy__(self):
+        """check Structure.__copy__()
+        """
+        cdsefile = os.path.join(testdata_dir, 'CdSe_bulk.stru')
+        cdse = Structure(filename=cdsefile)
+        cdse_str = cdse.writeStr('pdffit')
+        cdse2 = copy.copy(cdse)
+        self.assertEqual(cdse_str, cdse2.writeStr('pdffit'))
+        self.failIf(cdse.lattice is cdse2.lattice)
+        sameatoms = set(cdse).intersection(cdse2)
+        self.failIf(sameatoms)
+        return
+
 #   def test___str__(self):
 #       """check Structure.__str__()
 #       """

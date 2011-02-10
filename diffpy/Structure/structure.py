@@ -61,13 +61,7 @@ class Structure(list):
         self._labels = {}
         self._labels_cached = False
         if isinstance(atoms, Structure):
-            stru = atoms
-            # create a shallow copy of all source attributes
-            self.__dict__.update(stru.__dict__)
-            # make a deep copy of source lattice and of the pdffit dictionary
-            self.lattice = Lattice(stru.lattice)
-            if hasattr(self, 'pdffit'):
-                self.pdffit = copy.copy(self.pdffit)
+            atoms.__copy__(target=self)
         # override from lattice argument
         if lattice is None:
             if not self.lattice:    self.lattice = Lattice()
@@ -84,16 +78,42 @@ class Structure(list):
             readkwargs = {}
             if format is not None:  readkwargs['format'] = format
             self.read(filename, **readkwargs)
-        # otherwise assign list of atoms to self
-        else:
+        # otherwise assign list of atoms to self unless already done by copy
+        elif len(self) != len(atoms):
             self[:] = atoms
         return
+
+
+    def __copy__(self, target=None):
+        '''Create a deep copy of this instance.
+
+        target   -- optional target instance for copying, useful for
+                    copying a derived class.  Defaults to new instance
+                    of the same type as self.
+
+        Return a duplicate instance of this object.
+        '''
+        if target is None:
+            target = type(self)()
+        elif target is self:
+            return target
+        # create a shallow copy of all source attributes
+        target.__dict__.update(self.__dict__)
+        # make a deep copy of the source lattice and of the pdffit dictionary
+        target.lattice = Lattice(self.lattice)
+        if hasattr(self, 'pdffit'):
+            target.pdffit = copy.deepcopy(self.pdffit)
+        # copy all atoms to the target
+        target[:] = self
+        return target
+
 
     def __str__(self):
         """simple string representation"""
         s_lattice = "lattice=%s" % self.lattice
         s_atoms = '\n'.join([str(a) for a in self])
         return s_lattice + '\n' + s_atoms
+
 
     def addNewAtom(self, *args, **kwargs):
         """Add new Atom instance to the end of this Structure.
@@ -107,6 +127,7 @@ class Structure(list):
         list.append(self, a)
         self._uncache('labels')
         return
+
 
     def getLastAtom(self):
         """Return Reference to the last Atom in this structure.
@@ -219,7 +240,6 @@ class Structure(list):
         import diffpy.Structure
         import diffpy.Structure.Parsers
         getParser = diffpy.Structure.Parsers.getParser
-#       from diffpy.Structure.Parsers import getParser
         p = getParser(format)
         new_structure = p.parseFile(filename)
         # reinitialize data after successful parsing
@@ -234,6 +254,7 @@ class Structure(list):
             tailbase = os.path.splitext(tailname)[0]
             self.title = tailbase
         return p
+
 
     def readStr(self, s, format='auto'):
         """Load structure from a string, any original data become lost.
@@ -256,6 +277,7 @@ class Structure(list):
             self[:] = new_structure
         return p
 
+
     def write(self, filename, format):
         """Save structure to file in the specified format
 
@@ -272,6 +294,7 @@ class Structure(list):
         f.write(s)
         f.close()
         return
+
 
     def writeStr(self, format):
         """return string representation of the structure in specified format
@@ -303,6 +326,7 @@ class Structure(list):
         list.append(self, adup)
         return
 
+
     def insert(self, idx, a, copy=True):
         """Insert atom a before position idx in this Structure.
 
@@ -318,6 +342,7 @@ class Structure(list):
         adup.lattice = self.lattice
         list.insert(self, idx, adup)
         return
+
 
     def extend(self, atoms, copy=True):
         """Extend Structure by appending copies from a list of atoms.
@@ -336,6 +361,7 @@ class Structure(list):
         list.extend(self, adups)
         return
 
+
     def __setitem__(self, idx, a, copy=True):
         """Set idx-th atom to a.
 
@@ -351,6 +377,7 @@ class Structure(list):
         adup.lattice = self.lattice
         list.__setitem__(self, idx, adup)
         return
+
 
     def __setslice__(self, lo, hi, atoms, copy=True):
         """Set Structure slice from lo to hi-1 to the sequence of atoms.
@@ -370,7 +397,6 @@ class Structure(list):
         list.__setslice__(self, lo, hi, adups)
         return
 
-
     ####################################################################
     # property handlers
     ####################################################################
@@ -387,7 +413,6 @@ class Structure(list):
 
     lattice = property(_get_lattice, _set_lattice, doc =
         "Coordinate system for this Structure.")
-
 
     ####################################################################
     # protected methods
