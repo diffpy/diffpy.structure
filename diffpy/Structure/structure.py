@@ -372,7 +372,7 @@ class Structure(list):
         rhs = [list.__getitem__(self, i) for i in indices]
         rv = Structure()
         rv.__dict__.update(self.__dict__)
-        rv[:] = rhs
+        rv.extend(rhs, copy=False)
         return rv
 
 
