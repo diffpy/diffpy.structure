@@ -132,13 +132,6 @@ class Atom(object):
         if lattice is not None:     self.lattice = lattice
         return
 
-    x = property( lambda self : self.xyz[0],
-            lambda self, val : self.xyz.__setitem__(0, val) )
-    y = property( lambda self : self.xyz[1],
-            lambda self, val : self.xyz.__setitem__(1, val) )
-    z = property( lambda self : self.xyz[2],
-            lambda self, val : self.xyz.__setitem__(2, val) )
-
     def msdLat(self, vl):
         """mean square displacement of an atom along lattice vector
 
@@ -185,16 +178,26 @@ class Atom(object):
     def __copy__(self):
         """Return a copy of this instance.
         """
-        adup = Atom(self.element)
+        adup = Atom()
         adup.__dict__.update(self.__dict__)
         # create copies for what should be copied
-        adup.xyz = numpy.array(self.xyz)
-        adup._U = numpy.array(self._U)
+        adup.xyz = numpy.array(adup.xyz)
+        adup._U = numpy.array(adup._U)
         return adup
 
     ####################################################################
     # property handlers
     ####################################################################
+
+    x = property(lambda self: self.xyz[0],
+            lambda self, val: self.xyz.__setitem__(0, val),
+            doc='fractional coordinate x.')
+    y = property(lambda self: self.xyz[1],
+            lambda self, val: self.xyz.__setitem__(1, val),
+            doc='fractional coordinate y.')
+    z = property(lambda self: self.xyz[2],
+            lambda self, val: self.xyz.__setitem__(2, val),
+            doc='fractional coordinate z.')
 
     # xyz_cartn
 

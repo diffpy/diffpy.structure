@@ -18,8 +18,8 @@
 __id__ = "$Id$"
 
 import numpy
-import copy
-from diffpy.Structure import Lattice, Atom
+from diffpy.Structure.lattice import Lattice
+from diffpy.Structure.atom import Atom
 from diffpy.Structure.utils import _linkAtomAttribute
 
 ##############################################################################
@@ -85,29 +85,28 @@ class Structure(list):
         return
 
 
-    def __copy__(self, target=None, shallow=False):
+    def __copy__(self, target=None):
         '''Create a deep copy of this instance.
 
         target   -- optional target instance for copying, useful for
                     copying a derived class.  Defaults to new instance
                     of the same type as self.
-        shallow  -- flag for creating a shallow copy
 
         Return a duplicate instance of this object.
         '''
+        from copy import deepcopy
         if target is None:
             target = Structure()
         elif target is self:
             return target
         # create a shallow copy of all source attributes
         target.__dict__.update(self.__dict__)
-        if not shallow:
-            # make a deep copy of the lattice and pdffit dictionary
-            target.lattice = Lattice(self.lattice)
-            if hasattr(self, 'pdffit'):
-                target.pdffit = copy.deepcopy(self.pdffit)
+        # make a deep copy of the lattice and pdffit dictionary
+        target.lattice = Lattice(self.lattice)
+        if hasattr(self, 'pdffit'):
+            target.pdffit = deepcopy(self.pdffit)
         # copy all atoms to the target
-        target.__setslice__(0, len(target), self, copy=not shallow)
+        target[:] = self
         return target
 
 
@@ -127,8 +126,7 @@ class Structure(list):
         """
         kwargs['lattice'] = self.lattice
         a = Atom(*args, **kwargs)
-        list.append(self, a)
-        self._uncache('labels')
+        self.append(a, copy=False)
         return
 
 
@@ -372,7 +370,8 @@ class Structure(list):
             pass
         indices = numpy.arange(len(self))[idx]
         rhs = [list.__getitem__(self, i) for i in indices]
-        rv = self.__copy__(shallow=True)
+        rv = Structure()
+        rv.__dict__.update(self.__dict__)
         rv[:] = rhs
         return rv
 
@@ -395,8 +394,9 @@ class Structure(list):
 
 
     def __getslice__(self, lo, hi):
-        rv = self.__copy__(shallow=True)
-        del rv[hi:], rv[:lo]
+        rv = Structure()
+        rv.__dict__.update(self.__dict__)
+        rv.extend(list.__getslice__(self, lo, hi), copy=False)
         return rv
 
 
