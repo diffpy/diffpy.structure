@@ -20,6 +20,7 @@ __id__ = "$Id$"
 import numpy
 import copy
 from diffpy.Structure import Lattice, Atom
+from diffpy.Structure.utils import _linkAtomAttribute
 
 ##############################################################################
 class Structure(list):
@@ -84,27 +85,29 @@ class Structure(list):
         return
 
 
-    def __copy__(self, target=None):
+    def __copy__(self, target=None, shallow=False):
         '''Create a deep copy of this instance.
 
         target   -- optional target instance for copying, useful for
                     copying a derived class.  Defaults to new instance
                     of the same type as self.
+        shallow  -- flag for creating a shallow copy
 
         Return a duplicate instance of this object.
         '''
         if target is None:
-            target = type(self)()
+            target = Structure()
         elif target is self:
             return target
         # create a shallow copy of all source attributes
         target.__dict__.update(self.__dict__)
-        # make a deep copy of the source lattice and of the pdffit dictionary
-        target.lattice = Lattice(self.lattice)
-        if hasattr(self, 'pdffit'):
-            target.pdffit = copy.deepcopy(self.pdffit)
+        if not shallow:
+            # make a deep copy of the lattice and pdffit dictionary
+            target.lattice = Lattice(self.lattice)
+            if hasattr(self, 'pdffit'):
+                target.pdffit = copy.deepcopy(self.pdffit)
         # copy all atoms to the target
-        target[:] = self
+        target.__setslice__(0, len(target), self, copy=not shallow)
         return target
 
 
@@ -316,7 +319,7 @@ class Structure(list):
 
         a    -- instance of Atom
         copy -- flag for appending a copy of a.
-                When False, append a and update a.owner.
+                When False, append a and update a.lattice.
 
         No return value.
         """
@@ -362,6 +365,18 @@ class Structure(list):
         return
 
 
+    def __getitem__(self, idx):
+        try:
+            return list.__getitem__(self, idx)
+        except TypeError:
+            pass
+        indices = numpy.arange(len(self))[idx]
+        rhs = [list.__getitem__(self, i) for i in indices]
+        rv = self.__copy__(shallow=True)
+        rv[:] = rhs
+        return rv
+
+
     def __setitem__(self, idx, a, copy=True):
         """Set idx-th atom to a.
 
@@ -377,6 +392,12 @@ class Structure(list):
         adup.lattice = self.lattice
         list.__setitem__(self, idx, adup)
         return
+
+
+    def __getslice__(self, lo, hi):
+        rv = self.__copy__(shallow=True)
+        del rv[hi:], rv[:lo]
+        return rv
 
 
     def __setslice__(self, lo, hi, atoms, copy=True):
@@ -413,6 +434,106 @@ class Structure(list):
 
     lattice = property(_get_lattice, _set_lattice, doc =
         "Coordinate system for this Structure.")
+
+    # linked atom attributes
+
+    element = _linkAtomAttribute('element',
+        '''Character array of atom types.  Assignment updates
+        the element attribute of the respective atoms.''',
+        toarray=numpy.char.array)
+
+    xyz = _linkAtomAttribute('xyz',
+        '''Array of fractional coordinates of all atoms.
+        Assignment updates xyz attribute of all atoms.''')
+
+    x = _linkAtomAttribute('x',
+        '''Array of all fractional coordinates x.
+        Assignment updates xyz attribute of all atoms.''')
+
+    y = _linkAtomAttribute('y',
+        '''Array of all fractional coordinates y.
+        Assignment updates xyz attribute of all atoms.''')
+
+    z = _linkAtomAttribute('z',
+        '''Array of all fractional coordinates z.
+        Assignment updates xyz attribute of all atoms.''')
+
+    names = _linkAtomAttribute('name',
+        '''Character array of atom names.  Assignment updates
+        the name attribute of all atoms.''',
+        toarray=numpy.char.array)
+
+    occupancy = _linkAtomAttribute('occupancy',
+        '''Array of atom occupancies.  Assignment updates the
+        occupancy attribute of all atoms.''')
+
+    xyz_cartn = _linkAtomAttribute('xyz_cartn',
+        '''Array of absolute Cartesian coordinates of all atoms.
+        Assignment updates the xyz attribute of all atoms.''')
+
+    anisotropy = _linkAtomAttribute('anisotropy',
+        '''Boolean array for anisotropic thermal displacement flags.
+        Assignment updates the anisotropy attribute of all atoms.''')
+
+    U = _linkAtomAttribute('U',
+        '''Array of anisotropic thermal displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    Uisoequiv = _linkAtomAttribute('Uisoequiv',
+        '''Array of isotropic thermal displacement or equivalent values.
+        Assignment updates the U attribute of all atoms.''')
+
+    U11 = _linkAtomAttribute('U11',
+        '''Array of U11 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    U22 = _linkAtomAttribute('U22',
+        '''Array of U22 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    U33 = _linkAtomAttribute('U33',
+        '''Array of U33 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    U12 = _linkAtomAttribute('U12',
+        '''Array of U12 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    U13 = _linkAtomAttribute('U13',
+        '''Array of U13 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    U23 = _linkAtomAttribute('U23',
+        '''Array of U23 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    Bisoequiv = _linkAtomAttribute('Bisoequiv',
+        '''Array of Debye-Waller isotropic thermal displacement or equivalent
+        values.  Assignment updates the U attribute of all atoms.''')
+
+    B11 = _linkAtomAttribute('B11',
+        '''Array of B11 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    B22 = _linkAtomAttribute('B22',
+        '''Array of B22 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    B33 = _linkAtomAttribute('B33',
+        '''Array of B33 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    B12 = _linkAtomAttribute('B12',
+        '''Array of B12 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    B13 = _linkAtomAttribute('B13',
+        '''Array of B13 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
+
+    B23 = _linkAtomAttribute('B23',
+        '''Array of B23 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.''')
 
     ####################################################################
     # protected methods
