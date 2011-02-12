@@ -17,6 +17,7 @@
 
 __id__ = "$Id$"
 
+from copy import deepcopy
 import numpy
 from diffpy.Structure.lattice import Lattice
 from diffpy.Structure.atom import Atom
@@ -35,8 +36,15 @@ class Structure(list):
         lattice -- coordinate system (instance of Lattice)
     """
 
-    def __init__(self, atoms=[], lattice=None, title="", filename=None,
-            format=None):
+    # Default values for attributes that are inmutable objects
+    title = ''
+    _lattice = None
+    pdffit = {}
+    _labels = {}
+    _labels_cached = False
+
+    def __init__(self, atoms=[], lattice=None, title=None,
+            filename=None, format=None):
         """define group of atoms in a specified lattice.
 
         atoms    -- list of Atom instances to be included in this Structure.
@@ -57,31 +65,27 @@ class Structure(list):
             oxygen_atoms = [ for a in stru if a.element == "O" ]
             oxygen_stru = Structure(oxygen_atoms, lattice=stru.lattice)
         """
-        self.title = ""
-        self._lattice = None
-        self._labels = {}
-        self._labels_cached = False
-        if isinstance(atoms, Structure):
-            atoms.__copy__(target=self)
-        # override from lattice argument
-        if lattice is None:
-            if not self.lattice:    self.lattice = Lattice()
-        elif not isinstance(lattice, Lattice):
-            emsg = "expected instance of Lattice"
-            raise TypeError(emsg)
-        else:
-            self.lattice = lattice
-        # override from title argument
-        if title:
-            self.title = title
-        # finally check if data should be loaded from file
+        # if filename is specified load it and return
         if filename is not None:
-            readkwargs = {}
-            if format is not None:  readkwargs['format'] = format
+            if any((atoms, lattice, title)):
+                emsg = "Cannot use filename and atoms arguments together."
+                raise ValueError(emsg)
+            readkwargs = (format is not None) and {'format' : format} or {}
             self.read(filename, **readkwargs)
-        # otherwise assign list of atoms to self unless already done by copy
-        elif len(self) != len(atoms):
-            self[:] = atoms
+            return
+        # copy initialization, must be first to allow lattice, title override
+        if isinstance(atoms, Structure):
+            Structure.__copy__(atoms, self)
+        # assign arguments:
+        if title is not None:
+            self.title = title
+        if lattice is not None:
+            self.lattice = lattice
+        elif self.lattice is None:
+            self.lattice = Lattice()
+        # insert atoms unless already done by __copy__
+        if not len(self) and len(atoms):
+            self.extend(atoms)
         return
 
 
@@ -94,17 +98,16 @@ class Structure(list):
 
         Return a duplicate instance of this object.
         '''
-        from copy import deepcopy
         if target is None:
             target = Structure()
         elif target is self:
             return target
-        # create a shallow copy of all source attributes
-        target.__dict__.update(self.__dict__)
-        # make a deep copy of the lattice and pdffit dictionary
+        # copy attributes as appropriate:
+        target.title = self.title
         target.lattice = Lattice(self.lattice)
-        if hasattr(self, 'pdffit'):
-            target.pdffit = deepcopy(self.pdffit)
+        target.pdffit = deepcopy(self.pdffit)
+        target._labels = {}
+        target._labels_cached = False
         # copy all atoms to the target
         target[:] = self
         return target
@@ -370,8 +373,7 @@ class Structure(list):
             pass
         indices = numpy.arange(len(self))[idx]
         rhs = [list.__getitem__(self, i) for i in indices]
-        rv = Structure()
-        rv.__dict__.update(self.__dict__)
+        rv = self.__emptySharedStructure()
         rv.extend(rhs, copy=False)
         return rv
 
@@ -394,8 +396,7 @@ class Structure(list):
 
 
     def __getslice__(self, lo, hi):
-        rv = Structure()
-        rv.__dict__.update(self.__dict__)
+        rv = self.__emptySharedStructure()
         rv.extend(list.__getslice__(self, lo, hi), copy=False)
         return rv
 
@@ -563,5 +564,12 @@ class Structure(list):
             setattr(self, attrname, False)
         return
 
+
+    def __emptySharedStructure(self):
+        '''Return empty Structure with standard attributes same as in self.
+        '''
+        rv = Structure()
+        rv.__dict__.update([(k, getattr(self, k)) for k in rv.__dict__])
+        return rv
 
 # End of class Structure

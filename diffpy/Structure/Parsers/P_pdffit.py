@@ -163,12 +163,10 @@ class P_pdffit(StructureParser):
 
         Return list of strings.
         """
-        # first, convert stru to PDFFitStructure
-        if not isinstance(stru, PDFFitStructure):
-            pfstru = PDFFitStructure()
-            pfstru.__dict__.update(stru.__dict__)
-            pfstru[:] = stru[:]
-            stru = pfstru
+        # build the stru_pdffit dictionary initialized from the defaults
+        # in PDFFitStructure
+        stru_pdffit = PDFFitStructure().pdffit
+        stru_pdffit.update(getattr(stru, 'pdffit', {}))
         lines = []
         # default values of standard deviations
         d_sigxyz = numpy.zeros(3, dtype=float)
@@ -178,24 +176,24 @@ class P_pdffit(StructureParser):
         l = "title  " + stru.title
         lines.append( l.strip() )
         lines.append( "format pdffit" )
-        lines.append( "scale  %9.6f" % stru.pdffit["scale"] )
+        lines.append( "scale  %9.6f" % stru_pdffit["scale"] )
         lines.append( "sharp  %9.6f, %9.6f, %9.6f, %9.6f" % (
-            stru.pdffit["delta2"],
-            stru.pdffit["delta1"],
-            stru.pdffit["sratio"],
-            stru.pdffit["rcut"]) )
-        lines.append( "spcgr   " + stru.pdffit["spcgr"] )
-        if stru.pdffit.get('spdiameter', 0.0) > 0.0:
-            line = 'shape   sphere, %g' % stru.pdffit['spdiameter']
+            stru_pdffit["delta2"],
+            stru_pdffit["delta1"],
+            stru_pdffit["sratio"],
+            stru_pdffit["rcut"]) )
+        lines.append( "spcgr   " + stru_pdffit["spcgr"] )
+        if stru_pdffit.get('spdiameter', 0.0) > 0.0:
+            line = 'shape   sphere, %g' % stru_pdffit['spdiameter']
             lines.append(line)
-        if stru.pdffit.get('stepcut', 0.0) > 0.0:
-            line = 'shape   stepcut, %g' % stru.pdffit['stepcut']
+        if stru_pdffit.get('stepcut', 0.0) > 0.0:
+            line = 'shape   stepcut, %g' % stru_pdffit['stepcut']
             lines.append(line)
         lat = stru.lattice
         lines.append( "cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % (
             lat.a, lat.b, lat.c, lat.alpha, lat.beta, lat.gamma) )
         lines.append( "dcell  %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" %
-            tuple(stru.pdffit["dcell"]) )
+            tuple(stru_pdffit["dcell"]) )
         lines.append( "ncell  %9i, %9i, %9i, %9i" % (1, 1, 1, len(stru)) )
         lines.append( "atoms" )
         for a in stru:

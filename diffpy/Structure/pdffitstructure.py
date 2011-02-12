@@ -34,7 +34,7 @@ class PDFFitStructure(Structure):
         Structure.__init__(self, *args, **kwargs)
         # do not overwrite self.pdffit, when instantiated as a copy
         # of existing PDFFitStructure
-        if not hasattr(self, 'pdffit'):
+        if not getattr(self, 'pdffit', None):
             self.pdffit = {
                 'scale' : 1.0,
                 'delta1' : 0.0,
