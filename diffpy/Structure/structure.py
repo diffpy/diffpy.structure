@@ -39,7 +39,7 @@ class Structure(list):
     # Default values for attributes that are inmutable objects
     title = ''
     _lattice = None
-    pdffit = {}
+    pdffit = None
     _labels = {}
     _labels_cached = False
 
@@ -545,7 +545,7 @@ class Structure(list):
 
         No return value.
         """
-        kv = zip(self.getLabels(), self[:])
+        kv = zip(self.getLabels(), self)
         self._labels = dict(kv)
         self._labels_cached = True
         return
