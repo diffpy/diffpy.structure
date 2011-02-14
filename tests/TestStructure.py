@@ -20,11 +20,14 @@ __id__ = "$Id$"
 import os
 import copy
 import unittest
+import numpy
 
 # useful variables
 thisfile = locals().get('__file__', 'TestStructure.py')
 tests_dir = os.path.dirname(os.path.abspath(thisfile))
 testdata_dir = os.path.join(tests_dir, 'testdata')
+cdsefile = os.path.join(testdata_dir, 'CdSe_bulk.stru')
+pbtefile = os.path.join(testdata_dir, 'PbTe.cif')
 
 from diffpy.Structure import Structure, StructureFormatError
 from diffpy.Structure import Lattice
@@ -66,7 +69,6 @@ class TestStructure(unittest.TestCase):
     def test___copy__(self):
         """check Structure.__copy__()
         """
-        cdsefile = os.path.join(testdata_dir, 'CdSe_bulk.stru')
         cdse = Structure(filename=cdsefile)
         cdse_str = cdse.writeStr('pdffit')
         cdse2 = copy.copy(cdse)
@@ -106,7 +108,6 @@ class TestStructure(unittest.TestCase):
         self.failUnless(a0 is self.stru.getAtom("C1"))
         self.failUnless(a1 is self.stru.getAtom("C2"))
         # check if labels get properly updated
-        cdsefile = os.path.join(testdata_dir, 'CdSe_bulk.stru')
         cdse = Structure(filename=cdsefile)
         self.stru[1:1] = cdse
         self.failUnless(a0 is self.stru.getAtom("C1"))
@@ -119,7 +120,6 @@ class TestStructure(unittest.TestCase):
         """check Structure.getLabels()
         """
         self.assertEqual(["C1", "C2"], self.stru.getLabels())
-        pbtefile = os.path.join(testdata_dir, 'PbTe.cif')
         self.stru.read(pbtefile, format='cif')
         labels = self.stru.getLabels()
         self.assertEqual("Pb2+1", labels[0])
@@ -142,10 +142,13 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(0, self.stru.distance(0, "C1"))
         return
 
-#   def test_angle(self):
-#       """check Structure.angle()
-#       """
-#       return
+    def test_angle(self):
+        """check Structure.angle()
+        """
+        cdse = Structure(filename=cdsefile)
+        self.assertEqual(109, round(cdse.angle(0, 2, 1)))
+        self.assertEqual(109, round(cdse.angle("Cd1", "Se1", "Cd2")))
+        return
 
     def test_placeInLattice(self):
         """check Structure.placeInLattice() -- conversion of coordinates
@@ -177,32 +180,135 @@ class TestStructure(unittest.TestCase):
 #       """check Structure.writeStr()
 #       """
 #       return
-#
-#   def test_append(self):
-#       """check Structure.append()
-#       """
-#       return
-#
-#   def test_insert(self):
-#       """check Structure.insert()
-#       """
-#       return
-#
-#   def test_extend(self):
-#       """check Structure.extend()
-#       """
-#       return
-#
-#   def test___setitem__(self):
-#       """check Structure.__setitem__()
-#       """
-#       return
-#
-#   def test___setslice__(self):
-#       """check Structure.__setslice__()
-#       """
-#       return
-#
+
+    def test_aslist(self):
+        """check Structure.aslist()
+        """
+        lst = self.stru.aslist()
+        self.assertEqual(tuple(lst), tuple(self.stru))
+        self.assertEqual(list, type(lst))
+        return
+
+    def test_append(self):
+        """check Structure.append()
+        """
+        a = Atom("Si", (0.1, 0.2, 0.3))
+        lat = self.stru.lattice
+        self.stru.append(a)
+        alast = self.stru[-1]
+        self.assertEqual(3, len(self.stru))
+        self.assertEqual('Si', alast.element)
+        self.failUnless(lat is alast.lattice)
+        self.failUnless(numpy.array_equal(a.xyz, alast.xyz))
+        self.failIf(a is alast)
+        self.failIf(lat is a.lattice)
+        return
+
+    def test_insert(self):
+        """check Structure.insert()
+        """
+        a = Atom("Si", (0.1, 0.2, 0.3))
+        lat = self.stru.lattice
+        self.stru.insert(1, a)
+        a1 = self.stru[1]
+        self.assertEqual(3, len(self.stru))
+        self.assertEqual('Si', a1.element)
+        self.failUnless(lat is a1.lattice)
+        self.failUnless(numpy.array_equal(a.xyz, a1.xyz))
+        self.failIf(a is a1)
+        self.failIf(lat is a.lattice)
+        return
+
+    def test_extend(self):
+        """check Structure.extend()
+        """
+        stru = self.stru
+        cdse = Structure(filename=cdsefile)
+        lst = stru.aslist()
+        stru.extend(cdse)
+        self.assertEqual(6, len(stru))
+        self.failUnless(all([a.lattice is stru.lattice for a in stru]))
+        self.failUnless(stru.lattice is a.lattice)
+        self.assertEqual(lst, stru.aslist()[:2])
+        self.assertNotEqual(stru[-1], cdse[-1])
+        return
+
+    def test___getitem__(self):
+        """check Structure.__getitem__()
+        """
+        stru = self.stru
+        self.failUnless(stru[0] is stru.aslist()[0])
+        intidx = range(len(stru))[::-1]
+        self.assertEqual(stru[intidx].aslist(), stru.aslist()[::-1])
+        flagidx = (numpy.arange(len(stru)) > 0)
+        self.assertEqual(stru[flagidx].aslist(), stru.aslist()[1:])
+        return
+
+    def test___setitem__(self):
+        """check Structure.__setitem__()
+        """
+        a = Atom("Si", (0.1, 0.2, 0.3))
+        lat = self.stru.lattice
+        self.stru[1] = a
+        a1 = self.stru[1]
+        self.assertEqual(2, len(self.stru))
+        self.assertEqual('Si', a1.element)
+        self.failUnless(lat is a1.lattice)
+        self.failUnless(numpy.array_equal(a.xyz, a1.xyz))
+        self.failIf(a is a1)
+        self.failIf(lat is a.lattice)
+        return
+
+    def test___setslice__(self):
+        """check Structure.__setslice__()
+        """
+        a = Atom("Si", (0.1, 0.2, 0.3))
+        lat = self.stru.lattice
+        self.stru[:] = [a]
+        a0 = self.stru[0]
+        self.assertEqual(1, len(self.stru))
+        self.assertEqual('Si', a0.element)
+        self.failUnless(lat is a0.lattice)
+        self.failUnless(numpy.array_equal(a.xyz, a0.xyz))
+        self.failIf(a is a0)
+        self.failIf(lat is a.lattice)
+        return
+
+    def test___add__(self):
+        """check Structure.__add__()
+        """
+        stru = self.stru
+        cdse = Structure(filename=cdsefile)
+        total = stru + cdse
+        self.assertEqual(6, len(total))
+        ta0 = total[0]
+        tam1 = total[-1]
+        self.assertEqual('C', ta0.element)
+        self.failUnless(numpy.array_equal(stru[0].xyz, ta0.xyz))
+        self.assertEqual('Se', tam1.element)
+        self.failUnless(numpy.array_equal(cdse[-1].xyz, tam1.xyz))
+        self.failIf(total.lattice in (stru.lattice, cdse.lattice))
+        self.failUnless(all([a.lattice is total.lattice for a in total]))
+        return
+
+    def test___iadd__(self):
+        """check Structure.__iadd__()
+        """
+        stru = self.stru
+        lat0 = stru.lattice
+        lst = stru.aslist()
+        cdse = Structure(filename=cdsefile)
+        stru += cdse
+        self.assertEqual(6, len(stru))
+        self.assertEqual(lst, stru[:2].aslist())
+        am1 = stru[-1]
+        self.assertEqual('Se', am1.element)
+        self.failUnless(numpy.array_equal(cdse[-1].xyz, am1.xyz))
+        self.failUnless(lat0 is stru.lattice)
+        self.failIf(stru.lattice is cdse.lattice)
+        self.failUnless(all([a.lattice is stru.lattice for a in stru]))
+        return
+
 #   def test__get_lattice(self):
 #       """check Structure._get_lattice()
 #       """

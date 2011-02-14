@@ -17,7 +17,6 @@
 
 __id__ = "$Id$"
 
-import types
 import numpy
 
 
