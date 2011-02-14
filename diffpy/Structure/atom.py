@@ -107,7 +107,7 @@ class Atom(object):
         lattice     -- coordinate system for fractional coordinates
         """
         # declare data members
-        self.element = ''
+        self.element = None
         self.xyz = numpy.zeros(3, dtype=float)
         self.name = ''
         self.occupancy = 1.0
@@ -119,7 +119,7 @@ class Atom(object):
         # assign them as needed
         if isinstance(atype, Atom):
             atype.__copy__(target=self)
-        elif atype is not None:
+        else:
             self.element = atype
         # take care of remaining arguments
         if xyz is not None:         self.xyz[:] = xyz

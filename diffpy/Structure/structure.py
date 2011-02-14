@@ -17,7 +17,7 @@
 
 __id__ = "$Id$"
 
-from copy import deepcopy
+import copy
 import numpy
 from diffpy.Structure.lattice import Lattice
 from diffpy.Structure.atom import Atom
@@ -36,7 +36,8 @@ class Structure(list):
         lattice -- coordinate system (instance of Lattice)
     """
 
-    # Default values for attributes that are inmutable objects
+    # default values for instance attributes
+
     title = ''
     _lattice = None
     pdffit = None
@@ -105,7 +106,7 @@ class Structure(list):
         # copy attributes as appropriate:
         target.title = self.title
         target.lattice = Lattice(self.lattice)
-        target.pdffit = deepcopy(self.pdffit)
+        target.pdffit = copy.deepcopy(self.pdffit)
         target._labels = {}
         target._labels_cached = False
         # copy all atoms to the target
@@ -311,9 +312,14 @@ class Structure(list):
         s = p.tostring(self)
         return s
 
-    ##############################################################################
-    # overloaded list methods
-    ##############################################################################
+
+    def aslist(self):
+        '''Return atoms in this Structure as a standard Python list.
+        '''
+        rv = [a for a in self]
+        return rv
+
+    # Overloaded List Methods ------------------------------------------------
 
     def append(self, a, copy=True):
         """Append atom to a structure and update its lattice attribute.
@@ -418,6 +424,83 @@ class Structure(list):
         for a in adups: a.lattice = self.lattice
         list.__setslice__(self, lo, hi, adups)
         return
+
+
+    def __add__(self, other):
+        '''Return new Structure object with appended atoms from other.
+
+        other    -- sequence of Atom instances
+
+        Return new Structure with a copy of Atom instances.
+        '''
+        rv = copy.copy(self)
+        rv += other
+        return rv
+
+
+    def __iadd__(self, other):
+        '''Extend this Structure with atoms from other.
+
+        other    -- sequence of Atom instances
+
+        Return self.
+        '''
+        self.extend(other)
+        return self
+
+
+    def __sub__(self, other):
+        '''Return new Structure that has atoms from the other removed.
+
+        other    -- sequence of Atom instances
+
+        Return new Structure with a copy of Atom instances.
+        '''
+        otherset = set(other)
+        keepindices = [i for i, a in enumerate(self) if not a in otherset]
+        rv = copy.copy(self[keepindices])
+        return rv
+
+
+    def __isub__(self, other):
+        '''Remove other atoms if present in this structure.
+
+        other    -- sequence of Atom instances
+
+        Return self.
+        '''
+        otherset = set(other)
+        self[:] = [a for a in self if a not in otherset]
+        return self
+
+
+    def __mul__(self, n):
+        '''Return new Structure with n-times concatenated atoms from self.
+        Atoms and lattice in the new structure are all copies.
+
+        n    -- integer multiple
+
+        Return new Structure.
+        '''
+        rv = copy.copy(self[:0])
+        rv += n * self.aslist()
+        return rv
+
+
+    def __imul__(self, n):
+        '''Concatenate this Structure to n-times more atoms.
+        For positive multiple the current Atom objects remain at the
+        beginning of this Structure.
+
+        n    -- integer multiple
+
+        Return self.
+        '''
+        if n <= 0:
+            self[:] = []
+        else:
+            self.extend((n - 1) * self.aslist())
+        return self
 
     ####################################################################
     # property handlers
@@ -536,9 +619,7 @@ class Structure(list):
         '''Array of B23 elements of the Debye-Waller displacement tensors.
         Assignment updates the U and anisotropy attributes of all atoms.''')
 
-    ####################################################################
-    # protected methods
-    ####################################################################
+    # protected methods ------------------------------------------------------
 
     def _update_labels(self):
         """Update the _labels dictionary of unique string labels of atoms.
