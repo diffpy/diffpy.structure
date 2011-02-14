@@ -419,8 +419,11 @@ class Structure(list):
         No return value.
         """
         self._uncache('labels')
-        if copy:    adups = [Atom(a) for a in atoms]
-        else:       adups = atoms
+        if copy:
+            ownatoms = set(list.__getslice__(self, lo, hi))
+            adups = [(a in ownatoms and a or Atom(a)) for a in atoms]
+        else:
+            adups = atoms
         for a in adups: a.lattice = self.lattice
         list.__setslice__(self, lo, hi, adups)
         return
@@ -485,6 +488,9 @@ class Structure(list):
         rv = copy.copy(self[:0])
         rv += n * self.aslist()
         return rv
+
+    # right-side multiplication is the same as left-side
+    __rmul__ = __mul__
 
 
     def __imul__(self, n):

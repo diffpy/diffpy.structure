@@ -42,6 +42,7 @@ class TestStructure(unittest.TestCase):
                 lattice=Lattice(1, 1, 1, 90, 90, 120) )
         self.places = 12
 
+
     def assertListAlmostEqual(self, l1, l2, places=None):
         """wrapper for list comparison"""
         if places is None: places = self.places
@@ -142,6 +143,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(0, self.stru.distance(0, "C1"))
         return
 
+
     def test_angle(self):
         """check Structure.angle()
         """
@@ -149,6 +151,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(109, round(cdse.angle(0, 2, 1)))
         self.assertEqual(109, round(cdse.angle("Cd1", "Se1", "Cd2")))
         return
+
 
     def test_placeInLattice(self):
         """check Structure.placeInLattice() -- conversion of coordinates
@@ -189,6 +192,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(list, type(lst))
         return
 
+
     def test_append(self):
         """check Structure.append()
         """
@@ -203,6 +207,7 @@ class TestStructure(unittest.TestCase):
         self.failIf(a is alast)
         self.failIf(lat is a.lattice)
         return
+
 
     def test_insert(self):
         """check Structure.insert()
@@ -219,6 +224,7 @@ class TestStructure(unittest.TestCase):
         self.failIf(lat is a.lattice)
         return
 
+
     def test_extend(self):
         """check Structure.extend()
         """
@@ -233,6 +239,7 @@ class TestStructure(unittest.TestCase):
         self.assertNotEqual(stru[-1], cdse[-1])
         return
 
+
     def test___getitem__(self):
         """check Structure.__getitem__()
         """
@@ -243,6 +250,7 @@ class TestStructure(unittest.TestCase):
         flagidx = (numpy.arange(len(stru)) > 0)
         self.assertEqual(stru[flagidx].aslist(), stru.aslist()[1:])
         return
+
 
     def test___setitem__(self):
         """check Structure.__setitem__()
@@ -259,6 +267,7 @@ class TestStructure(unittest.TestCase):
         self.failIf(lat is a.lattice)
         return
 
+
     def test___setslice__(self):
         """check Structure.__setslice__()
         """
@@ -273,6 +282,7 @@ class TestStructure(unittest.TestCase):
         self.failIf(a is a0)
         self.failIf(lat is a.lattice)
         return
+
 
     def test___add__(self):
         """check Structure.__add__()
@@ -290,6 +300,7 @@ class TestStructure(unittest.TestCase):
         self.failIf(total.lattice in (stru.lattice, cdse.lattice))
         self.failUnless(all([a.lattice is total.lattice for a in total]))
         return
+
 
     def test___iadd__(self):
         """check Structure.__iadd__()
@@ -309,16 +320,90 @@ class TestStructure(unittest.TestCase):
         self.failUnless(all([a.lattice is stru.lattice for a in stru]))
         return
 
-#   def test__get_lattice(self):
-#       """check Structure._get_lattice()
-#       """
-#       return
-#
-#   def test__set_lattice(self):
-#       """check Structure._set_lattice()
-#       """
-#       return
-#
+
+    def test___sub__(self):
+        """check Structure.__sub__()
+        """
+        cdse = Structure(filename=cdsefile)
+        cadmiums = cdse - cdse[2:]
+        self.assertEqual(2, len(cadmiums))
+        self.assertEqual('Cd', cadmiums[0].element)
+        self.assertEqual('Cd', cadmiums[1].element)
+        self.failUnless(numpy.array_equal(cdse[0].xyz, cadmiums[0].xyz))
+        self.failUnless(numpy.array_equal(cdse[1].xyz, cadmiums[1].xyz))
+        self.failIf(cdse[0] is cadmiums[0])
+        self.failIf(cdse.lattice is cadmiums.lattice)
+        return
+
+
+    def test___isub__(self):
+        """check Structure.__isub__()
+        """
+        cdse = Structure(filename=cdsefile)
+        lat = cdse.lattice
+        lst = cdse.aslist()
+        cdse -= cdse[2:]
+        self.assertEqual(2, len(cdse))
+        self.assertEqual(4, len(lst))
+        self.assertEqual('Cd', cdse[0].element)
+        self.assertEqual('Cd', cdse[1].element)
+        self.assertEqual(lat, cdse.lattice)
+        self.assertEqual(lst[:2], cdse.aslist())
+        return
+
+
+    def test___mul__(self):
+        """check Structure.__mul__()
+        """
+        cdse = Structure(filename=cdsefile)
+        self.assertEqual(12, len(set(3 * cdse)))
+        self.assertEqual(12, len(set(cdse * 3)))
+        cdsex3 = 3 * cdse
+        self.assertEqual(12, len(cdsex3))
+        self.assertEqual(3 * 'Cd Cd Se Se'.split(),
+            [a.element for a in cdsex3])
+        self.failUnless(numpy.array_equal(3 * [a.xyz for a in cdse],
+            [a.xyz for a in cdsex3]))
+        self.failIf(set(cdse).intersection(cdsex3))
+        self.failIf(cdse.lattice is cdsex3.lattice)
+        return
+
+
+    def test___imul__(self):
+        """check Structure.__imul__()
+        """
+        cdse = Structure(filename=cdsefile)
+        lat = cdse.lattice
+        els = cdse.element
+        xyz = cdse.xyz
+        lst = cdse.aslist()
+        cdse *= 2
+        self.assertEqual(8, len(cdse))
+        self.assertEqual(lst, cdse[:4].aslist())
+        self.assertEqual(numpy.tile(els, 2).tolist(), cdse.element.tolist())
+        self.failUnless(numpy.array_equal(numpy.tile(xyz, (2, 1)), cdse.xyz))
+        self.assertEqual(8, len(set(cdse)))
+        self.assertEqual(8 * [lat], [a.lattice for a in cdse])
+        return
+
+    def test__get_lattice(self):
+        """check Structure._get_lattice()
+        """
+        lat = Lattice()
+        stru = Structure()
+        self.assertEqual((1, 1, 1, 90, 90, 90), stru.lattice.abcABG())
+        stru2 = Structure(lattice=lat)
+        self.failUnless(lat is stru2.lattice)
+        return
+
+    def test__set_lattice(self):
+        """check Structure._set_lattice()
+        """
+        lat = Lattice()
+        self.stru.lattice = lat
+        self.assertEqual(2 * [lat], [a.lattice for a in self.stru])
+        return
+
 #   def test__update_labels(self):
 #       """check Structure._update_labels()
 #       """
