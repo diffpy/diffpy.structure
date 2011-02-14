@@ -82,7 +82,7 @@ class Atom(object):
         _Uisoequiv  -- storage of Uisoequiv property, float
         _anisotropy -- storage of anisotropy property, bool or
                        None when not determined
-        _Uijsynced  -- flag for consistency of _U with _Uisoequiv,
+        _Usynced    -- flag for consistency of _U with _Uisoequiv,
                        it is meaningful only for isotropic atoms
 
     Class data:
@@ -107,7 +107,7 @@ class Atom(object):
         lattice     -- coordinate system for fractional coordinates
         """
         # declare data members
-        self.element = None
+        self.element = ''
         self.xyz = numpy.zeros(3, dtype=float)
         self.name = ''
         self.occupancy = 1.0
@@ -118,9 +118,8 @@ class Atom(object):
         self.lattice = None
         # assign them as needed
         if isinstance(atype, Atom):
-            atype_dup = atype.__copy__()
-            self.__dict__.update(atype_dup.__dict__)
-        else:
+            atype.__copy__(target=self)
+        elif atype is not None:
             self.element = atype
         # take care of remaining arguments
         if xyz is not None:         self.xyz[:] = xyz
@@ -175,15 +174,18 @@ class Atom(object):
                 (self.element, xyz[0], xyz[1], xyz[2], self.occupancy)
         return s
 
-    def __copy__(self):
+    def __copy__(self, target=None):
         """Return a copy of this instance.
         """
-        adup = Atom()
-        adup.__dict__.update(self.__dict__)
-        # create copies for what should be copied
-        adup.xyz = numpy.array(adup.xyz)
-        adup._U = numpy.array(adup._U)
-        return adup
+        if target is None:
+            target = Atom()
+        elif target is self:
+            return target
+        target.__dict__.update(self.__dict__)
+        target.xyz = numpy.copy(self.xyz)
+        target._U = numpy.copy(self._U)
+        return target
+
 
     ####################################################################
     # property handlers
@@ -232,7 +234,7 @@ class Atom(object):
             # compare with new value
             maxUdiff = numpy.max(numpy.fabs(self._U - Uisoij))
             self._anisotropy = bool(maxUdiff > Atom.tol_anisotropy)
-            self._Uijsynced = False
+            self._Usynced = False
         return self._anisotropy
 
     def _set_anisotropy(self, value):
@@ -243,7 +245,7 @@ class Atom(object):
         # otherwise convert from anisotropic to isotropic
         else:
             self._Uisoequiv = self._get_Uisoequiv()
-            self._Uijsynced = False
+            self._Usynced = False
         self._anisotropy = bool(value)
         return
 
@@ -256,11 +258,11 @@ class Atom(object):
     def _get_U(self):
         # for isotropic non-synced case we need to
         # calculate _U from _Uisoequiv
-        if self._anisotropy is False and not self._Uijsynced:
+        if self._anisotropy is False and not self._Usynced:
             lat = self.lattice or cartesian_lattice
             Tu = lat.recnormbase
             self._U = numpy.dot(numpy.transpose(Tu), self._Uisoequiv*Tu)
-            self._Uijsynced = True
+            self._Usynced = True
         # handle can be changed by the caller
         self._anisotropy = None
         return self._U
@@ -323,7 +325,7 @@ class Atom(object):
     def _set_Uisoequiv(self, value):
         double_eps = (1.0 + numpy.sqrt(2.0**-52)) - 1.0
         self._Uisoequiv = float(value)
-        self._Uijsynced = False
+        self._Usynced = False
         if self._get_anisotropy():
             Uequiv = self._get_Uisoequiv()
             # scale if Uequiv is not zero
@@ -334,7 +336,7 @@ class Atom(object):
             lat = self.lattice or cartesian_lattice
             Tu = lat.recnormbase
             self._U = numpy.dot(numpy.transpose(Tu), value*Tu)
-            self._Uijsynced = True
+            self._Usynced = True
         return
 
     Uisoequiv = property(_get_Uisoequiv, _set_Uisoequiv, doc =
