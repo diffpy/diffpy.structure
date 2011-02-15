@@ -21,26 +21,36 @@ import os
 import copy
 import unittest
 import numpy
+from diffpy.Structure import Structure, StructureFormatError
+from diffpy.Structure import Lattice
+from diffpy.Structure import Atom
 
 # useful variables
 thisfile = locals().get('__file__', 'TestStructure.py')
 tests_dir = os.path.dirname(os.path.abspath(thisfile))
 testdata_dir = os.path.join(tests_dir, 'testdata')
 cdsefile = os.path.join(testdata_dir, 'CdSe_bulk.stru')
+teifile = os.path.join(testdata_dir, 'TeI.cif')
 pbtefile = os.path.join(testdata_dir, 'PbTe.cif')
-
-from diffpy.Structure import Structure, StructureFormatError
-from diffpy.Structure import Lattice
-from diffpy.Structure import Atom
 
 ##############################################################################
 class TestStructure(unittest.TestCase):
     """test methods of Structure class"""
 
+    _loaded_structures = {}
+
     def setUp(self):
         self.stru = Structure( [ Atom('C', [0,0,0]), Atom('C', [1,1,1]) ],
                 lattice=Lattice(1, 1, 1, 90, 90, 120) )
+        if not self._loaded_structures:
+            self._loaded_structures.update([
+                ('cdse', Structure(filename=cdsefile)),
+                ('tei', Structure(filename=teifile)),
+                ('pbte', Structure(filename=pbtefile)),
+                ])
+        self.__dict__.update(self._loaded_structures)
         self.places = 12
+        return
 
 
     def assertListAlmostEqual(self, l1, l2, places=None):
@@ -386,6 +396,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(8 * [lat], [a.lattice for a in cdse])
         return
 
+
     def test__get_lattice(self):
         """check Structure._get_lattice()
         """
@@ -396,6 +407,7 @@ class TestStructure(unittest.TestCase):
         self.failUnless(lat is stru2.lattice)
         return
 
+
     def test__set_lattice(self):
         """check Structure._set_lattice()
         """
@@ -403,6 +415,199 @@ class TestStructure(unittest.TestCase):
         self.stru.lattice = lat
         self.assertEqual(2 * [lat], [a.lattice for a in self.stru])
         return
+
+
+    def test_element(self):
+        """check Structure.element
+        """
+        stru = self.stru
+        cdse = self.cdse
+        self.assertEqual('Cd Cd Se Se'.split(), cdse.element.tolist())
+        self.assertEqual(cdse[:2], cdse[cdse.element == 'Cd'])
+        stru.element = stru.element.replace('C', 'Si')
+        self.assertEqual('Si', stru[0].element)
+        return
+
+
+    def test_xyz(self):
+        """check Structure.xyz
+        """
+        stru = self.stru
+        self.assertEqual((2, 3), stru.xyz.shape)
+        self.failUnless(numpy.array_equal([1, 1, 1], stru.xyz[1]))
+        stru.xyz += 0.1
+        self.failUnless(numpy.array_equal([0.1, 0.1, 0.1], stru[0].xyz))
+        self.failUnless(numpy.array_equal([1.1, 1.1, 1.1], stru[1].xyz))
+        return
+
+
+    def test_x(self):
+        """check Structure.x
+        """
+        cdse = self.cdse
+        self.assertEqual((4,), cdse.x.shape)
+        self.assertAlmostEqual(0.6666, cdse.x[3], 5)
+        stru = self.stru
+        stru.x = [3, 4]
+        self.assertEqual(3, stru[0].xyz[0])
+        self.assertEqual(4, stru[1].xyz[0])
+        return
+
+
+    def test_y(self):
+        """check Structure.y
+        """
+        cdse = self.cdse
+        self.assertEqual((4,), cdse.y.shape)
+        self.assertAlmostEqual(0.3333, cdse.y[3], 5)
+        stru = self.stru
+        stru.y = [3, 4]
+        self.assertEqual(3, stru[0].xyz[1])
+        self.assertEqual(4, stru[1].xyz[1])
+        return
+
+
+    def test_z(self):
+        """check Structure.z
+        """
+        cdse = self.cdse
+        self.assertEqual((4,), cdse.z.shape)
+        self.assertAlmostEqual(0.87667, cdse.z[3], 5)
+        stru = self.stru
+        stru.z = [3, 4]
+        self.assertEqual(3, stru[0].xyz[2])
+        self.assertEqual(4, stru[1].xyz[2])
+        return
+
+
+#   def test_label(self):
+#       """check Structure.label
+#       """
+#       return
+
+
+    def test_occupancy(self):
+        """check Structure.occupancy
+        """
+        cdse = self.cdse
+        self.failUnless(numpy.array_equal(numpy.ones(4), cdse.occupancy))
+        self.stru.occupancy *= 0.5
+        self.assertEqual(1.0, sum([a.occupancy for a in self.stru]))
+        return
+
+
+    def test_xyz_cartn(self):
+        """check Structure.xyz_cartn
+        """
+        pbte = copy.copy(self.pbte)
+        self.assertEqual((8, 3), pbte.xyz_cartn.shape)
+        self.failUnless(numpy.allclose(6.461 / 2.0 * numpy.ones(3),
+            pbte.xyz_cartn[0]))
+        pbte.xyz_cartn += numpy.array([0.1, 0.2, 0.3]) * 6.461
+        self.failUnless(numpy.allclose([0.6, 0.7, 0.8], pbte[0].xyz))
+        self.failUnless(numpy.allclose([0.6, 0.7, 0.3], pbte[7].xyz))
+        return
+
+
+    def test_anisotropy(self):
+        """check Structure.anisotropy
+        """
+        self.assertEqual((2,), self.stru.anisotropy.shape)
+        self.failIf(numpy.any(self.stru.anisotropy))
+        tei = copy.copy(self.tei)
+        self.failUnless(numpy.all(tei.anisotropy))
+        tei.anisotropy = False
+        self.failIf(numpy.any(tei.anisotropy))
+        self.assertAlmostEqual(0.019227, tei[0].U11, 6)
+        self.assertAlmostEqual(0.019227, tei[0].U22, 6)
+        self.assertAlmostEqual(0.019227, tei[0].U33, 6)
+        self.assertAlmostEqual(0.0, tei[0].U12, 6)
+        self.assertAlmostEqual(0.019227 * -numpy.cos(numpy.radians(128.09)),
+                tei[0].U13, 6)
+        self.assertAlmostEqual(0.0, tei[0].U23, 6)
+        self.assertAlmostEqual(0.019227, tei[0].Uisoequiv, 6)
+        return
+
+
+    def test_U(self):
+        """check Structure.U
+        """
+        stru = self.stru
+        self.assertEqual((2, 3, 3), stru.U.shape)
+        self.failIf(numpy.any(stru.anisotropy))
+        stru.U = numpy.identity(3)
+        self.assertEqual(2, len(set([id(a.U) for a in stru])))
+        self.failUnless(numpy.array_equal(2 * [numpy.identity(3)], stru.U))
+        self.failUnless(numpy.all(stru.anisotropy))
+        stru.U = 0
+        self.failIf(numpy.any(stru.anisotropy))
+        self.failIf(numpy.any(stru.U != 0.0))
+        return
+
+
+    def test_Uisoequiv(self):
+        """check Structure.Uisoequiv
+        """
+        tei = copy.copy(self.tei)
+        self.assertEqual((16,), tei.Uisoequiv.shape)
+        self.assertAlmostEqual(0.019227, tei.Uisoequiv[0], 6)
+        self.assertAlmostEqual(0.019784, tei.Uisoequiv[4], 6)
+        self.assertAlmostEqual(0.024813, tei.Uisoequiv[8], 6)
+        self.assertAlmostEqual(0.026878, tei.Uisoequiv[12], 6)
+        u11old = tei[0].U11
+        tei.Uisoequiv = 0.001
+        self.assertAlmostEqual(u11old * 0.001/0.019227, tei[0].U[0,0])
+        return
+
+
+    def test_Uij(self):
+        """check Structure.Uij
+        """
+        stru = self.stru
+        stru[1].U = [[1.1, 0.12, 0.13], [0.12, 2.2, 0.23], [0.13, 0.23, 3.3]]
+        self.failUnless(numpy.array_equal([0, 1.1], stru.U11))
+        self.failUnless(numpy.array_equal([0, 2.2], stru.U22))
+        self.failUnless(numpy.array_equal([0, 3.3], stru.U33))
+        self.failUnless(numpy.array_equal([0, 0.12], stru.U12))
+        self.failUnless(numpy.array_equal([0, 0.13], stru.U13))
+        self.failUnless(numpy.array_equal([0, 0.23], stru.U23))
+        stru.U11 = stru.U22 = stru.U33 = stru.U12 = stru.U13 = stru.U23 = 0.0
+        self.failIf(numpy.any(stru.U != 0.0))
+        return
+
+
+    def test_Bisoequiv(self):
+        """check Structure.Bisoequiv
+        """
+        utob = 8 * numpy.pi**2
+        tei = copy.copy(self.tei)
+        self.assertEqual((16,), tei.Bisoequiv.shape)
+        self.assertAlmostEqual(utob * 0.019227, tei.Bisoequiv[0], 4)
+        self.assertAlmostEqual(utob * 0.019784, tei.Bisoequiv[4], 4)
+        self.assertAlmostEqual(utob * 0.024813, tei.Bisoequiv[8], 4)
+        self.assertAlmostEqual(utob * 0.026878, tei.Bisoequiv[12], 4)
+        b11old = tei[0].B11
+        tei.Bisoequiv = 0.1
+        self.assertAlmostEqual(b11old * 0.1/(utob * 0.019227), tei[0].B11, 5)
+        return
+
+
+    def test_Bij(self):
+        """check Structure.Bij
+        """
+        stru = self.stru
+        stru[1].U = [[1.1, 0.12, 0.13], [0.12, 2.2, 0.23], [0.13, 0.23, 3.3]]
+        stru[1].U /= 8 * numpy.pi**2
+        self.failUnless(numpy.allclose([0, 1.1], stru.B11))
+        self.failUnless(numpy.allclose([0, 2.2], stru.B22))
+        self.failUnless(numpy.allclose([0, 3.3], stru.B33))
+        self.failUnless(numpy.allclose([0, 0.12], stru.B12))
+        self.failUnless(numpy.allclose([0, 0.13], stru.B13))
+        self.failUnless(numpy.allclose([0, 0.23], stru.B23))
+        stru.B11 = stru.B22 = stru.B33 = stru.B12 = stru.B13 = stru.B23 = 0.0
+        self.failIf(numpy.any(stru.U != 0.0))
+        return
+
 
 #   def test__update_labels(self):
 #       """check Structure._update_labels()

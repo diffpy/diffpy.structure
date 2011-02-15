@@ -58,7 +58,7 @@ class TestP_cif(unittest.TestCase):
     badciffile = os.path.join(testdata_dir, 'LiCl-bad.cif')
     graphiteciffile = os.path.join(testdata_dir, 'graphite.cif')
     cdsebulkpdffitfile = os.path.join(testdata_dir, 'CdSe_bulk.stru')
-    mno2ciffile = os.path.join(testdata_dir, 'MnO2.cif')
+    teiciffile = os.path.join(testdata_dir, 'TeI.cif')
     places = 6
 
     def setUp(self):
@@ -135,8 +135,8 @@ class TestP_cif(unittest.TestCase):
         ugraphite = P_cif().parseFile(unicode(self.graphiteciffile))
         self.assertEqual(4, len(ugraphite))
         # File with full space group name
-        pmno2 = P_cif().parseFile(self.mno2ciffile)
-        self.assertEqual(10 , len(pmno2))
+        ptei = P_cif().parseFile(self.teiciffile)
+        self.assertEqual(16 , len(ptei))
         return
 
 #   def test__parseCifBlock(self):
