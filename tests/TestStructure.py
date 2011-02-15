@@ -185,9 +185,9 @@ class TestStructure(unittest.TestCase):
 #       return
 
     def test_aslist(self):
-        """check Structure.aslist()
+        """check Structure.tolist()
         """
-        lst = self.stru.aslist()
+        lst = self.stru.tolist()
         self.assertEqual(tuple(lst), tuple(self.stru))
         self.assertEqual(list, type(lst))
         return
@@ -230,12 +230,12 @@ class TestStructure(unittest.TestCase):
         """
         stru = self.stru
         cdse = Structure(filename=cdsefile)
-        lst = stru.aslist()
+        lst = stru.tolist()
         stru.extend(cdse)
         self.assertEqual(6, len(stru))
         self.failUnless(all([a.lattice is stru.lattice for a in stru]))
         self.failUnless(stru.lattice is a.lattice)
-        self.assertEqual(lst, stru.aslist()[:2])
+        self.assertEqual(lst, stru.tolist()[:2])
         self.assertNotEqual(stru[-1], cdse[-1])
         return
 
@@ -244,11 +244,11 @@ class TestStructure(unittest.TestCase):
         """check Structure.__getitem__()
         """
         stru = self.stru
-        self.failUnless(stru[0] is stru.aslist()[0])
+        self.failUnless(stru[0] is stru.tolist()[0])
         intidx = range(len(stru))[::-1]
-        self.assertEqual(stru[intidx].aslist(), stru.aslist()[::-1])
+        self.assertEqual(stru[intidx].tolist(), stru.tolist()[::-1])
         flagidx = (numpy.arange(len(stru)) > 0)
-        self.assertEqual(stru[flagidx].aslist(), stru.aslist()[1:])
+        self.assertEqual(stru[flagidx].tolist(), stru.tolist()[1:])
         return
 
 
@@ -307,11 +307,11 @@ class TestStructure(unittest.TestCase):
         """
         stru = self.stru
         lat0 = stru.lattice
-        lst = stru.aslist()
+        lst = stru.tolist()
         cdse = Structure(filename=cdsefile)
         stru += cdse
         self.assertEqual(6, len(stru))
-        self.assertEqual(lst, stru[:2].aslist())
+        self.assertEqual(lst, stru[:2].tolist())
         am1 = stru[-1]
         self.assertEqual('Se', am1.element)
         self.failUnless(numpy.array_equal(cdse[-1].xyz, am1.xyz))
@@ -341,14 +341,14 @@ class TestStructure(unittest.TestCase):
         """
         cdse = Structure(filename=cdsefile)
         lat = cdse.lattice
-        lst = cdse.aslist()
+        lst = cdse.tolist()
         cdse -= cdse[2:]
         self.assertEqual(2, len(cdse))
         self.assertEqual(4, len(lst))
         self.assertEqual('Cd', cdse[0].element)
         self.assertEqual('Cd', cdse[1].element)
         self.assertEqual(lat, cdse.lattice)
-        self.assertEqual(lst[:2], cdse.aslist())
+        self.assertEqual(lst[:2], cdse.tolist())
         return
 
 
@@ -376,10 +376,10 @@ class TestStructure(unittest.TestCase):
         lat = cdse.lattice
         els = cdse.element
         xyz = cdse.xyz
-        lst = cdse.aslist()
+        lst = cdse.tolist()
         cdse *= 2
         self.assertEqual(8, len(cdse))
-        self.assertEqual(lst, cdse[:4].aslist())
+        self.assertEqual(lst, cdse[:4].tolist())
         self.assertEqual(numpy.tile(els, 2).tolist(), cdse.element.tolist())
         self.failUnless(numpy.array_equal(numpy.tile(xyz, (2, 1)), cdse.xyz))
         self.assertEqual(8, len(set(cdse)))

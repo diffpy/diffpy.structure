@@ -313,7 +313,7 @@ class Structure(list):
         return s
 
 
-    def aslist(self):
+    def tolist(self):
         '''Return atoms in this Structure as a standard Python list.
         '''
         rv = [a for a in self]
@@ -486,7 +486,7 @@ class Structure(list):
         Return new Structure.
         '''
         rv = copy.copy(self[:0])
-        rv += n * self.aslist()
+        rv += n * self.tolist()
         return rv
 
     # right-side multiplication is the same as left-side
@@ -505,7 +505,7 @@ class Structure(list):
         if n <= 0:
             self[:] = []
         else:
-            self.extend((n - 1) * self.aslist())
+            self.extend((n - 1) * self.tolist())
         return self
 
     ####################################################################
