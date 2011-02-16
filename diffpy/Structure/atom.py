@@ -24,37 +24,7 @@ from diffpy.Structure import IsotropyError
 _BtoU = 1.0/(8 * numpy.pi**2)
 _UtoB = 1.0/_BtoU
 
-class CartesianCoordinatesArray(numpy.ndarray):
-    """Helper array for accessing Cartesian coordinates.
-    Converts and updates related array of corresponding fractional
-    coordinates.
-
-    Data members:
-        lattice -- instance of Lattice defining fractional coordinates
-        xyz     -- instance of numpy.array storing fractional coordinates
-    """
-
-    def __new__(self, lattice, xyz):
-        return numpy.zeros(3, dtype=float).view(self)
-
-    def __init__(self, lattice, xyz):
-        self.lattice = lattice
-        self.xyz = xyz
-        self[:] = self.lattice.cartesian(self.xyz)
-        pass
-
-    def __setitem__(self, idx, value):
-        """Set idx-th coordinate and update linked self.xyz
-
-        idx     -- index in xyz array
-        value   -- new value of x, y or z
-        """
-        numpy.ndarray.__setitem__(self, idx, value)
-        self.xyz[:] = self.lattice.fractional(self)
-        return
-
-# End of CartesianCoordinatesArray
-
+# ----------------------------------------------------------------------------
 
 class Atom(object):
     """Atom --> class for storing atom information
@@ -207,7 +177,7 @@ class Atom(object):
         if not self.lattice:
             rv = self.xyz
         else:
-            rv = CartesianCoordinatesArray(self.lattice, self.xyz)
+            rv = _AtomCartesianCoordinates(self)
         return rv
 
     def _set_xyz_cartn(self, value):
@@ -375,3 +345,53 @@ class Atom(object):
             "Debye-Waler isotropic thermal displacement or equivalent value")
 
 # End of class Atom
+
+# Local Helpers --------------------------------------------------------------
+
+class _AtomCartesianCoordinates(numpy.ndarray):
+    """Helper array for accessing Cartesian coordinates.
+    Updates of this array are propagated to the xyz fractional coordinates
+    of the owner atom according to its lattice attribute.
+
+    Data members:
+        _atom   -- Atom instance linked to these coordinates
+    """
+
+    def __new__(self, atom):
+        return numpy.empty(3, dtype=float).view(self)
+
+    def __init__(self, atom):
+        self._atom = atom
+        self.asarray[:] = atom.lattice.cartesian(atom.xyz)
+        return
+
+    @property
+    def asarray(self):
+        '''This array represented as standard numpy array.'''
+        return self.view(numpy.ndarray)
+
+    def __setitem__(self, idx, value):
+        """Set idx-th coordinate and update linked self.xyz
+
+        idx     -- index in xyz array
+        value   -- new value of x, y or z
+        """
+        self.asarray[idx] = value
+        self._atom.xyz[:] = self._atom.lattice.fractional(self)
+        return
+
+    def __setslice__(self, lo, hi, value):
+        """Set a slice of this array inplace and update the linked self.xyz
+
+        lo, hi  -- low and high slice indices, negative indices not supported
+        value   -- new value of this slice
+        """
+        self.asarray[lo:hi] = value
+        self._atom.xyz[:] = self._atom.lattice.fractional(self)
+        return
+
+    def __array_wrap__(self, out_arr, context=None):
+        '''Any operations on this type should yield standard numpy array.'''
+        return out_arr.view(numpy.ndarray)
+
+# End of _AtomCartesianCoordinates
