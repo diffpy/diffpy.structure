@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 ##############################################################################
 #
 # Structure         by DANSE Diffraction group

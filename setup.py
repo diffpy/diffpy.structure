@@ -8,7 +8,6 @@ Packages:   diffpy.Structure
 """
 
 from setuptools import setup, find_packages
-import fix_setuptools_chmod
 
 # define distribution
 setup(
