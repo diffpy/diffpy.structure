@@ -98,7 +98,7 @@ class P_cif(StructureParser):
     def _tr_atom_site_label(a, value):
         a.label = value
         # set element when not specified by _atom_site_type_symbol
-        if a.element is None:
+        if not a.element:
             P_cif._tr_atom_site_type_symbol(a, value)
     _tr_atom_site_label = staticmethod(_tr_atom_site_label)
 

@@ -60,6 +60,14 @@ class Atom(object):
     """
 
     tol_anisotropy = 1.0e-6
+    # instance attributes that have inmutable default values
+    element = ''
+    label = ''
+    occupancy = 1.0
+    _anisotropy = None
+    _Uisoequiv = 0.0
+    _Usynced = True
+    lattice = None
 
     def __init__(self, atype=None, xyz=None, label=None, occupancy=None,
             anisotropy=None, U=None, Uisoequiv=None, lattice=None):
@@ -77,19 +85,12 @@ class Atom(object):
         lattice     -- coordinate system for fractional coordinates
         """
         # declare data members
-        self.element = None
         self.xyz = numpy.zeros(3, dtype=float)
-        self.label = ''
-        self.occupancy = 1.0
-        self._anisotropy = None
         self._U = numpy.zeros((3,3), dtype=float)
-        self._Uisoequiv = 0.0
-        self._Usynced = True
-        self.lattice = None
         # assign them as needed
         if isinstance(atype, Atom):
             atype.__copy__(target=self)
-        else:
+        elif atype is not None:
             self.element = atype
         # take care of remaining arguments
         if xyz is not None:  self.xyz[:] = xyz
