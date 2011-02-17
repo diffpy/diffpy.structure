@@ -40,4 +40,12 @@ from diffpy.Structure.pdffitstructure import PDFFitStructure
 # obtain version information
 from diffpy.Structure.version import __version__
 
+# unit tests
+def test():
+    '''Execute all unit tests for the diffpy.Structure package.
+    Return a unittest TestResult object.
+    '''
+    from diffpy.Structure.tests import test
+    return test()
+
 # End of file
