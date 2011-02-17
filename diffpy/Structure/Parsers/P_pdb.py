@@ -134,7 +134,7 @@ class P_pdb(StructureParser):
                         element = line[12:14].strip()
                         element = element[0].upper() + element[1:].lower()
                     stru.addNewAtom(element,
-                            occupancy=occupancy, name=name, U=U)
+                            occupancy=occupancy, label=name, U=U)
                     last_atom = stru.getLastAtom()
                     last_atom.xyz_cartn = rc
                 elif record == "SIGATM":
@@ -232,7 +232,8 @@ class P_pdb(StructureParser):
                      "%(element)2s" +                   # 77-78
                      "%(charge)-2s"                     # 79-80
                    ) % {
-                  "serial" : idx+1,  "name" : a.element,  "altLoc" : " ",
+                  "serial" : idx+1,
+                  "name" : a.label or a.element,  "altLoc" : " ",
                   "resName" : "",  "chainID" : " ",  "resSeq" : 1,
                   "iCode" : " ",  "x" : rc[0],  "y" : rc[1],  "z" : rc[2],
                   "occupancy" : a.occupancy,  "tempFactor" : B,  "segID" : "",

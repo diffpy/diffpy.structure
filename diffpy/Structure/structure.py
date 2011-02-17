@@ -21,7 +21,7 @@ import copy
 import numpy
 from diffpy.Structure.lattice import Lattice
 from diffpy.Structure.atom import Atom
-from diffpy.Structure.utils import _linkAtomAttribute
+from diffpy.Structure.utils import _linkAtomAttribute, atomBareSymbol
 
 ##############################################################################
 class Structure(list):
@@ -41,8 +41,6 @@ class Structure(list):
     title = ''
     _lattice = None
     pdffit = None
-    _labels = {}
-    _labels_cached = False
 
     def __init__(self, atoms=[], lattice=None, title=None,
             filename=None, format=None):
@@ -107,8 +105,6 @@ class Structure(list):
         target.title = self.title
         target.lattice = Lattice(self.lattice)
         target.pdffit = copy.deepcopy(self.pdffit)
-        target._labels = {}
-        target._labels_cached = False
         # copy all atoms to the target
         target[:] = self
         return target
@@ -141,74 +137,53 @@ class Structure(list):
         return last_atom
 
 
-    def getAtom(self, id):
-        """Reference to internal Atom specified by the identifier.
+    def assignUniqueLabels(self):
+        """Set a unique label string for each atom in this structure.
+        The label strings are formatted as "%(baresymbol)s%(index)i",
+        where baresymbol is the element right-stripped of "[0-9][+-]".
 
-        id  -- zero based index or a string label formatted as
-               "%(element)s%(order)i", for example "Na1", "Cl1"
-
-        Return Atom instance.
-        Raise ValueError for invalid id.
-
-        See also getLabels().
-        """
-        try:
-            if type(id) is int:
-                rv = self[id]
-            else:
-                if not self._labels_cached or id not in self._labels:
-                    self._update_labels()
-                rv = self._labels[id]
-        except (IndexError, KeyError):
-            emsg = "Invalid atom identifier %r." % id
-            raise ValueError(emsg)
-        return rv
-
-
-    def getLabels(self):
-        """List of unique string labels for all atoms in this structure.
-
-        Return a list.
+        No return value.
         """
         elnum = {}
-        labels = []
+        # support duplicate atom instances
+        islabeled = set()
         for a in self:
-            elnum[a.element] = elnum.get(a.element, 0) + 1
-            alabel = a.element + str(elnum[a.element])
-            labels.append(alabel)
-        return labels
+            if a in islabeled:  continue
+            baresmbl = atomBareSymbol(a.element)
+            elnum[baresmbl] = elnum.get(baresmbl, 0) + 1
+            a.label = baresmbl + str(elnum[baresmbl])
+            islabeled.add(a)
+        return
 
 
-    def distance(self, id0, id1):
+    def distance(self, aid0, aid1):
         """Distance between 2 atoms, no periodic boundary conditions.
 
-        id0  -- zero based index of the first atom or a string label
+        aid0 -- zero based index of the first atom or a string label
                 such as "Na1"
-        id1  -- zero based index or string label of the second atom.
+        aid1 -- zero based index or string label of the second atom.
 
         Return float.
-        Raise ValueError for invalid arguments.
+        Raise IndexError for invalid arguments.
         """
-        a0 = self.getAtom(id0)
-        a1 = self.getAtom(id1)
+        # lookup by labels
+        a0, a1 = self[aid0, aid1]
         return self.lattice.dist(a0.xyz, a1.xyz)
 
 
-    def angle(self, id0, id1, id2):
+    def angle(self, aid0, aid1, aid2):
         """The bond angle at the second of three atoms in degrees.
 
-        id0  -- zero based index of the first atom or a string label
+        aid0 -- zero based index of the first atom or a string label
                 such as "Na1"
-        id1  -- index or string label for the second atom,
+        aid1 -- index or string label for the second atom,
                 where the angle is formed
-        id2  -- index or string label for the third atom
+        aid2 -- index or string label for the third atom
 
         Return float.
-        Raise ValueError for invalid arguments.
+        Raise IndexError for invalid arguments.
         """
-        a0 = self.getAtom(id0)
-        a1 = self.getAtom(id1)
-        a2 = self.getAtom(id2)
+        a0, a1, a2 = self[aid0, aid1, aid2]
         u10 = a0.xyz - a1.xyz
         u12 = a2.xyz - a1.xyz
         return self.lattice.angle(u10, u12)
@@ -319,7 +294,7 @@ class Structure(list):
         rv = [a for a in self]
         return rv
 
-    # Overloaded List Methods ------------------------------------------------
+    # Overloaded list Methods and Operators ----------------------------------
 
     def append(self, a, copy=True):
         """Append atom to a structure and update its lattice attribute.
@@ -330,7 +305,6 @@ class Structure(list):
 
         No return value.
         """
-        self._uncache('labels')
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
         list.append(self, adup)
@@ -347,7 +321,6 @@ class Structure(list):
 
         No return value.
         """
-        self._uncache('labels')
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
         list.insert(self, idx, adup)
@@ -364,7 +337,6 @@ class Structure(list):
 
         No return value.
         """
-        self._uncache('labels')
         if copy:    adups = [Atom(a) for a in atoms]
         else:       adups = atoms
         for a in adups: a.lattice = self.lattice
@@ -373,14 +345,74 @@ class Structure(list):
 
 
     def __getitem__(self, idx):
+        """Get one or more atoms in this structure.
+
+        idx  -- atom identifier, which can be integer, string or iterable.
+                When integer use standard list lookup.  For iterables use
+                numpy lookup, this supports integer or boolean flag arrays.
+                For string or string-containing iterables lookup the atoms
+                by string label.
+
+        Return an Atom instance for integer or string index or a substructure
+        in all other cases.  Raise IndexError for invalid index or for
+        non-unique atom label.
+
+        Examples:
+
+        stru[0]  -->  first atom in the Structure
+        stru[stru.element == 'Na']  -->  substructure of all Na atoms
+        stru['Na3']  -->  atom with a unique label 'Na3'
+        stru['Na3', 2, 'Cl2']  -->  substructure of three atoms, lookup by
+            label is more efficient when done for several atoms at once.
+        """
         try:
-            return list.__getitem__(self, idx)
+            value = list.__getitem__(self, idx)
+            rv = value
+            if type(idx) is slice:
+                rv = self.__emptySharedStructure()
+                rv.extend(value, copy=False)
+            return rv
         except TypeError:
             pass
-        indices = numpy.arange(len(self))[idx]
-        rhs = [list.__getitem__(self, i) for i in indices]
-        rv = self.__emptySharedStructure()
-        rv.extend(rhs, copy=False)
+        # check if there is any string label that should be resolved
+        scalarlabel = type(idx) is str
+        hasstringlabel = scalarlabel or str in map(type, idx)
+        # if not, use numpy indexing to resolve idx
+        if not hasstringlabel:
+            idx1 = idx
+            if type(idx) is tuple:
+                idx1 = numpy.r_[idx]
+            indices = numpy.arange(len(self))[idx1]
+            rhs = [list.__getitem__(self, i) for i in indices]
+            rv = self.__emptySharedStructure()
+            rv.extend(rhs, copy=False)
+            return rv
+        # here we need to resolve at least one string label
+        # build a map of labels to indices and mark duplicate labels
+        duplicate = ()
+        labeltoindex = {}
+        for i, a in enumerate(self):
+            labeltoindex[a.label] = (
+                    a.label in labeltoindex and duplicate or i)
+        def _resolveindex(aid):
+            aid1 = aid
+            if type(aid) is str:
+                aid1 = labeltoindex.get(aid, None)
+                if aid1 is None:
+                    raise IndexError("Invalid atom label %r." % aid)
+                if aid1 is duplicate:
+                    raise IndexError("Atom label %r is not unique." % aid)
+            return aid1
+        # generate new index object that has no strings
+        if scalarlabel:
+            idx2 = _resolveindex(idx)
+        # for iterables preserved the tuple object type
+        else:
+            idx2 = map(_resolveindex, idx)
+            if type(idx) is tuple:
+                idx2 = tuple(idx2)
+        # call this function again and hope there is no recursion loop
+        rv = self[idx2]
         return rv
 
 
@@ -394,7 +426,6 @@ class Structure(list):
 
         No return value.
         """
-        self._uncache('labels')
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
         list.__setitem__(self, idx, adup)
@@ -402,6 +433,12 @@ class Structure(list):
 
 
     def __getslice__(self, lo, hi):
+        '''Get a slice of atoms from this Structure.
+
+        lo, hi   -- slice indices, negative values are not supported
+
+        Return a sub-structure with atom instances in the slice.
+        '''
         rv = self.__emptySharedStructure()
         rv.extend(list.__getslice__(self, lo, hi), copy=False)
         return rv
@@ -418,7 +455,6 @@ class Structure(list):
 
         No return value.
         """
-        self._uncache('labels')
         if copy:
             ownatoms = set(list.__getslice__(self, lo, hi))
             adups = [(a in ownatoms and a or Atom(a)) for a in atoms]
@@ -508,9 +544,7 @@ class Structure(list):
             self.extend((n - 1) * self.tolist())
         return self
 
-    ####################################################################
-    # property handlers
-    ####################################################################
+    # Properties -------------------------------------------------------------
 
     # lattice
 
@@ -548,9 +582,9 @@ class Structure(list):
         '''Array of all fractional coordinates z.
         Assignment updates xyz attribute of all atoms.''')
 
-    names = _linkAtomAttribute('name',
+    label = _linkAtomAttribute('label',
         '''Character array of atom names.  Assignment updates
-        the name attribute of all atoms.''',
+        the label attribute of all atoms.''',
         toarray=numpy.char.array)
 
     occupancy = _linkAtomAttribute('occupancy',
@@ -625,32 +659,7 @@ class Structure(list):
         '''Array of B23 elements of the Debye-Waller displacement tensors.
         Assignment updates the U and anisotropy attributes of all atoms.''')
 
-    # protected methods ------------------------------------------------------
-
-    def _update_labels(self):
-        """Update the _labels dictionary of unique string labels of atoms.
-
-        No return value.
-        """
-        kv = zip(self.getLabels(), self)
-        self._labels = dict(kv)
-        self._labels_cached = True
-        return
-
-
-    def _uncache(self, *args):
-        """Reset cached flag for a list of internal attributes.
-
-        *args -- list of strings, currently supported are "labels"
-
-        No return value.
-        Raise AttributeError for any invalid args.
-        """
-        for a in args:
-            attrname = "_" + a + "_cached"
-            setattr(self, attrname, False)
-        return
-
+    # Private Methods --------------------------------------------------------
 
     def __emptySharedStructure(self):
         '''Return empty Structure with standard attributes same as in self.

@@ -29,6 +29,18 @@ def isfloat(s):
         pass
     return False
 
+
+def atomBareSymbol(smbl):
+    '''Remove atom type string stripped of isotope and ion charge symbols.
+    This removes blank and leading [0-9-] or trailing [1-9][+-] characters.
+
+    smbl -- atom type string such as "Cl-", "Ca2+" or "12-C".
+
+    Return bare element symbol.
+    '''
+    rv = smbl.strip().lstrip('0123456789-').rstrip('123456789+-')
+    return rv
+
 # Helpers for the Structure class --------------------------------------------
 
 def _linkAtomAttribute(attrname, doc, toarray=numpy.array):

@@ -33,7 +33,7 @@ class Atom(object):
         element     -- type of the atom
         xyz         -- fractional coordinates, numpy array
         x, y, z     -- fractional coordiantes, float properties synced with xyz
-        name        -- atom label
+        label       -- string atom label
         occupancy   -- fractional occupancy
         xyz_cartn   -- absolute Cartesian coordinates, property synced with xyz
         anisotropy  -- flag for anisotropic thermal displacements, property
@@ -61,14 +61,14 @@ class Atom(object):
 
     tol_anisotropy = 1.0e-6
 
-    def __init__(self, atype=None, xyz=None, name=None, occupancy=None,
+    def __init__(self, atype=None, xyz=None, label=None, occupancy=None,
             anisotropy=None, U=None, Uisoequiv=None, lattice=None):
         """Create atom of a specified type at given lattice coordinates.
         Atom(a) creates a copy of Atom instance a.
 
         atype       -- element symbol string or Atom instance
         xyz         -- fractional coordinates
-        name        -- atom label
+        label       -- string atom label
         occupancy   -- fractional occupancy
         anisotropy  -- flag for anisotropic thermal displacements
         U           -- anisotropic thermal displacement tensor, property
@@ -79,7 +79,7 @@ class Atom(object):
         # declare data members
         self.element = None
         self.xyz = numpy.zeros(3, dtype=float)
-        self.name = ''
+        self.label = ''
         self.occupancy = 1.0
         self._anisotropy = None
         self._U = numpy.zeros((3,3), dtype=float)
@@ -92,13 +92,13 @@ class Atom(object):
         else:
             self.element = atype
         # take care of remaining arguments
-        if xyz is not None:         self.xyz[:] = xyz
-        if name is not None:        self.name = name
-        if occupancy is not None:   self.occupancy = float(occupancy)
+        if xyz is not None:  self.xyz[:] = xyz
+        if label is not None:  self.label = label
+        if occupancy is not None:  self.occupancy = float(occupancy)
         if anisotropy is not None:  self._anisotropy = bool(anisotropy)
-        if U is not None:           self._U = U
-        if Uisoequiv is not None:   self._Uisoequiv = Uisoequiv
-        if lattice is not None:     self.lattice = lattice
+        if U is not None:  self._U[:] = U
+        if Uisoequiv is not None:  self._Uisoequiv = Uisoequiv
+        if lattice is not None:  self.lattice = lattice
         return
 
     def msdLat(self, vl):

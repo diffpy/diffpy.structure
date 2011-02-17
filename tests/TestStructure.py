@@ -104,48 +104,23 @@ class TestStructure(unittest.TestCase):
 #       """
 #       return
 
-    def test_getAtom(self):
-        """check Structure.getAtom()
+
+    def test_assignUniqueLabels(self):
+        """check Structure.assignUniqueLabels()
         """
-        a0 = self.stru[0]
-        a1 = self.stru[1]
-        # check execeptions for invalid arguments
-        self.assertRaises(ValueError, self.stru.getAtom, 300)
-        self.assertRaises(ValueError, self.stru.getAtom, -44)
-        self.assertRaises(ValueError, self.stru.getAtom, "Na")
-        # check returned values
-        self.failUnless(a0 is self.stru.getAtom(0))
-        self.failUnless(a1 is self.stru.getAtom(1))
-        self.failUnless(a0 is self.stru.getAtom("C1"))
-        self.failUnless(a1 is self.stru.getAtom("C2"))
-        # check if labels get properly updated
-        cdse = Structure(filename=cdsefile)
-        self.stru[1:1] = cdse
-        self.failUnless(a0 is self.stru.getAtom("C1"))
-        self.failUnless(a1 is self.stru.getAtom("C2"))
-        self.failUnless(self.stru[1] is self.stru.getAtom("Cd1"))
+        self.assertEqual('', ''.join([a.label for a in self.stru]))
+        self.stru.assignUniqueLabels()
+        self.assertEqual('C1', self.stru[0].label)
+        self.assertEqual('C2', self.stru[1].label)
         return
-
-
-    def test_getLabels(self):
-        """check Structure.getLabels()
-        """
-        self.assertEqual(["C1", "C2"], self.stru.getLabels())
-        self.stru.read(pbtefile, format='cif')
-        labels = self.stru.getLabels()
-        self.assertEqual("Pb2+1", labels[0])
-        self.assertEqual("Pb2+4", labels[3])
-        self.assertEqual("Te1", labels[4])
-        self.assertEqual("Te4", labels[-1])
-        return
-
 
     def test_distance(self):
         """check Structure.distance()
         """
         from math import sqrt
-        self.assertRaises(ValueError, self.stru.distance, 333, "C1")
-        self.assertRaises(ValueError, self.stru.distance, "C", "C1")
+        self.stru.assignUniqueLabels()
+        self.assertRaises(IndexError, self.stru.distance, 333, "C1")
+        self.assertRaises(IndexError, self.stru.distance, "C", "C1")
         self.assertAlmostEqual(sqrt(2.0),
                 self.stru.distance(0, 1), self.places)
         self.assertAlmostEqual(sqrt(2.0),
@@ -158,6 +133,7 @@ class TestStructure(unittest.TestCase):
         """check Structure.angle()
         """
         cdse = Structure(filename=cdsefile)
+        cdse.assignUniqueLabels()
         self.assertEqual(109, round(cdse.angle(0, 2, 1)))
         self.assertEqual(109, round(cdse.angle("Cd1", "Se1", "Cd2")))
         return
@@ -259,6 +235,19 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(stru[intidx].tolist(), stru.tolist()[::-1])
         flagidx = (numpy.arange(len(stru)) > 0)
         self.assertEqual(stru[flagidx].tolist(), stru.tolist()[1:])
+        cdse = Structure(self.cdse)
+        self.assertEqual([cdse[0], cdse[-2]], cdse[0, -2].tolist())
+        cdse013 = cdse.tolist()
+        cdse013.pop(2)
+        self.assertEqual(cdse013, cdse[:2,3].tolist())
+        self.assertRaises(IndexError, cdse.__getitem__, 'Cd1')
+        cdse.assignUniqueLabels()
+        self.failUnless(cdse[0] is cdse['Cd1'])
+        cdse[0].label = 'Hohenzollern'
+        self.assertRaises(IndexError, cdse.__getitem__, 'Cd1')
+        self.failUnless(cdse[0] is cdse['Hohenzollern'])
+        self.assertEqual([cdse[0], cdse[3], cdse[1]],
+                cdse['Hohenzollern', 3:0:-2].tolist())
         return
 
 
@@ -275,6 +264,15 @@ class TestStructure(unittest.TestCase):
         self.failUnless(numpy.array_equal(a.xyz, a1.xyz))
         self.failIf(a is a1)
         self.failIf(lat is a.lattice)
+        return
+
+
+    def test___getslice__(self):
+        """check Structure.__getslice__()
+        """
+        stru = self.stru
+        self.assertEqual([stru[0]], stru[:1].tolist())
+        self.assertEqual([stru[1], stru[0]], stru[::-1].tolist())
         return
 
 
@@ -480,10 +478,16 @@ class TestStructure(unittest.TestCase):
         return
 
 
-#   def test_label(self):
-#       """check Structure.label
-#       """
-#       return
+    def test_label(self):
+        """check Structure.label
+        """
+        cdse = Structure(self.cdse)
+        self.assertEqual(4 * [''], cdse.label.tolist())
+        cdse.assignUniqueLabels()
+        self.assertEqual('Cd1 Cd2 Se1 Se2'.split(), cdse.label.tolist())
+        cdse.label = cdse.label.lower()
+        self.assertEqual('cd1 cd2 se1 se2'.split(), cdse.label.tolist())
+        return
 
 
     def test_occupancy(self):
@@ -608,16 +612,6 @@ class TestStructure(unittest.TestCase):
         self.failIf(numpy.any(stru.U != 0.0))
         return
 
-
-#   def test__update_labels(self):
-#       """check Structure._update_labels()
-#       """
-#       return
-#
-#   def test__uncache(self):
-#       """check Structure._uncache()
-#       """
-#       return
 
 # End of class TestStructure
 

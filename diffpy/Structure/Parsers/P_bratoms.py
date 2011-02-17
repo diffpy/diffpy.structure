@@ -128,9 +128,9 @@ class P_bratoms(StructureParser):
                     if sline:
                         occ = float(sline.pop(0))
 
-                    a = Atom( atype = el,
-                        xyz = [x,y,z],
-                        name = tag,
+                    a = Atom(atype = el,
+                        xyz = [x, y, z],
+                        label = tag,
                         occupancy = occ)
 
                     atoms.append(a)
@@ -201,7 +201,7 @@ class P_bratoms(StructureParser):
         lines.append("edge = %s" % meta.get("edge", "K"))
 
         # core
-        tag = meta.get("core") or stru[0].name or stru[0].element.title()
+        tag = meta.get("core") or stru[0].label or stru[0].element.title()
         lines.append("core = %s" % tag)
 
         # rmax
@@ -225,7 +225,7 @@ class P_bratoms(StructureParser):
                 ("!", "x", "y", "z", "tag", "occ"))
         for a in stru:
             el = a.element.title()
-            name = a.name or el
+            name = a.label or el
             x, y, z = a.xyz
             occ = a.occupancy
             lines.append("%-7s %-9f %-9f %-9f %-9s %f" % \
