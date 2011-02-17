@@ -469,6 +469,8 @@ class P_cif(StructureParser):
             for j in range(self.eau.multiplicity[i]):
                 a = Atom(ca)
                 a.xyz = self.eau.expandedpos[i][j]
+                if j > 0:
+                    a.label += '_' + str(j + 1)
                 if a.anisotropy:
                     a.U = self.eau.expandedUijs[i][j]
                 eca.append(a)
