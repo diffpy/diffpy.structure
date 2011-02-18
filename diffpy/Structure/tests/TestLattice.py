@@ -21,6 +21,7 @@ __id__ = "$Id$"
 
 import unittest
 import numpy
+
 from diffpy.Structure import Lattice, LatticeError
 
 ##############################################################################

@@ -22,7 +22,7 @@ __id__ = '$Id$'
 import os
 import unittest
 
-from diffpy.Structure.tests.structuretestutils import datafile
+from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure import Structure
 from diffpy.Structure.expansion import supercell
 

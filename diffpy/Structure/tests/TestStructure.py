@@ -16,13 +16,15 @@
 """Unit tests for Structure class.
 """
 
+# version
 __id__ = "$Id$"
 
 import os
 import copy
 import unittest
 import numpy
-from diffpy.Structure.tests.structuretestutils import datafile
+
+from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure import Structure, StructureFormatError
 from diffpy.Structure import Lattice
 from diffpy.Structure import Atom

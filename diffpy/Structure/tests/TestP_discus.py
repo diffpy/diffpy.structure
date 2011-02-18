@@ -21,7 +21,8 @@ __id__ = "$Id$"
 import unittest
 import os
 import re
-from diffpy.Structure.tests.structuretestutils import datafile
+
+from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure import Structure, StructureFormatError
 
 

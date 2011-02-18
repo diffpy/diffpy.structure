@@ -23,7 +23,8 @@ import os
 import sys
 import unittest
 import numpy
-from diffpy.Structure.tests.structuretestutils import datafile
+
+from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure.SpaceGroups import GetSpaceGroup
 from diffpy.Structure.SymmetryUtilities import *
 from diffpy.Structure.SymmetryUtilities import _Position2Tuple
