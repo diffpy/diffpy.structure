@@ -22,16 +22,11 @@ __id__ = '$Id$'
 import os
 import sys
 import unittest
-
 import numpy
+from diffpy.Structure.tests.structuretestutils import datafile
 from diffpy.Structure.SpaceGroups import GetSpaceGroup
 from diffpy.Structure.SymmetryUtilities import *
 from diffpy.Structure.SymmetryUtilities import _Position2Tuple
-
-# useful variables
-thisfile = locals().get('__file__', 'TestSymmetryUtilities.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
 
 ##############################################################################
 class TestRoutines(unittest.TestCase):

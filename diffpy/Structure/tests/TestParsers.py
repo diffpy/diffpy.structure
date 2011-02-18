@@ -22,19 +22,10 @@ import unittest
 import os
 import re
 
+from diffpy.Structure.tests.structuretestutils import datafile
 from diffpy.Structure import Structure, StructureFormatError
 from diffpy.Structure import Lattice
 from diffpy.Structure import Atom
-
-# useful variables
-thisfile = locals().get('__file__', 'TestParsers.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
-
-def datafile(filename):
-    """prepend testdata_dir to filename
-    """
-    return os.path.join(testdata_dir, filename)
 
 def assertListAlmostEqual(self, l1, l2, places=None):
     """wrapper for list comparison"""

@@ -22,11 +22,7 @@ __id__ = '$Id$'
 import os
 import unittest
 
-# useful variables
-thisfile = locals().get('__file__', 'TestP_cif.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
-
+from diffpy.Structure.tests.structuretestutils import datafile
 from diffpy.Structure.Parsers.P_cif import *
 from diffpy.Structure import Structure
 from diffpy.Structure import StructureFormatError
@@ -67,11 +63,11 @@ class TestRoutines(unittest.TestCase):
 ##############################################################################
 class TestP_cif(unittest.TestCase):
 
-    goodciffile = os.path.join(testdata_dir, 'PbTe.cif')
-    badciffile = os.path.join(testdata_dir, 'LiCl-bad.cif')
-    graphiteciffile = os.path.join(testdata_dir, 'graphite.cif')
-    cdsebulkpdffitfile = os.path.join(testdata_dir, 'CdSe_bulk.stru')
-    teiciffile = os.path.join(testdata_dir, 'TeI.cif')
+    goodciffile = datafile('PbTe.cif')
+    badciffile = datafile('LiCl-bad.cif')
+    graphiteciffile = datafile('graphite.cif')
+    cdsebulkpdffitfile = datafile('CdSe_bulk.stru')
+    teiciffile = datafile('TeI.cif')
     places = 6
 
     def setUp(self):

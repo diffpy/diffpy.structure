@@ -22,17 +22,15 @@ import os
 import copy
 import unittest
 import numpy
+from diffpy.Structure.tests.structuretestutils import datafile
 from diffpy.Structure import Structure, StructureFormatError
 from diffpy.Structure import Lattice
 from diffpy.Structure import Atom
 
 # useful variables
-thisfile = locals().get('__file__', 'TestStructure.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
-cdsefile = os.path.join(testdata_dir, 'CdSe_bulk.stru')
-teifile = os.path.join(testdata_dir, 'TeI.cif')
-pbtefile = os.path.join(testdata_dir, 'PbTe.cif')
+cdsefile = datafile('CdSe_bulk.stru')
+teifile = datafile('TeI.cif')
+pbtefile = datafile('PbTe.cif')
 
 ##############################################################################
 class TestStructure(unittest.TestCase):

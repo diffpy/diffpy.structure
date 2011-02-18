@@ -22,11 +22,7 @@ __id__ = '$Id$'
 import os
 import unittest
 
-# useful variables
-thisfile = locals().get('__file__', 'file.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
-
+from diffpy.Structure.tests.structuretestutils import datafile
 from diffpy.Structure import Structure
 from diffpy.Structure.expansion import supercell
 
@@ -40,10 +36,10 @@ class TestSuperCell(unittest.TestCase):
     def setUp(self):
         # load test structures once
         if TestSuperCell.stru_cdse is None:
-            cdsefile = os.path.join(testdata_dir, "CdSe_bulk.stru")
+            cdsefile = datafile("CdSe_bulk.stru")
             TestSuperCell.stru_cdse = Structure(filename=cdsefile)
         if TestSuperCell.stru_ni is None:
-            nifile = os.path.join(testdata_dir, "Ni.stru")
+            nifile = datafile("Ni.stru")
             TestSuperCell.stru_ni = Structure(filename=nifile)
         # bring them to the instance
         self.stru_cdse = TestSuperCell.stru_cdse
