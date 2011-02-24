@@ -35,6 +35,7 @@ class Structure(list):
     Data members:
         title   -- structure description
         lattice -- coordinate system (instance of Lattice)
+        pdffit  -- None or a dictionary of PDFFit-related metadata
     """
 
     # default values for instance attributes

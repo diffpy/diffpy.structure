@@ -167,7 +167,8 @@ class P_pdffit(StructureParser):
         # build the stru_pdffit dictionary initialized from the defaults
         # in PDFFitStructure
         stru_pdffit = PDFFitStructure().pdffit
-        stru_pdffit.update(getattr(stru, 'pdffit', {}))
+        if stru.pdffit:
+            stru_pdffit.update(stru.pdffit)
         lines = []
         # default values of standard deviations
         d_sigxyz = numpy.zeros(3, dtype=float)
