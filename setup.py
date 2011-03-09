@@ -12,7 +12,7 @@ from setuptools import setup, find_packages
 # define distribution
 setup(
         name = "diffpy.Structure",
-        version = "1.0",
+        version = "1.1",
         namespace_packages = ['diffpy'],
         packages = find_packages(),
         test_suite = 'diffpy.Structure.tests',
