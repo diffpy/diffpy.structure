@@ -66,8 +66,9 @@ def usage(style = None):
 
 
 def version():
-    from diffpy.Structure import __version__
-    print "anyeye", __version__
+    from pkg_resources import get_distribution
+    version = get_distribution('diffpy.Structure.anyeye').version
+    print "anyeye", version
     return
 
 
