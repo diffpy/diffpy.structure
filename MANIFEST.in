@@ -1,3 +1,4 @@
+prune applications
 prune devutils
 prune doc/epydoc
 exclude MANIFEST.in
