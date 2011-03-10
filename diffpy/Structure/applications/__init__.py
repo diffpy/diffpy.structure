@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy            by DANSE Diffraction group
+# diffpy.Structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2008 trustees of the Michigan State University.
+#                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -13,11 +13,9 @@
 #
 ##############################################################################
 
-"""diffpy - tools for structure analysis by diffraction.
-
-Blank namespace package.
+"""Script applications that use the diffpy.Structure package.
 """
 
-__import__('pkg_resources').declare_namespace(__name__)
+__id__ = "$Id$"
 
 # End of file
