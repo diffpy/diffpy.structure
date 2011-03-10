@@ -13,8 +13,13 @@ from setuptools import setup
 setup(
         name = 'diffpy.Structure.anyeye',
         version = '1.1',
-        scripts = ['anyeye'],
-        packages = [],
+        entry_points = {
+            'console_scripts': [
+                'anyeye=diffpy.Structure.applications.anyeye:main',
+            ],
+        },
+        py_packages = ['__init__.py', 'anyeye.py'],
+        package_dir = {'diffpy.Structure.applications' : '.'},
         include_package_data = False,
         install_requires = [
             'diffpy.Structure>=1.1',
