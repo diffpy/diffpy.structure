@@ -1,21 +1,26 @@
 #!/usr/bin/env python
 
-# Installation script transtru application for structure format translations
+# This script installs entry points to diffpy.Structure.applications
+# It does not install any Python packages.
 
-"""transtru - translator of structure formats supported by diffpy.Structure
+"""Scripts:
 
-Scripts:    transtru
+anyeye   -- wrapper for structure viewer that supports extra file formats.
+transtru -- translator of structure formats supported by diffpy.Structure
 """
 
 from setuptools import setup
 
 # define distribution
 setup(
-        name = 'diffpy.Structure.transtru',
+        name = 'diffpy.Structure.applications',
         version = '1.1',
-        scripts = ['transtru'],
-        packages = [],
-        include_package_data = False,
+        entry_points = {
+            'console_scripts': [
+                'anyeye=diffpy.Structure.applications.anyeye:main',
+                'transtru=diffpy.Structure.applications.transtru:main',
+            ],
+        },
         install_requires = [
             'diffpy.Structure>=1.1',
         ],
@@ -34,7 +39,7 @@ setup(
         description =
             "Structure viewer wrapper that supports more file formats.",
         license = 'BSD',
-        keywords = 'crystal structure format conversion',
+        keywords = 'structure viewer format support',
         classifiers = [
             # List of possible values at
             # http://pypi.python.org/pypi?:action=list_classifiers
