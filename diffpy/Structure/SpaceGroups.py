@@ -154,7 +154,7 @@ class SymOp(object):
         return numpy.dot(self.R, vec) + self.t
 
     def __eq__(self, symop):
-        return numpy.allclose(self.R, symop[0]) and numpy.allclose(self.t, symop[1])
+        return numpy.allclose(self.R, symop.R) and numpy.allclose(self.t, symop.t)
 
     def is_identity(self):
         """Returns True if this SymOp is a identity symmetry operation
