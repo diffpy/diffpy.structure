@@ -310,6 +310,8 @@ class Lattice(object):
         """Return angle(u, v) --> angle of 2 lattice vectors in degrees.
         """
         ca = self.dot(u, v)/( self.norm(u)*self.norm(v) )
+        # avoid round-off errors that would make abs(ca) greater than 1
+        ca = max(min(ca, 1), -1)
         return math.degrees(math.acos(ca))
 
 
