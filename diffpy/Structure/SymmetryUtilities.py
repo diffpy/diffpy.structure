@@ -383,7 +383,7 @@ class GeneratorSite:
         """
         R0 = self.invariants[0].R
         Rdiff = [ (symop.R - R0) for symop in self.invariants ]
-        Rdiff = numpy.concatenate(Rdiff, 0)
+        Rdiff = numpy.concatenate(Rdiff, axis=0)
         self.null_space = nullSpace(Rdiff)
         if self.null_space.size == 0:   return
         # reverse sort rows of null_space rows by absolute value
@@ -420,64 +420,27 @@ class GeneratorSite:
         """Find independent U components with respect to invariant
         rotations.
         """
-        self.Uspace = []
-        independent = dict.fromkeys(range(6))
-        for idx in range(6):
-            if idx not in independent:   continue
-            # new U space matrix
-            Uc = self.Ucomponents[idx]
-            Usp = numpy.zeros((3, 3), dtype=float)
-            for op in self.invariants:
-                R = op.R
-                Rt = R.transpose()
-                mxrot = lambda M : numpy.dot(R, numpy.dot(M, Rt))
-                opUsp = numpy.zeros((3, 3), dtype=float)
-                uceqnext = Uc
-                while True:
-                    opUsp += uceqnext
-                    uceqnext = mxrot(uceqnext)
-                    # does uceqnext contain -Uc?
-                    # if yes, the component Uc is not in the Uspace
-                    if numpy.all(uceqnext*Uc == -Uc):
-                        opUsp[:] = 0.0
-                        Usp[:] = 0.0
-                        break
-                    # all Uc rotations were visited when we are back to Uc
-                    if numpy.all(uceqnext == Uc):
-                        break
-                found_superspace = (numpy.all(opUsp[Usp != 0]) and
-                        numpy.any(opUsp[Usp == 0]))
-                if found_superspace:
-                    Usp = opUsp
-                # Usp is all zero here only when component Uc is not
-                # in the Uspace. Do not check the remaining invariants.
-                if numpy.all(Usp == 0.0):   break
-            # Find which U components are contained in Usp
-            Usp_contains = [i for i in independent
-                    if numpy.any(Usp * self.Ucomponents[i])]
-            # Usp must be all zero if it does not contain any component
-            if not Usp_contains:
-                assert numpy.all(Usp == 0.0)
-                independent.pop(idx)
-                continue
-            # U components contained in Usp are not independent anymore.
-            for i in Usp_contains:   del independent[i]
-            # orthogonalize Usp with respect to preceding Uspace components
-            Uspflat = Usp.flatten()
-            for Usp0 in self.Uspace:
-                Usp0flat = Usp0.flatten()
-                projection = numpy.dot(Uspflat, Usp0flat)
-                if projection != 0:
-                    projection /= numpy.dot(Usp0flat, Usp0flat)
-                    Uspflat -= projection * Usp0flat
-            # normalize Uspflat by its maximum component
-            maxidx = numpy.argmax(numpy.fabs(Uspflat))
-            Uspflat /= Uspflat[maxidx]
-            Usp = Uspflat.reshape(3, 3)
-            self.Uspace.append(Usp)
-        # finally convert this to 3D array
-        self.Uspace = numpy.array(self.Uspace)
-        self.Uisotropy = (len(self.Uspace) == 1)
+        n = len(self.invariants)
+        R6zall = numpy.tile(-numpy.identity(6, dtype=float), (n, 1))
+        R6zall_iter = numpy.split(R6zall, n, axis=0)
+        i6kl = ((0, (0, 0)), (1, (1, 1)), (2, (2, 2)), 
+                (3, (0, 1)), (4, (0, 2)), (5, (1, 2)))
+        for op, R6z in zip(self.invariants, R6zall_iter):
+            R = op.R
+            for j, Ucj in enumerate(self.Ucomponents):
+                Ucj2 = numpy.dot(R, numpy.dot(Ucj, R.T))
+                for i, kl in i6kl:
+                    R6z[i,j] += Ucj2[kl]
+        Usp6 = nullSpace(R6zall)
+        # normalize Usp6 by its maximum component
+        mxcols = numpy.argmax(numpy.fabs(Usp6), axis=1)
+        mxrows = range(len(mxcols))
+        Usp6 /= Usp6[mxrows,mxcols].reshape(-1, 1)
+        Usp6 = numpy.around(Usp6, 2)
+        # normalize again after rounding to get correct signs
+        mxcols = numpy.argmax(numpy.fabs(Usp6), axis=1)
+        Usp6 /= Usp6[mxrows,mxcols].reshape(-1, 1)
+        self.Uspace = numpy.tensordot(Usp6, self.Ucomponents, axes=(1, 0))
         return
 
     def _findUParameters(self):
