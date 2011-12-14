@@ -109,15 +109,20 @@ class P_discus(StructureParser):
         # if necessary, convert self.stru to PDFFitStructure
         if not isinstance(stru, PDFFitStructure):
             self.stru = PDFFitStructure(stru)
+        # build the stru_pdffit dictionary initialized from the defaults
+        # in PDFFitStructure
+        stru_pdffit = PDFFitStructure().pdffit
+        if stru.pdffit:
+            stru_pdffit.update(stru.pdffit)
         # here we can start
         self.lines = lines = []
         lines.append( "title   " + self.stru.title.strip() )
-        lines.append( "spcgr   " + self.stru.pdffit["spcgr"] )
-        if self.stru.pdffit.get('spdiameter', 0.0) > 0.0:
-            line = 'shape   sphere, %g' % self.stru.pdffit['spdiameter']
+        lines.append( "spcgr   " + stru_pdffit["spcgr"] )
+        if stru_pdffit.get('spdiameter', 0.0) > 0.0:
+            line = 'shape   sphere, %g' % stru_pdffit['spdiameter']
             lines.append(line)
-        if self.stru.pdffit.get('stepcut', 0.0) > 0.0:
-            line = 'shape   stepcut, %g' % self.stru.pdffit['stepcut']
+        if stru_pdffit.get('stepcut', 0.0) > 0.0:
+            line = 'shape   stepcut, %g' % stru_pdffit['stepcut']
             lines.append(line)
         lines.append( "cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" %
                 self.stru.lattice.abcABG() )
