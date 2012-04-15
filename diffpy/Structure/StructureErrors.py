@@ -21,50 +21,24 @@ __id__ = "$Id$"
 class StructureFormatError(Exception):
     """Exception for failed IO from Structure file
     """
-
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return self.value
-
-# End of StructureFormatError
+    pass
 
 
 class LatticeError(Exception):
     """Exception for impossible lattice parameters.
     """
-
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return self.value
-
-# End of LatticeError
+    pass
 
 
 class SymmetryError(Exception):
     """Exception raised for invalid symmetry operations.
     """
-
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return self.value
-
-# End of SymmetryError
+    pass
 
 
 class IsotropyError(Exception):
     """Exception raised for invalid operations on isotropic atoms.
     """
+    pass
 
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return self.value
-
-# End of IsotropyError
+# End of file
