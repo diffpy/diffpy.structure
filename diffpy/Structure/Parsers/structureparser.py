@@ -18,7 +18,7 @@
 
 __id__ = "$Id$"
 
-class StructureParser:
+class StructureParser(object):
     """Base class for all structure parsers.
 
     Data members:
