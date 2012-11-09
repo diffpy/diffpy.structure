@@ -23,6 +23,7 @@ Exceptions:
     StructureFormatError
     LatticeError
     SymmetryError
+    IsotropyError
 """
 
 __id__ = "$Id$"
@@ -39,6 +40,25 @@ from diffpy.Structure.pdffitstructure import PDFFitStructure
 
 # obtain version information
 from diffpy.Structure.version import __version__
+
+# top level routines
+
+def loadStructure(filename, fmt='auto'):
+    """Load a new structure from a specified file.
+
+    filename -- file to be loaded
+    fmt      -- format of the structure file.  Must be one of the formats
+                defined in the Parsers subpackage.  When 'auto', all
+                Parsers are tried in sequence.
+
+    Return a new Structure object. 
+    Return PDFFitStructure object for 'pdffit' or 'discus' formats.
+    """
+    from diffpy.Structure.Parsers import getParser
+    p = getParser(fmt)
+    rv = p.parseFile(filename)
+    return rv
+
 
 # unit tests
 def test():
