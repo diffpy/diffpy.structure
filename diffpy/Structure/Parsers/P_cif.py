@@ -621,9 +621,9 @@ def getSymOp(s):
     R = numpy.zeros((3,3), dtype=float)
     t = numpy.zeros(3, dtype=float)
     for i in (0, 1, 2):
-        eqparts = re.split('([+-]?[xyz])', eqlist[i])
+        eqparts = re.split('(?i)([+-]?[xyz])', eqlist[i])
         for Rpart in eqparts[1::2]:
-            R[i,:] += symvec[Rpart]
+            R[i,:] += symvec[Rpart.lower()]
         for tpart in eqparts[::2]:
             t[i] += eval('1.0*%s+0' % tpart)
     t -= numpy.floor(t)
