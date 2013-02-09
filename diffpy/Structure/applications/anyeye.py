@@ -224,17 +224,20 @@ def main():
     signal.signal(signal.SIGSEGV, signalHandler)
     signal.signal(signal.SIGTERM, signalHandler)
     signal.signal(signal.SIGINT, signalHandler)
+    env = os.environ.copy()
+    if os.path.basename(pd['viewer']).startswith('atomeye'):
+        env['XLIB_SKIP_ARGB_VISUALS'] = "1"
     # try to run the thing:
     try:
         convertStructureFile(pd)
-        spawnargs = (pd['viewer'], pd['viewer'], pd['tmpfile'])
+        spawnargs = (pd['viewer'], pd['viewer'], pd['tmpfile'], env)
         # load strufile in atomeye
         if pd['watch']:
             signal.signal(signal.SIGCLD, signalHandler)
-            os.spawnlp(os.P_NOWAIT, *spawnargs)
+            os.spawnlpe(os.P_NOWAIT, *spawnargs)
             watchStructureFile(pd)
         else:
-            status = os.spawnlp(os.P_WAIT,*spawnargs)
+            status = os.spawnlpe(os.P_WAIT, *spawnargs)
             die(status, pd)
     except IOError, (errno, errmsg):
         print >> sys.stderr, "%s: %s" % (args[0], errmsg)
