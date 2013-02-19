@@ -561,6 +561,17 @@ class Structure(list):
     lattice = property(_get_lattice, _set_lattice, doc =
         "Coordinate system for this Structure.")
 
+    # composition
+
+    def _get_composition(self):
+        rv = {}
+        for a in self:
+            rv[a.element] = rv.get(a.element, 0.0) + a.occupancy
+        return rv
+
+    composition = property(_get_composition,
+        doc="Dictionary of chemical symbols and their total occupancies.")
+
     # linked atom attributes
 
     element = _linkAtomAttribute('element',
