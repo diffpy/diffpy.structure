@@ -66,5 +66,5 @@ def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
         for a, v in zip(self, numpy.broadcast_arrays(va, value)[1]):
             setattr(a, attrname, v)
         return
-    rv = property(fget, fset, doc)
+    rv = property(fget, fset, doc=doc)
     return rv

@@ -336,27 +336,27 @@ class Lattice(object):
 
     a = property(lambda self: self._a,
             lambda self, value: self.setLatPar(a=value),
-            'Unit cell length a')
+            doc='Unit cell length a')
 
     b = property(lambda self: self._b,
             lambda self, value: self.setLatPar(b=value),
-            'Unit cell length b')
+            doc='Unit cell length b')
 
     c = property(lambda self: self._c,
             lambda self, value: self.setLatPar(c=value),
-            'Unit cell length c')
+            doc='Unit cell length c')
 
     alpha = property(lambda self: self._alpha,
             lambda self, value: self.setLatPar(alpha=value),
-            'Cell angle alpha in degrees')
+            doc='Cell angle alpha in degrees')
 
     beta = property(lambda self: self._beta,
             lambda self, value: self.setLatPar(beta=value),
-            'Cell angle beta in degrees')
+            doc='Cell angle beta in degrees')
 
     gamma = property(lambda self: self._gamma,
             lambda self, value: self.setLatPar(gamma=value),
-            'Cell angle gamma in degrees')
+            doc='Cell angle gamma in degrees')
 
     # read-only derived properties
 
