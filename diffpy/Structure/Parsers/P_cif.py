@@ -68,6 +68,7 @@ class P_cif(StructureParser):
     # to Atom attributes
 
     _atom_setters = dict.fromkeys((
+        '_tr_ignore',
         '_tr_atom_site_label',
         '_tr_atom_site_type_symbol',
         '_tr_atom_site_fract_x',
@@ -95,6 +96,10 @@ class P_cif(StructureParser):
         ))
 
     BtoU = 1.0/(8 * numpy.pi**2)
+
+    def _tr_ignore(a, value):
+        return
+    _tr_ignore = staticmethod(_tr_ignore)
 
     def _tr_atom_site_label(a, value):
         a.label = value
@@ -208,19 +213,16 @@ class P_cif(StructureParser):
 
         cifloop -- instance of CifLoop
 
-        Return a tuple of (prop_fset, prop_ignored) where
-        prop_fset    -- dictionary of property with translating function
-        prop_ignored -- list of properties that cannot be translated
+        Return a list of setter functions in the order of cifloop.keys().
         """
-        prop_fset = {}
-        prop_ignored = []
-        for p in cifloop.item_order:
+        rv = []
+        for p in cifloop.keys():
             fncname = "_tr" + p
             if fncname in P_cif._atom_setters:
-                prop_fset[p] = getattr(P_cif, fncname)
+                f = getattr(P_cif, fncname)
             else:
-                prop_ignored.append(p)
-        rv = (prop_fset, prop_ignored)
+                f = P_cif._tr_ignore
+            rv.append(f)
         return rv
     _get_atom_setters = staticmethod(_get_atom_setters)
 
@@ -354,17 +356,19 @@ class P_cif(StructureParser):
         """
         # process _atom_site_label
         atom_site_loop = block.GetLoop('_atom_site_label')
-        # build a dictionary which maps properties to atom setters
-        # keep a list of ignored properties for debugging
-        prop_fset, prop_ignored = P_cif._get_atom_setters(atom_site_loop)
-        # loop through the values and call appropriate setters
-        for values in atom_site_loop:
-            curlabel = values['_atom_site_label']
+        # get a list of setters for atom_site values
+        prop_setters = P_cif._get_atom_setters(atom_site_loop)
+        # index of the _atom_site_label item for the labelindex dictionary
+        ilb = atom_site_loop.keys().index('_atom_site_label')
+        # loop through the values and pass them to the setters
+        sitedatalist = zip(*atom_site_loop.values())
+        for values in sitedatalist:
+            curlabel = values[ilb]
             self.labelindex[curlabel] = len(self.stru)
             self.stru.addNewAtom()
             a = self.stru.getLastAtom()
-            for prop, fset in prop_fset.iteritems():
-                fset(a, values[prop])
+            for fset, val in zip(prop_setters, values):
+                fset(a, val)
         return
 
     def _parse_atom_site_aniso_label(self, block):
@@ -379,13 +383,16 @@ class P_cif(StructureParser):
         if not block.has_key('_atom_site_aniso_label'): return
         # something to do here:
         adp_loop = block.GetLoop('_atom_site_aniso_label')
-        # get a dictionary which maps properties to atom setters
-        prop_fset, prop_ignored = P_cif._get_atom_setters(adp_loop)
-        for values in adp_loop:
-            idx = self.labelindex[values['_atom_site_aniso_label']]
+        # index of the _atom_site_label column
+        ilb = adp_loop.keys().index('_atom_site_aniso_label')
+        # get a list of setters for this loop
+        prop_setters = P_cif._get_atom_setters(adp_loop)
+        sitedatalist = zip(*adp_loop.values())
+        for values in sitedatalist:
+            idx = self.labelindex[values[ilb]]
             a = self.stru[idx]
-            for prop, fset in prop_fset.iteritems():
-                fset(a, values[prop])
+            for fset, val in zip(prop_setters, values):
+                fset(a, val)
         return
 
     def _parse_space_group_symop_operation_xyz(self, block):

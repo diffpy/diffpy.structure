@@ -46,7 +46,7 @@ setup(
         test_suite = 'diffpy.Structure.tests',
         include_package_data = True,
         install_requires = [
-            'PyCifRW < 3.2',
+            'PyCifRW',
         ],
         dependency_links = [
             'http://www.diffpy.org/packages/',
