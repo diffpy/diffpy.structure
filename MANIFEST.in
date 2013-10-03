@@ -1,4 +1,6 @@
 recursive-include diffpy *
+include AUTHORS.txt INSTALL.txt LICENSE.txt README.txt
+include setup.cfg
 prune applications
 prune devutils
 prune doc/epydoc
