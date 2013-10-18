@@ -153,7 +153,12 @@ AtomicMass = {
 ##############################################################################
 class P_xcfg(StructureParser):
     """Parser for AtomEye extended CFG format.
+
+    cluster_boundary -- width of boundary around corners of non-periodic
+                        cluster to avoid PBC effects in atomeye
     """
+
+    cluster_boundary = 2
 
     def __init__(self):
         StructureParser.__init__(self)
@@ -305,9 +310,11 @@ class P_xcfg(StructureParser):
         lines.append( "Number of particles = %i" % len(stru) )
         # figure out length unit A
         allxyz = numpy.array([a.xyz for a in stru])
-        lo_xyz = numpy.array([ allxyz[:,i].min() for i in range(3) ])
-        hi_xyz = numpy.array([ allxyz[:,i].max() for i in range(3) ])
+        lo_xyz = allxyz.min(axis=0)
+        hi_xyz = allxyz.max(axis=0)
         max_range_xyz = (hi_xyz-lo_xyz).max()
+        if numpy.allclose(stru.lattice.abcABG(), (1, 1, 1, 90, 90, 90)):
+            max_range_xyz += self.cluster_boundary
         # range of CFG coordinates must be less than 1
         p_A = numpy.ceil(max_range_xyz + 1.0e-13)
         # atomeye draws rubbish when boxsize is less than 3.5
