@@ -37,4 +37,7 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# version information
 setup.cfg
+/diffpy/Structure/version.cfg
