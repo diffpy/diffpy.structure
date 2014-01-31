@@ -12,13 +12,15 @@ from setuptools import setup, find_packages
 
 # versioncfgfile holds version data for git commit hash and date.
 # It must reside in the same directory as version.py.
-versioncfgfile = 'diffpy/Structure/version.cfg'
+MYDIR = os.path.dirname(os.path.abspath(__file__))
+versioncfgfile = os.path.join(MYDIR, 'diffpy/Structure/version.cfg')
 
 def gitinfo():
     from subprocess import Popen, PIPE
-    proc = Popen(['git', 'describe'], stdout=PIPE)
+    kw = dict(stdout=PIPE, cwd=MYDIR)
+    proc = Popen(['git', 'describe'], **kw)
     desc = proc.stdout.read()
-    proc = Popen(['git', 'log', '-1', '--format=%H %ai'], stdout=PIPE)
+    proc = Popen(['git', 'log', '-1', '--format=%H %ai'], **kw)
     glog = proc.stdout.read()
     rv = {}
     rv['version'] = '-'.join(desc.strip().split('-')[:2])
@@ -27,26 +29,26 @@ def gitinfo():
 
 
 def getversioncfg():
-    import os
     from ConfigParser import SafeConfigParser
     cp = SafeConfigParser()
     cp.read(versioncfgfile)
-    if not os.path.isdir('.git'):  return cp
+    gitdir = os.path.join(MYDIR, '.git')
+    if not os.path.isdir(gitdir):  return cp
     d = cp.defaults()
     g = gitinfo()
-    if g['commit'] != d.get('commit'):
+    if g['version'] != d.get('version') or g['commit'] != d.get('commit'):
         cp.set('DEFAULT', 'version', g['version'])
         cp.set('DEFAULT', 'commit', g['commit'])
         cp.set('DEFAULT', 'date', g['date'])
         cp.write(open(versioncfgfile, 'w'))
     return cp
 
-cp = getversioncfg()
+versiondata = getversioncfg()
 
 # define distribution
-setup(
+setup_args = dict(
         name = "diffpy.Structure",
-        version = cp.get('DEFAULT', 'version'),
+        version = versiondata.get('DEFAULT', 'version'),
         namespace_packages = ['diffpy'],
         packages = find_packages(),
         test_suite = 'diffpy.Structure.tests',
@@ -81,5 +83,8 @@ setup(
             'Topic :: Scientific/Engineering :: Physics',
         ],
 )
+
+if __name__ == '__main__':
+    setup(**setup_args)
 
 # End of file
