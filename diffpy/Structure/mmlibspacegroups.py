@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-## Copyright 2002 by PyMMLib Development Group (see AUTHORS file)
+## Copyright 2002 by PyMMLib Development Group, http://pymmlib.sourceforge.net/
 ## This code is part of the PyMMLib distribution and governed by
-## its license.  Please see the LICENSE file that should have been
+## its license.  Please see the LICENSE_pymmlib file that should have been
 ## included as part of this package.
 """Space groups defined as a part of the pymmlib.
 """
