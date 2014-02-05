@@ -244,7 +244,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'Structure', u'Structure Documentation',
-   u'Pavol Juhás, Christopher L. Farrow', 'Structure', 'One line description of project.',
+   ab_authors, 'Structure', 'One line description of project.',
    'Miscellaneous'),
 ]
 
