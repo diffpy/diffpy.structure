@@ -162,6 +162,8 @@ GITLASTCOMMIT = $(shell git rev-parse HEAD)
 publish:
 	@test -d build/html || \
 	    ( echo >&2 "Run 'make html' first!"; false )
+	git show-ref --verify --quiet refs/heads/gh-pages || \
+	    git branch --track gh-pages $(GITREMOTE)/gh-pages
 	test -d build/gh-pages || \
 	    git clone -b gh-pages $(GITREPOPATH) build/gh-pages
 	cd build/gh-pages && \
