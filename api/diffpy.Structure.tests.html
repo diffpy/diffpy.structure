@@ -1,0 +1,1131 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tests Package &mdash; Structure 1.1-40 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.1-40',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Structure 1.1-40 documentation" href="../index.html" />
+    <link rel="up" title="Structure Package" href="diffpy.Structure.html" />
+    <link rel="prev" title="expansion Package" href="diffpy.Structure.expansion.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="diffpy.Structure.expansion.html" title="expansion Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Structure 1.1-40 documentation</a> &raquo;</li>
+          <li><a href="api.html" >diffpy API</a> &raquo;</li>
+          <li><a href="diffpy.Structure.html" accesskey="U">Structure Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tests-package">
+<h1>tests Package<a class="headerlink" href="#tests-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">tests</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-diffpy.Structure.tests"></span><p>Unit tests for diffpy.Structure.</p>
+<dl class="function">
+<dt id="diffpy.Structure.tests.test">
+<tt class="descclassname">diffpy.Structure.tests.</tt><tt class="descname">test</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute all unit tests for the diffpy.Structure package.
+Return a unittest TestResult object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.tests.testsuite">
+<tt class="descclassname">diffpy.Structure.tests.</tt><tt class="descname">testsuite</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.testsuite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a unit tests suite for the diffpy.Structure package.</p>
+<p>Return a unittest.TestSuite object.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.tests.TestLattice">
+<span id="testlattice-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestLattice</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.TestLattice" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests for Lattice class.</p>
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestLattice.TestLattice">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestLattice.</tt><tt class="descname">TestLattice</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLattice.TestLattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>test methods of Lattice class</p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLattice.TestLattice.assertListAlmostEqual">
+<tt class="descname">assertListAlmostEqual</tt><big>(</big><em>l1</em>, <em>l2</em>, <em>places=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLattice.TestLattice.assertListAlmostEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for list comparison</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLattice.TestLattice.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLattice.TestLattice.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLattice.TestLattice.test_latpar_properties">
+<tt class="descname">test_latpar_properties</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLattice.TestLattice.test_latpar_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>check assignment to a, b, c, alpha, beta, gamma.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLattice.TestLattice.test_readonly_properties">
+<tt class="descname">test_readonly_properties</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLattice.TestLattice.test_readonly_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that read-only properties are indeed such.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLattice.TestLattice.test_repr">
+<tt class="descname">test_repr</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLattice.TestLattice.test_repr" title="Permalink to this definition">¶</a></dt>
+<dd><p>check string representation of this lattice</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLattice.TestLattice.test_setLatBase">
+<tt class="descname">test_setLatBase</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLattice.TestLattice.test_setLatBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>check calculation of unit cell rotation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLattice.TestLattice.test_setLatPar">
+<tt class="descname">test_setLatPar</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLattice.TestLattice.test_setLatPar" title="Permalink to this definition">¶</a></dt>
+<dd><p>check calculation of standard unit cell vectors</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.tests.TestLoadStructure">
+<span id="testloadstructure-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestLoadStructure</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.TestLoadStructure" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests for the loadStructure factory.</p>
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestLoadStructure.TestLoadStructure">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestLoadStructure.</tt><tt class="descname">TestLoadStructure</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLoadStructure.TestLoadStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLoadStructure.TestLoadStructure.test_badfile">
+<tt class="descname">test_badfile</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLoadStructure.TestLoadStructure.test_badfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>check loading of CIF file format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLoadStructure.TestLoadStructure.test_cif">
+<tt class="descname">test_cif</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLoadStructure.TestLoadStructure.test_cif" title="Permalink to this definition">¶</a></dt>
+<dd><p>check loading of CIF file format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLoadStructure.TestLoadStructure.test_discus">
+<tt class="descname">test_discus</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLoadStructure.TestLoadStructure.test_discus" title="Permalink to this definition">¶</a></dt>
+<dd><p>check loading of discus file format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestLoadStructure.TestLoadStructure.test_xcfg">
+<tt class="descname">test_xcfg</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestLoadStructure.TestLoadStructure.test_xcfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>check loading of atomeye xcfg format</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.tests.TestP_cif">
+<span id="testp-cif-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestP_cif</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.TestP_cif" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests for diffpy.Structure.Parsers.P_cif module</p>
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestP_cif.</tt><tt class="descname">TestP_cif</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.assertListAlmostEqual">
+<tt class="descname">assertListAlmostEqual</tt><big>(</big><em>l1</em>, <em>l2</em>, <em>places=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.assertListAlmostEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for list comparison</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.badciffile">
+<tt class="descname">badciffile</tt><em class="property"> = '/home/juhas/programs/github/diffpy/diffpy.Structure/diffpy/Structure/tests/testdata/LiCl-bad.cif'</em><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.badciffile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.cdsebulkpdffitfile">
+<tt class="descname">cdsebulkpdffitfile</tt><em class="property"> = '/home/juhas/programs/github/diffpy/diffpy.Structure/diffpy/Structure/tests/testdata/CdSe_bulk.stru'</em><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.cdsebulkpdffitfile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.goodciffile">
+<tt class="descname">goodciffile</tt><em class="property"> = '/home/juhas/programs/github/diffpy/diffpy.Structure/diffpy/Structure/tests/testdata/PbTe.cif'</em><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.goodciffile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.graphiteciffile">
+<tt class="descname">graphiteciffile</tt><em class="property"> = '/home/juhas/programs/github/diffpy/diffpy.Structure/diffpy/Structure/tests/testdata/graphite.cif'</em><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.graphiteciffile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.places">
+<tt class="descname">places</tt><em class="property"> = 6</em><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.places" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.tearDown">
+<tt class="descname">tearDown</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.teiciffile">
+<tt class="descname">teiciffile</tt><em class="property"> = '/home/juhas/programs/github/diffpy/diffpy.Structure/diffpy/Structure/tests/testdata/TeI.cif'</em><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.teiciffile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.test_parse">
+<tt class="descname">test_parse</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.test_parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>check P_cif.parse()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.test_parseFile">
+<tt class="descname">test_parseFile</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.test_parseFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>check P_cif.parseFile()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.test_parseLines">
+<tt class="descname">test_parseLines</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.test_parseLines" title="Permalink to this definition">¶</a></dt>
+<dd><p>check P_cif.parseLines()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestP_cif.test_write_and_read">
+<tt class="descname">test_write_and_read</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestP_cif.test_write_and_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>high-level check of P_cif.tostring()</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestP_cif.TestRoutines">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestP_cif.</tt><tt class="descname">TestRoutines</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestRoutines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestRoutines.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestRoutines.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestRoutines.tearDown">
+<tt class="descname">tearDown</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestRoutines.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestRoutines.test_getSymOp">
+<tt class="descname">test_getSymOp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestRoutines.test_getSymOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>check getSymOp()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_cif.TestRoutines.test_leading_float">
+<tt class="descname">test_leading_float</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_cif.TestRoutines.test_leading_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>check leading_float()</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.tests.TestP_discus">
+<span id="testp-discus-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestP_discus</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.TestP_discus" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests for diffpy.Structure.Parsers.P_discus module</p>
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestP_discus.TestP_discus">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestP_discus.</tt><tt class="descname">TestP_discus</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_discus.TestP_discus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>test Parser for PDFFit file format</p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_discus.TestP_discus.assertListAlmostEqual">
+<tt class="descname">assertListAlmostEqual</tt><big>(</big><em>l1</em>, <em>l2</em>, <em>places=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_discus.TestP_discus.assertListAlmostEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for list comparison</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_discus.TestP_discus.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_discus.TestP_discus.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_discus.TestP_discus.test_except_other_formats">
+<tt class="descname">test_except_other_formats</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_discus.TestP_discus.test_except_other_formats" title="Permalink to this definition">¶</a></dt>
+<dd><p>check exceptions when reading files in other formats</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_discus.TestP_discus.test_ignored_lines">
+<tt class="descname">test_ignored_lines</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_discus.TestP_discus.test_ignored_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>check skipping of ignored lines in the header</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_discus.TestP_discus.test_read_discus_Ni">
+<tt class="descname">test_read_discus_Ni</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_discus.TestP_discus.test_read_discus_Ni" title="Permalink to this definition">¶</a></dt>
+<dd><p>check reading of Ni structure in discus format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_discus.TestP_discus.test_spdiameter_parsing">
+<tt class="descname">test_spdiameter_parsing</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_discus.TestP_discus.test_spdiameter_parsing" title="Permalink to this definition">¶</a></dt>
+<dd><p>check parsing of spdiameter record from a file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_discus.TestP_discus.test_stepcut_parsing">
+<tt class="descname">test_stepcut_parsing</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_discus.TestP_discus.test_stepcut_parsing" title="Permalink to this definition">¶</a></dt>
+<dd><p>check parsing of stepcut record from a file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.tests.TestP_discus.assertListAlmostEqual">
+<tt class="descclassname">diffpy.Structure.tests.TestP_discus.</tt><tt class="descname">assertListAlmostEqual</tt><big>(</big><em>self</em>, <em>l1</em>, <em>l2</em>, <em>places=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_discus.assertListAlmostEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for list comparison</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.tests.TestP_pdffit">
+<span id="testp-pdffit-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestP_pdffit</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.TestP_pdffit" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests for diffpy.Structure.Parsers.P_pdffit module</p>
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestP_pdffit.</tt><tt class="descname">TestP_pdffit</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>test Parser for PDFFit file format</p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.assertListAlmostEqual">
+<tt class="descname">assertListAlmostEqual</tt><big>(</big><em>l1</em>, <em>l2</em>, <em>places=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.assertListAlmostEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for list comparison</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_huge_occupancy">
+<tt class="descname">test_huge_occupancy</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_huge_occupancy" title="Permalink to this definition">¶</a></dt>
+<dd><p>check structure with huge occupancy can be read.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_ignored_lines">
+<tt class="descname">test_ignored_lines</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_ignored_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>check skipping of ignored lines in the header</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_read_pdffit_Ni">
+<tt class="descname">test_read_pdffit_Ni</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_read_pdffit_Ni" title="Permalink to this definition">¶</a></dt>
+<dd><p>check reading of Ni pdffit structure file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_read_pdffit_Ni_prim123">
+<tt class="descname">test_read_pdffit_Ni_prim123</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_read_pdffit_Ni_prim123" title="Permalink to this definition">¶</a></dt>
+<dd><p>check reading of Ni_prim supercell 1x2x3</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_read_pdffit_ZnSb">
+<tt class="descname">test_read_pdffit_ZnSb</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_read_pdffit_ZnSb" title="Permalink to this definition">¶</a></dt>
+<dd><p>check reading of ZnSb pdffit structure file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_read_pdffit_bad">
+<tt class="descname">test_read_pdffit_bad</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_read_pdffit_bad" title="Permalink to this definition">¶</a></dt>
+<dd><p>check exceptions when reading invalid pdffit file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_spdiameter_parsing">
+<tt class="descname">test_spdiameter_parsing</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_spdiameter_parsing" title="Permalink to this definition">¶</a></dt>
+<dd><p>check parsing of spdiameter record from a file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_stepcut_parsing">
+<tt class="descname">test_stepcut_parsing</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_stepcut_parsing" title="Permalink to this definition">¶</a></dt>
+<dd><p>check parsing of stepcut record from a file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_writeStr_pdffit">
+<tt class="descname">test_writeStr_pdffit</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.TestP_pdffit.test_writeStr_pdffit" title="Permalink to this definition">¶</a></dt>
+<dd><p>check writing of normal xyz file</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.tests.TestP_pdffit.assertListAlmostEqual">
+<tt class="descclassname">diffpy.Structure.tests.TestP_pdffit.</tt><tt class="descname">assertListAlmostEqual</tt><big>(</big><em>self</em>, <em>l1</em>, <em>l2</em>, <em>places=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestP_pdffit.assertListAlmostEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for list comparison</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.tests.TestParsers">
+<span id="testparsers-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestParsers</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.TestParsers" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests for Structure.Parsers module.</p>
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_bratoms">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestParsers.</tt><tt class="descname">TestP_bratoms</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_bratoms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>test Parser for Bruce Ravel&#8217;s atoms file format</p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_bratoms.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_bratoms.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_bratoms.test_read_bratoms_bad">
+<tt class="descname">test_read_bratoms_bad</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_bratoms.test_read_bratoms_bad" title="Permalink to this definition">¶</a></dt>
+<dd><p>check exceptions when reading invalid bratoms file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_bratoms.test_writeStr_cif">
+<tt class="descname">test_writeStr_cif</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_bratoms.test_writeStr_cif" title="Permalink to this definition">¶</a></dt>
+<dd><p>check conversion to CIF string</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_pdb">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestParsers.</tt><tt class="descname">TestP_pdb</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_pdb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>test Parser for PDB file format</p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_pdb.assertListAlmostEqual">
+<tt class="descname">assertListAlmostEqual</tt><big>(</big><em>l1</em>, <em>l2</em>, <em>places=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_pdb.assertListAlmostEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for list comparison</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_pdb.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_pdb.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_pdb.test_read_pdb_arginine">
+<tt class="descname">test_read_pdb_arginine</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_pdb.test_read_pdb_arginine" title="Permalink to this definition">¶</a></dt>
+<dd><p>check reading of arginine PDB file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_pdb.test_rwStr_pdb_CdSe">
+<tt class="descname">test_rwStr_pdb_CdSe</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_pdb.test_rwStr_pdb_CdSe" title="Permalink to this definition">¶</a></dt>
+<dd><p>check conversion to PDB file format</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_rawxyz">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestParsers.</tt><tt class="descname">TestP_rawxyz</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_rawxyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>test Parser for rawxyz file format</p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_rawxyz.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_rawxyz.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_rawxyz.test_read_plainxyz">
+<tt class="descname">test_read_plainxyz</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_rawxyz.test_read_plainxyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>check reading of a plain xyz file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_rawxyz.test_read_plainxyz_bad">
+<tt class="descname">test_read_plainxyz_bad</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_rawxyz.test_read_plainxyz_bad" title="Permalink to this definition">¶</a></dt>
+<dd><p>check exceptions when reading invalid plain xyz file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_rawxyz.test_read_rawxyz">
+<tt class="descname">test_read_rawxyz</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_rawxyz.test_read_rawxyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>check reading of raw xyz file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_rawxyz.test_read_rawxyz_bad">
+<tt class="descname">test_read_rawxyz_bad</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_rawxyz.test_read_rawxyz_bad" title="Permalink to this definition">¶</a></dt>
+<dd><p>check exceptions when reading unsupported xy file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_rawxyz.test_writeStr_rawxyz">
+<tt class="descname">test_writeStr_rawxyz</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_rawxyz.test_writeStr_rawxyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>check writing of normal xyz file</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xcfg">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestParsers.</tt><tt class="descname">TestP_xcfg</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xcfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>test Parser for XCFG file format</p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xcfg.assertListAlmostEqual">
+<tt class="descname">assertListAlmostEqual</tt><big>(</big><em>l1</em>, <em>l2</em>, <em>places=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xcfg.assertListAlmostEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for list comparison</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xcfg.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xcfg.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xcfg.test_read_xcfg">
+<tt class="descname">test_read_xcfg</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xcfg.test_read_xcfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>check reading of BubbleRaft XCFG file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xcfg.test_rwStr_xcfg_CdSe">
+<tt class="descname">test_rwStr_xcfg_CdSe</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xcfg.test_rwStr_xcfg_CdSe" title="Permalink to this definition">¶</a></dt>
+<dd><p>check conversion to XCFG file format</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xyz">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestParsers.</tt><tt class="descname">TestP_xyz</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>test Parser for xyz file format</p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xyz.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xyz.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xyz.tearDown">
+<tt class="descname">tearDown</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xyz.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xyz.test_read_xyz">
+<tt class="descname">test_read_xyz</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xyz.test_read_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>check reading of normal xyz file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xyz.test_read_xyz_bad">
+<tt class="descname">test_read_xyz_bad</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xyz.test_read_xyz_bad" title="Permalink to this definition">¶</a></dt>
+<dd><p>check exceptions when reading invalid xyz file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xyz.test_writeStr_xyz">
+<tt class="descname">test_writeStr_xyz</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xyz.test_writeStr_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>check string representation of normal xyz file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestParsers.TestP_xyz.test_write_xyz">
+<tt class="descname">test_write_xyz</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.TestP_xyz.test_write_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>check writing of normal xyz file</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.tests.TestParsers.assertListAlmostEqual">
+<tt class="descclassname">diffpy.Structure.tests.TestParsers.</tt><tt class="descname">assertListAlmostEqual</tt><big>(</big><em>self</em>, <em>l1</em>, <em>l2</em>, <em>places=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestParsers.assertListAlmostEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for list comparison</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.tests.TestStructure">
+<span id="teststructure-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestStructure</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.TestStructure" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests for Structure class.</p>
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestStructure.</tt><tt class="descname">TestStructure</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>test methods of Structure class</p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.assertListAlmostEqual">
+<tt class="descname">assertListAlmostEqual</tt><big>(</big><em>l1</em>, <em>l2</em>, <em>places=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.assertListAlmostEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for list comparison</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_Bij">
+<tt class="descname">test_Bij</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_Bij" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.Bij</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_Bisoequiv">
+<tt class="descname">test_Bisoequiv</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_Bisoequiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.Bisoequiv</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_U">
+<tt class="descname">test_U</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_U" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.U</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_Uij">
+<tt class="descname">test_Uij</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_Uij" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.Uij</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_Uisoequiv">
+<tt class="descname">test_Uisoequiv</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_Uisoequiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.Uisoequiv</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___add__">
+<tt class="descname">test___add__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__add__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___copy__">
+<tt class="descname">test___copy__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___copy__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__copy__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___getitem__">
+<tt class="descname">test___getitem__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__getitem__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___getslice__">
+<tt class="descname">test___getslice__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___getslice__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__getslice__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___iadd__">
+<tt class="descname">test___iadd__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___iadd__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__iadd__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___imul__">
+<tt class="descname">test___imul__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___imul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__imul__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___isub__">
+<tt class="descname">test___isub__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___isub__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__isub__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___mul__">
+<tt class="descname">test___mul__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__mul__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___setitem__">
+<tt class="descname">test___setitem__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___setitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__setitem__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___setslice__">
+<tt class="descname">test___setslice__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___setslice__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__setslice__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test___sub__">
+<tt class="descname">test___sub__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test___sub__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.__sub__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test__get_lattice">
+<tt class="descname">test__get_lattice</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test__get_lattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure._get_lattice()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test__set_lattice">
+<tt class="descname">test__set_lattice</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test__set_lattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure._set_lattice()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_angle">
+<tt class="descname">test_angle</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.angle()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_anisotropy">
+<tt class="descname">test_anisotropy</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_anisotropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.anisotropy</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_append">
+<tt class="descname">test_append</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_append" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.append()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_aslist">
+<tt class="descname">test_aslist</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_aslist" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.tolist()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_assignUniqueLabels">
+<tt class="descname">test_assignUniqueLabels</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_assignUniqueLabels" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.assignUniqueLabels()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_cartesian">
+<tt class="descname">test_cartesian</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_cartesian" title="Permalink to this definition">¶</a></dt>
+<dd><p>check conversion to cartesian coordinates</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_distance">
+<tt class="descname">test_distance</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.distance()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_element">
+<tt class="descname">test_element</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_element" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.element</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_extend">
+<tt class="descname">test_extend</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.extend()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_insert">
+<tt class="descname">test_insert</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.insert()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_label">
+<tt class="descname">test_label</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.label</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_occupancy">
+<tt class="descname">test_occupancy</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_occupancy" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.occupancy</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_placeInLattice">
+<tt class="descname">test_placeInLattice</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_placeInLattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.placeInLattice() &#8211; conversion of coordinates</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_x">
+<tt class="descname">test_x</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.x</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_xyz">
+<tt class="descname">test_xyz</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.xyz</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_xyz_cartn">
+<tt class="descname">test_xyz_cartn</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_xyz_cartn" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.xyz_cartn</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_y">
+<tt class="descname">test_y</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.y</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestStructure.TestStructure.test_z">
+<tt class="descname">test_z</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestStructure.TestStructure.test_z" title="Permalink to this definition">¶</a></dt>
+<dd><p>check Structure.z</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.tests.TestSuperCell">
+<span id="testsupercell-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestSuperCell</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.TestSuperCell" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests for supercell.py</p>
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestSuperCell.TestSuperCell">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestSuperCell.</tt><tt class="descname">TestSuperCell</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSuperCell.TestSuperCell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSuperCell.TestSuperCell.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSuperCell.TestSuperCell.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.tests.TestSuperCell.TestSuperCell.stru_cdse">
+<tt class="descname">stru_cdse</tt><em class="property"> = None</em><a class="headerlink" href="#diffpy.Structure.tests.TestSuperCell.TestSuperCell.stru_cdse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.tests.TestSuperCell.TestSuperCell.stru_ni">
+<tt class="descname">stru_ni</tt><em class="property"> = None</em><a class="headerlink" href="#diffpy.Structure.tests.TestSuperCell.TestSuperCell.stru_ni" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSuperCell.TestSuperCell.tearDown">
+<tt class="descname">tearDown</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSuperCell.TestSuperCell.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSuperCell.TestSuperCell.test_cdse_supercell">
+<tt class="descname">test_cdse_supercell</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSuperCell.TestSuperCell.test_cdse_supercell" title="Permalink to this definition">¶</a></dt>
+<dd><p>check supercell expansion for CdSe.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSuperCell.TestSuperCell.test_exceptions">
+<tt class="descname">test_exceptions</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSuperCell.TestSuperCell.test_exceptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>check argument checking of supercell.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSuperCell.TestSuperCell.test_ni_supercell">
+<tt class="descname">test_ni_supercell</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSuperCell.TestSuperCell.test_ni_supercell" title="Permalink to this definition">¶</a></dt>
+<dd><p>check supercell expansion for Ni.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.tests.TestSymmetryUtilities">
+<span id="testsymmetryutilities-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">TestSymmetryUtilities</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.TestSymmetryUtilities" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests for SymmetryUtilities.py</p>
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestSymmetryUtilities.</tt><tt class="descname">TestGeneratorSite</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="attribute">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.generators">
+<tt class="descname">generators</tt><em class="property"> = {}</em><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.generators" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.tearDown">
+<tt class="descname">tearDown</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test_UFormula">
+<tt class="descname">test_UFormula</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test_UFormula" title="Permalink to this definition">¶</a></dt>
+<dd><p>check GeneratorSite.UFormula()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test_UFormula_g186c_eqxyz">
+<tt class="descname">test_UFormula_g186c_eqxyz</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test_UFormula_g186c_eqxyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check rotated U formulas at the symmetry positions of c-site in 186.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test___init__">
+<tt class="descname">test___init__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test___init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check GeneratorSite.__init__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test__findUParameters">
+<tt class="descname">test__findUParameters</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test__findUParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>check GeneratorSite._findUParameters()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test_eqIndex">
+<tt class="descname">test_eqIndex</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test_eqIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>check GeneratorSite.eqIndex()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test_positionFormula">
+<tt class="descname">test_positionFormula</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestGeneratorSite.test_positionFormula" title="Permalink to this definition">¶</a></dt>
+<dd><p>check GeneratorSite.positionFormula()</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestSymmetryUtilities.</tt><tt class="descname">TestRoutines</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.tearDown">
+<tt class="descname">tearDown</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.test_expandPosition">
+<tt class="descname">test_expandPosition</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.test_expandPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>check expandPosition()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.test_isSpaceGroupLatPar">
+<tt class="descname">test_isSpaceGroupLatPar</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.test_isSpaceGroupLatPar" title="Permalink to this definition">¶</a></dt>
+<dd><p>check isSpaceGroupLatPar()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.test_isconstantFormula">
+<tt class="descname">test_isconstantFormula</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.test_isconstantFormula" title="Permalink to this definition">¶</a></dt>
+<dd><p>check isconstantFormula()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.test_pruneFormulaDictionary">
+<tt class="descname">test_pruneFormulaDictionary</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestRoutines.test_pruneFormulaDictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>check pruneFormulaDictionary()</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestSymmetryUtilities.</tt><tt class="descname">TestSymmetryConstraints</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.tearDown">
+<tt class="descname">tearDown</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.test_UparSymbols">
+<tt class="descname">test_UparSymbols</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.test_UparSymbols" title="Permalink to this definition">¶</a></dt>
+<dd><p>check SymmetryConstraints.UparSymbols()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.test_UparValues">
+<tt class="descname">test_UparValues</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.test_UparValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>check SymmetryConstraints.UparValues()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.test___init__">
+<tt class="descname">test___init__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.test___init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check SymmetryConstraints.__init__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.test_corepos">
+<tt class="descname">test_corepos</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.TestSymmetryConstraints.test_corepos" title="Permalink to this definition">¶</a></dt>
+<dd><p>test_corepos - find positions in the asymmetric unit.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.Test_Position2Tuple">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.tests.TestSymmetryUtilities.</tt><tt class="descname">Test_Position2Tuple</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.Test_Position2Tuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.Test_Position2Tuple.setUp">
+<tt class="descname">setUp</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.Test_Position2Tuple.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.Test_Position2Tuple.tearDown">
+<tt class="descname">tearDown</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.Test_Position2Tuple.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.Test_Position2Tuple.test___call__">
+<tt class="descname">test___call__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.Test_Position2Tuple.test___call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check _Position2Tuple.__call__()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.tests.TestSymmetryUtilities.Test_Position2Tuple.test___init__">
+<tt class="descname">test___init__</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.TestSymmetryUtilities.Test_Position2Tuple.test___init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>check _Position2Tuple.__init__()</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.tests.run">
+<span id="run-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">run</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.run" title="Permalink to this headline">¶</a></h2>
+<p>Convenience module for executing all unit tests with</p>
+<p>python -m diffpy.Structure.tests.run</p>
+</div>
+<div class="section" id="module-diffpy.Structure.tests.testutils">
+<span id="testutils-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">testutils</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.tests.testutils" title="Permalink to this headline">¶</a></h2>
+<p>Helper routines for running other unit tests.</p>
+<dl class="function">
+<dt id="diffpy.Structure.tests.testutils.datafile">
+<tt class="descclassname">diffpy.Structure.tests.testutils.</tt><tt class="descname">datafile</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#diffpy.Structure.tests.testutils.datafile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">tests Package</a><ul>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">tests</span></tt> Package</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.TestLattice"><tt class="docutils literal"><span class="pre">TestLattice</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.TestLoadStructure"><tt class="docutils literal"><span class="pre">TestLoadStructure</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.TestP_cif"><tt class="docutils literal"><span class="pre">TestP_cif</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.TestP_discus"><tt class="docutils literal"><span class="pre">TestP_discus</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.TestP_pdffit"><tt class="docutils literal"><span class="pre">TestP_pdffit</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.TestParsers"><tt class="docutils literal"><span class="pre">TestParsers</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.TestStructure"><tt class="docutils literal"><span class="pre">TestStructure</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.TestSuperCell"><tt class="docutils literal"><span class="pre">TestSuperCell</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.TestSymmetryUtilities"><tt class="docutils literal"><span class="pre">TestSymmetryUtilities</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.run"><tt class="docutils literal"><span class="pre">run</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.tests.testutils"><tt class="docutils literal"><span class="pre">testutils</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="diffpy.Structure.expansion.html"
+                        title="previous chapter">expansion Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/diffpy.Structure.tests.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="diffpy.Structure.expansion.html" title="expansion Package"
+             >previous</a> |</li>
+        <li><a href="../index.html">Structure 1.1-40 documentation</a> &raquo;</li>
+          <li><a href="api.html" >diffpy API</a> &raquo;</li>
+          <li><a href="diffpy.Structure.html" >Structure Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Pavol Juhás, Christopher L. Farrow, Simon J.L. Billinge group.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

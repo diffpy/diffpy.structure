@@ -1,0 +1,1573 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Structure Package &mdash; Structure 1.1-40 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.1-40',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Structure 1.1-40 documentation" href="../index.html" />
+    <link rel="up" title="diffpy API" href="api.html" />
+    <link rel="next" title="Parsers Package" href="diffpy.Structure.Parsers.html" />
+    <link rel="prev" title="diffpy API" href="api.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="diffpy.Structure.Parsers.html" title="Parsers Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="diffpy API"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Structure 1.1-40 documentation</a> &raquo;</li>
+          <li><a href="api.html" accesskey="U">diffpy API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="structure-package">
+<h1>Structure Package<a class="headerlink" href="#structure-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">Structure</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-diffpy.Structure"></span><p>classes related to structure of materials
+Classes:</p>
+<blockquote>
+<div>Atom
+Lattice
+Structure
+PDFFitStructure</div></blockquote>
+<dl class="docutils">
+<dt>Exceptions:</dt>
+<dd>StructureFormatError
+LatticeError
+SymmetryError
+IsotropyError</dd>
+</dl>
+<dl class="function">
+<dt id="diffpy.Structure.loadStructure">
+<tt class="descclassname">diffpy.Structure.</tt><tt class="descname">loadStructure</tt><big>(</big><em>filename</em>, <em>fmt='auto'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.loadStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a new structure from a specified file.</p>
+<p>filename &#8211; file to be loaded
+fmt      &#8211; format of the structure file.  Must be one of the formats</p>
+<blockquote>
+<div>defined in the Parsers subpackage.  When &#8216;auto&#8217;, all
+Parsers are tried in sequence.</div></blockquote>
+<p>Return a new Structure object. 
+Return PDFFitStructure object for &#8216;pdffit&#8217; or &#8216;discus&#8217; formats.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.test">
+<tt class="descclassname">diffpy.Structure.</tt><tt class="descname">test</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute all unit tests for the diffpy.Structure package.
+Return a unittest TestResult object.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.SpaceGroups">
+<span id="spacegroups-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">SpaceGroups</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.SpaceGroups" title="Permalink to this headline">¶</a></h2>
+<p>Space group classes and definitions from mmLib and sgtbx.</p>
+<dl class="function">
+<dt id="diffpy.Structure.SpaceGroups.GetSpaceGroup">
+<tt class="descclassname">diffpy.Structure.SpaceGroups.</tt><tt class="descname">GetSpaceGroup</tt><big>(</big><em>sgid</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SpaceGroups.GetSpaceGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the SpaceGroup instance for the given identifier.</p>
+<dl class="docutils">
+<dt>sgid &#8211; space group symbol, either short_name or pdb_name,</dt>
+<dd>whatever it means in mmlib.  Can be also an integer.</dd>
+</dl>
+<p>Return space group instance.
+Raise ValueError when not found.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.SpaceGroups.IsSpaceGroupIdentifier">
+<tt class="descclassname">diffpy.Structure.SpaceGroups.</tt><tt class="descname">IsSpaceGroupIdentifier</tt><big>(</big><em>sgid</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SpaceGroups.IsSpaceGroupIdentifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if identifier can be used as an argument to GetSpaceGroup.</p>
+<p>Return bool.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.StructureErrors">
+<span id="structureerrors-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">StructureErrors</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.StructureErrors" title="Permalink to this headline">¶</a></h2>
+<p>Exceptions used in Structure package.</p>
+<dl class="exception">
+<dt id="diffpy.Structure.StructureErrors.IsotropyError">
+<em class="property">exception </em><tt class="descclassname">diffpy.Structure.StructureErrors.</tt><tt class="descname">IsotropyError</tt><a class="headerlink" href="#diffpy.Structure.StructureErrors.IsotropyError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>Exception raised for invalid operations on isotropic atoms.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="diffpy.Structure.StructureErrors.LatticeError">
+<em class="property">exception </em><tt class="descclassname">diffpy.Structure.StructureErrors.</tt><tt class="descname">LatticeError</tt><a class="headerlink" href="#diffpy.Structure.StructureErrors.LatticeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>Exception for impossible lattice parameters.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="diffpy.Structure.StructureErrors.StructureFormatError">
+<em class="property">exception </em><tt class="descclassname">diffpy.Structure.StructureErrors.</tt><tt class="descname">StructureFormatError</tt><a class="headerlink" href="#diffpy.Structure.StructureErrors.StructureFormatError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>Exception for failed IO from Structure file</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="diffpy.Structure.StructureErrors.SymmetryError">
+<em class="property">exception </em><tt class="descclassname">diffpy.Structure.StructureErrors.</tt><tt class="descname">SymmetryError</tt><a class="headerlink" href="#diffpy.Structure.StructureErrors.SymmetryError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>Exception raised for invalid symmetry operations.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.SymmetryUtilities">
+<span id="symmetryutilities-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">SymmetryUtilities</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.SymmetryUtilities" title="Permalink to this headline">¶</a></h2>
+<p>Symmetry utility functions such as expansion of asymmetric unit,
+and generation of positional constraints.</p>
+<dl class="class">
+<dt id="diffpy.Structure.SymmetryUtilities.ExpandAsymmetricUnit">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.SymmetryUtilities.</tt><tt class="descname">ExpandAsymmetricUnit</tt><big>(</big><em>spacegroup, corepos, coreUijs=None, sgoffset=[0, 0, 0], eps=1e-05</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.ExpandAsymmetricUnit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Expand asymmetric unit and anisotropic thermal displacement</p>
+<dl class="docutils">
+<dt>Data members:</dt>
+<dd><p class="first">spacegroup  &#8211; instance of SpaceGroup
+corepos     &#8211; list of positions in asymmetric unit,</p>
+<blockquote>
+<div>it may contain duplicates</div></blockquote>
+<p class="last">coreUijs    &#8211; thermal factors for corepos (defaults to zeros)
+sgoffset    &#8211; optional offset of space group origin [0, 0, 0]
+eps         &#8211; cutoff for equivalent positions</p>
+</dd>
+<dt>Calculated data members:</dt>
+<dd>multiplicity &#8211; multiplicity of each site in corepos
+Uisotropy   &#8211; bool flags for isotropic sites in corepos
+expandedpos &#8211; list of equivalent positions per each site in corepos
+expandedUijs &#8211; list of thermal factors per each site in corepos</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<tt class="descname">GeneratorSite(spacegroup, xyz, Uij=array([[ 0.,  0.,  0.],</tt></dt>
+<dt>
+<tt class="descname">[ 0.,  0.,  0.],</tt></dt>
+<dt>
+<tt class="descname">[ 0.,  0.,  0.]]), sgoffset=[0, 0, 0], eps=1e-05)</tt></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Storage of data related to a generator positions.</p>
+<dl class="docutils">
+<dt>Data members:</dt>
+<dd><p class="first">xyz          &#8211; fractional coordinates of generator site
+Uij          &#8211; anisotropic thermal displacement at generator site
+sgoffset     &#8211; offset of space group origin [0, 0, 0]
+eps          &#8211; cutoff for equal positions
+eqxyz        &#8211; list of equivalent positions
+eqUij        &#8211; list of displacement matrices at equivalent positions
+symops       &#8211; nested list of operations per each eqxyz
+multiplicity &#8211; generator site multiplicity
+Uisotropy    &#8211; bool flag for isotropic thermal factors
+invariants   &#8211; list of invariant operations for generator site
+null_space   &#8211; null space of all possible differences of invariant</p>
+<blockquote>
+<div>rotational matrices, this is a base of symmetry
+allowed shifts.</div></blockquote>
+<p class="last">Uspace       &#8211; 3D array of independent components of U matrices.
+pparameters  &#8211; list of (xyz symbol, value) pairs
+Uparameters  &#8211; list of (U symbol, value) pairs</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.GeneratorSite.UFormula">
+<tt class="descclassname">GeneratorSite.</tt><tt class="descname">UFormula</tt><big>(</big><em>pos, Usymbols=['U11', 'U22', 'U33', 'U12', 'U13', 'U23']</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.GeneratorSite.UFormula" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of atom displacement formulas with custom parameter symbols.</p>
+<p>pos        &#8211; fractional coordinates of possibly equivalent site
+Usymbols   &#8211; 6 symbols for possible U matrix parameters</p>
+<p>Return U element formulas in a dictionary where keys are from
+(&#8216;U11&#8217;,&#8217;U22&#8217;,&#8217;U33&#8217;,&#8217;U12&#8217;,&#8217;U13&#8217;,&#8217;U23&#8217;) or empty dictionary when
+pos is not equivalent to generator.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.SymmetryUtilities.GeneratorSite.Ucomponents">
+<tt class="descclassname">GeneratorSite.</tt><tt class="descname">Ucomponents</tt><em class="property"> = array([[[ 1.,  0.,  0.],         [ 0.,  0.,  0.],         [ 0.,  0.,  0.]],         [[ 0.,  0.,  0.],         [ 0.,  1.,  0.],         [ 0.,  0.,  0.]],         [[ 0.,  0.,  0.],         [ 0.,  0.,  0.],         [ 0.,  0.,  1.]],         [[ 0.,  1.,  0.],         [ 1.,  0.,  0.],         [ 0.,  0.,  0.]],         [[ 0.,  0.,  1.],         [ 0.,  0.,  0.],         [ 1.,  0.,  0.]],         [[ 0.,  0.,  0.],         [ 0.,  0.,  1.],         [ 0.,  1.,  0.]]])</em><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.GeneratorSite.Ucomponents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.GeneratorSite.eqIndex">
+<tt class="descclassname">GeneratorSite.</tt><tt class="descname">eqIndex</tt><big>(</big><em>pos</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.GeneratorSite.eqIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index of the nearest generator equivalent site</p>
+<p>pos &#8211; fractional coordinates</p>
+<p>Return integer.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.SymmetryUtilities.GeneratorSite.idx2Usymbol">
+<tt class="descclassname">GeneratorSite.</tt><tt class="descname">idx2Usymbol</tt><em class="property"> = {0: 'U11', 1: 'U12', 2: 'U13', 3: 'U12', 4: 'U22', 5: 'U23', 6: 'U13', 7: 'U23', 8: 'U33'}</em><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.GeneratorSite.idx2Usymbol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.GeneratorSite.positionFormula">
+<tt class="descclassname">GeneratorSite.</tt><tt class="descname">positionFormula</tt><big>(</big><em>pos</em>, <em>xyzsymbols=('x'</em>, <em>'y'</em>, <em>'z')</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.GeneratorSite.positionFormula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formula of equivalent position with respect to generator site</p>
+<p>pos        &#8211; fractional coordinates of possibly equivalent site
+xyzsymbols &#8211; symbols for parametrized coordinates</p>
+<p>Return position formulas in a dictionary with keys equal (&#8220;x&#8221;, &#8220;y&#8221;, &#8220;z&#8221;)
+or an empty dictionary when pos is not equivalent to generator.
+Formulas are formatted as &#8220;[[-][%g*]{x|y|z}] [{+|-}%g]&#8221;, for example
+&#8220;-x&#8221;, &#8220;z +0.5&#8221;, &#8220;0.25&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.GeneratorSite.signedRatStr">
+<tt class="descclassname">GeneratorSite.</tt><tt class="descname">signedRatStr</tt><big>(</big><em>x</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.GeneratorSite.signedRatStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert floating point number to signed rational representation.
+Possible fractional are multiples of 1/3, 1/6, 1/7, 1/9, if these
+are not close, return &#8220;%+g&#8221; format.</p>
+<p>Return string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.Structure.SymmetryUtilities.SymmetryConstraints">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.SymmetryUtilities.</tt><tt class="descname">SymmetryConstraints</tt><big>(</big><em>spacegroup, positions, Uijs=None, sgoffset=[0, 0, 0], eps=1e-05</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Generate symmetry constraints for specified positions</p>
+<dl class="docutils">
+<dt>Data members:</dt>
+<dd>spacegroup &#8211; instance of SpaceGroup
+positions  &#8211; all positions to be constrained
+Uijs       &#8211; thermal factors for all positions (defaults to zeros)
+sgoffset   &#8211; optional offset of space group origin [0, 0, 0]
+eps        &#8211; cutoff for equivalent positions</dd>
+<dt>Calculated data members:</dt>
+<dd><p class="first">corepos    &#8211; list of of positions in the asymmetric unit
+coremap    &#8211; dictionary mapping indices of asymmetric core positions</p>
+<blockquote>
+<div>to indices of all symmetry related positions</div></blockquote>
+<dl class="docutils">
+<dt>poseqns    &#8211; list of coordinate formula dictionaries per each site.</dt>
+<dd>Formula dictionary keys are from (&#8220;x&#8221;, &#8220;y&#8221;, &#8220;z&#8221;) and
+the values are formatted as [[-]{x|y|z}%i] [{+|-}%g],
+for example: &#8220;x0&#8221;, &#8220;-x3&#8221;, &#8220;z7 +0.5&#8221;, &#8220;0.25&#8221;.</dd>
+</dl>
+<p>pospars    &#8211; list of (xyz symbol, value) pairs
+Ueqns      &#8211; list of anisotropic atomic displacement formula</p>
+<blockquote>
+<div>dictionaries per each position.  Formula dictionary
+keys are from (&#8216;U11&#8217;,&#8217;U22&#8217;,&#8217;U33&#8217;,&#8217;U12&#8217;,&#8217;U13&#8217;,&#8217;U23&#8217;)
+and the values are formatted as {[%g*][Uij%i]|0},
+for example: &#8220;U110&#8221;, &#8220;0.5*U2213&#8221;, &#8220;0&#8221;</div></blockquote>
+<p class="last">Upars      &#8211; list of (U symbol, value) pairs
+Uisotropy  &#8211; list of bool flags for isotropic thermal displacements</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.SymmetryConstraints.UFormulas">
+<tt class="descname">UFormulas</tt><big>(</big><em>Usymbols=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints.UFormulas" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of atom displacement formulas with custom parameter symbols.</p>
+<p>Usymbols &#8211; list of custom symbols used in formula strings</p>
+<p>Return list of atom displacement formula dictionaries per each site.
+Formula dictionary keys are from (&#8216;U11&#8217;,&#8217;U22&#8217;,&#8217;U33&#8217;,&#8217;U12&#8217;,&#8217;U13&#8217;,&#8217;U23&#8217;)
+and the values are formatted as {[%g*][Usymbol]|0}, for example:
+&#8220;U11&#8221;, &#8220;<a class="reference external" href="mailto:0&#46;5*&#37;&#52;&#48;37">0<span>&#46;</span>5*<span>&#64;</span>37</a>&#8221;, &#8220;0&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.SymmetryConstraints.UFormulasPruned">
+<tt class="descname">UFormulasPruned</tt><big>(</big><em>Usymbols=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints.UFormulasPruned" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of atom displacement formula dictionaries with constant items
+removed.  See also UFormulas().</p>
+<p>Usymbols &#8211; list of custom symbols used in formula strings</p>
+<p>Return list of atom displacement formulas in tuples of
+(U11, U22, U33, U12, U13, U23).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.SymmetryConstraints.UparSymbols">
+<tt class="descname">UparSymbols</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints.UparSymbols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of standard atom displacement parameter symbols.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.SymmetryConstraints.UparValues">
+<tt class="descname">UparValues</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints.UparValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of atom displacement parameters values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.SymmetryConstraints.positionFormulas">
+<tt class="descname">positionFormulas</tt><big>(</big><em>xyzsymbols=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints.positionFormulas" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of position formulas with custom parameter symbols.</p>
+<p>xyzsymbols &#8211; list of custom symbols used in formula strings</p>
+<p>Return list of coordinate formulas dictionaries.  Formulas dictionary
+keys are from (&#8220;x&#8221;, &#8220;y&#8221;, &#8220;z&#8221;) and the values are formatted as
+[[-]{symbol}] [{+|-}%g], for example: &#8220;x0&#8221;, &#8220;-sym&#8221;, &#8220;&#64;7 +0.5&#8221;, &#8220;0.25&#8221;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.SymmetryConstraints.positionFormulasPruned">
+<tt class="descname">positionFormulasPruned</tt><big>(</big><em>xyzsymbols=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints.positionFormulasPruned" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of position formula dictionaries with constant items removed.
+See also positionFormulas().</p>
+<p>xyzsymbols &#8211; list of custom symbols used in formula strings</p>
+<p>Return list of coordinate formula dictionaries.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.SymmetryConstraints.posparSymbols">
+<tt class="descname">posparSymbols</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints.posparSymbols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of standard position parameter symbols.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.SymmetryUtilities.SymmetryConstraints.posparValues">
+<tt class="descname">posparValues</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints.posparValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of position parameters values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.SymmetryUtilities.equalPositions">
+<tt class="descclassname">diffpy.Structure.SymmetryUtilities.</tt><tt class="descname">equalPositions</tt><big>(</big><em>xyz0</em>, <em>xyz1</em>, <em>eps=1e-05</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.equalPositions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equality of two coordinates with optional tolerance.</p>
+<p>xyz0, xyz1 &#8211; fractional coordinates
+eps        &#8211; tolerance for equality of coordinates</p>
+<p>Return bool.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.SymmetryUtilities.expandPosition">
+<tt class="descclassname">diffpy.Structure.SymmetryUtilities.</tt><tt class="descname">expandPosition</tt><big>(</big><em>spacegroup, xyz, sgoffset=[0, 0, 0], eps=1e-05</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.expandPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain unique equivalent positions and corresponding operations.</p>
+<p>spacegroup &#8211; instance of SpaceGroup
+xyz        &#8211; position to be expanded
+sgoffset   &#8211; offset of space group origin [0, 0, 0]
+eps        &#8211; cutoff for equal positions</p>
+<p>Return a tuple with (list of unique equivalent positions, nested
+list of SpaceGroups.SymOp instances, site multiplicity).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.SymmetryUtilities.isSpaceGroupLatPar">
+<tt class="descclassname">diffpy.Structure.SymmetryUtilities.</tt><tt class="descname">isSpaceGroupLatPar</tt><big>(</big><em>spacegroup</em>, <em>a</em>, <em>b</em>, <em>c</em>, <em>alpha</em>, <em>beta</em>, <em>gamma</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.isSpaceGroupLatPar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if space group allows passed lattice parameters.</p>
+<p>spacegroup &#8211; instance of SpaceGroup
+a, b, c, alpha, beta, gamma &#8211; lattice parameters</p>
+<p>Return bool.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.SymmetryUtilities.isconstantFormula">
+<tt class="descclassname">diffpy.Structure.SymmetryUtilities.</tt><tt class="descname">isconstantFormula</tt><big>(</big><em>s</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.isconstantFormula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if formula string is constant.  True when argument
+is a floating point number or a fraction of float with integer.</p>
+<p>s   &#8211; formula string</p>
+<p>Return bool.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.SymmetryUtilities.nearestSiteIndex">
+<tt class="descclassname">diffpy.Structure.SymmetryUtilities.</tt><tt class="descname">nearestSiteIndex</tt><big>(</big><em>sites</em>, <em>xyz</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.nearestSiteIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index of the nearest site to a specified position.</p>
+<p>sites &#8211; list of coordinates or a 2-dimensional numpy.array
+xyz   &#8211; single position</p>
+<p>Return integer.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.SymmetryUtilities.nullSpace">
+<tt class="descclassname">diffpy.Structure.SymmetryUtilities.</tt><tt class="descname">nullSpace</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.nullSpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Null space of matrix A.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.SymmetryUtilities.positionDifference">
+<tt class="descclassname">diffpy.Structure.SymmetryUtilities.</tt><tt class="descname">positionDifference</tt><big>(</big><em>xyz0</em>, <em>xyz1</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.positionDifference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Smallest difference between two coordinates in periodic lattice.</p>
+<p>xyz0, xyz1  &#8211; fractional coordinates</p>
+<p>Return dxyz, a numpy.array dxyz with 0 &lt;= dxyz &lt;= 0.5.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.SymmetryUtilities.pruneFormulaDictionary">
+<tt class="descclassname">diffpy.Structure.SymmetryUtilities.</tt><tt class="descname">pruneFormulaDictionary</tt><big>(</big><em>eqdict</em><big>)</big><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.pruneFormulaDictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove constant items from formula dictionary.</p>
+<dl class="docutils">
+<dt>eqdict &#8211; formula dictionary which maps standard variable symbols</dt>
+<dd>(&#8220;x&#8221;, &#8220;U11&#8221;) to string formulas (&#8220;0&#8221;, &#8220;-x3&#8221;, &#8220;z7 +0.5&#8221;)</dd>
+</dl>
+<p>Return pruned formula dictionary.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.atom">
+<span id="atom-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">atom</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.atom" title="Permalink to this headline">¶</a></h2>
+<p>class Atom for storing properties of a single atom</p>
+<dl class="class">
+<dt id="diffpy.Structure.atom.Atom">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.atom.</tt><tt class="descname">Atom</tt><big>(</big><em>atype=None</em>, <em>xyz=None</em>, <em>label=None</em>, <em>occupancy=None</em>, <em>anisotropy=None</em>, <em>U=None</em>, <em>Uisoequiv=None</em>, <em>lattice=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.atom.Atom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Atom &#8211;&gt; class for storing atom information</p>
+<dl class="docutils">
+<dt>Data members:</dt>
+<dd><p class="first">element     &#8211; type of the atom
+xyz         &#8211; fractional coordinates, numpy array
+x, y, z     &#8211; fractional coordiantes, float properties synced with xyz
+label       &#8211; string atom label
+occupancy   &#8211; fractional occupancy
+xyz_cartn   &#8211; absolute Cartesian coordinates, property synced with xyz
+anisotropy  &#8211; flag for anisotropic thermal displacements, property
+U           &#8211; anisotropic thermal displacement tensor, property
+Uij         &#8211; elements of U tensor, where i, j are from (1, 2, 3),</p>
+<blockquote>
+<div>property</div></blockquote>
+<dl class="last docutils">
+<dt>Uisoequiv   &#8211; isotropic thermal displacement or equivalent value,</dt>
+<dd>property</dd>
+<dt>Bisoequiv   &#8211; Debye-Waler isotropic temperature factor or equivalent</dt>
+<dd>value, property</dd>
+<dt>lattice     &#8211; coordinate system for fractional coordinates,</dt>
+<dd>an instance of Lattice or None for Cartesian system</dd>
+</dl>
+</dd>
+<dt>Private data:</dt>
+<dd><p class="first">_U          &#8211; storage of U property, 3x3 numpy matrix
+_Uisoequiv  &#8211; storage of Uisoequiv property, float
+_anisotropy &#8211; storage of anisotropy property, bool or</p>
+<blockquote>
+<div>None when not determined</div></blockquote>
+<dl class="last docutils">
+<dt>_Usynced    &#8211; flag for consistency of _U with _Uisoequiv,</dt>
+<dd>it is meaningful only for isotropic atoms</dd>
+</dl>
+</dd>
+<dt>Class data:</dt>
+<dd>tol_anisotropy &#8211; tolerated U matrix deviation for isotropic atom</dd>
+</dl>
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.B11">
+<tt class="descname">B11</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.B11" title="Permalink to this definition">¶</a></dt>
+<dd><p>B11 element of Debye-Waler displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.B12">
+<tt class="descname">B12</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.B12" title="Permalink to this definition">¶</a></dt>
+<dd><p>B12 element of Debye-Waler displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.B13">
+<tt class="descname">B13</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.B13" title="Permalink to this definition">¶</a></dt>
+<dd><p>B13 element of Debye-Waler displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.B22">
+<tt class="descname">B22</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.B22" title="Permalink to this definition">¶</a></dt>
+<dd><p>B22 element of Debye-Waler displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.B23">
+<tt class="descname">B23</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.B23" title="Permalink to this definition">¶</a></dt>
+<dd><p>B23 element of Debye-Waler displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.B33">
+<tt class="descname">B33</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.B33" title="Permalink to this definition">¶</a></dt>
+<dd><p>B33 element of Debye-Waler displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.Bisoequiv">
+<tt class="descname">Bisoequiv</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.Bisoequiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Debye-Waler isotropic thermal displacement or equivalent value</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.U">
+<tt class="descname">U</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.U" title="Permalink to this definition">¶</a></dt>
+<dd><p>anisotropic thermal displacement tensor.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.U11">
+<tt class="descname">U11</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.U11" title="Permalink to this definition">¶</a></dt>
+<dd><p>U11 element of anisotropic displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.U12">
+<tt class="descname">U12</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.U12" title="Permalink to this definition">¶</a></dt>
+<dd><p>U12 element of anisotropic displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.U13">
+<tt class="descname">U13</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.U13" title="Permalink to this definition">¶</a></dt>
+<dd><p>U13 element of anisotropic displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.U22">
+<tt class="descname">U22</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.U22" title="Permalink to this definition">¶</a></dt>
+<dd><p>U22 element of anisotropic displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.U23">
+<tt class="descname">U23</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.U23" title="Permalink to this definition">¶</a></dt>
+<dd><p>U23 element of anisotropic displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.U33">
+<tt class="descname">U33</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.U33" title="Permalink to this definition">¶</a></dt>
+<dd><p>U33 element of anisotropic displacement tensor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.Uisoequiv">
+<tt class="descname">Uisoequiv</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.Uisoequiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>isotropic thermal displacement or equivalent value</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.anisotropy">
+<tt class="descname">anisotropy</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.anisotropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>flag for anisotropic thermal displacements.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.element">
+<tt class="descname">element</tt><em class="property"> = ''</em><a class="headerlink" href="#diffpy.Structure.atom.Atom.element" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.label">
+<tt class="descname">label</tt><em class="property"> = ''</em><a class="headerlink" href="#diffpy.Structure.atom.Atom.label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.lattice">
+<tt class="descname">lattice</tt><em class="property"> = None</em><a class="headerlink" href="#diffpy.Structure.atom.Atom.lattice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.atom.Atom.msdCart">
+<tt class="descname">msdCart</tt><big>(</big><em>vc</em><big>)</big><a class="headerlink" href="#diffpy.Structure.atom.Atom.msdCart" title="Permalink to this definition">¶</a></dt>
+<dd><p>mean square displacement of an atom along cartesian vector</p>
+<p>vc &#8211; vector in absolute cartesian coordinates</p>
+<p>return mean square displacement</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.atom.Atom.msdLat">
+<tt class="descname">msdLat</tt><big>(</big><em>vl</em><big>)</big><a class="headerlink" href="#diffpy.Structure.atom.Atom.msdLat" title="Permalink to this definition">¶</a></dt>
+<dd><p>mean square displacement of an atom along lattice vector</p>
+<p>vl &#8211; vector in lattice coordinates</p>
+<p>return mean square displacement</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.occupancy">
+<tt class="descname">occupancy</tt><em class="property"> = 1.0</em><a class="headerlink" href="#diffpy.Structure.atom.Atom.occupancy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.tol_anisotropy">
+<tt class="descname">tol_anisotropy</tt><em class="property"> = 1e-06</em><a class="headerlink" href="#diffpy.Structure.atom.Atom.tol_anisotropy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.x">
+<tt class="descname">x</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>fractional coordinate x.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.xyz_cartn">
+<tt class="descname">xyz_cartn</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.xyz_cartn" title="Permalink to this definition">¶</a></dt>
+<dd><p>absolute Cartesian coordinates of an atom</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.y">
+<tt class="descname">y</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>fractional coordinate y.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.atom.Atom.z">
+<tt class="descname">z</tt><a class="headerlink" href="#diffpy.Structure.atom.Atom.z" title="Permalink to this definition">¶</a></dt>
+<dd><p>fractional coordinate z.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.bratomsstructure">
+<span id="bratomsstructure-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">bratomsstructure</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.bratomsstructure" title="Permalink to this headline">¶</a></h2>
+<p>definition of BRAtomsStructure class derived from Structure</p>
+<dl class="class">
+<dt id="diffpy.Structure.bratomsstructure.BRAtomsStructure">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.bratomsstructure.</tt><tt class="descname">BRAtomsStructure</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#diffpy.Structure.bratomsstructure.BRAtomsStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#diffpy.Structure.structure.Structure" title="diffpy.Structure.structure.Structure"><tt class="xref py py-class docutils literal"><span class="pre">diffpy.Structure.structure.Structure</span></tt></a></p>
+<dl class="docutils">
+<dt>BRAtomsStructure &#8211;&gt; Structure with extra information for use with Bruce</dt>
+<dd><p class="first">Ravel&#8217;s atoms program.</p>
+<dl class="last docutils">
+<dt>Data members:</dt>
+<dd><dl class="first docutils">
+<dt>bratoms &#8211; dictionary for storing following extra parameters from</dt>
+<dd>atoms .inp files.
+&#8216;space&#8217;, &#8216;output&#8217;, &#8216;rmax&#8217;, &#8216;core&#8217;, &#8216;edge&#8217;, &#8216;shift&#8217;,
+&#8216;nitrogen&#8217;, &#8216;argon&#8217;, &#8216;krypton&#8217;</dd>
+</dl>
+<p class="last">see the following web site for descriptions.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p><a class="reference external" href="http://leonardo.phys.washington.edu/~ravel/software/doc/Atoms/Atoms/node7.html">http://leonardo.phys.washington.edu/~ravel/software/doc/Atoms/Atoms/node7.html</a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.lattice">
+<span id="lattice-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">lattice</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.lattice" title="Permalink to this headline">¶</a></h2>
+<p>class Lattice stores properites and provides simple operations in lattice
+coordinate system.</p>
+<dl class="docutils">
+<dt>Module variables:</dt>
+<dd>cartesian   &#8211; constant instance of Lattice, default Cartesian system</dd>
+</dl>
+<dl class="class">
+<dt id="diffpy.Structure.lattice.Lattice">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.lattice.</tt><tt class="descname">Lattice</tt><big>(</big><em>a=None</em>, <em>b=None</em>, <em>c=None</em>, <em>alpha=None</em>, <em>beta=None</em>, <em>gamma=None</em>, <em>baserot=None</em>, <em>base=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Lattice &#8211;&gt; general coordinate system</p>
+<p>Data members:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>a, b, c, alpha, beta, gamma &#8211; lattice parameters with cell angles</dt>
+<dd>in degrees, read-write properties.  Assignment to cell
+parameters calls the setLatPar method.  The lattice parameters
+can be also changed by calling the setLatBase method.</dd>
+<dt>ar, br, cr, alphar, betar, gammar &#8211; cell parameters for the</dt>
+<dd>reciprocal lattice.  Their values reflect the direct cell
+parameters and the calls to setLatPar or setLatBase methods.
+The reciprocal angles are in degrees.  Read-only properties.</dd>
+<dt>ca, cb, cg, sa, sb, sg &#8211; cosines and sines of the lattice angles,</dt>
+<dd>read-only properties</dd>
+<dt>car, cbr, cgr, sar, sbr, sgr &#8211; cosines and sines of the reciprocal</dt>
+<dd>lattice angles, read-only properties.</dd>
+</dl>
+<p>metrics  &#8211; metrics tensor
+base     &#8211; matrix of row base vectors in Cartesian coordinates,</p>
+<blockquote>
+<div>base = stdbase*baserot</div></blockquote>
+<p>stdbase  &#8211; matrix of base vectors in standard orientation
+baserot  &#8211; base rotation matrix
+recbase  &#8211; inverse of base matrix, its columns are reciprocal</p>
+<blockquote>
+<div>vectors in Cartesian coordinates</div></blockquote>
+<p>normbase &#8211; base with magnitudes of reciprocal vectors
+recnormbase &#8211; inverse of normbase</p>
+</div></blockquote>
+<p>Note: All data members except a, b, c, alpha, beta, gamma are read-only.
+Their values get updated by setting the lattice parameters or calling
+the setLatPar() or setLatBase() methods.</p>
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.a">
+<tt class="descname">a</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unit cell length a</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.lattice.Lattice.abcABG">
+<tt class="descname">abcABG</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.abcABG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tuple of 6 lattice parameters.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.alpha">
+<tt class="descname">alpha</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cell angle alpha in degrees</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.alphar">
+<tt class="descname">alphar</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.alphar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reciprocal lattice angle alpha in degrees</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.lattice.Lattice.angle">
+<tt class="descname">angle</tt><big>(</big><em>u</em>, <em>v</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return angle(u, v) &#8211;&gt; angle of 2 lattice vectors in degrees.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.ar">
+<tt class="descname">ar</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.ar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cell length a of the reciprocal lattice</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.b">
+<tt class="descname">b</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unit cell length b</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.beta">
+<tt class="descname">beta</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cell angle beta in degrees</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.betar">
+<tt class="descname">betar</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.betar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reciprocal lattice angle beta in degrees</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.br">
+<tt class="descname">br</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.br" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cell length b of the reciprocal lattice</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.c">
+<tt class="descname">c</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unit cell length c</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.ca">
+<tt class="descname">ca</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.ca" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine of the cell angle alpha</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.car">
+<tt class="descname">car</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.car" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine of the reciprocal angle alpha</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.lattice.Lattice.cartesian">
+<tt class="descname">cartesian</tt><big>(</big><em>u</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.cartesian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Cartesian coordinates of a lattice vector.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.cb">
+<tt class="descname">cb</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine of the cell angle beta</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.cbr">
+<tt class="descname">cbr</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.cbr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine of the reciprocal angle beta</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.cg">
+<tt class="descname">cg</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.cg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine of the cell angle gamma</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.cgr">
+<tt class="descname">cgr</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.cgr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine of the reciprocal angle gamma</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.cr">
+<tt class="descname">cr</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.cr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cell length c of the reciprocal lattice</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.lattice.Lattice.dist">
+<tt class="descname">dist</tt><big>(</big><em>u</em>, <em>v</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return distance of 2 points in lattice coordinates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.lattice.Lattice.dot">
+<tt class="descname">dot</tt><big>(</big><em>u</em>, <em>v</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return dot product of 2 lattice vectors.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.lattice.Lattice.fractional">
+<tt class="descname">fractional</tt><big>(</big><em>rc</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.fractional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return fractional coordinates of a Cartesian vector.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.gamma">
+<tt class="descname">gamma</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.gamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cell angle gamma in degrees</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.gammar">
+<tt class="descname">gammar</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.gammar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reciprocal lattice angle gamma in degrees</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.lattice.Lattice.norm">
+<tt class="descname">norm</tt><big>(</big><em>u</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return norm of the specified lattice vector.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.lattice.Lattice.reciprocal">
+<tt class="descname">reciprocal</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.reciprocal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the reciprocal lattice to self.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.sa">
+<tt class="descname">sa</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.sa" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sine of the cell angle alpha</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.sar">
+<tt class="descname">sar</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.sar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sine of the reciprocal angle alpha</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.sb">
+<tt class="descname">sb</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.sb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sine of the cell angle beta</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.sbr">
+<tt class="descname">sbr</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.sbr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sine of the reciprocal angle beta</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.lattice.Lattice.setLatBase">
+<tt class="descname">setLatBase</tt><big>(</big><em>base</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.setLatBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set matrix of unit cell base vectors and calculate corresponding
+lattice parameters and stdbase, baserot and metrics tensors.</p>
+<p>No return value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.lattice.Lattice.setLatPar">
+<tt class="descname">setLatPar</tt><big>(</big><em>a=None</em>, <em>b=None</em>, <em>c=None</em>, <em>alpha=None</em>, <em>beta=None</em>, <em>gamma=None</em>, <em>baserot=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.setLatPar" title="Permalink to this definition">¶</a></dt>
+<dd><p>set lattice parameters and all related tensors</p>
+<dl class="docutils">
+<dt>a, b, c, alpha, beta, gamma &#8211; lattice parameters, unit cell angles</dt>
+<dd>are in degrees.</dd>
+</dl>
+<p>baserot  &#8211; unit cell rotation, base = stdbase*baserot</p>
+<p>Note: parameters with value None will remain unchanged.</p>
+<p>No return value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.sg">
+<tt class="descname">sg</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.sg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sine of the cell angle gamma</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.sgr">
+<tt class="descname">sgr</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.sgr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sine of the reciprocal angle gamma</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.unitvolume">
+<tt class="descname">unitvolume</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.unitvolume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cell volume assuming a=b=c=1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.lattice.Lattice.volume">
+<tt class="descname">volume</tt><a class="headerlink" href="#diffpy.Structure.lattice.Lattice.volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lattice cell volume</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.lattice.cosd">
+<tt class="descclassname">diffpy.Structure.lattice.</tt><tt class="descname">cosd</tt><big>(</big><em>x</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.cosd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the cosine of x (measured in degrees).
+Avoid round-off errors for exact cosine values.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.lattice.sind">
+<tt class="descclassname">diffpy.Structure.lattice.</tt><tt class="descname">sind</tt><big>(</big><em>x</em><big>)</big><a class="headerlink" href="#diffpy.Structure.lattice.sind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sine of x (measured in degrees).
+Avoid round-off errors for exact sine values.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.mmlibspacegroups">
+<span id="mmlibspacegroups-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">mmlibspacegroups</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.mmlibspacegroups" title="Permalink to this headline">¶</a></h2>
+<p>Space groups defined as a part of the pymmlib.</p>
+</div>
+<div class="section" id="module-diffpy.Structure.pdffitstructure">
+<span id="pdffitstructure-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">pdffitstructure</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.pdffitstructure" title="Permalink to this headline">¶</a></h2>
+<p>definition of PDFFitStructure class derived from Structure</p>
+<dl class="class">
+<dt id="diffpy.Structure.pdffitstructure.PDFFitStructure">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.pdffitstructure.</tt><tt class="descname">PDFFitStructure</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#diffpy.Structure.pdffitstructure.PDFFitStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#diffpy.Structure.structure.Structure" title="diffpy.Structure.structure.Structure"><tt class="xref py py-class docutils literal"><span class="pre">diffpy.Structure.structure.Structure</span></tt></a></p>
+<p>PDFFitStructure &#8211;&gt; Structure with extra pdffit member</p>
+<dl class="docutils">
+<dt>Data members:</dt>
+<dd><dl class="first last docutils">
+<dt>pdffit &#8211; dictionary for storing following extra parameters from</dt>
+<dd><dl class="first last docutils">
+<dt>PDFFit structure files:</dt>
+<dd>&#8216;scale&#8217;, &#8216;delta1&#8217;, &#8216;delta2&#8217;, &#8216;sratio&#8217;,
+&#8216;rcut&#8217;, &#8216;spcgr&#8217;, &#8216;dcell&#8217;, &#8216;ncell&#8217;</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="diffpy.Structure.pdffitstructure.PDFFitStructure.read">
+<tt class="descname">read</tt><big>(</big><em>filename</em>, <em>format='auto'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.pdffitstructure.PDFFitStructure.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as Structure.read, but update spcgr value in
+self.pdffit when parser can get spacegroup.</p>
+<p>Return instance of StructureParser used to load the data.
+See Structure.read() for more info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.pdffitstructure.PDFFitStructure.readStr">
+<tt class="descname">readStr</tt><big>(</big><em>s</em>, <em>format='auto'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.pdffitstructure.PDFFitStructure.readStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as Structure.readStr, but update spcgr value in
+self.pdffit when parser can get spacegroup.</p>
+<p>Return instance of StructureParser used to load the data.
+See Structure.readStr() for more info.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.sgtbxspacegroups">
+<span id="sgtbxspacegroups-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">sgtbxspacegroups</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.sgtbxspacegroups" title="Permalink to this headline">¶</a></h2>
+<p>Extra space group representations generated using sgtbx module from cctbx.
+Import of this module extends the SpaceGroupList in the SpaceGroups module.
+Notable variables:</p>
+<p>sgtbxSpaceGroupList &#8211; list of space group instances defined in this module</p>
+</div>
+<div class="section" id="module-diffpy.Structure.spacegroupmod">
+<span id="spacegroupmod-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">spacegroupmod</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.spacegroupmod" title="Permalink to this headline">¶</a></h2>
+<p>Symmetry operations as functions on vectors or arrays.</p>
+<dl class="class">
+<dt id="diffpy.Structure.spacegroupmod.SpaceGroup">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.spacegroupmod.</tt><tt class="descname">SpaceGroup</tt><big>(</big><em>number=None</em>, <em>num_sym_equiv=None</em>, <em>num_primitive_sym_equiv=None</em>, <em>short_name=None</em>, <em>alt_name=None</em>, <em>point_group_name=None</em>, <em>crystal_system=None</em>, <em>pdb_name=None</em>, <em>symop_list=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.spacegroupmod.SpaceGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Contains the various names and symmetry operations for one space
+group.</p>
+<dl class="method">
+<dt id="diffpy.Structure.spacegroupmod.SpaceGroup.check_group_name">
+<tt class="descname">check_group_name</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#diffpy.Structure.spacegroupmod.SpaceGroup.check_group_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the given name is a name for this space group,
+returns True or False.  The space group name can be in several forms:
+the short name, the longer PDB-style name, or the space group number.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.spacegroupmod.SpaceGroup.iter_equivalent_positions">
+<tt class="descname">iter_equivalent_positions</tt><big>(</big><em>vec</em><big>)</big><a class="headerlink" href="#diffpy.Structure.spacegroupmod.SpaceGroup.iter_equivalent_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate the symmetry equivelant positions of the argument vector.
+The vector must already be in fractional coordinates, and the
+symmetry equivelant vectors are also in fractional coordinates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.spacegroupmod.SpaceGroup.iter_symops">
+<tt class="descname">iter_symops</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.spacegroupmod.SpaceGroup.iter_symops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates over all SymOps in the SpaceGroup.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.Structure.spacegroupmod.SymOp">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.spacegroupmod.</tt><tt class="descname">SymOp</tt><big>(</big><em>R</em>, <em>t</em><big>)</big><a class="headerlink" href="#diffpy.Structure.spacegroupmod.SymOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A subclass of the tuple class for performing one symmetry operation.</p>
+<dl class="method">
+<dt id="diffpy.Structure.spacegroupmod.SymOp.is_identity">
+<tt class="descname">is_identity</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.spacegroupmod.SymOp.is_identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if this SymOp is a identity symmetry operation
+(no rotation, no translation), otherwise returns False.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.structure">
+<span id="structure-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">structure</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.structure" title="Permalink to this headline">¶</a></h2>
+<p>This module defines class Structure.</p>
+<dl class="class">
+<dt id="diffpy.Structure.structure.Structure">
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.structure.</tt><tt class="descname">Structure</tt><big>(</big><em>atoms=</em><span class="optional">[</span><span class="optional">]</span>, <em>lattice=None</em>, <em>title=None</em>, <em>filename=None</em>, <em>format=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">list</span></tt></p>
+<p>Structure &#8211;&gt; group of atoms</p>
+<p>Structure class is inherited from Python list.  It contains
+a list of Atom instances.  Structure overloads setitem and setslice
+methods so that the lattice attribute of atoms get set to lattice.</p>
+<dl class="docutils">
+<dt>Data members:</dt>
+<dd>title   &#8211; structure description
+lattice &#8211; coordinate system (instance of Lattice)
+pdffit  &#8211; None or a dictionary of PDFFit-related metadata</dd>
+</dl>
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.B11">
+<tt class="descname">B11</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.B11" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of B11 elements of the Debye-Waller displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.B12">
+<tt class="descname">B12</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.B12" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of B12 elements of the Debye-Waller displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.B13">
+<tt class="descname">B13</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.B13" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of B13 elements of the Debye-Waller displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.B22">
+<tt class="descname">B22</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.B22" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of B22 elements of the Debye-Waller displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.B23">
+<tt class="descname">B23</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.B23" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of B23 elements of the Debye-Waller displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.B33">
+<tt class="descname">B33</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.B33" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of B33 elements of the Debye-Waller displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.Bisoequiv">
+<tt class="descname">Bisoequiv</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.Bisoequiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of Debye-Waller isotropic thermal displacement or equivalent
+values.  Assignment updates the U attribute of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.U">
+<tt class="descname">U</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.U" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of anisotropic thermal displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.U11">
+<tt class="descname">U11</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.U11" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of U11 elements of the anisotropic displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.U12">
+<tt class="descname">U12</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.U12" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of U12 elements of the anisotropic displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.U13">
+<tt class="descname">U13</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.U13" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of U13 elements of the anisotropic displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.U22">
+<tt class="descname">U22</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.U22" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of U22 elements of the anisotropic displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.U23">
+<tt class="descname">U23</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.U23" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of U23 elements of the anisotropic displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.U33">
+<tt class="descname">U33</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.U33" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of U33 elements of the anisotropic displacement tensors.
+Assignment updates the U and anisotropy attributes of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.Uisoequiv">
+<tt class="descname">Uisoequiv</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.Uisoequiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of isotropic thermal displacement or equivalent values.
+Assignment updates the U attribute of all atoms.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.addNewAtom">
+<tt class="descname">addNewAtom</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.addNewAtom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add new Atom instance to the end of this Structure.</p>
+<p>All arguments are forwarded to Atom constructor.</p>
+<p>No return value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.angle">
+<tt class="descname">angle</tt><big>(</big><em>aid0</em>, <em>aid1</em>, <em>aid2</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bond angle at the second of three atoms in degrees.</p>
+<dl class="docutils">
+<dt>aid0 &#8211; zero based index of the first atom or a string label</dt>
+<dd>such as &#8220;Na1&#8221;</dd>
+<dt>aid1 &#8211; index or string label for the second atom,</dt>
+<dd>where the angle is formed</dd>
+</dl>
+<p>aid2 &#8211; index or string label for the third atom</p>
+<p>Return float.
+Raise IndexError for invalid arguments.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.anisotropy">
+<tt class="descname">anisotropy</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.anisotropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean array for anisotropic thermal displacement flags.
+Assignment updates the anisotropy attribute of all atoms.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.append">
+<tt class="descname">append</tt><big>(</big><em>a</em>, <em>copy=True</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append atom to a structure and update its lattice attribute.</p>
+<p>a    &#8211; instance of Atom
+copy &#8211; flag for appending a copy of a.</p>
+<blockquote>
+<div>When False, append a and update a.lattice.</div></blockquote>
+<p>No return value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.assignUniqueLabels">
+<tt class="descname">assignUniqueLabels</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.assignUniqueLabels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a unique label string for each atom in this structure.
+The label strings are formatted as &#8220;%(baresymbol)s%(index)i&#8221;,
+where baresymbol is the element right-stripped of &#8220;[0-9][+-]&#8221;.</p>
+<p>No return value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.composition">
+<tt class="descname">composition</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.composition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of chemical symbols and their total occupancies.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.distance">
+<tt class="descname">distance</tt><big>(</big><em>aid0</em>, <em>aid1</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance between 2 atoms, no periodic boundary conditions.</p>
+<dl class="docutils">
+<dt>aid0 &#8211; zero based index of the first atom or a string label</dt>
+<dd>such as &#8220;Na1&#8221;</dd>
+</dl>
+<p>aid1 &#8211; zero based index or string label of the second atom.</p>
+<p>Return float.
+Raise IndexError for invalid arguments.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.element">
+<tt class="descname">element</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Character array of atom types.  Assignment updates
+the element attribute of the respective atoms.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.extend">
+<tt class="descname">extend</tt><big>(</big><em>atoms</em>, <em>copy=True</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend Structure by appending copies from a list of atoms.</p>
+<p>atoms &#8211; list of Atom instances
+copy  &#8211; flag for extending with copies of Atom instances.</p>
+<blockquote>
+<div>When False extend with atoms and update their lattice
+attributes.</div></blockquote>
+<p>No return value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.getLastAtom">
+<tt class="descname">getLastAtom</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.getLastAtom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Reference to the last Atom in this structure.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.insert">
+<tt class="descname">insert</tt><big>(</big><em>idx</em>, <em>a</em>, <em>copy=True</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert atom a before position idx in this Structure.</p>
+<p>idx  &#8211; position in atom list
+a    &#8211; instance of Atom
+copy &#8211; flag for inserting a copy of a.</p>
+<blockquote>
+<div>When False, append a and update a.lattice.</div></blockquote>
+<p>No return value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.label">
+<tt class="descname">label</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Character array of atom names.  Assignment updates
+the label attribute of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.lattice">
+<tt class="descname">lattice</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.lattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coordinate system for this Structure.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.occupancy">
+<tt class="descname">occupancy</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.occupancy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of atom occupancies.  Assignment updates the
+occupancy attribute of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.pdffit">
+<tt class="descname">pdffit</tt><em class="property"> = None</em><a class="headerlink" href="#diffpy.Structure.structure.Structure.pdffit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.placeInLattice">
+<tt class="descname">placeInLattice</tt><big>(</big><em>new_lattice</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.placeInLattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>place structure into new_lattice coordinate system</p>
+<p>sets lattice to new_lattice and recalculate fractional coordinates
+of all atoms so their absolute positions remain the same</p>
+<p>return self</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.read">
+<tt class="descname">read</tt><big>(</big><em>filename</em>, <em>format='auto'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load structure from a file, any original data become lost.</p>
+<p>filename &#8211; file to be loaded
+format   &#8211; all structure formats are defined in Parsers submodule,</p>
+<blockquote>
+<div>when format == &#8216;auto&#8217; all Parsers are tried one by one</div></blockquote>
+<p>Return instance of data Parser used to process file.  This
+can be inspected for information related to particular format.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.readStr">
+<tt class="descname">readStr</tt><big>(</big><em>s</em>, <em>format='auto'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.readStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load structure from a string, any original data become lost.</p>
+<p>s        &#8211; string with structure definition
+format   &#8211; all structure formats are defined in Parsers submodule,</p>
+<blockquote>
+<div>when format == &#8216;auto&#8217; all Parsers are tried one by one</div></blockquote>
+<p>Return instance of data Parser used to process input string.  This
+can be inspected for information related to particular format.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.title">
+<tt class="descname">title</tt><em class="property"> = ''</em><a class="headerlink" href="#diffpy.Structure.structure.Structure.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.tolist">
+<tt class="descname">tolist</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.tolist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return atoms in this Structure as a standard Python list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.write">
+<tt class="descname">write</tt><big>(</big><em>filename</em>, <em>format</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save structure to file in the specified format</p>
+<p>No return value.</p>
+<dl class="docutils">
+<dt>Note: available structure formats can be obtained by:</dt>
+<dd>from Parsers import formats</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.Structure.structure.Structure.writeStr">
+<tt class="descname">writeStr</tt><big>(</big><em>format</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure.writeStr" title="Permalink to this definition">¶</a></dt>
+<dd><p>return string representation of the structure in specified format</p>
+<dl class="docutils">
+<dt>Note: available structure formats can be obtained by:</dt>
+<dd>from Parsers import formats</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.x">
+<tt class="descname">x</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of all fractional coordinates x.
+Assignment updates xyz attribute of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.xyz">
+<tt class="descname">xyz</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of fractional coordinates of all atoms.
+Assignment updates xyz attribute of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.xyz_cartn">
+<tt class="descname">xyz_cartn</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.xyz_cartn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of absolute Cartesian coordinates of all atoms.
+Assignment updates the xyz attribute of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.y">
+<tt class="descname">y</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of all fractional coordinates y.
+Assignment updates xyz attribute of all atoms.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.Structure.structure.Structure.z">
+<tt class="descname">z</tt><a class="headerlink" href="#diffpy.Structure.structure.Structure.z" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array of all fractional coordinates z.
+Assignment updates xyz attribute of all atoms.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.utils">
+<span id="utils-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">utils</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.utils" title="Permalink to this headline">¶</a></h2>
+<p>Small shared functions.</p>
+<dl class="function">
+<dt id="diffpy.Structure.utils.atomBareSymbol">
+<tt class="descclassname">diffpy.Structure.utils.</tt><tt class="descname">atomBareSymbol</tt><big>(</big><em>smbl</em><big>)</big><a class="headerlink" href="#diffpy.Structure.utils.atomBareSymbol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove atom type string stripped of isotope and ion charge symbols.
+This removes blank and leading [0-9-] or trailing [1-9][+-] characters.</p>
+<p>smbl &#8211; atom type string such as &#8220;Cl-&#8221;, &#8220;Ca2+&#8221; or &#8220;12-C&#8221;.</p>
+<p>Return bare element symbol.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.utils.isfloat">
+<tt class="descclassname">diffpy.Structure.utils.</tt><tt class="descname">isfloat</tt><big>(</big><em>s</em><big>)</big><a class="headerlink" href="#diffpy.Structure.utils.isfloat" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if argument can be converted to float</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.version">
+<span id="version-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">version</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.version" title="Permalink to this headline">¶</a></h2>
+<p>Definition of __version__, __date__, __gitsha__.</p>
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="diffpy.Structure.Parsers.html">Parsers Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#id1"><tt class="docutils literal"><span class="pre">Parsers</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_auto"><tt class="docutils literal"><span class="pre">P_auto</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_bratoms"><tt class="docutils literal"><span class="pre">P_bratoms</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_cif"><tt class="docutils literal"><span class="pre">P_cif</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_discus"><tt class="docutils literal"><span class="pre">P_discus</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_pdb"><tt class="docutils literal"><span class="pre">P_pdb</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_pdffit"><tt class="docutils literal"><span class="pre">P_pdffit</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_rawxyz"><tt class="docutils literal"><span class="pre">P_rawxyz</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_xcfg"><tt class="docutils literal"><span class="pre">P_xcfg</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_xyz"><tt class="docutils literal"><span class="pre">P_xyz</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.parser_index_mod"><tt class="docutils literal"><span class="pre">parser_index_mod</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.structureparser"><tt class="docutils literal"><span class="pre">structureparser</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="diffpy.Structure.applications.html">applications Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.applications.html#id1"><tt class="docutils literal"><span class="pre">applications</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.applications.html#module-diffpy.Structure.applications.anyeye"><tt class="docutils literal"><span class="pre">anyeye</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.applications.html#module-diffpy.Structure.applications.transtru"><tt class="docutils literal"><span class="pre">transtru</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="diffpy.Structure.expansion.html">expansion Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#id1"><tt class="docutils literal"><span class="pre">expansion</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.makeCuboctahedron"><tt class="docutils literal"><span class="pre">makeCuboctahedron</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.makeEllipsoid"><tt class="docutils literal"><span class="pre">makeEllipsoid</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.shapeUtils"><tt class="docutils literal"><span class="pre">shapeUtils</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.supercell_mod"><tt class="docutils literal"><span class="pre">supercell_mod</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="diffpy.Structure.tests.html">tests Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#id1"><tt class="docutils literal"><span class="pre">tests</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.TestLattice"><tt class="docutils literal"><span class="pre">TestLattice</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.TestLoadStructure"><tt class="docutils literal"><span class="pre">TestLoadStructure</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.TestP_cif"><tt class="docutils literal"><span class="pre">TestP_cif</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.TestP_discus"><tt class="docutils literal"><span class="pre">TestP_discus</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.TestP_pdffit"><tt class="docutils literal"><span class="pre">TestP_pdffit</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.TestParsers"><tt class="docutils literal"><span class="pre">TestParsers</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.TestStructure"><tt class="docutils literal"><span class="pre">TestStructure</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.TestSuperCell"><tt class="docutils literal"><span class="pre">TestSuperCell</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.TestSymmetryUtilities"><tt class="docutils literal"><span class="pre">TestSymmetryUtilities</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.run"><tt class="docutils literal"><span class="pre">run</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.tests.html#module-diffpy.Structure.tests.testutils"><tt class="docutils literal"><span class="pre">testutils</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Structure Package</a><ul>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">Structure</span></tt> Package</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.SpaceGroups"><tt class="docutils literal"><span class="pre">SpaceGroups</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.StructureErrors"><tt class="docutils literal"><span class="pre">StructureErrors</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.SymmetryUtilities"><tt class="docutils literal"><span class="pre">SymmetryUtilities</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.atom"><tt class="docutils literal"><span class="pre">atom</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.bratomsstructure"><tt class="docutils literal"><span class="pre">bratomsstructure</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.lattice"><tt class="docutils literal"><span class="pre">lattice</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.mmlibspacegroups"><tt class="docutils literal"><span class="pre">mmlibspacegroups</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.pdffitstructure"><tt class="docutils literal"><span class="pre">pdffitstructure</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.sgtbxspacegroups"><tt class="docutils literal"><span class="pre">sgtbxspacegroups</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.spacegroupmod"><tt class="docutils literal"><span class="pre">spacegroupmod</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.structure"><tt class="docutils literal"><span class="pre">structure</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.utils"><tt class="docutils literal"><span class="pre">utils</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.version"><tt class="docutils literal"><span class="pre">version</span></tt> Module</a></li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="previous chapter">diffpy API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="diffpy.Structure.Parsers.html"
+                        title="next chapter">Parsers Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/diffpy.Structure.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="diffpy.Structure.Parsers.html" title="Parsers Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="diffpy API"
+             >previous</a> |</li>
+        <li><a href="../index.html">Structure 1.1-40 documentation</a> &raquo;</li>
+          <li><a href="api.html" >diffpy API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Pavol Juhás, Christopher L. Farrow, Simon J.L. Billinge group.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

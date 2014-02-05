@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>applications Package &mdash; Structure 1.1-40 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.1-40',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="top" title="Structure 1.1-40 documentation" href="../index.html" />
+    <link rel="up" title="Structure Package" href="diffpy.Structure.html" />
+    <link rel="next" title="expansion Package" href="diffpy.Structure.expansion.html" />
+    <link rel="prev" title="Parsers Package" href="diffpy.Structure.Parsers.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="diffpy.Structure.expansion.html" title="expansion Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="diffpy.Structure.Parsers.html" title="Parsers Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Structure 1.1-40 documentation</a> &raquo;</li>
+          <li><a href="api.html" >diffpy API</a> &raquo;</li>
+          <li><a href="diffpy.Structure.html" accesskey="U">Structure Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="applications-package">
+<h1>applications Package<a class="headerlink" href="#applications-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">applications</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-diffpy.Structure.applications"></span><p>Script applications that use the diffpy.Structure package.</p>
+</div>
+<div class="section" id="module-diffpy.Structure.applications.anyeye">
+<span id="anyeye-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">anyeye</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.applications.anyeye" title="Permalink to this headline">¶</a></h2>
+<p>anyeye    view structure file in atomeye
+Usage: anyeye [options] strufile</p>
+<p>anyeye understands more structure formats than atomeye.  It converts strufile
+to a temporary XCFG file which is opened in atomeye.  Supported file formats:</p>
+<blockquote>
+<div>inputFormats</div></blockquote>
+<dl class="docutils">
+<dt>Options:</dt>
+<dd><table class="first docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-f</span>, <span class="option">--formula</span></kbd></td>
+<td>override chemical formula in strufile, formula defines
+elements in the same order as in strufile, e.g, Na4Cl4</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-w</span>, <span class="option">--watch</span></kbd></td>
+<td>watch input file for changes</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--viewer=<var>VIEWER</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>the structure viewer program, by default &#8220;atomeye&#8221;.
+The program will be executed as &#8220;VIEWER structurefile&#8221;</td></tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>&#8211;formats=FORMATS comma separated list of file formats that are understood</dt>
+<dd>by the VIEWER, by default &#8220;xcfg,pdb&#8221;.  Files of other
+formats will be converted to the first listed format.</dd>
+</dl>
+<table class="last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>display this message and exit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-V</span>, <span class="option">--version</span></kbd></td>
+<td>show script version and exit</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<dl class="function">
+<dt id="diffpy.Structure.applications.anyeye.cleanUp">
+<tt class="descclassname">diffpy.Structure.applications.anyeye.</tt><tt class="descname">cleanUp</tt><big>(</big><em>pd</em><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.anyeye.cleanUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.anyeye.convertStructureFile">
+<tt class="descclassname">diffpy.Structure.applications.anyeye.</tt><tt class="descname">convertStructureFile</tt><big>(</big><em>pd</em><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.anyeye.convertStructureFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.anyeye.die">
+<tt class="descclassname">diffpy.Structure.applications.anyeye.</tt><tt class="descname">die</tt><big>(</big><em>exit_status=0</em>, <em>pd={}</em><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.anyeye.die" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.anyeye.loadStructureFile">
+<tt class="descclassname">diffpy.Structure.applications.anyeye.</tt><tt class="descname">loadStructureFile</tt><big>(</big><em>filename</em>, <em>format='auto'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.anyeye.loadStructureFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load structure from specified file.</p>
+<p>Return a tuple of (Structure, fileformat).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.anyeye.main">
+<tt class="descclassname">diffpy.Structure.applications.anyeye.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.anyeye.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.anyeye.parseFormula">
+<tt class="descclassname">diffpy.Structure.applications.anyeye.</tt><tt class="descname">parseFormula</tt><big>(</big><em>formula</em><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.anyeye.parseFormula" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse chemical formula and return a list of elements</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.anyeye.signalHandler">
+<tt class="descclassname">diffpy.Structure.applications.anyeye.</tt><tt class="descname">signalHandler</tt><big>(</big><em>signum</em>, <em>stackframe</em><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.anyeye.signalHandler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.anyeye.usage">
+<tt class="descclassname">diffpy.Structure.applications.anyeye.</tt><tt class="descname">usage</tt><big>(</big><em>style=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.anyeye.usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>show usage info, for style==&#8221;brief&#8221; show only first 2 lines</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.anyeye.version">
+<tt class="descclassname">diffpy.Structure.applications.anyeye.</tt><tt class="descname">version</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.anyeye.version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.anyeye.watchStructureFile">
+<tt class="descclassname">diffpy.Structure.applications.anyeye.</tt><tt class="descname">watchStructureFile</tt><big>(</big><em>pd</em><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.anyeye.watchStructureFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.Structure.applications.transtru">
+<span id="transtru-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">transtru</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.applications.transtru" title="Permalink to this headline">¶</a></h2>
+<p>transtru   translate structure file to different format
+Usage: transtru INFMT..OUTFMT strufile</p>
+<p>translates structure file strufile from INFMT to OUTFMT format and prints it
+to the screen.  Use &#8220;-&#8221; as strufile to read from standard input.  To save the
+translated file, use</p>
+<blockquote>
+<div>transtru INFMT..OUTFMT strufile &gt; strufile.out</div></blockquote>
+<dl class="docutils">
+<dt>Supported input and output structure formats are</dt>
+<dd>INFMT:   inputFormats
+OUTFMT:  outputFormats</dd>
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>display this message</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-V</span>, <span class="option">--version</span></kbd></td>
+<td>show script version</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<dl class="function">
+<dt id="diffpy.Structure.applications.transtru.main">
+<tt class="descclassname">diffpy.Structure.applications.transtru.</tt><tt class="descname">main</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.transtru.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.transtru.usage">
+<tt class="descclassname">diffpy.Structure.applications.transtru.</tt><tt class="descname">usage</tt><big>(</big><em>style=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.transtru.usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>show usage info, for style==&#8221;brief&#8221; show only first 2 lines</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.applications.transtru.version">
+<tt class="descclassname">diffpy.Structure.applications.transtru.</tt><tt class="descname">version</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.applications.transtru.version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">applications Package</a><ul>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">applications</span></tt> Package</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.applications.anyeye"><tt class="docutils literal"><span class="pre">anyeye</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.applications.transtru"><tt class="docutils literal"><span class="pre">transtru</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="diffpy.Structure.Parsers.html"
+                        title="previous chapter">Parsers Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="diffpy.Structure.expansion.html"
+                        title="next chapter">expansion Package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/diffpy.Structure.applications.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="diffpy.Structure.expansion.html" title="expansion Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="diffpy.Structure.Parsers.html" title="Parsers Package"
+             >previous</a> |</li>
+        <li><a href="../index.html">Structure 1.1-40 documentation</a> &raquo;</li>
+          <li><a href="api.html" >diffpy API</a> &raquo;</li>
+          <li><a href="diffpy.Structure.html" >Structure Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Pavol Juhás, Christopher L. Farrow, Simon J.L. Billinge group.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
