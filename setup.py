@@ -56,9 +56,6 @@ setup_args = dict(
         install_requires = [
             'PyCifRW',
         ],
-        dependency_links = [
-            'http://www.diffpy.org/packages/',
-        ],
 
         author = 'Simon J.L. Billinge',
         author_email = 'sb2896@columbia.edu',
