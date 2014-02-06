@@ -18,12 +18,12 @@ versioncfgfile = os.path.join(MYDIR, 'diffpy/Structure/version.cfg')
 def gitinfo():
     from subprocess import Popen, PIPE
     kw = dict(stdout=PIPE, cwd=MYDIR)
-    proc = Popen(['git', 'describe'], **kw)
+    proc = Popen(['git', 'describe', '--match=v[[:digit:]]*'], **kw)
     desc = proc.stdout.read()
     proc = Popen(['git', 'log', '-1', '--format=%H %ai'], **kw)
     glog = proc.stdout.read()
     rv = {}
-    rv['version'] = '-'.join(desc.strip().split('-')[:2])
+    rv['version'] = '-'.join(desc.strip().split('-')[:2]).lstrip('v')
     rv['commit'], rv['date'] = glog.strip().split(None, 1)
     return rv
 
