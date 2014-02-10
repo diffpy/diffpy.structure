@@ -20,8 +20,6 @@ Package content:
 supercell   -- create a supercell from an existing Structure.
 """
 
-__id__ = "$Id$"
-
 # Import below whatever should be available at package namespace.
 
 from diffpy.Structure.expansion.supercell_mod import supercell

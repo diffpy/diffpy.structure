@@ -16,9 +16,6 @@
 """Unit tests for Lattice class.
 """
 
-# version
-__id__ = "$Id$"
-
 import unittest
 import numpy
 

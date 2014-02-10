@@ -18,8 +18,6 @@ file with cartesian coordinates of atoms and an optional first column
 for atom types.
 """
 
-__id__ = "$Id$"
-
 import sys
 
 from diffpy.Structure import Structure, Lattice, Atom

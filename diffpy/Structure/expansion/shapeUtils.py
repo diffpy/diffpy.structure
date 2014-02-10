@@ -15,8 +15,6 @@
 
 """Utilities for making shapes."""
 
-__id__ = "$Id$"
-
 def findCenter(S):
     """Find the approximate center atom of a structure.
 

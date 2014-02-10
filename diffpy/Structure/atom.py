@@ -15,7 +15,6 @@
 
 """class Atom for storing properties of a single atom"""
 
-__id__ = "$Id$"
 
 import numpy
 from diffpy.Structure.lattice import cartesian as cartesian_lattice

@@ -15,8 +15,6 @@
 
 """Make a spheroid nanoparticle from a template structure."""
 
-__id__ = "$Id$"
-
 from math import ceil
 from diffpy.Structure import Structure, Atom
 from diffpy.Structure.expansion.shapeUtils import findCenter

@@ -16,9 +16,6 @@
 """Unit tests for SymmetryUtilities.py
 """
 
-# version
-__id__ = '$Id$'
-
 import os
 import sys
 import unittest

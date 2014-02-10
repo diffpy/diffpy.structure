@@ -16,9 +16,6 @@
 """Helper routines for running other unit tests.
 """
 
-# version
-__id__ = '$Id$'
-
 # helper functions
 
 def datafile(filename):

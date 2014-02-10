@@ -18,8 +18,6 @@
 This Parser does not provide the the toLines() method.
 """
 
-__id__ = "$Id$"
-
 import os
 
 from diffpy.Structure import StructureFormatError

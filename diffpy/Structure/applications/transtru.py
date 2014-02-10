@@ -31,8 +31,6 @@ Options:
   -V, --version   show script version
 """
 
-__id__ = "$Id$"
-
 import sys
 import os
 import re

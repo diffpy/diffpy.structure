@@ -21,8 +21,6 @@ References
     http://www.wwpdb.org/documentation/format30/index.html
 """
 
-__id__ = "$Id$"
-
 import sys
 import numpy
 from numpy import pi

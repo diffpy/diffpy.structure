@@ -17,10 +17,6 @@
 '''Space group classes and definitions from mmLib and sgtbx.
 '''
 
-
-# module version
-__id__ = "$Id: sgtbxspacegroups.py 6224 2011-02-17 21:45:11Z juhas $"
-
 from diffpy.Structure.spacegroupmod import *
 from diffpy.Structure.mmlibspacegroups import *
 from diffpy.Structure.sgtbxspacegroups import *

@@ -16,8 +16,6 @@
 """Unit tests for Structure.Parsers module.
 """
 
-__id__ = "$Id$"
-
 import unittest
 import os
 import re

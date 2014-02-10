@@ -16,8 +16,6 @@
 """Definition of StructureParser, a base class for specific parsers.
 """
 
-__id__ = "$Id$"
-
 class StructureParser(object):
     """Base class for all structure parsers.
 

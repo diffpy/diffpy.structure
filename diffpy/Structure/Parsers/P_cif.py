@@ -18,8 +18,6 @@
 http://www.iucr.org/iucr-top/cif/home.html
 """
 
-__id__ = "$Id$"
-
 import sys
 import os
 import re

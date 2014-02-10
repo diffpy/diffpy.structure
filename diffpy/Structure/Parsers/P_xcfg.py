@@ -15,8 +15,6 @@
 
 """Parser for extended CFG format used by atomeye"""
 
-__id__ = "$Id$"
-
 import sys
 import re
 import numpy

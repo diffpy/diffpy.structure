@@ -16,10 +16,6 @@
 """Unit tests for diffpy.Structure.
 """
 
-# version
-__id__ = '$Id$'
-
-
 def testsuite():
     '''Build a unit tests suite for the diffpy.Structure package.
 

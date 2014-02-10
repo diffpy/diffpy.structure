@@ -16,8 +16,6 @@
 """definition of BRAtomsStructure class derived from Structure
 """
 
-__id__ = "$Id$"
-
 from diffpy.Structure.structure import Structure
 
 ##############################################################################

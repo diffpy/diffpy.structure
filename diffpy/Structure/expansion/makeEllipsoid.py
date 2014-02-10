@@ -15,8 +15,6 @@
 
 """Make a spheroid nanoparticle from a template structure."""
 
-__id__ = "$Id$"
-
 from math import ceil
 from numpy import array
 from diffpy.Structure import Structure, Atom

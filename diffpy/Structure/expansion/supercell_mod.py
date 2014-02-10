@@ -16,9 +16,6 @@
 """This module contains functions for simple structure manipulation.
 """
 
-__id__ = "$Id$"
-
-
 import numpy
 from diffpy.Structure import Structure, Atom
 

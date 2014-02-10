@@ -16,8 +16,6 @@
 """Parser for DISCUS structure format
 """
 
-__id__ = "$Id$"
-
 import sys
 import numpy
 

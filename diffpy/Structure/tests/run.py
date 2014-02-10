@@ -18,9 +18,6 @@
 python -m diffpy.Structure.tests.run
 """
 
-# version
-__id__ = '$Id$'
-
 
 if __name__ == '__main__':
     import sys

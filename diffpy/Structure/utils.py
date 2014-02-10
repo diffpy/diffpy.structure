@@ -16,8 +16,6 @@
 """Small shared functions.
 """
 
-__id__ = "$Id$"
-
 import numpy
 
 

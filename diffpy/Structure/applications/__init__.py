@@ -16,6 +16,4 @@
 """Script applications that use the diffpy.Structure package.
 """
 
-__id__ = "$Id$"
-
 # End of file

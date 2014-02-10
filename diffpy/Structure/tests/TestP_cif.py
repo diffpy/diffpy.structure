@@ -16,9 +16,6 @@
 """Unit tests for diffpy.Structure.Parsers.P_cif module
 """
 
-# version
-__id__ = '$Id$'
-
 import os
 import unittest
 

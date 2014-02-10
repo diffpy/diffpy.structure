@@ -17,9 +17,6 @@
 and generation of positional constraints.
 """
 
-# version
-__id__ = '$Id$'
-
 import sys
 import re
 import numpy

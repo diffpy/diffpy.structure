@@ -16,8 +16,6 @@
 """Exceptions used in Structure package.
 """
 
-__id__ = "$Id$"
-
 class StructureFormatError(Exception):
     """Exception for failed IO from Structure file
     """

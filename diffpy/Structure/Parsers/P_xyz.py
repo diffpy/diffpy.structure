@@ -19,8 +19,6 @@ second one has optional title
 remaining lines contain element, x, y, z
 """
 
-__id__ = "$Id$"
-
 import sys
 
 from diffpy.Structure import Structure, Lattice, Atom

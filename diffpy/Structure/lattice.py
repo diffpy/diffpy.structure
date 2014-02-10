@@ -20,8 +20,6 @@ Module variables:
     cartesian   -- constant instance of Lattice, default Cartesian system
 """
 
-__id__ = "$Id$"
-
 import math
 import types
 import numpy

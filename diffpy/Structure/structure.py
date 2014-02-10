@@ -16,8 +16,6 @@
 """This module defines class Structure.
 """
 
-__id__ = "$Id$"
-
 import copy
 import numpy
 from diffpy.Structure.lattice import Lattice

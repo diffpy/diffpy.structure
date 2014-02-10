@@ -18,8 +18,6 @@ associated modules where they are defined.  Plugins for new structure
 formats need to be added to the parser_index dictionary in this module.
 """
 
-__id__ = "$Id$"
-
 parser_index = {
 
     # automatic format detection - tries all parsers one by one

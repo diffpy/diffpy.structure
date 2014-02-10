@@ -16,8 +16,6 @@
 """Unit tests for diffpy.Structure.Parsers.P_discus module
 """
 
-__id__ = "$Id$"
-
 import unittest
 import os
 import re

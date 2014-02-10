@@ -3,9 +3,6 @@
 """Unit tests for the loadStructure factory.
 """
 
-# version
-__id__ = '$Id$'
-
 import unittest
 from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure import loadStructure

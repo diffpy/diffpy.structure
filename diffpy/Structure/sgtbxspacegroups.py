@@ -22,10 +22,6 @@ sgtbxSpaceGroupList -- list of space group instances defined in this module
 '''
 
 
-# module version
-__id__ = "$Id$"
-
-
 from diffpy.Structure.spacegroupmod import *
 
 

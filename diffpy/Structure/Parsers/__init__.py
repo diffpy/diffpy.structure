@@ -31,9 +31,6 @@ Content:
     outputFormats   -- list of available output formats
 """
 
-__id__ = "$Id$"
-
-
 from diffpy.Structure import StructureFormatError
 from diffpy.Structure.Parsers.structureparser import StructureParser
 from diffpy.Structure.Parsers.parser_index_mod import parser_index

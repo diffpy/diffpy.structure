@@ -16,8 +16,6 @@
 """Unit tests for Structure class.
 """
 
-# version
-__id__ = "$Id$"
 
 import os
 import copy
