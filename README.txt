@@ -78,6 +78,12 @@ rather than copied to a system directory, use
 
     python setup.py develop --user
 
+ACKNOWLEDGEMENT
+
+Part of source code (spacegroupmod.py and mmlibspacegroups.py) is from pymmlib 
+project. 
+
+    http://pymmlib.sourceforge.net/
 
 CONTACTS
 
