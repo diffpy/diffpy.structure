@@ -53,6 +53,7 @@ setup_args = dict(
         packages = find_packages(),
         test_suite = 'diffpy.Structure.tests',
         include_package_data = True,
+        zip_safe = False,
         install_requires = [
             'PyCifRW',
         ],
@@ -60,12 +61,12 @@ setup_args = dict(
         author = 'Simon J.L. Billinge',
         author_email = 'sb2896@columbia.edu',
         maintainer = 'Pavol Juhas',
-        maintainer_email = 'pj2192@columbia.edu',
-        url = 'http://www.diffpy.org/',
+        maintainer_email = 'pavol.juhas@gmail.com',
+        url = 'https://github.com/diffpy/diffpy.Structure',
         download_url = 'http://www.diffpy.org/packages/',
         description = "Crystal structure container " + \
                       "and parsers for structure formats.",
-        license = 'BSD',
+        license = 'BSD, see LICENSE.txt',
         keywords = "diffpy Structure container",
         classifiers = [
             # List of possible values at
@@ -76,7 +77,9 @@ setup_args = dict(
             'Operating System :: MacOS',
             'Operating System :: Microsoft :: Windows',
             'Operating System :: POSIX',
-            'Programming Language :: Python :: 2.5',
+            'Programming Language :: Python :: 2.6',
+            'Programming Language :: Python :: 2.7'
+            'Topic :: Scientific/Engineering :: Chemistry',
             'Topic :: Scientific/Engineering :: Physics',
         ],
 )
