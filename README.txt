@@ -9,12 +9,12 @@ generation of symmetry constraints on positions and thermal factors.
 To learn more about diffpy.Structure library, see the examples directory
 included in this distribution or the API documentation at
 
-    http://docs.danse.us/diffraction/diffpy.Structure
+    http://diffpy.github.io/doc/Structure/
 
 
 REQUIREMENTS
 
-The diffpy.Structure requires Python 2.5 and the following external software:
+The diffpy.Structure requires Python 2.6 or 2.7 and the following software:
 
     setuptools  -- software distribution tools for Python
     numpy       -- numerical mathematics and fast array operations for Python
@@ -24,15 +24,30 @@ the system package manager:
 
     sudo aptitude install \
         python-setuptools python-numpy
+        
+For Mac OS X machine with the MacPorts package manager one could do
 
+    sudo port install \
+        python27 py27-setuptools py27-numpy
+
+When installing with MacPorts, make sure the MacPorts bin directory is the
+first in the system PATH and that python27 is selected as the default
+Python version in MacPorts:
+
+    sudo port select --set python python27
+    
 For other Linux distributions use their respective package manager; note
-the packages may have slightly different names.  diffpy.Structure should work
-on other Unix-like operating systems and on Mac as well.  Please, search the
+the packages may have slightly different names. diffpy.Structure should work
+on other Unix-like operating systems as well.  Please, search the
 web for instructions how to install external dependencies on your particular
 system.
 
 
 INSTALLATION
+
+The easiest option is to use the latest DiffPy-CMI release bundle from
+http://www.diffpy.org/, which comes with diffpy.Structure and all other
+dependencies included.
 
 To install the diffpy.Structure package:
 
@@ -44,19 +59,24 @@ usually only writeable by the root.  See the usage info
 different location.  Note that installation to non-standard directories may
 require adjustments to the PATH and PYTHONPATH environment variables.
 
-The Python setuptools library provides "easy_install" script, which can
-be used to update diffpy.Structure installation or even to perform a new
-install without explicit need to download and unzip the code:
+The installation integrity can be verified by changing to
+the HOME directory and running
 
-    easy_install -U diffpy.Structure
+    python -m diffpy.Structure.tests.run
 
-This checks the package repository at http://www.diffpy.org/packages/
-for any newer releases of diffpy.Structure and if present, it updates the
-installation.  The easy_install can be also used to get in sync with the
-latest development sources in the subversion repository:
+DEVELOPMENT and CONTRIBUTION
 
-    easy_install -U \
-        svn://svn@danse.us/diffraction/diffraction/diffpy.Structure/trunk
+diffpy.Structure is an open-source software developed as a part of the
+DiffPy-CMI complex modeling initiative at the Brookhaven National
+Laboratory.  The diffpy.Structure sources are hosted at
+
+    https://github.com/diffpy/diffpy.Structure
+
+Feel free to fork the project and contribute.  To install diffpy.Structure
+in a development mode, where the sources are directly used by Python
+rather than copied to a system directory, use
+
+    python setup.py develop --user
 
 
 CONTACTS
@@ -66,5 +86,3 @@ For more information on diffpy.Structure please visit the project web-page:
     http://www.diffpy.org/
 
 or email Prof. Simon Billinge at sb2896@columbia.edu
-
-Last modified $Date$
