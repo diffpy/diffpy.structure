@@ -39,8 +39,5 @@ def fixtarinfo(tinfo):
 print 'Filter %s --> %s.gz' % (2 * (os.path.basename(tarname),)),
 for ti in tfin:
     tfout.addfile(fixtarinfo(ti), tfin.extractfile(ti))
-print "[done]"
-
-print 'Remove %s' % os.path.basename(tarname),
 os.remove(tarname)
 print "[done]"
