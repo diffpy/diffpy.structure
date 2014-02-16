@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to Structure documentation! &mdash; Structure 1.1-40 documentation</title>
+    <title>diffpy.Structure documentation &mdash; diffpy.Structure 1.2b0-15 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.1-40',
+        VERSION:     '1.2b0-15',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/sidebar.js"></script>
-    <link rel="top" title="Structure 1.1-40 documentation" href="#" />
-    <link rel="next" title="Introduction" href="intro.html" /> 
+    <link rel="top" title="diffpy.Structure 1.2b0-15 documentation" href="#" />
+    <link rel="next" title="Structure Package" href="api/diffpy.Structure.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,9 +40,9 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="intro.html" title="Introduction"
+          <a href="api/diffpy.Structure.html" title="Structure Package"
              accesskey="N">next</a> |</li>
-        <li><a href="#">Structure 1.1-40 documentation</a> &raquo;</li> 
+        <li><a href="#">diffpy.Structure 1.2b0-15 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -51,31 +51,133 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-structure-documentation">
-<h1>Welcome to Structure documentation!<a class="headerlink" href="#welcome-to-structure-documentation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="diffpy-structure-documentation">
+<h1>diffpy.Structure documentation<a class="headerlink" href="#diffpy-structure-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Software version 1.2b0-15.</p>
+<p>Last updated February 16, 2014.</p>
 <p>diffpy.Structure - simple storage and manipulation of crystal structures</p>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#license-notice">License notice</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#authors">Authors</a></li>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>diffpy.Structure - simple storage and manipulation of crystal structures</p>
+<p>The diffpy.Structure package provides simple crystal structure operation
+such as calculations of distances or angles from fractional coordinates.
+It also provides imports and exports in several structure file formats
+and space group definitions and utilities for symmetry expansion and
+generation of symmetry constraints on positions and thermal factors.</p>
+<p>To learn more about diffpy.Structure library, see the examples directory
+included in this distribution or the API documentation</p>
+<div class="section" id="disclaimer">
+<h3>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h3>
+<p>This program is part of the DiffPy and DANSE open-source projects
+and is available subject to the conditions and terms laid out below.</p>
+<p>Copyright 2006-2007, Board of Trustees of Michigan State University,
+Copyright 2008-2009, Board of Trustees of Columbia University in the
+city of New York.  (Copyright holder indicated in each source file).</p>
+<dl class="docutils">
+<dt>For more information please visit the project web-page:</dt>
+<dd><a class="reference external" href="http://www.diffpy.org/">http://www.diffpy.org/</a></dd>
+</dl>
+<p>or email Prof. Simon Billinge at <a class="reference external" href="mailto:sb2896&#37;&#52;&#48;columbia&#46;edu">sb2896<span>&#64;</span>columbia<span>&#46;</span>edu</a></p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.</li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="install.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#index-1">Installation</a></li>
-</ul>
-</li>
-</ul>
+</div></blockquote>
+<p>THIS SOFTWARE IS PROVIDED BY COPYRIGHT HOLDER &#8220;AS IS&#8221;.  COPYRIGHT HOLDER
+EXPRESSLY DISCLAIMS ANY AND ALL WARRANTIES AND CONDITIONS, EITHER
+EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY, TITLE, FITNESS, ADEQUACY OR SUITABILITY
+FOR A PARTICULAR PURPOSE, AND ANY WARRANTIES OF FREEDOM FROM
+INFRINGEMENT OF ANY DOMESTIC OR FOREIGN PATENT, COPYRIGHTS, TRADE
+SECRETS OR OTHER PROPRIETARY RIGHTS OF ANY PARTY.  IN NO EVENT SHALL
+COPYRIGHT HOLDER BE LIABLE TO ANY PARTY FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE OR RELATING TO THIS AGREEMENT, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.</p>
 </div>
+<div class="section" id="acknowledgments">
+<h3>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="developers">
+<h4>Developers<a class="headerlink" href="#developers" title="Permalink to this headline">¶</a></h4>
+<p>PyObjCryst is developed and maintained by</p>
+<div class="highlight-python"><pre>Pavol Juhas
+Chris Farrow
+Simon J.L. Billinge
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The diffpy.Structure requires Python 2.5 and the following external software:</p>
+<blockquote>
+<div>setuptools  &#8211; software distribution tools for Python
+numpy       &#8211; numerical mathematics and fast array operations for Python</div></blockquote>
+<p>On Ubuntu Linux the required software can be easily installed using
+the system package manager:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>sudo aptitude install </dt>
+<dd>python-setuptools python-numpy</dd>
+</dl>
+</div></blockquote>
+<p>For other Linux distributions use their respective package manager; note
+the packages may have slightly different names.  diffpy.Structure should work
+on other Unix-like operating systems and on Mac as well.  Please, search the
+web for instructions how to install external dependencies on your particular
+system.</p>
+<p>To install the diffpy.Structure package:</p>
+<blockquote>
+<div>python setup.py install</div></blockquote>
+<p>By default the files are installed in the system directories, which are
+usually only writeable by the root.  See the usage info
+&#8221;./setup.py install &#8211;help&#8221; for options to install as a normal user under
+different location.  Note that installation to non-standard directories may
+require adjustments to the PATH and PYTHONPATH environment variables.</p>
+<p>The Python setuptools library provides &#8220;easy_install&#8221; script, which can
+be used to update diffpy.Structure installation or even to perform a new
+install without explicit need to download and unzip the code:</p>
+<blockquote>
+<div>easy_install -U diffpy.Structure</div></blockquote>
+<p>This checks the package repository at <a class="reference external" href="http://www.diffpy.org/packages/">http://www.diffpy.org/packages/</a>
+for any newer releases of diffpy.Structure and if present, it updates the
+installation.</p>
 </div>
 <div class="section" id="api-and-index">
-<h1>API and Index<a class="headerlink" href="#api-and-index" title="Permalink to this headline">¶</a></h1>
+<h2>API and Index<a class="headerlink" href="#api-and-index" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api/api.html">diffpy API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html">Structure Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/diffpy.Structure.html">Structure Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#id1"><tt class="docutils literal"><span class="pre">Structure</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.SpaceGroups"><tt class="docutils literal"><span class="pre">SpaceGroups</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.StructureErrors"><tt class="docutils literal"><span class="pre">StructureErrors</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.SymmetryUtilities"><tt class="docutils literal"><span class="pre">SymmetryUtilities</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.atom"><tt class="docutils literal"><span class="pre">atom</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.bratomsstructure"><tt class="docutils literal"><span class="pre">bratomsstructure</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.lattice"><tt class="docutils literal"><span class="pre">lattice</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.mmlibspacegroups"><tt class="docutils literal"><span class="pre">mmlibspacegroups</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.pdffitstructure"><tt class="docutils literal"><span class="pre">pdffitstructure</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.sgtbxspacegroups"><tt class="docutils literal"><span class="pre">sgtbxspacegroups</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.spacegroupmod"><tt class="docutils literal"><span class="pre">spacegroupmod</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.structure"><tt class="docutils literal"><span class="pre">structure</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.utils"><tt class="docutils literal"><span class="pre">utils</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#module-diffpy.Structure.version"><tt class="docutils literal"><span class="pre">version</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.Structure.html#subpackages">Subpackages</a></li>
 </ul>
 </li>
 </ul>
@@ -83,6 +185,7 @@
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
 </ul>
+</div>
 </div>
 
 
@@ -93,17 +196,26 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to Structure documentation!</a><ul>
+<li><a class="reference internal" href="#">diffpy.Structure documentation</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
+<li><a class="reference internal" href="#acknowledgments">Acknowledgments</a><ul>
+<li><a class="reference internal" href="#developers">Developers</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#api-and-index">API and Index</a><ul>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
   <h4>Next topic</h4>
-  <p class="topless"><a href="intro.html"
-                        title="next chapter">Introduction</a></p>
+  <p class="topless"><a href="api/diffpy.Structure.html"
+                        title="next chapter">Structure Package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -136,13 +248,13 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="intro.html" title="Introduction"
+          <a href="api/diffpy.Structure.html" title="Structure Package"
              >next</a> |</li>
-        <li><a href="#">Structure 1.1-40 documentation</a> &raquo;</li> 
+        <li><a href="#">diffpy.Structure 1.2b0-15 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, Pavol Juhás, Christopher L. Farrow, Simon J.L. Billinge group.
+        &copy; Copyright 2014, Brookhaven National Laboratory.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

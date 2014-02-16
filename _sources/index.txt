@@ -3,18 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Structure documentation!
-========================================================================
+####################################################
+diffpy.Structure documentation
+####################################################
+
+Software version |release|.
+
+Last updated |today|.
 
 diffpy.Structure - simple storage and manipulation of crystal structures
 
-Contents:
-
-.. toctree::
-   :maxdepth: 2
-   
-   intro
-   install
+.. include:: intro.rst
+.. include:: install.rst
    
 
 API and Index
@@ -23,6 +23,6 @@ API and Index
 .. toctree::
    :maxdepth: 2
    
-   api/api.rst
+   api/diffpy.Structure.rst
 * :ref:`genindex`
 

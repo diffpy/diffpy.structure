@@ -10,22 +10,22 @@ and space group definitions and utilities for symmetry expansion and
 generation of symmetry constraints on positions and thermal factors.
 
 To learn more about diffpy.Structure library, see the examples directory
-included in this distribution or the API documentation at
+included in this distribution or the API documentation
 
-    http://docs.danse.us/diffraction/diffpy.Structure
-
-.. index:: license
-
-License notice
-------------------------------------------------------------------------
+===================
+Disclaimer
+===================
 
 .. include:: ../../../LICENSE.txt
 
-.. index:: authors
+================
+Acknowledgments
+================
 
-Authors
-------------------------------------------------------------------------
+Developers
+-----------
 
-.. include:: ../../../AUTHORS.txt
+PyObjCryst is developed and maintained by
 
+.. literalinclude:: ../../../AUTHORS.txt
 

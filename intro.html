@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Introduction &mdash; Structure 1.1-40 documentation</title>
+    <title>Introduction &mdash; diffpy.Structure 1.2b0-15 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.1-40',
+        VERSION:     '1.2b0-15',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/sidebar.js"></script>
-    <link rel="top" title="Structure 1.1-40 documentation" href="index.html" />
-    <link rel="next" title="Installation" href="install.html" />
-    <link rel="prev" title="Welcome to Structure documentation!" href="index.html" /> 
+    <link rel="top" title="diffpy.Structure 1.2b0-15 documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,13 +38,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="install.html" title="Installation"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to Structure documentation!"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Structure 1.1-40 documentation</a> &raquo;</li> 
+        <li><a href="index.html">diffpy.Structure 1.2b0-15 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -64,20 +56,11 @@ It also provides imports and exports in several structure file formats
 and space group definitions and utilities for symmetry expansion and
 generation of symmetry constraints on positions and thermal factors.</p>
 <p>To learn more about diffpy.Structure library, see the examples directory
-included in this distribution or the API documentation at</p>
-<blockquote>
-<div><a class="reference external" href="http://docs.danse.us/diffraction/diffpy.Structure">http://docs.danse.us/diffraction/diffpy.Structure</a></div></blockquote>
-<div class="section" id="license-notice">
-<span id="index-0"></span><h2>License notice<a class="headerlink" href="#license-notice" title="Permalink to this headline">¶</a></h2>
+included in this distribution or the API documentation</p>
+<div class="section" id="disclaimer">
+<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h2>
 <p>This program is part of the DiffPy and DANSE open-source projects
 and is available subject to the conditions and terms laid out below.</p>
-<p>If you use this program to do productive scientific research that leads
-to publication, we ask that you acknowledge use of the program by citing
-the following paper in your publication:</p>
-<blockquote>
-<div>P. Juhas, C. L. Farrow, J. W. Liu, D. Bryndin, E. S. Bozin,
-W. Zhou and S. J. L. Billinge, DiffPy library - Python packages
-for diffraction analysis.  To be published.</div></blockquote>
 <p>Copyright 2006-2007, Board of Trustees of Michigan State University,
 Copyright 2008-2009, Board of Trustees of Columbia University in the
 city of New York.  (Copyright holder indicated in each source file).</p>
@@ -117,51 +100,17 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 THIS SOFTWARE OR RELATING TO THIS AGREEMENT, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.</p>
 </div>
-<div class="section" id="authors">
-<span id="index-1"></span><h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h2>
-<p>This code was developed as part of the DiffPy project to create python
-modules for structure investigations from diffraction data.  The main
-contributors to this package were</p>
-<blockquote>
-<div>Pavol Juhas
-Chris Farrow</div></blockquote>
-<p>The DiffPy team is located in the Billinge-group at the Applied Physics
-and Applied Mathematics Department of the Columbia University in New York.
-Currently the team consists of</p>
-<blockquote>
-<div>Simon Billinge
-Pavol Juhas
+<div class="section" id="acknowledgments">
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="developers">
+<h3>Developers<a class="headerlink" href="#developers" title="Permalink to this headline">¶</a></h3>
+<p>PyObjCryst is developed and maintained by</p>
+<div class="highlight-python"><pre>Pavol Juhas
 Chris Farrow
-Jiwu Liu
-Yingrui Shang
-Emil Bozin
-Peng Tian</div></blockquote>
-<p>Please see the header of each source file for a detailed list of
-contributors.  This is an open-source project and we hope and expect
-that the list of contributors will expand with time.  Many thanks to
-all current and future contributors!</p>
-<p>For more information on the DiffPy project email <a class="reference external" href="mailto:sb2896&#37;&#52;&#48;columbia&#46;edu">sb2896<span>&#64;</span>columbia<span>&#46;</span>edu</a></p>
-<p>DiffPy was initiated as part of the Distributed Data Analysis of Neutron
-Scattering Experiments (DANSE) project, funded by the National Science
-Foundation under grant DMR-0520547.  More information on DANSE can be
-found at <a class="reference external" href="http://danse.us">http://danse.us</a>.  Any opinions, findings, and conclusions or
-recommendations expressed in this material are those of the author(s)
-and do not necessarily reflect the views of the NSF.</p>
-<p>Acknowledgments:</p>
-<p>We are truly grateful to all the people who have contributed, in all
-different ways, to this project:  Thomas Proffen, Xiangyun Qiu, Pete
-Peterson and Jacques Bloch, previous Billinge-group members whose
-contributions to the codes are living well beyond their affiliation with
-the group; The hard working DANSE group at Caltech, University of
-Maryland, Iowa State and University of Tennessee, especially Brent Fultz
-for doggedly putting DANSE all together and Michael Aivazis, and the
-indomitable Mike McKerns for their design input and MM&#8217;s gargantuan
-excel spreadsheets; The former members of the Billinge-group members,
-especially HyunJeong Kim and Ahmad Masadeh for enthusiastic testing and
-feature requests;  Last but not least, our long suffering family members,
-and the whole coffee and tea industries at large, without whom none of
-this would have been possible.</p>
-<p>Last modified $Date$</p>
+Simon J.L. Billinge
+</pre>
+</div>
+</div>
 </div>
 </div>
 
@@ -174,18 +123,15 @@ this would have been possible.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Introduction</a><ul>
-<li><a class="reference internal" href="#license-notice">License notice</a></li>
-<li><a class="reference internal" href="#authors">Authors</a></li>
+<li><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
+<li><a class="reference internal" href="#acknowledgments">Acknowledgments</a><ul>
+<li><a class="reference internal" href="#developers">Developers</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to Structure documentation!</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="install.html"
-                        title="next chapter">Installation</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/intro.txt"
@@ -217,17 +163,11 @@ this would have been possible.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="install.html" title="Installation"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to Structure documentation!"
-             >previous</a> |</li>
-        <li><a href="index.html">Structure 1.1-40 documentation</a> &raquo;</li> 
+        <li><a href="index.html">diffpy.Structure 1.2b0-15 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, Pavol Juhás, Christopher L. Farrow, Simon J.L. Billinge group.
+        &copy; Copyright 2014, Brookhaven National Laboratory.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
