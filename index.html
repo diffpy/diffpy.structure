@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>diffpy.Structure documentation &mdash; diffpy.Structure 1.2b0-15 documentation</title>
+    <title>diffpy.Structure documentation &mdash; diffpy.Structure 1.2b0-16 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.2b0-15',
+        VERSION:     '1.2b0-16',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/sidebar.js"></script>
-    <link rel="top" title="diffpy.Structure 1.2b0-15 documentation" href="#" />
+    <link rel="top" title="diffpy.Structure 1.2b0-16 documentation" href="#" />
     <link rel="next" title="Structure Package" href="api/diffpy.Structure.html" /> 
   </head>
   <body>
@@ -42,7 +42,7 @@
         <li class="right" >
           <a href="api/diffpy.Structure.html" title="Structure Package"
              accesskey="N">next</a> |</li>
-        <li><a href="#">diffpy.Structure 1.2b0-15 documentation</a> &raquo;</li> 
+        <li><a href="#">diffpy.Structure 1.2b0-16 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -53,11 +53,8 @@
             
   <div class="section" id="diffpy-structure-documentation">
 <h1>diffpy.Structure documentation<a class="headerlink" href="#diffpy-structure-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Software version 1.2b0-15.</p>
+<p>Software version 1.2b0-16.</p>
 <p>Last updated February 16, 2014.</p>
-<p>diffpy.Structure - simple storage and manipulation of crystal structures</p>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>diffpy.Structure - simple storage and manipulation of crystal structures</p>
 <p>The diffpy.Structure package provides simple crystal structure operation
 such as calculations of distances or angles from fractional coordinates.
@@ -67,7 +64,7 @@ generation of symmetry constraints on positions and thermal factors.</p>
 <p>To learn more about diffpy.Structure library, see the examples directory
 included in this distribution or the API documentation</p>
 <div class="section" id="disclaimer">
-<h3>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h3>
+<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h2>
 <p>This program is part of the DiffPy and DANSE open-source projects
 and is available subject to the conditions and terms laid out below.</p>
 <p>Copyright 2006-2007, Board of Trustees of Michigan State University,
@@ -110,10 +107,10 @@ THIS SOFTWARE OR RELATING TO THIS AGREEMENT, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.</p>
 </div>
 <div class="section" id="acknowledgments">
-<h3>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h3>
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="developers">
-<h4>Developers<a class="headerlink" href="#developers" title="Permalink to this headline">¶</a></h4>
-<p>PyObjCryst is developed and maintained by</p>
+<h3>Developers<a class="headerlink" href="#developers" title="Permalink to this headline">¶</a></h3>
+<p>diffpy.Structure is developed and maintained by</p>
 <div class="highlight-python"><pre>Pavol Juhas
 Chris Farrow
 Simon J.L. Billinge
@@ -121,9 +118,10 @@ Simon J.L. Billinge
 </div>
 </div>
 </div>
-</div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="requirements">
+<span id="index-0"></span><h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
 <p>The diffpy.Structure requires Python 2.5 and the following external software:</p>
 <blockquote>
 <div>setuptools  &#8211; software distribution tools for Python
@@ -141,6 +139,9 @@ the packages may have slightly different names.  diffpy.Structure should work
 on other Unix-like operating systems and on Mac as well.  Please, search the
 web for instructions how to install external dependencies on your particular
 system.</p>
+</div>
+<div class="section" id="index-1">
+<span id="id1"></span><h3>Installation<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h3>
 <p>To install the diffpy.Structure package:</p>
 <blockquote>
 <div>python setup.py install</div></blockquote>
@@ -157,9 +158,8 @@ install without explicit need to download and unzip the code:</p>
 <p>This checks the package repository at <a class="reference external" href="http://www.diffpy.org/packages/">http://www.diffpy.org/packages/</a>
 for any newer releases of diffpy.Structure and if present, it updates the
 installation.</p>
-</div>
 <div class="section" id="api-and-index">
-<h2>API and Index<a class="headerlink" href="#api-and-index" title="Permalink to this headline">¶</a></h2>
+<h4>API and Index<a class="headerlink" href="#api-and-index" title="Permalink to this headline">¶</a></h4>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/diffpy.Structure.html">Structure Package</a><ul>
@@ -187,6 +187,8 @@ installation.</p>
 </ul>
 </div>
 </div>
+</div>
+</div>
 
 
           </div>
@@ -197,16 +199,19 @@ installation.</p>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">diffpy.Structure documentation</a><ul>
-<li><a class="reference internal" href="#introduction">Introduction</a><ul>
 <li><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
 <li><a class="reference internal" href="#acknowledgments">Acknowledgments</a><ul>
 <li><a class="reference internal" href="#developers">Developers</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#index-1">Installation</a><ul>
+<li><a class="reference internal" href="#api-and-index">API and Index</a><ul>
 </ul>
 </li>
-<li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#api-and-index">API and Index</a><ul>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -250,7 +255,7 @@ installation.</p>
         <li class="right" >
           <a href="api/diffpy.Structure.html" title="Structure Package"
              >next</a> |</li>
-        <li><a href="#">diffpy.Structure 1.2b0-15 documentation</a> &raquo;</li> 
+        <li><a href="#">diffpy.Structure 1.2b0-16 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
