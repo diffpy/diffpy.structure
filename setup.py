@@ -20,11 +20,11 @@ def gitinfo():
     kw = dict(stdout=PIPE, cwd=MYDIR)
     proc = Popen(['git', 'describe', '--match=v[[:digit:]]*'], **kw)
     desc = proc.stdout.read()
-    proc = Popen(['git', 'log', '-1', '--format=%H %ai'], **kw)
+    proc = Popen(['git', 'log', '-1', '--format=%H %at %ai'], **kw)
     glog = proc.stdout.read()
     rv = {}
-    rv['version'] = '-'.join(desc.strip().split('-')[:2]).lstrip('v')
-    rv['commit'], rv['date'] = glog.strip().split(None, 1)
+    rv['version'] = '-'.join(desc.strip().split('-')[:-1]).lstrip('v')
+    rv['commit'], rv['timestamp'], rv['date'] = glog.strip().split(None, 2)
     return rv
 
 
@@ -40,6 +40,7 @@ def getversioncfg():
         cp.set('DEFAULT', 'version', g['version'])
         cp.set('DEFAULT', 'commit', g['commit'])
         cp.set('DEFAULT', 'date', g['date'])
+        cp.set('DEFAULT', 'timestamp', g['timestamp'])
         cp.write(open(versioncfgfile, 'w'))
     return cp
 

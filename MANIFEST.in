@@ -4,3 +4,4 @@ include setup.cfg
 prune applications
 prune devutils
 exclude MANIFEST.in
+recursive-exclude diffpy *.pyc
