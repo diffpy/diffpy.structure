@@ -1,5 +1,5 @@
-.
-=
+diffpy
+======
 
 .. toctree::
    :maxdepth: 4
