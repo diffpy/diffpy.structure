@@ -37,6 +37,7 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+.settings
 
 # version information
 setup.cfg
