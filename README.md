@@ -24,13 +24,15 @@ The diffpy.Structure requires Python 2.6 or 2.7 and the following software:
 On Ubuntu Linux the required software can be easily installed using
 the system package manager:
 
-```sudo aptitude install
+```
+sudo aptitude install
     python-setuptools python-numpy
 ```
         
 For Mac OS X machine with the MacPorts package manager one could do
 
-```sudo port install
+```
+sudo port install
     python27 py27-setuptools py27-numpy
 ```
 
@@ -38,7 +40,8 @@ When installing with MacPorts, make sure the MacPorts bin directory is the
 first in the system PATH and that python27 is selected as the default
 Python version in MacPorts:
 
-```sudo port select --set python python27
+```
+sudo port select --set python python27
 ```
     
 For other Linux distributions use their respective package manager; note
@@ -56,7 +59,8 @@ dependencies included.
 
 To install the diffpy.Structure package:
 
-```python setup.py install
+```
+python setup.py install
 ```
 
 By default the files are installed in the system directories, which are
@@ -68,7 +72,8 @@ require adjustments to the PATH and PYTHONPATH environment variables.
 The installation integrity can be verified by changing to
 the HOME directory and running
 
-```python -m diffpy.Structure.tests.run
+```
+python -m diffpy.Structure.tests.run
 ```
 
 ## DEVELOPMENT and CONTRIBUTION
@@ -83,7 +88,8 @@ Feel free to fork the project and contribute.  To install diffpy.Structure
 in a development mode, where the sources are directly used by Python
 rather than copied to a system directory, use
 
-```python setup.py develop --user
+```
+python setup.py develop --user
 ```
 
 ## ACKNOWLEDGEMENT
