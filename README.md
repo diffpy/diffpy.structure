@@ -11,7 +11,7 @@ generation of symmetry constraints on positions and thermal factors.
 To learn more about diffpy.Structure library, see the examples directory
 included in this distribution or the API documentation at
 
-    http://diffpy.github.io/doc/Structure/
+http://diffpy.github.io/doc/Structure/
 
 
 ## REQUIREMENTS
@@ -82,7 +82,7 @@ diffpy.Structure is an open-source software developed as a part of the
 DiffPy-CMI complex modeling initiative at the Brookhaven National
 Laboratory.  The diffpy.Structure sources are hosted at
 
-    https://github.com/diffpy/diffpy.Structure
+https://github.com/diffpy/diffpy.Structure
 
 Feel free to fork the project and contribute.  To install diffpy.Structure
 in a development mode, where the sources are directly used by Python
@@ -97,12 +97,12 @@ python setup.py develop --user
 Part of source code (spacegroupmod.py and mmlibspacegroups.py) is from pymmlib 
 project. 
 
-    http://pymmlib.sourceforge.net/
+http://pymmlib.sourceforge.net/
 
 ## CONTACTS
 
 For more information on diffpy.Structure please visit the project web-page:
 
-    http://www.diffpy.org/
+http://www.diffpy.org/
 
 or email Prof. Simon Billinge at sb2896@columbia.edu
