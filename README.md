@@ -25,14 +25,14 @@ On Ubuntu Linux the required software can be easily installed using
 the system package manager:
 
 ```
-sudo aptitude install
+sudo aptitude install \
     python-setuptools python-numpy
 ```
         
 For Mac OS X machine with the MacPorts package manager one could do
 
 ```
-sudo port install
+sudo port install \
     python27 py27-setuptools py27-numpy
 ```
 
