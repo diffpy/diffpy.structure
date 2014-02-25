@@ -1,6 +1,6 @@
 # diffpy.Structure
 
-simple storage and manipulation of crystal structures
+Simple storage and manipulation of crystal structures
 
 The diffpy.Structure package provides simple crystal structure operation
 such as calculations of distances or angles from fractional coordinates.
