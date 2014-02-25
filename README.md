@@ -24,14 +24,14 @@ The diffpy.Structure requires Python 2.6 or 2.7 and the following software:
 On Ubuntu Linux the required software can be easily installed using
 the system package manager:
 
-```sudo aptitude install \
-        python-setuptools python-numpy
+```sudo aptitude install
+    python-setuptools python-numpy
 ```
         
 For Mac OS X machine with the MacPorts package manager one could do
 
-```sudo port install \
-        python27 py27-setuptools py27-numpy
+```sudo port install
+    python27 py27-setuptools py27-numpy
 ```
 
 When installing with MacPorts, make sure the MacPorts bin directory is the
