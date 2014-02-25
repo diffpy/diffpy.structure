@@ -1,6 +1,5 @@
 recursive-include diffpy *
-include AUTHORS.txt INSTALL.txt LICENSE.txt LICENSE_pymmlib.txt README.txt
-include setup.cfg
+include AUTHORS.txt LICENSE.txt LICENSE_pymmlib.txt README.md
 prune applications
 prune devutils
 exclude MANIFEST.in
