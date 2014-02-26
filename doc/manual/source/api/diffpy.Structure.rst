@@ -121,4 +121,3 @@ Subpackages
     diffpy.Structure.Parsers
     diffpy.Structure.applications
     diffpy.Structure.expansion
-    diffpy.Structure.tests
