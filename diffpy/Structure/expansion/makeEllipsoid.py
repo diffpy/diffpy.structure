@@ -82,8 +82,8 @@ def makeEllipsoid(S, a, b=None, c=None):
 
     return newS
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     import os.path
     datadir = "../../tests/testdata"
     S = Structure()
@@ -102,4 +102,3 @@ if __name__ == "__main__":
     newS.write("Ni_a20_b4_c20.stru", "pdffit")
     newS = makeEllipsoid(S, 20, 15, 10)
     newS.write("Ni_a20_b15_c10.stru", "pdffit")
-

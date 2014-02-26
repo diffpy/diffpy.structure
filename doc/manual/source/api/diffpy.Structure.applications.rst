@@ -24,4 +24,3 @@ applications Package
     :members:
     :undoc-members:
     :show-inheritance:
-

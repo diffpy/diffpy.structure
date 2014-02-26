@@ -49,7 +49,7 @@ def loadStructure(filename, fmt='auto'):
                 defined in the Parsers subpackage.  When 'auto', all
                 Parsers are tried in sequence.
 
-    Return a new Structure object. 
+    Return a new Structure object.
     Return PDFFitStructure object for 'pdffit' or 'discus' formats.
     """
     from diffpy.Structure.Parsers import getParser

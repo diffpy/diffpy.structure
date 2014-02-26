@@ -122,4 +122,3 @@ Subpackages
     diffpy.Structure.applications
     diffpy.Structure.expansion
     diffpy.Structure.tests
-

@@ -33,7 +33,7 @@ To install the diffpy.Structure package:
     python setup.py install
 
 By default the files are installed in the system directories, which are
-usually only writeable by the root.  See the usage info 
+usually only writeable by the root.  See the usage info
 "./setup.py install --help" for options to install as a normal user under
 different location.  Note that installation to non-standard directories may
 require adjustments to the PATH and PYTHONPATH environment variables.
@@ -46,4 +46,4 @@ install without explicit need to download and unzip the code:
 
 This checks the package repository at http://www.diffpy.org/packages/
 for any newer releases of diffpy.Structure and if present, it updates the
-installation.  
+installation.

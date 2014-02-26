@@ -5,7 +5,7 @@ Simple storage and manipulation of crystal structures
 The diffpy.Structure package provides simple crystal structure operation
 such as calculations of distances or angles from fractional coordinates.
 It also provides imports and exports in several structure file formats
-and space group definitions and utilities for symmetry expansion and 
+and space group definitions and utilities for symmetry expansion and
 generation of symmetry constraints on positions and thermal factors.
 
 To learn more about diffpy.Structure library, see the examples directory
@@ -26,7 +26,7 @@ the system package manager:
 
     sudo aptitude install \
         python-setuptools python-numpy
-        
+
 For Mac OS X machine with the MacPorts package manager one could do
 
     sudo port install \
@@ -37,7 +37,7 @@ first in the system PATH and that python27 is selected as the default
 Python version in MacPorts:
 
     sudo port select --set python python27
-    
+
 For other Linux distributions use their respective package manager; note
 the packages may have slightly different names. diffpy.Structure should work
 on other Unix-like operating systems as well.  Please, search the
@@ -56,7 +56,7 @@ To install the diffpy.Structure package:
     python setup.py install
 
 By default the files are installed in the system directories, which are
-usually only writeable by the root.  See the usage info 
+usually only writeable by the root.  See the usage info
 "./setup.py install --help" for options to install as a normal user under
 different location.  Note that installation to non-standard directories may
 require adjustments to the PATH and PYTHONPATH environment variables.
@@ -84,8 +84,8 @@ python setup.py develop --user
 
 ## ACKNOWLEDGEMENT
 
-Part of source code (spacegroupmod.py and mmlibspacegroups.py) is from pymmlib 
-project. 
+Part of source code (spacegroupmod.py and mmlibspacegroups.py) is from pymmlib
+project.
 
 http://pymmlib.sourceforge.net/
 

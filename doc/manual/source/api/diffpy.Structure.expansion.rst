@@ -40,4 +40,3 @@ expansion Package
     :members:
     :undoc-members:
     :show-inheritance:
-

@@ -420,7 +420,7 @@ class GeneratorSite(object):
         n = len(self.invariants)
         R6zall = numpy.tile(-numpy.identity(6, dtype=float), (n, 1))
         R6zall_iter = numpy.split(R6zall, n, axis=0)
-        i6kl = ((0, (0, 0)), (1, (1, 1)), (2, (2, 2)), 
+        i6kl = ((0, (0, 0)), (1, (1, 1)), (2, (2, 2)),
                 (3, (0, 1)), (4, (0, 2)), (5, (1, 2)))
         for op, R6z in zip(self.invariants, R6zall_iter):
             R = op.R
