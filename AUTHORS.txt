@@ -1,3 +1,10 @@
+Authors:
+
 Pavol Juhas
 Christopher L. Farrow
+Xiaohao Yang
 Simon J.L. Billinge
+
+Contributors:
+
+https://github.com/diffpy/diffpy.Structure/graphs/contributors
