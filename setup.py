@@ -64,7 +64,7 @@ setup_args = dict(
         url = 'https://github.com/diffpy/diffpy.Structure',
         description = "Crystal structure container " + \
                       "and parsers for structure formats.",
-        license = 'BSD, see LICENSE.txt',
+        license = 'BSD-style license',
         keywords = "crystal Structure data storage CIF PDB",
         classifiers = [
             # List of possible values at
