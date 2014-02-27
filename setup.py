@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-# Installation script for diffpy.Structure
-
-"""Structure - objects for storage and manipulation of crystal structures.
+"""Objects for storage and manipulation of crystal structure data.
 
 Packages:   diffpy.Structure
 """
@@ -59,25 +57,26 @@ setup_args = dict(
             'PyCifRW',
         ],
 
-        author = 'Simon J.L. Billinge',
+        author = 'Simon J.L. Billinge group',
         author_email = 'sb2896@columbia.edu',
         maintainer = 'Pavol Juhas',
         maintainer_email = 'pavol.juhas@gmail.com',
         url = 'https://github.com/diffpy/diffpy.Structure',
-        #download_url = 'http://www.diffpy.org/packages/',
         description = "Crystal structure container " + \
                       "and parsers for structure formats.",
         license = 'BSD, see LICENSE.txt',
-        keywords = "diffpy Structure container",
+        keywords = "crystal Structure data storage CIF PDB",
         classifiers = [
             # List of possible values at
             # http://pypi.python.org/pypi?:action=list_classifiers
             'Development Status :: 5 - Production/Stable',
             'Environment :: Console',
             'Intended Audience :: Science/Research',
-            'Operating System :: MacOS',
+            'License :: OSI Approved :: BSD License',
+            'Operating System :: MacOS :: MacOS X',
             'Operating System :: Microsoft :: Windows',
             'Operating System :: POSIX',
+            'Operating System :: Unix',
             'Programming Language :: Python :: 2.6',
             'Programming Language :: Python :: 2.7'
             'Topic :: Scientific/Engineering :: Chemistry',
