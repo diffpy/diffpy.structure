@@ -23,7 +23,7 @@ def gitinfo():
     proc = Popen(['git', 'log', '-1', '--format=%H %at %ai'], **kw)
     glog = proc.stdout.read()
     rv = {}
-    rv['version'] = '-'.join(desc.strip().split('-')[:-1]).lstrip('v')
+    rv['version'] = '-'.join(desc.strip().split('-')[:2]).lstrip('v')
     rv['commit'], rv['timestamp'], rv['date'] = glog.strip().split(None, 2)
     return rv
 
