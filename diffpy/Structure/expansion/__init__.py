@@ -9,7 +9,7 @@
 # File coded by:    Chris Farrow, Pavol Juhas
 #
 # See AUTHORS.txt for a list of people who contributed.
-# See LICENSE.txt for license information.
+# See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
 
