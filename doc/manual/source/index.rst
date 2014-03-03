@@ -26,7 +26,7 @@ included in this distribution or the API documentation
 Disclaimer
 ===================
 
-.. include:: ../../../LICENSE.txt
+.. literalinclude:: ../../../LICENSE.txt
 
 ================
 Acknowledgments
@@ -37,7 +37,7 @@ Developers
 
 diffpy.Structure is developed and maintained by
 
-.. literalinclude:: ../../../AUTHORS.txt
+.. include:: ../../../AUTHORS.txt
 
 ======================================
 Installation

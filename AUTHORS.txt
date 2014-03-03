@@ -1,8 +1,8 @@
 Authors:
 
-Pavol Juhas
-Christopher L. Farrow
-Xiaohao Yang
+Pavol Juhas,
+Christopher L. Farrow,
+Xiaohao Yang,
 Simon J.L. Billinge
 
 Contributors:
