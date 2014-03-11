@@ -13,11 +13,14 @@ Last updated |today|.
 
 diffpy.Structure - simple storage and manipulation of crystal structures
 
-The diffpy.Structure package provides simple crystal structure operation
-such as calculations of distances or angles from fractional coordinates.
-It also provides imports and exports in several structure file formats
-and space group definitions and utilities for symmetry expansion and
-generation of symmetry constraints on positions and thermal factors.
+The diffpy.Structure package provides objects for storing atomic
+coordinates, displacement parameters and other crystal structure data.
+diffpy.Structure supports import and export of structure data in several
+structure formats such as CIF, PDB, xyz.  It provides conversion
+between fractional and absolute Cartesian coordinates, functions for
+symmetry expansion from asymmetric unit and generation of symmetry
+constraints for atom positions and displacement parameters.  diffpy.Structure
+includes definitions of all space groups in over 500 symmetry settings.
 
 To learn more about diffpy.Structure library, see the examples directory
 included in this distribution or the API documentation
@@ -37,7 +40,12 @@ Developers
 
 diffpy.Structure is developed and maintained by
 
-.. include:: ../../../AUTHORS.txt
+.. literalinclude:: ../../../AUTHORS.txt
+
+
+Space group codes in *spacegroupmod.py* and *mmlibspacegroups.py*
+originate from the pymmlib project, http://pymmlib.sourceforge.net.
+
 
 ======================================
 Installation
@@ -45,8 +53,9 @@ Installation
 
 .. include:: install.rst
 
+======================================
 API and Index
-==================
+======================================
 
 .. toctree::
    :maxdepth: 2
