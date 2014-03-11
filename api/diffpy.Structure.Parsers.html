@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Parsers Package &mdash; diffpy.Structure 1.2b0-18 documentation</title>
+    <title>diffpy.Structure.Parsers package &mdash; diffpy.Structure 1.2b2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.2b0-18',
+        VERSION:     '1.2b2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,10 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="diffpy.Structure 1.2b0-18 documentation" href="../index.html" />
-    <link rel="up" title="Structure Package" href="diffpy.Structure.html" />
-    <link rel="next" title="applications Package" href="diffpy.Structure.applications.html" />
-    <link rel="prev" title="Structure Package" href="diffpy.Structure.html" /> 
+    <link rel="top" title="diffpy.Structure 1.2b2 documentation" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,14 +36,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="diffpy.Structure.applications.html" title="applications Package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="diffpy.Structure.html" title="Structure Package"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">diffpy.Structure 1.2b0-18 documentation</a> &raquo;</li>
-          <li><a href="diffpy.Structure.html" accesskey="U">Structure Package</a> &raquo;</li> 
+        <li><a href="../index.html">diffpy.Structure 1.2b2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -57,47 +45,13 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="parsers-package">
-<h1>Parsers Package<a class="headerlink" href="#parsers-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2><tt class="xref py py-mod docutils literal"><span class="pre">Parsers</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-diffpy.Structure.Parsers"></span><p>Conversion plugins for various structure formats</p>
-<p>The recognized structure formats are defined by subclassing StructureParser,
-by convention these classes are named P_&lt;format&gt;.  The parser classes should
-to override the parseLines() and toLines() methods of StructureParser.
-Any structure parser needs to be registered in parser_index module.</p>
-<p>For normal usage it should be sufficient to use the routines provided
-in this module.</p>
-<dl class="docutils">
-<dt>Content:</dt>
-<dd>StructureParser &#8211; base class for concrete Parsers
-parser_index    &#8211; dictionary of known structure formats
-getParser       &#8211; factory for Parser at given format
-inputFormats    &#8211; list of available input formats
-outputFormats   &#8211; list of available output formats</dd>
-</dl>
-<dl class="function">
-<dt id="diffpy.Structure.Parsers.getParser">
-<tt class="descclassname">diffpy.Structure.Parsers.</tt><tt class="descname">getParser</tt><big>(</big><em>format</em><big>)</big><a class="headerlink" href="#diffpy.Structure.Parsers.getParser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return Parser instance for a given structure format.
-Raises StructureFormatError exception when format is not defined.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.Structure.Parsers.inputFormats">
-<tt class="descclassname">diffpy.Structure.Parsers.</tt><tt class="descname">inputFormats</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.Parsers.inputFormats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return list of implemented input structure formats</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.Structure.Parsers.outputFormats">
-<tt class="descclassname">diffpy.Structure.Parsers.</tt><tt class="descname">outputFormats</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.Parsers.outputFormats" title="Permalink to this definition">¶</a></dt>
-<dd><p>return list of implemented output structure formats</p>
-</dd></dl>
-
+  <div class="section" id="diffpy-structure-parsers-package">
+<h1>diffpy.Structure.Parsers package<a class="headerlink" href="#diffpy-structure-parsers-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.P_auto">
-<span id="p-auto-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">P_auto</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_auto" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-p-auto-module"></span><h2>diffpy.Structure.Parsers.P_auto module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_auto" title="Permalink to this headline">¶</a></h2>
 <p>Parser for automatic file format detection</p>
 <p>This Parser does not provide the the toLines() method.</p>
 <dl class="class">
@@ -142,7 +96,7 @@ Set format attribute to the detected file format.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.P_bratoms">
-<span id="p-bratoms-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">P_bratoms</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_bratoms" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-p-bratoms-module"></span><h2>diffpy.Structure.Parsers.P_bratoms module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_bratoms" title="Permalink to this headline">¶</a></h2>
 <p>Parser for Bruce Ravel&#8217;s Atoms structure format</p>
 <dl class="class">
 <dt id="diffpy.Structure.Parsers.P_bratoms.P_bratoms">
@@ -177,7 +131,7 @@ Set format attribute to the detected file format.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.P_cif">
-<span id="p-cif-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">P_cif</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_cif" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-p-cif-module"></span><h2>diffpy.Structure.Parsers.P_cif module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_cif" title="Permalink to this headline">¶</a></h2>
 <p>Parser for basic CIF file format</p>
 <p><a class="reference external" href="http://www.iucr.org/iucr-top/cif/home.html">http://www.iucr.org/iucr-top/cif/home.html</a></p>
 <dl class="class">
@@ -275,7 +229,7 @@ Useful for extracting values from &#8220;value(std)&#8221; syntax.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.P_discus">
-<span id="p-discus-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">P_discus</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_discus" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-p-discus-module"></span><h2>diffpy.Structure.Parsers.P_discus module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_discus" title="Permalink to this headline">¶</a></h2>
 <p>Parser for DISCUS structure format</p>
 <dl class="class">
 <dt id="diffpy.Structure.Parsers.P_discus.P_discus">
@@ -306,7 +260,7 @@ Return list of strings.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.P_pdb">
-<span id="p-pdb-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">P_pdb</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_pdb" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-p-pdb-module"></span><h2>diffpy.Structure.Parsers.P_pdb module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_pdb" title="Permalink to this headline">¶</a></h2>
 <p>Basic parser for PDB structure format.</p>
 <p>References</p>
 <blockquote>
@@ -374,7 +328,7 @@ for structure stru atom number aidx</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.P_pdffit">
-<span id="p-pdffit-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">P_pdffit</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_pdffit" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-p-pdffit-module"></span><h2>diffpy.Structure.Parsers.P_pdffit module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_pdffit" title="Permalink to this headline">¶</a></h2>
 <p>Parser for PDFfit structure format</p>
 <dl class="class">
 <dt id="diffpy.Structure.Parsers.P_pdffit.P_pdffit">
@@ -405,7 +359,7 @@ for structure stru atom number aidx</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.P_rawxyz">
-<span id="p-rawxyz-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">P_rawxyz</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_rawxyz" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-p-rawxyz-module"></span><h2>diffpy.Structure.Parsers.P_rawxyz module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_rawxyz" title="Permalink to this headline">¶</a></h2>
 <p>Parser for raw XYZ file format.  Raw XYZ is a 3 or 4 column text
 file with cartesian coordinates of atoms and an optional first column
 for atom types.</p>
@@ -437,7 +391,7 @@ for atom types.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.P_xcfg">
-<span id="p-xcfg-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">P_xcfg</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_xcfg" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-p-xcfg-module"></span><h2>diffpy.Structure.Parsers.P_xcfg module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_xcfg" title="Permalink to this headline">¶</a></h2>
 <p>Parser for extended CFG format used by atomeye</p>
 <dl class="class">
 <dt id="diffpy.Structure.Parsers.P_xcfg.P_xcfg">
@@ -476,7 +430,7 @@ for atom types.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.P_xyz">
-<span id="p-xyz-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">P_xyz</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_xyz" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-p-xyz-module"></span><h2>diffpy.Structure.Parsers.P_xyz module<a class="headerlink" href="#module-diffpy.Structure.Parsers.P_xyz" title="Permalink to this headline">¶</a></h2>
 <p>Parser for XYZ file format, where
 first line gives number of atoms
 second one has optional title
@@ -509,13 +463,13 @@ remaining lines contain element, x, y, z</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.parser_index_mod">
-<span id="parser-index-mod-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">parser_index_mod</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.parser_index_mod" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-parser-index-mod-module"></span><h2>diffpy.Structure.Parsers.parser_index_mod module<a class="headerlink" href="#module-diffpy.Structure.Parsers.parser_index_mod" title="Permalink to this headline">¶</a></h2>
 <p>Index of recognized structure formats, their IO capabilities and
 associated modules where they are defined.  Plugins for new structure
 formats need to be added to the parser_index dictionary in this module.</p>
 </div>
 <div class="section" id="module-diffpy.Structure.Parsers.structureparser">
-<span id="structureparser-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">structureparser</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.Parsers.structureparser" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-parsers-structureparser-module"></span><h2>diffpy.Structure.Parsers.structureparser module<a class="headerlink" href="#module-diffpy.Structure.Parsers.structureparser" title="Permalink to this headline">¶</a></h2>
 <p>Definition of StructureParser, a base class for specific parsers.</p>
 <dl class="class">
 <dt id="diffpy.Structure.Parsers.structureparser.StructureParser">
@@ -568,6 +522,43 @@ This method has to be overloaded in derived class.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-diffpy.Structure.Parsers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-diffpy.Structure.Parsers" title="Permalink to this headline">¶</a></h2>
+<p>Conversion plugins for various structure formats</p>
+<p>The recognized structure formats are defined by subclassing StructureParser,
+by convention these classes are named P_&lt;format&gt;.  The parser classes should
+to override the parseLines() and toLines() methods of StructureParser.
+Any structure parser needs to be registered in parser_index module.</p>
+<p>For normal usage it should be sufficient to use the routines provided
+in this module.</p>
+<dl class="docutils">
+<dt>Content:</dt>
+<dd>StructureParser &#8211; base class for concrete Parsers
+parser_index    &#8211; dictionary of known structure formats
+getParser       &#8211; factory for Parser at given format
+inputFormats    &#8211; list of available input formats
+outputFormats   &#8211; list of available output formats</dd>
+</dl>
+<dl class="function">
+<dt id="diffpy.Structure.Parsers.getParser">
+<tt class="descclassname">diffpy.Structure.Parsers.</tt><tt class="descname">getParser</tt><big>(</big><em>format</em><big>)</big><a class="headerlink" href="#diffpy.Structure.Parsers.getParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Parser instance for a given structure format.
+Raises StructureFormatError exception when format is not defined.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.Parsers.inputFormats">
+<tt class="descclassname">diffpy.Structure.Parsers.</tt><tt class="descname">inputFormats</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.Parsers.inputFormats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of implemented input structure formats</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.Parsers.outputFormats">
+<tt class="descclassname">diffpy.Structure.Parsers.</tt><tt class="descname">outputFormats</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.Parsers.outputFormats" title="Permalink to this definition">¶</a></dt>
+<dd><p>return list of implemented output structure formats</p>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -578,29 +569,24 @@ This method has to be overloaded in derived class.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Parsers Package</a><ul>
-<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">Parsers</span></tt> Package</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_auto"><tt class="docutils literal"><span class="pre">P_auto</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_bratoms"><tt class="docutils literal"><span class="pre">P_bratoms</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_cif"><tt class="docutils literal"><span class="pre">P_cif</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_discus"><tt class="docutils literal"><span class="pre">P_discus</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_pdb"><tt class="docutils literal"><span class="pre">P_pdb</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_pdffit"><tt class="docutils literal"><span class="pre">P_pdffit</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_rawxyz"><tt class="docutils literal"><span class="pre">P_rawxyz</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_xcfg"><tt class="docutils literal"><span class="pre">P_xcfg</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_xyz"><tt class="docutils literal"><span class="pre">P_xyz</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.parser_index_mod"><tt class="docutils literal"><span class="pre">parser_index_mod</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.structureparser"><tt class="docutils literal"><span class="pre">structureparser</span></tt> Module</a></li>
+<li><a class="reference internal" href="#">diffpy.Structure.Parsers package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_auto">diffpy.Structure.Parsers.P_auto module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_bratoms">diffpy.Structure.Parsers.P_bratoms module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_cif">diffpy.Structure.Parsers.P_cif module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_discus">diffpy.Structure.Parsers.P_discus module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_pdb">diffpy.Structure.Parsers.P_pdb module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_pdffit">diffpy.Structure.Parsers.P_pdffit module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_rawxyz">diffpy.Structure.Parsers.P_rawxyz module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_xcfg">diffpy.Structure.Parsers.P_xcfg module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.P_xyz">diffpy.Structure.Parsers.P_xyz module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.parser_index_mod">diffpy.Structure.Parsers.parser_index_mod module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers.structureparser">diffpy.Structure.Parsers.structureparser module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.Parsers">Module contents</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="diffpy.Structure.html"
-                        title="previous chapter">Structure Package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="diffpy.Structure.applications.html"
-                        title="next chapter">applications Package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/api/diffpy.Structure.Parsers.txt"
@@ -632,19 +618,12 @@ This method has to be overloaded in derived class.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="diffpy.Structure.applications.html" title="applications Package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="diffpy.Structure.html" title="Structure Package"
-             >previous</a> |</li>
-        <li><a href="../index.html">diffpy.Structure 1.2b0-18 documentation</a> &raquo;</li>
-          <li><a href="diffpy.Structure.html" >Structure Package</a> &raquo;</li> 
+        <li><a href="../index.html">diffpy.Structure 1.2b2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, Brookhaven National Laboratory.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

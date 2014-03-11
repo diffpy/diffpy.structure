@@ -1,4 +1,4 @@
-diffpy Package
+diffpy package
 ==============
 
 Subpackages
@@ -8,3 +8,10 @@ Subpackages
 
     diffpy.Structure
 
+Module contents
+---------------
+
+.. automodule:: diffpy
+    :members:
+    :undoc-members:
+    :show-inheritance:

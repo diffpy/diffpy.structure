@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Structure Package &mdash; diffpy.Structure 1.2b0-18 documentation</title>
+    <title>diffpy.Structure package &mdash; diffpy.Structure 1.2b2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.2b0-18',
+        VERSION:     '1.2b2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="diffpy.Structure 1.2b0-18 documentation" href="../index.html" />
-    <link rel="next" title="Parsers Package" href="diffpy.Structure.Parsers.html" />
-    <link rel="prev" title="diffpy.Structure documentation" href="../index.html" /> 
+    <link rel="top" title="diffpy.Structure 1.2b2 documentation" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,13 +36,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="diffpy.Structure.Parsers.html" title="Parsers Package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="../index.html" title="diffpy.Structure documentation"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">diffpy.Structure 1.2b0-18 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">diffpy.Structure 1.2b2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -55,47 +45,52 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="structure-package">
-<h1>Structure Package<a class="headerlink" href="#structure-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2><tt class="xref py py-mod docutils literal"><span class="pre">Structure</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-diffpy.Structure"></span><p>classes related to structure of materials
-Classes:</p>
-<blockquote>
-<div>Atom
-Lattice
-Structure
-PDFFitStructure</div></blockquote>
-<dl class="docutils">
-<dt>Exceptions:</dt>
-<dd>StructureFormatError
-LatticeError
-SymmetryError
-IsotropyError</dd>
-</dl>
-<dl class="function">
-<dt id="diffpy.Structure.loadStructure">
-<tt class="descclassname">diffpy.Structure.</tt><tt class="descname">loadStructure</tt><big>(</big><em>filename</em>, <em>fmt='auto'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.loadStructure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load a new structure from a specified file.</p>
-<p>filename &#8211; file to be loaded
-fmt      &#8211; format of the structure file.  Must be one of the formats</p>
-<blockquote>
-<div>defined in the Parsers subpackage.  When &#8216;auto&#8217;, all
-Parsers are tried in sequence.</div></blockquote>
-<p>Return a new Structure object. 
-Return PDFFitStructure object for &#8216;pdffit&#8217; or &#8216;discus&#8217; formats.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.Structure.test">
-<tt class="descclassname">diffpy.Structure.</tt><tt class="descname">test</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.test" title="Permalink to this definition">¶</a></dt>
-<dd><p>Execute all unit tests for the diffpy.Structure package.
-Return a unittest TestResult object.</p>
-</dd></dl>
-
+  <div class="section" id="diffpy-structure-package">
+<h1>diffpy.Structure package<a class="headerlink" href="#diffpy-structure-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="diffpy.Structure.Parsers.html">diffpy.Structure.Parsers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_auto">diffpy.Structure.Parsers.P_auto module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_bratoms">diffpy.Structure.Parsers.P_bratoms module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_cif">diffpy.Structure.Parsers.P_cif module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_discus">diffpy.Structure.Parsers.P_discus module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_pdb">diffpy.Structure.Parsers.P_pdb module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_pdffit">diffpy.Structure.Parsers.P_pdffit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_rawxyz">diffpy.Structure.Parsers.P_rawxyz module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_xcfg">diffpy.Structure.Parsers.P_xcfg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_xyz">diffpy.Structure.Parsers.P_xyz module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.parser_index_mod">diffpy.Structure.Parsers.parser_index_mod module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.structureparser">diffpy.Structure.Parsers.structureparser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="diffpy.Structure.applications.html">diffpy.Structure.applications package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.applications.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.applications.html#module-diffpy.Structure.applications.anyeye">diffpy.Structure.applications.anyeye module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.applications.html#module-diffpy.Structure.applications.transtru">diffpy.Structure.applications.transtru module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.applications.html#module-diffpy.Structure.applications">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="diffpy.Structure.expansion.html">diffpy.Structure.expansion package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.makeCuboctahedron">diffpy.Structure.expansion.makeCuboctahedron module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.makeEllipsoid">diffpy.Structure.expansion.makeEllipsoid module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.shapeUtils">diffpy.Structure.expansion.shapeUtils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.supercell_mod">diffpy.Structure.expansion.supercell_mod module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-diffpy.Structure.SpaceGroups">
-<span id="spacegroups-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">SpaceGroups</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.SpaceGroups" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-spacegroups-module"></span><h2>diffpy.Structure.SpaceGroups module<a class="headerlink" href="#module-diffpy.Structure.SpaceGroups" title="Permalink to this headline">¶</a></h2>
 <p>Space group classes and definitions from mmLib and sgtbx.</p>
 <dl class="function">
 <dt id="diffpy.Structure.SpaceGroups.GetSpaceGroup">
@@ -118,7 +113,7 @@ Raise ValueError when not found.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.StructureErrors">
-<span id="structureerrors-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">StructureErrors</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.StructureErrors" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-structureerrors-module"></span><h2>diffpy.Structure.StructureErrors module<a class="headerlink" href="#module-diffpy.Structure.StructureErrors" title="Permalink to this headline">¶</a></h2>
 <p>Exceptions used in Structure package.</p>
 <dl class="exception">
 <dt id="diffpy.Structure.StructureErrors.IsotropyError">
@@ -150,7 +145,7 @@ Raise ValueError when not found.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.SymmetryUtilities">
-<span id="symmetryutilities-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">SymmetryUtilities</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.SymmetryUtilities" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-symmetryutilities-module"></span><h2>diffpy.Structure.SymmetryUtilities module<a class="headerlink" href="#module-diffpy.Structure.SymmetryUtilities" title="Permalink to this headline">¶</a></h2>
 <p>Symmetry utility functions such as expansion of asymmetric unit,
 and generation of positional constraints.</p>
 <dl class="class">
@@ -433,7 +428,7 @@ xyz   &#8211; single position</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.atom">
-<span id="atom-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">atom</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.atom" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-atom-module"></span><h2>diffpy.Structure.atom module<a class="headerlink" href="#module-diffpy.Structure.atom" title="Permalink to this headline">¶</a></h2>
 <p>class Atom for storing properties of a single atom</p>
 <dl class="class">
 <dt id="diffpy.Structure.atom.Atom">
@@ -641,7 +636,7 @@ _anisotropy &#8211; storage of anisotropy property, bool or</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.bratomsstructure">
-<span id="bratomsstructure-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">bratomsstructure</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.bratomsstructure" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-bratomsstructure-module"></span><h2>diffpy.Structure.bratomsstructure module<a class="headerlink" href="#module-diffpy.Structure.bratomsstructure" title="Permalink to this headline">¶</a></h2>
 <p>definition of BRAtomsStructure class derived from Structure</p>
 <dl class="class">
 <dt id="diffpy.Structure.bratomsstructure.BRAtomsStructure">
@@ -668,7 +663,7 @@ _anisotropy &#8211; storage of anisotropy property, bool or</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.lattice">
-<span id="lattice-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">lattice</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.lattice" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-lattice-module"></span><h2>diffpy.Structure.lattice module<a class="headerlink" href="#module-diffpy.Structure.lattice" title="Permalink to this headline">¶</a></h2>
 <p>class Lattice stores properites and provides simple operations in lattice
 coordinate system.</p>
 <dl class="docutils">
@@ -954,11 +949,11 @@ Avoid round-off errors for exact sine values.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.mmlibspacegroups">
-<span id="mmlibspacegroups-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">mmlibspacegroups</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.mmlibspacegroups" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-mmlibspacegroups-module"></span><h2>diffpy.Structure.mmlibspacegroups module<a class="headerlink" href="#module-diffpy.Structure.mmlibspacegroups" title="Permalink to this headline">¶</a></h2>
 <p>Space groups defined as a part of the pymmlib.</p>
 </div>
 <div class="section" id="module-diffpy.Structure.pdffitstructure">
-<span id="pdffitstructure-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">pdffitstructure</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.pdffitstructure" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-pdffitstructure-module"></span><h2>diffpy.Structure.pdffitstructure module<a class="headerlink" href="#module-diffpy.Structure.pdffitstructure" title="Permalink to this headline">¶</a></h2>
 <p>definition of PDFFitStructure class derived from Structure</p>
 <dl class="class">
 <dt id="diffpy.Structure.pdffitstructure.PDFFitStructure">
@@ -1000,14 +995,14 @@ See Structure.readStr() for more info.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.sgtbxspacegroups">
-<span id="sgtbxspacegroups-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">sgtbxspacegroups</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.sgtbxspacegroups" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-sgtbxspacegroups-module"></span><h2>diffpy.Structure.sgtbxspacegroups module<a class="headerlink" href="#module-diffpy.Structure.sgtbxspacegroups" title="Permalink to this headline">¶</a></h2>
 <p>Extra space group representations generated using sgtbx module from cctbx.
 Import of this module extends the SpaceGroupList in the SpaceGroups module.
 Notable variables:</p>
 <p>sgtbxSpaceGroupList &#8211; list of space group instances defined in this module</p>
 </div>
 <div class="section" id="module-diffpy.Structure.spacegroupmod">
-<span id="spacegroupmod-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">spacegroupmod</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.spacegroupmod" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-spacegroupmod-module"></span><h2>diffpy.Structure.spacegroupmod module<a class="headerlink" href="#module-diffpy.Structure.spacegroupmod" title="Permalink to this headline">¶</a></h2>
 <p>Symmetry operations as functions on vectors or arrays.</p>
 <dl class="class">
 <dt id="diffpy.Structure.spacegroupmod.SpaceGroup">
@@ -1055,11 +1050,11 @@ symmetry equivelant vectors are also in fractional coordinates.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.structure">
-<span id="structure-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">structure</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.structure" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-structure-module"></span><h2>diffpy.Structure.structure module<a class="headerlink" href="#module-diffpy.Structure.structure" title="Permalink to this headline">¶</a></h2>
 <p>This module defines class Structure.</p>
 <dl class="class">
 <dt id="diffpy.Structure.structure.Structure">
-<em class="property">class </em><tt class="descclassname">diffpy.Structure.structure.</tt><tt class="descname">Structure</tt><big>(</big><em>atoms=</em><span class="optional">[</span><span class="optional">]</span>, <em>lattice=None</em>, <em>title=None</em>, <em>filename=None</em>, <em>format=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">diffpy.Structure.structure.</tt><tt class="descname">Structure</tt><big>(</big><em>atoms=</em>, <span class="optional">[</span><span class="optional">]</span><em>lattice=None</em>, <em>title=None</em>, <em>filename=None</em>, <em>format=None</em><big>)</big><a class="headerlink" href="#diffpy.Structure.structure.Structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">list</span></tt></p>
 <p>Structure &#8211;&gt; group of atoms</p>
 <p>Structure class is inherited from Python list.  It contains
@@ -1411,7 +1406,7 @@ Assignment updates xyz attribute of all atoms.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.utils">
-<span id="utils-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">utils</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.utils" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-utils-module"></span><h2>diffpy.Structure.utils module<a class="headerlink" href="#module-diffpy.Structure.utils" title="Permalink to this headline">¶</a></h2>
 <p>Small shared functions.</p>
 <dl class="function">
 <dt id="diffpy.Structure.utils.atomBareSymbol">
@@ -1430,44 +1425,45 @@ This removes blank and leading [0-9-] or trailing [1-9][+-] characters.</p>
 
 </div>
 <div class="section" id="module-diffpy.Structure.version">
-<span id="version-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">version</span></tt> Module<a class="headerlink" href="#module-diffpy.Structure.version" title="Permalink to this headline">¶</a></h2>
+<span id="diffpy-structure-version-module"></span><h2>diffpy.Structure.version module<a class="headerlink" href="#module-diffpy.Structure.version" title="Permalink to this headline">¶</a></h2>
 <p>Definition of __version__, __date__, __gitsha__.</p>
 </div>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="diffpy.Structure.Parsers.html">Parsers Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#id1"><tt class="docutils literal"><span class="pre">Parsers</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_auto"><tt class="docutils literal"><span class="pre">P_auto</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_bratoms"><tt class="docutils literal"><span class="pre">P_bratoms</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_cif"><tt class="docutils literal"><span class="pre">P_cif</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_discus"><tt class="docutils literal"><span class="pre">P_discus</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_pdb"><tt class="docutils literal"><span class="pre">P_pdb</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_pdffit"><tt class="docutils literal"><span class="pre">P_pdffit</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_rawxyz"><tt class="docutils literal"><span class="pre">P_rawxyz</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_xcfg"><tt class="docutils literal"><span class="pre">P_xcfg</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.P_xyz"><tt class="docutils literal"><span class="pre">P_xyz</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.parser_index_mod"><tt class="docutils literal"><span class="pre">parser_index_mod</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.Parsers.html#module-diffpy.Structure.Parsers.structureparser"><tt class="docutils literal"><span class="pre">structureparser</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="diffpy.Structure.applications.html">applications Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.applications.html#id1"><tt class="docutils literal"><span class="pre">applications</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.applications.html#module-diffpy.Structure.applications.anyeye"><tt class="docutils literal"><span class="pre">anyeye</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.applications.html#module-diffpy.Structure.applications.transtru"><tt class="docutils literal"><span class="pre">transtru</span></tt> Module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="diffpy.Structure.expansion.html">expansion Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#id1"><tt class="docutils literal"><span class="pre">expansion</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.makeCuboctahedron"><tt class="docutils literal"><span class="pre">makeCuboctahedron</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.makeEllipsoid"><tt class="docutils literal"><span class="pre">makeEllipsoid</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.shapeUtils"><tt class="docutils literal"><span class="pre">shapeUtils</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="diffpy.Structure.expansion.html#module-diffpy.Structure.expansion.supercell_mod"><tt class="docutils literal"><span class="pre">supercell_mod</span></tt> Module</a></li>
-</ul>
-</li>
-</ul>
-</div>
+<div class="section" id="module-diffpy.Structure">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-diffpy.Structure" title="Permalink to this headline">¶</a></h2>
+<p>classes related to structure of materials
+Classes:</p>
+<blockquote>
+<div>Atom
+Lattice
+Structure
+PDFFitStructure</div></blockquote>
+<dl class="docutils">
+<dt>Exceptions:</dt>
+<dd>StructureFormatError
+LatticeError
+SymmetryError
+IsotropyError</dd>
+</dl>
+<dl class="function">
+<dt id="diffpy.Structure.loadStructure">
+<tt class="descclassname">diffpy.Structure.</tt><tt class="descname">loadStructure</tt><big>(</big><em>filename</em>, <em>fmt='auto'</em><big>)</big><a class="headerlink" href="#diffpy.Structure.loadStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a new structure from a specified file.</p>
+<p>filename &#8211; file to be loaded
+fmt      &#8211; format of the structure file.  Must be one of the formats</p>
+<blockquote>
+<div>defined in the Parsers subpackage.  When &#8216;auto&#8217;, all
+Parsers are tried in sequence.</div></blockquote>
+<p>Return a new Structure object.
+Return PDFFitStructure object for &#8216;pdffit&#8217; or &#8216;discus&#8217; formats.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.Structure.test">
+<tt class="descclassname">diffpy.Structure.</tt><tt class="descname">test</tt><big>(</big><big>)</big><a class="headerlink" href="#diffpy.Structure.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute all unit tests for the diffpy.Structure package.
+Return a unittest TestResult object.</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -1479,34 +1475,27 @@ This removes blank and leading [0-9-] or trailing [1-9][+-] characters.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Structure Package</a><ul>
-<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">Structure</span></tt> Package</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.SpaceGroups"><tt class="docutils literal"><span class="pre">SpaceGroups</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.StructureErrors"><tt class="docutils literal"><span class="pre">StructureErrors</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.SymmetryUtilities"><tt class="docutils literal"><span class="pre">SymmetryUtilities</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.atom"><tt class="docutils literal"><span class="pre">atom</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.bratomsstructure"><tt class="docutils literal"><span class="pre">bratomsstructure</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.lattice"><tt class="docutils literal"><span class="pre">lattice</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.mmlibspacegroups"><tt class="docutils literal"><span class="pre">mmlibspacegroups</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.pdffitstructure"><tt class="docutils literal"><span class="pre">pdffitstructure</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.sgtbxspacegroups"><tt class="docutils literal"><span class="pre">sgtbxspacegroups</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.spacegroupmod"><tt class="docutils literal"><span class="pre">spacegroupmod</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.structure"><tt class="docutils literal"><span class="pre">structure</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.utils"><tt class="docutils literal"><span class="pre">utils</span></tt> Module</a></li>
-<li><a class="reference internal" href="#module-diffpy.Structure.version"><tt class="docutils literal"><span class="pre">version</span></tt> Module</a></li>
-<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-</ul>
-</li>
+<li><a class="reference internal" href="#">diffpy.Structure package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.SpaceGroups">diffpy.Structure.SpaceGroups module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.StructureErrors">diffpy.Structure.StructureErrors module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.SymmetryUtilities">diffpy.Structure.SymmetryUtilities module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.atom">diffpy.Structure.atom module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.bratomsstructure">diffpy.Structure.bratomsstructure module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.lattice">diffpy.Structure.lattice module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.mmlibspacegroups">diffpy.Structure.mmlibspacegroups module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.pdffitstructure">diffpy.Structure.pdffitstructure module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.sgtbxspacegroups">diffpy.Structure.sgtbxspacegroups module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.spacegroupmod">diffpy.Structure.spacegroupmod module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.structure">diffpy.Structure.structure module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.utils">diffpy.Structure.utils module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure.version">diffpy.Structure.version module</a></li>
+<li><a class="reference internal" href="#module-diffpy.Structure">Module contents</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../index.html"
-                        title="previous chapter">diffpy.Structure documentation</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="diffpy.Structure.Parsers.html"
-                        title="next chapter">Parsers Package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/api/diffpy.Structure.txt"
@@ -1538,18 +1527,12 @@ This removes blank and leading [0-9-] or trailing [1-9][+-] characters.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="diffpy.Structure.Parsers.html" title="Parsers Package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="../index.html" title="diffpy.Structure documentation"
-             >previous</a> |</li>
-        <li><a href="../index.html">diffpy.Structure 1.2b0-18 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">diffpy.Structure 1.2b2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, Brookhaven National Laboratory.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

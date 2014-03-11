@@ -1,27 +1,30 @@
-applications Package
-====================
+diffpy.Structure.applications package
+=====================================
 
-:mod:`applications` Package
----------------------------
+Submodules
+----------
 
-.. automodule:: diffpy.Structure.applications
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`anyeye` Module
---------------------
+diffpy.Structure.applications.anyeye module
+-------------------------------------------
 
 .. automodule:: diffpy.Structure.applications.anyeye
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`transtru` Module
-----------------------
+diffpy.Structure.applications.transtru module
+---------------------------------------------
 
 .. automodule:: diffpy.Structure.applications.transtru
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: diffpy.Structure.applications
+    :members:
+    :undoc-members:
+    :show-inheritance:

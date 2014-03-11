@@ -1,43 +1,46 @@
-expansion Package
-=================
+diffpy.Structure.expansion package
+==================================
 
-:mod:`expansion` Package
-------------------------
+Submodules
+----------
 
-.. automodule:: diffpy.Structure.expansion
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`makeCuboctahedron` Module
--------------------------------
+diffpy.Structure.expansion.makeCuboctahedron module
+---------------------------------------------------
 
 .. automodule:: diffpy.Structure.expansion.makeCuboctahedron
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`makeEllipsoid` Module
----------------------------
+diffpy.Structure.expansion.makeEllipsoid module
+-----------------------------------------------
 
 .. automodule:: diffpy.Structure.expansion.makeEllipsoid
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`shapeUtils` Module
-------------------------
+diffpy.Structure.expansion.shapeUtils module
+--------------------------------------------
 
 .. automodule:: diffpy.Structure.expansion.shapeUtils
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`supercell_mod` Module
----------------------------
+diffpy.Structure.expansion.supercell_mod module
+-----------------------------------------------
 
 .. automodule:: diffpy.Structure.expansion.supercell_mod
     :members:
     :undoc-members:
     :show-inheritance:
 
+
+Module contents
+---------------
+
+.. automodule:: diffpy.Structure.expansion
+    :members:
+    :undoc-members:
+    :show-inheritance:
