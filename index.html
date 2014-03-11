@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>diffpy.Structure documentation &mdash; diffpy.Structure 1.2b2 documentation</title>
+    <title>diffpy.Structure documentation &mdash; diffpy.Structure 1.2b2-2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.2b2',
+        VERSION:     '1.2b2-2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/sidebar.js"></script>
-    <link rel="top" title="diffpy.Structure 1.2b2 documentation" href="#" />
+    <link rel="top" title="diffpy.Structure 1.2b2-2 documentation" href="#" />
     <link rel="next" title="diffpy.Structure package" href="api/diffpy.Structure.html" /> 
   </head>
   <body>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="api/diffpy.Structure.html" title="diffpy.Structure package"
              accesskey="N">next</a> |</li>
-        <li><a href="#">diffpy.Structure 1.2b2 documentation</a> &raquo;</li> 
+        <li><a href="#">diffpy.Structure 1.2b2-2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -51,8 +51,8 @@
             
   <div class="section" id="diffpy-structure-documentation">
 <h1>diffpy.Structure documentation<a class="headerlink" href="#diffpy-structure-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Software version 1.2b2.</p>
-<p>Last updated March 03, 2014.</p>
+<p>Software version 1.2b2-2.</p>
+<p>Last updated March 11, 2014.</p>
 <p>diffpy.Structure - simple storage and manipulation of crystal structures</p>
 <p>The diffpy.Structure package provides objects for storing atomic
 coordinates, displacement parameters and other crystal structure data.
@@ -229,72 +229,8 @@ originate from the pymmlib project, <a class="reference external" href="http://p
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="requirements">
-<span id="index-0"></span><h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
-<p>The diffpy.Structure requires Python 2.6 or 2.7 and the following software:</p>
-<ul class="simple">
-<li><tt class="docutils literal"><span class="pre">setuptools</span></tt> - software distribution tools for Python</li>
-<li><tt class="docutils literal"><span class="pre">NumPy</span></tt> - numerical mathematics and fast array operations for Python</li>
-</ul>
-<p>On Ubuntu Linux the required software can be easily installed using
-the system package manager:</p>
-<div class="highlight-python"><div class="highlight"><pre>sudo aptitude install python-setuptools python-numpy
-</pre></div>
-</div>
-<p>For Mac OS X machine with the MacPorts package manager the installation
-command is</p>
-<div class="highlight-python"><div class="highlight"><pre>sudo port install python27 py27-setuptools py27-numpy
-</pre></div>
-</div>
-<p>When installing with MacPorts, make sure the MacPorts bin directory is the
-first in the system PATH and that python27 is selected as the default
-Python version in MacPorts:</p>
-<div class="highlight-python"><div class="highlight"><pre>sudo port select --set python python27
-</pre></div>
-</div>
-<p>For other Linux distributions use their respective package manager; note
-the packages may have slightly different names.  diffpy.Structure depends
-also on the <a class="reference external" href="http://pycifrw.berlios.de">PyCifRW</a> library, which should
-get automatically deployed as a part of the installation process.</p>
-</div>
-<div class="section" id="index-1">
-<span id="id1"></span><h3>Installation<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h3>
-<p>Use <tt class="docutils literal"><span class="pre">easy_install</span></tt> to download and install the latest release from
-<a class="reference external" href="https://pypi.python.org">Python Package Index</a></p>
-<div class="highlight-python"><div class="highlight"><pre>sudo easy_install diffpy.Structure
-</pre></div>
-</div>
-<p>diffpy.Structure is also included in the DiffPy-CMI release bundle of
-Python libraries for structure analysis at <a class="reference external" href="http://www.diffpy.org">http://www.diffpy.org</a>.</p>
-<p>If you prefer to install from sources, make sure all required software
-packages are in place and then run</p>
-<div class="highlight-python"><div class="highlight"><pre>sudo python setup.py install
-</pre></div>
-</div>
-<p>By default the files are installed in the system directories, which are
-only writeable by the root user.  See the usage info from
-<tt class="docutils literal"><span class="pre">./setup.py</span> <span class="pre">install</span> <span class="pre">--help</span></tt> for options to install as a normal user under
-different location.  Note that installation to non-standard directories may
-require adjustments to the PATH and PYTHONPATH environment variables.
-The installation integrity can be verified by changing to the HOME
-directory and running</p>
-<div class="highlight-python"><div class="highlight"><pre>python -m diffpy.Structure.tests.run
-</pre></div>
-</div>
-</div>
-<div class="section" id="development">
-<span id="index-2"></span><h3>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h3>
-<p>diffpy.Structure is an open-source software developed as a part of the
-DiffPy-CMI complex modeling initiative at the Brookhaven National
-Laboratory.  The diffpy.Structure sources are hosted at
-<a class="reference external" href="https://github.com/diffpy/diffpy.Structure">https://github.com/diffpy/diffpy.Structure</a>.</p>
-<p>Feel free to fork the project and contribute.  To install diffpy.Structure
-in a development mode, where the sources are directly used by Python
-rather than copied to a system directory, use</p>
-<div class="highlight-python"><div class="highlight"><pre>python setup.py develop --user
-</pre></div>
-</div>
-</div>
+<p>See the <a class="reference external" href="https://github.com/diffpy/diffpy.Structure#requirements">README.rst</a>
+file included with the distribution.</p>
 </div>
 <div class="section" id="api-and-index">
 <h2>API and Index<a class="headerlink" href="#api-and-index" title="Permalink to this headline">¶</a></h2>
@@ -341,12 +277,7 @@ rather than copied to a system directory, use</p>
 <li><a class="reference internal" href="#developers">Developers</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#installation">Installation</a><ul>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
-<li><a class="reference internal" href="#index-1">Installation</a></li>
-<li><a class="reference internal" href="#development">Development</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#api-and-index">API and Index</a></li>
 </ul>
 </li>
@@ -389,7 +320,7 @@ rather than copied to a system directory, use</p>
         <li class="right" >
           <a href="api/diffpy.Structure.html" title="diffpy.Structure package"
              >next</a> |</li>
-        <li><a href="#">diffpy.Structure 1.2b2 documentation</a> &raquo;</li> 
+        <li><a href="#">diffpy.Structure 1.2b2-2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
