@@ -32,8 +32,11 @@ def getversioncfg():
     cp.read(versioncfgfile)
     gitdir = os.path.join(MYDIR, '.git')
     if not os.path.isdir(gitdir):  return cp
+    try:
+        g = gitinfo()
+    except OSError:
+        return cp
     d = cp.defaults()
-    g = gitinfo()
     if g['version'] != d.get('version') or g['commit'] != d.get('commit'):
         cp.set('DEFAULT', 'version', g['version'])
         cp.set('DEFAULT', 'commit', g['commit'])
