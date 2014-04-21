@@ -77,6 +77,9 @@ class Lattice(object):
                     vectors in Cartesian coordinates
         normbase -- base with magnitudes of reciprocal vectors
         recnormbase -- inverse of normbase
+        isotropicunit -- matrix for unit isotropic displacement parameters
+                    in this coordinate system.  Identity matrix when
+                    orthonormal.
 
     Note: All data members except a, b, c, alpha, beta, gamma are read-only.
     Their values get updated by setting the lattice parameters or calling
@@ -190,6 +193,7 @@ class Lattice(object):
         # bases normalized to unit reciprocal vectors
         self.normbase = self.base * [[ar], [br], [cr]]
         self.recnormbase = self.recbase / [ar, br, cr]
+        self.isotropicunit = numpy.dot(self.recnormbase.T, self.recnormbase)
         return
 
 
