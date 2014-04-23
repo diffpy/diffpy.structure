@@ -540,10 +540,15 @@ class TestStructure(unittest.TestCase):
         self.failIf(numpy.any(stru.anisotropy))
         stru.U = numpy.identity(3)
         self.assertEqual(2, len(set([id(a.U) for a in stru])))
+        isou = stru.lattice.isotropicunit
+        self.failUnless(numpy.array_equal(2 * [isou], stru.U))
+        self.failIf(numpy.any(stru.anisotropy))
+        stru.anisotropy = True
+        stru.U = numpy.identity(3)
         self.failUnless(numpy.array_equal(2 * [numpy.identity(3)], stru.U))
         self.failUnless(numpy.all(stru.anisotropy))
         stru.U = 0
-        self.failIf(numpy.any(stru.anisotropy))
+        self.failUnless(numpy.all(stru.anisotropy))
         self.failIf(numpy.any(stru.U != 0.0))
         return
 
@@ -567,6 +572,7 @@ class TestStructure(unittest.TestCase):
         """check Structure.Uij
         """
         stru = self.stru
+        stru[1].anisotropy = True
         stru[1].U = [[1.1, 0.12, 0.13], [0.12, 2.2, 0.23], [0.13, 0.23, 3.3]]
         self.failUnless(numpy.array_equal([0, 1.1], stru.U11))
         self.failUnless(numpy.array_equal([0, 2.2], stru.U22))
@@ -599,6 +605,7 @@ class TestStructure(unittest.TestCase):
         """check Structure.Bij
         """
         stru = self.stru
+        stru[1].anisotropy = True
         stru[1].U = [[1.1, 0.12, 0.13], [0.12, 2.2, 0.23], [0.13, 0.23, 3.3]]
         stru[1].U /= 8 * numpy.pi**2
         self.failUnless(numpy.allclose([0, 1.1], stru.B11))

@@ -49,24 +49,13 @@ class Atom(object):
 
     Private data:
         _U          -- storage of U property, 3x3 numpy matrix
-        _Uisoequiv  -- storage of Uisoequiv property, float
-        _anisotropy -- storage of anisotropy property, bool or
-                       None when not determined
-        _Usynced    -- flag for consistency of _U with _Uisoequiv,
-                       it is meaningful only for isotropic atoms
-
-    Class data:
-        tol_anisotropy -- tolerated U matrix deviation for isotropic atom
     """
 
-    tol_anisotropy = 1.0e-6
     # instance attributes that have inmutable default values
     element = ''
     label = ''
     occupancy = 1.0
-    _anisotropy = None
-    _Uisoequiv = 0.0
-    _Usynced = True
+    _anisotropy = False
     lattice = None
 
     def __init__(self, atype=None, xyz=None, label=None, occupancy=None,
@@ -96,9 +85,8 @@ class Atom(object):
         if xyz is not None:  self.xyz[:] = xyz
         if label is not None:  self.label = label
         if occupancy is not None:  self.occupancy = float(occupancy)
-        if anisotropy is not None:  self._anisotropy = bool(anisotropy)
+        if anisotropy is not None:  self.anisotropy = bool(anisotropy)
         if U is not None:  self._U[:] = U
-        if Uisoequiv is not None:  self._Uisoequiv = Uisoequiv
         if lattice is not None:  self.lattice = lattice
         return
 
@@ -109,7 +97,7 @@ class Atom(object):
 
         return mean square displacement
         """
-        if not self.anisotropy:     return self._Uisoequiv
+        if not self.anisotropy:     return self.Uisoequiv
         # here we need to calculate msd
         lat = self.lattice or cartesian_lattice
         vln = numpy.array(vl, dtype=float)/lat.norm(vl)
@@ -118,7 +106,7 @@ class Atom(object):
                             G[1]*lat.br,
                             G[2]*lat.cr ], dtype=float)
         rhs = numpy.dot(rhs, vln)
-        msd = numpy.dot(rhs, numpy.dot(self._U, rhs))
+        msd = numpy.dot(rhs, numpy.dot(self.U, rhs))
         return msd
 
     def msdCart(self, vc):
@@ -128,7 +116,7 @@ class Atom(object):
 
         return mean square displacement
         """
-        if not self.anisotropy:     return self._Uisoequiv
+        if not self.anisotropy:     return self.Uisoequiv
         # here we need to calculate msd
         lat = self.lattice or cartesian_lattice
         vcn = numpy.array(vc, dtype=float)
@@ -195,17 +183,6 @@ class Atom(object):
     # anisotropy
 
     def _get_anisotropy(self):
-        # determine when unknown
-        if self._anisotropy is None:
-            Uisoequiv = self._get_Uisoequiv()
-            # calculate isotropic tensor Uisoij
-            lat = self.lattice or cartesian_lattice
-            Tu = lat.recnormbase
-            Uisoij = numpy.dot(numpy.transpose(Tu), Uisoequiv*Tu)
-            # compare with new value
-            maxUdiff = numpy.max(numpy.fabs(self._U - Uisoij))
-            self._anisotropy = bool(maxUdiff > Atom.tol_anisotropy)
-            self._Usynced = False
         return self._anisotropy
 
     def _set_anisotropy(self, value):
@@ -215,8 +192,7 @@ class Atom(object):
             self._U = self._get_U()
         # otherwise convert from anisotropic to isotropic
         else:
-            self._Uisoequiv = self._get_Uisoequiv()
-            self._Usynced = False
+            self._U[0, 0] = self._get_Uisoequiv()
         self._anisotropy = bool(value)
         return
 
@@ -227,20 +203,15 @@ class Atom(object):
     # U
 
     def _get_U(self):
-        # for isotropic non-synced case we need to
-        # calculate _U from _Uisoequiv
-        if self._anisotropy is False and not self._Usynced:
+        if not self.anisotropy:
+            # for isotropic displacements assume first element
+            # to be equal to the displacement value
             lat = self.lattice or cartesian_lattice
-            Tu = lat.recnormbase
-            self._U = numpy.dot(numpy.transpose(Tu), self._Uisoequiv*Tu)
-            self._Usynced = True
-        # handle can be changed by the caller
-        self._anisotropy = None
+            self._U = self._U[0, 0] * lat.isotropicunit
         return self._U
 
     def _set_U(self, value):
-        self._anisotropy = None
-        self._U = numpy.array(value, dtype=float)
+        self._U[:] = value
         return
 
     U = property(_get_U, _set_U, doc =
@@ -249,13 +220,17 @@ class Atom(object):
     # Uij elements
 
     def _get_Uij(self, i, j):
-        Uij = self._get_U()
-        return Uij[i,j]
+        if self.anisotropy:
+            return self._U[i, j]
+        lat = self.lattice or cartesian_lattice
+        return self._U[0, 0] * lat.isotropicunit[i, j]
 
     def _set_Uij(self, i, j, value):
-        self._anisotropy = None
-        self._U[i,j] = value
-        self._U[j,i] = value
+        self._U[i, j] = value
+        self._U[j, i] = value
+        if not self._anisotropy and i == j != 0:
+            self._U[0, 0] = value
+        return
 
     U11 = property(lambda self: self._get_Uij(0, 0),
             lambda self, value: self._set_Uij(0, 0, value), doc =
@@ -279,35 +254,30 @@ class Atom(object):
     # Uisoequiv
 
     def _get_Uisoequiv(self):
-        if self._anisotropy is None or self._anisotropy is True:
-            lat = self.lattice or cartesian_lattice
-            Uequiv = (
-                    self._U[0,0]*lat.ar*lat.ar*lat.a*lat.a +
-                    self._U[1,1]*lat.br*lat.br*lat.b*lat.b +
-                    self._U[2,2]*lat.cr*lat.cr*lat.c*lat.c +
-                    2*self._U[0,1]*lat.ar*lat.br*lat.a*lat.b*lat.cg +
-                    2*self._U[0,2]*lat.ar*lat.cr*lat.a*lat.c*lat.cb +
-                    2*self._U[1,2]*lat.br*lat.cr*lat.b*lat.c*lat.ca ) / 3.0
-            self._Uisoequiv = Uequiv
-        else:
-            self._Uisoequiv = self._U[0,0]
-        return self._Uisoequiv
+        if not self.anisotropy:
+            return self._U[0, 0]
+        if self.lattice is None:
+            return numpy.trace(self._U) / 3.0
+        lat = self.lattice
+        rv = 1.0 / 3.0 * (
+                self._U[0,0]*lat.ar*lat.ar*lat.a*lat.a +
+                self._U[1,1]*lat.br*lat.br*lat.b*lat.b +
+                self._U[2,2]*lat.cr*lat.cr*lat.c*lat.c +
+                2*self._U[0,1]*lat.ar*lat.br*lat.a*lat.b*lat.cg +
+                2*self._U[0,2]*lat.ar*lat.cr*lat.a*lat.c*lat.cb +
+                2*self._U[1,2]*lat.br*lat.cr*lat.b*lat.c*lat.ca)
+        return rv
 
     def _set_Uisoequiv(self, value):
-        double_eps = (1.0 + numpy.sqrt(2.0**-52)) - 1.0
-        self._Uisoequiv = float(value)
-        self._Usynced = False
-        if self._get_anisotropy():
-            Uequiv = self._get_Uisoequiv()
-            # scale if Uequiv is not zero
-            if numpy.fabs(Uequiv) > double_eps:
-                self._U *= value/Uequiv
-        # otherwise just convert from Uiso value
-        else:
+        if self.anisotropy:
             lat = self.lattice or cartesian_lattice
-            Tu = lat.recnormbase
-            self._U = numpy.dot(numpy.transpose(Tu), value*Tu)
-            self._Usynced = True
+            uequiv = self._get_Uisoequiv()
+            if abs(uequiv) < lat._epsilon:
+                self._U = value * lat.isotropicunit
+            else:
+                self._U *= value / uequiv
+        else:
+            self._U[0, 0] = value
         return
 
     Uisoequiv = property(_get_Uisoequiv, _set_Uisoequiv, doc =

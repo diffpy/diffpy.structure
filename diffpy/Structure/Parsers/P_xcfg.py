@@ -249,10 +249,10 @@ class P_xcfg(StructureParser):
                 prop = p_auxiliary[idx]
                 col = idx + 6 - 3*xcfg_NO_VELOCITY
                 if prop == "Uiso":
-                    p_exprs.append("a.U[0,0]=a.U[1,1]=a.U[2,2]=" +
-                        "fields[%d]" % col)
+                    p_exprs.append("a.Uisoequiv=fields[%d]" % col)
                 elif re.match(r"^U\d\d$", prop) \
                 and 1<=int(prop[1])<=3 and 1<=int(prop[2])<=3 :
+                    p_exprs.append("a.anisotropy=True")
                     i, j = int(prop[1])-1, int(prop[2])-1
                     if i==j:
                         p_exprs.append("a.U[%i,%i]=fields[%d]" % (i, j, col) )

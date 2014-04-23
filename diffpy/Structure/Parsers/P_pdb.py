@@ -124,18 +124,19 @@ class P_pdb(StructureParser):
                         occupancy = 1.0
                     try:
                         B = float(line[60:66])
-                        U = numpy.identity(3)*B/(8*pi**2)
+                        uiso = B/(8*pi**2)
                     except ValueError:
-                        U = numpy.zeros((3,3), dtype=float)
+                        uiso = 0.0
                     element = line[76:78].strip()
                     if element == "":
                         # get element from the first 2 characters of name
                         element = line[12:14].strip()
                         element = element[0].upper() + element[1:].lower()
                     stru.addNewAtom(element,
-                            occupancy=occupancy, label=name, U=U)
+                            occupancy=occupancy, label=name)
                     last_atom = stru.getLastAtom()
                     last_atom.xyz_cartn = rc
+                    last_atom.Uisoequiv = uiso
                 elif record == "SIGATM":
                     sigrc = [float(x) for x in line[30:54].split()]
                     sigxyz = numpy.dot(scale, sigrc)
@@ -152,12 +153,14 @@ class P_pdb(StructureParser):
                     last_atom.sigo = sigo
                     last_atom.sigU = sigU
                 elif record == "ANISOU":
+                    last_atom.anisotropy = True
                     Uij = [ float(x)*1.0e-4 for x in line[28:70].split() ]
+                    Ua = last_atom.U
                     for i in range(3):
-                        last_atom.U[i,i] = Uij[i]
-                    last_atom.U[0,1] = last_atom.U[1,0] = Uij[3]
-                    last_atom.U[0,2] = last_atom.U[2,0] = Uij[4]
-                    last_atom.U[1,2] = last_atom.U[2,1] = Uij[5]
+                        Ua[i,i] = Uij[i]
+                    Ua[0,1] = Ua[1,0] = Uij[3]
+                    Ua[0,2] = Ua[2,0] = Uij[4]
+                    Ua[1,2] = Ua[2,1] = Uij[5]
                 elif record == "SIGUIJ":
                     sigUij = [ float(x)*1.0e-4 for x in line[28:70].split() ]
                     for i in range(3):
