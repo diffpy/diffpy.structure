@@ -86,6 +86,9 @@ class Lattice(object):
     the setLatPar() or setLatBase() methods.
     """
 
+    # round-off tolerance
+    _epsilon = 1.0e-8
+
 
     def __init__(self, a=None, b=None, c=None,
             alpha=None, beta=None, gamma=None,
@@ -317,17 +320,26 @@ class Lattice(object):
         return math.degrees(math.acos(ca))
 
 
+    def isanisotropic(self, umx):
+        """True if ADP matrix is anisotropic in this coordinate system.
+        """
+        umx = numpy.asarray(umx)
+        utr = numpy.trace(umx) / umx.shape[0]
+        udmax = numpy.fabs(umx - utr * self.isotropicunit).max()
+        rv = udmax > self._epsilon
+        return rv
+
+
     def __repr__(self):
         """String representation of this lattice.
         """
-        epsilon = 1.0e-8
         I3 = numpy.identity(3, dtype=float)
         rotbaseI3diff = max(numpy.reshape(numpy.fabs(self.baserot-I3), 9))
         cartlatpar = numpy.array([1.0, 1.0, 1.0 , 90.0, 90.0, 90.0])
         latpardiff = cartlatpar - self.abcABG()
-        if rotbaseI3diff > epsilon:
+        if rotbaseI3diff > self._epsilon:
             s = "Lattice(base=%r)" % self.base
-        elif numpy.fabs(latpardiff).max() < epsilon :
+        elif numpy.fabs(latpardiff).max() < self._epsilon:
             s = "Lattice()"
         else:
             s = "Lattice(a=%g, b=%g, c=%g, alpha=%g, beta=%g, gamma=%g)" % \
