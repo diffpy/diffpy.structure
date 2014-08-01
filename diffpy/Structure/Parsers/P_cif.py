@@ -379,6 +379,11 @@ class P_cif(StructureParser):
         No return value.
         """
         if not block.has_key('_atom_site_aniso_label'): return
+        # was anisotropy set in the _atom_site_label loop?
+        atom_site_loop = block.GetLoop('_atom_site_label')
+        anisotropy_already_set = (
+            atom_site_loop.has_key('_atom_site_adp_type') or
+            atom_site_loop.has_key('_atom_site_thermal_displace_type'))
         # something to do here:
         adp_loop = block.GetLoop('_atom_site_aniso_label')
         # index of the _atom_site_label column
@@ -389,6 +394,8 @@ class P_cif(StructureParser):
         for values in sitedatalist:
             idx = self.labelindex[values[ilb]]
             a = self.stru[idx]
+            if not anisotropy_already_set:
+                a.anisotropy = True
             for fset, val in zip(prop_setters, values):
                 fset(a, val)
         return
