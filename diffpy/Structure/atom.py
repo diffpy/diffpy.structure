@@ -288,6 +288,12 @@ class Atom(object):
                     2*self._U[0,1]*lat.ar*lat.br*lat.a*lat.b*lat.cg +
                     2*self._U[0,2]*lat.ar*lat.cr*lat.a*lat.c*lat.cb +
                     2*self._U[1,2]*lat.br*lat.cr*lat.b*lat.c*lat.ca ) / 3.0
+            # avoid round-offs for already isotropic displacement parameters
+            alreadyisotropic = (
+                    abs(Uequiv - self._U[0,0]) <= Atom.tol_anisotropy and
+                    self._U[0,0] == self._U[1,1] == self._U[2,2])
+            if alreadyisotropic:
+                Uequiv = self._U[0,0]
             self._Uisoequiv = Uequiv
         else:
             self._Uisoequiv = self._U[0,0]
