@@ -92,6 +92,10 @@ class P_cif(StructureParser):
         '_tr_atom_site_aniso_B_13',
         '_tr_atom_site_aniso_B_23',
         ))
+    # make _atom_setters case insensitive
+    for k in _atom_setters.keys():
+        _atom_setters[k] = _atom_setters[k.lower()] = k
+    del k
 
     BtoU = 1.0/(8 * numpy.pi**2)
 
@@ -215,11 +219,9 @@ class P_cif(StructureParser):
         """
         rv = []
         for p in cifloop.keys():
-            fncname = "_tr" + p
-            if fncname in P_cif._atom_setters:
-                f = getattr(P_cif, fncname)
-            else:
-                f = P_cif._tr_ignore
+            lcname = "_tr" + p.lower()
+            fncname = P_cif._atom_setters.get(lcname, '_tr_ignore')
+            f = getattr(P_cif, fncname)
             rv.append(f)
         return rv
     _get_atom_setters = staticmethod(_get_atom_setters)
