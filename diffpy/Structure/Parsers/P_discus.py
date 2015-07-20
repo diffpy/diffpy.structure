@@ -74,7 +74,7 @@ class P_discus(StructureParser):
                 raise StructureFormatError(emsg)
             # parse atoms
             for self.line in ilines:
-                words = self.line.split()
+                words = self.line.replace(',', ' ').split()
                 if not words or words[0][0] == '#': continue
                 self._parse_atom(words)
             # self consistency check
