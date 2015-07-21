@@ -279,13 +279,15 @@ class P_cif(StructureParser):
         Raise StructureFormatError or IOError.
         """
         import CifFile
-        from StarFile import StarError
+        fixpycif = _FixPyCifRW()
+        StarError = fixpycif.importStarError()
         # CifFile fails when filename is a unicode string
         if type(filename) is unicode:
             filename = str(filename)
         self.filename = filename
         try:
             fileurl = fixIfWindowsPath(filename)
+            fixpycif.disableParserOutput()
             self.ciffile = CifFile.CifFile(fileurl)
             for blockname, ignore in self.ciffile.items():
                 self._parseCifBlock(blockname)
@@ -295,6 +297,8 @@ class P_cif(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err).strip()
             raise StructureFormatError, emsg, exc_traceback
+        finally:
+            fixpycif.restoreParserOutput()
         # all good here
         return self.stru
 
@@ -424,7 +428,7 @@ class P_cif(StructureParser):
             # sym_loop exists here and we know its cif name
             sym_loop_name = sym_loop_name[0]
             sym_loop = block.GetLoop(sym_loop_name)
-            for eqxyz in sym_loop.GetLoopItem(sym_loop_name):
+            for eqxyz in sym_loop[sym_loop_name]:
                 op = getSymOp(eqxyz)
                 symop_list.append(op)
         # determine space group number
@@ -658,6 +662,59 @@ def fixIfWindowsPath(filename):
         import urllib
         fixedname = urllib.pathname2url(filename)
     return fixedname
+
+
+class _FixPyCifRW(object):
+
+    """Uniform interface helper for various PyCifRW versions.
+    """
+
+    _isversion4 = None
+    _yapps3_print_error = None
+    _yapps3_module = None
+
+    def isVersion4(self):
+        "True if the installed PyCifRW is at least 4.0 or later."
+        import pkg_resources
+        cls = _FixPyCifRW
+        if cls._isversion4 is None:
+            dist = pkg_resources.get_distribution('PyCifRW')
+            v4 = pkg_resources.parse_version('4')
+            cls._isversion4 = (dist.parsed_version >= v4)
+        return cls._isversion4
+
+
+    def importStarError(self):
+        "Import and return the StarError exception from PyCifRW."
+        if self.isVersion4():
+            from CifFile.StarFile import StarError
+        else:
+            from StarFile import StarError
+        return StarError
+
+
+    def disableParserOutput(self):
+        """Disable PyCifRW output due to CIF parsing errors.
+        """
+        if not self.isVersion4():  return
+        cls = _FixPyCifRW
+        if cls._yapps3_module is None:
+            import CifFile.yapps3_compiled_rt as mod
+            cls._yapps3_module = mod
+            cls._yapps3_print_error = mod.print_error
+        noop = lambda *a, **kw : None
+        cls._yapps3_module.print_error = noop
+        return
+
+
+    def restoreParserOutput(self):
+        """Restore PyCifRW output as implemented.
+        """
+        if not self.isVersion4():  return
+        cls = _FixPyCifRW
+        assert cls._yapps3_print_error is not None
+        cls._yapps3_module.print_error = cls._yapps3_print_error
+        return
 
 
 def getParser():
