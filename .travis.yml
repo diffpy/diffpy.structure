@@ -20,15 +20,17 @@ before_install:
   - conda create --name=testenv --yes
       python=$TRAVIS_PYTHON_VERSION pip setuptools numpy coverage
   - source activate testenv
-  - pip install pycifrw
   - popd
 
 install:
+  - pip install pycifrw
   - git fetch origin --tags
   - python setup.py easy_install --no-deps .
 
+before_script:
+  - cd
+
 script:
-  - pwd
   - coverage run --source diffpy.Structure -m diffpy.Structure.tests.run
 
 after_success:
