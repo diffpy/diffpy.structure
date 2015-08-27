@@ -1,3 +1,10 @@
+.. image:: https://travis-ci.org/diffpy/diffpy.Structure.svg?branch=master
+   :target: https://travis-ci.org/diffpy/diffpy.Structure
+
+.. image:: http://codecov.io/github/diffpy/diffpy.Structure/coverage.svg?branch=master
+   :target: http://codecov.io/github/diffpy/diffpy.Structure?branch=master
+
+
 diffpy.Structure
 ========================================================================
 
