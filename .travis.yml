@@ -1,0 +1,36 @@
+# Use container-based travis workers
+sudo: false
+
+language: python
+
+python:
+  - 2.6
+  - 2.7
+
+before_install:
+  - MYMCREPO=https://repo.continuum.io/miniconda
+  - MYMCBUNDLE=Miniconda-latest-Linux-x86_64.sh
+  - mkdir -p ~/pkgs/
+  - pushd ~/pkgs/
+  - wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
+  - test -x ~/mc/bin/conda || bash ${MYMCBUNDLE} -b -f -p ~/mc
+  - export PATH="${HOME}/mc/bin:${PATH}"
+  - conda update conda --yes
+  - conda remove --name=testenv --yes --offline --all
+  - conda create --name=testenv --yes
+      python=$TRAVIS_PYTHON_VERSION pip setuptools numpy coverage
+  - source activate testenv
+  - pip install pycifrw
+  - popd
+
+install:
+  - git fetch origin --tags
+  - python setup.py easy_install --no-deps .
+
+script:
+  - pwd
+  - coverage run --source diffpy.Structure -m diffpy.Structure.tests.run
+
+after_success:
+  - pip install codecov
+  - codecov
