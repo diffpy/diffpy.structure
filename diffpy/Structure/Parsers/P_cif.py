@@ -104,7 +104,7 @@ class P_cif(StructureParser):
     _tr_ignore = staticmethod(_tr_ignore)
 
     def _tr_atom_site_label(a, value):
-        a.label = value
+        a.label = str(value)
         # set element when not specified by _atom_site_type_symbol
         if not a.element:
             P_cif._tr_atom_site_type_symbol(a, value)
@@ -116,6 +116,7 @@ class P_cif(StructureParser):
     def _tr_atom_site_type_symbol(a, value):
         rx = P_cif._psymb.match(value)
         smbl = rx and rx.group(0) or value
+        smbl = str(smbl)
         a.element = smbl[:1].upper() + smbl[1:].lower()
     _tr_atom_site_type_symbol = staticmethod(_tr_atom_site_type_symbol)
 

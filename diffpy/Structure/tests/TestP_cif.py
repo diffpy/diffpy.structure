@@ -137,6 +137,11 @@ class TestP_cif(unittest.TestCase):
         pgraphite = P_cif()
         graphite = pgraphite.parseFile(self.graphiteciffile)
         self.assertEqual(4, len(graphite))
+        c1 = graphite[0]
+        self.assertEqual(str, type(c1.element))
+        self.assertEqual('C', c1.element)
+        self.assertEqual(str, type(c1.label))
+        self.assertEqual('C1', c1.label)
         # filename with unicode encoding
         ugraphite = P_cif().parseFile(unicode(self.graphiteciffile))
         self.assertEqual(4, len(ugraphite))
