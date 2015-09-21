@@ -4,11 +4,8 @@ package:
   # version: 1.3b0.post1
 
 source:
-  git_url: https://github.com/diffpy/diffpy.Structure
-  git_rev: b411cd7970d5e557968e3303e386bce574473687
-#  patches:
-   # List any patch files here
-   # - fix.patch
+  # git_url: https://github.com/diffpy/diffpy.Structure
+  git_url: ..
 
 build:
   preserve_egg_dir: True
