@@ -1,0 +1,69 @@
+package:
+  name: diffpy.structure
+  ## Use __conda_version__.txt.
+  # version: 1.3b0.post1
+
+source:
+  git_url: https://github.com/diffpy/diffpy.Structure
+  git_rev: b411cd7970d5e557968e3303e386bce574473687
+#  patches:
+   # List any patch files here
+   # - fix.patch
+
+build:
+  preserve_egg_dir: True
+  # entry_points:
+    # Put any entry points (scripts to be generated automatically) here. The
+    # syntax is module:function.  For example
+    #
+    # - diffpy.structure = diffpy.structure:main
+    #
+    # Would create an entry point called diffpy.structure that calls diffpy.structure.main()
+
+
+  # If this is a new build for the same version, increment the build
+  # number. If you do not include this key, it defaults to 0.
+  # number: 0
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - pycifrw
+
+  run:
+    - python
+    - setuptools
+    - numpy >=1.3
+    - pycifrw
+
+test:
+  # Python imports
+  imports:
+    - diffpy
+    - diffpy.Structure
+    - diffpy.Structure.Parsers
+    - diffpy.Structure.applications
+    - diffpy.Structure.expansion
+    - diffpy.Structure.tests
+
+  # commands:
+    # You can put test commands to be run here.  Use this to test that the
+    # entry points work.
+
+
+  # You can also put a file called run_test.py in the recipe that will be run
+  # at test time.
+
+  # requires:
+    # Put any additional test requirements here.  For example
+    # - nose
+
+about:
+  home: https://github.com/diffpy/diffpy.Structure
+  summary: Crystal structure container and parsers for structure formats.
+  license: Modified BSD License
+  license_file: LICENSE.txt
+
+# See http://docs.continuum.io/conda/build.html
+# for more information about meta.yaml.
