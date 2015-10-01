@@ -8,6 +8,7 @@ python:
   - 2.7
 
 before_install:
+  - git fetch origin --unshallow --tags
   - MYMCREPO=https://repo.continuum.io/miniconda
   - MYMCBUNDLE=Miniconda-latest-Linux-x86_64.sh
   - mkdir -p ~/pkgs/
@@ -15,24 +16,43 @@ before_install:
   - wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
   - test -x ~/mc/bin/conda || bash ${MYMCBUNDLE} -b -f -p ~/mc
   - export PATH="${HOME}/mc/bin:${PATH}"
-  - conda update conda --yes
+  - popd
+  - conda update --yes conda
+  - conda install --yes conda-build
+  - conda config --add channels pavoljuhas/channel/dev
+  - conda config --add channels pavoljuhas
   - conda remove --name=testenv --yes --offline --all
   - conda create --name=testenv --yes
-      python=$TRAVIS_PYTHON_VERSION pip setuptools numpy coverage
-  - source activate testenv
-  - popd
+      python=$TRAVIS_PYTHON_VERSION pip coverage
+  - conda create --name testbundle --yes
+      python=$TRAVIS_PYTHON_VERSION pip setuptools numpy
+  - devutils/makesdist
+  - MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
 install:
+  - CONDA_PY=${TRAVIS_PYTHON_VERSION} conda build conda-recipe
+  - MYCONDAPACKAGE="$(ls -t ~/mc/conda-bld/*/diffpy.structure*.bz2 | head -1)"
+  - ls -d "${MYCONDAPACKAGE}" >/dev/null
+  - source activate testenv
+  - conda install --yes "${MYCONDAPACKAGE}"
+  - source activate testbundle
   - pip install pycifrw
-  - git fetch origin --tags
-  - python setup.py easy_install --no-deps .
+  - easy_install --no-deps ${MYTARBUNDLE}
+  - MYGIT_REV=$(python -c "import diffpy.Structure.version as v; print(v.__gitsha__)")
+  - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
+        echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
+        exit 1;
+    fi
 
 before_script:
   - cd
 
 script:
+  - source activate testbundle
+  - python -m diffpy.Structure.tests.run
+  - source activate testenv
   - coverage run --source diffpy.Structure -m diffpy.Structure.tests.run
 
 after_success:
   - pip install codecov
-  - codecov
+  - codecov --disable gcov
