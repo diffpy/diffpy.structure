@@ -4,14 +4,6 @@ diffpy.Structure.expansion package
 Submodules
 ----------
 
-diffpy.Structure.expansion.makeCuboctahedron module
----------------------------------------------------
-
-.. automodule:: diffpy.Structure.expansion.makeCuboctahedron
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 diffpy.Structure.expansion.makeEllipsoid module
 -----------------------------------------------
 
