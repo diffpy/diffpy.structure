@@ -36,6 +36,7 @@ install:
   - source activate testbundle
   - pip install pycifrw
   - easy_install --no-deps ${MYTARBUNDLE}
+  - cd
   - MYGIT_REV=$(python -c "import diffpy.Structure.version as v; print(v.__gitsha__)")
   - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
         echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
