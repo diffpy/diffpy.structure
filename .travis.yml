@@ -30,10 +30,9 @@ before_install:
 
 install:
   - CONDA_PY=${TRAVIS_PYTHON_VERSION} conda build conda-recipe
-  - MYCONDAPACKAGE="$(ls -t ~/mc/conda-bld/*/diffpy.structure*.bz2 | head -1)"
-  - ls -d "${MYCONDAPACKAGE}" >/dev/null
+  - conda list --name=_test --export diffpy.structure > /tmp/mypackage.txt
   - source activate testenv
-  - conda install --yes "${MYCONDAPACKAGE}"
+  - conda install --yes --use-local --file=/tmp/mypackage.txt
   - source activate testbundle
   - pip install pycifrw
   - easy_install --no-deps ${MYTARBUNDLE}
