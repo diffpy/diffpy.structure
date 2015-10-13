@@ -165,7 +165,7 @@ publish:
 	git show-ref --verify --quiet refs/heads/gh-pages || \
 	    git branch --track gh-pages $(GITREMOTE)/gh-pages
 	test -d build/gh-pages || \
-	    git clone -b gh-pages $(GITREPOPATH) build/gh-pages
+	    git clone -s -b gh-pages $(GITREPOPATH) build/gh-pages
 	cd build/gh-pages && \
 	    git pull $(GITREMOTEURL) gh-pages
 	rsync -acv --delete --exclude=.git --exclude=.rsync-exclude \
