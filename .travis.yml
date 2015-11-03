@@ -6,6 +6,10 @@ language: python
 python:
   - 2.7
 
+branches:
+  except:
+    - /^v[0-9]/
+
 before_install:
   - git fetch origin --unshallow --tags
   - MYMCREPO=https://repo.continuum.io/miniconda
