@@ -1,45 +1,82 @@
 # Use container-based travis workers
 sudo: false
 
-language: python
+language: generic
 
-python:
-  - 2.7
+os:
+  - linux
+  - osx
+
+env:
+  global:
+    - MYPYTHON_VERSION=2.7
+  matrix:
+    - MYUSEMC=true
+    - MYUSEMC=false
+
+matrix:
+  exclude:
+    - os: osx
+      env: MYUSEMC=false
 
 branches:
   except:
     - /^v[0-9]/
 
+addons:
+  apt:
+    packages:
+    - python-dev
+    - python-numpy
+    - python-setuptools
+    - build-essential
+
 before_install:
+  - umask 022
   - git fetch origin --unshallow --tags
+  - if ${MYUSEMC}; then
+        NOAPT=true; NOMC=false;
+    else
+        NOAPT=false; NOMC=true;
+        MYPIPFLAGS="--user";
+    fi
   - MYMCREPO=https://repo.continuum.io/miniconda
-  - MYMCBUNDLE=Miniconda-latest-Linux-x86_64.sh
+  - case ${TRAVIS_OS_NAME} in
+    linux)
+        MYMCBUNDLE=Miniconda-latest-Linux-x86_64.sh ;;
+    osx)
+        MYMCBUNDLE=Miniconda-latest-MacOSX-x86_64.sh ;;
+    *)
+        echo "Unsupported operating system." >&2
+        exit 2 ;;
+    esac
+
   - mkdir -p ~/pkgs/
-  - pushd ~/pkgs/
-  - wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
-  - test -x ~/mc/bin/conda || bash ${MYMCBUNDLE} -b -f -p ~/mc
-  - export PATH="${HOME}/mc/bin:${PATH}"
-  - popd
-  - conda update --yes conda
-  - conda install --yes conda-build jinja2
-  - conda config --add channels pavoljuhas/channel/dev
-  - conda config --add channels pavoljuhas
-  - conda remove --name=testenv --yes --offline --all
-  - conda create --name=testenv --yes
-      python=$TRAVIS_PYTHON_VERSION pip coverage
-  - conda create --name testbundle --yes
-      python=$TRAVIS_PYTHON_VERSION pip setuptools numpy
-  - devutils/makesdist
-  - MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
+
+  - $NOMC || pushd ~/pkgs/
+  - $NOMC || wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
+  - $NOMC || test -x ~/mc/bin/conda || bash ${MYMCBUNDLE} -b -f -p ~/mc
+  - $NOMC || popd
+  - $NOMC || export PATH="${HOME}/mc/bin:${PATH}"
+  - $NOMC || conda update --yes conda
+  - $NOMC || conda install --yes python=${MYPYTHON_VERSION} conda-build jinja2
+  - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
+  - $NOMC || conda config --add channels pavoljuhas/channel/dev
+  - $NOMC || conda config --add channels pavoljuhas
+
+  - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
+  - $NOAPT || devutils/makesdist
+  - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
 install:
-  - CONDA_PY=${TRAVIS_PYTHON_VERSION} conda build conda-recipe
-  - conda list --name=_test --export diffpy.structure > /tmp/mypackage.txt
-  - source activate testenv
-  - conda install --yes --use-local --file=/tmp/mypackage.txt
-  - source activate testbundle
-  - pip install pycifrw
-  - easy_install --no-deps ${MYTARBUNDLE}
+  - $NOMC || conda build conda-recipe
+  - $NOMC || conda list --name=_test --export diffpy.structure > /tmp/mypackage.txt
+  - $NOMC || source activate testenv
+  - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
+
+  - $NOAPT || pip install $MYPIPFLAGS coverage
+  - $NOAPT || easy_install --user "${MYTARBUNDLE}"
+
   - cd
   - MYGIT_REV=$(python -c "import diffpy.Structure.version as v; print(v.__gitsha__)")
   - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
@@ -51,11 +88,8 @@ before_script:
   - cd
 
 script:
-  - source activate testbundle
-  - python -m diffpy.Structure.tests.run
-  - source activate testenv
   - coverage run --source diffpy.Structure -m diffpy.Structure.tests.run
 
 after_success:
-  - pip install codecov
+  - pip install $MYPIPFLAGS codecov
   - codecov --disable gcov
