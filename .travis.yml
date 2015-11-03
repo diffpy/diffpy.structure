@@ -84,12 +84,9 @@ install:
         exit 1;
     fi
 
-before_script:
-  - cd
-
 script:
   - coverage run --source diffpy.Structure -m diffpy.Structure.tests.run
 
 after_success:
   - pip install $MYPIPFLAGS codecov
-  - codecov --disable gcov
+  - codecov
