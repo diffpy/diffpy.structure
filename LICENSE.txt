@@ -10,7 +10,7 @@ Copyright (c) 2006-2007, Board of Trustees of Michigan State University
 Copyright (c) 2008-2012, The Trustees of Columbia University in the City
     of New York
 
-Copyright (c) 2014, Brookhaven Science Associates, Brookhaven National
+Copyright (c) 2014-2016, Brookhaven Science Associates, Brookhaven National
     Laboratory
 
 
