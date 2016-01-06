@@ -47,7 +47,7 @@ before_install:
     osx)
         MYMCBUNDLE=Miniconda-latest-MacOSX-x86_64.sh ;;
     *)
-        echo "Unsupported operating system." >&2
+        echo "Unsupported operating system." >&2;
         exit 2 ;;
     esac
 
