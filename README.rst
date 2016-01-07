@@ -19,10 +19,8 @@ symmetry expansion from asymmetric unit and generation of symmetry
 constraints for atom positions and displacement parameters.  diffpy.Structure
 includes definitions of all space groups in over 500 symmetry settings.
 
-To learn more about diffpy.Structure library, see the
-`examples <https://github.com/diffpy/diffpy.Structure/tree/master/examples>`__
-in the source repository and the user manual at
-http://diffpy.github.io/diffpy.Structure.
+To learn more about diffpy.Structure library see the
+user manual at http://diffpy.github.io/diffpy.Structure.
 
 
 REQUIREMENTS
@@ -33,51 +31,50 @@ The diffpy.Structure requires Python 2.6 or 2.7 and the following software:
 * ``setuptools`` - software distribution tools for Python
 * ``NumPy`` - numerical mathematics and fast array operations for Python
 
-On Ubuntu Linux the required software can be easily installed using
-the system package manager::
+We recommend to use `Anaconda Python <https://www.continuum.io/downloads>`_
+as it allows to install all software dependencies together with
+diffpy.Structure.  For other Python distributions it is necessary to
+install the required software separately.  As an example on Ubuntu
+Linux the required software can be installed with ::
 
    sudo aptitude install python-setuptools python-numpy
 
-For Mac OS X machine with the MacPorts package manager the installation
-command is ::
-
-   sudo port install python27 py27-setuptools py27-numpy
-
-When installing with MacPorts, make sure the MacPorts bin directory is the
-first in the system PATH and that python27 is selected as the default
-Python version in MacPorts::
-
-   sudo port select --set python python27
-
-For other Linux distributions use their respective package manager; note
-the packages may have slightly different names.  diffpy.Structure depends
-also on the `PyCifRW <http://pycifrw.berlios.de>`_ library, which should
-get automatically deployed as a part of the installation process.
+diffpy.Structure also uses the
+`PyCifRW <https://bitbucket.org/jamesrhester/pycifrw>`_
+library, which is automatically deployed during the
+installation process.
 
 
 INSTALLATION
 ------------------------------------------------------------------------
 
-Use ``easy_install`` to download and install the latest release from
+The preferred method is to use Anaconda Python and install from the
+"diffpy" channel of Anaconda packages ::
+
+   conda config --add channels diffpy
+   conda install diffpy.structure
+
+diffpy.Structure is also included in the "diffpy-cmi" collection
+of packages for structure analysis ::
+
+   conda install diffpy-cmi
+
+Another installation option is to use ``easy_install`` to download and
+install the latest release from
 `Python Package Index <https://pypi.python.org>`_ ::
 
-   sudo easy_install diffpy.Structure
+   easy_install diffpy.Structure
 
-diffpy.Structure is also included in the DiffPy-CMI release bundle of
-Python libraries for structure analysis at http://www.diffpy.org.
+If you prefer to install from sources, navigate to the source archive
+directory and run ::
 
-If you prefer to install from sources, make sure all required software
-packages are in place and then run ::
+   python setup.py install
 
-   sudo python setup.py install
-
-By default the files are installed in the system directories, which are
-only writeable by the root user.  See the usage info from
-``./setup.py install --help`` for options to install as a normal user under
-different location.  Note that installation to non-standard directories may
-require adjustments to the PATH and PYTHONPATH environment variables.
-The installation integrity can be verified by changing to the HOME
-directory and running ::
+You may need to use ``sudo`` with system Python so it is allowed to
+copy files to system directories.  If sudo is not available, check
+the usage info from ``python setup.py install --help`` for options to
+install to user-writable locations.  The installation integrity can be
+verified by changing to the HOME directory and running ::
 
    python -m diffpy.Structure.tests.run
 
