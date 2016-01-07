@@ -169,7 +169,7 @@ def die(exit_status=0, pd={}):
 def signalHandler(signum, stackframe):
     # revert to default handler
     signal.signal(signum, signal.SIG_DFL)
-    if signum == signal.SIGCLD:
+    if signum == signal.SIGCHLD:
         pid, exit_status = os.wait()
         exit_status = (exit_status >> 8) + (exit_status & 0x00ff)
         die(exit_status, pd)
