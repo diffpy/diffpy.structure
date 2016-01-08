@@ -8,11 +8,9 @@ os:
   - osx
 
 env:
-  global:
-    - MYPYTHON_VERSION=2.7
-  matrix:
-    - MYUSEMC=true
-    - MYUSEMC=false
+  - MYUSEMC=true MYPYTHON_VERSION=2.6
+  - MYUSEMC=true MYPYTHON_VERSION=2.7
+  - MYUSEMC=false
 
 matrix:
   exclude:
@@ -52,6 +50,7 @@ before_install:
     esac
 
   - mkdir -p ~/pkgs/
+  - mkdir -p ~/rundir/
 
   - $NOMC || pushd ~/pkgs/
   - $NOMC || wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
@@ -59,17 +58,16 @@ before_install:
   - $NOMC || popd
   - $NOMC || export PATH="${HOME}/mc/bin:${PATH}"
   - $NOMC || conda update --yes conda
-  - $NOMC || conda install --yes python=${MYPYTHON_VERSION} conda-build jinja2
+  - $NOMC || conda install --yes conda-build jinja2
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
-  - $NOMC || conda config --add channels pavoljuhas/channel/dev
-  - $NOMC || conda config --add channels pavoljuhas
+  - $NOMC || conda config --add channels diffpy
 
   - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
   - $NOAPT || devutils/makesdist
   - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
 install:
-  - $NOMC || conda build conda-recipe
+  - $NOMC || CONDA_PY=${MYPYTHON_VERSION} conda build conda-recipe
   - $NOMC || conda list --name=_test --export diffpy.structure > /tmp/mypackage.txt
   - $NOMC || source activate testenv
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
@@ -77,7 +75,7 @@ install:
   - $NOAPT || pip install $MYPIPFLAGS coverage
   - $NOAPT || easy_install --user "${MYTARBUNDLE}"
 
-  - cd
+  - cd ~/rundir
   - MYGIT_REV=$(python -c "import diffpy.Structure.version as v; print(v.__gitsha__)")
   - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
         echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
@@ -89,4 +87,7 @@ script:
 
 after_success:
   - pip install $MYPIPFLAGS codecov
+  - $NOMC || if [[ "${MYPYTHON_VERSION}" == 2.6 ]]; then
+        conda install --yes argparse;
+    fi
   - codecov
