@@ -1,7 +1,6 @@
 package:
   name: diffpy.structure
   ## Use __conda_version__.txt.
-  # version: 1.3b0.post1
 
 source:
   # git_url: https://github.com/diffpy/diffpy.Structure
