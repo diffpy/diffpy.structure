@@ -197,6 +197,10 @@ class Lattice(object):
         self.normbase = self.base * [[ar], [br], [cr]]
         self.recnormbase = self.recbase / [ar, br, cr]
         self.isotropicunit = numpy.dot(self.recnormbase.T, self.recnormbase)
+        # ensure there are no round-off deviations on the diagonal
+        self.isotropicunit[0, 0] = 1
+        self.isotropicunit[1, 1] = 1
+        self.isotropicunit[2, 2] = 1
         return
 
 
