@@ -1,4 +1,3 @@
 recursive-include diffpy *
 include AUTHORS.txt LICENSE*.txt README.rst
-exclude MANIFEST.in
 recursive-exclude diffpy *.pyc
