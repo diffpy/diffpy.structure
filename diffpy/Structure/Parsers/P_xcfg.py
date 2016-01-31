@@ -19,7 +19,7 @@ import sys
 import re
 import numpy
 
-from diffpy.Structure import Structure, Lattice, Atom
+from diffpy.Structure import Structure
 from diffpy.Structure import StructureFormatError
 from diffpy.Structure.utils import isfloat
 from diffpy.Structure.Parsers import StructureParser
@@ -174,7 +174,6 @@ class P_xcfg(StructureParser):
         xcfg_H0_set = numpy.zeros((3,3), dtype=bool)
         xcfg_NO_VELOCITY = False
         xcfg_entry_count = None
-        xcfg_auxiliary = []
         p_nl = 0
         p_auxiliary_re = re.compile(r"^auxiliary\[(\d+)\] =")
         p_auxiliary = {}

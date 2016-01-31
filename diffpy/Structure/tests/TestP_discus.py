@@ -17,7 +17,6 @@
 """
 
 import unittest
-import os
 import re
 
 from diffpy.Structure.tests.testutils import datafile

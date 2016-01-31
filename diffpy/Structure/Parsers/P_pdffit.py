@@ -19,7 +19,7 @@
 import sys
 import numpy
 
-from diffpy.Structure import PDFFitStructure, Lattice, Atom
+from diffpy.Structure import PDFFitStructure, Lattice
 from diffpy.Structure import StructureFormatError
 from diffpy.Structure.Parsers import StructureParser
 
@@ -42,7 +42,6 @@ class P_pdffit(StructureParser):
         Return Structure object or raise StructureFormatError.
         """
         p_nl = 0
-        rlist = []
         try:
             self.stru = PDFFitStructure()
             stru = self.stru

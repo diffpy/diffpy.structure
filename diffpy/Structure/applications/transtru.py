@@ -32,8 +32,6 @@ Options:
 """
 
 import sys
-import os
-import re
 
 from diffpy.Structure import Structure, StructureFormatError
 
@@ -54,7 +52,6 @@ def usage(style = None):
 
 def version():
     from diffpy.Structure import __version__
-    print __id__
     print "diffpy.Structure", __version__
 
 def main():

@@ -21,7 +21,6 @@ Module variables:
 """
 
 import math
-import types
 import numpy
 import numpy.linalg as numalg
 from diffpy.Structure import LatticeError
@@ -172,12 +171,12 @@ class Lattice(object):
         self._car = car = (cb*cg - ca)/(sb*sg)
         self._cbr = cbr = (ca*cg - cb)/(sa*sg)
         self._cgr = cgr = (ca*cb - cg)/(sa*sb)
-        self._sar = sar = math.sqrt(1.0 - car*car)
-        self._sbr = sbr = math.sqrt(1.0 - cbr*cbr)
+        self._sar = math.sqrt(1.0 - car*car)
+        self._sbr = math.sqrt(1.0 - cbr*cbr)
         self._sgr = sgr = math.sqrt(1.0 - cgr*cgr)
-        self._alphar = alphar = math.degrees(math.acos(car))
-        self._betar = betar = math.degrees(math.acos(cbr))
-        self._gammar = gammar = math.degrees(math.acos(cgr))
+        self._alphar = math.degrees(math.acos(car))
+        self._betar = math.degrees(math.acos(cbr))
+        self._gammar = math.degrees(math.acos(cgr))
         # metric tensor
         self.metrics = numpy.array( [
                 [ self.a*self.a,     self.a*self.b*cg,  self.a*self.c*cb ],
@@ -239,8 +238,8 @@ class Lattice(object):
         self._car = car = (cb*cg - ca)/(sb*sg)
         self._cbr = cbr = (ca*cg - cb)/(sa*sg)
         self._cgr = cgr = (ca*cb - cg)/(sa*sb)
-        self._sar = sar = math.sqrt(1.0 - car**2)
-        self._sbr = sbr = math.sqrt(1.0 - cbr**2)
+        self._sar = math.sqrt(1.0 - car**2)
+        self._sbr = math.sqrt(1.0 - cbr**2)
         self._sgr = sgr = math.sqrt(1.0 - cgr**2)
         self._alphar = math.degrees(math.acos(car))
         self._betar = math.degrees(math.acos(cbr))

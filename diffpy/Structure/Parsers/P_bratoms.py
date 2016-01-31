@@ -16,9 +16,6 @@
 """Parser for Bruce Ravel's Atoms structure format
 """
 
-import sys
-import numpy
-
 from diffpy.Structure import Lattice, Atom, StructureFormatError
 from diffpy.Structure.bratomsstructure import BRAtomsStructure
 from diffpy.Structure.Parsers import StructureParser
@@ -44,7 +41,6 @@ class P_bratoms(StructureParser):
         atoms = []
         title = ""
         anext = False
-        sg = None
         structure = BRAtomsStructure()
         meta = structure.bratoms
         pdict = dict.fromkeys(self.plist)
@@ -134,7 +130,7 @@ class P_bratoms(StructureParser):
 
                     atoms.append(a)
 
-        except (ValueError, IndexError), e:
+        except (ValueError, IndexError):
             emsg = "%d: file is not in Atoms format" % ln
             raise StructureFormatError(emsg)
 

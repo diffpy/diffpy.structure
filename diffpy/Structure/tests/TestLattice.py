@@ -42,10 +42,9 @@ class TestLattice(unittest.TestCase):
     def test_setLatPar(self):
         """check calculation of standard unit cell vectors"""
         from numpy import dot
-        from math import radians, sqrt, cos, sin
+        from math import radians, sqrt, cos
         norm = lambda x : sqrt(sum([xi**2 for xi in x]))
         cosd = lambda x : cos(radians(x))
-        sind = lambda x : sin(radians(x))
         self.lattice.setLatPar(1.0, 2.0, 3.0, 80, 100, 120)
         base = self.lattice.base
         self.assertAlmostEqual(1.0, norm(base[0]), self.places)

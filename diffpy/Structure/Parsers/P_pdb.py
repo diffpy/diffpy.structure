@@ -25,7 +25,7 @@ import sys
 import numpy
 from numpy import pi
 
-from diffpy.Structure import Structure, Lattice, Atom
+from diffpy.Structure import Structure
 from diffpy.Structure import StructureFormatError
 from diffpy.Structure.Parsers import StructureParser
 
@@ -117,7 +117,6 @@ class P_pdb(StructureParser):
                 elif record in ("ATOM", "HETATM"):
                     name = line[12:16].strip()
                     rc = [float(x) for x in line[30:54].split()]
-                    xyz = numpy.dot(scale, rc) + scaleU
                     try:
                         occupancy = float(line[54:60])
                     except ValueError:

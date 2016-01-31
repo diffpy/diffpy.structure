@@ -18,6 +18,7 @@ MYDIR = os.path.dirname(os.path.abspath(__file__))
 versioncfgfile = os.path.join(MYDIR, 'diffpy/Structure/version.cfg')
 gitarchivecfgfile = versioncfgfile.replace('version.cfg', 'gitarchive.cfg')
 
+
 def gitinfo():
     from subprocess import Popen, PIPE
     kw = dict(stdout=PIPE, cwd=MYDIR)
@@ -85,7 +86,7 @@ setup_args = dict(
         maintainer = 'Pavol Juhas',
         maintainer_email = 'pavol.juhas@gmail.com',
         url = 'https://github.com/diffpy/diffpy.Structure',
-        description = "Crystal structure container " + \
+        description = "Crystal structure container "
                       "and parsers for structure formats.",
         license = 'BSD-style license',
         keywords = "crystal Structure data storage CIF PDB",

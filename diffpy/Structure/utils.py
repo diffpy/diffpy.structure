@@ -22,7 +22,7 @@ import numpy
 def isfloat(s):
     """True if argument can be converted to float"""
     try:
-        x = float(s)
+        float(s)
         return True
     except ValueError:
         pass

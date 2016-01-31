@@ -30,7 +30,8 @@ Exceptions:
 # interface definitions
 ##############################################################################
 
-from diffpy.Structure.StructureErrors import *
+from diffpy.Structure.StructureErrors import (StructureFormatError,
+        LatticeError, SymmetryError, IsotropyError)
 from diffpy.Structure.atom import Atom
 from diffpy.Structure.lattice import Lattice
 from diffpy.Structure.structure import Structure

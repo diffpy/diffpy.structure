@@ -284,7 +284,7 @@ class TestP_bratoms(unittest.TestCase):
         """check conversion to CIF string"""
         stru = self.stru
         stru.read(datafile('GaAs.inp'), 'bratoms')
-        s_s = stru.writeStr(self.format)
+        stru.writeStr(self.format)
 
     def test_read_bratoms_bad(self):
         """check exceptions when reading invalid bratoms file"""

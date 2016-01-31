@@ -43,6 +43,7 @@ def getParser(format):
         emsg = "no parser for '%s' format" % format
         raise StructureFormatError(emsg)
     pmod = parser_index[format]['module']
+    pm = None
     import_cmd = 'from diffpy.Structure.Parsers import %s as pm' % pmod
     exec(import_cmd)
     return pm.getParser()

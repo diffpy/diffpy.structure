@@ -17,7 +17,7 @@
 
 from math import ceil
 from numpy import array
-from diffpy.Structure import Structure, Atom
+from diffpy.Structure import Structure
 from diffpy.Structure.expansion.shapeUtils import findCenter
 
 def makeSphere(S, radius):

@@ -16,11 +16,10 @@
 """Unit tests for diffpy.Structure.Parsers.P_cif module
 """
 
-import os
 import unittest
 
 from diffpy.Structure.tests.testutils import datafile
-from diffpy.Structure.Parsers.P_cif import *
+from diffpy.Structure.Parsers.P_cif import P_cif, leading_float, getSymOp
 from diffpy.Structure import Structure
 from diffpy.Structure import StructureFormatError
 

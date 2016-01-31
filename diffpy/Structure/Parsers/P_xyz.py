@@ -21,7 +21,7 @@ remaining lines contain element, x, y, z
 
 import sys
 
-from diffpy.Structure import Structure, Lattice, Atom
+from diffpy.Structure import Structure
 from diffpy.Structure import StructureFormatError
 from diffpy.Structure.Parsers import StructureParser
 

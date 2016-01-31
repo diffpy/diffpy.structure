@@ -16,14 +16,14 @@
 """Unit tests for SymmetryUtilities.py
 """
 
-import os
 import sys
 import unittest
 import numpy
 
-from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure.SpaceGroups import GetSpaceGroup
-from diffpy.Structure.SymmetryUtilities import *
+from diffpy.Structure.SymmetryUtilities import (isSpaceGroupLatPar,
+        expandPosition, pruneFormulaDictionary, isconstantFormula,
+        GeneratorSite, ExpandAsymmetricUnit, SymmetryConstraints)
 from diffpy.Structure.SymmetryUtilities import _Position2Tuple
 
 ##############################################################################
@@ -202,7 +202,6 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual([("x", self.x)], self.g117h.pparameters)
         # 143c
         pfm143c = self.g143c.positionFormula(self.g143c.xyz)
-        places = 12
         self.assertEqual("+2/3", pfm143c["x"])
         self.assertEqual("+1/3", pfm143c["y"])
         self.assertEqual("z", pfm143c["z"])

@@ -20,7 +20,7 @@ for atom types.
 
 import sys
 
-from diffpy.Structure import Structure, Lattice, Atom
+from diffpy.Structure import Structure
 from diffpy.Structure import StructureFormatError
 from diffpy.Structure.utils import isfloat
 from diffpy.Structure.Parsers import StructureParser
