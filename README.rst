@@ -15,10 +15,10 @@ coordinates, displacement parameters and other crystal structure data.
 diffpy.Structure supports import and export of structure data in several
 structure formats such as CIF, PDB, and xyz.  It provides conversion
 between fractional and absolute Cartesian coordinates, functions for
-symmetry expansion from asymmetric unit (not quite sure what this means) 
-and generation of symmetry constraints for atom positions and displacement
-parameters.  diffpy.Structure includes definitions of all space groups in 
-over 500 symmetry settings.
+symmetry expansion of atom sites in the asymmetric unit  and generation
+of symmetry constraints for atom positions and displacement parameters.
+diffpy.Structure includes definitions of all space groups in over 500
+symmetry settings.
 
 To learn more about diffpy.Structure library see the
 user manual at http://diffpy.github.io/diffpy.Structure.
