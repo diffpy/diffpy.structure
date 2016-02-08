@@ -47,6 +47,8 @@ class P_cif(StructureParser):
     Data members used for input only:
 
     spacegroup  -- instance of SpaceGroup used for symmetry expansion
+    eps         -- resolution in fractional coordinates for non-equal
+                   positions.  Use for expansion of asymmetric unit.
     eau         -- instance of ExpandAsymmetricUnit from SymmetryUtilities
     asymmetric_unit -- list of atom instances for the original asymmetric
                    unit in the CIF file
@@ -238,6 +240,7 @@ class P_cif(StructureParser):
         self.ciffile = None
         self.stru = None
         self.spacegroup = None
+        self.eps = None
         self.eau = None
         self.asymmetric_unit = None
         self.labelindex = {}
@@ -481,7 +484,8 @@ class P_cif(StructureParser):
         # get reverse-ordered unique indices
         corepos = [a.xyz for a in self.stru]
         coreUijs = [a.U for a in self.stru]
-        self.eau = ExpandAsymmetricUnit(self.spacegroup, corepos, coreUijs)
+        self.eau = ExpandAsymmetricUnit(self.spacegroup, corepos, coreUijs,
+                                        eps=self.eps)
         # build a nested list of new atoms:
         newatoms = []
         for i, ca in enumerate(self.stru):
