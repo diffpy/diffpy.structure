@@ -113,11 +113,13 @@ class _Position2Tuple(object):
     eps -- cutoff for equivalent coordinates.  When two coordiantes map to the
            same tuple, they are closer than eps.
     """
-    def __init__(self, eps=epsilon):
+    def __init__(self, eps=None):
         """Initialize _Position2Tuple
 
         eps -- cutoff for equivalent coordinates
         """
+        if eps is None:
+            eps = epsilon
         # ensure self.eps has exact machine representation
         self.eps = eps + 1.0
         self.eps = self.eps - 1.0
@@ -174,7 +176,7 @@ def nearestSiteIndex(sites, xyz):
 
 # End of nearestSiteIndex
 
-def equalPositions(xyz0, xyz1, eps=epsilon):
+def equalPositions(xyz0, xyz1, eps):
     """Equality of two coordinates with optional tolerance.
 
     xyz0, xyz1 -- fractional coordinates
@@ -188,7 +190,7 @@ def equalPositions(xyz0, xyz1, eps=epsilon):
 
 # End of equalPositions
 
-def expandPosition(spacegroup, xyz, sgoffset=[0,0,0], eps=epsilon):
+def expandPosition(spacegroup, xyz, sgoffset=[0,0,0], eps=None):
     """Obtain unique equivalent positions and corresponding operations.
 
     spacegroup -- instance of SpaceGroup
@@ -199,7 +201,9 @@ def expandPosition(spacegroup, xyz, sgoffset=[0,0,0], eps=epsilon):
     Return a tuple with (list of unique equivalent positions, nested
     list of SpaceGroups.SymOp instances, site multiplicity).
     """
-    sgoffset = numpy.array(sgoffset, dtype=float)
+    sgoffset = numpy.asarray(sgoffset, dtype=float)
+    if eps is None:
+        eps = epsilon
     pos2tuple = _Position2Tuple(eps)
     positions = []
     site_symops = {}    # position tuples with [related symops]
@@ -304,7 +308,7 @@ class GeneratorSite(object):
                     6 : 'U13', 7 : 'U23', 8 : 'U33' }
 
     def __init__(self, spacegroup, xyz, Uij=numpy.zeros((3,3)),
-            sgoffset=[0,0,0], eps=epsilon):
+            sgoffset=[0,0,0], eps=None):
         """Initialize GeneratorSite.
 
         spacegroup -- instance of SpaceGroup
@@ -315,6 +319,8 @@ class GeneratorSite(object):
         sgoffset   -- offset of space group origin [0, 0, 0]
         eps        -- cutoff for equal positions
         """
+        if eps is None:
+            eps = epsilon
         # just declare the members
         self.xyz = numpy.array(xyz, dtype=float)
         self.Uij = numpy.array(Uij, dtype=float)
@@ -578,7 +584,7 @@ class ExpandAsymmetricUnit(object):
     # By design Atom instances are not accepted as arguments to keep
     # number of required imports low.
     def __init__(self, spacegroup, corepos, coreUijs=None,
-            sgoffset=[0,0,0], eps=epsilon):
+            sgoffset=[0,0,0], eps=None):
         """Initialize and calculate instance of ExpandAsymmetricUnit
 
         spacegroup   -- instance of SpaceGroup
@@ -588,6 +594,8 @@ class ExpandAsymmetricUnit(object):
         sgoffset     -- offset of space group origin [0, 0, 0]
         eps          -- cutoff for duplicate positions
         """
+        if eps is None:
+            eps = epsilon
         # declare data members
         self.spacegroup = spacegroup
         self.corepos = corepos
@@ -662,7 +670,7 @@ class SymmetryConstraints(object):
     """
 
     def __init__(self, spacegroup, positions, Uijs=None,
-            sgoffset=[0, 0, 0], eps=epsilon):
+            sgoffset=[0, 0, 0], eps=None):
         """Initialize and calculate SymmetryConstraints.
 
         spacegroup -- instance of SpaceGroup
@@ -671,6 +679,8 @@ class SymmetryConstraints(object):
         sgoffset   -- optional offset of space group origin [0, 0, 0]
         eps        -- cutoff for equivalent positions
         """
+        if eps is None:
+            eps = epsilon
         # fill in data members
         self.spacegroup = spacegroup
         self.positions = None
