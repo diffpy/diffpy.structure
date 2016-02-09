@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>diffpy.Structure package &mdash; diffpy.Structure 1.3.1 documentation</title>
+    <title>diffpy.Structure package &mdash; diffpy.Structure 1.3.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.3.1',
+        VERSION:     '1.3.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="diffpy.Structure 1.3.1 documentation" href="../index.html" />
+    <link rel="top" title="diffpy.Structure 1.3.2 documentation" href="../index.html" />
     <link rel="next" title="diffpy.Structure.Parsers package" href="diffpy.Structure.Parsers.html" />
     <link rel="prev" title="diffpy.Structure documentation" href="../index.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="../index.html" title="diffpy.Structure documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -157,7 +157,7 @@ Raise ValueError when not found.</p>
 and generation of positional constraints.</p>
 <dl class="class">
 <dt id="diffpy.Structure.SymmetryUtilities.ExpandAsymmetricUnit">
-<em class="property">class </em><code class="descclassname">diffpy.Structure.SymmetryUtilities.</code><code class="descname">ExpandAsymmetricUnit</code><span class="sig-paren">(</span><em>spacegroup, corepos, coreUijs=None, sgoffset=[0, 0, 0], eps=1e-05</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.ExpandAsymmetricUnit" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">diffpy.Structure.SymmetryUtilities.</code><code class="descname">ExpandAsymmetricUnit</code><span class="sig-paren">(</span><em>spacegroup, corepos, coreUijs=None, sgoffset=[0, 0, 0], eps=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.ExpandAsymmetricUnit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Expand asymmetric unit and anisotropic thermal displacement</p>
 <dl class="docutils">
@@ -180,7 +180,7 @@ expandedUijs &#8211; list of thermal factors per each site in corepos</dd>
 
 <dl class="class">
 <dt id="diffpy.Structure.SymmetryUtilities.GeneratorSite">
-<em class="property">class </em><code class="descclassname">diffpy.Structure.SymmetryUtilities.</code><code class="descname">GeneratorSite</code><span class="sig-paren">(</span><em>spacegroup, xyz, Uij=array([[ 0.,  0.,  0.],        [ 0.,  0.,  0.],        [ 0.,  0.,  0.]]), sgoffset=[0, 0, 0], eps=1e-05</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.GeneratorSite" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">diffpy.Structure.SymmetryUtilities.</code><code class="descname">GeneratorSite</code><span class="sig-paren">(</span><em>spacegroup, xyz, Uij=array([[ 0.,  0.,  0.],        [ 0.,  0.,  0.],        [ 0.,  0.,  0.]]), sgoffset=[0, 0, 0], eps=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.GeneratorSite" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Storage of data related to a generator positions.</p>
 <dl class="docutils">
@@ -258,7 +258,7 @@ are not close, return &#8220;%+g&#8221; format.</p>
 
 <dl class="class">
 <dt id="diffpy.Structure.SymmetryUtilities.SymmetryConstraints">
-<em class="property">class </em><code class="descclassname">diffpy.Structure.SymmetryUtilities.</code><code class="descname">SymmetryConstraints</code><span class="sig-paren">(</span><em>spacegroup, positions, Uijs=None, sgoffset=[0, 0, 0], eps=1e-05</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">diffpy.Structure.SymmetryUtilities.</code><code class="descname">SymmetryConstraints</code><span class="sig-paren">(</span><em>spacegroup, positions, Uijs=None, sgoffset=[0, 0, 0], eps=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.SymmetryConstraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Generate symmetry constraints for specified positions</p>
 <dl class="docutils">
@@ -358,7 +358,7 @@ See also positionFormulas().</p>
 
 <dl class="function">
 <dt id="diffpy.Structure.SymmetryUtilities.equalPositions">
-<code class="descclassname">diffpy.Structure.SymmetryUtilities.</code><code class="descname">equalPositions</code><span class="sig-paren">(</span><em>xyz0</em>, <em>xyz1</em>, <em>eps=1e-05</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.equalPositions" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">diffpy.Structure.SymmetryUtilities.</code><code class="descname">equalPositions</code><span class="sig-paren">(</span><em>xyz0</em>, <em>xyz1</em>, <em>eps</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.equalPositions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Equality of two coordinates with optional tolerance.</p>
 <p>xyz0, xyz1 &#8211; fractional coordinates
 eps        &#8211; tolerance for equality of coordinates</p>
@@ -367,7 +367,7 @@ eps        &#8211; tolerance for equality of coordinates</p>
 
 <dl class="function">
 <dt id="diffpy.Structure.SymmetryUtilities.expandPosition">
-<code class="descclassname">diffpy.Structure.SymmetryUtilities.</code><code class="descname">expandPosition</code><span class="sig-paren">(</span><em>spacegroup, xyz, sgoffset=[0, 0, 0], eps=1e-05</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.expandPosition" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">diffpy.Structure.SymmetryUtilities.</code><code class="descname">expandPosition</code><span class="sig-paren">(</span><em>spacegroup, xyz, sgoffset=[0, 0, 0], eps=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.SymmetryUtilities.expandPosition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain unique equivalent positions and corresponding operations.</p>
 <p>spacegroup &#8211; instance of SpaceGroup
 xyz        &#8211; position to be expanded
@@ -1443,13 +1443,14 @@ IsotropyError</dd>
 </dl>
 <dl class="function">
 <dt id="diffpy.Structure.loadStructure">
-<code class="descclassname">diffpy.Structure.</code><code class="descname">loadStructure</code><span class="sig-paren">(</span><em>filename</em>, <em>fmt='auto'</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.loadStructure" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">diffpy.Structure.</code><code class="descname">loadStructure</code><span class="sig-paren">(</span><em>filename</em>, <em>fmt='auto'</em>, <em>**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.loadStructure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a new structure from a specified file.</p>
 <p>filename &#8211; file to be loaded
 fmt      &#8211; format of the structure file.  Must be one of the formats</p>
 <blockquote>
 <div>defined in the Parsers subpackage.  When &#8216;auto&#8217;, all
 Parsers are tried in sequence.</div></blockquote>
+<p>kw       &#8211; keyword arguments passed to the getParser factory function.</p>
 <p>Return a new Structure object.
 Return PDFFitStructure object for &#8216;pdffit&#8217; or &#8216;discus&#8217; formats.</p>
 </dd></dl>
@@ -1538,12 +1539,12 @@ Return a unittest TestResult object.</p>
         <li class="right" >
           <a href="../index.html" title="diffpy.Structure documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2016, Brookhaven National Laboratory.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
     </div>
   </body>
 </html>

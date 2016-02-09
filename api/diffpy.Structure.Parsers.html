@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>diffpy.Structure.Parsers package &mdash; diffpy.Structure 1.3.1 documentation</title>
+    <title>diffpy.Structure.Parsers package &mdash; diffpy.Structure 1.3.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.3.1',
+        VERSION:     '1.3.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="diffpy.Structure 1.3.1 documentation" href="../index.html" />
+    <link rel="top" title="diffpy.Structure 1.3.2 documentation" href="../index.html" />
     <link rel="up" title="diffpy.Structure package" href="diffpy.Structure.html" />
     <link rel="next" title="diffpy.Structure.applications package" href="diffpy.Structure.applications.html" />
     <link rel="prev" title="diffpy.Structure package" href="diffpy.Structure.html" /> 
@@ -45,7 +45,7 @@
         <li class="right" >
           <a href="diffpy.Structure.html" title="diffpy.Structure package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="diffpy.Structure.html" accesskey="U">diffpy.Structure package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -66,7 +66,7 @@
 <p>This Parser does not provide the the toLines() method.</p>
 <dl class="class">
 <dt id="diffpy.Structure.Parsers.P_auto.P_auto">
-<em class="property">class </em><code class="descclassname">diffpy.Structure.Parsers.P_auto.</code><code class="descname">P_auto</code><a class="headerlink" href="#diffpy.Structure.Parsers.P_auto.P_auto" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">diffpy.Structure.Parsers.P_auto.</code><code class="descname">P_auto</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.Parsers.P_auto.P_auto" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#diffpy.Structure.Parsers.structureparser.StructureParser" title="diffpy.Structure.Parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal"><span class="pre">diffpy.Structure.Parsers.structureparser.StructureParser</span></code></a></p>
 <p>Parser with automatic detection of structure format.
 When successful, it sets its format attribute to detected
@@ -101,7 +101,7 @@ Set format attribute to the detected file format.</p>
 
 <dl class="function">
 <dt id="diffpy.Structure.Parsers.P_auto.getParser">
-<code class="descclassname">diffpy.Structure.Parsers.P_auto.</code><code class="descname">getParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.Parsers.P_auto.getParser" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">diffpy.Structure.Parsers.P_auto.</code><code class="descname">getParser</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.Parsers.P_auto.getParser" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -146,7 +146,7 @@ Set format attribute to the detected file format.</p>
 <p><a class="reference external" href="http://www.iucr.org/iucr-top/cif/home.html">http://www.iucr.org/iucr-top/cif/home.html</a></p>
 <dl class="class">
 <dt id="diffpy.Structure.Parsers.P_cif.P_cif">
-<em class="property">class </em><code class="descclassname">diffpy.Structure.Parsers.P_cif.</code><code class="descname">P_cif</code><a class="headerlink" href="#diffpy.Structure.Parsers.P_cif.P_cif" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">diffpy.Structure.Parsers.P_cif.</code><code class="descname">P_cif</code><span class="sig-paren">(</span><em>eps=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.Parsers.P_cif.P_cif" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#diffpy.Structure.Parsers.structureparser.StructureParser" title="diffpy.Structure.Parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal"><span class="pre">diffpy.Structure.Parsers.structureparser.StructureParser</span></code></a></p>
 <p>Simple parser for CIF structure format.
 Reads Structure from the first block containing _atom_site_label key.
@@ -157,7 +157,10 @@ ciffile     &#8211; instance of CifFile from PyCifRW
 stru        &#8211; Structure instance used for cif input or output</p>
 <p>Data members used for input only:</p>
 <p>spacegroup  &#8211; instance of SpaceGroup used for symmetry expansion
-eau         &#8211; instance of ExpandAsymmetricUnit from SymmetryUtilities
+eps         &#8211; resolution in fractional coordinates for non-equal</p>
+<blockquote>
+<div>positions.  Use for expansion of asymmetric unit.</div></blockquote>
+<p>eau         &#8211; instance of ExpandAsymmetricUnit from SymmetryUtilities
 asymmetric_unit &#8211; list of atom instances for the original asymmetric</p>
 <blockquote>
 <div>unit in the CIF file</div></blockquote>
@@ -218,8 +221,13 @@ CifFile loads files using urlopen, which fails for Windows-style paths.</p>
 
 <dl class="function">
 <dt id="diffpy.Structure.Parsers.P_cif.getParser">
-<code class="descclassname">diffpy.Structure.Parsers.P_cif.</code><code class="descname">getParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.Parsers.P_cif.getParser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">diffpy.Structure.Parsers.P_cif.</code><code class="descname">getParser</code><span class="sig-paren">(</span><em>eps=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.Parsers.P_cif.getParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return new parser object for CIF structure format.</p>
+<dl class="docutils">
+<dt>eps  &#8211; fractional coordinates cutoff for duplicate positions.</dt>
+<dd>When None use the default for ExpandAsymmetricUnit.</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="diffpy.Structure.Parsers.P_cif.getSymOp">
@@ -551,9 +559,10 @@ outputFormats   &#8211; list of available output formats</dd>
 </dl>
 <dl class="function">
 <dt id="diffpy.Structure.Parsers.getParser">
-<code class="descclassname">diffpy.Structure.Parsers.</code><code class="descname">getParser</code><span class="sig-paren">(</span><em>format</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.Parsers.getParser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return Parser instance for a given structure format.
-Raises StructureFormatError exception when format is not defined.</p>
+<code class="descclassname">diffpy.Structure.Parsers.</code><code class="descname">getParser</code><span class="sig-paren">(</span><em>format</em>, <em>**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.Parsers.getParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Parser instance for a given structure format.</p>
+<p>kw   &#8211; keyword arguments passed to the Parser init function.</p>
+<p>Raises StructureFormatError exception when format is not defined.</p>
 </dd></dl>
 
 <dl class="function">
@@ -642,13 +651,13 @@ Raises StructureFormatError exception when format is not defined.</p>
         <li class="right" >
           <a href="diffpy.Structure.html" title="diffpy.Structure package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="diffpy.Structure.html" >diffpy.Structure package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2016, Brookhaven National Laboratory.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
     </div>
   </body>
 </html>
