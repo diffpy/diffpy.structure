@@ -46,6 +46,20 @@ class TestLoadStructure(unittest.TestCase):
         self.assertRaises(StructureFormatError, loadStructure, f)
         return
 
+    def test_goodkwarg(self):
+        """check loading of CIF file and passing of parser keyword argument.
+        """
+        f = datafile('graphite.cif')
+        stru = loadStructure(f, eps=1e-10)
+        self.assertEqual(8, len(stru))
+        return
+
+    def test_badkwarg(self):
+        """check loading of xyz file format with invalid keyword argument
+        """
+        f = datafile('bucky.xyz')
+        self.assertRaises(TypeError, loadStructure, f, eps=1e-10)
+        return
 
 # End of class TestLoadStructure
 

@@ -30,9 +30,10 @@ class P_auto(StructureParser):
     structure format.
     """
 
-    def __init__(self):
+    def __init__(self, **kw):
         StructureParser.__init__(self)
         self.format = "auto"
+        self.pkw = kw
         return
 
     # parseLines helpers
@@ -103,7 +104,7 @@ class P_auto(StructureParser):
         # try all parsers in sequence
         parsers_emsgs = []
         for fmt in ofmts:
-            p = getParser(fmt)
+            p = getParser(fmt, **self.pkw)
             try:
                 pmethod = getattr(p, method)
                 stru = pmethod(*args, **kwargs)
@@ -126,7 +127,7 @@ class P_auto(StructureParser):
 
 # Routines
 
-def getParser():
-    return P_auto()
+def getParser(**kw):
+    return P_auto(**kw)
 
 # End of file
