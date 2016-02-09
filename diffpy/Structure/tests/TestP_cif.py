@@ -217,6 +217,21 @@ class TestP_cif(unittest.TestCase):
         self.assertAlmostEqual(0.046164, a3.U[2,2])
         return
 
+    def test_eps(self):
+        """Test the P_cif.eps coordinates resolution.
+        """
+        pcif = P_cif()
+        pcif.eps = 1e-8
+        grph = pcif.parseFile(self.graphiteciffile)
+        self.assertEqual(8, len(grph))
+        self.assertTrue(all(a.label.startswith('C1') for a in grph[:2]))
+        self.assertTrue(all(a.label.startswith('C2') for a in grph[2:]))
+        pcif2 = P_cif()
+        pcif2.eps = 1e-3
+        grph2 = pcif2.parseFile(self.graphiteciffile)
+        self.assertEqual(4, len(grph2))
+        return
+
     ########################################################################
     # helpers
     ########################################################################
