@@ -35,8 +35,11 @@ from diffpy.Structure import StructureFormatError
 from diffpy.Structure.Parsers.structureparser import StructureParser
 from diffpy.Structure.Parsers.parser_index_mod import parser_index
 
-def getParser(format):
+def getParser(format, **kw):
     """Return Parser instance for a given structure format.
+
+    kw   -- keyword arguments passed to the Parser init function.
+
     Raises StructureFormatError exception when format is not defined.
     """
     if format not in parser_index:
@@ -46,7 +49,7 @@ def getParser(format):
     pm = None
     import_cmd = 'from diffpy.Structure.Parsers import %s as pm' % pmod
     exec(import_cmd)
-    return pm.getParser()
+    return pm.getParser(**kw)
 
 def inputFormats():
     """Return list of implemented input structure formats"""

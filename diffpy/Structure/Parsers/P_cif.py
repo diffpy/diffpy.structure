@@ -234,13 +234,18 @@ class P_cif(StructureParser):
     # normal methods
     ########################################################################
 
-    def __init__(self):
+    def __init__(self, eps=None):
+        """Initialize the parser for CIF structure files.
+
+        eps  -- fractional coordinates cutoff for duplicate positions.
+                When None use the default for ExpandAsymmetricUnit.
+        """
         StructureParser.__init__(self)
         self.format = "cif"
         self.ciffile = None
         self.stru = None
         self.spacegroup = None
-        self.eps = None
+        self.eps = eps
         self.eau = None
         self.asymmetric_unit = None
         self.labelindex = {}
@@ -722,7 +727,12 @@ class _FixPyCifRW(object):
         return
 
 
-def getParser():
-    return P_cif()
+def getParser(eps=None):
+    """Return new parser object for CIF structure format.
+
+    eps  -- fractional coordinates cutoff for duplicate positions.
+            When None use the default for ExpandAsymmetricUnit.
+    """
+    return P_cif(eps=eps)
 
 # End of file
