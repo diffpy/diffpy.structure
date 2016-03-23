@@ -59,13 +59,4 @@ def loadStructure(filename, fmt='auto', **kw):
     rv = p.parseFile(filename)
     return rv
 
-
-# unit tests
-def test():
-    '''Execute all unit tests for the diffpy.Structure package.
-    Return a unittest TestResult object.
-    '''
-    from diffpy.Structure.tests import test
-    return test()
-
 # End of file
