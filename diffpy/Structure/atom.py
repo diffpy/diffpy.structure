@@ -29,25 +29,25 @@ class Atom(object):
     """Atom --> class for storing atom information
 
     Data members:
-        element     -- type of the atom
-        xyz         -- fractional coordinates, numpy array
-        x, y, z     -- fractional coordiantes, float properties synced with xyz
-        label       -- string atom label
-        occupancy   -- fractional occupancy
-        xyz_cartn   -- absolute Cartesian coordinates, property synced with xyz
-        anisotropy  -- flag for anisotropic thermal displacements, property
-        U           -- anisotropic thermal displacement tensor, property
-        Uij         -- elements of U tensor, where i, j are from (1, 2, 3),
-                       property
-        Uisoequiv   -- isotropic thermal displacement or equivalent value,
-                       property
-        Bisoequiv   -- Debye-Waler isotropic temperature factor or equivalent
-                       value, property
-        lattice     -- coordinate system for fractional coordinates,
-                       an instance of Lattice or None for Cartesian system
+        element      -- type of the atom
+        xyz          -- fractional coordinates, numpy array
+        x, y, z      -- fractional coordiantes, float properties synced with xyz
+        label        -- string atom label
+        occupancy    -- fractional occupancy
+        xyz_cartn    -- absolute Cartesian coordinates, property synced with xyz
+        anisotropy   -- flag for anisotropic thermal displacements, property
+        U            -- anisotropic thermal displacement tensor, property
+        Uij          -- elements of U tensor, where i, j are from (1, 2, 3),
+                        property
+        Uisoequiv    -- isotropic thermal displacement or equivalent value,
+                        property
+        Bisoequiv    -- Debye-Waler isotropic temperature factor or equivalent
+                        value, property
+        lattice      -- coordinate system for fractional coordinates,
+                        an instance of Lattice or None for Cartesian system
 
     Private data:
-        _U          -- storage of U property, 3x3 numpy matrix
+        _U           -- storage of U property, 3x3 numpy matrix
     """
 
     # instance attributes that have inmutable default values
@@ -62,15 +62,15 @@ class Atom(object):
         """Create atom of a specified type at given lattice coordinates.
         Atom(a) creates a copy of Atom instance a.
 
-        atype       -- element symbol string or Atom instance
-        xyz         -- fractional coordinates
-        label       -- string atom label
-        occupancy   -- fractional occupancy
-        anisotropy  -- flag for anisotropic thermal displacements
-        U           -- anisotropic thermal displacement tensor, property
-        Uisoequiv   -- isotropic thermal displacement or equivalent value,
-                       property
-        lattice     -- coordinate system for fractional coordinates
+        atype        -- element symbol string or Atom instance
+        xyz          -- fractional coordinates
+        label        -- string atom label
+        occupancy    -- fractional occupancy
+        anisotropy   -- flag for anisotropic thermal displacements
+        U            -- anisotropic thermal displacement tensor, property
+        Uisoequiv    -- isotropic thermal displacement or equivalent value,
+                        property
+        lattice      -- coordinate system for fractional coordinates
         """
         # declare data members
         self.xyz = numpy.zeros(3, dtype=float)
@@ -81,12 +81,18 @@ class Atom(object):
         elif atype is not None:
             self.element = atype
         # take care of remaining arguments
-        if xyz is not None:  self.xyz[:] = xyz
-        if label is not None:  self.label = label
-        if occupancy is not None:  self.occupancy = float(occupancy)
-        if anisotropy is not None:  self.anisotropy = bool(anisotropy)
-        if U is not None:  self._U[:] = U
-        if lattice is not None:  self.lattice = lattice
+        if xyz is not None:
+            self.xyz[:] = xyz
+        if label is not None:
+            self.label = label
+        if occupancy is not None:
+            self.occupancy = float(occupancy)
+        if anisotropy is not None:
+            self.anisotropy = bool(anisotropy)
+        if U is not None:
+            self._U[:] = U
+        if lattice is not None:
+            self.lattice = lattice
         return
 
     def msdLat(self, vl):

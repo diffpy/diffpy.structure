@@ -36,7 +36,7 @@ def findCenter(S):
 
 
 if __name__ == "__main__":
-    # FIXME ... remove or convert to unit test 
+    # FIXME ... remove or convert to unit test
     import os.path
     datadir = "../../tests/testdata"
     S = Structure()
