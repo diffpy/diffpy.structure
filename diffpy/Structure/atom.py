@@ -66,12 +66,21 @@ class Atom(object):
         xyz          -- fractional coordinates
         label        -- string atom label
         occupancy    -- fractional occupancy
-        anisotropy   -- flag for anisotropic thermal displacements
-        U            -- anisotropic thermal displacement tensor, property
-        Uisoequiv    -- isotropic thermal displacement or equivalent value,
-                        property
+        U            -- matrix of anisotropic displacement parameters.
+                        When specified also set anisotropy=True.
+        Uisoequiv    -- isotropic displacement parameter.  When specified
+                        anisotropy is set to False.  Only one of the
+                        U, Uisoequiv arguments can be used.
+        anisotropy   -- flag for anisotropic displacement parameters.
+                        Overrides anisotropy implied from the presence of
+                        U or Uisoequiv arguments.  False when not specified
+                        by any other means.
         lattice      -- coordinate system for fractional coordinates
         """
+        # check arguments
+        if U is not None and Uisoequiv is not None:
+            emsg = "Cannot use both U and Uisoequiv arguments."
+            raise ValueError(emsg)
         # declare data members
         self.xyz = numpy.zeros(3, dtype=float)
         self._U = numpy.zeros((3,3), dtype=float)
@@ -87,12 +96,18 @@ class Atom(object):
             self.label = label
         if occupancy is not None:
             self.occupancy = float(occupancy)
-        if anisotropy is not None:
-            self.anisotropy = bool(anisotropy)
         if U is not None:
+            self.anisotropy = True
             self._U[:] = U
+        if Uisoequiv is not None:
+            self.anisotropy = False
+            self.Uisoequiv = Uisoequiv
+        # lattice needs to be set before anisotropy
         if lattice is not None:
             self.lattice = lattice
+        # process anisotropy after U, Uisoequiv and lattice.
+        if anisotropy is not None:
+            self.anisotropy = bool(anisotropy)
         return
 
     def msdLat(self, vl):
