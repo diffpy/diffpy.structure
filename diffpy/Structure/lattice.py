@@ -122,7 +122,9 @@ class Lattice(object):
         self.normbase = self.recnormbase = None
         # work out argument variants
         # Lattice()
-        if [a, b, c, alpha, beta, gamma, base] == 7*[None]:
+        hascellargs = any(x is not None
+                          for x in (a, b, c, alpha, beta, gamma, base))
+        if not hascellargs:
             self.setLatPar(1.0, 1.0, 1.0, 90.0, 90.0, 90.0, baserot)
         # Lattice(base=abc)
         elif base is not None:
