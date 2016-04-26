@@ -104,10 +104,11 @@ class Lattice(object):
                              base vectors
         Lattice(lat)      -- create a copy of existing Lattice lat
         """
-        # check arguments
-        if baserot is not None and base is not None:
-            emsg = "Cannot use both baserot and base arguments."
-            raise ValueError(emsg)
+        # build a set of provided argument names for later use.
+        apairs = (('a', a), ('b', b), ('c', c),
+                  ('alpha', alpha), ('beta', beta), ('gamma', gamma),
+                  ('baserot', baserot), ('base', base))
+        argset = set(n for n, v in apairs if v is not None)
         # initialize data members, they values will be set by setLatPar()
         self._a = self._b = self._c = None
         self._alpha = self._beta = self._gamma = None
@@ -122,19 +123,23 @@ class Lattice(object):
         self.normbase = self.recnormbase = None
         # work out argument variants
         # Lattice()
-        hascellargs = any(x is not None
-                          for x in (a, b, c, alpha, beta, gamma, base))
-        if not hascellargs:
+        if not argset:
             self.setLatPar(1.0, 1.0, 1.0, 90.0, 90.0, 90.0, baserot)
         # Lattice(base=abc)
         elif base is not None:
+            if len(argset) > 1:
+                raise ValueError("'base' must be the only argument.")
             self.setLatBase(base)
         # Lattice(lat)
         elif isinstance(a, Lattice):
-            self.setLatPar(a.a, a.b, a.c, a.alpha, a.beta, a.gamma,
-                    baserot=a.baserot)
+            if len(argset) > 1:
+                raise ValueError("Lattice object must be the only argument.")
+            self.__dict__.update(a.__dict__)
         # otherwise do default Lattice(a, b, c, alpha, beta, gamma)
         else:
+            abcabg = ('a', 'b', 'c', 'alpha', 'beta', 'gamma')
+            if not argset.issuperset(abcabg):
+                raise ValueError("Provide all 6 cell parameters.")
             self.setLatPar(a, b, c, alpha, beta, gamma, baserot=baserot)
         return
 

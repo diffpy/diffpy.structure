@@ -22,6 +22,7 @@ import numpy
 from diffpy.Structure import Lattice, LatticeError
 
 ##############################################################################
+
 class TestLattice(unittest.TestCase):
     """test methods of Lattice class"""
 
@@ -36,6 +37,27 @@ class TestLattice(unittest.TestCase):
         self.assertEqual(len(l1), len(l2))
         for i in range(len(l1)):
             self.assertAlmostEqual(l1[i], l2[i], places)
+        return
+
+
+    def test___init__(self):
+        '''Check Lattice.__init__ processing of arguments.
+        '''
+        self.assertRaises(ValueError, Lattice,
+                          self.lattice, c=4)
+        self.assertRaises(ValueError, Lattice,
+                          base=self.lattice.base,
+                          baserot=self.lattice.baserot)
+        self.assertRaises(ValueError, Lattice, 1, 2, 3)
+        self.assertRaises(ValueError, Lattice, 1, 2, 3, 80, 90)
+        L0 = self.lattice
+        L0.setLatBase(L0.cartesian([[1, 1, 0], [0, 1, 1], [1, 0, 1]]))
+        L1 = Lattice(L0)
+        self.assertTrue(numpy.array_equal(L0.base, L1.base))
+        L2 = Lattice(base=L0.base)
+        self.assertTrue(numpy.array_equal(L0.base, L2.base))
+        L3 = Lattice(*L0.abcABG(), baserot=L0.baserot)
+        self.assertTrue(numpy.allclose(L0.base, L3.base))
         return
 
 
