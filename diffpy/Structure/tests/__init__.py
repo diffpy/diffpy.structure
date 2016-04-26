@@ -23,6 +23,7 @@ def testsuite():
     '''
     import unittest
     modulenames = '''
+        diffpy.Structure.tests.TestAtom
         diffpy.Structure.tests.TestLattice
         diffpy.Structure.tests.TestLoadStructure
         diffpy.Structure.tests.TestP_cif
