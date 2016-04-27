@@ -88,6 +88,12 @@ class Structure(list):
         return
 
 
+    def copy(self):
+        '''Return a deep copy of this Structure object.
+        '''
+        return copy.copy(self)
+
+
     def __copy__(self, target=None):
         '''Create a deep copy of this instance.
 

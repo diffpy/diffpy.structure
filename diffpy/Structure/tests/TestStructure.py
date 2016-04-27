@@ -75,6 +75,28 @@ class TestStructure(unittest.TestCase):
 #       """
 #       return
 
+    def test_copy(self):
+        """check Structure.copy()
+        """
+        class MyDerivedStructure(Structure):
+            def __copy__(self):
+                rv = MyDerivedStructure()
+                Structure.__copy__(self, target=rv)
+                return rv
+            pass
+        pbte = self.pbte
+        pbte2 = pbte.copy()
+        self.assertFalse(pbte2.lattice is pbte.lattice)
+        self.assertTrue(numpy.array_equal(pbte.xyz_cartn, pbte2.xyz_cartn))
+        self.assertTrue(numpy.array_equal(pbte.U, pbte2.U))
+        stru = MyDerivedStructure()
+        stru += pbte2[pbte2.element.startswith('Pb')]
+        pb3 = stru.copy()
+        self.assertTrue(isinstance(pb3, MyDerivedStructure))
+        self.assertTrue(all(pb3.element == 'Pb2+'))
+        self.assertEqual(4, len(pb3))
+        return
+
     def test___copy__(self):
         """check Structure.__copy__()
         """
