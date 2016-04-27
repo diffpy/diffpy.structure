@@ -303,15 +303,19 @@ class Lattice(object):
     def dot(self, u, v):
         """Return dot product of 2 lattice vectors.
         """
-        dp = numpy.dot(u, numpy.dot(self.metrics, v))
+        dp = (u * numpy.dot(v, self.metrics)).sum(axis=-1)
         return dp
 
 
-    def norm(self, u):
-        """Return norm of the specified lattice vector.
+    def norm(self, xyz):
+        """Calculate norm of a lattice vector.
+
+        xyz  -- vector or an N-by-3 array of fractional coordinates.
+
+        Return float or an array of the same length as xyz.
         """
-        # CLF - duplicated code from dot for the sake of speed
-        return math.sqrt(numpy.dot(u, numpy.dot(self.metrics, u)))
+        # this is a few percent faster than sqrt(dot(u, u)).
+        return numpy.sqrt((self.cartesian(xyz)**2).sum(axis=-1))
 
 
     def dist(self, u, v):

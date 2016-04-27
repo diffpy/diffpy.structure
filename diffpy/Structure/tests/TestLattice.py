@@ -197,6 +197,42 @@ class TestLattice(unittest.TestCase):
                 [[1, 0, 0], [0,0,1], [0,1,0]])
         return
 
+
+    def test_reciprocal(self):
+        '''check calculation of reciprocal lattice.'''
+        r1 = self.lattice.reciprocal()
+        self.assertEqual((1, 1, 1, 90, 90, 90), r1.abcABG())
+        L2 = Lattice(2, 4, 8, 90, 90, 90)
+        r2 = L2.reciprocal()
+        self.assertEqual((0.5, 0.25, 0.125, 90, 90, 90), r2.abcABG())
+        rr2 = r2.reciprocal()
+        self.assertTrue(numpy.array_equal(L2.base, rr2.base))
+        return
+
+
+    def test_dot(self):
+        '''check dot product of lattice vectors.'''
+        L = self.lattice
+        L.setLatPar(gamma=120)
+        self.assertAlmostEqual(-0.5, L.dot([1, 0, 0], [0, 1, 0]))
+        va5 = numpy.tile([1.0, 0.0, 0.0], (5, 1))
+        vb5 = numpy.tile([0.0, 1.0, 0.0], (5, 1))
+        self.assertTrue(numpy.array_equal(5 * [-0.5], L.dot(va5, vb5)))
+        self.assertTrue(numpy.array_equal(5 * [-0.5], L.dot(va5[0], vb5)))
+        self.assertTrue(numpy.array_equal(5 * [-0.5], L.dot(va5, vb5[0])))
+        return
+
+
+    def test_norm(self):
+        '''check norm of a lattice vector.'''
+        self.assertEqual(1, self.lattice.norm([1, 0, 0]))
+        u = numpy.array([[3, 4, 0], [1, 1, 1]])
+        self.assertListAlmostEqual([5, 3**0.5], self.lattice.norm(u))
+        self.lattice.setLatPar(gamma=120)
+        self.assertAlmostEqual(1, self.lattice.norm([1, 1, 0]))
+        return
+
+
     def test_repr(self):
         """check string representation of this lattice"""
         r = repr(self.lattice)
