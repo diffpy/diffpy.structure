@@ -318,6 +318,17 @@ class Lattice(object):
         return numpy.sqrt((self.cartesian(xyz)**2).sum(axis=-1))
 
 
+    def rnorm(self, hkl):
+        """Calculate norm of a reciprocal vector.
+
+        hkl  -- vector or an N-by-3 array of reciprocal coordinates.
+
+        Return float or an array of the same length as hkl.
+        """
+        hklcartn = numpy.dot(hkl, self.recbase.T)
+        return numpy.sqrt((hklcartn**2).sum(axis=-1))
+
+
     def dist(self, u, v):
         """Return distance of 2 points in lattice coordinates.
         """

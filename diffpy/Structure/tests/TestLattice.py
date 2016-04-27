@@ -233,6 +233,18 @@ class TestLattice(unittest.TestCase):
         return
 
 
+    def test_rnorm(self):
+        '''check norm of a reciprocal vector.'''
+        L = self.lattice
+        L.setLatPar(1, 1.5, 2.3, 80, 95, 115)
+        r = L.reciprocal()
+        hkl = [0.5, 0.3, 0.2]
+        self.assertAlmostEqual(r.norm(hkl), L.rnorm(hkl))
+        hkl5 = numpy.tile(hkl, (5, 1))
+        self.assertListAlmostEqual(5 * [r.norm(hkl)], L.rnorm(hkl5))
+        return
+
+
     def test_repr(self):
         """check string representation of this lattice"""
         r = repr(self.lattice)
