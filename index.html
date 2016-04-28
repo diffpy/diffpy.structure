@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>diffpy.Structure documentation &mdash; diffpy.Structure 1.3.2 documentation</title>
+    <title>diffpy.Structure documentation &mdash; diffpy.Structure 1.3.3 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.3.2',
+        VERSION:     '1.3.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/sidebar.js"></script>
-    <link rel="top" title="diffpy.Structure 1.3.2 documentation" href="#" />
+    <link rel="top" title="diffpy.Structure 1.3.3 documentation" href="#" />
     <link rel="next" title="diffpy.Structure package" href="api/diffpy.Structure.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="api/diffpy.Structure.html" title="diffpy.Structure package"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">diffpy.Structure 1.3.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">diffpy.Structure 1.3.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -51,8 +51,8 @@
             
   <div class="section" id="diffpy-structure-documentation">
 <h1>diffpy.Structure documentation<a class="headerlink" href="#diffpy-structure-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Software version 1.3.2.</p>
-<p>Last updated February 09, 2016.</p>
+<p>Software version 1.3.3.</p>
+<p>Last updated April 28, 2016.</p>
 <p>diffpy.Structure - simple storage and manipulation of crystal structures</p>
 <p>The diffpy.Structure package provides objects for storing atomic
 coordinates, displacement parameters and other crystal structure data.
@@ -66,143 +66,143 @@ includes definitions of all space groups in over 500 symmetry settings.</p>
 included in this distribution or the API documentation</p>
 <div class="section" id="disclaimer">
 <h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><div class="highlight"><pre>OPEN SOURCE LICENSE AGREEMENT
-=============================
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">OPEN</span> <span class="n">SOURCE</span> <span class="n">LICENSE</span> <span class="n">AGREEMENT</span>
+<span class="o">=============================</span>
 
-Copyright (c) 2009-2011, University of Tennessee
-Copyright (c) 1989, 1991 Free Software Foundation, Inc.
-Copyright (c) 2006, The Regents of the University of California through
-    Lawrence Berkeley National Laboratory
-Copyright (c) 2014, Australian Synchrotron Research Program Inc., (&quot;ASRP&quot;)
-Copyright (c) 2006-2007, Board of Trustees of Michigan State University
-Copyright (c) 2008-2012, The Trustees of Columbia University in the City
-    of New York
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2009</span><span class="o">-</span><span class="mi">2011</span><span class="p">,</span> <span class="n">University</span> <span class="n">of</span> <span class="n">Tennessee</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">1989</span><span class="p">,</span> <span class="mi">1991</span> <span class="n">Free</span> <span class="n">Software</span> <span class="n">Foundation</span><span class="p">,</span> <span class="n">Inc</span><span class="o">.</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2006</span><span class="p">,</span> <span class="n">The</span> <span class="n">Regents</span> <span class="n">of</span> <span class="n">the</span> <span class="n">University</span> <span class="n">of</span> <span class="n">California</span> <span class="n">through</span>
+    <span class="n">Lawrence</span> <span class="n">Berkeley</span> <span class="n">National</span> <span class="n">Laboratory</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2014</span><span class="p">,</span> <span class="n">Australian</span> <span class="n">Synchrotron</span> <span class="n">Research</span> <span class="n">Program</span> <span class="n">Inc</span><span class="o">.</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;ASRP&quot;</span><span class="p">)</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2006</span><span class="o">-</span><span class="mi">2007</span><span class="p">,</span> <span class="n">Board</span> <span class="n">of</span> <span class="n">Trustees</span> <span class="n">of</span> <span class="n">Michigan</span> <span class="n">State</span> <span class="n">University</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2008</span><span class="o">-</span><span class="mi">2012</span><span class="p">,</span> <span class="n">The</span> <span class="n">Trustees</span> <span class="n">of</span> <span class="n">Columbia</span> <span class="n">University</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">City</span>
+    <span class="n">of</span> <span class="n">New</span> <span class="n">York</span>
 
-Copyright (c) 2014-2016, Brookhaven Science Associates, Brookhaven National
-    Laboratory
-
-
-The &quot;DiffPy-CMI&quot; is distributed subject to the following license conditions:
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2014</span><span class="o">-</span><span class="mi">2016</span><span class="p">,</span> <span class="n">Brookhaven</span> <span class="n">Science</span> <span class="n">Associates</span><span class="p">,</span> <span class="n">Brookhaven</span> <span class="n">National</span>
+    <span class="n">Laboratory</span>
 
 
-SOFTWARE LICENSE AGREEMENT
-
-    Software: DiffPy-CMI
+<span class="n">The</span> <span class="s2">&quot;DiffPy-CMI&quot;</span> <span class="ow">is</span> <span class="n">distributed</span> <span class="n">subject</span> <span class="n">to</span> <span class="n">the</span> <span class="n">following</span> <span class="n">license</span> <span class="n">conditions</span><span class="p">:</span>
 
 
-(1) The &quot;Software&quot;, below, refers to the aforementioned DiffPy-CMI (in either
-source code, or binary form and accompanying documentation).
+<span class="n">SOFTWARE</span> <span class="n">LICENSE</span> <span class="n">AGREEMENT</span>
 
-Part of the software was derived from the DANSE, ObjCryst++ (with permission),
-PyCifRW, Python periodictable, CCTBX, and SasView open source projects, of
-which the original Copyrights are contained in each individual file.
-
-Each licensee is addressed as &quot;you&quot; or &quot;Licensee.&quot;
+    <span class="n">Software</span><span class="p">:</span> <span class="n">DiffPy</span><span class="o">-</span><span class="n">CMI</span>
 
 
-(2) The copyright holders shown above and their third-party Licensors hereby
-grant licensee a royalty-free nonexclusive license, subject to the limitations
-stated herein and U.S. Government license rights.
+<span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">The</span> <span class="s2">&quot;Software&quot;</span><span class="p">,</span> <span class="n">below</span><span class="p">,</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">the</span> <span class="n">aforementioned</span> <span class="n">DiffPy</span><span class="o">-</span><span class="n">CMI</span> <span class="p">(</span><span class="ow">in</span> <span class="n">either</span>
+<span class="n">source</span> <span class="n">code</span><span class="p">,</span> <span class="ow">or</span> <span class="n">binary</span> <span class="n">form</span> <span class="ow">and</span> <span class="n">accompanying</span> <span class="n">documentation</span><span class="p">)</span><span class="o">.</span>
+
+<span class="n">Part</span> <span class="n">of</span> <span class="n">the</span> <span class="n">software</span> <span class="n">was</span> <span class="n">derived</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">DANSE</span><span class="p">,</span> <span class="n">ObjCryst</span><span class="o">++</span> <span class="p">(</span><span class="k">with</span> <span class="n">permission</span><span class="p">),</span>
+<span class="n">PyCifRW</span><span class="p">,</span> <span class="n">Python</span> <span class="n">periodictable</span><span class="p">,</span> <span class="n">CCTBX</span><span class="p">,</span> <span class="ow">and</span> <span class="n">SasView</span> <span class="nb">open</span> <span class="n">source</span> <span class="n">projects</span><span class="p">,</span> <span class="n">of</span>
+<span class="n">which</span> <span class="n">the</span> <span class="n">original</span> <span class="n">Copyrights</span> <span class="n">are</span> <span class="n">contained</span> <span class="ow">in</span> <span class="n">each</span> <span class="n">individual</span> <span class="n">file</span><span class="o">.</span>
+
+<span class="n">Each</span> <span class="n">licensee</span> <span class="ow">is</span> <span class="n">addressed</span> <span class="k">as</span> <span class="s2">&quot;you&quot;</span> <span class="ow">or</span> <span class="s2">&quot;Licensee.&quot;</span>
 
 
-(3) You may modify and make a copy or copies of the software for use within
-your organization, if you meet the following conditions:
-
-    (a) Copies in source code must include the copyright notice and this
-        software license agreement.
-
-    (b) Copies in binary form must include the copyright notice and this
-        Software License Agreement in the documentation and/or other materials
-        provided with the copy.
+<span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="n">The</span> <span class="n">copyright</span> <span class="n">holders</span> <span class="n">shown</span> <span class="n">above</span> <span class="ow">and</span> <span class="n">their</span> <span class="n">third</span><span class="o">-</span><span class="n">party</span> <span class="n">Licensors</span> <span class="n">hereby</span>
+<span class="n">grant</span> <span class="n">licensee</span> <span class="n">a</span> <span class="n">royalty</span><span class="o">-</span><span class="n">free</span> <span class="n">nonexclusive</span> <span class="n">license</span><span class="p">,</span> <span class="n">subject</span> <span class="n">to</span> <span class="n">the</span> <span class="n">limitations</span>
+<span class="n">stated</span> <span class="n">herein</span> <span class="ow">and</span> <span class="n">U</span><span class="o">.</span><span class="n">S</span><span class="o">.</span> <span class="n">Government</span> <span class="n">license</span> <span class="n">rights</span><span class="o">.</span>
 
 
-(4) You may modify a copy or copies of the Software or any portion of it, thus
-forming a work based on the Software, and distribute copies of such work
-outside your organization, if you meet all of the following conditions:
+<span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="n">You</span> <span class="n">may</span> <span class="n">modify</span> <span class="ow">and</span> <span class="n">make</span> <span class="n">a</span> <span class="n">copy</span> <span class="ow">or</span> <span class="n">copies</span> <span class="n">of</span> <span class="n">the</span> <span class="n">software</span> <span class="k">for</span> <span class="n">use</span> <span class="n">within</span>
+<span class="n">your</span> <span class="n">organization</span><span class="p">,</span> <span class="k">if</span> <span class="n">you</span> <span class="n">meet</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span><span class="p">:</span>
 
-    (a) Copies in source code must include the copyright notice and this
-        Software License Agreement;
+    <span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="n">Copies</span> <span class="ow">in</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">include</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">notice</span> <span class="ow">and</span> <span class="n">this</span>
+        <span class="n">software</span> <span class="n">license</span> <span class="n">agreement</span><span class="o">.</span>
 
-    (b) Copies in binary form must include the copyright notice and this
-        Software License Agreement in the documentation and/or other materials
-        provided with the copy;
-
-    (c) Modified copies and works based on the Software must carry prominent
-        notices stating that you changed specified portions of the Software.
-
-    (d) Neither the name of Brookhaven Science Associates or Brookhaven
-        National Laboratory nor the names of its contributors may be used to
-        endorse or promote products derived from this software without specific
-        written permission.
+    <span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="n">Copies</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">include</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">notice</span> <span class="ow">and</span> <span class="n">this</span>
+        <span class="n">Software</span> <span class="n">License</span> <span class="n">Agreement</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span> <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span>
+        <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">copy</span><span class="o">.</span>
 
 
-(5) Portions of the Software resulted from work developed under a U.S.
-Government contract and are subject to the following license:
-The Government is granted for itself and others acting on its behalf a
-paid-up, nonexclusive, irrevocable worldwide license in this computer software
-to reproduce, prepare derivative works, and perform publicly and display
-publicly.
+<span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="n">You</span> <span class="n">may</span> <span class="n">modify</span> <span class="n">a</span> <span class="n">copy</span> <span class="ow">or</span> <span class="n">copies</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Software</span> <span class="ow">or</span> <span class="nb">any</span> <span class="n">portion</span> <span class="n">of</span> <span class="n">it</span><span class="p">,</span> <span class="n">thus</span>
+<span class="n">forming</span> <span class="n">a</span> <span class="n">work</span> <span class="n">based</span> <span class="n">on</span> <span class="n">the</span> <span class="n">Software</span><span class="p">,</span> <span class="ow">and</span> <span class="n">distribute</span> <span class="n">copies</span> <span class="n">of</span> <span class="n">such</span> <span class="n">work</span>
+<span class="n">outside</span> <span class="n">your</span> <span class="n">organization</span><span class="p">,</span> <span class="k">if</span> <span class="n">you</span> <span class="n">meet</span> <span class="nb">all</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span><span class="p">:</span>
+
+    <span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="n">Copies</span> <span class="ow">in</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">include</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">notice</span> <span class="ow">and</span> <span class="n">this</span>
+        <span class="n">Software</span> <span class="n">License</span> <span class="n">Agreement</span><span class="p">;</span>
+
+    <span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="n">Copies</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">include</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">notice</span> <span class="ow">and</span> <span class="n">this</span>
+        <span class="n">Software</span> <span class="n">License</span> <span class="n">Agreement</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">documentation</span> <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span>
+        <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">copy</span><span class="p">;</span>
+
+    <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="n">Modified</span> <span class="n">copies</span> <span class="ow">and</span> <span class="n">works</span> <span class="n">based</span> <span class="n">on</span> <span class="n">the</span> <span class="n">Software</span> <span class="n">must</span> <span class="n">carry</span> <span class="n">prominent</span>
+        <span class="n">notices</span> <span class="n">stating</span> <span class="n">that</span> <span class="n">you</span> <span class="n">changed</span> <span class="n">specified</span> <span class="n">portions</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Software</span><span class="o">.</span>
+
+    <span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">Brookhaven</span> <span class="n">Science</span> <span class="n">Associates</span> <span class="ow">or</span> <span class="n">Brookhaven</span>
+        <span class="n">National</span> <span class="n">Laboratory</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span> <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span>
+        <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span> <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span> <span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span>
+        <span class="n">written</span> <span class="n">permission</span><span class="o">.</span>
 
 
-(6) WARRANTY DISCLAIMER. THE SOFTWARE IS SUPPLIED &quot;AS IS&quot; WITHOUT
-WARRANTY OF ANY KIND. THE COPYRIGHT HOLDERS, THEIR THIRD PARTY
-LICENSORS, THE UNITED STATES, THE UNITED STATES DEPARTMENT OF ENERGY, AND
-THEIR EMPLOYEES: (1) DISCLAIM ANY WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
-BUT NOT LIMITED TO ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE, TITLE OR NON-INFRINGEMENT, (2) DO NOT ASSUME ANY LEGAL
-LIABILITY OR RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR USEFULNESS OF
-THE SOFTWARE, (3) DO NOT REPRESENT THAT USE OF THE SOFTWARE WOULD NOT INFRINGE
-PRIVATELY OWNED RIGHTS, (4) DO NOT WARRANT THAT THE SOFTWARE WILL FUNCTION
-UNINTERRUPTED, THAT IT IS ERROR-FREE OR THAT ANY ERRORS WILL BE CORRECTED.
+<span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="n">Portions</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Software</span> <span class="n">resulted</span> <span class="kn">from</span> <span class="nn">work</span> <span class="n">developed</span> <span class="n">under</span> <span class="n">a</span> <span class="n">U</span><span class="o">.</span><span class="n">S</span><span class="o">.</span>
+<span class="n">Government</span> <span class="n">contract</span> <span class="ow">and</span> <span class="n">are</span> <span class="n">subject</span> <span class="n">to</span> <span class="n">the</span> <span class="n">following</span> <span class="n">license</span><span class="p">:</span>
+<span class="n">The</span> <span class="n">Government</span> <span class="ow">is</span> <span class="n">granted</span> <span class="k">for</span> <span class="n">itself</span> <span class="ow">and</span> <span class="n">others</span> <span class="n">acting</span> <span class="n">on</span> <span class="n">its</span> <span class="n">behalf</span> <span class="n">a</span>
+<span class="n">paid</span><span class="o">-</span><span class="n">up</span><span class="p">,</span> <span class="n">nonexclusive</span><span class="p">,</span> <span class="n">irrevocable</span> <span class="n">worldwide</span> <span class="n">license</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">computer</span> <span class="n">software</span>
+<span class="n">to</span> <span class="n">reproduce</span><span class="p">,</span> <span class="n">prepare</span> <span class="n">derivative</span> <span class="n">works</span><span class="p">,</span> <span class="ow">and</span> <span class="n">perform</span> <span class="n">publicly</span> <span class="ow">and</span> <span class="n">display</span>
+<span class="n">publicly</span><span class="o">.</span>
 
 
-(7) LIMITATION OF LIABILITY. IN NO EVENT WILL THE COPYRIGHT HOLDERS, THEIR
-THIRD PARTY LICENSORS, THE UNITED STATES, THE UNITED STATES DEPARTMENT OF
-ENERGY, OR THEIR EMPLOYEES: BE LIABLE FOR  ANY INDIRECT, INCIDENTAL,
-CONSEQUENTIAL, SPECIAL OR PUNITIVE  DAMAGES OF ANY KIND OR NATURE, INCLUDING
-BUT NOT LIMITED TO LOSS OF PROFITS OR LOSS OF DATA, FOR ANY REASON WHATSOEVER,
-WHETHER SUCH LIABILITY IS ASSERTED ON THE BASIS OF CONTRACT, TORT (INCLUDING
-NEGLIGENCE OR STRICT LIABILITY), OR OTHERWISE, EVEN IF ANY OF SAID PARTIES HAS
-BEEN WARNED OF THE POSSIBILITY OF SUCH LOSS OR DAMAGES.
+<span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="n">WARRANTY</span> <span class="n">DISCLAIMER</span><span class="o">.</span> <span class="n">THE</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">SUPPLIED</span> <span class="s2">&quot;AS IS&quot;</span> <span class="n">WITHOUT</span>
+<span class="n">WARRANTY</span> <span class="n">OF</span> <span class="n">ANY</span> <span class="n">KIND</span><span class="o">.</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span><span class="p">,</span> <span class="n">THEIR</span> <span class="n">THIRD</span> <span class="n">PARTY</span>
+<span class="n">LICENSORS</span><span class="p">,</span> <span class="n">THE</span> <span class="n">UNITED</span> <span class="n">STATES</span><span class="p">,</span> <span class="n">THE</span> <span class="n">UNITED</span> <span class="n">STATES</span> <span class="n">DEPARTMENT</span> <span class="n">OF</span> <span class="n">ENERGY</span><span class="p">,</span> <span class="n">AND</span>
+<span class="n">THEIR</span> <span class="n">EMPLOYEES</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">DISCLAIM</span> <span class="n">ANY</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span><span class="p">,</span> <span class="n">INCLUDING</span>
+<span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span> <span class="n">ANY</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span><span class="p">,</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span>
+<span class="n">PARTICULAR</span> <span class="n">PURPOSE</span><span class="p">,</span> <span class="n">TITLE</span> <span class="n">OR</span> <span class="n">NON</span><span class="o">-</span><span class="n">INFRINGEMENT</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="n">DO</span> <span class="n">NOT</span> <span class="n">ASSUME</span> <span class="n">ANY</span> <span class="n">LEGAL</span>
+<span class="n">LIABILITY</span> <span class="n">OR</span> <span class="n">RESPONSIBILITY</span> <span class="n">FOR</span> <span class="n">THE</span> <span class="n">ACCURACY</span><span class="p">,</span> <span class="n">COMPLETENESS</span><span class="p">,</span> <span class="n">OR</span> <span class="n">USEFULNESS</span> <span class="n">OF</span>
+<span class="n">THE</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="n">DO</span> <span class="n">NOT</span> <span class="n">REPRESENT</span> <span class="n">THAT</span> <span class="n">USE</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">SOFTWARE</span> <span class="n">WOULD</span> <span class="n">NOT</span> <span class="n">INFRINGE</span>
+<span class="n">PRIVATELY</span> <span class="n">OWNED</span> <span class="n">RIGHTS</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="n">DO</span> <span class="n">NOT</span> <span class="n">WARRANT</span> <span class="n">THAT</span> <span class="n">THE</span> <span class="n">SOFTWARE</span> <span class="n">WILL</span> <span class="n">FUNCTION</span>
+<span class="n">UNINTERRUPTED</span><span class="p">,</span> <span class="n">THAT</span> <span class="n">IT</span> <span class="n">IS</span> <span class="n">ERROR</span><span class="o">-</span><span class="n">FREE</span> <span class="n">OR</span> <span class="n">THAT</span> <span class="n">ANY</span> <span class="n">ERRORS</span> <span class="n">WILL</span> <span class="n">BE</span> <span class="n">CORRECTED</span><span class="o">.</span>
 
 
-Brookhaven National Laboratory Notice
-=====================================
-
-Acknowledgment of sponsorship
------------------------------
-
-This software was produced by the Brookhaven National Laboratory, under
-Contract DE-AC02-98CH10886 with the Department of Energy.
-
-
-Government disclaimer of liability
-----------------------------------
-
-Neither the United States nor the United States Department of Energy, nor
-any of their employees, makes any warranty, express or implied, or assumes
-any legal liability or responsibility for the accuracy, completeness, or
-usefulness of any data, apparatus, product, or process disclosed, or
-represents that its use would not infringe privately owned rights.
+<span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="n">LIMITATION</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">WILL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span><span class="p">,</span> <span class="n">THEIR</span>
+<span class="n">THIRD</span> <span class="n">PARTY</span> <span class="n">LICENSORS</span><span class="p">,</span> <span class="n">THE</span> <span class="n">UNITED</span> <span class="n">STATES</span><span class="p">,</span> <span class="n">THE</span> <span class="n">UNITED</span> <span class="n">STATES</span> <span class="n">DEPARTMENT</span> <span class="n">OF</span>
+<span class="n">ENERGY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">THEIR</span> <span class="n">EMPLOYEES</span><span class="p">:</span> <span class="n">BE</span> <span class="n">LIABLE</span> <span class="n">FOR</span>  <span class="n">ANY</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span>
+<span class="n">CONSEQUENTIAL</span><span class="p">,</span> <span class="n">SPECIAL</span> <span class="n">OR</span> <span class="n">PUNITIVE</span>  <span class="n">DAMAGES</span> <span class="n">OF</span> <span class="n">ANY</span> <span class="n">KIND</span> <span class="n">OR</span> <span class="n">NATURE</span><span class="p">,</span> <span class="n">INCLUDING</span>
+<span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">PROFITS</span> <span class="n">OR</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">REASON</span> <span class="n">WHATSOEVER</span><span class="p">,</span>
+<span class="n">WHETHER</span> <span class="n">SUCH</span> <span class="n">LIABILITY</span> <span class="n">IS</span> <span class="n">ASSERTED</span> <span class="n">ON</span> <span class="n">THE</span> <span class="n">BASIS</span> <span class="n">OF</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span>
+<span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">),</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ANY</span> <span class="n">OF</span> <span class="n">SAID</span> <span class="n">PARTIES</span> <span class="n">HAS</span>
+<span class="n">BEEN</span> <span class="n">WARNED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">LOSS</span> <span class="n">OR</span> <span class="n">DAMAGES</span><span class="o">.</span>
 
 
-Brookhaven disclaimer of liability
-----------------------------------
+<span class="n">Brookhaven</span> <span class="n">National</span> <span class="n">Laboratory</span> <span class="n">Notice</span>
+<span class="o">=====================================</span>
 
-Brookhaven National Laboratory makes no representations or warranties,
-express or implied, nor assumes any liability for the use of this software.
+<span class="n">Acknowledgment</span> <span class="n">of</span> <span class="n">sponsorship</span>
+<span class="o">-----------------------------</span>
 
-
-Maintenance of notice
----------------------
-
-In the interest of clarity regarding the origin and status of this
-software, Brookhaven National Laboratory requests that any recipient of it
-maintain this notice affixed to any distribution by the recipient that
-contains a copy or derivative of this software.
+<span class="n">This</span> <span class="n">software</span> <span class="n">was</span> <span class="n">produced</span> <span class="n">by</span> <span class="n">the</span> <span class="n">Brookhaven</span> <span class="n">National</span> <span class="n">Laboratory</span><span class="p">,</span> <span class="n">under</span>
+<span class="n">Contract</span> <span class="n">DE</span><span class="o">-</span><span class="n">AC02</span><span class="o">-</span><span class="mi">98</span><span class="n">CH10886</span> <span class="k">with</span> <span class="n">the</span> <span class="n">Department</span> <span class="n">of</span> <span class="n">Energy</span><span class="o">.</span>
 
 
-END OF LICENSE
+<span class="n">Government</span> <span class="n">disclaimer</span> <span class="n">of</span> <span class="n">liability</span>
+<span class="o">----------------------------------</span>
+
+<span class="n">Neither</span> <span class="n">the</span> <span class="n">United</span> <span class="n">States</span> <span class="n">nor</span> <span class="n">the</span> <span class="n">United</span> <span class="n">States</span> <span class="n">Department</span> <span class="n">of</span> <span class="n">Energy</span><span class="p">,</span> <span class="n">nor</span>
+<span class="nb">any</span> <span class="n">of</span> <span class="n">their</span> <span class="n">employees</span><span class="p">,</span> <span class="n">makes</span> <span class="nb">any</span> <span class="n">warranty</span><span class="p">,</span> <span class="n">express</span> <span class="ow">or</span> <span class="n">implied</span><span class="p">,</span> <span class="ow">or</span> <span class="n">assumes</span>
+<span class="nb">any</span> <span class="n">legal</span> <span class="n">liability</span> <span class="ow">or</span> <span class="n">responsibility</span> <span class="k">for</span> <span class="n">the</span> <span class="n">accuracy</span><span class="p">,</span> <span class="n">completeness</span><span class="p">,</span> <span class="ow">or</span>
+<span class="n">usefulness</span> <span class="n">of</span> <span class="nb">any</span> <span class="n">data</span><span class="p">,</span> <span class="n">apparatus</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="ow">or</span> <span class="n">process</span> <span class="n">disclosed</span><span class="p">,</span> <span class="ow">or</span>
+<span class="n">represents</span> <span class="n">that</span> <span class="n">its</span> <span class="n">use</span> <span class="n">would</span> <span class="ow">not</span> <span class="n">infringe</span> <span class="n">privately</span> <span class="n">owned</span> <span class="n">rights</span><span class="o">.</span>
+
+
+<span class="n">Brookhaven</span> <span class="n">disclaimer</span> <span class="n">of</span> <span class="n">liability</span>
+<span class="o">----------------------------------</span>
+
+<span class="n">Brookhaven</span> <span class="n">National</span> <span class="n">Laboratory</span> <span class="n">makes</span> <span class="n">no</span> <span class="n">representations</span> <span class="ow">or</span> <span class="n">warranties</span><span class="p">,</span>
+<span class="n">express</span> <span class="ow">or</span> <span class="n">implied</span><span class="p">,</span> <span class="n">nor</span> <span class="n">assumes</span> <span class="nb">any</span> <span class="n">liability</span> <span class="k">for</span> <span class="n">the</span> <span class="n">use</span> <span class="n">of</span> <span class="n">this</span> <span class="n">software</span><span class="o">.</span>
+
+
+<span class="n">Maintenance</span> <span class="n">of</span> <span class="n">notice</span>
+<span class="o">---------------------</span>
+
+<span class="n">In</span> <span class="n">the</span> <span class="n">interest</span> <span class="n">of</span> <span class="n">clarity</span> <span class="n">regarding</span> <span class="n">the</span> <span class="n">origin</span> <span class="ow">and</span> <span class="n">status</span> <span class="n">of</span> <span class="n">this</span>
+<span class="n">software</span><span class="p">,</span> <span class="n">Brookhaven</span> <span class="n">National</span> <span class="n">Laboratory</span> <span class="n">requests</span> <span class="n">that</span> <span class="nb">any</span> <span class="n">recipient</span> <span class="n">of</span> <span class="n">it</span>
+<span class="n">maintain</span> <span class="n">this</span> <span class="n">notice</span> <span class="n">affixed</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">distribution</span> <span class="n">by</span> <span class="n">the</span> <span class="n">recipient</span> <span class="n">that</span>
+<span class="n">contains</span> <span class="n">a</span> <span class="n">copy</span> <span class="ow">or</span> <span class="n">derivative</span> <span class="n">of</span> <span class="n">this</span> <span class="n">software</span><span class="o">.</span>
+
+
+<span class="n">END</span> <span class="n">OF</span> <span class="n">LICENSE</span>
 </pre></div>
 </div>
 </div>
@@ -211,16 +211,16 @@ END OF LICENSE
 <div class="section" id="developers">
 <h3>Developers<a class="headerlink" href="#developers" title="Permalink to this headline">¶</a></h3>
 <p>diffpy.Structure is developed and maintained by</p>
-<div class="highlight-python"><div class="highlight"><pre>Authors:
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Authors</span><span class="p">:</span>
 
-Pavol Juhas,
-Christopher L. Farrow,
-Xiaohao Yang,
-Simon J.L. Billinge
+<span class="n">Pavol</span> <span class="n">Juhas</span><span class="p">,</span>
+<span class="n">Christopher</span> <span class="n">L</span><span class="o">.</span> <span class="n">Farrow</span><span class="p">,</span>
+<span class="n">Xiaohao</span> <span class="n">Yang</span><span class="p">,</span>
+<span class="n">Simon</span> <span class="n">J</span><span class="o">.</span><span class="n">L</span><span class="o">.</span> <span class="n">Billinge</span>
 
-Contributors:
+<span class="n">Contributors</span><span class="p">:</span>
 
-https://github.com/diffpy/diffpy.Structure/graphs/contributors
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">diffpy</span><span class="o">/</span><span class="n">diffpy</span><span class="o">.</span><span class="n">Structure</span><span class="o">/</span><span class="n">graphs</span><span class="o">/</span><span class="n">contributors</span>
 </pre></div>
 </div>
 <p>Space group codes in <em>spacegroupmod.py</em> and <em>mmlibspacegroups.py</em>
@@ -258,7 +258,7 @@ file included with the distribution.</p>
 </ul>
 </div>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
 </ul>
 </div>
 </div>
@@ -301,9 +301,6 @@ file included with the distribution.</p>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -322,12 +319,12 @@ file included with the distribution.</p>
         <li class="right" >
           <a href="api/diffpy.Structure.html" title="diffpy.Structure package"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">diffpy.Structure 1.3.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">diffpy.Structure 1.3.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2016, Brookhaven National Laboratory.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
     </div>
   </body>
 </html>
