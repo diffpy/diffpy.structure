@@ -438,8 +438,8 @@ class P_cif(StructureParser):
             sym_loop_name = sym_loop_name[0]
             sym_loop = block.GetLoop(sym_loop_name)
             for eqxyz in sym_loop[sym_loop_name]:
-                op = getSymOp(eqxyz)
-                symop_list.append(op)
+                opcif = getSymOp(eqxyz)
+                symop_list.append(opcif)
         # determine space group number
         sg_nameHall = (block.get('_space_group_name_Hall', '') or
                 block.get('_symmetry_space_group_name_Hall', ''))

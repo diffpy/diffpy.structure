@@ -35,6 +35,9 @@ from diffpy.Structure import StructureFormatError
 from diffpy.Structure.Parsers.structureparser import StructureParser
 from diffpy.Structure.Parsers.parser_index_mod import parser_index
 
+# silence pyflakes checker
+assert StructureParser
+
 def getParser(format, **kw):
     """Return Parser instance for a given structure format.
 

@@ -24,4 +24,7 @@ supercell   -- create a supercell from an existing Structure.
 
 from diffpy.Structure.expansion.supercell_mod import supercell
 
+# silence pyflakes checker
+assert supercell
+
 # End of file

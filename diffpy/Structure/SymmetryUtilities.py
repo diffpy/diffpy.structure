@@ -228,7 +228,7 @@ def expandPosition(spacegroup, xyz, sgoffset=[0,0,0], eps=None):
         # here tpl is inside site_symops
         site_symops[tpl].append(symop)
     # pos_symops is nested list of symops associated with each position
-    pos_symops = [ site_symops[pos2tuple(pos)] for pos in positions ]
+    pos_symops = [site_symops[pos2tuple(p)] for p in positions]
     multiplicity = len(positions)
     return positions, pos_symops, multiplicity
 

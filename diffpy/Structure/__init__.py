@@ -59,4 +59,13 @@ def loadStructure(filename, fmt='auto', **kw):
     rv = p.parseFile(filename)
     return rv
 
+# silence pyflakes checker
+assert (StructureFormatError and
+        LatticeError and SymmetryError and IsotropyError)
+assert Atom
+assert Lattice
+assert Structure
+assert PDFFitStructure
+assert __version__ or True
+
 # End of file
