@@ -18,6 +18,7 @@
 
 import unittest
 import numpy
+import numpy.linalg as numalg
 
 from diffpy.Structure import Lattice, LatticeError
 
@@ -168,8 +169,6 @@ class TestLattice(unittest.TestCase):
 
     def test_setLatBase(self):
         """check calculation of unit cell rotation"""
-        import numpy
-        import numpy.linalg as numalg
         base = numpy.array([[ 1.0,  1.0,  0.0],
                           [ 0.0,  1.0,  1.0],
                           [ 1.0,  0.0,  1.0]])
@@ -214,7 +213,7 @@ class TestLattice(unittest.TestCase):
         '''check dot product of lattice vectors.'''
         L = self.lattice
         L.setLatPar(gamma=120)
-        self.assertAlmostEqual(-0.5, L.dot([1, 0, 0], [0, 1, 0]))
+        self.assertAlmostEqual(-0.5, L.dot([1, 0, 0], [0, 1, 0]), self.places)
         va5 = numpy.tile([1.0, 0.0, 0.0], (5, 1))
         vb5 = numpy.tile([0.0, 1.0, 0.0], (5, 1))
         self.assertTrue(numpy.array_equal(5 * [-0.5], L.dot(va5, vb5)))
@@ -229,7 +228,7 @@ class TestLattice(unittest.TestCase):
         u = numpy.array([[3, 4, 0], [1, 1, 1]])
         self.assertListAlmostEqual([5, 3**0.5], self.lattice.norm(u))
         self.lattice.setLatPar(gamma=120)
-        self.assertAlmostEqual(1, self.lattice.norm([1, 1, 0]))
+        self.assertAlmostEqual(1, self.lattice.norm([1, 1, 0]), self.places)
         return
 
 
@@ -239,10 +238,49 @@ class TestLattice(unittest.TestCase):
         L.setLatPar(1, 1.5, 2.3, 80, 95, 115)
         r = L.reciprocal()
         hkl = [0.5, 0.3, 0.2]
-        self.assertAlmostEqual(r.norm(hkl), L.rnorm(hkl))
+        self.assertAlmostEqual(r.norm(hkl), L.rnorm(hkl), self.places)
         hkl5 = numpy.tile(hkl, (5, 1))
         self.assertListAlmostEqual(5 * [r.norm(hkl)], L.rnorm(hkl5))
         return
+
+
+    def test_dist(self):
+        '''check dist function for distance between lattice points.'''
+        L = self.lattice
+        L.setLatPar(1, 1.5, 2.3, 80, 95, 115)
+        u = [0.1, 0.3, 0.7]
+        v = [0.3, 0.7, 0.7]
+        d0 = numalg.norm(L.cartesian(numpy.array(u) - v))
+        self.assertAlmostEqual(d0, L.dist(u, v), self.places)
+        self.assertAlmostEqual(d0, L.dist(v, u), self.places)
+        u5 = numpy.tile(u, (5, 1))
+        v5 = numpy.tile(v, (5, 1))
+        self.assertListAlmostEqual(5 * [d0], L.dist(u, v5))
+        self.assertListAlmostEqual(5 * [d0], L.dist(u5, v))
+        self.assertListAlmostEqual(5 * [d0], L.dist(v5, u5))
+        return
+
+
+    def test_angle(self):
+        '''check angle calculation between lattice vectors.'''
+        from math import degrees, acos
+        L = self.lattice
+        L.setLatPar(1, 1.5, 2.3, 80, 95, 115)
+        u = [0.1, 0.3, 0.7]
+        v = [0.3, 0.7, 0.7]
+        uc = L.cartesian(u)
+        vc = L.cartesian(v)
+        a0 = degrees(acos(numpy.dot(uc, vc) /
+                          (numalg.norm(uc) * numalg.norm(vc))))
+        self.assertAlmostEqual(a0, L.angle(u, v), self.places)
+        self.assertAlmostEqual(a0, L.angle(v, u), self.places)
+        u5 = numpy.tile(u, (5, 1))
+        v5 = numpy.tile(v, (5, 1))
+        self.assertListAlmostEqual(5 * [a0], L.angle(u, v5))
+        self.assertListAlmostEqual(5 * [a0], L.angle(u5, v))
+        self.assertListAlmostEqual(5 * [a0], L.angle(v5, u5))
+        return
+
 
 
     def test_repr(self):

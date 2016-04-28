@@ -330,9 +330,15 @@ class Lattice(object):
 
 
     def dist(self, u, v):
-        """Return distance of 2 points in lattice coordinates.
+        """Return distance between 2 points in lattice coordinates.
+
+        u    -- vector or N-by-3 matrix of fractional coordinates.
+        v    -- vector or N-by-3 matrix of fractional coordinates.
+                Sizes of u, v must match when both of them are matrices.
+
+        Return float or an array of the same length as the matrix.
         """
-        duv = numpy.array(u) - v
+        duv = numpy.asarray(u) - v
         return self.norm(duv)
 
 
@@ -341,8 +347,14 @@ class Lattice(object):
         """
         ca = self.dot(u, v)/( self.norm(u)*self.norm(v) )
         # avoid round-off errors that would make abs(ca) greater than 1
-        ca = max(min(ca, 1), -1)
-        return math.degrees(math.acos(ca))
+        if numpy.isscalar(ca):
+            ca = max(min(ca, 1), -1)
+            rv = math.degrees(math.acos(ca))
+        else:
+            ca[ca < -1] = -1
+            ca[ca > +1] = +1
+            rv = numpy.degrees(numpy.arccos(ca))
+        return rv
 
 
     def isanisotropic(self, umx):
