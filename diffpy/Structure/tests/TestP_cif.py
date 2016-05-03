@@ -206,7 +206,7 @@ class TestP_cif(unittest.TestCase):
         a0 = stru[0]
         self.assertEqual('Cd', a0.element)
         self.assertListAlmostEqual([0.3334, 0.6667, 0.0], a0.xyz)
-        self.failUnless(a0.anisotropy)
+        self.assertTrue(a0.anisotropy)
         self.assertAlmostEqual(0.01303, a0.U[0,0])
         self.assertAlmostEqual(0.01303, a0.U[1,1])
         self.assertAlmostEqual(0.01402, a0.U[2,2])

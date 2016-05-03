@@ -199,11 +199,11 @@ class TestP_pdffit(unittest.TestCase):
         stru.read(datafile('Ni.stru'), self.format)
         self.assertEqual(0, stru.pdffit['spdiameter'])
         snoshape = stru.writeStr(format=self.format)
-        self.failUnless(not re.search('(?m)^shape', snoshape))
+        self.assertTrue(not re.search('(?m)^shape', snoshape))
         # produce a string with non-zero spdiameter
         stru.pdffit['spdiameter'] = 13
         s13 = stru.writeStr(format=self.format)
-        self.failUnless(re.search('(?m)^shape +sphere, ', s13))
+        self.assertTrue(re.search('(?m)^shape +sphere, ', s13))
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['spdiameter'])
@@ -222,11 +222,11 @@ class TestP_pdffit(unittest.TestCase):
         stru.read(datafile('Ni.stru'), self.format)
         self.assertEqual(0, stru.pdffit['stepcut'])
         snoshape = stru.writeStr(format=self.format)
-        self.failUnless(not re.search('(?m)^shape', snoshape))
+        self.assertTrue(not re.search('(?m)^shape', snoshape))
         # produce a string with non-zero stepcut
         stru.pdffit['stepcut'] = 13
         s13 = stru.writeStr(format=self.format)
-        self.failUnless(re.search('(?m)^shape +stepcut, ', s13))
+        self.assertTrue(re.search('(?m)^shape +stepcut, ', s13))
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['stepcut'])

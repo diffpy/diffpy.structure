@@ -45,19 +45,19 @@ class TestRoutines(unittest.TestCase):
         trigonal = GetSpaceGroup("P3")
         hexagonal = GetSpaceGroup("P6")
         cubic = GetSpaceGroup("P23")
-        self.failUnless(isSpaceGroupLatPar(triclinic, 1, 2, 3, 40, 50, 60))
-        self.failIf(isSpaceGroupLatPar(monoclinic, 1, 2, 3, 40, 50, 60))
-        self.failUnless(isSpaceGroupLatPar(monoclinic, 1, 2, 3, 90, 50, 90))
-        self.failIf(isSpaceGroupLatPar(orthorhombic, 1, 2, 3, 90, 50, 90))
-        self.failUnless(isSpaceGroupLatPar(orthorhombic, 1, 2, 3, 90, 90, 90))
-        self.failIf(isSpaceGroupLatPar(tetragonal, 1, 2, 3, 90, 90, 90))
-        self.failUnless(isSpaceGroupLatPar(tetragonal, 2, 2, 3, 90, 90, 90))
-        self.failIf(isSpaceGroupLatPar(trigonal, 2, 2, 3, 90, 90, 90))
-        self.failUnless(isSpaceGroupLatPar(trigonal, 2, 2, 2, 80, 80, 80))
-        self.failIf(isSpaceGroupLatPar(hexagonal, 2, 2, 2, 80, 80, 80))
-        self.failUnless(isSpaceGroupLatPar(hexagonal, 2, 2, 3, 90, 90, 120))
-        self.failIf(isSpaceGroupLatPar(cubic, 2, 2, 3, 90, 90, 120))
-        self.failUnless(isSpaceGroupLatPar(cubic, 3, 3, 3, 90, 90, 90))
+        self.assertTrue(isSpaceGroupLatPar(triclinic, 1, 2, 3, 40, 50, 60))
+        self.assertFalse(isSpaceGroupLatPar(monoclinic, 1, 2, 3, 40, 50, 60))
+        self.assertTrue(isSpaceGroupLatPar(monoclinic, 1, 2, 3, 90, 50, 90))
+        self.assertFalse(isSpaceGroupLatPar(orthorhombic, 1, 2, 3, 90, 50, 90))
+        self.assertTrue(isSpaceGroupLatPar(orthorhombic, 1, 2, 3, 90, 90, 90))
+        self.assertFalse(isSpaceGroupLatPar(tetragonal, 1, 2, 3, 90, 90, 90))
+        self.assertTrue(isSpaceGroupLatPar(tetragonal, 2, 2, 3, 90, 90, 90))
+        self.assertFalse(isSpaceGroupLatPar(trigonal, 2, 2, 3, 90, 90, 90))
+        self.assertTrue(isSpaceGroupLatPar(trigonal, 2, 2, 2, 80, 80, 80))
+        self.assertFalse(isSpaceGroupLatPar(hexagonal, 2, 2, 2, 80, 80, 80))
+        self.assertTrue(isSpaceGroupLatPar(hexagonal, 2, 2, 3, 90, 90, 120))
+        self.assertFalse(isSpaceGroupLatPar(cubic, 2, 2, 3, 90, 90, 120))
+        self.assertTrue(isSpaceGroupLatPar(cubic, 3, 3, 3, 90, 90, 90))
         return
 
     def test_expandPosition(self):
@@ -66,7 +66,7 @@ class TestRoutines(unittest.TestCase):
         # ok again Ni example
         fcc = GetSpaceGroup(225)
         pos,pops,pmult = expandPosition(fcc, [0,0,0])
-        self.failUnless(numpy.all(pos[0] == 0.0))
+        self.assertTrue(numpy.all(pos[0] == 0.0))
         self.assertEqual(4, len(pos))
         self.assertEqual(192, sum([len(l) for l in pops]))
         self.assertEqual(4, pmult)
@@ -83,11 +83,11 @@ class TestRoutines(unittest.TestCase):
     def test_isconstantFormula(self):
         """check isconstantFormula()
         """
-        self.failIf(isconstantFormula('x-y+z'))
-        self.failUnless(isconstantFormula('6.023e23'))
-        self.failUnless(isconstantFormula('22/7'))
-        self.failUnless(isconstantFormula('- 22/7'))
-        self.failUnless(isconstantFormula('+13/ 9'))
+        self.assertFalse(isconstantFormula('x-y+z'))
+        self.assertTrue(isconstantFormula('6.023e23'))
+        self.assertTrue(isconstantFormula('22/7'))
+        self.assertTrue(isconstantFormula('- 22/7'))
+        self.assertTrue(isconstantFormula('+13/ 9'))
         return
 
 # End of class TestRoutines
@@ -121,7 +121,7 @@ class Test_Position2Tuple(unittest.TestCase):
         positions = positions - numpy.floor(positions)
         # pos2tuple should generate at most 2 distinct tuples
         alltuples = dict.fromkeys([pos2tuple(xyz) for xyz in positions])
-        self.failIf(len(alltuples) > 2)
+        self.assertFalse(len(alltuples) > 2)
         return
 
 # End of class Test_Position2Tuple
@@ -210,7 +210,7 @@ class TestGeneratorSite(unittest.TestCase):
         pfm143d = self.g143d.positionFormula([-x+y, -x, z])
         self.assertEqual("-x+y", pfm143d["x"].replace(' ',''))
         self.assertEqual("-x+1", pfm143d["y"].replace(' ',''))
-        self.failUnless(re.match("[+]?z", pfm143d["z"].strip()))
+        self.assertTrue(re.match("[+]?z", pfm143d["z"].strip()))
         # 227a
         self.assertEqual([], self.g227a.pparameters)
         self.assertEqual([], self.g227oa.pparameters)
@@ -382,13 +382,13 @@ class TestSymmetryConstraints(unittest.TestCase):
         eau = ExpandAsymmetricUnit(sg225, corepos)
         sc = SymmetryConstraints(sg225, eau.expandedpos)
         self.assertEqual(2, len(sc.corepos))
-        self.failUnless(numpy.all(corepos[0] == sc.corepos[0]))
-        self.failUnless(numpy.all(corepos[1] == sc.corepos[1]))
+        self.assertTrue(numpy.all(corepos[0] == sc.corepos[0]))
+        self.assertTrue(numpy.all(corepos[1] == sc.corepos[1]))
         self.assertEqual(2, len(sc.coremap))
         mapped_count = sum([len(idcs) for idcs in sc.coremap.values()])
         self.assertEqual(len(sc.positions), mapped_count)
-        self.failUnless(sc.coremap[0] == range(4))
-        self.failUnless(sc.coremap[4] == range(4, 4+192))
+        self.assertTrue(sc.coremap[0] == range(4))
+        self.assertTrue(sc.coremap[4] == range(4, 4+192))
         return
 
 #   def test__findConstraints(self):

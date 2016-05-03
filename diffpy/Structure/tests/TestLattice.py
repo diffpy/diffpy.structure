@@ -94,7 +94,7 @@ class TestLattice(unittest.TestCase):
         lat.gamma = 120
         lat1 = Lattice(2, 4, 6, 80, 100, 120)
         self.assertAlmostEqual(-0.5, lat.cg, self.places)
-        self.failUnless(numpy.array_equal(lat1.base, lat.base))
+        self.assertTrue(numpy.array_equal(lat1.base, lat.base))
         return
 
 

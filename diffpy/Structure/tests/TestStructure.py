@@ -102,9 +102,9 @@ class TestStructure(unittest.TestCase):
         cdse_str = cdse.writeStr('pdffit')
         cdse2 = copy.copy(cdse)
         self.assertEqual(cdse_str, cdse2.writeStr('pdffit'))
-        self.failIf(cdse.lattice is cdse2.lattice)
+        self.assertFalse(cdse.lattice is cdse2.lattice)
         sameatoms = set(cdse).intersection(cdse2)
-        self.failIf(sameatoms)
+        self.assertFalse(sameatoms)
         return
 
 #   def test___str__(self):
@@ -206,10 +206,10 @@ class TestStructure(unittest.TestCase):
         alast = self.stru[-1]
         self.assertEqual(3, len(self.stru))
         self.assertEqual('Si', alast.element)
-        self.failUnless(lat is alast.lattice)
-        self.failUnless(numpy.array_equal(a.xyz, alast.xyz))
-        self.failIf(a is alast)
-        self.failIf(lat is a.lattice)
+        self.assertTrue(lat is alast.lattice)
+        self.assertTrue(numpy.array_equal(a.xyz, alast.xyz))
+        self.assertFalse(a is alast)
+        self.assertFalse(lat is a.lattice)
         return
 
 
@@ -222,10 +222,10 @@ class TestStructure(unittest.TestCase):
         a1 = self.stru[1]
         self.assertEqual(3, len(self.stru))
         self.assertEqual('Si', a1.element)
-        self.failUnless(lat is a1.lattice)
-        self.failUnless(numpy.array_equal(a.xyz, a1.xyz))
-        self.failIf(a is a1)
-        self.failIf(lat is a.lattice)
+        self.assertTrue(lat is a1.lattice)
+        self.assertTrue(numpy.array_equal(a.xyz, a1.xyz))
+        self.assertFalse(a is a1)
+        self.assertFalse(lat is a.lattice)
         return
 
 
@@ -237,8 +237,8 @@ class TestStructure(unittest.TestCase):
         lst = stru.tolist()
         stru.extend(cdse)
         self.assertEqual(6, len(stru))
-        self.failUnless(all([a.lattice is stru.lattice for a in stru]))
-        self.failUnless(stru.lattice is a.lattice)
+        self.assertTrue(all([a.lattice is stru.lattice for a in stru]))
+        self.assertTrue(stru.lattice is a.lattice)
         self.assertEqual(lst, stru.tolist()[:2])
         self.assertNotEqual(stru[-1], cdse[-1])
         return
@@ -248,7 +248,7 @@ class TestStructure(unittest.TestCase):
         """check Structure.__getitem__()
         """
         stru = self.stru
-        self.failUnless(stru[0] is stru.tolist()[0])
+        self.assertTrue(stru[0] is stru.tolist()[0])
         intidx = range(len(stru))[::-1]
         self.assertEqual(stru[intidx].tolist(), stru.tolist()[::-1])
         flagidx = (numpy.arange(len(stru)) > 0)
@@ -260,10 +260,10 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(cdse013, cdse[:2,3].tolist())
         self.assertRaises(IndexError, cdse.__getitem__, 'Cd1')
         cdse.assignUniqueLabels()
-        self.failUnless(cdse[0] is cdse['Cd1'])
+        self.assertTrue(cdse[0] is cdse['Cd1'])
         cdse[0].label = 'Hohenzollern'
         self.assertRaises(IndexError, cdse.__getitem__, 'Cd1')
-        self.failUnless(cdse[0] is cdse['Hohenzollern'])
+        self.assertTrue(cdse[0] is cdse['Hohenzollern'])
         self.assertEqual([cdse[0], cdse[3], cdse[1]],
                 cdse['Hohenzollern', 3:0:-2].tolist())
         stru.label = ['A', 'B']
@@ -284,10 +284,10 @@ class TestStructure(unittest.TestCase):
         a1 = self.stru[1]
         self.assertEqual(2, len(self.stru))
         self.assertEqual('Si', a1.element)
-        self.failUnless(lat is a1.lattice)
-        self.failUnless(numpy.array_equal(a.xyz, a1.xyz))
-        self.failIf(a is a1)
-        self.failIf(lat is a.lattice)
+        self.assertTrue(lat is a1.lattice)
+        self.assertTrue(numpy.array_equal(a.xyz, a1.xyz))
+        self.assertFalse(a is a1)
+        self.assertFalse(lat is a.lattice)
         return
 
 
@@ -309,10 +309,10 @@ class TestStructure(unittest.TestCase):
         a0 = self.stru[0]
         self.assertEqual(1, len(self.stru))
         self.assertEqual('Si', a0.element)
-        self.failUnless(lat is a0.lattice)
-        self.failUnless(numpy.array_equal(a.xyz, a0.xyz))
-        self.failIf(a is a0)
-        self.failIf(lat is a.lattice)
+        self.assertTrue(lat is a0.lattice)
+        self.assertTrue(numpy.array_equal(a.xyz, a0.xyz))
+        self.assertFalse(a is a0)
+        self.assertFalse(lat is a.lattice)
         return
 
 
@@ -326,11 +326,11 @@ class TestStructure(unittest.TestCase):
         ta0 = total[0]
         tam1 = total[-1]
         self.assertEqual('C', ta0.element)
-        self.failUnless(numpy.array_equal(stru[0].xyz, ta0.xyz))
+        self.assertTrue(numpy.array_equal(stru[0].xyz, ta0.xyz))
         self.assertEqual('Se', tam1.element)
-        self.failUnless(numpy.array_equal(cdse[-1].xyz, tam1.xyz))
-        self.failIf(total.lattice in (stru.lattice, cdse.lattice))
-        self.failUnless(all([a.lattice is total.lattice for a in total]))
+        self.assertTrue(numpy.array_equal(cdse[-1].xyz, tam1.xyz))
+        self.assertFalse(total.lattice in (stru.lattice, cdse.lattice))
+        self.assertTrue(all([a.lattice is total.lattice for a in total]))
         return
 
 
@@ -346,10 +346,10 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(lst, stru[:2].tolist())
         am1 = stru[-1]
         self.assertEqual('Se', am1.element)
-        self.failUnless(numpy.array_equal(cdse[-1].xyz, am1.xyz))
-        self.failUnless(lat0 is stru.lattice)
-        self.failIf(stru.lattice is cdse.lattice)
-        self.failUnless(all([a.lattice is stru.lattice for a in stru]))
+        self.assertTrue(numpy.array_equal(cdse[-1].xyz, am1.xyz))
+        self.assertTrue(lat0 is stru.lattice)
+        self.assertFalse(stru.lattice is cdse.lattice)
+        self.assertTrue(all([a.lattice is stru.lattice for a in stru]))
         return
 
 
@@ -361,10 +361,10 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(2, len(cadmiums))
         self.assertEqual('Cd', cadmiums[0].element)
         self.assertEqual('Cd', cadmiums[1].element)
-        self.failUnless(numpy.array_equal(cdse[0].xyz, cadmiums[0].xyz))
-        self.failUnless(numpy.array_equal(cdse[1].xyz, cadmiums[1].xyz))
-        self.failIf(cdse[0] is cadmiums[0])
-        self.failIf(cdse.lattice is cadmiums.lattice)
+        self.assertTrue(numpy.array_equal(cdse[0].xyz, cadmiums[0].xyz))
+        self.assertTrue(numpy.array_equal(cdse[1].xyz, cadmiums[1].xyz))
+        self.assertFalse(cdse[0] is cadmiums[0])
+        self.assertFalse(cdse.lattice is cadmiums.lattice)
         return
 
 
@@ -394,10 +394,10 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(12, len(cdsex3))
         self.assertEqual(3 * 'Cd Cd Se Se'.split(),
             [a.element for a in cdsex3])
-        self.failUnless(numpy.array_equal(3 * [a.xyz for a in cdse],
+        self.assertTrue(numpy.array_equal(3 * [a.xyz for a in cdse],
             [a.xyz for a in cdsex3]))
-        self.failIf(set(cdse).intersection(cdsex3))
-        self.failIf(cdse.lattice is cdsex3.lattice)
+        self.assertFalse(set(cdse).intersection(cdsex3))
+        self.assertFalse(cdse.lattice is cdsex3.lattice)
         return
 
 
@@ -413,7 +413,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(8, len(cdse))
         self.assertEqual(lst, cdse[:4].tolist())
         self.assertEqual(numpy.tile(els, 2).tolist(), cdse.element.tolist())
-        self.failUnless(numpy.array_equal(numpy.tile(xyz, (2, 1)), cdse.xyz))
+        self.assertTrue(numpy.array_equal(numpy.tile(xyz, (2, 1)), cdse.xyz))
         self.assertEqual(8, len(set(cdse)))
         self.assertEqual(8 * [lat], [a.lattice for a in cdse])
         self.stru *= -3
@@ -428,7 +428,7 @@ class TestStructure(unittest.TestCase):
         stru = Structure()
         self.assertEqual((1, 1, 1, 90, 90, 90), stru.lattice.abcABG())
         stru2 = Structure(lattice=lat)
-        self.failUnless(lat is stru2.lattice)
+        self.assertTrue(lat is stru2.lattice)
         return
 
 
@@ -470,10 +470,10 @@ class TestStructure(unittest.TestCase):
         """
         stru = self.stru
         self.assertEqual((2, 3), stru.xyz.shape)
-        self.failUnless(numpy.array_equal([1, 1, 1], stru.xyz[1]))
+        self.assertTrue(numpy.array_equal([1, 1, 1], stru.xyz[1]))
         stru.xyz += 0.1
-        self.failUnless(numpy.array_equal([0.1, 0.1, 0.1], stru[0].xyz))
-        self.failUnless(numpy.array_equal([1.1, 1.1, 1.1], stru[1].xyz))
+        self.assertTrue(numpy.array_equal([0.1, 0.1, 0.1], stru[0].xyz))
+        self.assertTrue(numpy.array_equal([1.1, 1.1, 1.1], stru[1].xyz))
         return
 
 
@@ -532,7 +532,7 @@ class TestStructure(unittest.TestCase):
         """check Structure.occupancy
         """
         cdse = self.cdse
-        self.failUnless(numpy.array_equal(numpy.ones(4), cdse.occupancy))
+        self.assertTrue(numpy.array_equal(numpy.ones(4), cdse.occupancy))
         self.stru.occupancy *= 0.5
         self.assertEqual(1.0, sum([a.occupancy for a in self.stru]))
         return
@@ -543,11 +543,11 @@ class TestStructure(unittest.TestCase):
         """
         pbte = copy.copy(self.pbte)
         self.assertEqual((8, 3), pbte.xyz_cartn.shape)
-        self.failUnless(numpy.allclose(6.461 / 2.0 * numpy.ones(3),
+        self.assertTrue(numpy.allclose(6.461 / 2.0 * numpy.ones(3),
             pbte.xyz_cartn[0]))
         pbte.xyz_cartn += numpy.array([0.1, 0.2, 0.3]) * 6.461
-        self.failUnless(numpy.allclose([0.6, 0.7, 0.8], pbte[0].xyz))
-        self.failUnless(numpy.allclose([0.6, 0.7, 0.3], pbte[7].xyz))
+        self.assertTrue(numpy.allclose([0.6, 0.7, 0.8], pbte[0].xyz))
+        self.assertTrue(numpy.allclose([0.6, 0.7, 0.3], pbte[7].xyz))
         return
 
 
@@ -555,11 +555,11 @@ class TestStructure(unittest.TestCase):
         """check Structure.anisotropy
         """
         self.assertEqual((2,), self.stru.anisotropy.shape)
-        self.failIf(numpy.any(self.stru.anisotropy))
+        self.assertFalse(numpy.any(self.stru.anisotropy))
         tei = copy.copy(self.tei)
-        self.failUnless(numpy.all(tei.anisotropy))
+        self.assertTrue(numpy.all(tei.anisotropy))
         tei.anisotropy = False
-        self.failIf(numpy.any(tei.anisotropy))
+        self.assertFalse(numpy.any(tei.anisotropy))
         self.assertAlmostEqual(0.019227, tei[0].U11, 6)
         self.assertAlmostEqual(0.019227, tei[0].U22, 6)
         self.assertAlmostEqual(0.019227, tei[0].U33, 6)
@@ -576,19 +576,19 @@ class TestStructure(unittest.TestCase):
         """
         stru = self.stru
         self.assertEqual((2, 3, 3), stru.U.shape)
-        self.failIf(numpy.any(stru.anisotropy))
+        self.assertFalse(numpy.any(stru.anisotropy))
         stru.U = numpy.identity(3)
         self.assertEqual(2, len(set([id(a.U) for a in stru])))
         isou = stru.lattice.isotropicunit
-        self.failUnless(numpy.array_equal(2 * [isou], stru.U))
-        self.failIf(numpy.any(stru.anisotropy))
+        self.assertTrue(numpy.array_equal(2 * [isou], stru.U))
+        self.assertFalse(numpy.any(stru.anisotropy))
         stru.anisotropy = True
         stru.U = numpy.identity(3)
-        self.failUnless(numpy.array_equal(2 * [numpy.identity(3)], stru.U))
-        self.failUnless(numpy.all(stru.anisotropy))
+        self.assertTrue(numpy.array_equal(2 * [numpy.identity(3)], stru.U))
+        self.assertTrue(numpy.all(stru.anisotropy))
         stru.U = 0
-        self.failUnless(numpy.all(stru.anisotropy))
-        self.failIf(numpy.any(stru.U != 0.0))
+        self.assertTrue(numpy.all(stru.anisotropy))
+        self.assertFalse(numpy.any(stru.U != 0.0))
         return
 
 
@@ -613,14 +613,14 @@ class TestStructure(unittest.TestCase):
         stru = self.stru
         stru[1].anisotropy = True
         stru[1].U = [[1.1, 0.12, 0.13], [0.12, 2.2, 0.23], [0.13, 0.23, 3.3]]
-        self.failUnless(numpy.array_equal([0, 1.1], stru.U11))
-        self.failUnless(numpy.array_equal([0, 2.2], stru.U22))
-        self.failUnless(numpy.array_equal([0, 3.3], stru.U33))
-        self.failUnless(numpy.array_equal([0, 0.12], stru.U12))
-        self.failUnless(numpy.array_equal([0, 0.13], stru.U13))
-        self.failUnless(numpy.array_equal([0, 0.23], stru.U23))
+        self.assertTrue(numpy.array_equal([0, 1.1], stru.U11))
+        self.assertTrue(numpy.array_equal([0, 2.2], stru.U22))
+        self.assertTrue(numpy.array_equal([0, 3.3], stru.U33))
+        self.assertTrue(numpy.array_equal([0, 0.12], stru.U12))
+        self.assertTrue(numpy.array_equal([0, 0.13], stru.U13))
+        self.assertTrue(numpy.array_equal([0, 0.23], stru.U23))
         stru.U11 = stru.U22 = stru.U33 = stru.U12 = stru.U13 = stru.U23 = 0.0
-        self.failIf(numpy.any(stru.U != 0.0))
+        self.assertFalse(numpy.any(stru.U != 0.0))
         return
 
 
@@ -647,14 +647,14 @@ class TestStructure(unittest.TestCase):
         stru[1].anisotropy = True
         stru[1].U = [[1.1, 0.12, 0.13], [0.12, 2.2, 0.23], [0.13, 0.23, 3.3]]
         stru[1].U /= 8 * numpy.pi**2
-        self.failUnless(numpy.allclose([0, 1.1], stru.B11))
-        self.failUnless(numpy.allclose([0, 2.2], stru.B22))
-        self.failUnless(numpy.allclose([0, 3.3], stru.B33))
-        self.failUnless(numpy.allclose([0, 0.12], stru.B12))
-        self.failUnless(numpy.allclose([0, 0.13], stru.B13))
-        self.failUnless(numpy.allclose([0, 0.23], stru.B23))
+        self.assertTrue(numpy.allclose([0, 1.1], stru.B11))
+        self.assertTrue(numpy.allclose([0, 2.2], stru.B22))
+        self.assertTrue(numpy.allclose([0, 3.3], stru.B33))
+        self.assertTrue(numpy.allclose([0, 0.12], stru.B12))
+        self.assertTrue(numpy.allclose([0, 0.13], stru.B13))
+        self.assertTrue(numpy.allclose([0, 0.23], stru.B23))
         stru.B11 = stru.B22 = stru.B33 = stru.B12 = stru.B13 = stru.B23 = 0.0
-        self.failIf(numpy.any(stru.U != 0.0))
+        self.assertFalse(numpy.any(stru.U != 0.0))
         return
 
 

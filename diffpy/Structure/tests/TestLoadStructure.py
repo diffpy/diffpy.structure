@@ -17,7 +17,7 @@ class TestLoadStructure(unittest.TestCase):
         """
         f = datafile('BubbleRaftShort.xcfg')
         stru = loadStructure(f)
-        self.failUnless(type(stru) is Structure)
+        self.assertTrue(type(stru) is Structure)
         self.assertRaises(StructureFormatError,
                 loadStructure, f, 'xyz')
         return
@@ -27,7 +27,7 @@ class TestLoadStructure(unittest.TestCase):
         """
         f = datafile('Ni-discus.stru')
         stru = loadStructure(f)
-        self.failUnless(type(stru) is PDFFitStructure)
+        self.assertTrue(type(stru) is PDFFitStructure)
         return
 
     def test_cif(self):
@@ -35,8 +35,8 @@ class TestLoadStructure(unittest.TestCase):
         """
         f = datafile('PbTe.cif')
         stru = loadStructure(f)
-        self.failUnless(isinstance(stru, Structure))
-        self.failIf(isinstance(stru, PDFFitStructure))
+        self.assertTrue(isinstance(stru, Structure))
+        self.assertFalse(isinstance(stru, PDFFitStructure))
         return
 
     def test_badfile(self):

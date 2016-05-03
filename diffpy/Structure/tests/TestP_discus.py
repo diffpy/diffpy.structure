@@ -60,7 +60,7 @@ class TestP_discus(unittest.TestCase):
         # first atom
         a0 = stru[0]
         self.assertEqual((0.0, 0.0, 0.0), tuple(a0.xyz))
-        self.failUnless(not a0.anisotropy)
+        self.assertTrue(not a0.anisotropy)
         Biso0 = 0.1
         self.assertAlmostEqual(Biso0, a0.Bisoequiv, self.places)
         return
@@ -117,11 +117,11 @@ class TestP_discus(unittest.TestCase):
         stru.read(datafile('Ni-discus.stru'), self.format)
         self.assertEqual(0, stru.pdffit['spdiameter'])
         snoshape = stru.writeStr(format=self.format)
-        self.failUnless(not re.search('(?m)^shape', snoshape))
+        self.assertTrue(not re.search('(?m)^shape', snoshape))
         # produce a string with non-zero spdiameter
         stru.pdffit['spdiameter'] = 13
         s13 = stru.writeStr(format=self.format)
-        self.failUnless(re.search('(?m)^shape +sphere, ', s13))
+        self.assertTrue(re.search('(?m)^shape +sphere, ', s13))
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['spdiameter'])
@@ -140,11 +140,11 @@ class TestP_discus(unittest.TestCase):
         stru.read(datafile('Ni-discus.stru'), self.format)
         self.assertEqual(0, stru.pdffit['stepcut'])
         snoshape = stru.writeStr(format=self.format)
-        self.failUnless(not re.search('(?m)^shape', snoshape))
+        self.assertTrue(not re.search('(?m)^shape', snoshape))
         # produce a string with non-zero stepcut
         stru.pdffit['stepcut'] = 13
         s13 = stru.writeStr(format=self.format)
-        self.failUnless(re.search('(?m)^shape +stepcut, ', s13))
+        self.assertTrue(re.search('(?m)^shape +stepcut, ', s13))
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['stepcut'])
