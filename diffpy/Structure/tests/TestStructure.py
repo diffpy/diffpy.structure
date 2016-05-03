@@ -256,6 +256,11 @@ class TestStructure(unittest.TestCase):
         self.failUnless(cdse[0] is cdse['Hohenzollern'])
         self.assertEqual([cdse[0], cdse[3], cdse[1]],
                 cdse['Hohenzollern', 3:0:-2].tolist())
+        stru.label = ['A', 'B']
+        self.assertTrue(stru[0] is stru['A'])
+        self.assertTrue(stru[1] is stru['B'])
+        stru[1].label = 'A'
+        self.assertRaises(IndexError, stru.__getitem__, 'A')
         return
 
 

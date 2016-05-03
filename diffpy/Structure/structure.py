@@ -395,11 +395,11 @@ class Structure(list):
             return rv
         # here we need to resolve at least one string label
         # build a map of labels to indices and mark duplicate labels
-        duplicate = ()
+        duplicate = object()
         labeltoindex = {}
         for i, a in enumerate(self):
             labeltoindex[a.label] = (
-                    a.label in labeltoindex and duplicate or i)
+                duplicate if a.label in labeltoindex else i)
         def _resolveindex(aid):
             aid1 = aid
             if type(aid) is str:
