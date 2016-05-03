@@ -58,18 +58,6 @@ class TestStructure(unittest.TestCase):
         for i in range(len(l1)):
             self.assertAlmostEqual(l1[i], l2[i], places)
 
-    # FIXME move into TestAtom
-    def test_cartesian(self):
-        """check conversion to cartesian coordinates"""
-        from math import sqrt
-        stru = self.stru
-        s_rc0 = stru[0].xyz_cartn
-        f_rc0 = 3*[0.0]
-        s_rc1 = stru[1].xyz_cartn
-        f_rc1 = [sqrt(0.75), 0.5, 1.]
-        self.assertListAlmostEqual(s_rc0, f_rc0)
-        self.assertListAlmostEqual(s_rc1, f_rc1)
-
 #   def test___init__(self):
 #       """check Structure.__init__()
 #       """

@@ -23,6 +23,7 @@ import unittest
 import numpy
 
 from diffpy.Structure.atom import Atom
+from diffpy.Structure.lattice import Lattice
 
 ##############################################################################
 class TestAtom(unittest.TestCase):
@@ -82,17 +83,27 @@ class TestAtom(unittest.TestCase):
 #       """check Atom.__copy__()
 #       """
 #       return
-#
-#   def test__get_xyz_cartn(self):
-#       """check Atom._get_xyz_cartn()
-#       """
-#       return
-#
-#   def test__set_xyz_cartn(self):
-#       """check Atom._set_xyz_cartn()
-#       """
-#       return
-#
+
+    def test_xyz_cartn(self):
+        """check Atom.xyz_cartn property
+        """
+        hexagonal = Lattice(1, 1, 1, 90, 90, 120)
+        a0 = Atom('C', [0, 0, 0], lattice=hexagonal)
+        a1 = Atom('C', [1, 1, 1], lattice=hexagonal)
+        self.assertTrue(all(a0.xyz_cartn == 0))
+        rc1 = numpy.array([0.75 ** 0.5, 0.5, 1])
+        self.assertTrue(numpy.allclose(rc1, a1.xyz_cartn))
+        a1.xyz_cartn[2] = 0
+        self.assertTrue(numpy.allclose([1, 1, 0], a1.xyz))
+        a1.xyz_cartn[:2] = 0
+        self.assertTrue(all(a1.xyz == 0))
+        a3 = Atom('C', [1, 2, 3])
+        self.assertTrue(numpy.array_equal(a3.xyz, a3.xyz_cartn))
+        a3.xyz_cartn = 1.3
+        self.assertTrue(all(1.3 == a3.xyz_cartn))
+        self.assertTrue(all(1.3 == a3.xyz))
+        return
+
 #   def test__get_anisotropy(self):
 #       """check Atom._get_anisotropy()
 #       """
