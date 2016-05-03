@@ -16,6 +16,7 @@
 """This module defines class Structure.
 """
 
+import collections
 import copy
 import numpy
 from diffpy.Structure.lattice import Lattice
@@ -381,8 +382,10 @@ class Structure(list):
         except TypeError:
             pass
         # check if there is any string label that should be resolved
-        scalarlabel = type(idx) is str
-        hasstringlabel = scalarlabel or str in map(type, idx)
+        scalarstringlabel = isinstance(idx, basestring)
+        hasstringlabel = scalarstringlabel or (
+            isinstance(idx, collections.Iterable) and
+            any(isinstance(ii, basestring) for ii in idx))
         # if not, use numpy indexing to resolve idx
         if not hasstringlabel:
             idx1 = idx
@@ -410,7 +413,7 @@ class Structure(list):
                     raise IndexError("Atom label %r is not unique." % aid)
             return aid1
         # generate new index object that has no strings
-        if scalarlabel:
+        if scalarstringlabel:
             idx2 = _resolveindex(idx)
         # for iterables preserved the tuple object type
         else:
