@@ -58,10 +58,20 @@ class TestStructure(unittest.TestCase):
         for i in range(len(l1)):
             self.assertAlmostEqual(l1[i], l2[i], places)
 
-#   def test___init__(self):
-#       """check Structure.__init__()
-#       """
-#       return
+
+    def test___init__(self):
+        """check Structure.__init__()
+        """
+        atoms = [Atom('C', [0, 0, 0]), Atom('C', [0.5, 0.5, 0.5])]
+        self.assertRaises(ValueError, Structure, atoms, filename=teifile)
+        self.assertRaises(ValueError, Structure,
+                          lattice=Lattice(), filename=teifile)
+        self.assertRaises(ValueError, Structure,
+                          title='test', filename=teifile)
+        stru1 = Structure(title='my title')
+        self.assertEqual('my title', stru1.title)
+        return
+
 
     def test_copy(self):
         """check Structure.copy()
@@ -406,6 +416,8 @@ class TestStructure(unittest.TestCase):
         self.failUnless(numpy.array_equal(numpy.tile(xyz, (2, 1)), cdse.xyz))
         self.assertEqual(8, len(set(cdse)))
         self.assertEqual(8 * [lat], [a.lattice for a in cdse])
+        self.stru *= -3
+        self.assertEqual(0, len(self.stru))
         return
 
 
@@ -426,6 +438,18 @@ class TestStructure(unittest.TestCase):
         lat = Lattice()
         self.stru.lattice = lat
         self.assertEqual(2 * [lat], [a.lattice for a in self.stru])
+        return
+
+
+    def test_composition(self):
+        """check Structure.composition property
+        """
+        stru = self.stru
+        self.assertEqual({'C' : 2}, stru.composition)
+        stru *= 2
+        self.assertEqual({'C' : 4}, stru.composition)
+        stru[:] = []
+        self.assertEqual({}, stru.composition)
         return
 
 
