@@ -113,7 +113,7 @@ class P_discus(StructureParser):
             stru_pdffit.update(stru.pdffit)
         # here we can start
         self.lines = lines = []
-        lines.append( "title   " + self.stru.title.strip() )
+        lines.append(("title   " + self.stru.title).strip())
         lines.append( "spcgr   " + stru_pdffit["spcgr"] )
         if stru_pdffit.get('spdiameter', 0.0) > 0.0:
             line = 'shape   sphere, %g' % stru_pdffit['spdiameter']
