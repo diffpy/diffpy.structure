@@ -271,7 +271,6 @@ class TestStructure(unittest.TestCase):
         self.assertTrue(stru[1] is stru['B'])
         stru[1].label = 'A'
         self.assertRaises(IndexError, stru.__getitem__, 'A')
-        self.assertRaises(IndexError, stru.__getitem__, stru[0])
         return
 
 
