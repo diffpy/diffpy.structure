@@ -202,11 +202,7 @@ class Lattice(object):
         # bases normalized to unit reciprocal vectors
         self.normbase = self.base * [[ar], [br], [cr]]
         self.recnormbase = self.recbase / [ar, br, cr]
-        self.isotropicunit = numpy.dot(self.recnormbase.T, self.recnormbase)
-        # ensure there are no round-off deviations on the diagonal
-        self.isotropicunit[0, 0] = 1
-        self.isotropicunit[1, 1] = 1
-        self.isotropicunit[2, 2] = 1
+        self.isotropicunit = _isotropicunit(self.recnormbase)
         return
 
 
@@ -263,6 +259,7 @@ class Lattice(object):
         # bases normalized to unit reciprocal vectors
         self.normbase = self.base * [[ar], [br], [cr]]
         self.recnormbase = self.recbase / [ar, br, cr]
+        self.isotropicunit = _isotropicunit(self.recnormbase)
         # update metrics tensor
         self.metrics = numpy.array([
                 [ a*a,     a*b*cg,  a*c*cb ],
@@ -481,6 +478,22 @@ class Lattice(object):
             doc='Sine of the reciprocal angle gamma')
 
 # End of class Lattice
+
+# Local Helper Functions -----------------------------------------------------
+
+def _isotropicunit(recnormbase):
+    """Calculate matrix for unit isotropic displacement parameters.
+
+    recnormbase -- inverse of normalized base vectors of the lattice.
+
+    Return numpy array.
+    """
+    isounit = numpy.dot(recnormbase.T, recnormbase)
+    # ensure there are no round-off deviations on the diagonal
+    isounit[0, 0] = 1
+    isounit[1, 1] = 1
+    isounit[2, 2] = 1
+    return isounit
 
 # Module Constants -----------------------------------------------------------
 

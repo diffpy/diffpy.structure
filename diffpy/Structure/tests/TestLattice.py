@@ -57,8 +57,10 @@ class TestLattice(unittest.TestCase):
         self.assertTrue(numpy.array_equal(L0.base, L1.base))
         L2 = Lattice(base=L0.base)
         self.assertTrue(numpy.array_equal(L0.base, L2.base))
+        self.assertTrue(numpy.array_equal(L0.isotropicunit, L2.isotropicunit))
         L3 = Lattice(*L0.abcABG(), baserot=L0.baserot)
         self.assertTrue(numpy.allclose(L0.base, L3.base))
+        self.assertTrue(numpy.array_equal(L0.isotropicunit, L3.isotropicunit))
         return
 
 
