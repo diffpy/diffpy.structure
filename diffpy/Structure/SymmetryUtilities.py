@@ -444,6 +444,7 @@ class GeneratorSite(object):
         mxcols = numpy.argmax(numpy.fabs(Usp6), axis=1)
         Usp6 /= Usp6[mxrows,mxcols].reshape(-1, 1)
         self.Uspace = numpy.tensordot(Usp6, self.Ucomponents, axes=(1, 0))
+        self.Uisotropy = (len(self.Uspace) == 1)
         return
 
     def _findUParameters(self):

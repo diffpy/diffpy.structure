@@ -391,6 +391,17 @@ class TestSymmetryConstraints(unittest.TestCase):
         self.assertTrue(sc.coremap[4] == range(4, 4+192))
         return
 
+    def test_Uisotropy(self):
+        """check isotropy value for ADP-s at specified sites.
+        """
+        sg225 = GetSpaceGroup(225)
+        corepos = [[0, 0, 0], [0.1, 0.13, 0.17]]
+        eau = ExpandAsymmetricUnit(sg225, corepos)
+        self.assertEqual([True, False], eau.Uisotropy)
+        sc = SymmetryConstraints(sg225, eau.expandedpos)
+        self.assertEqual(4 * [True] + 192 * [False], sc.Uisotropy)
+        return
+
 #   def test__findConstraints(self):
 #       """check SymmetryConstraints._findConstraints()
 #       """
