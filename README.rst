@@ -27,7 +27,7 @@ user manual at http://diffpy.github.io/diffpy.Structure.
 REQUIREMENTS
 ------------------------------------------------------------------------
 
-The diffpy.Structure requires Python 2.6 or 2.7 and the following software:
+The diffpy.Structure requires Python 2.7 and the following software:
 
 * ``setuptools`` - software distribution tools for Python
 * ``NumPy`` - numerical mathematics and fast array operations for Python

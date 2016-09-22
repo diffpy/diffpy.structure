@@ -8,7 +8,6 @@ os:
   - osx
 
 env:
-  - MYUSEMC=true MYPYTHON_VERSION=2.6
   - MYUSEMC=true MYPYTHON_VERSION=2.7
   - MYUSEMC=false
 
@@ -98,7 +97,4 @@ script:
 
 after_success:
   - pip install $MYPIPFLAGS codecov
-  - $NOMC || if [[ "${MYPYTHON_VERSION}" == 2.6 ]]; then
-        conda install --yes argparse;
-    fi
   - codecov
