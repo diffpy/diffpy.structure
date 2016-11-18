@@ -70,6 +70,12 @@ class TestStructure(unittest.TestCase):
                           title='test', filename=teifile)
         stru1 = Structure(title='my title')
         self.assertEqual('my title', stru1.title)
+        stru2a = Structure(atoms)
+        stru2b = Structure(iter(atoms))
+        stru2c = Structure(a for a in atoms)
+        s2a = str(stru2a)
+        self.assertEqual(s2a, str(stru2b))
+        self.assertEqual(s2a, str(stru2c))
         return
 
 

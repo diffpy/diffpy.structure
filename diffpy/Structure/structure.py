@@ -43,7 +43,7 @@ class Structure(list):
     _lattice = None
     pdffit = None
 
-    def __init__(self, atoms=[], lattice=None, title=None,
+    def __init__(self, atoms=None, lattice=None, title=None,
             filename=None, format=None):
         """define group of atoms in a specified lattice.
 
@@ -84,7 +84,7 @@ class Structure(list):
         elif self.lattice is None:
             self.lattice = Lattice()
         # insert atoms unless already done by __copy__
-        if not len(self) and len(atoms):
+        if not len(self) and atoms is not None:
             self.extend(atoms)
         return
 
