@@ -55,7 +55,7 @@ copyright = u'%Y, Brookhaven National Laboratory'
 from setup import versiondata
 fullversion = versiondata.get('DEFAULT', 'version')
 # The short X.Y version.
-version = '.'.join(fullversion.split('.')[:2])
+version = ''.join(fullversion.split('.post')[:1])
 # The full version, including alpha/beta/rc tags.
 release = fullversion
 
