@@ -1,5 +1,5 @@
-recursive-include diffpy *
+recursive-include src *
 include AUTHORS.txt LICENSE*.txt README.rst
-recursive-exclude diffpy *.pyc
+recursive-exclude src *.pyc
 recursive-exclude * .gitattributes .gitignore .DS_Store
 exclude setup.cfg
