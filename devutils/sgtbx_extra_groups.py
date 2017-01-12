@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 '''Quick and extremely dirty script for generating code for SpaceGroup that
 are defined in cctbx, but not in mmLib.  It was used to generate module

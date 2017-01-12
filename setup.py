@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """Objects for storage and manipulation of crystal structure data.
 

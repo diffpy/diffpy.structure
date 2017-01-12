@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 ## Copyright 2002 by PyMMLib Development Group, http://pymmlib.sourceforge.net/
 ## This code is part of the PyMMLib distribution and governed by
 ## its license.  Please see the LICENSE_pymmlib file that should have been
