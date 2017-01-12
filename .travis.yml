@@ -21,6 +21,8 @@ git:
 
 branches:
   except:
+    # FIXME
+    - python3
     - /^v[0-9]/
 
 addons:
