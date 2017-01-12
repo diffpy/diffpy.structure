@@ -110,7 +110,7 @@ class P_auto(StructureParser):
                 stru = pmethod(*args, **kwargs)
                 self.format = fmt
                 break
-            except StructureFormatError, err:
+            except StructureFormatError as err:
                 parsers_emsgs.append("%s: %s" % (fmt, err))
             except NotImplementedError:
                 pass

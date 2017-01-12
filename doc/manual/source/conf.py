@@ -22,7 +22,7 @@ import time
 sys.path.insert(0, os.path.abspath('../../..'))
 
 # abbreviations
-ab_authors = u'Pavol Juhás, Christopher L. Farrow, Simon J.L. Billinge group'
+ab_authors = 'Pavol Juhás, Christopher L. Farrow, Simon J.L. Billinge group'
 
 # -- General configuration -----------------------------------------------------
 
@@ -46,8 +46,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'diffpy.Structure'
-copyright = u'%Y, Brookhaven National Laboratory'
+project = 'diffpy.Structure'
+copyright = '%Y, Brookhaven National Laboratory'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -198,7 +198,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Structure_manual.tex', u'Structure Documentation',
+  ('index', 'Structure_manual.tex', 'Structure Documentation',
    ab_authors, 'manual'),
 ]
 
@@ -228,7 +228,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'structure', u'Structure Documentation',
+    ('index', 'structure', 'Structure Documentation',
      ab_authors, 1)
 ]
 
@@ -242,7 +242,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'Structure', u'Structure Documentation',
+  ('index', 'Structure', 'Structure Documentation',
    ab_authors, 'Structure', 'One line description of project.',
    'Miscellaneous'),
 ]

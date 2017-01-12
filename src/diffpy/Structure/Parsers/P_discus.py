@@ -21,6 +21,7 @@ import sys
 from diffpy.Structure import PDFFitStructure, Lattice
 from diffpy.Structure import StructureFormatError
 from diffpy.Structure.Parsers import StructureParser
+from functools import reduce
 
 class P_discus(StructureParser):
     """Parser for DISCUS structure format.  The parser chokes
@@ -94,7 +95,7 @@ class P_discus(StructureParser):
         except (ValueError, IndexError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: file is not in DISCUS format" % self.nl
-            raise StructureFormatError, emsg, exc_traceback
+            raise StructureFormatError(emsg).with_traceback(exc_traceback)
         return self.stru
     # End of parseLines
 
@@ -202,7 +203,7 @@ class P_discus(StructureParser):
             self.stru.pdffit['stepcut'] = float(words[2])
         else:
             emsg = 'Invalid type of particle shape correction %r' % shapetype
-            raise StructureFormatError, emsg
+            raise StructureFormatError(emsg)
         return
 
     def _parse_atom(self, words):

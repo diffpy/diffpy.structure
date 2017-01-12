@@ -34,7 +34,7 @@ def gitinfo():
 
 def getversioncfg():
     import re
-    from ConfigParser import RawConfigParser
+    from configparser import RawConfigParser
     vd0 = dict(version=FALLBACK_VERSION, commit='', date='', timestamp=0)
     # first fetch data from gitarchivecfgfile, ignore if it is unexpanded
     g = vd0.copy()

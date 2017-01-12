@@ -95,7 +95,7 @@ class P_cif(StructureParser):
         '_tr_atom_site_aniso_B_23',
         ))
     # make _atom_setters case insensitive
-    for k in _atom_setters.keys():
+    for k in list(_atom_setters.keys()):
         _atom_setters[k] = _atom_setters[k.lower()] = k
     del k
 
@@ -221,7 +221,7 @@ class P_cif(StructureParser):
         Return a list of setter functions in the order of cifloop.keys().
         """
         rv = []
-        for p in cifloop.keys():
+        for p in list(cifloop.keys()):
             lcname = "_tr" + p.lower()
             fncname = P_cif._atom_setters.get(lcname, '_tr_ignore')
             f = getattr(P_cif, fncname)
@@ -291,21 +291,21 @@ class P_cif(StructureParser):
         fixpycif = _FixPyCifRW()
         StarError = fixpycif.importStarError()
         # CifFile fails when filename is a unicode string
-        if type(filename) is unicode:
+        if type(filename) is str:
             filename = str(filename)
         self.filename = filename
         try:
             fileurl = fixIfWindowsPath(filename)
             fixpycif.disableParserOutput()
             self.ciffile = CifFile.CifFile(fileurl)
-            for blockname, ignore in self.ciffile.items():
+            for blockname, ignore in list(self.ciffile.items()):
                 self._parseCifBlock(blockname)
                 # stop after reading the first structure
                 if self.stru:   break
-        except (StarError, ValueError, IndexError), err:
+        except (StarError, ValueError, IndexError) as err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err).strip()
-            raise StructureFormatError, emsg, exc_traceback
+            raise StructureFormatError(emsg).with_traceback(exc_traceback)
         finally:
             fixpycif.restoreParserOutput()
         # all good here
@@ -321,7 +321,7 @@ class P_cif(StructureParser):
         No return value.
         """
         block = self.ciffile[blockname]
-        if not block.has_key('_atom_site_label'):   return
+        if '_atom_site_label' not in block:   return
         # here block contains structure, initialize output data
         self.stru = Structure()
         self.labelindex.clear()
@@ -340,7 +340,7 @@ class P_cif(StructureParser):
 
         No return value.
         """
-        if not block.has_key('_cell_length_a'): return
+        if '_cell_length_a' not in block: return
         # obtain lattice parameters
         try:
             latpars = (
@@ -351,10 +351,10 @@ class P_cif(StructureParser):
                 leading_float(block['_cell_angle_beta']),
                 leading_float(block['_cell_angle_gamma']),
             )
-        except KeyError, err:
+        except KeyError as err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err)
-            raise StructureFormatError, emsg, exc_traceback
+            raise StructureFormatError(emsg).with_traceback(exc_traceback)
         self.stru.lattice = Lattice(*latpars)
         return
 
@@ -372,9 +372,9 @@ class P_cif(StructureParser):
         # get a list of setters for atom_site values
         prop_setters = P_cif._get_atom_setters(atom_site_loop)
         # index of the _atom_site_label item for the labelindex dictionary
-        ilb = atom_site_loop.keys().index('_atom_site_label')
+        ilb = list(atom_site_loop.keys()).index('_atom_site_label')
         # loop through the values and pass them to the setters
-        sitedatalist = zip(*atom_site_loop.values())
+        sitedatalist = list(zip(*list(atom_site_loop.values())))
         for values in sitedatalist:
             curlabel = values[ilb]
             self.labelindex[curlabel] = len(self.stru)
@@ -393,19 +393,19 @@ class P_cif(StructureParser):
 
         No return value.
         """
-        if not block.has_key('_atom_site_aniso_label'): return
+        if '_atom_site_aniso_label' not in block: return
         # was anisotropy set in the _atom_site_label loop?
         atom_site_loop = block.GetLoop('_atom_site_label')
         anisotropy_already_set = (
-            atom_site_loop.has_key('_atom_site_adp_type') or
-            atom_site_loop.has_key('_atom_site_thermal_displace_type'))
+            '_atom_site_adp_type' in atom_site_loop or
+            '_atom_site_thermal_displace_type' in atom_site_loop)
         # something to do here:
         adp_loop = block.GetLoop('_atom_site_aniso_label')
         # index of the _atom_site_label column
-        ilb = adp_loop.keys().index('_atom_site_aniso_label')
+        ilb = list(adp_loop.keys()).index('_atom_site_aniso_label')
         # get a list of setters for this loop
         prop_setters = P_cif._get_atom_setters(adp_loop)
-        sitedatalist = zip(*adp_loop.values())
+        sitedatalist = list(zip(*list(adp_loop.values())))
         for values in sitedatalist:
             idx = self.labelindex[values[ilb]]
             a = self.stru[idx]
@@ -430,7 +430,7 @@ class P_cif(StructureParser):
         self.asymmetric_unit = list(self.stru)
         sym_synonyms = ('_space_group_symop_operation_xyz',
                         '_symmetry_equiv_pos_as_xyz')
-        sym_loop_name = [n for n in sym_synonyms if block.has_key(n)]
+        sym_loop_name = [n for n in sym_synonyms if n in block]
         # recover explicit list of symmetry operations
         symop_list = []
         if sym_loop_name:
@@ -669,8 +669,8 @@ def fixIfWindowsPath(filename):
     """
     fixedname = filename
     if os.name == "nt" and re.match(r'^[a-z]:\\', filename, re.I):
-        import urllib
-        fixedname = urllib.pathname2url(filename)
+        import urllib.request, urllib.parse, urllib.error
+        fixedname = urllib.request.pathname2url(filename)
     return fixedname
 
 

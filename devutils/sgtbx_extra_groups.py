@@ -60,7 +60,7 @@ def mmSpaceGroupFromSymbol(symbol):
 
 
 def adjustMMSpaceGroupNumber(mmsg):
-    sg0 = filter(lambda x : x.number == mmsg.number, mmLibSpaceGroupList)
+    sg0 = [x for x in mmLibSpaceGroupList if x.number == mmsg.number]
     if sg0 and cmpSpaceGroups(sg0[0], mmsg):
         return
     while mmsg.number in sgnumbers:
@@ -185,7 +185,7 @@ def main():
         if hsg in duplicates: continue
         adjustMMSpaceGroupNumber(sg)
         duplicates.add(hsg)
-        print SGCode(sg)
+        print(SGCode(sg))
     return
 
 if __name__ == '__main__':

@@ -50,8 +50,8 @@ def makeEllipsoid(S, a, b=None, c=None):
 
     # Create a supercell large enough for the ellipsoid
     frac = S.lattice.fractional(sabc)
-    mno = map(ceil, 2*frac)
-    mno = max(map(ceil, 2*frac))*array([1,1,1])
+    mno = list(map(ceil, 2*frac))
+    mno = max(list(map(ceil, 2*frac)))*array([1,1,1])
     # Make the supercell
     from diffpy.Structure.expansion import supercell
     newS = supercell(S, mno)
@@ -65,7 +65,7 @@ def makeEllipsoid(S, a, b=None, c=None):
     delList = []
     N = len(newS)
     j = N
-    for i in xrange(N):
+    for i in range(N):
         j -= 1
 
         # Calculate (x/a)**2 + (y/b)**2 + (z/c)**2

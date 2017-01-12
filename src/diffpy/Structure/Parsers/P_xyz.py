@@ -65,7 +65,7 @@ class P_xyz(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = ("%d: invalid XYZ format, missing number of atoms" %
                     (start + 1))
-            raise StructureFormatError, emsg, exc_traceback
+            raise StructureFormatError(emsg).with_traceback(exc_traceback)
         # find the last valid record
         stop = len(lines)
         while stop > start and len(linefields[stop-1]) == 0:
@@ -96,7 +96,7 @@ class P_xyz(StructureParser):
         except ValueError:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: invalid number format" % p_nl
-            raise StructureFormatError, emsg, exc_traceback
+            raise StructureFormatError(emsg).with_traceback(exc_traceback)
         # finally check if all the atoms have been read
         if p_natoms is not None and len(stru) != p_natoms:
             emsg = "expected %d atoms, read %d" % (p_natoms, len(stru))

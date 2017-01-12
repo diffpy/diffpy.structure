@@ -59,13 +59,13 @@ def usage(style = None):
         from diffpy.Structure.Parsers import inputFormats
         fmts = [ f for f in inputFormats() if f != 'auto' ]
         msg = msg.replace("inputFormats", " ".join(fmts))
-    print msg
+    print(msg)
     return
 
 
 def version():
     from diffpy.Structure import __version__
-    print "anyeye", __version__
+    print("anyeye", __version__)
     return
 
 
@@ -186,23 +186,23 @@ def main():
         opts, args = getopt.getopt(sys.argv[1:], "f:whV",
                 ["formula=", "watch", "viewer=", "formats=",
                 "help", "version"])
-    except getopt.GetoptError, errmsg:
-        print >> sys.stderr, errmsg
+    except getopt.GetoptError as errmsg:
+        print(errmsg, file=sys.stderr)
         die(2)
     # process options
     for o, a in opts:
         if o in ("-f", "--formula"):
             try:
                 pd['formula'] = parseFormula(a)
-            except RuntimeError, msg:
-                print >> sys.stderr, msg
+            except RuntimeError as msg:
+                print(msg, file=sys.stderr)
                 die(2)
         elif o in ("-w", "--watch"):
             pd['watch'] = True
         elif o == "--viewer":
             pd['viewer'] = a
         elif o == "--formats":
-            pd['formats'] = map(str.strip, a.split(','))
+            pd['formats'] = list(map(str.strip, a.split(',')))
         elif o in ("-h", "--help"):
             usage()
             die()
@@ -213,7 +213,7 @@ def main():
         usage('brief')
         die()
     elif len(args) > 1:
-        print >> sys.stderr, "too many structure files"
+        print("too many structure files", file=sys.stderr)
         die(2)
     pd['strufile'] = args[0]
     # trap the following signals
@@ -237,11 +237,12 @@ def main():
         else:
             status = os.spawnlpe(os.P_WAIT, *spawnargs)
             die(status, pd)
-    except IOError, (errno, errmsg):
-        print >> sys.stderr, "%s: %s" % (args[0], errmsg)
+    except IOError as xxx_todo_changeme:
+        (errno, errmsg) = xxx_todo_changeme.args
+        print("%s: %s" % (args[0], errmsg), file=sys.stderr)
         die(1, pd)
-    except StructureFormatError, errmsg:
-        print >> sys.stderr, "%s: %s" % (args[0], errmsg)
+    except StructureFormatError as errmsg:
+        print("%s: %s" % (args[0], errmsg), file=sys.stderr)
         die(1, pd)
     return
 

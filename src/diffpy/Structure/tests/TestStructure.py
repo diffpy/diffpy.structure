@@ -255,7 +255,7 @@ class TestStructure(unittest.TestCase):
         """
         stru = self.stru
         self.assertTrue(stru[0] is stru.tolist()[0])
-        intidx = range(len(stru))[::-1]
+        intidx = list(range(len(stru)))[::-1]
         self.assertEqual(stru[intidx].tolist(), stru.tolist()[::-1])
         flagidx = (numpy.arange(len(stru)) > 0)
         self.assertEqual(stru[flagidx].tolist(), stru.tolist()[1:])

@@ -124,7 +124,7 @@ class _Position2Tuple(object):
         self.eps = eps + 1.0
         self.eps = self.eps - 1.0
         # no conversions for very small eps
-        if self.eps == 0.0 or 1.0/self.eps > sys.maxint:
+        if self.eps == 0.0 or 1.0/self.eps > sys.maxsize:
             self.eps = 0.0
         return
 
@@ -437,7 +437,7 @@ class GeneratorSite(object):
         Usp6 = nullSpace(R6zall)
         # normalize Usp6 by its maximum component
         mxcols = numpy.argmax(numpy.fabs(Usp6), axis=1)
-        mxrows = range(len(mxcols))
+        mxrows = list(range(len(mxcols)))
         Usp6 /= Usp6[mxrows,mxcols].reshape(-1, 1)
         Usp6 = numpy.around(Usp6, 2)
         # normalize again after rounding to get correct signs
@@ -503,7 +503,7 @@ class GeneratorSite(object):
         for nvec, (vname, varvalue) in zip(nsrotated, self.pparameters):
             teqpos -= nvec * varvalue
         # map varnames to xyzsymbols
-        name2sym = dict( zip(("x", "y", "z"), xyzsymbols) )
+        name2sym = dict( list(zip(("x", "y", "z"), xyzsymbols)) )
         xyzformula = 3*[""]
         for nvec, (vname, ignore) in zip(nsrotated, self.pparameters):
             for i in range(3):
@@ -517,7 +517,7 @@ class GeneratorSite(object):
         # reduce unnecessary +1* and -1*
         xyzformula = [ re.sub('^[+]1[*]|(?<=[+-])1[*]', '', f).strip()
                        for f in xyzformula ]
-        return dict( zip(("x","y","z"), xyzformula) )
+        return dict( list(zip(("x","y","z"), xyzformula)) )
 
     def UFormula(self, pos, Usymbols=stdUsymbols):
         """List of atom displacement formulas with custom parameter symbols.
@@ -538,7 +538,7 @@ class GeneratorSite(object):
         Rt = R.transpose()
         Usrotated = [numpy.dot(R, numpy.dot(Us, Rt)) for Us in self.Uspace]
         Uformula = dict.fromkeys(stdUsymbols, '')
-        name2sym = dict(zip(stdUsymbols, Usymbols))
+        name2sym = dict(list(zip(stdUsymbols, Usymbols)))
         for Usr, (vname, ignore) in zip(Usrotated, self.Uparameters):
             # avoid adding off-diagonal elements twice
             assert numpy.all(Usr == Usr.T)
@@ -548,7 +548,7 @@ class GeneratorSite(object):
                 f = '%+g*%s' % (Usrflat[i], name2sym[vname])
                 smbl = self.idx2Usymbol[i]
                 Uformula[smbl] += f
-        for smbl, f in Uformula.items():
+        for smbl, f in list(Uformula.items()):
             if not f:  f = '0'
             f = re.sub(r'^[+]?1[*]|^[+](?=\d)|(?<=[+-])1[*]', '', f).strip()
             Uformula[smbl] = f
@@ -637,7 +637,7 @@ def pruneFormulaDictionary(eqdict):
     Return pruned formula dictionary.
     """
     pruned = {}
-    for smb, eq in eqdict.iteritems():
+    for smb, eq in eqdict.items():
         if not isconstantFormula(eq):     pruned[smb] = eq
     return pruned
 
@@ -698,7 +698,7 @@ class SymmetryConstraints(object):
         # handle single position:
         import types
         # handle list of lists returned by ExpandAsymmetricUnit
-        if len(positions) and type(positions[0]) is types.ListType:
+        if len(positions) and type(positions[0]) is list:
             # concatenate lists before converting to Nx3 array
             flatpos = sum(positions, [])
             flatpos = numpy.array(flatpos, dtype=float).flatten()
@@ -728,7 +728,7 @@ class SymmetryConstraints(object):
         # canonical xyzsymbols and Usymbols
         xyzsymbols = [ smbl+str(i) for i in range(numpos) for smbl in "xyz" ]
         Usymbols = [smbl+str(i) for i in range(numpos) for smbl in stdUsymbols]
-        independent = dict.fromkeys(range(numpos))
+        independent = dict.fromkeys(list(range(numpos)))
         for genidx in range(numpos):
             if not genidx in independent:   continue
             # it is a generator
@@ -747,7 +747,7 @@ class SymmetryConstraints(object):
                 smbl = gUsymbols[stdUsymbols.index(k)]
                 self.Upars.append( (smbl, v) )
             # search for equivalents inside indies
-            indies = independent.keys()
+            indies = list(independent.keys())
             indies.sort()
             for indidx in indies:
                 indpos = self.positions[indidx]
@@ -766,7 +766,7 @@ class SymmetryConstraints(object):
                 self.Uijs[indidx] = gen.eqUij[eqidx]
                 self.Uisotropy[indidx] = gen.Uisotropy
         # all done here
-        coreidx = self.coremap.keys()
+        coreidx = list(self.coremap.keys())
         coreidx.sort()
         self.corepos = [self.positions[i] for i in coreidx]
         return
@@ -797,14 +797,14 @@ class SymmetryConstraints(object):
                     len(self.pospars))
             raise SymmetryError(emsg)
         # build translation dictionary
-        trsmbl = dict(zip(self.posparSymbols(), xyzsymbols))
+        trsmbl = dict(list(zip(self.posparSymbols(), xyzsymbols)))
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
         pat = re.compile(r'\b[xyz]\d+')
         rv = []
         for eqns in self.poseqns:
             treqns = {}
-            for smbl, eq in eqns.iteritems():
+            for smbl, eq in eqns.items():
                 treqns[smbl] = re.sub(pat, translatesymbol, eq)
             rv.append(treqns)
         return rv
@@ -847,14 +847,14 @@ class SymmetryConstraints(object):
             emsg = "Not enough symbols for %i U parameters" % len(self.Upars)
             raise SymmetryError(emsg)
         # build translation dictionary
-        trsmbl = dict(zip(self.UparSymbols(), Usymbols))
+        trsmbl = dict(list(zip(self.UparSymbols(), Usymbols)))
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
         pat = re.compile(r'\bU\d\d\d+')
         rv = []
         for eqns in self.Ueqns:
             treqns = {}
-            for smbl, eq in eqns.iteritems():
+            for smbl, eq in eqns.items():
                 treqns[smbl] = re.sub(pat, translatesymbol, eq)
             rv.append(treqns)
         return rv
@@ -881,10 +881,10 @@ if __name__ == "__main__":
     Uij = [[1,2,3],[2,4,5],[3,5,6]]
     g = GeneratorSite(sg100, site, Uij=Uij)
     fm100 = g.positionFormula(site)
-    print "g = GeneratorSite(sg100, %r)" % site
-    print "g.positionFormula(%r) = %s" % (site, fm100)
-    print "g.pparameters =", g.pparameters
-    print "g.Uparameters =", g.Uparameters
-    print "g.UFormula(%r) =" % site, g.UFormula(site)
+    print("g = GeneratorSite(sg100, %r)" % site)
+    print("g.positionFormula(%r) = %s" % (site, fm100))
+    print("g.pparameters =", g.pparameters)
+    print("g.Uparameters =", g.Uparameters)
+    print("g.UFormula(%r) =" % site, g.UFormula(site))
 
 # End of file

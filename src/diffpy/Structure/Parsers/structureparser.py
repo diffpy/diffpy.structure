@@ -35,8 +35,7 @@ class StructureParser(object):
         Return Structure object or raise StructureFormatError exception.
         This method has to be overloaded in derived class.
         """
-        raise NotImplementedError, \
-                "parseLines not defined for '%s' format" % self.format
+        raise NotImplementedError("parseLines not defined for '%s' format" % self.format)
         return
 
     def toLines(self, stru):
@@ -45,8 +44,7 @@ class StructureParser(object):
 
         Return list of strings.
         """
-        raise NotImplementedError, \
-                "toLines not defined for '%s' format" % self.format
+        raise NotImplementedError("toLines not defined for '%s' format" % self.format)
 
     def parse(self, s):
         """Create Structure instance from a string.

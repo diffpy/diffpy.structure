@@ -56,14 +56,14 @@ def getParser(format, **kw):
 
 def inputFormats():
     """Return list of implemented input structure formats"""
-    input_formats = [ fmt for fmt, prop in parser_index.iteritems()
+    input_formats = [ fmt for fmt, prop in parser_index.items()
             if prop['has_input'] ]
     input_formats.sort()
     return input_formats
 
 def outputFormats():
     """return list of implemented output structure formats"""
-    output_formats = [ fmt for fmt, prop in parser_index.iteritems()
+    output_formats = [ fmt for fmt, prop in parser_index.items()
             if prop['has_output'] ]
     output_formats.sort()
     return output_formats

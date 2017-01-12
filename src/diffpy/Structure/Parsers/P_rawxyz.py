@@ -80,7 +80,7 @@ class P_rawxyz(StructureParser):
                 elif len(fields) != nfields:
                     emsg = ('%d: all lines must have ' +
                             'the same number of columns') % p_nl
-                    raise StructureFormatError, emsg
+                    raise StructureFormatError(emsg)
                 element = el_idx is not None and fields[el_idx] or ""
                 xyz = [ float(f) for f in fields[x_idx:x_idx+3] ]
                 if len(xyz) == 2:
@@ -89,7 +89,7 @@ class P_rawxyz(StructureParser):
         except ValueError:
             emsg = "%d: invalid number" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, emsg, exc_traceback
+            raise StructureFormatError(emsg).with_traceback(exc_traceback)
         return stru
     # End of parseLines
 

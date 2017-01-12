@@ -108,7 +108,7 @@ class Test_Position2Tuple(unittest.TestCase):
         """check _Position2Tuple.__init__()
         """
         self.assertNotEqual(0.0, self.pos2tuple.eps)
-        self.pos2tuple = _Position2Tuple(1.0/sys.maxint/2)
+        self.pos2tuple = _Position2Tuple(1.0/sys.maxsize/2)
         self.assertEqual(0.0, self.pos2tuple.eps)
         return
 
@@ -309,7 +309,7 @@ class TestGeneratorSite(unittest.TestCase):
         uisod = {'U11' : 2.0, 'U22' : 2.0, 'U33' : 2.0,
                  'U12' : 1.0, 'U13' : 0.0, 'U23' : 0.0}
         for ufms in symcon.UFormulas():
-            for n, fm in ufms.items():
+            for n, fm in list(ufms.items()):
                 self.assertEqual(uisod[n], eval(fm, upd))
         return
 
@@ -318,7 +318,7 @@ class TestGeneratorSite(unittest.TestCase):
         """check GeneratorSite._findUParameters()
         """
         # by default all Uparameters equal zero, this would fail for NaNs
-        for gen in TestGeneratorSite.generators.values():
+        for gen in list(TestGeneratorSite.generators.values()):
             for usym, uval in gen.Uparameters:
                 self.assertEqual(0.0, uval)
         # special test for g117h
@@ -385,10 +385,10 @@ class TestSymmetryConstraints(unittest.TestCase):
         self.assertTrue(numpy.all(corepos[0] == sc.corepos[0]))
         self.assertTrue(numpy.all(corepos[1] == sc.corepos[1]))
         self.assertEqual(2, len(sc.coremap))
-        mapped_count = sum([len(idcs) for idcs in sc.coremap.values()])
+        mapped_count = sum([len(idcs) for idcs in list(sc.coremap.values())])
         self.assertEqual(len(sc.positions), mapped_count)
-        self.assertTrue(sc.coremap[0] == range(4))
-        self.assertTrue(sc.coremap[4] == range(4, 4+192))
+        self.assertTrue(sc.coremap[0] == list(range(4)))
+        self.assertTrue(sc.coremap[4] == list(range(4, 4+192)))
         return
 
     def test_Uisotropy(self):

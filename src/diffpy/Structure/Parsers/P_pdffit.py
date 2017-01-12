@@ -22,6 +22,7 @@ import numpy
 from diffpy.Structure import PDFFitStructure, Lattice
 from diffpy.Structure import StructureFormatError
 from diffpy.Structure.Parsers import StructureParser
+from functools import reduce
 
 class P_pdffit(StructureParser):
     """Parser for PDFfit structure format.
@@ -154,7 +155,7 @@ class P_pdffit(StructureParser):
         except (ValueError, IndexError):
             emsg = "%d: file is not in PDFfit format" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, emsg, exc_traceback
+            raise StructureFormatError(emsg).with_traceback(exc_traceback)
         return stru
 
     # End of parseLines
@@ -241,7 +242,7 @@ class P_pdffit(StructureParser):
             self.stru.pdffit['stepcut'] = float(words[2])
         else:
             emsg = 'Invalid type of particle shape correction %r' % shapetype
-            raise StructureFormatError, emsg
+            raise StructureFormatError(emsg)
         return
 
 

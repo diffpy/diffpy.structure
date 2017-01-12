@@ -175,7 +175,7 @@ class P_pdb(StructureParser):
         except (ValueError, IndexError):
             emsg = "%d: invalid PDB record" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, emsg, exc_traceback
+            raise StructureFormatError(emsg).with_traceback(exc_traceback)
         return stru
     # End of parseLines
 

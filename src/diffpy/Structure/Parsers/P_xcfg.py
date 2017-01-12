@@ -222,7 +222,7 @@ class P_xcfg(StructureParser):
             for i in range(p_auxnum):
                 if not i in p_auxiliary:
                     p_auxiliary[i] = "aux%d" % i
-            sorted_aux_keys = p_auxiliary.keys()
+            sorted_aux_keys = list(p_auxiliary.keys())
             sorted_aux_keys.sort()
             if p_auxnum != 0:
                 stru.xcfg = {
@@ -262,7 +262,7 @@ class P_xcfg(StructureParser):
                     p_exprs.append( "a.__dict__[%r]=fields[%d]" % \
                             (prop, col) )
             p_assign_expr = "pass; " + "; ".join(p_exprs[3:])
-            exec "def p_assign_atom(a, fields) : %s" % p_assign_expr
+            exec("def p_assign_atom(a, fields) : %s" % p_assign_expr)
             # here we are inside data
             p_element = None
             p_nl -= 1
@@ -291,7 +291,7 @@ class P_xcfg(StructureParser):
         except (ValueError, IndexError):
             emsg = "%d: file is not in XCFG format" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, emsg, exc_traceback
+            raise StructureFormatError(emsg).with_traceback(exc_traceback)
         return stru
     # End of parseLines
 
@@ -392,7 +392,7 @@ class P_xcfg(StructureParser):
                          ",".join([e for p,e in p_auxiliaries]) + " ]",
                     "    line = ' '.join([ '%.8g' % x for x in fields ])",
                     "    return line"  ]
-        exec "\n".join(p_exprs)
+        exec("\n".join(p_exprs))
         # we are ready to output atoms:
         lines.append("")
         p_element = None

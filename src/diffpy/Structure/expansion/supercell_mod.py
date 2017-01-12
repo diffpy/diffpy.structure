@@ -38,13 +38,13 @@ def supercell(S, mno):
     # check arguments
     if len(mno) != 3:
         emsg = "Argument mno must contain 3 numbers."
-        raise ValueError, emsg
+        raise ValueError(emsg)
     elif min(mno) < 1:
         emsg = "Multipliers must be greater or equal 1"
-        raise ValueError, emsg
+        raise ValueError(emsg)
     if not isinstance(S, Structure):
         emsg = "The first argument must be a Structure instance."
-        raise TypeError, emsg
+        raise TypeError(emsg)
 
     # convert mno to a tuple of integers so it can be used as range limit.
     mno = (int(mno[0]), int(mno[1]), int(mno[2]))

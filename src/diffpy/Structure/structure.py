@@ -382,10 +382,10 @@ class Structure(list):
         except TypeError:
             pass
         # check if there is any string label that should be resolved
-        scalarstringlabel = isinstance(idx, basestring)
+        scalarstringlabel = isinstance(idx, str)
         hasstringlabel = scalarstringlabel or (
             isinstance(idx, collections.Iterable) and
-            any(isinstance(ii, basestring) for ii in idx))
+            any(isinstance(ii, str) for ii in idx))
         # if not, use numpy indexing to resolve idx
         if not hasstringlabel:
             idx1 = idx
@@ -417,7 +417,7 @@ class Structure(list):
             idx2 = _resolveindex(idx)
         # for iterables preserved the tuple object type
         else:
-            idx2 = map(_resolveindex, idx)
+            idx2 = list(map(_resolveindex, idx))
             if type(idx) is tuple:
                 idx2 = tuple(idx2)
         # call this function again and hope there is no recursion loop
