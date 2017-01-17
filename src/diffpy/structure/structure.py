@@ -314,7 +314,7 @@ class Structure(list):
         """
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
-        list.append(self, adup)
+        super().append(adup)
         return
 
 
@@ -330,7 +330,7 @@ class Structure(list):
         """
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
-        list.insert(self, idx, adup)
+        super().insert(idx, adup)
         return
 
 
@@ -344,10 +344,11 @@ class Structure(list):
 
         No return value.
         """
+        # FIXME
         if copy:    adups = [Atom(a) for a in atoms]
         else:       adups = atoms
         for a in adups: a.lattice = self.lattice
-        list.extend(self, adups)
+        super().extend(adups)
         return
 
 
@@ -372,12 +373,13 @@ class Structure(list):
         stru['Na3', 2, 'Cl2']  -->  substructure of three atoms, lookup by
             label is more efficient when done for several atoms at once.
         """
+        if isinstance(idx, slice):
+            rv = self.__emptySharedStructure()
+            lst = super().__getitem__(idx)
+            rv.extend(lst, copy=False)
+            return rv
         try:
-            value = list.__getitem__(self, idx)
-            rv = value
-            if type(idx) is slice:
-                rv = self.__emptySharedStructure()
-                rv.extend(value, copy=False)
+            rv = super().__getitem__(idx)
             return rv
         except TypeError:
             pass
@@ -425,52 +427,31 @@ class Structure(list):
         return rv
 
 
-    def __setitem__(self, idx, a, copy=True):
-        """Set idx-th atom to a.
+    def __setitem__(self, idx, value, copy=True):
+        """Assign self[idx] atom to value.
 
-        idx  -- index of atom in this Structure
-        a    -- instance of Atom
-        copy -- flag for setting to a copy of a.
-                When False, set to a and update a.lattice.
-
-        No return value.
-        """
-        adup = copy and Atom(a) or a
-        adup.lattice = self.lattice
-        list.__setitem__(self, idx, adup)
-        return
-
-
-    def __getslice__(self, lo, hi):
-        '''Get a slice of atoms from this Structure.
-
-        lo, hi   -- slice indices, negative values are not supported
-
-        Return a sub-structure with atom instances in the slice.
-        '''
-        rv = self.__emptySharedStructure()
-        rv.extend(list.__getslice__(self, lo, hi), copy=False)
-        return rv
-
-
-    def __setslice__(self, lo, hi, atoms, copy=True):
-        """Set Structure slice from lo to hi-1 to the sequence of atoms.
-
-        lo    -- low index for the slice
-        hi    -- high index of the slice
-        atoms -- sequence of Atom instances
-        copy  -- flag for using copies of Atom instances.  When False, set
-                 to existing instances and update their lattice attributes.
+        idx  -- index of atom in this Structure or a slice
+        value -- instance of Atom or an iterable.
+        copy -- flag for making a copy of the value.  When False, update
+                the `lattice` attribute of Atom objects present in value.
 
         No return value.
         """
-        if copy:
-            ownatoms = set(list.__getslice__(self, lo, hi))
-            adups = [(a in ownatoms and a or Atom(a)) for a in atoms]
+        # handle slice assignment
+        if isinstance(idx, slice):
+            def _fixlat(a):
+                a.lattice = self.lattice
+                return a
+            v1 = value
+            if copy:
+                keep = set(super().__getitem__(idx))
+                v1 = (a if a in keep else Atom(a) for a in value)
+            vfinal = filter(_fixlat, v1)
+        # handle scalar assingment
         else:
-            adups = atoms
-        for a in adups: a.lattice = self.lattice
-        list.__setslice__(self, lo, hi, adups)
+            vfinal = Atom(value) if copy else value
+            vfinal.lattice = self.lattice
+        super().__setitem__(idx, vfinal)
         return
 
 

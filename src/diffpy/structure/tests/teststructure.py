@@ -279,6 +279,15 @@ class TestStructure(unittest.TestCase):
         return
 
 
+    def test___getitem__slice(self):
+        """check Structure.__getitem__() with a slice argument
+        """
+        stru = self.stru
+        self.assertEqual([stru[0]], stru[:1].tolist())
+        self.assertEqual([stru[1], stru[0]], stru[::-1].tolist())
+        return
+
+
     def test___setitem__(self):
         """check Structure.__setitem__()
         """
@@ -295,17 +304,8 @@ class TestStructure(unittest.TestCase):
         return
 
 
-    def test___getslice__(self):
-        """check Structure.__getslice__()
-        """
-        stru = self.stru
-        self.assertEqual([stru[0]], stru[:1].tolist())
-        self.assertEqual([stru[1], stru[0]], stru[::-1].tolist())
-        return
-
-
-    def test___setslice__(self):
-        """check Structure.__setslice__()
+    def test___setitem__slice(self):
+        """check Structure.__setitem__() with a slice argument
         """
         a = Atom("Si", (0.1, 0.2, 0.3))
         lat = self.stru.lattice

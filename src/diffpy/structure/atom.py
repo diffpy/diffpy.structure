@@ -371,16 +371,6 @@ class _AtomCartesianCoordinates(numpy.ndarray):
         self._atom.xyz[:] = self._atom.lattice.fractional(self)
         return
 
-    def __setslice__(self, lo, hi, value):
-        """Set a slice of this array inplace and update the linked self.xyz
-
-        lo, hi  -- low and high slice indices, negative indices not supported
-        value   -- new value of this slice
-        """
-        self.asarray[lo:hi] = value
-        self._atom.xyz[:] = self._atom.lattice.fractional(self)
-        return
-
     def __array_wrap__(self, out_arr, context=None):
         '''Any operations on this type should yield standard numpy array.'''
         return out_arr.view(numpy.ndarray)

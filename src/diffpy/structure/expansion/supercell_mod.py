@@ -70,7 +70,7 @@ def supercell(S, mno):
             adup.xyz = (a.xyz + ijk)/mnofloats
             newAtoms.append(adup)
     # newS can own references in newAtoms, no need to make copies
-    newS.__setslice__(0, len(newS), newAtoms, copy=False)
+    newS.__setitem__(slice(None), newAtoms, copy=False)
 
     # take care of lattice parameters
     newS.lattice.setLatPar(
