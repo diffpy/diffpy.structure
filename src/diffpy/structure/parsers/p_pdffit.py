@@ -115,17 +115,17 @@ class P_pdffit(StructureParser):
                 stru.addNewAtom(element, xyz=xyz, occupancy=occ)
                 a = stru.getLastAtom()
                 p_nl += 1
-                wl2 = ilines.next().split()
+                wl2 = next(ilines).split()
                 a.sigxyz = [ float(w) for w in wl2[0:3] ]
                 a.sigo = float(wl2[3])
                 p_nl += 1
-                wl3 = ilines.next().split()
+                wl3 = next(ilines).split()
                 p_nl += 1
-                wl4 = ilines.next().split()
+                wl4 = next(ilines).split()
                 p_nl += 1
-                wl5 = ilines.next().split()
+                wl5 = next(ilines).split()
                 p_nl += 1
-                wl6 = ilines.next().split()
+                wl6 = next(ilines).split()
                 U = numpy.zeros((3,3), dtype=float)
                 sigU = numpy.zeros((3,3), dtype=float)
                 U[0,0] = float(wl3[0])
