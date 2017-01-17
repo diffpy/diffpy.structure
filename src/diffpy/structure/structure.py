@@ -277,9 +277,8 @@ class Structure(list):
         p = getParser(format)
         p.filename = filename
         s = p.tostring(self)
-        f = open(filename, 'wb')
-        f.write(s)
-        f.close()
+        with open(filename, 'w', encoding='UTF-8', newline='\n') as fp:
+            fp.write(s)
         return
 
 
