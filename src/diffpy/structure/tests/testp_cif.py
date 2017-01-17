@@ -78,8 +78,10 @@ class TestP_cif(unittest.TestCase):
     def test_parse(self):
         """check P_cif.parse()
         """
-        sgood = open(self.goodciffile).read()
-        sbad = open(self.badciffile).read()
+        with open(self.goodciffile) as fp1:
+            sgood = fp1.read()
+        with open(self.badciffile) as fp2:
+            sbad = fp2.read()
         pfile, ptest = self.pfile, self.ptest
         stru_check = pfile.parseFile(self.goodciffile)
         stru = ptest.parse(sgood)
@@ -95,8 +97,10 @@ class TestP_cif(unittest.TestCase):
     def test_parseLines(self):
         """check P_cif.parseLines()
         """
-        goodlines = open(self.goodciffile).readlines()
-        badlines = open(self.badciffile).readlines()
+        with open(self.goodciffile) as fp1:
+            goodlines = fp1.readlines()
+        with open(self.badciffile) as fp2:
+            badlines = fp2.readlines()
         pfile, ptest = self.pfile, self.ptest
         stru_check = pfile.parseFile(self.goodciffile)
         stru = ptest.parseLines(goodlines)

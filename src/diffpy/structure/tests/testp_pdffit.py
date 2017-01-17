@@ -153,7 +153,8 @@ class TestP_pdffit(unittest.TestCase):
         """check writing of normal xyz file"""
         stru = self.stru
         stru.read(datafile('Ni.stru'), self.format)
-        f_s = open(datafile('Ni.stru')).read()
+        with open(datafile('Ni.stru')) as fp:
+            f_s = fp.read()
         f_s = re.sub('[ \t]+', ' ', f_s)
         f_s = re.sub('[ \t]+\n', '\n', f_s)
         s_s = stru.writeStr(self.format)
@@ -179,7 +180,8 @@ class TestP_pdffit(unittest.TestCase):
         """
         r1 = 'ignored record 1'
         r2 = 'ignored record 2'
-        ni_lines = open(datafile('Ni.stru')).readlines()
+        with open(datafile('Ni.stru')) as fp:
+            ni_lines = fp.readlines()
         ni_lines.insert(2, r1 + '\n')
         ni_lines.insert(4, r2 + '\n')
         s_s1 = "".join(ni_lines)
@@ -207,7 +209,8 @@ class TestP_pdffit(unittest.TestCase):
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['spdiameter'])
-        ni_lines = open(datafile('Ni.stru')).readlines()
+        with open(datafile('Ni.stru')) as fp:
+            ni_lines = fp.readlines()
         ni_lines.insert(3, 'shape invalid, 7\n')
         sbad = ''.join(ni_lines)
         self.assertRaises(StructureFormatError, self.stru.readStr,
@@ -230,7 +233,8 @@ class TestP_pdffit(unittest.TestCase):
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['stepcut'])
-        ni_lines = open(datafile('Ni.stru')).readlines()
+        with open(datafile('Ni.stru')) as fp:
+            ni_lines = fp.readlines()
         ni_lines.insert(3, 'shape invalid, 7\n')
         sbad = ''.join(ni_lines)
         self.assertRaises(StructureFormatError, self.stru.readStr,

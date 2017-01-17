@@ -91,7 +91,8 @@ class TestP_xyz(unittest.TestCase):
             Atom('Cl', [3., 2., 1.])
         ]
         stru.write(self.tmpname, self.format)
-        f_s = open(self.tmpname).read()
+        with open(self.tmpname) as fp:
+            f_s = fp.read()
         f_s = re.sub('[ \t]+', ' ', f_s)
         s_s = "2\n%s\nH 1 2 3\nCl 3 4 3\n" % stru.title
         self.assertEqual(f_s, s_s)

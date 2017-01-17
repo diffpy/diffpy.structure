@@ -71,8 +71,8 @@ class StructureParser(object):
         Raise StructureFormatError or IOError.
         """
         self.filename = filename
-        f = open(filename)
-        s = f.read()
+        with open(filename) as fp:
+            s = fp.read()
         stru = self.parse(s)
         return stru
 

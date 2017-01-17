@@ -63,7 +63,8 @@ def getversioncfg():
         cp.set('DEFAULT', 'commit', g['commit'])
         cp.set('DEFAULT', 'date', g['date'])
         cp.set('DEFAULT', 'timestamp', g['timestamp'])
-        cp.write(open(versioncfgfile, 'w'))
+        with open(versioncfgfile, 'w') as fp:
+            cp.write(fp)
     return cp
 
 versiondata = getversioncfg()
