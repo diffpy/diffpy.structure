@@ -7,4 +7,4 @@ Simon J.L. Billinge
 
 Contributors:
 
-https://github.com/diffpy/diffpy.Structure/graphs/contributors
+https://github.com/diffpy/diffpy.structure/graphs/contributors

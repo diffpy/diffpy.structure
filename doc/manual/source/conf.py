@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# diffpy.Structure documentation build configuration file, created by
+# diffpy.structure documentation build configuration file, created by
 # sphinx-quickstart on Tue Oct 22 12:02:48 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -46,7 +46,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'diffpy.Structure'
+project = 'diffpy.structure'
 copyright = '%Y, Brookhaven National Laboratory'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -96,7 +96,7 @@ exclude_patterns = []
 pygments_style = 'sphinx'
 
 # A list of ignored prefixes for module index sorting.
-modindex_common_prefix = ['diffpy.Structure']
+modindex_common_prefix = ['diffpy.structure']
 
 # Display all warnings for missing links.
 nitpicky = True
@@ -179,7 +179,7 @@ html_theme_options = {'collapsiblesidebar' : 'true'}
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Structuredoc'
+htmlhelp_basename = 'structuredoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------

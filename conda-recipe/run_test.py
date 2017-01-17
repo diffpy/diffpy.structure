@@ -1,4 +1,4 @@
 #!/usr/bin/env python3
 
-import diffpy.Structure.tests
-assert diffpy.Structure.tests.test().wasSuccessful()
+import diffpy.structure.tests
+assert diffpy.structure.tests.test().wasSuccessful()

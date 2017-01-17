@@ -5,7 +5,7 @@ package:
   version: {{ setupdata['version'] }}
 
 source:
-  # git_url: https://github.com/diffpy/diffpy.Structure
+  # git_url: https://github.com/diffpy/diffpy.structure
   git_url: ..
 
 build:
@@ -39,11 +39,11 @@ test:
   # Python imports
   imports:
     - diffpy
-    - diffpy.Structure
-    - diffpy.Structure.Parsers
-    - diffpy.Structure.applications
-    - diffpy.Structure.expansion
-    - diffpy.Structure.tests
+    - diffpy.structure
+    - diffpy.structure.parsers
+    - diffpy.structure.applications
+    - diffpy.structure.expansion
+    - diffpy.structure.tests
 
   # commands:
     # You can put test commands to be run here.  Use this to test that the
@@ -58,7 +58,7 @@ test:
     # - nose
 
 about:
-  home: https://github.com/diffpy/diffpy.Structure
+  home: https://github.com/diffpy/diffpy.structure
   summary: Crystal structure container and parsers for structure formats.
   license: Modified BSD License
   license_file: LICENSE.txt

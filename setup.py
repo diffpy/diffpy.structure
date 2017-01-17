@@ -2,7 +2,7 @@
 
 """Objects for storage and manipulation of crystal structure data.
 
-Packages:   diffpy.Structure
+Packages:   diffpy.structure
 """
 
 import os
@@ -15,7 +15,7 @@ FALLBACK_VERSION = '1.3.4.post0'
 # versioncfgfile holds version data for git commit hash and date.
 # It must reside in the same directory as version.py.
 MYDIR = os.path.dirname(os.path.abspath(__file__))
-versioncfgfile = os.path.join(MYDIR, 'src/diffpy/Structure/version.cfg')
+versioncfgfile = os.path.join(MYDIR, 'src/diffpy/structure/version.cfg')
 gitarchivecfgfile = versioncfgfile.replace('version.cfg', 'gitarchive.cfg')
 
 
@@ -70,26 +70,25 @@ versiondata = getversioncfg()
 
 # define distribution
 setup_args = dict(
-        name = "diffpy.Structure",
+        name = "diffpy.structure",
         version = versiondata.get('DEFAULT', 'version'),
         packages = [('diffpy.' + p) for p in find_packages('src/diffpy')],
         package_dir = {'' : 'src'},
-        test_suite = 'diffpy.Structure.tests',
+        test_suite = 'diffpy.structure.tests',
         include_package_data = True,
         zip_safe = False,
         install_requires = [
             'pycifrw',
         ],
-
         author = 'Simon J.L. Billinge group',
         author_email = 'sb2896@columbia.edu',
         maintainer = 'Pavol Juhas',
         maintainer_email = 'pavol.juhas@gmail.com',
-        url = 'https://github.com/diffpy/diffpy.Structure',
+        url = 'https://github.com/diffpy/diffpy.structure',
         description = "Crystal structure container "
                       "and parsers for structure formats.",
         license = 'BSD-style license',
-        keywords = "crystal Structure data storage CIF PDB",
+        keywords = "crystal structure data storage CIF PDB",
         classifiers = [
             # List of possible values at
             # http://pypi.python.org/pypi?:action=list_classifiers

@@ -85,7 +85,7 @@ install:
   - $NOAPT || easy_install --user "${MYTARBUNDLE}"
 
   # We need to capitalize MYNAME to match Python module name.
-  - MYNAME=diffpy.Structure
+  - MYNAME=diffpy.structure
 
   - cd ${MYRUNDIR}
   - MYGIT_REV=$(python -c "import ${MYNAME}.version as v; print(v.__gitsha__)")
