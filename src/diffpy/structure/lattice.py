@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -23,7 +23,7 @@ Module variables:
 import math
 import numpy
 import numpy.linalg as numalg
-from diffpy.Structure import LatticeError
+from diffpy.structure import LatticeError
 
 # Helper Functions -----------------------------------------------------------
 

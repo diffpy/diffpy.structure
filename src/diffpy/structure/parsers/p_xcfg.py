@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -19,10 +19,10 @@ import sys
 import re
 import numpy
 
-from diffpy.Structure import Structure
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.utils import isfloat
-from diffpy.Structure.Parsers import StructureParser
+from diffpy.structure import Structure
+from diffpy.structure import StructureFormatError
+from diffpy.structure.utils import isfloat
+from diffpy.structure.parsers import StructureParser
 
 
 ##############################################################################

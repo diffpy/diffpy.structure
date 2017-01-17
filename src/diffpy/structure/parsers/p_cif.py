@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -24,9 +24,9 @@ import re
 import copy
 import numpy
 
-from diffpy.Structure import Structure, Lattice, Atom
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.Parsers import StructureParser
+from diffpy.structure import Structure, Lattice, Atom
+from diffpy.structure import StructureFormatError
+from diffpy.structure.parsers import StructureParser
 
 
 ##############################################################################
@@ -425,8 +425,8 @@ class P_cif(StructureParser):
 
         No return value.
         """
-        from diffpy.Structure.SpaceGroups import IsSpaceGroupIdentifier
-        from diffpy.Structure.SpaceGroups import SpaceGroup, GetSpaceGroup
+        from diffpy.structure.spacegroups import IsSpaceGroupIdentifier
+        from diffpy.structure.spacegroups import SpaceGroup, GetSpaceGroup
         self.asymmetric_unit = list(self.stru)
         sym_synonyms = ('_space_group_symop_operation_xyz',
                         '_symmetry_equiv_pos_as_xyz')
@@ -485,7 +485,7 @@ class P_cif(StructureParser):
 
         No return value.
         """
-        from diffpy.Structure.SymmetryUtilities import ExpandAsymmetricUnit
+        from diffpy.structure.symmetryutilities import ExpandAsymmetricUnit
         # get reverse-ordered unique indices
         corepos = [a.xyz for a in self.stru]
         coreUijs = [a.U for a in self.stru]
@@ -643,7 +643,7 @@ def getSymOp(s):
 
     Return instance of SymOp.
     """
-    from diffpy.Structure.SpaceGroups import SymOp
+    from diffpy.structure.spacegroups import SymOp
     snoblanks = s.replace(' ','')
     eqlist = snoblanks.split(',')
     R = numpy.zeros((3,3), dtype=float)

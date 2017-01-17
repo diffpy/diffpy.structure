@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -37,7 +37,7 @@ import sys
 import os
 import re
 import signal
-from diffpy.Structure import StructureFormatError
+from diffpy.structure import structureformaterror
 
 # parameter dictionary
 pd = {  'formula' : None,
@@ -56,7 +56,7 @@ def usage(style = None):
         msg = msg.split("\n")[1] + "\n" + \
                 "Try `%s --help' for more information." % myname
     else:
-        from diffpy.Structure.Parsers import inputFormats
+        from diffpy.structure.parsers import inputFormats
         fmts = [ f for f in inputFormats() if f != 'auto' ]
         msg = msg.replace("inputFormats", " ".join(fmts))
     print(msg)
@@ -64,7 +64,7 @@ def usage(style = None):
 
 
 def version():
-    from diffpy.Structure import __version__
+    from diffpy.structure import __version__
     print("anyeye", __version__)
     return
 
@@ -74,7 +74,7 @@ def loadStructureFile(filename, format="auto"):
 
     Return a tuple of (Structure, fileformat).
     """
-    from diffpy.Structure import Structure
+    from diffpy.structure import Structure
     stru = Structure()
     p = stru.read(filename, format)
     fileformat = p.format

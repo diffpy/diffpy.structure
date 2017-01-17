@@ -6,7 +6,7 @@ Subpackages
 
 .. toctree::
 
-    diffpy.Structure
+    diffpy.structure
 
 Module contents
 ---------------

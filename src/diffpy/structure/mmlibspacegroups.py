@@ -6,7 +6,7 @@
 """Space groups defined as a part of the pymmlib.
 """
 
-from diffpy.Structure.spacegroupmod import *
+from diffpy.structure.spacegroupmod import *
 
 ## spacegroup definitions
 sg1 = SpaceGroup(

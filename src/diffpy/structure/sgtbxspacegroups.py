@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2009 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -22,7 +22,7 @@ sgtbxSpaceGroupList -- list of space group instances defined in this module
 '''
 
 
-from diffpy.Structure.spacegroupmod import *
+from diffpy.structure.spacegroupmod import *
 
 
 ##############################################################################

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -22,7 +22,7 @@ parser_index = {
 
     # automatic format detection - tries all parsers one by one
     'auto' : {
-        'module' : 'P_auto',
+        'module' : 'p_auto',
         'file_extension' : '',
         'file_pattern' : '*.*',
         'has_input' : True,
@@ -31,7 +31,7 @@ parser_index = {
 
     # CIF format
     'cif' : {
-        'module' : 'P_cif',
+        'module' : 'p_cif',
         'file_extension' : '.cif',
         'file_pattern' : '*.cif',
         'has_input' : True,
@@ -40,7 +40,7 @@ parser_index = {
 
     # PDB format
     'pdb' : {
-        'module' : 'P_pdb',
+        'module' : 'p_pdb',
         'file_extension' : '.pdb',
         'file_pattern' : '*.pdb',
         'has_input' : True,
@@ -49,7 +49,7 @@ parser_index = {
 
     # Discus structure format
     'discus' : {
-        'module' : 'P_discus',
+        'module' : 'p_discus',
         'file_extension' : '.stru',
         'file_pattern' : '*.stru|*.rstr',
         'has_input' : True,
@@ -58,7 +58,7 @@ parser_index = {
 
     # PDFfit structure format
     'pdffit' : {
-        'module' : 'P_pdffit',
+        'module' : 'p_pdffit',
         'file_extension' : '.stru',
         'file_pattern' : '*.stru|*.rstr',
         'has_input' : True,
@@ -67,7 +67,7 @@ parser_index = {
 
     # standard xyz file
     'xyz' : {
-        'module' : 'P_xyz',
+        'module' : 'p_xyz',
         'file_extension' : '.xyz',
         'file_pattern' : '*.xyz',
         'has_input' : True,
@@ -76,7 +76,7 @@ parser_index = {
 
     # raw xyz file (element labels optional)
     'rawxyz' : {
-        'module' : 'P_rawxyz',
+        'module' : 'p_rawxyz',
         'file_extension' : '.xyz',
         'file_pattern' : '*.xyz',
         'has_input' : True,
@@ -85,7 +85,7 @@ parser_index = {
 
     # AtomEye extended configuration format
     'xcfg' : {
-        'module' : 'P_xcfg',
+        'module' : 'p_xcfg',
         'file_extension' : '',
         'file_pattern' : '*.xcfg|*.eye|*.cfg',
         'has_input' : True,
@@ -94,7 +94,7 @@ parser_index = {
 
     # Bruce Ravel's atoms format
     'bratoms' : {
-        'module' : 'P_bratoms',
+        'module' : 'p_bratoms',
         'file_extension' : '.inp',
         'file_pattern' : '*.inp',
         'has_input' : True,

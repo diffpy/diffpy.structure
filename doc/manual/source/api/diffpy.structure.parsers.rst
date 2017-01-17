@@ -1,93 +1,93 @@
-diffpy.Structure.Parsers package
+diffpy.structure.parsers package
 ================================
 
 Submodules
 ----------
 
-diffpy.Structure.Parsers.P_auto module
+diffpy.structure.parsers.p_auto module
 --------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.P_auto
+.. automodule:: diffpy.structure.parsers.p_auto
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.Parsers.P_bratoms module
+diffpy.structure.parsers.p_bratoms module
 -----------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.P_bratoms
+.. automodule:: diffpy.structure.parsers.p_bratoms
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.Parsers.P_cif module
+diffpy.structure.parsers.p_cif module
 -------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.P_cif
+.. automodule:: diffpy.structure.parsers.p_cif
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.Parsers.P_discus module
+diffpy.structure.parsers.p_discus module
 ----------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.P_discus
+.. automodule:: diffpy.structure.parsers.p_discus
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.Parsers.P_pdb module
+diffpy.structure.parsers.p_pdb module
 -------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.P_pdb
+.. automodule:: diffpy.structure.parsers.p_pdb
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.Parsers.P_pdffit module
+diffpy.structure.parsers.p_pdffit module
 ----------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.P_pdffit
+.. automodule:: diffpy.structure.parsers.p_pdffit
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.Parsers.P_rawxyz module
+diffpy.structure.parsers.p_rawxyz module
 ----------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.P_rawxyz
+.. automodule:: diffpy.structure.parsers.p_rawxyz
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.Parsers.P_xcfg module
+diffpy.structure.parsers.p_xcfg module
 --------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.P_xcfg
+.. automodule:: diffpy.structure.parsers.p_xcfg
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.Parsers.P_xyz module
+diffpy.structure.parsers.p_xyz module
 -------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.P_xyz
+.. automodule:: diffpy.structure.parsers.p_xyz
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.Parsers.parser_index_mod module
+diffpy.structure.parsers.parser_index_mod module
 ------------------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.parser_index_mod
+.. automodule:: diffpy.structure.parsers.parser_index_mod
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.Parsers.structureparser module
+diffpy.structure.parsers.structureparser module
 -----------------------------------------------
 
-.. automodule:: diffpy.Structure.Parsers.structureparser
+.. automodule:: diffpy.structure.parsers.structureparser
     :members:
     :undoc-members:
     :show-inheritance:
@@ -96,7 +96,7 @@ diffpy.Structure.Parsers.structureparser module
 Module contents
 ---------------
 
-.. automodule:: diffpy.Structure.Parsers
+.. automodule:: diffpy.structure.parsers
     :members:
     :undoc-members:
     :show-inheritance:

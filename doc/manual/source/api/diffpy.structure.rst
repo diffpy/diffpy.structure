@@ -1,4 +1,4 @@
-diffpy.Structure package
+diffpy.structure package
 ========================
 
 Subpackages
@@ -6,113 +6,113 @@ Subpackages
 
 .. toctree::
 
-    diffpy.Structure.Parsers
-    diffpy.Structure.applications
-    diffpy.Structure.expansion
+    diffpy.structure.parsers
+    diffpy.structure.applications
+    diffpy.structure.expansion
 
 Submodules
 ----------
 
-diffpy.Structure.SpaceGroups module
+diffpy.structure.spacegroups module
 -----------------------------------
 
-.. automodule:: diffpy.Structure.SpaceGroups
+.. automodule:: diffpy.structure.spacegroups
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.StructureErrors module
+diffpy.structure.structureerrors module
 ---------------------------------------
 
-.. automodule:: diffpy.Structure.StructureErrors
+.. automodule:: diffpy.structure.structureerrors
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.SymmetryUtilities module
+diffpy.structure.symmetryutilities module
 -----------------------------------------
 
-.. automodule:: diffpy.Structure.SymmetryUtilities
+.. automodule:: diffpy.structure.symmetryutilities
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.atom module
+diffpy.structure.atom module
 ----------------------------
 
-.. automodule:: diffpy.Structure.atom
+.. automodule:: diffpy.structure.atom
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.bratomsstructure module
+diffpy.structure.bratomsstructure module
 ----------------------------------------
 
-.. automodule:: diffpy.Structure.bratomsstructure
+.. automodule:: diffpy.structure.bratomsstructure
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.lattice module
+diffpy.structure.lattice module
 -------------------------------
 
-.. automodule:: diffpy.Structure.lattice
+.. automodule:: diffpy.structure.lattice
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.mmlibspacegroups module
+diffpy.structure.mmlibspacegroups module
 ----------------------------------------
 
-.. automodule:: diffpy.Structure.mmlibspacegroups
+.. automodule:: diffpy.structure.mmlibspacegroups
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.pdffitstructure module
+diffpy.structure.pdffitstructure module
 ---------------------------------------
 
-.. automodule:: diffpy.Structure.pdffitstructure
+.. automodule:: diffpy.structure.pdffitstructure
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.sgtbxspacegroups module
+diffpy.structure.sgtbxspacegroups module
 ----------------------------------------
 
-.. automodule:: diffpy.Structure.sgtbxspacegroups
+.. automodule:: diffpy.structure.sgtbxspacegroups
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.spacegroupmod module
+diffpy.structure.spacegroupmod module
 -------------------------------------
 
-.. automodule:: diffpy.Structure.spacegroupmod
+.. automodule:: diffpy.structure.spacegroupmod
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.structure module
+diffpy.structure.structure module
 ---------------------------------
 
-.. automodule:: diffpy.Structure.structure
+.. automodule:: diffpy.structure.structure
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.utils module
+diffpy.structure.utils module
 -----------------------------
 
-.. automodule:: diffpy.Structure.utils
+.. automodule:: diffpy.structure.utils
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.version module
+diffpy.structure.version module
 -------------------------------
 
-.. automodule:: diffpy.Structure.version
+.. automodule:: diffpy.structure.version
     :members:
     :undoc-members:
     :show-inheritance:
@@ -121,7 +121,7 @@ diffpy.Structure.version module
 Module contents
 ---------------
 
-.. automodule:: diffpy.Structure
+.. automodule:: diffpy.structure
     :members:
     :undoc-members:
     :show-inheritance:

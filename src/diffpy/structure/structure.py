@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -19,9 +19,9 @@
 import collections
 import copy
 import numpy
-from diffpy.Structure.lattice import Lattice
-from diffpy.Structure.atom import Atom
-from diffpy.Structure.utils import _linkAtomAttribute, atomBareSymbol
+from diffpy.structure.lattice import Lattice
+from diffpy.structure.atom import Atom
+from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol
 
 ##############################################################################
 class Structure(list):
@@ -218,15 +218,15 @@ class Structure(list):
         """Load structure from a file, any original data become lost.
 
         filename -- file to be loaded
-        format   -- all structure formats are defined in Parsers submodule,
-                    when format == 'auto' all Parsers are tried one by one
+        format   -- all structure formats are defined in parsers submodule,
+                    when format == 'auto' all parsers are tried one by one
 
         Return instance of data Parser used to process file.  This
         can be inspected for information related to particular format.
         """
-        import diffpy.Structure
-        import diffpy.Structure.Parsers
-        getParser = diffpy.Structure.Parsers.getParser
+        import diffpy.structure
+        import diffpy.structure.parsers
+        getParser = diffpy.structure.parsers.getParser
         p = getParser(format)
         new_structure = p.parseFile(filename)
         # reinitialize data after successful parsing
@@ -247,13 +247,13 @@ class Structure(list):
         """Load structure from a string, any original data become lost.
 
         s        -- string with structure definition
-        format   -- all structure formats are defined in Parsers submodule,
-                    when format == 'auto' all Parsers are tried one by one
+        format   -- all structure formats are defined in parsers submodule,
+                    when format == 'auto' all parsers are tried one by one
 
         Return instance of data Parser used to process input string.  This
         can be inspected for information related to particular format.
         """
-        from diffpy.Structure.Parsers import getParser
+        from diffpy.structure.parsers import getParser
         p = getParser(format)
         new_structure = p.parse(s)
         # reinitialize data after successful parsing
@@ -271,9 +271,9 @@ class Structure(list):
         No return value.
 
         Note: available structure formats can be obtained by:
-            from Parsers import formats
+            from parsers import formats
         """
-        from diffpy.Structure.Parsers import getParser
+        from diffpy.structure.parsers import getParser
         p = getParser(format)
         p.filename = filename
         s = p.tostring(self)
@@ -287,9 +287,9 @@ class Structure(list):
         """return string representation of the structure in specified format
 
         Note: available structure formats can be obtained by:
-            from Parsers import formats
+            from parsers import formats
         """
-        from diffpy.Structure.Parsers import getParser
+        from diffpy.structure.parsers import getParser
         p = getParser(format)
         s = p.tostring(self)
         return s

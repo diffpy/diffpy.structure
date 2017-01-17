@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -21,7 +21,7 @@ import sys
 import re
 import numpy
 
-from diffpy.Structure.StructureErrors import SymmetryError
+from diffpy.structure.structureerrors import SymmetryError
 
 # Constants:
 
@@ -876,7 +876,7 @@ class SymmetryConstraints(object):
 
 # basic demonstration
 if __name__ == "__main__":
-    from diffpy.Structure.SpaceGroups import sg100
+    from diffpy.structure.spacegroups import sg100
     site = [.125, .625, .13]
     Uij = [[1,2,3],[2,4,5],[3,5,6]]
     g = GeneratorSite(sg100, site, Uij=Uij)

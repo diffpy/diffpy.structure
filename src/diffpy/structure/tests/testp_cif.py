@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -13,16 +13,16 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.Structure.Parsers.P_cif module
+"""Unit tests for diffpy.structure.parsers.p_cif module
 """
 
 import unittest
 
-from diffpy.Structure.tests.testutils import datafile
-from diffpy.Structure.Parsers.P_cif import P_cif, leading_float, getSymOp
-from diffpy.Structure.Parsers import getParser
-from diffpy.Structure import Structure
-from diffpy.Structure import StructureFormatError
+from diffpy.structure.tests.testutils import datafile
+from diffpy.structure.parsers.p_cif import P_cif, leading_float, getSymOp
+from diffpy.structure.parsers import getParser
+from diffpy.structure import Structure
+from diffpy.structure import StructureFormatError
 
 ##############################################################################
 class TestRoutines(unittest.TestCase):
@@ -44,12 +44,12 @@ class TestRoutines(unittest.TestCase):
     def test_getSymOp(self):
         """check getSymOp()
         """
-        from diffpy.Structure.SpaceGroups import SymOp
-        from diffpy.Structure.SpaceGroups import Rot_X_mY_Z, Tr_0_12_12
+        from diffpy.structure.spacegroups import SymOp
+        from diffpy.structure.spacegroups import Rot_X_mY_Z, Tr_0_12_12
         op = getSymOp('x,1/2-y,1/2+z')
         op_std = SymOp(Rot_X_mY_Z, Tr_0_12_12)
         self.assertEqual(str(op_std), str(op))
-        from diffpy.Structure.SpaceGroups import Rot_mX_mXY_Z, Tr_0_0_12
+        from diffpy.structure.spacegroups import Rot_mX_mXY_Z, Tr_0_0_12
         op1 = getSymOp('-x,-x+y,1/2+z')
         op1_std = SymOp(Rot_mX_mXY_Z, Tr_0_0_12)
         self.assertEqual(str(op1_std), str(op1))

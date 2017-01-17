@@ -4,9 +4,9 @@
 """
 
 import unittest
-from diffpy.Structure.tests.testutils import datafile
-from diffpy.Structure import loadStructure
-from diffpy.Structure import Structure, PDFFitStructure, StructureFormatError
+from diffpy.structure.tests.testutils import datafile
+from diffpy.structure import loadStructure
+from diffpy.structure import Structure, PDFFitStructure, StructureFormatError
 
 
 ##############################################################################

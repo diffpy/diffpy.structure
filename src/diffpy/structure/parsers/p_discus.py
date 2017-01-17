@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -18,9 +18,9 @@
 
 import sys
 
-from diffpy.Structure import PDFFitStructure, Lattice
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.Parsers import StructureParser
+from diffpy.structure import PDFFitStructure, Lattice
+from diffpy.structure import StructureFormatError
+from diffpy.structure.parsers import StructureParser
 from functools import reduce
 
 class P_discus(StructureParser):

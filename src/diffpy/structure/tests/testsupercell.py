@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -19,9 +19,9 @@
 
 import unittest
 
-from diffpy.Structure.tests.testutils import datafile
-from diffpy.Structure import Structure
-from diffpy.Structure.expansion import supercell
+from diffpy.structure.tests.testutils import datafile
+from diffpy.structure import Structure
+from diffpy.structure.expansion import supercell
 
 
 ##############################################################################

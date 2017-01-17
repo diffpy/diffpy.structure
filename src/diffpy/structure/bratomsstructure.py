@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -16,7 +16,7 @@
 """definition of BRAtomsStructure class derived from Structure
 """
 
-from diffpy.Structure.structure import Structure
+from diffpy.structure.structure import Structure
 
 ##############################################################################
 class BRAtomsStructure(Structure):

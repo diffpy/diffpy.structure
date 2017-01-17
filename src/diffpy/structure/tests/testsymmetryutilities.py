@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -20,11 +20,11 @@ import sys
 import unittest
 import numpy
 
-from diffpy.Structure.SpaceGroups import GetSpaceGroup
-from diffpy.Structure.SymmetryUtilities import (isSpaceGroupLatPar,
+from diffpy.structure.spacegroups import GetSpaceGroup
+from diffpy.structure.symmetryutilities import (isSpaceGroupLatPar,
         expandPosition, pruneFormulaDictionary, isconstantFormula,
         GeneratorSite, ExpandAsymmetricUnit, SymmetryConstraints)
-from diffpy.Structure.SymmetryUtilities import _Position2Tuple
+from diffpy.structure.symmetryutilities import _Position2Tuple
 
 ##############################################################################
 class TestRoutines(unittest.TestCase):

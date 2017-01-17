@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -33,7 +33,7 @@ Options:
 
 import sys
 
-from diffpy.Structure import Structure, StructureFormatError
+from diffpy.structure import Structure, StructureFormatError
 
 def usage(style = None):
     """show usage info, for style=="brief" show only first 2 lines"""
@@ -44,15 +44,15 @@ def usage(style = None):
         msg = msg.split("\n")[1] + "\n" + \
                 "Try `%s --help' for more information." % myname
     else:
-        from diffpy.Structure.Parsers import inputFormats, outputFormats
+        from diffpy.structure.parsers import inputFormats, outputFormats
         msg = msg.replace("inputFormats", " ".join(inputFormats()))
         msg = msg.replace("outputFormats", " ".join(outputFormats()))
     print(msg)
     return
 
 def version():
-    from diffpy.Structure import __version__
-    print("diffpy.Structure", __version__)
+    from diffpy.structure import __version__
+    print("diffpy.structure", __version__)
 
 def main():
     import getopt
@@ -75,7 +75,7 @@ def main():
         usage('brief')
         sys.exit()
     # process arguments
-    from diffpy.Structure.Parsers import inputFormats, outputFormats
+    from diffpy.structure.parsers import inputFormats, outputFormats
     try:
         infmt, outfmt = args[0].split('..', 1)
         if infmt not in inputFormats():

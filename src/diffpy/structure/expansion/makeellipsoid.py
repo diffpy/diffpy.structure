@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -17,8 +17,8 @@
 
 from math import ceil
 from numpy import array
-from diffpy.Structure import Structure
-from diffpy.Structure.expansion.shapeUtils import findCenter
+from diffpy.structure import Structure
+from diffpy.structure.expansion.shapeutils import findCenter
 
 def makeSphere(S, radius):
     """Create a spherical nanoparticle.
@@ -53,7 +53,7 @@ def makeEllipsoid(S, a, b=None, c=None):
     mno = list(map(ceil, 2*frac))
     mno = max(list(map(ceil, 2*frac)))*array([1,1,1])
     # Make the supercell
-    from diffpy.Structure.expansion import supercell
+    from diffpy.structure.expansion import supercell
     newS = supercell(S, mno)
     lat = newS.lattice
 

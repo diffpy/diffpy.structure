@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -22,7 +22,7 @@ supercell   -- create a supercell from an existing Structure.
 
 # Import below whatever should be available at package namespace.
 
-from diffpy.Structure.expansion.supercell_mod import supercell
+from diffpy.structure.expansion.supercell_mod import supercell
 
 # silence pyflakes checker
 assert supercell

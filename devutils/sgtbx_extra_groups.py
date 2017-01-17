@@ -13,14 +13,14 @@ Not to be included with code distributions.
 import re
 import math
 import numpy
-from diffpy.Structure.SpaceGroups import SpaceGroup, SymOp
-from diffpy.Structure.SpaceGroups import mmLibSpaceGroupList
-from diffpy.Structure.SpaceGroups import IsSpaceGroupIdentifier
+from diffpy.structure.spacegroups import SpaceGroup, SymOp
+from diffpy.structure.spacegroups import mmLibSpaceGroupList
+from diffpy.structure.spacegroups import IsSpaceGroupIdentifier
 from cctbx import sgtbx
 
 def tupleToSGArray(tpl):
     if not _rtarrays:
-        import diffpy.Structure.SpaceGroups as sgmod
+        import diffpy.structure.SpaceGroups as sgmod
         for n in dir(sgmod):
             if not n.startswith('Rot_') and not n.startswith('Tr_'): continue
             a = getattr(sgmod, n)
@@ -159,7 +159,7 @@ def SymOpsCode(mmsg):
 
 def SymOpCode(op):
     if not _rtnames:
-        import diffpy.Structure.SpaceGroups as sgmod
+        import diffpy.structure.SpaceGroups as sgmod
         for n in dir(sgmod):
             if not n.startswith('Rot_') and not n.startswith('Tr_'): continue
             a = getattr(sgmod, n)

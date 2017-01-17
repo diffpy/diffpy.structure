@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -17,7 +17,7 @@
 
 
 import numpy
-from diffpy.Structure.lattice import cartesian as cartesian_lattice
+from diffpy.structure.lattice import cartesian as cartesian_lattice
 
 # conversion constants
 _BtoU = 1.0/(8 * numpy.pi**2)

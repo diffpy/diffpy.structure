@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  Complex Modeling Initiative
+# diffpy.structure  Complex Modeling Initiative
 #                   (c) 2016 Brookhaven Science Associates,
 #                   Brookhaven National Laboratory.
 #                   All rights reserved.
@@ -22,8 +22,8 @@ Unit tests for the Atom class.
 import unittest
 import numpy
 
-from diffpy.Structure.atom import Atom
-from diffpy.Structure.lattice import Lattice
+from diffpy.structure.atom import Atom
+from diffpy.structure.lattice import Lattice
 
 ##############################################################################
 class TestAtom(unittest.TestCase):

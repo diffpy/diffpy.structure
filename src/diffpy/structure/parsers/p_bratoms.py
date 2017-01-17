@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -16,9 +16,9 @@
 """Parser for Bruce Ravel's Atoms structure format
 """
 
-from diffpy.Structure import Lattice, Atom, StructureFormatError
-from diffpy.Structure.bratomsstructure import BRAtomsStructure
-from diffpy.Structure.Parsers import StructureParser
+from diffpy.structure import Lattice, Atom, StructureFormatError
+from diffpy.structure.bratomsstructure import BRAtomsStructure
+from diffpy.structure.parsers import StructureParser
 
 class P_bratoms(StructureParser):
     """Parser for Bruce Ravel's Atoms structure format.

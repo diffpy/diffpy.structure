@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2011 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -17,9 +17,9 @@
 '''Space group classes and definitions from mmLib and sgtbx.
 '''
 
-from diffpy.Structure.spacegroupmod import *
-from diffpy.Structure.mmlibspacegroups import *
-from diffpy.Structure.sgtbxspacegroups import *
+from diffpy.structure.spacegroupmod import *
+from diffpy.structure.mmlibspacegroups import *
+from diffpy.structure.sgtbxspacegroups import *
 
 
 # all spacegroup definitions

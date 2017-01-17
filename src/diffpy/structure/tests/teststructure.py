@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -21,10 +21,10 @@ import copy
 import unittest
 import numpy
 
-from diffpy.Structure.tests.testutils import datafile
-from diffpy.Structure import Structure
-from diffpy.Structure import Lattice
-from diffpy.Structure import Atom
+from diffpy.structure.tests.testutils import datafile
+from diffpy.structure import Structure
+from diffpy.structure import Lattice
+from diffpy.structure import Atom
 
 # useful variables
 cdsefile = datafile('CdSe_bulk.stru')

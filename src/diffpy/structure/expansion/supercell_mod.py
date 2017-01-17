@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -17,7 +17,7 @@
 """
 
 import numpy
-from diffpy.Structure import Structure, Atom
+from diffpy.structure import Structure, Atom
 
 
 def supercell(S, mno):
@@ -27,7 +27,7 @@ def supercell(S, mno):
     divided by corresponding multiplier.  New atoms are grouped with
     their source in the original cell.
 
-    S   -- an instance of Structure from diffpy.Structure.
+    S   -- an instance of Structure from diffpy.structure.
     mno -- sequence of 3 integers for cell multipliers along
            the a, b and c axes.
 

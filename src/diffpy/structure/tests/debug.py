@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ##############################################################################
 #
-# diffpy.Structure  Complex Modeling Initiative
+# diffpy.structure  Complex Modeling Initiative
 #                   (c) 2016 Brookhaven Science Associates,
 #                   Brookhaven National Laboratory.
 #                   All rights reserved.
@@ -17,14 +17,14 @@
 """\
 Convenience module for debugging the unit tests using
 
-python -m diffpy.Structure.tests.debug
+python -m diffpy.structure.tests.debug
 
 Exceptions raised by failed tests or other errors are not caught.
 """
 
 
 if __name__ == '__main__':
-    from diffpy.Structure.tests import testsuite
+    from diffpy.structure.tests import testsuite
     suite = testsuite()
     suite.debug()
 
