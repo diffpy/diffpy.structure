@@ -257,17 +257,13 @@ class P_cif(StructureParser):
 
         Return Structure instance or raise StructureFormatError.
         """
-        # CifFile seems to be only able to read from existing files
-        import tempfile
-        out, tmpfile = tempfile.mkstemp()
-        os.write(out, s)
-        os.close(out)
-        try:
-            rv = self.parseFile(tmpfile)
-        finally:
-            os.remove(tmpfile)
-            self.filename = None
+        from io import StringIO
+        self.ciffile = None
+        self.filename = ''
+        fp = StringIO(s)
+        rv = self._parseCifDataSource(fp)
         return rv
+
 
     def parseLines(self, lines):
         """Parse list of lines in CIF format.
@@ -279,6 +275,7 @@ class P_cif(StructureParser):
         s = "\n".join(lines) + '\n'
         return self.parse(s)
 
+
     def parseFile(self, filename):
         """Create Structure from an existing CIF file.
 
@@ -287,28 +284,52 @@ class P_cif(StructureParser):
         Return Structure object.
         Raise StructureFormatError or IOError.
         """
-        import CifFile
+        self.ciffile = None
+        self.filename = filename
+        fileurl = fixIfWindowsPath(filename)
+        rv = self._parseCifDataSource(fileurl)
+        # all good here
+        return self.stru
+
+
+    def _parseCifDataSource(self, datasource):
+        """\
+        Open and process CIF data from the specified `datasource`.
+
+
+        Parameters
+        ----------
+        datasource : str or a file-like object
+            This is used as an argument to the CifFile class.  The CifFile
+            instance is stored in `ciffile` attribute of this Parser.
+
+        Returns
+        -------
+        Structure
+            The Structure object loaded from the specified data source.
+
+        Raises
+        ------
+        StructureFormatError
+            When the data do not constitute a valid CIF format.
+        """
+        from CifFile import CifFile
         fixpycif = _FixPyCifRW()
         StarError = fixpycif.importStarError()
-        # CifFile fails when filename is a unicode string
-        if type(filename) is str:
-            filename = str(filename)
-        self.filename = filename
         try:
-            fileurl = fixIfWindowsPath(filename)
             fixpycif.disableParserOutput()
-            self.ciffile = CifFile.CifFile(fileurl)
-            for blockname, ignore in list(self.ciffile.items()):
+            self.ciffile = CifFile(datasource)
+            for blockname, ignore in self.ciffile.items():
                 self._parseCifBlock(blockname)
                 # stop after reading the first structure
-                if self.stru:   break
+                if self.stru:
+                    break
         except (StarError, ValueError, IndexError) as err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err).strip()
             raise StructureFormatError(emsg).with_traceback(exc_traceback)
         finally:
             fixpycif.restoreParserOutput()
-        # all good here
         return self.stru
 
 
