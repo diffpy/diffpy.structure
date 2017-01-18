@@ -688,6 +688,8 @@ def fixIfWindowsPath(filename):
 
     Return fixed URL when run on Windows, otherwise return filename.
     """
+    from warnings import warn
+    warn("make sure this is still needed on Windows.")
     fixedname = filename
     if os.name == "nt" and re.match(r'^[a-z]:\\', filename, re.I):
         import urllib.request, urllib.parse, urllib.error
@@ -703,6 +705,8 @@ class _FixPyCifRW(object):
     _isversion4 = None
     _yapps3_print_error = None
     _yapps3_module = None
+
+    # TODO -- rewrite for PyCifRW > 4.
 
     def isVersion4(self):
         "True if the installed PyCifRW is at least 4.0 or later."
