@@ -695,18 +695,16 @@ class SymmetryConstraints(object):
         self.Ueqns = None
         self.Upars = []
         self.Uisotropy = None
-        # handle single position:
-        import types
         # handle list of lists returned by ExpandAsymmetricUnit
-        if len(positions) and type(positions[0]) is list:
+        if len(positions) and isinstance(positions[0], list):
             # concatenate lists before converting to Nx3 array
             flatpos = sum(positions, [])
             flatpos = numpy.array(flatpos, dtype=float).flatten()
-            self.positions = flatpos.reshape((flatpos.size/3, 3))
+            self.positions = flatpos.reshape((-1, 3))
         # otherwise convert to array
         else:
             flatpos = numpy.array(positions, dtype=float).flatten()
-            self.positions = flatpos.reshape((flatpos.size/3, 3))
+            self.positions = flatpos.reshape((-1, 3))
         # here self.positions should be a 2D numpy array
         numpos = len(self.positions)
         # adjust Uijs if not specified
