@@ -8,12 +8,15 @@ os:
   - osx
 
 env:
-  - MYUSEMC=true MYPYTHON_VERSION=2.7
+  - MYUSEMC=true MYPYTHON_VERSION=3.3
+  - MYUSEMC=true MYPYTHON_VERSION=3.4
+  - MYUSEMC=true MYPYTHON_VERSION=3.5
+  - MYUSEMC=true MYPYTHON_VERSION=3.6
   - MYUSEMC=false
 
 matrix:
   exclude:
-    - os: osx
+    - os: linux
       env: MYUSEMC=false
 
 git:
@@ -21,34 +24,25 @@ git:
 
 branches:
   except:
-    # FIXME
-    - python3
     - /^v[0-9]/
-
-addons:
-  apt:
-    packages:
-    - python-dev
-    - python-numpy
-    - python-setuptools
-    - build-essential
 
 before_install:
   - MYNAME=diffpy.structure
   - umask 022
   - git fetch origin --tags
   - if ${MYUSEMC}; then
-        NOAPT=true; NOMC=false;
+        NOBREW=true; NOMC=false;
+        MYPIP=pip;
     else
-        NOAPT=false; NOMC=true;
-        MYPIPFLAGS="--user";
+        NOBREW=false; NOMC=true;
+        MYPIP=pip3; MYPIPFLAGS="--user";
     fi
   - MYMCREPO=https://repo.continuum.io/miniconda
   - case ${TRAVIS_OS_NAME} in
     linux)
-        MYMCBUNDLE=Miniconda-latest-Linux-x86_64.sh ;;
+        MYMCBUNDLE=Miniconda3-latest-Linux-x86_64.sh ;;
     osx)
-        MYMCBUNDLE=Miniconda-latest-MacOSX-x86_64.sh ;;
+        MYMCBUNDLE=Miniconda3-latest-MacOSX-x86_64.sh ;;
     *)
         echo "Unsupported operating system." >&2;
         exit 2 ;;
@@ -68,10 +62,16 @@ before_install:
   - $NOMC || conda install --yes conda-build jinja2
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
   - $NOMC || conda config --add channels diffpy
+  # FIXME - remove for release.
+  - $NOMC || conda config --add channels pavoljuhas/channel/dev
 
-  - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
-  - $NOAPT || devutils/makesdist
-  - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
+  - $NOBREW || test "${TRAVIS_OS_NAME}" = "osx" || exit $?
+  - $NOBREW || brew update
+  - $NOBREW || brew install python3
+  - $NOBREW || brew tap homebrew/python
+  - $NOBREW || brew install numpy --without-python --with-python3
+  - $NOBREW || devutils/makesdist
+  - $NOBREW || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
 install:
   - $NOMC || CONDA_PY=${MYPYTHON_VERSION} conda build --keep-old-work conda-recipe
@@ -81,22 +81,23 @@ install:
   - $NOMC || source activate testenv
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
 
-  - $NOAPT || pip install $MYPIPFLAGS coverage
-  - $NOAPT || easy_install --user "${MYTARBUNDLE}"
-
-  # We need to capitalize MYNAME to match Python module name.
-  - MYNAME=diffpy.structure
+  - $NOBREW || $MYPIP install $MYPIPFLAGS coverage
+  - $NOBREW || $MYPIP install $MYPIPFLAGS "${MYTARBUNDLE}"
 
   - cd ${MYRUNDIR}
-  - MYGIT_REV=$(python -c "import ${MYNAME}.version as v; print(v.__gitsha__)")
+  - MYGIT_REV=$(python3 -c "import ${MYNAME}.version as v; print(v.__gitsha__)")
   - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
         echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
         exit 1;
     fi
 
+before_script:
+  - $NOBREW || USER_BASE="$(python3 -c 'import site; print(site.USER_BASE)')"
+  - $NOBREW || PATH="${USER_BASE}/bin:${PATH}"
+
 script:
   - coverage run --source ${MYNAME} -m ${MYNAME}.tests.run
 
 after_success:
-  - pip install $MYPIPFLAGS codecov
+  - $MYPIP install $MYPIPFLAGS codecov
   - codecov
