@@ -6,6 +6,8 @@ Packages:   diffpy.structure
 """
 
 import os
+import re
+import sys
 from setuptools import setup, find_packages
 
 # Use this version when git data are not available, like in git zip archive.
@@ -33,8 +35,10 @@ def gitinfo():
 
 
 def getversioncfg():
-    import re
-    from configparser import RawConfigParser
+    if sys.version_info[0] >= 3:
+        from configparser import RawConfigParser
+    else:
+        from ConfigParser import RawConfigParser
     vd0 = dict(version=FALLBACK_VERSION, commit='', date='', timestamp=0)
     # first fetch data from gitarchivecfgfile, ignore if it is unexpanded
     g = vd0.copy()
