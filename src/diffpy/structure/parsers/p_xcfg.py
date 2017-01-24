@@ -338,36 +338,31 @@ class P_xcfg(StructureParser):
         if p_allUzero:
             pass
         elif p_allUiso:
-            p_auxiliaries.append( ('Uiso', 'a.U[0,0]') )
+            p_auxiliaries.append(('Uiso', 'uflat[0]'))
         else:
-            p_auxiliaries.extend([ ('U11', 'a.U[0,0]'),
-                                   ('U22', 'a.U[1,1]'),
-                                   ('U33', 'a.U[2,2]') ])
+            p_auxiliaries.extend([('U11', 'uflat[0]'),
+                                  ('U22', 'uflat[4]'),
+                                  ('U33', 'uflat[8]')])
             # check if there are off-diagonal elements
             allU = numpy.array([a.U for a in stru])
             if numpy.any(allU[:,0,1] != 0.0):
-                p_auxiliaries.append( ('U12', 'a.U[0,1]') )
+                p_auxiliaries.append(('U12', 'uflat[1]'))
             if numpy.any(allU[:,0,2] != 0.0):
-                p_auxiliaries.append( ('U13', 'a.U[0,2]') )
+                p_auxiliaries.append(('U13', 'uflat[2]'))
             if numpy.any(allU[:,1,2] != 0.0):
-                p_auxiliaries.append( ('U23', 'a.U[1,2]') )
+                p_auxiliaries.append(('U23', 'uflat[5]'))
         # count entries
-        p_entry_count = 6 - 3*p_NO_VELOCITY + len(p_auxiliaries)
+        p_entry_count = (3 if p_NO_VELOCITY else 6) + len(p_auxiliaries)
         lines.append("entry_count = %d" % p_entry_count)
         # add auxiliaries
         for i in range(len(p_auxiliaries)):
             lines.append("auxiliary[%d] = %s [au]" % (i, p_auxiliaries[i][0]))
-        # now define p_entry_line function for representing atom properties
-        p_exprs = [ "def p_entry_line(a, p_A, p_dxyz):",
-                    "    fields = list( a.xyz/p_A+p_dxyz )" ]
+        # now define entry format efmt for representing atom properties
+        fmwords = ["{pos[0]:.8g}", "{pos[1]:.8g}", "{pos[2]:.8g}"]
         if not p_NO_VELOCITY:
-            p_exprs.append( \
-                    "    fields += [ a.v[0], a.v[1], a.v[2] ]" )
-        p_exprs += ["    fields += [ " +
-                         ",".join([e for p,e in p_auxiliaries]) + " ]",
-                    "    line = ' '.join([ '%.8g' % x for x in fields ])",
-                    "    return line"  ]
-        exec("\n".join(p_exprs))
+            fmwords += ["{v[0]:.8g}", "{v[1]:.8g}", "{v[2]:.8g}"]
+        fmwords += (('{' + e + ':.8g}') for p, e in p_auxiliaries)
+        efmt = ' '.join(fmwords)
         # we are ready to output atoms:
         lines.append("")
         p_element = None
@@ -376,7 +371,11 @@ class P_xcfg(StructureParser):
                 p_element = a.element
                 lines.append("%.4f" % AtomicMass.get(p_element, 0.0))
                 lines.append(p_element)
-            lines.append(p_entry_line(a, p_A, p_dxyz))
+            pos = a.xyz / p_A + p_dxyz
+            v = None if p_NO_VELOCITY else a.v
+            uflat = numpy.ravel(a.U)
+            entry = efmt.format(pos=pos, v=v, uflat=uflat, a=a)
+            lines.append(entry)
         return lines
     # End of toLines
 
