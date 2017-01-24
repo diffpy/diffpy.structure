@@ -238,7 +238,6 @@ class TestP_pdb(unittest.TestCase):
 # End of TestP_pdb
 
 ##############################################################################
-@unittest.skip("FIXME")
 class TestP_xcfg(unittest.TestCase):
     """test Parser for XCFG file format"""
 
@@ -267,6 +266,7 @@ class TestP_xcfg(unittest.TestCase):
         f_lat = [127.5, 119.5, 3.0, 90.0, 90.0, 90.0]
         self.assertListAlmostEqual(s_lat, f_lat)
 
+    @unittest.skip("FIXME")
     def test_rwStr_xcfg_CdSe(self):
         """check conversion to XCFG file format"""
         stru = self.stru

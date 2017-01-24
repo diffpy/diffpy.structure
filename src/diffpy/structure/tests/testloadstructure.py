@@ -12,7 +12,6 @@ from diffpy.structure import Structure, PDFFitStructure, StructureFormatError
 ##############################################################################
 class TestLoadStructure(unittest.TestCase):
 
-    @unittest.skip("FIXME")
     def test_xcfg(self):
         """check loading of atomeye xcfg format
         """
