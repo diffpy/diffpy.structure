@@ -152,7 +152,7 @@ def positionDifference(xyz0, xyz1):
 
     Return dxyz, a numpy.array dxyz with 0 <= dxyz <= 0.5.
     """
-    dxyz = numpy.array(xyz0) - xyz1
+    dxyz = numpy.asarray(xyz0) - xyz1
     # map differences to [0,0.5]
     dxyz = dxyz - numpy.floor(dxyz)
     mask = (dxyz > 0.5)
@@ -709,7 +709,7 @@ class SymmetryConstraints(object):
         numpos = len(self.positions)
         # adjust Uijs if not specified
         if Uijs is not None:
-            self.Uijs = numpy.array(Uijs)
+            self.Uijs = numpy.array(Uijs, dtype=float)
         else:
             self.Uijs = numpy.zeros((numpos, 3, 3), dtype=float)
         self.poseqns = numpos*[None]
