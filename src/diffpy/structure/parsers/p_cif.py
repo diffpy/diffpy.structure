@@ -22,6 +22,7 @@ import sys
 import os
 import re
 import copy
+from contextlib import contextmanager
 import numpy
 
 from diffpy.structure import Structure, Lattice, Atom
@@ -313,23 +314,20 @@ class P_cif(StructureParser):
         StructureFormatError
             When the data do not constitute a valid CIF format.
         """
-        from CifFile import CifFile
-        fixpycif = _FixPyCifRW()
-        StarError = fixpycif.importStarError()
+        from CifFile import CifFile, StarError
+        self.stru = None
         try:
-            fixpycif.disableParserOutput()
-            self.ciffile = CifFile(datasource)
-            for blockname, ignore in self.ciffile.items():
-                self._parseCifBlock(blockname)
-                # stop after reading the first structure
-                if self.stru:
-                    break
+            with _suppressCifParserOutput():
+                self.ciffile = CifFile(datasource)
+                for blockname in self.ciffile.keys():
+                    self._parseCifBlock(blockname)
+                    # stop after reading the first structure
+                    if self.stru is not None:
+                        break
         except (StarError, ValueError, IndexError) as err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err).strip()
             raise StructureFormatError(emsg).with_traceback(exc_traceback)
-        finally:
-            fixpycif.restoreParserOutput()
         return self.stru
 
 
@@ -697,61 +695,6 @@ def fixIfWindowsPath(filename):
     return fixedname
 
 
-class _FixPyCifRW(object):
-
-    """Uniform interface helper for various PyCifRW versions.
-    """
-
-    _isversion4 = None
-    _yapps3_print_error = None
-    _yapps3_module = None
-
-    # TODO -- rewrite for PyCifRW > 4.
-
-    def isVersion4(self):
-        "True if the installed PyCifRW is at least 4.0 or later."
-        import pkg_resources
-        cls = _FixPyCifRW
-        if cls._isversion4 is None:
-            dist = pkg_resources.get_distribution('PyCifRW')
-            v4 = pkg_resources.parse_version('4')
-            cls._isversion4 = (dist.parsed_version >= v4)
-        return cls._isversion4
-
-
-    def importStarError(self):
-        "Import and return the StarError exception from PyCifRW."
-        if self.isVersion4():
-            from CifFile.StarFile import StarError
-        else:
-            from StarFile import StarError
-        return StarError
-
-
-    def disableParserOutput(self):
-        """Disable PyCifRW output due to CIF parsing errors.
-        """
-        if not self.isVersion4():  return
-        cls = _FixPyCifRW
-        if cls._yapps3_module is None:
-            import CifFile.yapps3_compiled_rt as mod
-            cls._yapps3_module = mod
-            cls._yapps3_print_error = mod.print_error
-        noop = lambda *a, **kw : None
-        cls._yapps3_module.print_error = noop
-        return
-
-
-    def restoreParserOutput(self):
-        """Restore PyCifRW output as implemented.
-        """
-        if not self.isVersion4():  return
-        cls = _FixPyCifRW
-        assert cls._yapps3_print_error is not None
-        cls._yapps3_module.print_error = cls._yapps3_print_error
-        return
-
-
 def getParser(eps=None):
     """Return new parser object for CIF structure format.
 
@@ -760,4 +703,19 @@ def getParser(eps=None):
     """
     return P_cif(eps=eps)
 
-# End of file
+# Local Helpers --------------------------------------------------------------
+
+@contextmanager
+def _suppressCifParserOutput():
+    """\
+    Context manager which suppresses diagnostic messages from CIF parser.
+    """
+    from CifFile import yapps3_compiled_rt
+    print_error = yapps3_compiled_rt.print_error
+    # replace the print_error function with no-operation
+    yapps3_compiled_rt.print_error = lambda *a, **kw : None
+    try:
+        yield print_error
+    finally:
+        yapps3_compiled_rt.print_error = print_error
+    pass
