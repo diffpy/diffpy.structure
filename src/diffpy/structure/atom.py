@@ -25,7 +25,7 @@ _UtoB = 1.0/_BtoU
 
 # ----------------------------------------------------------------------------
 
-class Atom(object):
+class Atom:
     """Atom --> class for storing atom information
 
     Data members:

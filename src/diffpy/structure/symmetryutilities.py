@@ -101,7 +101,7 @@ def isconstantFormula(s):
 
 # Helper class intended for this module only:
 
-class _Position2Tuple(object):
+class _Position2Tuple:
     """Create callable object that converts fractional coordinates to
     a tuple of integers with given precision.  For presision close to zero
     it will return a tuples of double.
@@ -274,7 +274,7 @@ def _findInvariants(symops):
 # End of _findInvariants
 
 
-class GeneratorSite(object):
+class GeneratorSite:
     """Storage of data related to a generator positions.
 
     Data members:
@@ -565,7 +565,7 @@ class GeneratorSite(object):
 
 # End of class GeneratorSite
 
-class ExpandAsymmetricUnit(object):
+class ExpandAsymmetricUnit:
     """Expand asymmetric unit and anisotropic thermal displacement
 
     Data members:
@@ -643,7 +643,7 @@ def pruneFormulaDictionary(eqdict):
 
 # End of pruneFormulaDictionary
 
-class SymmetryConstraints(object):
+class SymmetryConstraints:
     """Generate symmetry constraints for specified positions
 
     Data members:

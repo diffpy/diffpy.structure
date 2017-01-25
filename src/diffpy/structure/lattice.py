@@ -50,7 +50,7 @@ def sind(x):
 
 # ----------------------------------------------------------------------------
 
-class Lattice(object):
+class Lattice:
     """Lattice --> general coordinate system
 
     Data members:
@@ -479,7 +479,7 @@ class Lattice(object):
 
 # End of class Lattice
 
-# Local Helper Functions -----------------------------------------------------
+# Local Helpers --------------------------------------------------------------
 
 def _isotropicunit(recnormbase):
     """Calculate matrix for unit isotropic displacement parameters.

@@ -109,7 +109,7 @@ Tr_0_0_16     = numpy.array([     0.0,     0.0, 1.0/6.0 ], float)
 Tr_34_14_34   = numpy.array([ 3.0/4.0, 1.0/4.0, 3.0/4.0 ], float)
 
 
-class SymOp(object):
+class SymOp:
     """A subclass of the tuple class for performing one symmetry operation.
     """
     def __init__(self, R, t):
@@ -142,7 +142,7 @@ class SymOp(object):
             return True
 
 
-class SpaceGroup(object):
+class SpaceGroup:
     """Contains the various names and symmetry operations for one space
     group.
     """
