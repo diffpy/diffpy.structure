@@ -37,7 +37,7 @@ import sys
 import os
 import re
 import signal
-from diffpy.structure import structureformaterror
+from diffpy.structure import StructureFormatError
 
 # parameter dictionary
 pd = {  'formula' : None,
