@@ -12,14 +12,6 @@ diffpy.structure.parsers.p_auto module
     :undoc-members:
     :show-inheritance:
 
-diffpy.structure.parsers.p_bratoms module
------------------------------------------
-
-.. automodule:: diffpy.structure.parsers.p_bratoms
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 diffpy.structure.parsers.p_cif module
 -------------------------------------
 

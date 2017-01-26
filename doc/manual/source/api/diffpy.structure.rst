@@ -45,14 +45,6 @@ diffpy.structure.atom module
     :undoc-members:
     :show-inheritance:
 
-diffpy.structure.bratomsstructure module
-----------------------------------------
-
-.. automodule:: diffpy.structure.bratomsstructure
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 diffpy.structure.lattice module
 -------------------------------
 

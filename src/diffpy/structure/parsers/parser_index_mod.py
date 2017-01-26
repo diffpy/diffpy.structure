@@ -91,15 +91,6 @@ parser_index = {
         'has_input' : True,
         'has_output' : True,
         },
-
-    # Bruce Ravel's atoms format
-    'bratoms' : {
-        'module' : 'p_bratoms',
-        'file_extension' : '.inp',
-        'file_pattern' : '*.inp',
-        'has_input' : True,
-        'has_output' : True,
-        },
 }
 
 # End of file

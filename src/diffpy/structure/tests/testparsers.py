@@ -287,52 +287,7 @@ class TestP_xcfg(unittest.TestCase):
 
 # End of TestP_xcfg
 
-
-##############################################################################
-class TestP_bratoms(unittest.TestCase):
-    """test Parser for Bruce Ravel's atoms file format"""
-
-    def setUp(self):
-        self.stru = Structure()
-        self.format = "bratoms"
-        self.places = 6
-
-    def test_writeStr_cif(self):
-        """check conversion to CIF string"""
-        stru = self.stru
-        stru.read(datafile('GaAs.inp'), 'bratoms')
-        stru.writeStr(self.format)
-
-    def test_read_bratoms_bad(self):
-        """check exceptions when reading invalid bratoms file"""
-        badfiles = [
-                'LiCl-bad.cif',
-                'PbTe.cif',
-                'arginine.pdb',
-                'ZnSb_RT_Q28X_VM_20_fxiso.rstr',
-                'Ni-bad.stru',
-                'Ni-discus.stru',
-                'Ni.stru',
-                'BubbleRaftShort.xcfg',
-                'bucky-bad1.xyz',
-                'bucky-bad2.xyz',
-                'bucky-plain-bad.xyz',
-                'bucky-plain.xyz',
-                'bucky-raw.xyz',
-                'bucky.xyz',
-                'hexagon-raw-bad.xyz',
-                'hexagon-raw.xyz',
-        ]
-        for ft in badfiles:
-            ff = datafile(ft)
-            self.assertRaises(StructureFormatError,
-                    self.stru.read, ff, format=self.format)
-        return
-
-# End of TestP_bratoms
-
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
-
-# End of file
