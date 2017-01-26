@@ -9,7 +9,8 @@ source:
   git_url: ..
 
 build:
-  preserve_egg_dir: True
+  skip: True            # [not py3k]
+
   # entry_points:
     # Put any entry points (scripts to be generated automatically) here. The
     # syntax is module:function.  For example
@@ -17,7 +18,6 @@ build:
     # - diffpy.structure = diffpy.structure:main
     #
     # Would create an entry point called diffpy.structure that calls diffpy.structure.main()
-
 
   # If this is a new build for the same version, increment the build
   # number. If you do not include this key, it defaults to 0.
@@ -38,7 +38,6 @@ requirements:
 test:
   # Python imports
   imports:
-    - diffpy
     - diffpy.structure
     - diffpy.structure.parsers
     - diffpy.structure.applications
