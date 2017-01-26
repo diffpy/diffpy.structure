@@ -19,7 +19,6 @@ http://www.iucr.org/iucr-top/cif/home.html
 """
 
 import sys
-import os
 import re
 import copy
 from contextlib import contextmanager
@@ -287,7 +286,7 @@ class P_cif(StructureParser):
         """
         self.ciffile = None
         self.filename = filename
-        fileurl = fixIfWindowsPath(filename)
+        fileurl = _fixIfWindowsPath(filename)
         rv = self._parseCifDataSource(fileurl)
         # all good here
         return self.stru
@@ -678,7 +677,7 @@ def getSymOp(s):
     return rv
 
 
-def fixIfWindowsPath(filename):
+def _fixIfWindowsPath(filename):
     """Convert Windows-style path to valid local URL.
     CifFile loads files using urlopen, which fails for Windows-style paths.
 
@@ -686,13 +685,11 @@ def fixIfWindowsPath(filename):
 
     Return fixed URL when run on Windows, otherwise return filename.
     """
-    from warnings import warn
-    warn("make sure this is still needed on Windows.")
-    fixedname = filename
-    if os.name == "nt" and re.match(r'^[a-z]:\\', filename, re.I):
-        import urllib.request, urllib.parse, urllib.error
-        fixedname = urllib.request.pathname2url(filename)
-    return fixedname
+    rv = filename
+    if filename[:1].isalpha() and filename[1:3] == ':\\':
+        from urllib.request import pathname2url
+        rv = pathname2url(filename)
+    return rv
 
 
 def getParser(eps=None):
