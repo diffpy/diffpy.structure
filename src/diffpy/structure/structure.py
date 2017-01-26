@@ -343,11 +343,9 @@ class Structure(list):
 
         No return value.
         """
-        # FIXME
-        if copy:    adups = [Atom(a) for a in atoms]
-        else:       adups = atoms
-        for a in adups: a.lattice = self.lattice
-        super().extend(adups)
+        adups = map(Atom, atoms) if copy else atoms
+        setlat = lambda a: (setattr(a, 'lattice', self.lattice), a)[-1]
+        super().extend(setlat(a) for a in adups)
         return
 
 
