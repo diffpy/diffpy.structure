@@ -289,7 +289,7 @@ class P_cif(StructureParser):
         fileurl = _fixIfWindowsPath(filename)
         rv = self._parseCifDataSource(fileurl)
         # all good here
-        return self.stru
+        return rv
 
 
     def _parseCifDataSource(self, datasource):
