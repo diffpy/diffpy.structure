@@ -1,8 +1,8 @@
 .. image:: https://travis-ci.org/diffpy/diffpy.structure.svg?branch=python3
    :target: https://travis-ci.org/diffpy/diffpy.structure
 
-.. image:: http://codecov.io/github/diffpy/diffpy.structure/coverage.svg?branch=python3
-   :target: http://codecov.io/github/diffpy/diffpy.structure?branch=python3
+.. image:: https://codecov.io/gh/diffpy/diffpy.structure/branch/python3/graph/badge.svg
+   :target: https://codecov.io/gh/diffpy/diffpy.structure/branch/python3
 
 
 diffpy.structure
