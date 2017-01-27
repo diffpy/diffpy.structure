@@ -5,7 +5,7 @@ package:
   version: {{ setupdata['version'] }}
 
 source:
-  # git_url: https://github.com/diffpy/diffpy.Structure
+  # git_url: https://github.com/diffpy/diffpy.structure
   git_url: ..
 
 build:
@@ -58,7 +58,7 @@ test:
     # - nose
 
 about:
-  home: https://github.com/diffpy/diffpy.Structure
+  home: https://github.com/diffpy/diffpy.structure
   summary: Crystal structure container and parsers for structure formats.
   license: Modified BSD License
   license_file: LICENSE.txt

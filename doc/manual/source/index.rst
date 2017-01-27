@@ -51,7 +51,7 @@ originate from the pymmlib project, http://pymmlib.sourceforge.net.
 Installation
 ======================================
 
-See the `README.rst <https://github.com/diffpy/diffpy.Structure#requirements>`_
+See the `README.rst <https://github.com/diffpy/diffpy.structure#requirements>`_
 file included with the distribution.
 
 ======================================

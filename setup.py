@@ -86,7 +86,7 @@ setup_args = dict(
         author_email = 'sb2896@columbia.edu',
         maintainer = 'Pavol Juhas',
         maintainer_email = 'pavol.juhas@gmail.com',
-        url = 'https://github.com/diffpy/diffpy.Structure',
+        url = 'https://github.com/diffpy/diffpy.structure',
         description = "Crystal structure container "
                       "and parsers for structure formats.",
         license = 'BSD-style license',

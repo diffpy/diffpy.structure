@@ -1,8 +1,8 @@
-.. image:: https://travis-ci.org/diffpy/diffpy.Structure.svg?branch=master
-   :target: https://travis-ci.org/diffpy/diffpy.Structure
+.. image:: https://travis-ci.org/diffpy/diffpy.structure.svg?branch=master
+   :target: https://travis-ci.org/diffpy/diffpy.structure
 
-.. image:: http://codecov.io/github/diffpy/diffpy.Structure/coverage.svg?branch=master
-   :target: http://codecov.io/github/diffpy/diffpy.Structure?branch=master
+.. image:: http://codecov.io/github/diffpy/diffpy.structure/coverage.svg?branch=master
+   :target: http://codecov.io/github/diffpy/diffpy.structure?branch=master
 
 
 diffpy.Structure
@@ -86,7 +86,7 @@ DEVELOPMENT
 diffpy.Structure is an open-source software developed as a part of the
 DiffPy-CMI complex modeling initiative at the Brookhaven National
 Laboratory.  The diffpy.Structure sources are hosted at
-https://github.com/diffpy/diffpy.Structure.
+https://github.com/diffpy/diffpy.structure.
 
 Feel free to fork the project and contribute.  To install diffpy.Structure
 in a development mode, where the sources are directly used by Python
