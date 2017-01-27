@@ -8,7 +8,6 @@ os:
   - osx
 
 env:
-  - MYUSEMC=true MYPYTHON_VERSION=3.3
   - MYUSEMC=true MYPYTHON_VERSION=3.4
   - MYUSEMC=true MYPYTHON_VERSION=3.5
   - MYUSEMC=true MYPYTHON_VERSION=3.6
@@ -33,9 +32,6 @@ before_install:
   - if ${MYUSEMC}; then
         NOBREW=true; NOMC=false;
         MYPIP=pip;
-        if [[ "${MYPYTHON_VERSION}" == 3.3 ]]; then
-            MYBUILDFLAGS="--prefix-length=128";
-        fi;
     else
         NOBREW=false; NOMC=true;
         MYPIP=pip3; MYPIPFLAGS="--user";
@@ -77,8 +73,7 @@ before_install:
   - $NOBREW || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
 install:
-  - $NOMC || conda build --python=${MYPYTHON_VERSION}
-                --keep-old-work ${MYBUILDFLAGS} conda-recipe
+  - $NOMC || conda build --python=${MYPYTHON_VERSION} --keep-old-work conda-recipe
   - $NOMC || MYCONDATESTENV="$(ls -td ~/mc/conda-bld/conda-recipe_*/_t_env | head -1)"
   - $NOMC || source activate ${MYCONDATESTENV:?"conda test environment not found"}
   - $NOMC || conda list  --export ${MYNAME} > /tmp/mypackage.txt
