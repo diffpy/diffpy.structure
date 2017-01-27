@@ -2,7 +2,7 @@
    :target: https://travis-ci.org/diffpy/diffpy.structure
 
 .. image:: https://codecov.io/gh/diffpy/diffpy.structure/branch/master/graph/badge.svg
-   :target: https://codecov.io/github/diffpy/diffpy.structure
+   :target: https://codecov.io/gh/diffpy/diffpy.structure
 
 
 diffpy.Structure
