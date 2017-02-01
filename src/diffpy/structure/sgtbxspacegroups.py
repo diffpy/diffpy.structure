@@ -4956,5 +4956,3 @@ sgtbxSpaceGroupList = [
         sg5068, sg6068, sg7068, sg1072, sg2072, sg1073, sg1074, sg2074,
         sg3074, sg4074, sg5074,
 ]
-
-# End of file

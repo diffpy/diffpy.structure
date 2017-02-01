@@ -23,7 +23,8 @@ from diffpy.structure.lattice import Lattice
 from diffpy.structure.atom import Atom
 from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class Structure(list):
     """Structure --> group of atoms
 
@@ -42,6 +43,7 @@ class Structure(list):
     title = ''
     _lattice = None
     pdffit = None
+
 
     def __init__(self, atoms=None, lattice=None, title=None,
             filename=None, format=None):

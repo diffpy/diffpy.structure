@@ -50,9 +50,12 @@ def usage(style = None):
     print(msg)
     return
 
+
 def version():
     from diffpy.structure import __version__
     print("diffpy.structure", __version__)
+    return
+
 
 def main():
     import getopt
@@ -106,6 +109,8 @@ def main():
     except StructureFormatError as errmsg:
         print("%s: %s" % (strufile, errmsg), file=sys.stderr)
         sys.exit(1)
+    return
+
 
 if __name__ == "__main__":
     main()

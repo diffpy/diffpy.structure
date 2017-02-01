@@ -498,5 +498,3 @@ def _isotropicunit(recnormbase):
 # Module Constants -----------------------------------------------------------
 
 cartesian = Lattice()
-
-# End of file.

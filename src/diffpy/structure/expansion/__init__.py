@@ -26,5 +26,3 @@ from diffpy.structure.expansion.supercell_mod import supercell
 
 # silence pyflakes checker
 assert supercell
-
-# End of file

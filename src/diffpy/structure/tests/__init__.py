@@ -52,6 +52,3 @@ def test():
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
     return result
-
-
-# End of file

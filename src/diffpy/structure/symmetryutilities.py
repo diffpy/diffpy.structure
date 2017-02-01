@@ -23,7 +23,7 @@ import numpy
 
 from diffpy.structure.structureerrors import SymmetryError
 
-# Constants:
+# Constants ------------------------------------------------------------------
 
 # Default tolerance for equality of 2 positions, also
 # used for identification of special positions.
@@ -33,7 +33,7 @@ epsilon = 1.0e-5
 # displacement tensor.
 stdUsymbols = ['U11', 'U22', 'U33', 'U12', 'U13', 'U23']
 
-# End of constants
+# ----------------------------------------------------------------------------
 
 def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
     """Check if space group allows passed lattice parameters.
@@ -75,8 +75,6 @@ def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
     rule = crystal_system_rules[spacegroup.crystal_system]
     return rule()
 
-# End of isSpaceGroupLatPar
-
 
 # Constant regular expression used in isconstantFormula().
 # isconstantFormula runs faster when regular expression is not
@@ -95,9 +93,6 @@ def isconstantFormula(s):
     """
     res = _rx_constant_formula.match(s.replace(' ', ''))
     return bool(res)
-
-# End of isconstantFormula
-
 
 # Helper class intended for this module only:
 
@@ -128,6 +123,7 @@ class _Position2Tuple:
             self.eps = 0.0
         return
 
+
     def __call__(self, xyz):
         """Convert array of fractional coordinates to a tuple.
 
@@ -145,6 +141,7 @@ class _Position2Tuple:
 
 # End of class _Position2Tuple
 
+
 def positionDifference(xyz0, xyz1):
     """Smallest difference between two coordinates in periodic lattice.
 
@@ -159,7 +156,6 @@ def positionDifference(xyz0, xyz1):
     dxyz[mask] = 1.0 - dxyz[mask]
     return dxyz
 
-# End of positionDifference
 
 def nearestSiteIndex(sites, xyz):
     """Index of the nearest site to a specified position.
@@ -174,7 +170,6 @@ def nearestSiteIndex(sites, xyz):
     nearindex = numpy.argmin(dbox)
     return nearindex
 
-# End of nearestSiteIndex
 
 def equalPositions(xyz0, xyz1, eps):
     """Equality of two coordinates with optional tolerance.
@@ -188,7 +183,6 @@ def equalPositions(xyz0, xyz1, eps):
     dxyz = positionDifference(xyz0, xyz1)
     return numpy.all(dxyz <= eps)
 
-# End of equalPositions
 
 def expandPosition(spacegroup, xyz, sgoffset=[0,0,0], eps=None):
     """Obtain unique equivalent positions and corresponding operations.
@@ -232,7 +226,6 @@ def expandPosition(spacegroup, xyz, sgoffset=[0,0,0], eps=None):
     multiplicity = len(positions)
     return positions, pos_symops, multiplicity
 
-# End of expandPosition
 
 def nullSpace(A):
     """Null space of matrix A.
@@ -245,8 +238,6 @@ def nullSpace(A):
     mask[s > epsilon] = False
     null_space = numpy.compress(mask, v, axis=0)
     return null_space
-
-# End of nullSpace
 
 
 def _findInvariants(symops):
@@ -271,8 +262,7 @@ def _findInvariants(symops):
         raise ValueError(emsg)
     return invrnts
 
-# End of _findInvariants
-
+# ----------------------------------------------------------------------------
 
 class GeneratorSite:
     """Storage of data related to a generator positions.
@@ -364,6 +354,7 @@ class GeneratorSite:
         self._findeqUij()
         return
 
+
     def signedRatStr(self, x):
         """Convert floating point number to signed rational representation.
         Possible fractional are multiples of 1/3, 1/6, 1/7, 1/9, if these
@@ -379,6 +370,7 @@ class GeneratorSite:
         if idx.size == 0:   return "%+g" % x
         # here we have fraction
         return "%+.0f/%.0f" % (nom[idx[0]], den[idx[0]])
+
 
     def _findNullSpace(self):
         """Calculate self.null_space from self.invariants.
@@ -402,6 +394,7 @@ class GeneratorSite:
             self.null_space[i] = self.null_space[i] / signedsmall
         return
 
+
     def _findPosParameters(self):
         """Find pparameters and their values for expressing self.xyz.
         """
@@ -418,6 +411,7 @@ class GeneratorSite:
             self.pparameters.append( (vname, varvalue) )
             usedsymbol[vname] = True
         return
+
 
     def _findUSpace(self):
         """Find independent U components with respect to invariant
@@ -447,6 +441,7 @@ class GeneratorSite:
         self.Uisotropy = (len(self.Uspace) == 1)
         return
 
+
     def _findUParameters(self):
         """Find Uparameters and their values for expressing self.Uij.
         """
@@ -463,6 +458,7 @@ class GeneratorSite:
             self.Uparameters.append( (vname, varvalue) )
         return
 
+
     def _findeqUij(self):
         """Adjust self.Uij and self.eqUij to be consistent with spacegroup
         """
@@ -478,6 +474,7 @@ class GeneratorSite:
             Rt = R.transpose()
             self.eqUij.append( numpy.dot(R, numpy.dot(self.Uij, Rt)) )
         return
+
 
     def positionFormula(self, pos, xyzsymbols=("x","y","z")):
         """Formula of equivalent position with respect to generator site
@@ -519,6 +516,7 @@ class GeneratorSite:
                        for f in xyzformula ]
         return dict( list(zip(("x","y","z"), xyzformula)) )
 
+
     def UFormula(self, pos, Usymbols=stdUsymbols):
         """List of atom displacement formulas with custom parameter symbols.
 
@@ -554,6 +552,7 @@ class GeneratorSite:
             Uformula[smbl] = f
         return Uformula
 
+
     def eqIndex(self, pos):
         """Index of the nearest generator equivalent site
 
@@ -564,6 +563,8 @@ class GeneratorSite:
         return nearestSiteIndex(self.eqxyz, pos)
 
 # End of class GeneratorSite
+
+# ----------------------------------------------------------------------------
 
 class ExpandAsymmetricUnit:
     """Expand asymmetric unit and anisotropic thermal displacement
@@ -622,7 +623,7 @@ class ExpandAsymmetricUnit:
             self.expandedUijs.append(gen.eqUij)
         return
 
-# End of ExpandAsymmetricUnit
+# End of class ExpandAsymmetricUnit
 
 
 # Helper function for SymmetryConstraints class.  It may be useful
@@ -641,7 +642,6 @@ def pruneFormulaDictionary(eqdict):
         if not isconstantFormula(eq):     pruned[smb] = eq
     return pruned
 
-# End of pruneFormulaDictionary
 
 class SymmetryConstraints:
     """Generate symmetry constraints for specified positions
@@ -719,6 +719,7 @@ class SymmetryConstraints:
         self._findConstraints()
         return
 
+
     def _findConstraints(self):
         """Find constraints for positions and anisotropic displacements Uij
         """
@@ -769,15 +770,18 @@ class SymmetryConstraints:
         self.corepos = [self.positions[i] for i in coreidx]
         return
 
+
     def posparSymbols(self):
         """Return list of standard position parameter symbols.
         """
         return [n for n, v in self.pospars]
 
+
     def posparValues(self):
         """Return list of position parameters values.
         """
         return [v for n, v in self.pospars]
+
 
     def positionFormulas(self, xyzsymbols=None):
         """List of position formulas with custom parameter symbols.
@@ -807,6 +811,7 @@ class SymmetryConstraints:
             rv.append(treqns)
         return rv
 
+
     def positionFormulasPruned(self, xyzsymbols=None):
         """List of position formula dictionaries with constant items removed.
         See also positionFormulas().
@@ -815,19 +820,22 @@ class SymmetryConstraints:
 
         Return list of coordinate formula dictionaries.
         """
-        rv = [  pruneFormulaDictionary(eqns)
-                for eqns in self.positionFormulas(xyzsymbols) ]
+        rv = [pruneFormulaDictionary(eqns)
+              for eqns in self.positionFormulas(xyzsymbols)]
         return rv
+
 
     def UparSymbols(self):
         """Return list of standard atom displacement parameter symbols.
         """
         return [n for n, v in self.Upars]
 
+
     def UparValues(self):
         """Return list of atom displacement parameters values.
         """
         return [v for n, v in self.Upars]
+
 
     def UFormulas(self, Usymbols=None):
         """List of atom displacement formulas with custom parameter symbols.
@@ -857,6 +865,7 @@ class SymmetryConstraints:
             rv.append(treqns)
         return rv
 
+
     def UFormulasPruned(self, Usymbols=None):
         """List of atom displacement formula dictionaries with constant items
         removed.  See also UFormulas().
@@ -870,7 +879,9 @@ class SymmetryConstraints:
                 for eqns in self.UFormulas(Usymbols) ]
         return rv
 
-# End of SymmetryConstraints
+# End of class SymmetryConstraints
+
+# ----------------------------------------------------------------------------
 
 # basic demonstration
 if __name__ == "__main__":
@@ -884,5 +895,3 @@ if __name__ == "__main__":
     print("g.pparameters =", g.pparameters)
     print("g.Uparameters =", g.Uparameters)
     print("g.UFormula(%r) =" % site, g.UFormula(site))
-
-# End of file

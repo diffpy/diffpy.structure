@@ -25,14 +25,9 @@ import numpy
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
 
-##############################################################################
-class TestAtom(unittest.TestCase):
+# ----------------------------------------------------------------------------
 
-#   def setUp(self):
-#       return
-#
-#   def tearDown(self):
-#       return
+class TestAtom(unittest.TestCase):
 
     def test___init__(self):
         """check Atom.__init__()
@@ -62,7 +57,6 @@ class TestAtom(unittest.TestCase):
         self.assertRaises(ValueError, Atom,
                           'C', Uisoequiv=0.02, U=uani)
         return
-
 
 #   def test_msdLat(self):
 #       """check Atom.msdLat()
@@ -156,6 +150,7 @@ class TestAtom(unittest.TestCase):
 
 # End of class TestAtom
 
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()

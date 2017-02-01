@@ -34,6 +34,7 @@ class P_xyz(StructureParser):
         self.format = "xyz"
         return
 
+
     def parseLines(self, lines):
         """Parse list of lines in XYZ format.
 
@@ -102,7 +103,7 @@ class P_xyz(StructureParser):
             emsg = "expected %d atoms, read %d" % (p_natoms, len(stru))
             raise StructureFormatError(emsg)
         return stru
-    # End of parseLines
+
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in XYZ format.
@@ -117,13 +118,10 @@ class P_xyz(StructureParser):
             s = "%-3s %g %g %g" % (a.element, rc[0], rc[1], rc[2])
             lines.append(s)
         return lines
-    # End of toLines
 
 # End of class P_xyz
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser():
     return P_xyz()
-
-# End of file

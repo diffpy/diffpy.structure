@@ -25,9 +25,7 @@ Exceptions:
     SymmetryError
 """
 
-##############################################################################
-# interface definitions
-##############################################################################
+# Interface definitions ------------------------------------------------------
 
 from diffpy.structure.structureerrors import (StructureFormatError,
         LatticeError, SymmetryError)
@@ -66,5 +64,3 @@ assert Lattice
 assert Structure
 assert PDFFitStructure
 assert __version__ or True
-
-# End of file

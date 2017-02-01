@@ -20,6 +20,7 @@ from numpy import array
 from diffpy.structure import Structure
 from diffpy.structure.expansion.shapeutils import findCenter
 
+
 def makeSphere(S, radius):
     """Create a spherical nanoparticle.
 
@@ -30,6 +31,7 @@ def makeSphere(S, radius):
     Returns a new structure instance
     """
     return makeEllipsoid(S, radius)
+
 
 def makeEllipsoid(S, a, b=None, c=None):
     """Cut a structure out of another one.
@@ -82,6 +84,7 @@ def makeEllipsoid(S, a, b=None, c=None):
 
     return newS
 
+# ----------------------------------------------------------------------------
 
 if __name__ == "__main__":
     import os.path

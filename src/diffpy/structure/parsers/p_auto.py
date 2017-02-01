@@ -121,13 +121,10 @@ class P_auto(StructureParser):
             raise StructureFormatError(emsg)
         self.__dict__.update(p.__dict__)
         return stru
-    # End of parseLines
 
 # End of class P_auto
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser(**kw):
     return P_auto(**kw)
-
-# End of file

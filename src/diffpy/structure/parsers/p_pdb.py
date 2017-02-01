@@ -53,10 +53,12 @@ class P_pdb(StructureParser):
     ]
     validRecords = dict.fromkeys(orderOfRecords)
 
+
     def __init__(self):
         StructureParser.__init__(self)
         self.format = "pdb"
         return
+
 
     def parseLines(self, lines):
         """Parse list of lines in PDB format.
@@ -177,7 +179,7 @@ class P_pdb(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             raise StructureFormatError(emsg).with_traceback(exc_traceback)
         return stru
-    # End of parseLines
+
 
     def titleLines(self, stru):
         """build lines corresponding to TITLE record"""
@@ -196,7 +198,7 @@ class P_pdb(StructureParser):
             lines.append( "%-80s" % ("TITLE   "+continuation+title[0:stop]) )
             title = title[stop:]
         return lines
-    # End of titleLines
+
 
     def cryst1Lines(self, stru):
         """build lines corresponding to CRYST1 record"""
@@ -207,7 +209,7 @@ class P_pdb(StructureParser):
             line = "CRYST1%9.3f%9.3f%9.3f%7.2f%7.2f%7.2f" % latpar
             lines.append( "%-80s" % line )
         return lines
-    # End of cryst1Lines
+
 
     def atomLines(self, stru, idx):
         """build ATOM records and possibly SIGATM, ANISOU or SIGUIJ records
@@ -272,7 +274,7 @@ class P_pdb(StructureParser):
                 line = "SIGUIJ" + atomline[6:27] + mid + atomline[72:80]
                 lines.append(line)
         return lines
-    # End of atomLines
+
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in PDFFit format.
@@ -297,13 +299,10 @@ class P_pdb(StructureParser):
         lines.append(line)
         lines.append("%-80s" % "END")
         return lines
-    # End of toLines
 
 # End of class P_pdb
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser():
     return P_pdb()
-
-# End of file

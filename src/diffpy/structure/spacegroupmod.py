@@ -196,5 +196,3 @@ class SpaceGroup:
         pass
 
 # End of class SpaceGroup
-
-# End of file

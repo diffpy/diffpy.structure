@@ -22,5 +22,3 @@ def datafile(filename):
     from pkg_resources import resource_filename
     rv = resource_filename(__name__, "testdata/" + filename)
     return rv
-
-# End of file

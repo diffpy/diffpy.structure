@@ -25,7 +25,8 @@ from diffpy.structure.parsers import getParser
 from diffpy.structure import Structure
 from diffpy.structure import StructureFormatError
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class TestRoutines(unittest.TestCase):
 
     def setUp(self):
@@ -34,6 +35,7 @@ class TestRoutines(unittest.TestCase):
     def tearDown(self):
         return
 
+
     def test_leading_float(self):
         """check leading_float()
         """
@@ -41,6 +43,7 @@ class TestRoutines(unittest.TestCase):
         self.assertEqual(0.37, leading_float('0.37ab\ncd'))
         self.assertRaises(ValueError, leading_float, 'q1')
         return
+
 
     def test_getSymOp(self):
         """check getSymOp()
@@ -58,7 +61,8 @@ class TestRoutines(unittest.TestCase):
 
 # End of class TestRoutines
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class TestP_cif(unittest.TestCase):
 
     goodciffile = datafile('PbTe.cif')
@@ -68,6 +72,7 @@ class TestP_cif(unittest.TestCase):
     teiciffile = datafile('TeI.cif')
     places = 6
 
+
     def setUp(self):
         self.ptest = P_cif()
         self.pfile = P_cif()
@@ -75,6 +80,7 @@ class TestP_cif(unittest.TestCase):
 
     def tearDown(self):
         return
+
 
     def test_parse(self):
         """check P_cif.parse()
@@ -95,6 +101,7 @@ class TestP_cif(unittest.TestCase):
             ptestb.parse, sbad)
         return
 
+
     def test_parseLines(self):
         """check P_cif.parseLines()
         """
@@ -111,8 +118,9 @@ class TestP_cif(unittest.TestCase):
             ptest.spacegroup.short_name)
         ptest2 = P_cif()
         self.assertRaises(StructureFormatError,
-                ptest2.parseLines, badlines)
+                          ptest2.parseLines, badlines)
         return
+
 
     def test_parseFile(self):
         """check P_cif.parseFile()
@@ -137,7 +145,7 @@ class TestP_cif(unittest.TestCase):
         # badciffile
         pfile2 = P_cif()
         self.assertRaises(StructureFormatError,
-                pfile2.parseFile, self.badciffile)
+                          pfile2.parseFile, self.badciffile)
         # graphite
         pgraphite = P_cif()
         graphite = pgraphite.parseFile(self.graphiteciffile)
@@ -223,6 +231,7 @@ class TestP_cif(unittest.TestCase):
         self.assertAlmostEqual(0.046164, a3.U[2,2])
         return
 
+
     def test_eps(self):
         """Test the P_cif.eps coordinates resolution.
         """
@@ -237,6 +246,7 @@ class TestP_cif(unittest.TestCase):
         grph2 = pcif2.parseFile(self.graphiteciffile)
         self.assertEqual(4, len(grph2))
         return
+
 
     def test_getParser(self):
         """Test passing of eps keyword argument by getParser function.
@@ -253,7 +263,7 @@ class TestP_cif(unittest.TestCase):
 
 # End of class TestP_cif
 
+# ----------------------------------------------------------------------------
+
 if __name__ == '__main__':
     unittest.main()
-
-# End of file

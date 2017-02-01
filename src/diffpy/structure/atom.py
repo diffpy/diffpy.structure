@@ -110,6 +110,7 @@ class Atom:
             self.anisotropy = bool(anisotropy)
         return
 
+
     def msdLat(self, vl):
         """mean square displacement of an atom along lattice vector
 
@@ -129,6 +130,7 @@ class Atom:
         msd = numpy.dot(rhs, numpy.dot(self.U, rhs))
         return msd
 
+
     def msdCart(self, vc):
         """mean square displacement of an atom along cartesian vector
 
@@ -146,12 +148,14 @@ class Atom:
         msd = numpy.dot(vcn, numpy.dot(Uc, vcn))
         return msd
 
+
     def __repr__(self):
         """simple string representation"""
         xyz = self.xyz
         s = "%-4s %8.6f %8.6f %8.6f %6.4f" % \
                 (self.element, xyz[0], xyz[1], xyz[2], self.occupancy)
         return s
+
 
     def __copy__(self, target=None):
         """Return a copy of this instance.
@@ -165,10 +169,7 @@ class Atom:
         target._U = numpy.copy(self._U)
         return target
 
-
-    ####################################################################
-    # property handlers
-    ####################################################################
+    # property handlers ------------------------------------------------------
 
     x = property(lambda self: self.xyz[0],
             lambda self, val: self.xyz.__setitem__(0, val),
@@ -351,15 +352,18 @@ class _AtomCartesianCoordinates(numpy.ndarray):
     def __new__(self, atom):
         return numpy.empty(3, dtype=float).view(self)
 
+
     def __init__(self, atom):
         self._atom = atom
         self.asarray[:] = atom.lattice.cartesian(atom.xyz)
         return
 
+
     @property
     def asarray(self):
         '''This array represented as standard numpy array.'''
         return self.view(numpy.ndarray)
+
 
     def __setitem__(self, idx, value):
         """Set idx-th coordinate and update linked self.xyz
@@ -370,6 +374,7 @@ class _AtomCartesianCoordinates(numpy.ndarray):
         self.asarray[idx] = value
         self._atom.xyz[:] = self._atom.lattice.fractional(self)
         return
+
 
     def __array_wrap__(self, out_arr, context=None):
         '''Any operations on this type should yield standard numpy array.'''

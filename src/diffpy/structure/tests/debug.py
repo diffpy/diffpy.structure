@@ -27,6 +27,3 @@ if __name__ == '__main__':
     from diffpy.structure.tests import testsuite
     suite = testsuite()
     suite.debug()
-
-
-# End of file

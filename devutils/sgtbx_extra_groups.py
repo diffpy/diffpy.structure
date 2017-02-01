@@ -121,12 +121,12 @@ def hashMMSpaceGroup(sg):
     s = '\n'.join(lines)
     return s
 
+
 def hashSgtbxGroup(grp):
     n = grp.type().number()
     lines = [str(n)] + sorted(map(str, getSymOpList(grp)))
     s = '\n'.join(lines)
     return s
-
 
 sgnumbers = [sg.number for sg in mmLibSpaceGroupList]
 

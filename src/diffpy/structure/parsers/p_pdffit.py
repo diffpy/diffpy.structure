@@ -37,6 +37,7 @@ class P_pdffit(StructureParser):
         self.stru = None
         return
 
+
     def parseLines(self, lines):
         """Parse list of lines in PDFfit format.
 
@@ -158,8 +159,6 @@ class P_pdffit(StructureParser):
             raise StructureFormatError(emsg).with_traceback(exc_traceback)
         return stru
 
-    # End of parseLines
-
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in PDFfit format.
@@ -218,11 +217,7 @@ class P_pdffit(StructureParser):
             lines.append( "    %18.8f %17.8f %17.8f" % sigUij )
         return lines
 
-    # End of toLines
-
-
-    # Protected methods
-
+    # Protected methods ------------------------------------------------------
 
     def _parse_shape(self, line):
         """Process shape line from PDFfit file and update self.stru
@@ -245,12 +240,9 @@ class P_pdffit(StructureParser):
             raise StructureFormatError(emsg)
         return
 
-
 # End of class P_pdffit
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser():
     return P_pdffit()
-
-# End of file

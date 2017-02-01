@@ -32,5 +32,3 @@ class SymmetryError(Exception):
     """Exception raised for invalid symmetry operations.
     """
     pass
-
-# End of file

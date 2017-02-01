@@ -33,6 +33,7 @@ class P_rawxyz(StructureParser):
         self.format = "rawxyz"
         return
 
+
     def parseLines(self, lines):
         """Parse list of lines in RAWXYZ format.
 
@@ -91,7 +92,7 @@ class P_rawxyz(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             raise StructureFormatError(emsg).with_traceback(exc_traceback)
         return stru
-    # End of parseLines
+
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in XYZ format.
@@ -104,13 +105,10 @@ class P_rawxyz(StructureParser):
             s = "%s %g %g %g" % (a.element, rc[0], rc[1], rc[2])
             lines.append(s.lstrip())
         return lines
-    # End of toLines
 
 # End of class P_rawxyz
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser():
     return P_rawxyz()
-
-# End of file

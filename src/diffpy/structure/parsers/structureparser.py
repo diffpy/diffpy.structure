@@ -29,6 +29,7 @@ class StructureParser:
         self.filename = None
         return
 
+
     def parseLines(self, lines):
         """Create Structure instance from a list of lines.
 
@@ -38,6 +39,7 @@ class StructureParser:
         raise NotImplementedError("parseLines not defined for '%s' format" % self.format)
         return
 
+
     def toLines(self, stru):
         """Convert Structure stru to a list of lines.
         This method has to be overloaded in derived class.
@@ -45,6 +47,7 @@ class StructureParser:
         Return list of strings.
         """
         raise NotImplementedError("toLines not defined for '%s' format" % self.format)
+
 
     def parse(self, s):
         """Create Structure instance from a string.
@@ -55,12 +58,14 @@ class StructureParser:
         stru = self.parseLines(lines)
         return stru
 
+
     def tostring(self, stru):
         """Convert Structure instance to a string.
         """
         lines = self.toLines(stru)
         s = '\n'.join(lines) + '\n'
         return s
+
 
     def parseFile(self, filename):
         """Create Structure instance from an existing file.
@@ -76,4 +81,4 @@ class StructureParser:
         stru = self.parse(s)
         return stru
 
-# End of StructureParser
+# End of class StructureParser

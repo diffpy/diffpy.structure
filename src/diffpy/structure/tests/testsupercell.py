@@ -23,12 +23,13 @@ from diffpy.structure.tests.testutils import datafile
 from diffpy.structure import Structure
 from diffpy.structure.expansion import supercell
 
+# ----------------------------------------------------------------------------
 
-##############################################################################
 class TestSuperCell(unittest.TestCase):
 
     stru_cdse = None
     stru_ni = None
+
 
     def setUp(self):
         # load test structures once
@@ -43,8 +44,10 @@ class TestSuperCell(unittest.TestCase):
         self.stru_ni = TestSuperCell.stru_ni
         return
 
+
     def tearDown(self):
         return
+
 
     def test_exceptions(self):
         """check argument checking of supercell.
@@ -56,6 +59,7 @@ class TestSuperCell(unittest.TestCase):
         self.assertRaises(TypeError,
                 supercell, list(self.stru_ni), (1, 1, 1))
         return
+
 
     def test_ni_supercell(self):
         """check supercell expansion for Ni.
@@ -74,6 +78,7 @@ class TestSuperCell(unittest.TestCase):
         self.assertAlmostEqual(z/3, z3, 8)
         return
 
+
     def test_cdse_supercell(self):
         """check supercell expansion for CdSe.
         """
@@ -86,8 +91,7 @@ class TestSuperCell(unittest.TestCase):
 
 # End of class TestRoutines
 
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
-
-# End of file

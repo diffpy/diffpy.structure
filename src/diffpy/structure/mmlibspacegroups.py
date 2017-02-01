@@ -7803,6 +7803,3 @@ mmLibSpaceGroupList = [
     sg1059,
     sg1094,
     sg1197]
-
-
-# End of file

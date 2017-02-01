@@ -23,8 +23,8 @@ import numpy
 from diffpy.structure.tests.testutils import datafile
 from diffpy.structure import Structure, StructureFormatError
 
+# ----------------------------------------------------------------------------
 
-##############################################################################
 class TestP_pdffit(unittest.TestCase):
     """test Parser for PDFFit file format"""
 
@@ -232,10 +232,9 @@ class TestP_pdffit(unittest.TestCase):
         return
 
 
-# End of TestP_pdffit
+# End of class TestP_pdffit
 
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
-
-# End of file

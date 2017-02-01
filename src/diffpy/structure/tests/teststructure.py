@@ -31,7 +31,8 @@ cdsefile = datafile('CdSe_bulk.stru')
 teifile = datafile('TeI.cif')
 pbtefile = datafile('PbTe.cif')
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class TestStructure(unittest.TestCase):
     """test methods of Structure class"""
 
@@ -93,6 +94,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(4, len(pb3))
         return
 
+
     def test___copy__(self):
         """check Structure.__copy__()
         """
@@ -129,6 +131,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual('C1', self.stru[0].label)
         self.assertEqual('C2', self.stru[1].label)
         return
+
 
     def test_distance(self):
         """check Structure.distance()
@@ -653,10 +656,9 @@ class TestStructure(unittest.TestCase):
         self.assertFalse(numpy.any(stru.U != 0.0))
         return
 
-
 # End of class TestStructure
+
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
-
-# End of file

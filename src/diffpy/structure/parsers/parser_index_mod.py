@@ -92,5 +92,3 @@ parser_index = {
         'has_output' : True,
         },
 }
-
-# End of file

@@ -38,6 +38,7 @@ from diffpy.structure.parsers.parser_index_mod import parser_index
 # silence pyflakes checker
 assert StructureParser
 
+
 def getParser(format, **kw):
     """Return Parser instance for a given structure format.
 
@@ -69,5 +70,3 @@ def outputFormats():
             if prop['has_output'] ]
     output_formats.sort()
     return output_formats
-
-# End of file

@@ -28,10 +28,7 @@ from diffpy.structure import Structure, Lattice, Atom
 from diffpy.structure import StructureFormatError
 from diffpy.structure.parsers import StructureParser
 
-
-##############################################################################
-# class P_cif
-##############################################################################
+# ----------------------------------------------------------------------------
 
 class P_cif(StructureParser):
     """Simple parser for CIF structure format.
@@ -60,9 +57,7 @@ class P_cif(StructureParser):
                    items.  None when neither is defined.
     """
 
-    ########################################################################
-    # static data and methods
-    ########################################################################
+    # static data and methods ------------------------------------------------
 
     # dictionary set of class methods for translating CIF values
     # to Atom attributes
@@ -229,10 +224,7 @@ class P_cif(StructureParser):
         return rv
     _get_atom_setters = staticmethod(_get_atom_setters)
 
-
-    ########################################################################
-    # normal methods
-    ########################################################################
+    # normal methods ---------------------------------------------------------
 
     def __init__(self, eps=None):
         """Initialize the parser for CIF structure files.
@@ -251,6 +243,7 @@ class P_cif(StructureParser):
         self.labelindex = {}
         self.cif_sgname = None
         pass
+
 
     def parse(self, s):
         """Create Structure instance from a string in CIF format.
@@ -350,6 +343,7 @@ class P_cif(StructureParser):
         self._parse_space_group_symop_operation_xyz(block)
         return
 
+
     def _parse_lattice(self, block):
         """Obtain lattice parameters from a CifBlock.
         This method updates self.stru.lattice.
@@ -376,6 +370,7 @@ class P_cif(StructureParser):
         self.stru.lattice = Lattice(*latpars)
         return
 
+
     def _parse_atom_site_label(self, block):
         """Obtain atoms in asymmetric unit from a CifBlock.
         This method inserts Atom instances to self.stru and
@@ -401,6 +396,7 @@ class P_cif(StructureParser):
             for fset, val in zip(prop_setters, values):
                 fset(a, val)
         return
+
 
     def _parse_atom_site_aniso_label(self, block):
         """Obtain value of anisotropic thermal displacements from a CifBlock.
@@ -432,6 +428,7 @@ class P_cif(StructureParser):
             for fset, val in zip(prop_setters, values):
                 fset(a, val)
         return
+
 
     def _parse_space_group_symop_operation_xyz(self, block):
         """Process symmetry operations from a CifBlock.  The method
@@ -497,6 +494,7 @@ class P_cif(StructureParser):
         self._expandAsymmetricUnit()
         return
 
+
     def _expandAsymmetricUnit(self):
         """Perform symmetry expansion of self.stru using self.spacegroup.
         This method updates data in stru and eau.
@@ -526,10 +524,7 @@ class P_cif(StructureParser):
         self.stru[:] = sum(newatoms, [])
         return
 
-
-    ########################################################################
-    # conversion to CIF
-    ########################################################################
+    # conversion to CIF ------------------------------------------------------
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in basic CIF format.
@@ -611,14 +606,10 @@ class P_cif(StructureParser):
                         a.U[0,1], a.U[0,2], a.U[1,2] )
                 lines.append(line)
         return lines
-    # End of toLines
 
 # End of class P_cif
 
-
-##############################################################################
-# Routines
-##############################################################################
+# Routines -------------------------------------------------------------------
 
 # constant regular expression for leading_float()
 rx_float = re.compile(r'[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?')

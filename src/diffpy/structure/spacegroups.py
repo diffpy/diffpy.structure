@@ -91,6 +91,3 @@ def _buildSGLookupTable():
         del _sg_lookup_table[None]
     return
 _sg_lookup_table = {}
-
-
-# End of file

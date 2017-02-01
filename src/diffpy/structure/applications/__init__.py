@@ -15,5 +15,3 @@
 
 """Script applications that use the diffpy.structure package.
 """
-
-# End of file
