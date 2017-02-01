@@ -18,25 +18,15 @@
 
 import unittest
 import re
+import numpy
 
 from diffpy.structure.tests.testutils import datafile
 from diffpy.structure import Structure, StructureFormatError
 
 
-def assertListAlmostEqual(self, l1, l2, places=None):
-    """wrapper for list comparison"""
-    if places is None: places = self.places
-    self.assertEqual(len(l1), len(l2))
-    for i in range(len(l1)):
-        self.assertAlmostEqual(l1[i], l2[i], places)
-
-
 ##############################################################################
 class TestP_pdffit(unittest.TestCase):
     """test Parser for PDFFit file format"""
-
-    assertListAlmostEqual = assertListAlmostEqual
-
 
     def setUp(self):
         self.stru = Structure()
@@ -59,10 +49,10 @@ class TestP_pdffit(unittest.TestCase):
         s_lat = [ stru.lattice.a, stru.lattice.b, stru.lattice.c,
             stru.lattice.alpha, stru.lattice.beta, stru.lattice.gamma ]
         f_lat = [12.309436, 12.309436, 12.392839, 90.0, 90.0, 120.0]
-        self.assertListAlmostEqual(s_lat, f_lat)
+        self.assertTrue(numpy.allclose(s_lat, f_lat))
         s_dcell = stru.pdffit['dcell']
         f_dcell = [0.000008, 0.000008, 0.000013, 0.0, 0.0, 0.0]
-        self.assertListAlmostEqual(s_dcell, f_dcell)
+        self.assertTrue(numpy.allclose(s_dcell, f_dcell))
         self.assertEqual(stru.pdffit['ncell'], [1,1,1,66])
         s_els = [a.element for a in stru]
         self.assertEqual(s_els, 36*['Zn']+30*['Sb'])
@@ -77,9 +67,9 @@ class TestP_pdffit(unittest.TestCase):
         f_sigo = 0.0
         s_U = [ a0.U[i][i] for i in range(3) ]
         f_U = 3*[0.01]
-        self.assertListAlmostEqual(s_xyz, f_xyz)
-        self.assertListAlmostEqual(s_sigxyz, f_sigxyz)
-        self.assertListAlmostEqual(s_U, f_U)
+        self.assertTrue(numpy.allclose(s_xyz, f_xyz))
+        self.assertTrue(numpy.allclose(s_sigxyz, f_sigxyz))
+        self.assertTrue(numpy.allclose(s_U, f_U))
         self.assertAlmostEqual(s_o, f_o)
         self.assertAlmostEqual(s_sigo, f_sigo)
 

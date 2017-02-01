@@ -32,15 +32,6 @@ class TestLattice(unittest.TestCase):
         self.places = 12
         return
 
-    def assertListAlmostEqual(self, l1, l2, places=None):
-        """wrapper for list comparison"""
-        if places is None: places = self.places
-        self.assertEqual(len(l1), len(l2))
-        for i in range(len(l1)):
-            self.assertAlmostEqual(l1[i], l2[i], places)
-        return
-
-
     def test___init__(self):
         '''Check Lattice.__init__ processing of arguments.
         '''
@@ -188,9 +179,9 @@ class TestLattice(unittest.TestCase):
         self.lattice.setLatPar(alpha=44, beta=66, gamma=88)
         self.assertNotEqual(numpy.all(base == self.lattice.base), True)
         self.lattice.setLatPar(alpha=60, beta=60, gamma=60)
-        self.assertListAlmostEqual(base[0], self.lattice.base[0])
-        self.assertListAlmostEqual(base[1], self.lattice.base[1])
-        self.assertListAlmostEqual(base[2], self.lattice.base[2])
+        self.assertTrue(numpy.allclose(base[0], self.lattice.base[0]))
+        self.assertTrue(numpy.allclose(base[1], self.lattice.base[1]))
+        self.assertTrue(numpy.allclose(base[2], self.lattice.base[2]))
         # try base checking
         self.assertRaises(LatticeError, self.lattice.setLatBase,
                 [[1, 0, 0], [1,0,0], [0,0,1]])
@@ -228,7 +219,7 @@ class TestLattice(unittest.TestCase):
         '''check norm of a lattice vector.'''
         self.assertEqual(1, self.lattice.norm([1, 0, 0]))
         u = numpy.array([[3, 4, 0], [1, 1, 1]])
-        self.assertListAlmostEqual([5, 3**0.5], self.lattice.norm(u))
+        self.assertTrue(numpy.allclose([5, 3**0.5], self.lattice.norm(u)))
         self.lattice.setLatPar(gamma=120)
         self.assertAlmostEqual(1, self.lattice.norm([1, 1, 0]), self.places)
         return
@@ -242,7 +233,7 @@ class TestLattice(unittest.TestCase):
         hkl = [0.5, 0.3, 0.2]
         self.assertAlmostEqual(r.norm(hkl), L.rnorm(hkl), self.places)
         hkl5 = numpy.tile(hkl, (5, 1))
-        self.assertListAlmostEqual(5 * [r.norm(hkl)], L.rnorm(hkl5))
+        self.assertTrue(numpy.allclose(5 * [r.norm(hkl)], L.rnorm(hkl5)))
         return
 
 
@@ -257,9 +248,9 @@ class TestLattice(unittest.TestCase):
         self.assertAlmostEqual(d0, L.dist(v, u), self.places)
         u5 = numpy.tile(u, (5, 1))
         v5 = numpy.tile(v, (5, 1))
-        self.assertListAlmostEqual(5 * [d0], L.dist(u, v5))
-        self.assertListAlmostEqual(5 * [d0], L.dist(u5, v))
-        self.assertListAlmostEqual(5 * [d0], L.dist(v5, u5))
+        self.assertTrue(numpy.allclose(5 * [d0], L.dist(u, v5)))
+        self.assertTrue(numpy.allclose(5 * [d0], L.dist(u5, v)))
+        self.assertTrue(numpy.allclose(5 * [d0], L.dist(v5, u5)))
         return
 
 
@@ -278,9 +269,9 @@ class TestLattice(unittest.TestCase):
         self.assertAlmostEqual(a0, L.angle(v, u), self.places)
         u5 = numpy.tile(u, (5, 1))
         v5 = numpy.tile(v, (5, 1))
-        self.assertListAlmostEqual(5 * [a0], L.angle(u, v5))
-        self.assertListAlmostEqual(5 * [a0], L.angle(u5, v))
-        self.assertListAlmostEqual(5 * [a0], L.angle(v5, u5))
+        self.assertTrue(numpy.allclose(5 * [a0], L.angle(u, v5)))
+        self.assertTrue(numpy.allclose(5 * [a0], L.angle(u5, v)))
+        self.assertTrue(numpy.allclose(5 * [a0], L.angle(v5, u5)))
         return
 
 
