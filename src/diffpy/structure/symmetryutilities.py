@@ -431,7 +431,7 @@ class GeneratorSite:
         Usp6 = nullSpace(R6zall)
         # normalize Usp6 by its maximum component
         mxcols = numpy.argmax(numpy.fabs(Usp6), axis=1)
-        mxrows = list(range(len(mxcols)))
+        mxrows = numpy.arange(len(mxcols))
         Usp6 /= Usp6[mxrows,mxcols].reshape(-1, 1)
         Usp6 = numpy.around(Usp6, 2)
         # normalize again after rounding to get correct signs
@@ -500,7 +500,7 @@ class GeneratorSite:
         for nvec, (vname, varvalue) in zip(nsrotated, self.pparameters):
             teqpos -= nvec * varvalue
         # map varnames to xyzsymbols
-        name2sym = dict( list(zip(("x", "y", "z"), xyzsymbols)) )
+        name2sym = dict(zip(("x", "y", "z"), xyzsymbols))
         xyzformula = 3*[""]
         for nvec, (vname, ignore) in zip(nsrotated, self.pparameters):
             for i in range(3):
@@ -514,7 +514,7 @@ class GeneratorSite:
         # reduce unnecessary +1* and -1*
         xyzformula = [ re.sub('^[+]1[*]|(?<=[+-])1[*]', '', f).strip()
                        for f in xyzformula ]
-        return dict( list(zip(("x","y","z"), xyzformula)) )
+        return dict(zip(("x", "y", "z"), xyzformula))
 
 
     def UFormula(self, pos, Usymbols=stdUsymbols):
@@ -536,7 +536,7 @@ class GeneratorSite:
         Rt = R.transpose()
         Usrotated = [numpy.dot(R, numpy.dot(Us, Rt)) for Us in self.Uspace]
         Uformula = dict.fromkeys(stdUsymbols, '')
-        name2sym = dict(list(zip(stdUsymbols, Usymbols)))
+        name2sym = dict(zip(stdUsymbols, Usymbols))
         for Usr, (vname, ignore) in zip(Usrotated, self.Uparameters):
             # avoid adding off-diagonal elements twice
             assert numpy.all(Usr == Usr.T)
@@ -799,7 +799,7 @@ class SymmetryConstraints:
                     len(self.pospars))
             raise SymmetryError(emsg)
         # build translation dictionary
-        trsmbl = dict(list(zip(self.posparSymbols(), xyzsymbols)))
+        trsmbl = dict(zip(self.posparSymbols(), xyzsymbols))
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
         pat = re.compile(r'\b[xyz]\d+')
@@ -853,7 +853,7 @@ class SymmetryConstraints:
             emsg = "Not enough symbols for %i U parameters" % len(self.Upars)
             raise SymmetryError(emsg)
         # build translation dictionary
-        trsmbl = dict(list(zip(self.UparSymbols(), Usymbols)))
+        trsmbl = dict(zip(self.UparSymbols(), Usymbols))
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
         pat = re.compile(r'\bU\d\d\d+')

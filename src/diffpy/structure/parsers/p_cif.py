@@ -387,7 +387,7 @@ class P_cif(StructureParser):
         # index of the _atom_site_label item for the labelindex dictionary
         ilb = list(atom_site_loop.keys()).index('_atom_site_label')
         # loop through the values and pass them to the setters
-        sitedatalist = list(zip(*list(atom_site_loop.values())))
+        sitedatalist = zip(*atom_site_loop.values())
         for values in sitedatalist:
             curlabel = values[ilb]
             self.labelindex[curlabel] = len(self.stru)
@@ -419,7 +419,7 @@ class P_cif(StructureParser):
         ilb = list(adp_loop.keys()).index('_atom_site_aniso_label')
         # get a list of setters for this loop
         prop_setters = P_cif._get_atom_setters(adp_loop)
-        sitedatalist = list(zip(*list(adp_loop.values())))
+        sitedatalist = zip(*adp_loop.values())
         for values in sitedatalist:
             idx = self.labelindex[values[ilb]]
             a = self.stru[idx]
