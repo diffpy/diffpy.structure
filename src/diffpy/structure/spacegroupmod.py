@@ -137,9 +137,11 @@ class SymOp:
         """Returns True if this SymOp is a identity symmetry operation
         (no rotation, no translation), otherwise returns False.
         """
-        if numpy.allclose(self.R, numpy.identity(3, float)) and \
-           numpy.allclose(self.t, numpy.zeros(3, float)):
-            return True
+        rv = (numpy.allclose(self.R, numpy.identity(3, float)) and
+              numpy.allclose(self.t, numpy.zeros(3, float)))
+        return rv
+
+# End of class SymOp
 
 
 class SpaceGroup:
@@ -191,6 +193,8 @@ class SpaceGroup:
         """
         for symop in self.symop_list:
             yield symop(vec)
+        pass
 
+# End of class SpaceGroup
 
 # End of file
