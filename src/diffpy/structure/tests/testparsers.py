@@ -210,14 +210,14 @@ class TestP_pdb(unittest.TestCase):
         s_lat = [ stru.lattice.a, stru.lattice.b, stru.lattice.c,
             stru.lattice.alpha, stru.lattice.beta, stru.lattice.gamma ]
         f_lat = [ 4.235204,  4.235204,  6.906027, 90.0, 90.0, 120.0 ]
-        self.assertTrue(numpy.allclose(s_lat, f_lat))
+        self.assertTrue(numpy.allclose(s_lat, f_lat, atol=5e-4))
         a0 = stru[0]
         s_Uii = [ a0.U[i,i] for i in range(3) ]
         f_Uii = [ 0.01303035, 0.01303035, 0.01401959 ]
-        self.assertTrue(numpy.allclose(s_Uii, f_Uii))
+        self.assertTrue(numpy.allclose(s_Uii, f_Uii, atol=5e-4))
         s_sigUii = [ a0.sigU[i,i] for i in range(3) ]
         f_sigUii = [ 0.00011127, 0.00011127, 0.00019575 ]
-        self.assertTrue(numpy.allclose(s_sigUii, f_sigUii))
+        self.assertTrue(numpy.allclose(s_sigUii, f_sigUii, atol=5e-4))
         s_title = stru.title
         f_title = "Cell structure file of CdSe #186"
         self.assertEqual(s_title, f_title)
