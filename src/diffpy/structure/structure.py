@@ -416,9 +416,9 @@ class Structure(list):
         # generate new index object that has no strings
         if scalarstringlabel:
             idx2 = _resolveindex(idx)
-        # for iterables preserved the tuple object type
+        # for iterables preserve the tuple object type
         else:
-            idx2 = list(map(_resolveindex, idx))
+            idx2 = [_resolveindex(i) for i in idx]
             if type(idx) is tuple:
                 idx2 = tuple(idx2)
         # call this function again and hope there is no recursion loop

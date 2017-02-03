@@ -546,7 +546,7 @@ class GeneratorSite:
                 f = '%+g*%s' % (Usrflat[i], name2sym[vname])
                 smbl = self.idx2Usymbol[i]
                 Uformula[smbl] += f
-        for smbl, f in list(Uformula.items()):
+        for smbl, f in Uformula.items():
             if not f:  f = '0'
             f = re.sub(r'^[+]?1[*]|^[+](?=\d)|(?<=[+-])1[*]', '', f).strip()
             Uformula[smbl] = f
@@ -727,7 +727,7 @@ class SymmetryConstraints:
         # canonical xyzsymbols and Usymbols
         xyzsymbols = [ smbl+str(i) for i in range(numpos) for smbl in "xyz" ]
         Usymbols = [smbl+str(i) for i in range(numpos) for smbl in stdUsymbols]
-        independent = dict.fromkeys(list(range(numpos)))
+        independent = set(range(numpos))
         for genidx in range(numpos):
             if not genidx in independent:   continue
             # it is a generator
@@ -746,15 +746,14 @@ class SymmetryConstraints:
                 smbl = gUsymbols[stdUsymbols.index(k)]
                 self.Upars.append( (smbl, v) )
             # search for equivalents inside indies
-            indies = list(independent.keys())
-            indies.sort()
+            indies = sorted(independent)
             for indidx in indies:
                 indpos = self.positions[indidx]
                 formula = gen.positionFormula(indpos, gxyzsymbols)
                 # formula is empty when indidx is independent
                 if not formula:  continue
                 # indidx is dependent here
-                del independent[indidx]
+                independent.remove(indidx)
                 self.coremap[genidx].append(indidx)
                 self.poseqns[indidx] = formula
                 self.Ueqns[indidx] = gen.UFormula(indpos, gUsymbols)
@@ -765,8 +764,7 @@ class SymmetryConstraints:
                 self.Uijs[indidx] = gen.eqUij[eqidx]
                 self.Uisotropy[indidx] = gen.Uisotropy
         # all done here
-        coreidx = list(self.coremap.keys())
-        coreidx.sort()
+        coreidx = sorted(self.coremap.keys())
         self.corepos = [self.positions[i] for i in coreidx]
         return
 

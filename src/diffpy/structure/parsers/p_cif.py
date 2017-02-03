@@ -216,7 +216,7 @@ class P_cif(StructureParser):
         Return a list of setter functions in the order of cifloop.keys().
         """
         rv = []
-        for p in list(cifloop.keys()):
+        for p in cifloop.keys():
             lcname = "_tr" + p.lower()
             fncname = P_cif._atom_setters.get(lcname, '_tr_ignore')
             f = getattr(P_cif, fncname)
@@ -385,7 +385,7 @@ class P_cif(StructureParser):
         # get a list of setters for atom_site values
         prop_setters = P_cif._get_atom_setters(atom_site_loop)
         # index of the _atom_site_label item for the labelindex dictionary
-        ilb = list(atom_site_loop.keys()).index('_atom_site_label')
+        ilb = atom_site_loop.keys().index('_atom_site_label')
         # loop through the values and pass them to the setters
         sitedatalist = zip(*atom_site_loop.values())
         for values in sitedatalist:
@@ -416,7 +416,7 @@ class P_cif(StructureParser):
         # something to do here:
         adp_loop = block.GetLoop('_atom_site_aniso_label')
         # index of the _atom_site_label column
-        ilb = list(adp_loop.keys()).index('_atom_site_aniso_label')
+        ilb = adp_loop.keys().index('_atom_site_aniso_label')
         # get a list of setters for this loop
         prop_setters = P_cif._get_atom_setters(adp_loop)
         sitedatalist = zip(*adp_loop.values())

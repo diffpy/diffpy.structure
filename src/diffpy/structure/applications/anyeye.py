@@ -202,7 +202,7 @@ def main():
         elif o == "--viewer":
             pd['viewer'] = a
         elif o == "--formats":
-            pd['formats'] = list(map(str.strip, a.split(',')))
+            pd['formats'] = [w.strip() for w in a.split(',')]
         elif o in ("-h", "--help"):
             usage()
             die()
