@@ -21,7 +21,7 @@ diffpy.Structure includes definitions of all space groups in over 500
 symmetry settings.
 
 To learn more about diffpy.Structure library see the
-user manual at http://diffpy.github.io/diffpy.Structure.
+user manual at http://diffpy.github.io/diffpy.structure.
 
 
 REQUIREMENTS
