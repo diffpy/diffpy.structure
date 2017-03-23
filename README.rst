@@ -27,7 +27,8 @@ user manual at http://diffpy.github.io/diffpy.structure.
 REQUIREMENTS
 ------------------------------------------------------------------------
 
-The diffpy.structure requires Python 2.7 and the following software:
+The diffpy.structure package requires Python 3.4 or later and
+the following software:
 
 * ``setuptools`` - software distribution tools for Python
 * ``NumPy`` - numerical mathematics and fast array operations for Python
@@ -38,7 +39,7 @@ diffpy.structure.  For other Python distributions it is necessary to
 install the required software separately.  As an example on Ubuntu
 Linux the required software can be installed with ::
 
-   sudo aptitude install python-setuptools python-numpy
+   sudo aptitude install python3-setuptools python3-numpy
 
 diffpy.structure also uses the
 `PyCifRW <https://bitbucket.org/jamesrhester/pycifrw>`_
