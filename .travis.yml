@@ -85,9 +85,6 @@ install:
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
 
   - $NOBREW || $MYPIP install $MYPIPFLAGS coverage
-  # FIXME - remove explicit installation of PyCifRW after
-  # pip integrates https://github.com/pypa/pip/pull/4254.
-  - $NOBREW || $MYPIP install $MYPIPFLAGS 'https://pypi.python.org/packages/01/68/b75a924883f1b1b7b3c2d0c1fdc2cede03d255ce5287c4d9d8d17f6d517e/PyCifRW-4.2.1-py3.tar.gz#md5=3bc6b0d2f23b170546dc7c194bc2991c'
   - $NOBREW || $MYPIP install $MYPIPFLAGS "${MYTARBUNDLE}"
 
   - cd ${MYRUNDIR}
