@@ -6,7 +6,33 @@
 """Space groups defined as a part of the pymmlib.
 """
 
-from diffpy.structure.spacegroupmod import *
+from diffpy.structure.spacegroupmod import SpaceGroup, SymOp
+from diffpy.structure.spacegroupmod import (
+    Rot_X_Y_Z, Rot_mX_mY_mZ, Rot_mX_Y_mZ, Rot_X_mY_Z,
+    Rot_mX_mY_Z, Rot_X_mY_mZ, Rot_mX_Y_Z, Rot_X_Y_mZ,
+    Rot_mY_X_Z, Rot_Y_mX_Z, Rot_Y_mX_mZ, Rot_mY_X_mZ,
+    Rot_Y_X_mZ, Rot_mY_mX_mZ, Rot_mY_mX_Z, Rot_Y_X_Z,
+    Rot_mY_XmY_Z, Rot_mXY_mX_Z, Rot_Z_X_Y, Rot_Y_Z_X,
+    Rot_Y_mXY_mZ, Rot_XmY_X_mZ, Rot_mZ_mX_mY, Rot_mY_mZ_mX,
+    Rot_mXY_Y_mZ, Rot_X_XmY_mZ, Rot_XmY_mY_mZ, Rot_mX_mXY_mZ,
+    Rot_mX_mZ_mY, Rot_mZ_mY_mX, Rot_mXY_Y_Z, Rot_X_XmY_Z,
+    Rot_XmY_mY_Z, Rot_mX_mXY_Z, Rot_X_Z_Y, Rot_Z_Y_X,
+    Rot_Y_mXY_Z, Rot_XmY_X_Z, Rot_mY_XmY_mZ, Rot_mXY_mX_mZ,
+    Rot_Z_mX_mY, Rot_mZ_mX_Y, Rot_mZ_X_mY, Rot_mY_Z_mX,
+    Rot_Y_mZ_mX, Rot_mY_mZ_X, Rot_mZ_X_Y, Rot_Z_X_mY,
+    Rot_Z_mX_Y, Rot_Y_mZ_X, Rot_mY_Z_X, Rot_Y_Z_mX,
+    Rot_X_Z_mY, Rot_mX_Z_Y, Rot_X_mZ_Y, Rot_Z_Y_mX,
+    Rot_Z_mY_X, Rot_mZ_Y_X, Rot_mX_Z_mY, Rot_mX_mZ_Y,
+    Rot_X_mZ_mY, Rot_Z_mY_mX, Rot_mZ_Y_mX, Rot_mZ_mY_X,
+    Tr_0_0_0, Tr_0_12_0, Tr_12_12_0, Tr_0_0_12,
+    Tr_12_12_12, Tr_0_12_12, Tr_12_0_12, Tr_12_0_0,
+    Tr_14_14_14, Tr_14_34_34, Tr_34_14_34, Tr_34_34_14,
+    Tr_0_0_14, Tr_0_0_34, Tr_0_12_14, Tr_12_0_34,
+    Tr_12_12_14, Tr_12_12_34, Tr_0_12_34, Tr_12_0_14,
+    Tr_0_0_13, Tr_0_0_23, Tr_23_13_13, Tr_13_23_23,
+    Tr_23_13_56, Tr_13_23_16, Tr_0_0_56, Tr_0_0_16,
+    Tr_34_14_14, Tr_34_34_34, Tr_14_14_34, Tr_14_34_14,
+)
 
 ## spacegroup definitions
 sg1 = SpaceGroup(
