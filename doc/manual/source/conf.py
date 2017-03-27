@@ -191,7 +191,15 @@ texinfo_documents = [
 ]
 
 
+# -- intersphinx configuration --------------------------------------------
 
-
-# Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/' : None}
+
+
+# -- napoleon configuration -----------------------------------------------
+# See https://sphinxcontrib-napoleon.readthedocs.io.
+
+napoleon_google_docstring = False
+napoleon_numpy_docstring = True
+napoleon_use_param = False
+napoleon_use_rtype = False
