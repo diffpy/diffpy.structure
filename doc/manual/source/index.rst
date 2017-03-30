@@ -1,11 +1,6 @@
-.. diffpy.structure documentation master file, created by
-   sphinx-quickstart on Tue Oct 22 12:02:48 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-####################################################
+########################################################################
 diffpy.structure documentation
-####################################################
+########################################################################
 
 Software version |release|.
 
@@ -22,41 +17,9 @@ symmetry expansion from asymmetric unit and generation of symmetry
 constraints for atom positions and displacement parameters.  diffpy.structure
 includes definitions of all space groups in over 500 symmetry settings.
 
-To learn more about diffpy.structure library, see the examples directory
-included in this distribution or the API documentation
 
-===================
-Disclaimer
-===================
-
-.. literalinclude:: ../../../LICENSE.txt
-
-================
-Acknowledgments
-================
-
-Developers
------------
-
-diffpy.structure is developed and maintained by
-
-.. literalinclude:: ../../../AUTHORS.txt
-
-
-Space group codes in *spacegroupmod.py* and *mmlibspacegroups.py*
-originate from the pymmlib project, http://pymmlib.sourceforge.net.
-
-
-======================================
-Installation
-======================================
-
-See the `README.rst <https://github.com/diffpy/diffpy.structure#requirements>`_
-file included with the distribution.
-
-======================================
-API and Index
-======================================
+Package contents
+========================================================================
 
 .. toctree::
    :maxdepth: 2
@@ -64,3 +27,50 @@ API and Index
    api/diffpy.structure.rst
 
 * :ref:`genindex`
+
+
+Authors
+========================================================================
+
+diffpy.structure is developed by members of the Billinge Group at
+Columbia University and at Brookhaven National Laboratory including
+Pavol Juhás, Christopher L. Farrow, Xiaohao Yang, Simon J.L. Billinge.
+
+For a detailed list of contributors see
+https://github.com/diffpy/diffpy.structure/graphs/contributors.
+
+
+Acknowledgments
+========================================================================
+
+Space group codes in *spacegroupmod.py* and *mmlibspacegroups.py*
+originate from the pymmlib project, http://pymmlib.sourceforge.net.
+Less common settings of space groups were generating using the
+Computational Crystallography Toolbox,
+http://cctbx.sourceforge.net.
+
+
+.. index:: citation, reference
+
+Reference
+========================================================================
+
+If you use this program for a scientific research that leads
+to publication, we ask that you acknowledge use of the program
+by citing the following paper in your publication:
+
+   P. Juhás, C. L. Farrow, X. Yang, K. R. Knox and S. J. L. Billinge,
+   `Complex modeling: a strategy and software program for combining
+   multiple information sources to solve ill posed structure and
+   nanostructure inverse problems
+   <http://dx.doi.org/10.1107/S2053273315014473>`__,
+   *Acta Crystallogr. A* **71**, 562-568 (2015).
+
+
+
+.. index:: license
+
+License
+========================================================================
+
+.. literalinclude:: ../../../LICENSE.txt
