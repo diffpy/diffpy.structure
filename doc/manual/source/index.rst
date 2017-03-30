@@ -48,12 +48,22 @@ Exceptions
 
 .. autoclass:: SymmetryError
 
+
+----
+
+**FIXME BELOW**
+
+
 .. toctree::
    :maxdepth: 2
 
    api/diffpy.structure.rst
 
 * :ref:`genindex`
+
+**FIXME TO HERE**
+
+----
 
 
 Authors
