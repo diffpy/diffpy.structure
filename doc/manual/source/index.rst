@@ -21,6 +21,33 @@ includes definitions of all space groups in over 500 symmetry settings.
 Package contents
 ========================================================================
 
+.. module:: diffpy.structure
+
+The top-level diffpy.structure module provides the following objects.
+
+
+Functions
+---------
+
+.. autofunction:: loadStructure
+
+
+Classes
+-------
+
+Lattice
+   depicts general coordinate system and associated operations.
+
+
+Exceptions
+----------
+
+.. autoclass:: StructureFormatError
+
+.. autoclass:: LatticeError
+
+.. autoclass:: SymmetryError
+
 .. toctree::
    :maxdepth: 2
 
