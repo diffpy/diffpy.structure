@@ -26,15 +26,32 @@ _UtoB = 1.0/_BtoU
 # ----------------------------------------------------------------------------
 
 class Atom:
-    """Atom --> class for storing atom information
+    """
+    Storage of structure information relevant for a single atom.
 
-    Data members:
-        element      -- type of the atom
-        xyz          -- fractional coordinates, numpy array
-        x, y, z      -- fractional coordiantes, float properties synced with xyz
-        label        -- string atom label
-        occupancy    -- fractional occupancy
-        xyz_cartn    -- absolute Cartesian coordinates, property synced with xyz
+    This class handles atom attributes such as element type, position in
+    fractional and Cartesian coordinates, displacement parameters and
+    so forth.
+
+    Attributes
+    ----------
+    element : str
+        String type of the atom.  Element or ion symbol.
+    xyz : numpy.ndarray
+        Fractional coordinates within the associated `lattice`.
+    label : str
+        String label for this atom such as "C_1".  It can be used
+        to reference this atom when owned by some `Structure`.
+    occupancy : float
+        Fractional occupancy of this atom.
+    lattice : Lattice
+        Coordinate system for the fractional coordinates `xyz`.
+        When ``None`` use the absolute Cartesian system.
+
+
+    TODO: update docstrings for these properties as per
+    https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html#example-numpy
+
         anisotropy   -- flag for anisotropic thermal displacements, property
         U            -- anisotropic thermal displacement tensor, property
         Uij          -- elements of U tensor, where i, j are from (1, 2, 3),
@@ -43,12 +60,12 @@ class Atom:
                         property
         Bisoequiv    -- Debye-Waler isotropic temperature factor or equivalent
                         value, property
-        lattice      -- coordinate system for fractional coordinates,
-                        an instance of Lattice or None for Cartesian system
-
-    Private data:
-        _U           -- storage of U property, 3x3 numpy matrix
     """
+
+    # Private attributes
+    #
+    #   _U : 3-by-3 numpy.ndarray
+    #       Internal storage of the displacement parameters.
 
     # instance attributes that have inmutable default values
     element = ''
