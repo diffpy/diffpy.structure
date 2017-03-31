@@ -199,6 +199,12 @@ texinfo_documents = [
 intersphinx_mapping = {'https://docs.python.org/' : None}
 
 
+# -- autodoc configuration ------------------------------------------------
+# See http://www.sphinx-doc.org/en/stable/ext/autodoc.html
+
+autodoc_member_order = 'bysource'
+
+
 # -- napoleon configuration -----------------------------------------------
 # See https://sphinxcontrib-napoleon.readthedocs.io.
 
