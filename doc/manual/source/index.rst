@@ -49,7 +49,8 @@ Exceptions
 .. autoclass:: SymmetryError
 
 
-----
+Submodules
+========================================================================
 
 **FIXME BELOW**
 
@@ -57,7 +58,7 @@ Exceptions
 .. toctree::
    :maxdepth: 2
 
-   api/diffpy.structure.rst
+   submodules.rst
 
 * :ref:`genindex`
 
