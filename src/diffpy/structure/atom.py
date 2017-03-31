@@ -173,33 +173,36 @@ class Atom:
 
     x = property(lambda self: self.xyz[0],
             lambda self, val: self.xyz.__setitem__(0, val),
-            doc='fractional coordinate x.')
+            doc='float : fractional coordinate x.')
     y = property(lambda self: self.xyz[1],
             lambda self, val: self.xyz.__setitem__(1, val),
-            doc='fractional coordinate y.')
+            doc='float : fractional coordinate y.')
     z = property(lambda self: self.xyz[2],
             lambda self, val: self.xyz.__setitem__(2, val),
-            doc='fractional coordinate z.')
+            doc='float : fractional coordinate z.')
 
     # xyz_cartn
 
-    def _get_xyz_cartn(self):
+    @property
+    def xyz_cartn(self):
+        """numpy.ndarray : Absolute Cartesian coordinates at `xyz`.
+
+        Setting ``xyz_cartn`` or any of its items such as ``xyz_cartn[0]``
+        updates the fractional coordinates `xyz`.
+        """
         if not self.lattice:
             rv = self.xyz
         else:
             rv = _AtomCartesianCoordinates(self)
         return rv
 
-    def _set_xyz_cartn(self, value):
+    @xyz_cartn.setter
+    def xyz_cartn(self, value):
         if not self.lattice:
             self.xyz[:] = value
         else:
             self.xyz = self.lattice.fractional(value)
         return
-
-    xyz_cartn = property(_get_xyz_cartn, _set_xyz_cartn, doc =
-        """absolute Cartesian coordinates of an atom
-        """ )
 
     # anisotropy
 
