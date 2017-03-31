@@ -69,7 +69,7 @@ class Lattice:
                 lattice angles, read-only properties.
         metrics  -- metrics tensor
         base     -- matrix of row base vectors in Cartesian coordinates,
-                    base = stdbase*baserot
+                    base = stdbase @ baserot
         stdbase  -- matrix of base vectors in standard orientation
         baserot  -- base rotation matrix
         recbase  -- inverse of base matrix, its columns are reciprocal
@@ -150,7 +150,7 @@ class Lattice:
 
         a, b, c, alpha, beta, gamma -- lattice parameters, unit cell angles
                     are in degrees.
-        baserot  -- unit cell rotation, base = stdbase*baserot
+        baserot  -- unit cell rotation, base = stdbase @ baserot
 
         Note: parameters with value None will remain unchanged.
 
@@ -253,7 +253,7 @@ class Lattice:
                 [ 0.0,       b*sa,          b*ca ],
                 [ 0.0,       0.0,           c    ]],
                 dtype=float)
-        # calculate unit cell rotation matrix,  base = stdbase*baserot
+        # calculate unit cell rotation matrix,  base = stdbase @ baserot
         self.baserot = numpy.dot(numalg.inv(self.stdbase), self.base)
         self.recbase = numalg.inv(self.base)
         # bases normalized to unit reciprocal vectors
