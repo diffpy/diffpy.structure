@@ -100,12 +100,3 @@ diffpy.structure.version module
     :members:
     :undoc-members:
     :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: diffpy.structure
-    :members:
-    :undoc-members:
-    :show-inheritance:
