@@ -40,16 +40,29 @@ from diffpy.structure.version import __version__
 # top level routines
 
 def loadStructure(filename, fmt='auto', **kw):
-    """Load a new structure from a specified file.
+    """
+    Load new structure object from the specified file.
 
-    filename -- file to be loaded
-    fmt      -- format of the structure file.  Must be one of the formats
-                defined in the parsers subpackage.  When 'auto', all
-                parsers are tried in sequence.
-    kw       -- keyword arguments passed to the getParser factory function.
+    Parameters
+    ----------
 
-    Return a new Structure object.
-    Return PDFFitStructure object for 'pdffit' or 'discus' formats.
+    filename : str
+        Path to the file to be loaded.
+    fmt : str, optional
+        Format of the structure file such as 'cif' or 'xyz'.  Must be
+        one of the formats listed by the `parsers.inputFormats` function.
+        When 'auto', all supported formats are tried in a sequence.
+    kw : misc, optional
+        Extra keyword arguments that are passed to `parsers.getParser`
+        function.  These configure the dedicated Parser object that
+        is used to read content in filename.
+
+    Returns
+    -------
+    stru : `Structure`, `PDFFitStructure`
+        The new Structure object loaded from the specified file.
+        Return a more specific PDFFitStructure type for 'pdffit'
+        and 'discus' formats.
     """
     from diffpy.structure.parsers import getParser
     p = getParser(fmt, **kw)
