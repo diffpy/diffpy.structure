@@ -35,8 +35,16 @@ Functions
 Classes
 -------
 
-Lattice
+:py:class:`~atom.Atom`
+   describes one atom site in the structure - its type, position,
+   displacement parameters and so forth.
+
+:py:class:`~lattice.Lattice`
    depicts general coordinate system and associated operations.
+
+:py:class:`~structure.Structure`
+   collection of :class:`!Atom` objects that form the structure together
+   with associated :py:class:`!Lattice`.
 
 
 Exceptions
