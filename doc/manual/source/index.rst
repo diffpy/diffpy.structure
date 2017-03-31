@@ -52,13 +52,15 @@ Exceptions
 Submodules
 ========================================================================
 
-**FIXME BELOW**
-
-
 .. toctree::
    :maxdepth: 2
 
-   submodules.rst
+   mod_lattice.rst
+
+
+**FIXME BELOW**
+
+:doc:`submodules`
 
 * :ref:`genindex`
 

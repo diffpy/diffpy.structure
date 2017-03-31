@@ -45,14 +45,6 @@ diffpy.structure.atom module
     :undoc-members:
     :show-inheritance:
 
-diffpy.structure.lattice module
--------------------------------
-
-.. automodule:: diffpy.structure.lattice
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 diffpy.structure.mmlibspacegroups module
 ----------------------------------------
 
