@@ -15,7 +15,7 @@
 
 """class Atom for storing properties of a single atom"""
 
-
+#long
 import numpy
 from diffpy.structure.lattice import cartesian as cartesian_lattice
 
