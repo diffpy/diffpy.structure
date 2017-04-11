@@ -55,66 +55,6 @@ class Lattice:
 
     Attributes
     ----------
-    a : float
-        Lattice constant of a-axis, it can be modified by setLatBase
-        method.
-    b : float
-        Lattice constant of b-axis, it can be modified by setLatBase
-        method.
-    c : float
-        Lattice constant of c-axis, it can be modified by setLatBase
-        method.
-    alpha : float
-        Angle between b-axis and c-axis in degrees, it can be modified
-        by setLatBase method.
-    beta : float
-        Angle between a-axis and c-axis in degrees, it can be modified
-        by setLatBase method.
-    gamma : float
-        Angle between a-axis and b-axis in degrees, it can be modified
-        by setLatBase method.
-    ar : float
-        Reciprocal lattice constants in a-axis. It's a read-only
-        property.
-    br : float
-        Reciprocal lattice constants in b-axis. It's a read-only
-        property.
-    cr : float
-        Reciprocal lattice constants in c-axis. It's a read-only
-        property.
-    alphar : float
-        Angle between b-axis and c-axis in reciprocal space. Return
-        value is in degrees and it's a read-only property.
-    betar : float
-        Angle between a-axis and c-axis in reciprocal space. Return
-        value is in degrees and it's a read-only property.
-    gamma : float
-        Angle between a-axis and b-axis in reciprocal space. Return
-        value is in degrees and it's a read-only property.
-    ca : float
-        Equivalent to cos(alpha), read-only property.
-    cb : float
-        Equivalent to cos(beta), read-only property.
-    cg : float
-        Equivalent to cos(gamma), read-only property.
-    sa : float
-        Equivalent to sin(alpha), read-only property.
-    sb : float
-        Equivalent to sin(beta), read-only property.
-    sg : float
-        Equivalent to sin(gamma), read-only property.
-    car : float
-        Equivalent to cos(alphar), read-only property.
-    cbr : float
-        Equivalent to cos(betar), read-only property.
-    cgr : float
-        Equivalent to cos(gammar), read-only property.
-    sar : float
-        Equivalent to sin(alphar), read-only property.
-    sbr : float
-        Equivalent to sin(betar), read-only property.
-    sgr : float
-        Equivalent to sin(gammar), read-only property.
     metric : ndarray
         Metric tensor
     base : ndarray
@@ -153,23 +93,34 @@ class Lattice:
 
         Parameters
         ----------
-        a : float, optional
-            Lattice constant of a-axis, default to None.
-        b : float, optional
-            Lattice constant of b-axis, default to None.
-        c : float, optional
-            Lattice constant of c-axis, default to None.
+        a : float or Lattice, optional
+            Unit cell length a.  When present, other cell parameters must be
+            also specified. When set to the `Lattice` type, produces
+            a duplicate object.
+        b : float or Lattice, optional
+            Unit cell length b.  When present, other cell parameters must be
+            also specified. When set to the `Lattice` type, produces
+            a duplicate object.
+        c : float or Lattice, optional
+            Unit cell length c. When present, other cell parameters must be
+            also specified. When set to the `Lattice` type, produces
+            a duplicate object.
         alpha : float, optional
-            Angle between b-axis and c-axis, default to None.
+            Angle between b-axis and c-axis. When present, other cell
+            parameters must be also specified. When set to the `Lattice`
+            type, produces a duplicate object.
         beta : float, optional
-            Angle between a-axis and c-axis, default to None.
+            Angle between a-axis and c-axis.When present, other cell
+            parameters must be also specified. When set to the `Lattice`
+            type, produces a duplicate object.
         gamma : float, optional
-            Angle between a-axis and b-axis, default to None.
+            Angle between a-axis and b-axis. When present, other cell
+            parameters must be also specified. When set to the `Lattice`
+            type, produces a duplicate object.
         baserot : ndarray, optional
-            Unit cell rotation maxtrix, expect to be 3x3 matrix.
-            Default to None.
+            Unit cell rotation maxtrix, expect to be a 3x3 matrix.
         base : ndarray, optional
-            Base vectors of lattice, default to None.
+            Base vectors of lattice.
 
         Example
         -------
@@ -182,7 +133,7 @@ class Lattice:
         Lattice(base=abc) -- create coordinate system using the given base,
                              abc is a 3x3 matrix (or nested list), of row
                              base vectors
-        Lattice(lat)      -- create a copy of existing Lattice lat
+        Lattice(lat)      -- create a copy of existing Lattice ``lat``
         """
         # build a set of provided argument names for later use.
         apairs = (('a', a), ('b', b), ('c', c),
@@ -231,22 +182,27 @@ class Lattice:
         Parameters
         ----------
         a : float, optional
-            Lattice constant of a-axis, default to None.
+            New value for the cell length ``a``. If not specified,
+            the associated lattice parameter is thus left unchanged.
         b : float, optional
-            Lattice constant of b-axis, default to None.
+            New value for the cell length ``b``. If not specified,
+            the associated lattice parameter is thus left unchanged.
         c : float, optional
-            Lattice constant of c-axis, default to None.
+            New value for the cell length ``c``. If not specified,
+            the associated lattice parameter is thus left unchanged.
         alpha : float, optional
-            Angle between b-axis and c-axis, default to None.
+            New value for the cell angle ``alpha``. If not specified,
+            the associated lattice parameter is thus left unchanged.
         beta : float, optional
-            Angle between a-axis and c-axis, default to None.
+            New value for the cell angle ``beta``. If not specified,
+            the associated lattice parameter is thus left unchanged.
         gamma : float, optional
-            Angle between a-axis and b-axis, default to None.
+            New value for the cell angle ``gamma``. If not specified,
+            the associated lattice parameter is thus left unchanged.
         baserot : ndarray, optional
-            Unit cell rotation maxtrix, expect to be 3x3 matrix.
-            Default to None.
+            Unit cell rotation maxtrix, expect to be a 3x3 matrix.
         base : ndarray, optional
-            Base vectors of lattice, default to None.
+            Base vectors of lattice
 
         Note
         ----
@@ -398,7 +354,8 @@ class Lattice:
         Parameters
         ----------
         u : ndarray
-            A lattice vector being projected to.
+            Lattice vector in fractional coordinates or an N-by-3 array of
+            lattice vectors
 
         Returns
         -------
@@ -415,7 +372,8 @@ class Lattice:
         Parameters
         ----------
         rc : ndarray
-            A lattice vector being projected to.
+            Lattice vector in Cartesian coordinates or an N-by-3 array of
+            Cartesian vectors
 
         Returns
         -------
@@ -565,28 +523,28 @@ class Lattice:
     # read-write properties
 
     a = property(lambda self: self._a,
-            lambda self, value: self.setLatPar(a=value),
-            doc='Unit cell length a')
+                 lambda self, value: self.setLatPar(a=value),
+                 doc='float: Unit cell length a')
 
     b = property(lambda self: self._b,
-            lambda self, value: self.setLatPar(b=value),
-            doc='Unit cell length b')
+                 lambda self, value: self.setLatPar(b=value),
+                 doc='float: Unit cell length b')
 
     c = property(lambda self: self._c,
-            lambda self, value: self.setLatPar(c=value),
-            doc='Unit cell length c')
+                 lambda self, value: self.setLatPar(c=value),
+                 doc='float: Unit cell length c')
 
     alpha = property(lambda self: self._alpha,
-            lambda self, value: self.setLatPar(alpha=value),
-            doc='Cell angle alpha in degrees')
+                     lambda self, value: self.setLatPar(alpha=value),
+                     doc='float: Cell angle alpha in degrees')
 
     beta = property(lambda self: self._beta,
-            lambda self, value: self.setLatPar(beta=value),
-            doc='Cell angle beta in degrees')
+                    lambda self, value: self.setLatPar(beta=value),
+                    doc='float: Cell angle beta in degrees')
 
     gamma = property(lambda self: self._gamma,
-            lambda self, value: self.setLatPar(gamma=value),
-            doc='Cell angle gamma in degrees')
+                     lambda self, value: self.setLatPar(gamma=value),
+                     doc='float: Cell angle gamma in degrees')
 
     # read-only derived properties
 
@@ -603,61 +561,61 @@ class Lattice:
         return rv
 
     volume = property(lambda self: self.a * self.b * self.c * self.unitvolume,
-            doc='Lattice cell volume')
+                      doc='float: Lattice cell volume')
 
     ca = property(lambda self: self._ca,
-            doc='Cosine of the cell angle alpha')
+                  doc='float: Cosine of the cell angle alpha')
 
     cb = property(lambda self: self._cb,
-            doc='Cosine of the cell angle beta')
+                  doc='float: Cosine of the cell angle beta')
 
     cg = property(lambda self: self._cg,
-            doc='Cosine of the cell angle gamma')
+                  doc='float: Cosine of the cell angle gamma')
 
     sa = property(lambda self: self._sa,
-            doc='Sine of the cell angle alpha')
+                  doc='float: Sine of the cell angle alpha')
 
     sb = property(lambda self: self._sb,
-            doc='Sine of the cell angle beta')
+                  doc='float: Sine of the cell angle beta')
 
     sg = property(lambda self: self._sg,
-            doc='Sine of the cell angle gamma')
+                  doc='float: Sine of the cell angle gamma')
 
     ar = property(lambda self: self._ar,
-            doc='Cell length a of the reciprocal lattice')
+                  doc='float: Cell length a of the reciprocal lattice')
 
     br = property(lambda self: self._br,
-            doc='Cell length b of the reciprocal lattice')
+                  doc='float: Cell length b of the reciprocal lattice')
 
     cr = property(lambda self: self._cr,
-            doc='Cell length c of the reciprocal lattice')
+                  doc='float: Cell length c of the reciprocal lattice')
 
     alphar = property(lambda self: self._alphar,
-            doc='Reciprocal lattice angle alpha in degrees')
+                      doc='float: Reciprocal lattice angle alpha in degrees')
 
     betar = property(lambda self: self._betar,
-            doc='Reciprocal lattice angle beta in degrees')
+                     doc='float: Reciprocal lattice angle beta in degrees')
 
     gammar = property(lambda self: self._gammar,
-            doc='Reciprocal lattice angle gamma in degrees')
+                      doc='float: Reciprocal lattice angle gamma in degrees')
 
     car = property(lambda self: self._car,
-            doc='Cosine of the reciprocal angle alpha')
+                   doc='float: Cosine of the reciprocal angle alpha')
 
     cbr = property(lambda self: self._cbr,
-            doc='Cosine of the reciprocal angle beta')
+                   doc='float: Cosine of the reciprocal angle beta')
 
     cgr = property(lambda self: self._cgr,
-            doc='Cosine of the reciprocal angle gamma')
+                   doc='float: Cosine of the reciprocal angle gamma')
 
     sar = property(lambda self: self._sar,
-            doc='Sine of the reciprocal angle alpha')
+                   doc='float: Sine of the reciprocal angle alpha')
 
     sbr = property(lambda self: self._sbr,
-            doc='Sine of the reciprocal angle beta')
+                   doc='flot: Sine of the reciprocal angle beta')
 
     sgr = property(lambda self: self._sgr,
-            doc='Sine of the reciprocal angle gamma')
+                   doc='float: Sine of the reciprocal angle gamma')
 
 # End of class Lattice
 
