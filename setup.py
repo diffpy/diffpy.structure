@@ -75,42 +75,42 @@ versiondata = getversioncfg()
 
 # define distribution
 setup_args = dict(
-        name = "diffpy.structure",
-        version = versiondata.get('DEFAULT', 'version'),
-        packages = [('diffpy.' + p) for p in find_packages('src/diffpy')],
-        package_dir = {'' : 'src'},
-        test_suite = 'diffpy.structure.tests',
-        include_package_data = True,
-        zip_safe = False,
-        install_requires = [
-            'pycifrw>=4.2',
-        ],
-        author = 'Simon J.L. Billinge group',
-        author_email = 'sb2896@columbia.edu',
-        maintainer = 'Pavol Juhas',
-        maintainer_email = 'pavol.juhas@gmail.com',
-        url = 'https://github.com/diffpy/diffpy.structure',
-        description = "Crystal structure container "
-                      "and parsers for structure formats.",
-        license = 'BSD-style license',
-        keywords = "crystal structure data storage CIF PDB",
-        classifiers = [
-            # List of possible values at
-            # http://pypi.python.org/pypi?:action=list_classifiers
-            'Development Status :: 5 - Production/Stable',
-            'Environment :: Console',
-            'Intended Audience :: Science/Research',
-            'License :: OSI Approved :: BSD License',
-            'Operating System :: MacOS :: MacOS X',
-            'Operating System :: Microsoft :: Windows',
-            'Operating System :: POSIX',
-            'Operating System :: Unix',
-            'Programming Language :: Python :: 3.4',
-            'Programming Language :: Python :: 3.5',
-            'Programming Language :: Python :: 3.6',
-            'Topic :: Scientific/Engineering :: Chemistry',
-            'Topic :: Scientific/Engineering :: Physics',
-        ],
+    name = "diffpy.structure",
+    version = versiondata.get('DEFAULT', 'version'),
+    packages = [('diffpy.' + p) for p in find_packages('src/diffpy')],
+    package_dir = {'' : 'src'},
+    test_suite = 'diffpy.structure.tests',
+    include_package_data = True,
+    zip_safe = False,
+    install_requires = [
+        'pycifrw>=4.2',
+    ],
+    author = 'Simon J.L. Billinge group',
+    author_email = 'sb2896@columbia.edu',
+    maintainer = 'Pavol Juhas',
+    maintainer_email = 'pavol.juhas@gmail.com',
+    url = 'https://github.com/diffpy/diffpy.structure',
+    description = "Crystal structure container "
+                  "and parsers for structure formats.",
+    license = 'BSD-style license',
+    keywords = "crystal structure data storage CIF PDB",
+    classifiers = [
+        # List of possible values at
+        # http://pypi.python.org/pypi?:action=list_classifiers
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Console',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
+        'Operating System :: Unix',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Topic :: Scientific/Engineering :: Chemistry',
+        'Topic :: Scientific/Engineering :: Physics',
+    ],
 )
 
 if __name__ == '__main__':
