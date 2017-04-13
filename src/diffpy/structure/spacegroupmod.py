@@ -111,12 +111,49 @@ Tr_34_14_34   = numpy.array([ 3.0/4.0, 1.0/4.0, 3.0/4.0 ], float)
 
 class SymOp:
     """A subclass of the tuple class for performing one symmetry operation.
+
+    Attributes
+    ---------
+    R: float
+        Rotation
+
+    t: float
+        Translation
+
     """
+
+
     def __init__(self, R, t):
+
+        """ Initialization function for R and t
+
+        Paramters
+        ---------
+        R: float
+            Rotation
+
+        t: float
+            Translation
+        Returns
+        -------
+        None
+        """
         self.R = R
         self.t = t
 
     def __str__(self):
+        """Print coordinates in R and time t
+
+        Paramters
+        ---------
+        None.
+
+        Returns
+        -------
+        x: str
+            String containing the rotation and translation operation
+        """
+
         x  = "[%6.3f %6.3f %6.3f %6.3f]\n" % (
             self.R[0,0], self.R[0,1], self.R[0,2], self.t[0])
         x += "[%6.3f %6.3f %6.3f %6.3f]\n" % (
@@ -126,16 +163,49 @@ class SymOp:
         return x
 
     def __call__(self, vec):
-        """Return the symmetry operation on argument vector and.
+        """Return the vector after the symmetry operation (rotation and translation).
+
+        Paramters
+        ---------
+        vec: numpy.ndarray
+            argument vector
+
+        Returns
+        -------
+        numpy.ndarray
+            The vector after the symmetry operation.
         """
         return numpy.dot(self.R, vec) + self.t
 
     def __eq__(self, symop):
+        """return the result of proximity test for symmetry operations.
+
+        Paramters
+        ---------
+        symop: numpy.dnarray
+                symmetry operation, which sets the reference time and space coordinate to be compared with.
+
+        Returns
+        -------
+        rv: boolean
+            Results of proximity test for time and space coordinatr paramters
+
+        """
         return numpy.allclose(self.R, symop.R) and numpy.allclose(self.t, symop.t)
 
     def is_identity(self):
         """Returns True if this SymOp is a identity symmetry operation
-        (no rotation, no translation), otherwise returns False.
+         (no rotation, no translation), otherwise returns False.
+
+        Paramters
+        ---------
+        None
+
+        Returns
+        -------
+        rv: boolean
+            Boolean result of the test of whether Symop is a identity operation.
+
         """
         rv = (numpy.allclose(self.R, numpy.identity(3, float)) and
               numpy.allclose(self.t, numpy.zeros(3, float)))
@@ -147,7 +217,31 @@ class SymOp:
 class SpaceGroup:
     """Contains the various names and symmetry operations for one space
     group.
+
+    Attributes
+    ---------
+    number: int
+        the number of space group.
+    num_sym_equiv: int
+        number of equivalent symmetry sites
+    num_primitive_sym_equiv: int
+        number of equivalent symmetry sites in primitive unit cell.
+    short_name: str
+        short name of space group
+    alt_name: str
+        alternative name of space group
+    point_group_name: str
+        name of point group
+    crystal_system: str
+        crystal system
+    pdb_name: str
+        full name of space group
+    symnp_list: list
+        list of symmetry operation
+
     """
+
+
     def __init__(self,
                  number                  = None,
                  num_sym_equiv           = None,
@@ -159,6 +253,34 @@ class SpaceGroup:
                  pdb_name                = None,
                  symop_list              = None):
 
+        """Initialization fucntion for the spacegroup class
+
+        Paramters
+        ---------
+        number: int
+            the number of space group.
+        num_sym_equiv: int
+            number of equivalent symmetry sites
+        num_primitive_sym_equiv: int
+            number of equivalent symmetry sites in primitive unit cell.
+        short_name: str
+            short name of space group
+        alt_name: str
+            alternative name of space group
+        point_group_name: str
+            name of point group
+        crystal_system: str
+            crystal system
+        pdb_name: str
+            full name of space group
+        symnp_list: list
+            list of symmetry operation
+
+        Returns
+        -------
+        None.
+
+        """
         self.number                  = number
         self.num_sym_equiv           = num_sym_equiv
         self.num_primitive_sym_equiv = num_primitive_sym_equiv
@@ -171,14 +293,34 @@ class SpaceGroup:
 
     def iter_symops(self):
         """Iterates over all SymOps in the SpaceGroup.
+
+        Paramters
+        ---------
+        None
+
+        Returns
+        -------
+        iter(self.symop_list)
+
         """
         return iter(self.symop_list)
 
     def check_group_name(self, name):
         """Checks if the given name is a name for this space group,
-        returns True or False.  The space group name can be in several forms:
-        the short name, the longer PDB-style name, or the space group number.
+        returns True or False.
+
+        Paramters
+        ---------
+        name : str
+            A given space group name. The space group name can be in several forms:
+            the short name, the longer PDB-style name, or the space group number.
+
+        Returns
+        -------
+        Boolean
+            if the given name is a name for this space group, returns True or False.
         """
+
         if name == self.short_name:       return True
         if name == self.alt_name:         return True
         if name == self.pdb_name:         return True
@@ -190,7 +332,18 @@ class SpaceGroup:
         """Iterate the symmetry equivelant positions of the argument vector.
         The vector must already be in fractional coordinates, and the
         symmetry equivelant vectors are also in fractional coordinates.
+
+        Paramters
+        ---------
+        vec: numpy.ndarray
+            argument vector, represented in fractional coordinates.
+
+        Returns
+        -------
+        numpy.ndarray
+            equivalent positions under set of symmetry operation.
         """
+
         for symop in self.symop_list:
             yield symop(vec)
         pass
