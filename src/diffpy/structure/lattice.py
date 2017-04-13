@@ -58,7 +58,7 @@ class Lattice:
     ----------
     a : float or Lattice, optional
         The cell length *a*.  When present, other cell parameters
-        must be also specified.  When of the `Lattice` type, create
+        must be also specified.  When of the *Lattice* type, create
         a duplicate Lattice.
     b : float
         The cell length *b*.
@@ -79,11 +79,11 @@ class Lattice:
 
     Attributes
     ----------
-    metric : ndarray
-        The metric tensor.
+    metrics : ndarray
+        The metrics tensor.
     base : ndarray
         The 3x3 matrix of row base vectors in Cartesian coordinates,
-        which may be rotated, i.e., base = stdbase @ baserot.
+        which may be rotated, i.e., ``base = stdbase @ baserot``.
     stdbase : ndarray
         The 3x3 matrix of row base vectors in standard orientation.
     baserot : ndarray
@@ -94,7 +94,7 @@ class Lattice:
     normbase : ndarray
         The `base` vectors scaled by magnitudes of reciprocal cell lengths.
     recnormbase : ndarray
-        The inverse matrix of `normbase`.
+        The inverse of the `normbase` matrix.
     isotropicunit : ndarray
         The 3x3 tensor for a unit isotropic displacement parameters in this
         coordinate system.  This is an identity matrix when this Lattice
@@ -329,7 +329,7 @@ class Lattice:
         self._alphar = math.degrees(math.acos(car))
         self._betar = math.degrees(math.acos(cbr))
         self._gammar = math.degrees(math.acos(cgr))
-        # metric tensor
+        # metrics tensor
         self.metrics = numpy.array( [
                 [ self.a*self.a,     self.a*self.b*cg,  self.a*self.c*cb ],
                 [ self.b*self.a*cg,  self.b*self.b,     self.b*self.c*ca ],
@@ -454,7 +454,7 @@ class Lattice:
         Returns
         -------
         rc : ndarray
-            Cartesian coordinates of the `u` vector.
+            Cartesian coordinates of the *u* vector.
         """
         rc = numpy.dot(u, self.base)
         return rc
@@ -472,7 +472,7 @@ class Lattice:
         Returns
         -------
         u : ndarray
-            Fractional coordinates of the Cartesian vector `rc`.
+            Fractional coordinates of the Cartesian vector *rc*.
         """
         u = numpy.dot(rc, self.recbase)
         return u
@@ -487,12 +487,12 @@ class Lattice:
             The first lattice vector or an Nx3 array.
         v : array_like
             The second lattice vector or an array of
-            the same shape as `u`.
+            the same shape as *u*.
 
         Returns
         -------
         float or ndarray
-            The dot product of lattice vectors `u`, `v`.
+            The dot product of lattice vectors *u*, *v*.
         """
         dp = (u * numpy.dot(v, self.metrics)).sum(axis=-1)
         return dp
@@ -509,7 +509,7 @@ class Lattice:
         Returns
         -------
         float or ndarray
-            The magnitude of the lattice vector `xyz`.
+            The magnitude of the lattice vector *xyz*.
         """
         # this is a few percent faster than sqrt(dot(u, u)).
         return numpy.sqrt((self.cartesian(xyz)**2).sum(axis=-1))
@@ -526,7 +526,7 @@ class Lattice:
         Returns
         -------
         float or ndarray
-            The magnitude of the reciprocal vector `hkl`.
+            The magnitude of the reciprocal vector *hkl*.
         """
         hklcartn = numpy.dot(hkl, self.recbase.T)
         return numpy.sqrt((hklcartn**2).sum(axis=-1))
@@ -544,12 +544,12 @@ class Lattice:
 
         Note
         ----
-        `u` and `v` must be of the same shape when matrices.
+        *u* and *v* must be of the same shape when matrices.
 
         Returns
         -------
         float or ndarray
-            The distance between lattice points `u` and `v`.
+            The distance between lattice points *u* and *v*.
         """
         duv = numpy.asarray(u) - v
         return self.norm(duv)
@@ -568,7 +568,7 @@ class Lattice:
         Returns
         -------
         float
-            The angle between lattice vectors `u` and `v` in degrees.
+            The angle between lattice vectors *u* and *v* in degrees.
         """
         ca = self.dot(u, v)/( self.norm(u)*self.norm(v) )
         # avoid round-off errors that would make abs(ca) greater than 1
@@ -597,7 +597,7 @@ class Lattice:
         Returns
         -------
         bool
-            True when `umx` is anisotropic by more than a round-off error.
+            True when *umx* is anisotropic by more than a round-off error.
         """
         umx = numpy.asarray(umx)
         utr = numpy.trace(umx) / umx.shape[0]
