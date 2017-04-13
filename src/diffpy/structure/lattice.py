@@ -51,35 +51,80 @@ def sind(x):
 # ----------------------------------------------------------------------------
 
 class Lattice:
-    """general coordinate system
+    """
+    General coordinate system and associated operations.
+
+    Parameters
+    ----------
+    a : float or Lattice, optional
+        The cell length *a*.  When present, other cell parameters
+        must be also specified.  When of the `Lattice` type, create
+        a duplicate Lattice.
+    b : float
+        The cell length *b*.
+    c : float
+        The cell length *c*.
+    alpha : float
+        The angle between the *b* and *c* axes in degrees.
+    beta : float
+        The angle between the *b* and *c* axes in degrees.
+    gamma : float
+        The angle between the *a* and *b* axes in degrees.
+    baserot : array_like, optional
+        The 3x3 rotation matrix of the base vectors with respect
+        to their standard setting.
+    base : array_like, optional
+        The 3x3 array of row base vectors.  This must be the
+        only argument when present.
 
     Attributes
     ----------
     metric : ndarray
-        Metric tensor
+        The metric tensor.
     base : ndarray
-        Matrix of row base vectors in Cartesian coordinates,
-        base = stdbase @ baserot
+        The 3x3 matrix of row base vectors in Cartesian coordinates,
+        which may be rotated, i.e., base = stdbase @ baserot.
     stdbase : ndarray
-        Matrix of base vectors in standard orientation
+        The 3x3 matrix of row base vectors in standard orientation.
     baserot : ndarray
-        Base rotation matrix
+        The rotation matrix for the `base`.
     recbase : ndarray
-        Inverse of base matrix, its columns are reciprocal vectors
-        in Cartesian coordinates
+        The inverse of the `base` matrix, where the columns give
+        reciprocal vectors in Cartesian coordinates.
     normbase : ndarray
-        Base with magnitudes of reciprocal vectors
-    recnormbase :ndarray
-        Inverse of normbase
-    isotropicunit: ndarray
-        Matrix for unit isotropic displacement parameter in current
-        coordinate system.  It's identity matrix when orthonormal
-        coordinate system is used.
+        The `base` vectors scaled by magnitudes of reciprocal cell lengths.
+    recnormbase : ndarray
+        The inverse matrix of `normbase`.
+    isotropicunit : ndarray
+        The 3x3 tensor for a unit isotropic displacement parameters in this
+        coordinate system.  This is an identity matrix when this Lattice
+        is orthonormal.
+
     Note
     ----
-    All data members except a, b, c, alpha, beta, gamma are read-only.
-    Their values get updated by setting the lattice parameters or calling
-    the setLatPar() or setLatBase() methods.
+    The array attributes are read-only.  They get updated by changing
+    some lattice parameters or by calling the `setLatPar()` or
+    `setLatBase()` methods.
+
+    Examples
+    --------
+    Create a Cartesian coordinate system::
+
+    >>> Lattice()
+
+    Create coordinate system with the cell lengths ``a``, ``b``, ``c``
+    and cell angles ``alpha``, ``beta``, ``gamma`` in degrees::
+
+    >>> Lattice(a, b, c, alpha, beta, gamma)
+
+    Create a duplicate of an existing Lattice ``lat``::
+
+    >>> Lattice(lat)
+
+    Create coordinate system with the base vectors given by rows
+    of the ``abc`` matrix::
+
+    >>> Lattice(base=abc)
     """
 
     # round-off tolerance
@@ -87,54 +132,8 @@ class Lattice:
 
 
     def __init__(self, a=None, b=None, c=None,
-            alpha=None, beta=None, gamma=None,
-            baserot=None, base=None):
-        """define new coordinate system, the default is Cartesian
-
-        Parameters
-        ----------
-        a : float or Lattice, optional
-            Unit cell length a.  When present, other cell parameters must be
-            also specified. When set to the `Lattice` type, produces
-            a duplicate object.
-        b : float or Lattice, optional
-            Unit cell length b.  When present, other cell parameters must be
-            also specified. When set to the `Lattice` type, produces
-            a duplicate object.
-        c : float or Lattice, optional
-            Unit cell length c. When present, other cell parameters must be
-            also specified. When set to the `Lattice` type, produces
-            a duplicate object.
-        alpha : float, optional
-            Angle between b-axis and c-axis. When present, other cell
-            parameters must be also specified. When set to the `Lattice`
-            type, produces a duplicate object.
-        beta : float, optional
-            Angle between a-axis and c-axis.When present, other cell
-            parameters must be also specified. When set to the `Lattice`
-            type, produces a duplicate object.
-        gamma : float, optional
-            Angle between a-axis and b-axis. When present, other cell
-            parameters must be also specified. When set to the `Lattice`
-            type, produces a duplicate object.
-        baserot : ndarray, optional
-            Unit cell rotation maxtrix, expect to be a 3x3 matrix.
-        base : ndarray, optional
-            Base vectors of lattice.
-
-        Example
-        -------
-        There are 4 ways how to create Lattice instance:
-
-        Lattice()         -- create Cartesian coordinates
-        Lattice(a, b, c, alpha, beta, gamma) -- define coordinate system
-                             from specified lattice parameters.  Unit cell
-                             angles are all in degrees.
-        Lattice(base=abc) -- create coordinate system using the given base,
-                             abc is a 3x3 matrix (or nested list), of row
-                             base vectors
-        Lattice(lat)      -- create a copy of existing Lattice ``lat``
-        """
+                 alpha=None, beta=None, gamma=None,
+                 baserot=None, base=None):
         # build a set of provided argument names for later use.
         apairs = (('a', a), ('b', b), ('c', c),
                   ('alpha', alpha), ('beta', beta), ('gamma', gamma),
