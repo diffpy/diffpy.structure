@@ -134,33 +134,33 @@ class Lattice:
 
     a = property(lambda self: self._a,
                  lambda self, value: self.setLatPar(a=value),
-                 doc='float: Unit cell length a')
+                 doc='The unit cell length *a*.')
 
     b = property(lambda self: self._b,
                  lambda self, value: self.setLatPar(b=value),
-                 doc='float: Unit cell length b')
+                 doc='The unit cell length *b*.')
 
     c = property(lambda self: self._c,
                  lambda self, value: self.setLatPar(c=value),
-                 doc='float: Unit cell length c')
+                 doc='The unit cell length *c*.')
 
     alpha = property(lambda self: self._alpha,
                      lambda self, value: self.setLatPar(alpha=value),
-                     doc='float: Cell angle alpha in degrees')
+                     doc='The cell angle *alpha* in degrees.')
 
     beta = property(lambda self: self._beta,
                     lambda self, value: self.setLatPar(beta=value),
-                    doc='float: Cell angle beta in degrees')
+                    doc='The cell angle *beta* in degrees.')
 
     gamma = property(lambda self: self._gamma,
                      lambda self, value: self.setLatPar(gamma=value),
-                     doc='float: Cell angle gamma in degrees')
+                     doc='The cell angle *gamma* in degrees.')
 
     # read-only derived properties
 
     @property
     def unitvolume(self):
-        '''Cell volume, assuming a=b=c=1
+        '''The unit cell volume when a = b = c = 1.
         '''
         # Recalculate lattice cosines to ensure this is right
         # even if ca, cb, cg data were not yet updated.
@@ -171,61 +171,61 @@ class Lattice:
         return rv
 
     volume = property(lambda self: self.a * self.b * self.c * self.unitvolume,
-                      doc='float: Lattice cell volume')
+                      doc='The unit cell volume.')
 
     ar = property(lambda self: self._ar,
-                  doc='float: Cell length a of the reciprocal lattice')
+                  doc='The cell length *a* of the reciprocal lattice.')
 
     br = property(lambda self: self._br,
-                  doc='float: Cell length b of the reciprocal lattice')
+                  doc='The cell length *b* of the reciprocal lattice.')
 
     cr = property(lambda self: self._cr,
-                  doc='float: Cell length c of the reciprocal lattice')
+                  doc='The cell length *c* of the reciprocal lattice.')
 
     alphar = property(lambda self: self._alphar,
-                      doc='float: Reciprocal lattice angle alpha in degrees')
+                      doc='The reciprocal cell angle *alpha* in degrees.')
 
     betar = property(lambda self: self._betar,
-                     doc='float: Reciprocal lattice angle beta in degrees')
+                     doc='The reciprocal cell angle *beta* in degrees')
 
     gammar = property(lambda self: self._gammar,
-                      doc='float: Reciprocal lattice angle gamma in degrees')
+                      doc='The reciprocal cell angle *gamma* in degrees')
 
     ca = property(lambda self: self._ca,
-                  doc='float: Cosine of the cell angle alpha')
+                  doc='The cosine of the cell angle *alpha*.')
 
     cb = property(lambda self: self._cb,
-                  doc='float: Cosine of the cell angle beta')
+                  doc='The cosine of the cell angle *beta*.')
 
     cg = property(lambda self: self._cg,
-                  doc='float: Cosine of the cell angle gamma')
+                  doc='The cosine of the cell angle *gamma*.')
 
     sa = property(lambda self: self._sa,
-                  doc='float: Sine of the cell angle alpha')
+                  doc='The sine of the cell angle *alpha*.')
 
     sb = property(lambda self: self._sb,
-                  doc='float: Sine of the cell angle beta')
+                  doc='The sine of the cell angle *beta*.')
 
     sg = property(lambda self: self._sg,
-                  doc='float: Sine of the cell angle gamma')
+                  doc='The sine of the cell angle *gamma*.')
 
     car = property(lambda self: self._car,
-                   doc='float: Cosine of the reciprocal angle alpha')
+                   doc='The cosine of the reciprocal angle *alpha*.')
 
     cbr = property(lambda self: self._cbr,
-                   doc='float: Cosine of the reciprocal angle beta')
+                   doc='The cosine of the reciprocal angle *beta*.')
 
     cgr = property(lambda self: self._cgr,
-                   doc='float: Cosine of the reciprocal angle gamma')
+                   doc='The cosine of the reciprocal angle *gamma*.')
 
     sar = property(lambda self: self._sar,
-                   doc='float: Sine of the reciprocal angle alpha')
+                   doc='The sine of the reciprocal angle *alpha*.')
 
     sbr = property(lambda self: self._sbr,
-                   doc='flot: Sine of the reciprocal angle beta')
+                   doc='flot: Sine of the reciprocal angle *beta*.')
 
     sgr = property(lambda self: self._sgr,
-                   doc='float: Sine of the reciprocal angle gamma')
+                   doc='The sine of the reciprocal angle *gamma*.')
 
     # done with properties ---------------------------------------------------
 
@@ -274,36 +274,32 @@ class Lattice:
 
     def setLatPar(self, a=None, b=None, c=None,
             alpha=None, beta=None, gamma=None, baserot=None):
-        """set lattice parameters and all related tensors
+        """Set one or more lattice parameters.
+
+        This updates all attributes that depend on the lattice parameters.
 
         Parameters
         ----------
         a : float, optional
-            New value for the cell length ``a``. If not specified,
-            the associated lattice parameter is thus left unchanged.
+            The new value of the cell length *a*.
         b : float, optional
-            New value for the cell length ``b``. If not specified,
-            the associated lattice parameter is thus left unchanged.
+            The new value of the cell length *b*.
         c : float, optional
-            New value for the cell length ``c``. If not specified,
-            the associated lattice parameter is thus left unchanged.
+            The new value of the cell length *c*.
         alpha : float, optional
-            New value for the cell angle ``alpha``. If not specified,
-            the associated lattice parameter is thus left unchanged.
+            The new value of the cell angle *alpha* in degrees.
         beta : float, optional
-            New value for the cell angle ``beta``. If not specified,
-            the associated lattice parameter is thus left unchanged.
+            The new value of the cell angle *beta* in degrees.
         gamma : float, optional
-            New value for the cell angle ``gamma``. If not specified,
-            the associated lattice parameter is thus left unchanged.
-        baserot : ndarray, optional
-            Unit cell rotation maxtrix, expect to be a 3x3 matrix.
-        base : ndarray, optional
-            Base vectors of lattice
+            The new value of the cell angle *gamma* in degrees.
+        baserot : array_like, optional
+            The new 3x3 rotation matrix of the base vectors with respect
+            to their standard setting in Cartesian coordinates.
 
         Note
         ----
-        parameters with value None will remain unchanged.
+        Parameters that are not specified will keep their initial
+        values.
         """
         if a is not None: self._a = float(a)
         if b is not None: self._b = float(b)
@@ -356,13 +352,17 @@ class Lattice:
 
 
     def setLatBase(self, base):
-        """Set matrix of unit cell base vectors and calculate corresponding
-        lattice parameters and stdbase, baserot and metrics tensors.
+        """Set new base vectors for this lattice.
+
+        This updates the cell lengths and cell angles according to the
+        new base.  The `stdbase`, `baserot`, and `metrics` attributes
+        are also updated.
 
         Parameters
         ----------
-        base : ndarray, optional
-            Base vectors of lattice, default to None.
+        base : array_like
+            The 3x3 matrix of row base vectors expressed
+            in Cartesian coordinates.
         """
         self.base = numpy.array(base)
         detbase = numalg.det(self.base)
@@ -422,78 +422,77 @@ class Lattice:
 
 
     def abcABG(self):
-        """Return a tuple of 6 lattice parameters.
-
+        """
         Returns
         -------
-        rv : tuple
-            tuple of (a, b, c, alpha, beta, gamma)
+            A tuple of ``(a, b, c, alpha, beta, gamma)``.
         """
         rv = (self.a, self.b, self.c, self.alpha, self.beta, self.gamma)
         return rv
 
 
     def reciprocal(self):
-        """Return the reciprocal lattice.
-
+        """
         Returns
         -------
-        rv : Lattice
-            Reciprocal lattice of current lattice.
+        Lattice
+            The reciprocal lattice of the current lattice.
         """
         rv = Lattice(base=numpy.transpose(self.recbase))
         return rv
 
 
     def cartesian(self, u):
-        """Return Cartesian coordinates of a lattice vector.
+        """Transform lattice vector to Cartesian coordinates.
 
         Parameters
         ----------
-        u : ndarray
-            Lattice vector in fractional coordinates or an N-by-3 array of
-            lattice vectors
+        u : array_like
+            Vector of lattice coordinates or an Nx3 array
+            of lattice vectors.
 
         Returns
         -------
         rc : ndarray
-            Cartesian coordinates of a lattice vector.
+            Cartesian coordinates of the `u` vector.
         """
         rc = numpy.dot(u, self.base)
         return rc
 
 
     def fractional(self, rc):
-        """Return fractional coordinates of a Cartesian vector.
+        """Transform Cartesian vector to fractional lattice coordinates.
 
         Parameters
         ----------
-        rc : ndarray
-            Lattice vector in Cartesian coordinates or an N-by-3 array of
-            Cartesian vectors
+        rc : array_like
+            A vector of Cartesian coordinates or an Nx3 array of
+            Cartesian vectors.
 
         Returns
         -------
         u : ndarray
-            fractional coordinates of a lattice vector.
+            Fractional coordinates of the Cartesian vector `rc`.
         """
         u = numpy.dot(rc, self.recbase)
         return u
 
 
     def dot(self, u, v):
-        """Return dot product of 2 lattice vectors.
+        """Calculate dot product of 2 lattice vectors.
 
         Parameters
         ----------
-        u : ndarray
-            lattice vector
-        v : ndarray
-            lattice vector
+        u : array_like
+            The first lattice vector or an Nx3 array.
+        v : array_like
+            The second lattice vector or an array of
+            the same shape as `u`.
 
         Returns
         -------
-        dp : dot product of two lattice vectors, u and v
+        float or ndarray
+            The dot product of lattice vectors `u`, `v`.
         """
         dp = (u * numpy.dot(v, self.metrics)).sum(axis=-1)
         return dp
@@ -504,12 +503,13 @@ class Lattice:
 
         Parameters
         ----------
-        xyz: ndarray
-            vector or an N-by-3 array of fractional coordinates.
+        xyz : array_like
+            A vector or an Nx3 array of fractional coordinates.
 
         Returns
         -------
-        float or an array of the same length as xyz.
+        float or ndarray
+            The magnitude of the lattice vector `xyz`.
         """
         # this is a few percent faster than sqrt(dot(u, u)).
         return numpy.sqrt((self.cartesian(xyz)**2).sum(axis=-1))
@@ -520,12 +520,13 @@ class Lattice:
 
         Parameters
         ----------
-        hkl : ndarray
-            vector or an N-by-3 array of reciprocal coordinates.
+        hkl : array_like
+            A vector or an Nx3 array of reciprocal coordinates.
 
         Returns
         -------
-        float or an array of the same length as hkl.
+        float or ndarray
+            The magnitude of the reciprocal vector `hkl`.
         """
         hklcartn = numpy.dot(hkl, self.recbase.T)
         return numpy.sqrt((hklcartn**2).sum(axis=-1))
@@ -536,18 +537,19 @@ class Lattice:
 
         Parameters
         ----------
-        u : ndarray
-            vector or N-by-3 matrix of fractional coordinates.
+        u : array_like
+            A vector or an Nx3 matrix of fractional coordinates.
         v : ndarray
-            vector or N-by-3 matrix of fractional coordinates.
+            A vector or an Nx3 matrix of fractional coordinates.
 
         Note
         ----
-        Sizes of u, v must match when both of them are matrices.
+        `u` and `v` must be of the same shape when matrices.
 
         Returns
         -------
-        float or an array of the same length as the matrix.
+        float or ndarray
+            The distance between lattice points `u` and `v`.
         """
         duv = numpy.asarray(u) - v
         return self.norm(duv)
@@ -558,15 +560,15 @@ class Lattice:
 
         Parameters
         ----------
-        u : ndarray
-            lattice vector
-        v : ndarray
-            lattice vector
+        u : array_like
+            The first lattice vector.
+        v : array_like
+            The second lattice vector.
 
         Returns
         -------
-        rv : float
-            angle between 2 lattice vectors, u and v,  in degrees
+        float
+            The angle between lattice vectors `u` and `v` in degrees.
         """
         ca = self.dot(u, v)/( self.norm(u)*self.norm(v) )
         # avoid round-off errors that would make abs(ca) greater than 1
@@ -581,18 +583,21 @@ class Lattice:
 
 
     def isanisotropic(self, umx):
-        """Check if the atomic displacement parameter(APD) matrix
-        is anisotropic in this coordinate system.
+        """True if displacement parameter matrix is anisotropic.
+
+        This checks if the specified matrix of anisotropic displacement
+        parameters (ADP) differs from isotropic values for this lattice
+        by more than a small round-off error.
 
         Parameters
         ----------
-        umx : ndarray
-            atomic displacement parameter(adp) matrix.
+        umx : array_like
+            The 3x3 matrix of displacement parameters.
 
         Returns
         -------
-        rv : bool
-            flag of  ADP matrix in this coordinate system
+        bool
+            True when `umx` is anisotropic by more than a round-off error.
         """
         umx = numpy.asarray(umx)
         utr = numpy.trace(umx) / umx.shape[0]
@@ -622,17 +627,18 @@ class Lattice:
 # Local Helpers --------------------------------------------------------------
 
 def _isotropicunit(recnormbase):
-    """Calculate matrix for unit isotropic displacement parameters.
+    """Calculate tensor of unit isotropic displacement parameters.
 
     Parameters
     ----------
     recnormbase : ndarray
-        inverse of normalized base vectors of the lattice.
+        The inverse of normalized base vectors of some lattice.
 
     Returns
     -------
-    isounit: ndarray
-        matrix for unit isotropic displacement parameters
+    ndarray
+        The 3x3 matrix of displacement parameters corresponding to
+        a unit isotropic displacements.
     """
     isounit = numpy.dot(recnormbase.T, recnormbase)
     # ensure there are no round-off deviations on the diagonal
