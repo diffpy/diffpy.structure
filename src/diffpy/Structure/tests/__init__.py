@@ -16,38 +16,50 @@
 """Unit tests for diffpy.Structure.
 """
 
-def testsuite():
-    '''Build a unit tests suite for the diffpy.Structure package.
+import unittest
 
-    Return a unittest.TestSuite object.
+
+def testsuite(pattern=''):
+    '''Create a unit tests suite for diffpy.Structure package.
+
+    Parameters
+    ----------
+    pattern : str, optional
+        Regular expression pattern for selecting test cases.
+        Select all tests when empty.
+
+    Returns
+    -------
+    suite : `unittest.TestSuite`
+        The TestSuite object containing the matching tests.
     '''
-    import unittest
-    modulenames = '''
-        diffpy.Structure.tests.TestAtom
-        diffpy.Structure.tests.TestLattice
-        diffpy.Structure.tests.TestLoadStructure
-        diffpy.Structure.tests.TestP_cif
-        diffpy.Structure.tests.TestP_discus
-        diffpy.Structure.tests.TestP_pdffit
-        diffpy.Structure.tests.TestParsers
-        diffpy.Structure.tests.TestStructure
-        diffpy.Structure.tests.TestSuperCell
-        diffpy.Structure.tests.TestSymmetryUtilities
-    '''.split()
-    suite = unittest.TestSuite()
+    import re
+    from itertools import chain
+    from pkg_resources import resource_filename
     loader = unittest.defaultTestLoader
-    mobj = None
-    for mname in modulenames:
-        exec ('import %s as mobj' % mname)
-        suite.addTests(loader.loadTestsFromModule(mobj))
+    thisdir = resource_filename(__name__, '')
+    suite_all = loader.discover(thisdir, pattern='Test*.py')
+    # always filter the suite by pattern to test-cover the selection code.
+    suite = unittest.TestSuite()
+    rx = re.compile(pattern)
+    tcases = chain.from_iterable(chain.from_iterable(suite_all))
+    for tc in tcases:
+        tcwords = tc.id().rsplit('.', 2)
+        shortname = '.'.join(tcwords[-2:])
+        if rx.search(shortname):
+            suite.addTest(tc)
+    # verify all tests are found for an empty pattern.
+    assert pattern or suite_all.countTestCases() == suite.countTestCases()
     return suite
 
 
 def test():
     '''Execute all unit tests for the diffpy.Structure package.
-    Return a unittest TestResult object.
+
+    Returns
+    -------
+    result : `unittest.TestResult`
     '''
-    import unittest
     suite = testsuite()
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
