@@ -13,7 +13,7 @@
 #
 ##############################################################################
 
-"""class Lattice stores properites and provides simple operations in lattice
+"""class Lattice stores properties and provides simple operations in lattice
 coordinate system.
 
 Module variables:
@@ -130,6 +130,104 @@ class Lattice:
     # round-off tolerance
     _epsilon = 1.0e-8
 
+    # properties -------------------------------------------------------------
+
+    a = property(lambda self: self._a,
+                 lambda self, value: self.setLatPar(a=value),
+                 doc='float: Unit cell length a')
+
+    b = property(lambda self: self._b,
+                 lambda self, value: self.setLatPar(b=value),
+                 doc='float: Unit cell length b')
+
+    c = property(lambda self: self._c,
+                 lambda self, value: self.setLatPar(c=value),
+                 doc='float: Unit cell length c')
+
+    alpha = property(lambda self: self._alpha,
+                     lambda self, value: self.setLatPar(alpha=value),
+                     doc='float: Cell angle alpha in degrees')
+
+    beta = property(lambda self: self._beta,
+                    lambda self, value: self.setLatPar(beta=value),
+                    doc='float: Cell angle beta in degrees')
+
+    gamma = property(lambda self: self._gamma,
+                     lambda self, value: self.setLatPar(gamma=value),
+                     doc='float: Cell angle gamma in degrees')
+
+    # read-only derived properties
+
+    @property
+    def unitvolume(self):
+        '''Cell volume, assuming a=b=c=1
+        '''
+        # Recalculate lattice cosines to ensure this is right
+        # even if ca, cb, cg data were not yet updated.
+        ca = cosd(self.alpha)
+        cb = cosd(self.beta)
+        cg = cosd(self.gamma)
+        rv = math.sqrt( 1.0 + 2.0*ca*cb*cg - ca*ca - cb*cb - cg*cg)
+        return rv
+
+    volume = property(lambda self: self.a * self.b * self.c * self.unitvolume,
+                      doc='float: Lattice cell volume')
+
+    ar = property(lambda self: self._ar,
+                  doc='float: Cell length a of the reciprocal lattice')
+
+    br = property(lambda self: self._br,
+                  doc='float: Cell length b of the reciprocal lattice')
+
+    cr = property(lambda self: self._cr,
+                  doc='float: Cell length c of the reciprocal lattice')
+
+    alphar = property(lambda self: self._alphar,
+                      doc='float: Reciprocal lattice angle alpha in degrees')
+
+    betar = property(lambda self: self._betar,
+                     doc='float: Reciprocal lattice angle beta in degrees')
+
+    gammar = property(lambda self: self._gammar,
+                      doc='float: Reciprocal lattice angle gamma in degrees')
+
+    ca = property(lambda self: self._ca,
+                  doc='float: Cosine of the cell angle alpha')
+
+    cb = property(lambda self: self._cb,
+                  doc='float: Cosine of the cell angle beta')
+
+    cg = property(lambda self: self._cg,
+                  doc='float: Cosine of the cell angle gamma')
+
+    sa = property(lambda self: self._sa,
+                  doc='float: Sine of the cell angle alpha')
+
+    sb = property(lambda self: self._sb,
+                  doc='float: Sine of the cell angle beta')
+
+    sg = property(lambda self: self._sg,
+                  doc='float: Sine of the cell angle gamma')
+
+    car = property(lambda self: self._car,
+                   doc='float: Cosine of the reciprocal angle alpha')
+
+    cbr = property(lambda self: self._cbr,
+                   doc='float: Cosine of the reciprocal angle beta')
+
+    cgr = property(lambda self: self._cgr,
+                   doc='float: Cosine of the reciprocal angle gamma')
+
+    sar = property(lambda self: self._sar,
+                   doc='float: Sine of the reciprocal angle alpha')
+
+    sbr = property(lambda self: self._sbr,
+                   doc='flot: Sine of the reciprocal angle beta')
+
+    sgr = property(lambda self: self._sgr,
+                   doc='float: Sine of the reciprocal angle gamma')
+
+    # done with properties ---------------------------------------------------
 
     def __init__(self, a=None, b=None, c=None,
                  alpha=None, beta=None, gamma=None,
@@ -518,103 +616,6 @@ class Lattice:
             s = "Lattice(a=%g, b=%g, c=%g, alpha=%g, beta=%g, gamma=%g)" % \
                     self.abcABG()
         return s
-
-    # read-write properties
-
-    a = property(lambda self: self._a,
-                 lambda self, value: self.setLatPar(a=value),
-                 doc='float: Unit cell length a')
-
-    b = property(lambda self: self._b,
-                 lambda self, value: self.setLatPar(b=value),
-                 doc='float: Unit cell length b')
-
-    c = property(lambda self: self._c,
-                 lambda self, value: self.setLatPar(c=value),
-                 doc='float: Unit cell length c')
-
-    alpha = property(lambda self: self._alpha,
-                     lambda self, value: self.setLatPar(alpha=value),
-                     doc='float: Cell angle alpha in degrees')
-
-    beta = property(lambda self: self._beta,
-                    lambda self, value: self.setLatPar(beta=value),
-                    doc='float: Cell angle beta in degrees')
-
-    gamma = property(lambda self: self._gamma,
-                     lambda self, value: self.setLatPar(gamma=value),
-                     doc='float: Cell angle gamma in degrees')
-
-    # read-only derived properties
-
-    @property
-    def unitvolume(self):
-        '''Cell volume, assuming a=b=c=1
-        '''
-        # Recalculate lattice cosines to ensure this is right
-        # even if ca, cb, cg data were not yet updated.
-        ca = cosd(self.alpha)
-        cb = cosd(self.beta)
-        cg = cosd(self.gamma)
-        rv = math.sqrt( 1.0 + 2.0*ca*cb*cg - ca*ca - cb*cb - cg*cg)
-        return rv
-
-    volume = property(lambda self: self.a * self.b * self.c * self.unitvolume,
-                      doc='float: Lattice cell volume')
-
-    ca = property(lambda self: self._ca,
-                  doc='float: Cosine of the cell angle alpha')
-
-    cb = property(lambda self: self._cb,
-                  doc='float: Cosine of the cell angle beta')
-
-    cg = property(lambda self: self._cg,
-                  doc='float: Cosine of the cell angle gamma')
-
-    sa = property(lambda self: self._sa,
-                  doc='float: Sine of the cell angle alpha')
-
-    sb = property(lambda self: self._sb,
-                  doc='float: Sine of the cell angle beta')
-
-    sg = property(lambda self: self._sg,
-                  doc='float: Sine of the cell angle gamma')
-
-    ar = property(lambda self: self._ar,
-                  doc='float: Cell length a of the reciprocal lattice')
-
-    br = property(lambda self: self._br,
-                  doc='float: Cell length b of the reciprocal lattice')
-
-    cr = property(lambda self: self._cr,
-                  doc='float: Cell length c of the reciprocal lattice')
-
-    alphar = property(lambda self: self._alphar,
-                      doc='float: Reciprocal lattice angle alpha in degrees')
-
-    betar = property(lambda self: self._betar,
-                     doc='float: Reciprocal lattice angle beta in degrees')
-
-    gammar = property(lambda self: self._gammar,
-                      doc='float: Reciprocal lattice angle gamma in degrees')
-
-    car = property(lambda self: self._car,
-                   doc='float: Cosine of the reciprocal angle alpha')
-
-    cbr = property(lambda self: self._cbr,
-                   doc='float: Cosine of the reciprocal angle beta')
-
-    cgr = property(lambda self: self._cgr,
-                   doc='float: Cosine of the reciprocal angle gamma')
-
-    sar = property(lambda self: self._sar,
-                   doc='float: Sine of the reciprocal angle alpha')
-
-    sbr = property(lambda self: self._sbr,
-                   doc='flot: Sine of the reciprocal angle beta')
-
-    sgr = property(lambda self: self._sgr,
-                   doc='float: Sine of the reciprocal angle gamma')
 
 # End of class Lattice
 
