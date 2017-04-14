@@ -39,10 +39,7 @@ def testsuite(pattern=''):
     loader = unittest.defaultTestLoader
     thisdir = resource_filename(__name__, '')
     suite_all = loader.discover(thisdir)
-    # shortcut when pattern is not specified
-    if not pattern:
-        return suite_all
-    # here we need to filter the suite by pattern
+    # always filter the suite by pattern to test-cover the selection code.
     suite = unittest.TestSuite()
     rx = re.compile(pattern)
     tcases = chain.from_iterable(chain.from_iterable(suite_all))
@@ -51,6 +48,8 @@ def testsuite(pattern=''):
         shortname = '.'.join(tcwords[-2:])
         if rx.search(shortname):
             suite.addTest(tc)
+    # verify all tests are found for an empty pattern.
+    assert pattern or suite_all.countTestCases() == suite.countTestCases()
     return suite
 
 
