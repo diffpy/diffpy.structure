@@ -196,8 +196,10 @@ texinfo_documents = [
 
 # -- intersphinx configuration --------------------------------------------
 
-intersphinx_mapping = {'https://docs.python.org/' : None}
-
+intersphinx_mapping = {
+    'python' : ('https://docs.python.org/3.6', None),
+    'numpy' : ('https://docs.scipy.org/doc/numpy', None),
+}
 
 # -- autodoc configuration ------------------------------------------------
 # See http://www.sphinx-doc.org/en/stable/ext/autodoc.html
