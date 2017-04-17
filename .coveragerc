@@ -15,5 +15,6 @@ exclude_lines =
 
 [run]
 omit =
-    ## exclude debug.py from codecov report
+    ## Exclude from codecov report:
     */tests/debug.py
+    */applications/*.py
