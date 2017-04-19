@@ -308,6 +308,8 @@ class Atom:
 
     # U
 
+    # TODO: convert to new-style property definition
+
     def _get_U(self):
         """
         Obtain the Anisotropic thermal displacement tensor ``U``.
@@ -422,6 +424,8 @@ class Atom:
 
     # Uisoequiv
 
+    # TODO: convert to new-style property definition
+
     def _get_Uisoequiv(self):
         """
         Obtain the isotropic displacement parameter ``Uisoequiv``.
@@ -500,6 +504,8 @@ class Atom:
             "B23 element of Debye-Waler displacement tensor")
 
     # Bisoequiv
+
+    # TODO: convert to new-style property definition
 
     def _get_Bisoequiv(self):
         """
