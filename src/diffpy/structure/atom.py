@@ -265,18 +265,13 @@ class Atom:
     @property
     def xyz_cartn(self):
         """
-        Obtain the absolute Cartesian coordinates at `xyz`.
+        ndarray: Atom position in the absolute Cartesian coordinates.
 
-        Parameters
-        ----------
-        None.
-
-        Returns
-        -------
-        rv : numpy.ndarray
-            Absolute Cartesian coordinates at `xyz`.
+        This is computed from fractional coordinates `xyz` and the
+        current lattice configuration.  Setting *xyz_cartn* or any
+        of its items such as ``xyz_cartn[0]`` updates the fractional
+        coordinates `xyz`.
         """
-
         if not self.lattice:
             rv = self.xyz
         else:
@@ -285,22 +280,6 @@ class Atom:
 
     @xyz_cartn.setter
     def xyz_cartn(self, value):
-        """
-        Set the absolute Cartesian coordinates at `xyz`.
-
-        Setting ``xyz_cartn`` or any of its items such as ``xyz_cartn[0]``
-        updates the fractional coordinates `xyz`.
-
-        Parameters
-        ----------
-        value: numpy.ndarray
-            The value of fractional coordinates within the associated `lattice` to be set.
-
-        Returns
-        -------
-        None.
-        """
-
         if not self.lattice:
             self.xyz[:] = value
         else:
