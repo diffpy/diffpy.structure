@@ -46,11 +46,6 @@ class Atom:
     lattice : Lattice
         Coordinate system for the fractional coordinates `xyz`.
         When ``None`` use the absolute Cartesian system.
-    anisotropy : Boolean
-        flag for anisotropic thermal displacements parameters. 
-        Overrides anisotropy implied from the presence of
-        ``U`` or ``Uisoequiv`` arguments.  
-        False when not specified.
     U : numpy.ndarray
         Anisotropic thermal displacement tensor.
         Matrix of anisotropic displacement parameters.
@@ -288,36 +283,20 @@ class Atom:
 
     # anisotropy
 
-    def _get_anisotropy(self):
+    @property
+    def anisotropy(self):
         """
-        Obtain the anisotropic thermal displacements parameters ``anisotropy``.
+        bool: Allow anisotropic displacements parameters ``U`` if True.
 
-        Parameters
-        ----------
-        None.
-
-        Returns
-        -------
-        self._anisotropy : Boolean
-            flag for anisotropic thermal displacements parameters. 
+        When ``False`` the displacement parameters matrix ``U`` must be
+        isotropic and only its diagonal elements are taken into account.
         """
-
         return self._anisotropy
 
-    def _set_anisotropy(self, value):
-        """Set the anisotropic thermal displacements parameters ``anisotropy``.
-
-        Parameters
-        ----------
-        value: Boolean
-            The flag for anisotropic thermal displacements parameters to be set.
-
-        Returns
-        -------
-        None.
-        """
-
-        if bool(value) is self._anisotropy: return
+    @anisotropy.setter
+    def anisotropy(self, value):
+        if bool(value) is self._anisotropy:
+            return
         # convert from isotropic to anisotropic
         if value:
             self._U = self._get_U()
@@ -326,10 +305,6 @@ class Atom:
             self._U[0, 0] = self._get_Uisoequiv()
         self._anisotropy = bool(value)
         return
-
-    anisotropy = property(_get_anisotropy, _set_anisotropy, doc =
-        """flag for anisotropic thermal displacements.
-        """ )
 
     # U
 
