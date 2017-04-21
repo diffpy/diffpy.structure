@@ -32,11 +32,37 @@ class Atom:
     fractional and Cartesian coordinates, displacement parameters and
     so forth.
 
+    Parameters
+    ----------
+    atype : str
+            Element symbol string or Atom instance.
+    xyz : ndarray
+        Fractional coordinates within the associated `lattice`.
+    label : str
+        String atom label.
+    occupancy : float
+        Fractional occupancy of this atom.
+    anisotropy : bool
+        flag for anisotropic thermal displacements parameters.
+        Overrides anisotropy implied from the presence of
+        ``U`` or ``Uisoequiv`` arguments.
+    U : ndarray
+        Anisotropic thermal displacement tensor.
+        Matrix of anisotropic displacement parameters.
+        When specified also set ``anisotropy`` = True.
+    Uisoequiv: float
+        isotropic displacement parameter.
+        When specified anisotropy is set to False.
+        Only one of the ``U``, ``Uisoequiv`` arguments can be used.
+    lattice : Lattice
+        Coordinate system for the fractional coordinates `xyz`.
+        When ``None`` use the absolute Cartesian system.
+
     Attributes
     ----------
     element : str
         String type of the atom.  Element or ion symbol.
-    xyz : numpy.ndarray
+    xyz : ndarray
         Fractional coordinates within the associated `lattice`.
     label : str
         String label for this atom such as "C_1".  It can be used
@@ -46,23 +72,13 @@ class Atom:
     lattice : Lattice
         Coordinate system for the fractional coordinates `xyz`.
         When ``None`` use the absolute Cartesian system.
-    U : numpy.ndarray
-        Anisotropic thermal displacement tensor.
-        Matrix of anisotropic displacement parameters.
-        When specified also set ``anisotropy`` = True.
-    Uij : float
-        Elements of U tensor, where i, j are from (1, 2, 3).
-    Uisoequiv: float
-        isotropic displacement parameter.
-        When specified anisotropy is set to False.
-        Only one of the ``U``, ``Uisoequiv`` arguments can be used.
-    Bisoequiv : float
-        Debye-Waler isotropic temperature factor or equivalent value.
     """
+
+
 
     # Private attributes
     #
-    #   _U : 3-by-3 numpy.ndarray
+    #   _U : 3-by-3 ndarray
     #       Internal storage of the displacement parameters.
 
     # instance attributes that have inmutable default values
@@ -75,41 +91,9 @@ class Atom:
     def __init__(self, atype=None, xyz=None, label=None, occupancy=None,
             anisotropy=None, U=None, Uisoequiv=None, lattice=None):
         """
-        Create atom of a specified type at given lattice coordinates.
+        Create atom of a specified type at given lattice coordinates. Atom(a) creates a copy of Atom instance a.
 
-        Atom(a) creates a copy of Atom instance a.
-
-        Parameters
-        ----------
-        atype : string
-            Element symbol string or Atom instance.
-        xyz : numpy.ndarray
-            Fractional coordinates within the associated `lattice`.
-        label : string
-            String atom label.
-        occupancy : float
-            Fractional occupancy of this atom.
-        U : numpy.ndarray
-            Anisotropic thermal displacement tensor.
-            Matrix of anisotropic displacement parameters.
-            When specified also set ``anisotropy`` = True.
-        Uisoequiv: float
-            isotropic displacement parameter.
-            When specified anisotropy is set to False.
-            Only one of the ``U``, ``Uisoequiv`` arguments can be used.
-        anisotropy : Boolean
-            flag for anisotropic thermal displacements parameters. 
-            Overrides anisotropy implied from the presence of
-            ``U`` or ``Uisoequiv`` arguments.
-        lattice : Lattice
-            Coordinate system for the fractional coordinates `xyz`.
-            When ``None`` use the absolute Cartesian system.
-
-        Returns
-        -------
-        None
         """
-
         # check arguments
         if U is not None and Uisoequiv is not None:
             emsg = "Cannot use both U and Uisoequiv arguments."
@@ -150,7 +134,7 @@ class Atom:
 
         Parameters
         ----------
-        vl : numpy.array
+        vl : ndarray
             Vector in lattice coordinates.
 
         Returns
@@ -158,7 +142,6 @@ class Atom:
         msd : float
             mean square displacement.
         """
-
         if not self.anisotropy:     return self.Uisoequiv
         # here we need to calculate msd
         lat = self.lattice or cartesian_lattice
@@ -178,7 +161,7 @@ class Atom:
 
         Parameters
         ----------
-        vc : numpy.array
+        vc : ndarray
             Vector in absolute cartesian coordinates.
 
         Returns
@@ -186,7 +169,6 @@ class Atom:
         msd : float
             mean square displacement.
         """
-
         if not self.anisotropy:     return self.Uisoequiv
         # here we need to calculate msd
         lat = self.lattice or cartesian_lattice
@@ -211,7 +193,6 @@ class Atom:
         s : str
             atom's ``atype``, ``xyz``, and ``occupancy``.
         """
-
         xyz = self.xyz
         s = "%-4s %8.6f %8.6f %8.6f %6.4f" % \
                 (self.element, xyz[0], xyz[1], xyz[2], self.occupancy)
@@ -224,16 +205,17 @@ class Atom:
 
         Parameters
         ----------
-        Target : Atom or None
-            A copy of atom class from self.
-            The type can only be Atom or None.
+        target : Atom, optional
+            An already existing Atom object to be updated to a duplicate
+            of this Atom. Create a new Atom object when not specified.
+            This argument facilitates extension of the `__copy__` method
+            in a derived class.
 
         Returns
         -------
         target : Atom
             A copy of atom class from self.
         """
-
         if target is None:
             target = Atom()
         elif target is self:
@@ -286,10 +268,10 @@ class Atom:
     @property
     def anisotropy(self):
         """
-        bool: Allow anisotropic displacements parameters ``U`` if True.
+        bool: Allow anisotropic thermal displacement parameters ``U`` if True.
 
-        When ``False`` the displacement parameters matrix ``U`` must be
-        isotropic and only its diagonal elements are taken into account.
+        When ``False`` the anisotropic thermal displacement parameters matrix ``U``
+        must be isotropic and only its diagonal elements are taken into account.
         """
         return self._anisotropy
 
@@ -299,31 +281,24 @@ class Atom:
             return
         # convert from isotropic to anisotropic
         if value:
-            self._U = self._get_U()
+            self._U = self.U
         # otherwise convert from anisotropic to isotropic
         else:
-            self._U[0, 0] = self._get_Uisoequiv()
+            self._U[0, 0] = self.Uisoequiv
         self._anisotropy = bool(value)
         return
 
     # U
 
     # TODO: convert to new-style property definition
-
-    def _get_U(self):
+    @property
+    def U(self):
         """
+        ndarray: Anisotropic thermal displacement parameters matrix.
+
+        When specified also set ``anisotropy`` = True.
         Obtain the Anisotropic thermal displacement tensor ``U``.
-
-        Parameters
-        ----------
-        None.
-
-        Returns
-        -------
-        self._U : numpy.ndarray
-            Anisotropic thermal displacement tensor.
         """
-
         if not self.anisotropy:
             # for isotropic displacements assume first element
             # to be equal to the displacement value
@@ -331,25 +306,10 @@ class Atom:
             self._U = self._U[0, 0] * lat.isotropicunit
         return self._U
 
-    def _set_U(self, value):
-        """
-        Set the Anisotropic thermal displacement tensor ``U``.
-
-        Parameters
-        ----------
-        value: numpy.ndarray
-            The anisotropic thermal displacement tensor to be set.
-
-        Returns
-        -------
-        None.
-        """
-
+    @U.setter
+    def U(self, value):
         self._U[:] = value
         return
-
-    U = property(_get_U, _set_U, doc =
-        "anisotropic thermal displacement tensor.")
 
     # Uij elements
 
@@ -371,7 +331,6 @@ class Atom:
         float
             The elements of anisotropic thermal displacement tensor ``Uij``
         """
-
         if self.anisotropy:
             return self._U[i, j]
         lat = self.lattice or cartesian_lattice
@@ -391,12 +350,7 @@ class Atom:
             j is from (1, 2, 3).
         value: float
             The element of anisotropic thermal displacement tensor to be set.
-
-        Returns
-        -------
-        None.
         """
-
         self._U[i, j] = value
         self._U[j, i] = value
         if not self._anisotropy and i == j != 0:
@@ -426,20 +380,14 @@ class Atom:
 
     # TODO: convert to new-style property definition
 
-    def _get_Uisoequiv(self):
+    @property
+    def Uisoequiv(self):
         """
-        Obtain the isotropic displacement parameter ``Uisoequiv``.
+        float: The isotropic displacement parameter.
 
-        Parameters
-        ----------
-        None.
-
-        Returns
-        -------
-        rv : float
-            The isotropic displacement parameter ``Uisoequiv``.
+        When specified anisotropy is set to False.
+        Only one of the ``U``, ``Uisoequiv`` arguments can be used.
         """
-
         if not self.anisotropy:
             return self._U[0, 0]
         if self.lattice is None:
@@ -454,23 +402,11 @@ class Atom:
                 2*self._U[1,2]*lat.br*lat.cr*lat.b*lat.c*lat.ca)
         return rv
 
-    def _set_Uisoequiv(self, value):
-        """
-        Set the isotropic displacement parameter ``Uisoequiv``.
-
-        Parameters
-        ----------
-        value: float
-            The isotropic displacement parameter to be set.
-
-        Returns
-        -------
-        None.
-        """
-
+    @Uisoequiv.setter
+    def Uisoequiv(self, value):
         if self.anisotropy:
             lat = self.lattice or cartesian_lattice
-            uequiv = self._get_Uisoequiv()
+            uequiv = self.Uisoequiv
             if abs(uequiv) < lat._epsilon:
                 self._U = value * lat.isotropicunit
             else:
@@ -478,9 +414,6 @@ class Atom:
         else:
             self._U[0, 0] = value
         return
-
-    Uisoequiv = property(_get_Uisoequiv, _set_Uisoequiv, doc =
-            "isotropic thermal displacement or equivalent value")
 
     # Bij elements
 
@@ -507,40 +440,19 @@ class Atom:
 
     # TODO: convert to new-style property definition
 
-    def _get_Bisoequiv(self):
+    @property
+    def Bisoequiv(self):
         """
-        Obtain the Debye-Waler isotropic temperature factor ``Bisoequiv``.
+        float: The Debye-Waler isotropic temperature factor.
 
-        Parameters
-        ----------
-        None.
-
-        Returns
-        -------
-        float
-            The Debye-Waler isotropic temperature factor ``Bisoequiv``.
+        When specified anisotropy is set to False.
+        Only one of the ``B``, ``Bisoequiv`` arguments can be used.
         """
+        return _UtoB * self.Uisoequiv
 
-        return _UtoB * self._get_Uisoequiv()
-
-    def _set_Bisoequiv(self, value):
-        """
-        Set the Debye-Waler isotropic temperature factor ``Bisoequiv``.
-
-        Parameters
-        ----------
-        value: float
-            The Debye-Waler isotropic temperature factor to be set.
-
-        Returns
-        -------
-        None.
-        """
-
-        self._set_Uisoequiv(_BtoU*value)
-
-    Bisoequiv = property(_get_Bisoequiv, _set_Bisoequiv, doc =
-            "Debye-Waler isotropic thermal displacement or equivalent value")
+    @Bisoequiv.setter
+    def Bisoequiv(self, value):
+        self.Uisoequiv = _BtoU*value
 
 # End of class Atom
 
@@ -558,6 +470,11 @@ class _AtomCartesianCoordinates(numpy.ndarray):
     atom : Atom
         Atom instance linked to these coordinates.
 
+    Parameters
+    ----------
+    atom : Atom
+        Element symbol string or Atom instance.
+
     """
 
 
@@ -565,34 +482,18 @@ class _AtomCartesianCoordinates(numpy.ndarray):
         """
         Print the atom instance as standard numpy array.
 
-        Parameters
-        ----------
-        atom : Atom
-            Element symbol string or Atom instance.
-
         Returns
         -------
-        numpy.ndarray
+        ndarray
             Printed version of the atom isntance as standard numpy array.
         """
-
         return numpy.empty(3, dtype=float).view(self)
 
 
     def __init__(self, atom):
         """
         Obtain the fractional coordinates within the associated `lattice`, ``xyz``.
-
-        Parameters
-        ----------
-        atom : Atom
-            Element symbol string or Atom instance.
-
-        Returns
-        -------
-        None
         """
-
         self._atom = atom
         self.asarray[:] = atom.lattice.cartesian(atom.xyz)
         return
@@ -602,18 +503,7 @@ class _AtomCartesianCoordinates(numpy.ndarray):
     def asarray(self):
         """
         Print the array as standard numpy array.
-
-        Parameters
-        ----------
-        atom : Atom
-            Element symbol string or Atom instance.
-
-        Returns
-        -------
-        numpy.ndarray
-            Printed version of the array as standard numpy array.
         """
-
         return self.view(numpy.ndarray)
 
 
@@ -627,12 +517,7 @@ class _AtomCartesianCoordinates(numpy.ndarray):
             The index in xyz array.
         value: float
             The new value of x, y or z to be set.
-
-        Returns
-        -------
-        None.
         """
-
         self.asarray[idx] = value
         self._atom.xyz[:] = self._atom.lattice.fractional(self)
         return
@@ -644,17 +529,16 @@ class _AtomCartesianCoordinates(numpy.ndarray):
 
         Parameters
         ----------
-        out_arr : numpy.ndarray
+        out_arr : ndarray
             Standard numpy array.
-        context : Boolean
+        context : bool, optional
             no definition.
 
         Returns
         -------
-        numpy.ndarray
+        ndarray
             Printed version of the array as standard numpy array.
         """
-
         return out_arr.view(numpy.ndarray)
 
 # End of _AtomCartesianCoordinates
