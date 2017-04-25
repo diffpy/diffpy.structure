@@ -218,7 +218,7 @@ class Atom:
         if not self.lattice:
             self.xyz[:] = value
         else:
-            self.xyz = self.lattice.fractional(value)
+            self.xyz[:] = self.lattice.fractional(value)
         return
 
     # anisotropy
@@ -248,7 +248,7 @@ class Atom:
             # for isotropic displacements assume first element
             # to be equal to the displacement value
             lat = self.lattice or cartesian_lattice
-            self._U = self._U[0, 0] * lat.isotropicunit
+            numpy.multiply(self._U[0, 0], lat.isotropicunit, out=self._U)
         return self._U
 
     def _set_U(self, value):
