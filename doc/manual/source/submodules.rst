@@ -42,7 +42,6 @@ diffpy.structure.atom module
 
 .. automodule:: diffpy.structure.atom
     :members:
-    :undoc-members:
     :show-inheritance:
 
 diffpy.structure.mmlibspacegroups module
