@@ -38,7 +38,7 @@ class Atom:
     ----------
     atype : str or Atom, optional
         The string atom type to be set as the `element` attribute.
-        By default an empty string.  When of the *Atom* type, create
+        By default an empty string.  When use the *Atom* type, create
         a copy of *atype* and adjust it per other arguments.
     xyz : ndarray, optional
         Fractional coordinates within the associated `lattice`.
@@ -322,7 +322,7 @@ class Atom:
 
     def _get_Uij(self, i, j):
         """
-        The getter function for the `U11`, `U22`, ..., properties.
+        The getter function for the atomic displacements `Uij`, such as `U11`, `U22`.
         """
         if self.anisotropy:
             return self._U[i, j]
@@ -331,7 +331,7 @@ class Atom:
 
     def _set_Uij(self, i, j, value):
         """
-        The setter function for the  `U11`, `U22`, ..., properties.
+        The getter function for the atomic displacements `Uij`, such as `U11`, `U22`.
         """
         self._U[i, j] = value
         self._U[j, i] = value
@@ -342,7 +342,7 @@ class Atom:
     # _doc_uii, _doc_uij are temporary local variables.
 
     _doc_uii = """
-        float : The ``U[{0}, {0}]`` component of the displacement tensor `U`.
+        float : The diagonal ``U[{0}, {0}]`` component of the displacement tensor `U`.
 
         When `anisotropy` is ``False`` setting a new value updates entire
         tensor *U*.
@@ -359,7 +359,7 @@ class Atom:
                    doc=_doc_uii.format(2))
 
     _doc_uij = """
-        float : The ``U[{0}, {1}]`` element of the displacement tensor `U`.
+        float : The off-diagonal ``U[{0}, {1}]`` element of the displacement tensor `U`.
 
         Sets ``U[{1}, {0}]`` together with ``U[{0}, {1}]``.  Assignment
         has no effect when `anisotropy` is ``False``.
@@ -420,16 +420,16 @@ class Atom:
     # _doc_bii, _doc_bij are local variables.
 
     _doc_bii = """
-        float : The ``B{0}{0}`` element of the Debye-Waller matrix.
+        float : The diagonal ``B[{0}, {0}]`` element of the Debye-Waller matrix.
 
-        This is equivalent to ``8 * pi**2 * U{0}{0}``.  When `anisotropy`
+        This is equivalent to ``8 * pi**2 * U[{0}, {0}]``.  When `anisotropy`
         is ``False`` setting a new value updates entire tensor `U`.
         """
 
     _doc_bij = """
-        float : The ``B{0}{1}`` element of the Debye-Waller matrix.
+        float : The off-diagonal ``B[{0}, {1}]`` element of the Debye-Waller matrix.
 
-        This is equivalent to ``8 * pi**2 * U{0}{1}``.  Setting a new
+        This is equivalent to ``8 * pi**2 * U[{0}, {1}]``.  Setting a new
         value updates `U` in a symmetric way.  Assignment has no effect
         when `anisotropy` is ``False``.
         """
