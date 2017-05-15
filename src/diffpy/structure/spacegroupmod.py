@@ -110,50 +110,37 @@ Tr_34_14_34   = numpy.array([ 3.0/4.0, 1.0/4.0, 3.0/4.0 ], float)
 
 
 class SymOp:
-    """A subclass of the tuple class for performing one symmetry operation.
+    """
+    The transformation of coordinates to a symmetry-related position.
+
+    The SymOp operation involves rotation and translation in cell coordinates.
+
+    Parameters
+    ----------
+    R : ndarray
+        The 3x3 matrix of rotation for this symmetry operation.
+    t : ndarray
+        The vector of translation in this symmetry operation.
 
     Attributes
-    ---------
-    R: float
-        Rotation
-
-    t: float
-        Translation
-
+    ----------
+    R : ndarray
+        The 3x3 matrix of rotation pertaining to unit cell coordinates.
+        This may be identity, simple rotation, improper rotation, mirror
+        or inversion.  The determinant of *R* is either +1 or -1.
+    t : ndarray
+        The translation of cell coordinates applied after rotation *R*.
     """
 
-
     def __init__(self, R, t):
-
-        """ Initialization function for R and t
-
-        Paramters
-        ---------
-        R: float
-            Rotation
-
-        t: float
-            Translation
-        Returns
-        -------
-        None
-        """
         self.R = R
         self.t = t
+        return
+
 
     def __str__(self):
-        """Print coordinates in R and time t
-
-        Paramters
-        ---------
-        None.
-
-        Returns
-        -------
-        x: str
-            String containing the rotation and translation operation
+        """Printable representation of this SymOp object.
         """
-
         x  = "[%6.3f %6.3f %6.3f %6.3f]\n" % (
             self.R[0,0], self.R[0,1], self.R[0,2], self.t[0])
         x += "[%6.3f %6.3f %6.3f %6.3f]\n" % (
@@ -162,50 +149,40 @@ class SymOp:
             self.R[2,0], self.R[2,1], self.R[2,2], self.t[2])
         return x
 
-    def __call__(self, vec):
-        """Return the vector after the symmetry operation (rotation and translation).
 
-        Paramters
-        ---------
-        vec: numpy.ndarray
-            argument vector
+    def __call__(self, vec):
+        """Return symmetry-related position for the specified coordinates.
+
+        Parameters
+        ----------
+        vec : ndarray
+            The initial position in fractional cell coordinates.
 
         Returns
         -------
-        numpy.ndarray
-            The vector after the symmetry operation.
+        ndarray
+            The transformed position after this symmetry operation.
         """
         return numpy.dot(self.R, vec) + self.t
 
+
     def __eq__(self, symop):
-        """return the result of proximity test for symmetry operations.
+        """Implement the ``(self == symop)`` test of equality.
 
-        Paramters
-        ---------
-        symop: numpy.dnarray
-                symmetry operation, which sets the reference time and space coordinate to be compared with.
-
-        Returns
-        -------
-        rv: boolean
-            Results of proximity test for time and space coordinatr paramters
-
+        Return ``True`` when *self* and *symop* difference is within
+        tiny round-off errors.
         """
         return numpy.allclose(self.R, symop.R) and numpy.allclose(self.t, symop.t)
 
-    def is_identity(self):
-        """Returns True if this SymOp is an identity symmetry operation
-        (no rotation, no translation), otherwise returns False.
 
-        Paramters
-        ---------
-        None
+    def is_identity(self):
+        """Check if this SymOp is an identity operation.
 
         Returns
         -------
-        rv: boolean
-            Boolean result of the test of whether Symop is a identity operation.
-
+        bool
+            ``True`` if this is an identity operation within a small round-off.
+            Return ``False`` otherwise.
         """
         rv = (numpy.allclose(self.R, numpy.identity(3, float)) and
               numpy.allclose(self.t, numpy.zeros(3, float)))
@@ -219,7 +196,7 @@ class SpaceGroup:
     group.
 
     Attributes
-    ---------
+    ----------
     number: int
         the number of space group.
     num_sym_equiv: int
@@ -255,8 +232,8 @@ class SpaceGroup:
 
         """Initialization fucntion for the spacegroup class
 
-        Paramters
-        ---------
+        Parameters
+        ----------
         number: int
             the number of space group.
         num_sym_equiv: int
@@ -294,8 +271,8 @@ class SpaceGroup:
     def iter_symops(self):
         """Iterates over all SymOps in the SpaceGroup.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
         None
 
         Returns
@@ -309,15 +286,15 @@ class SpaceGroup:
         """Checks if the given name is a name for this space group,
         returns True or False.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
         name : str
             A given space group name. The space group name can be in several forms:
             the short name, the longer PDB-style name, or the space group number.
 
         Returns
         -------
-        Boolean
+        bool
             if the given name is a name for this space group, returns True or False.
         """
 
@@ -333,14 +310,14 @@ class SpaceGroup:
         The vector must already be in fractional coordinates, and the
         symmetry equivalent vectors are also in fractional coordinates.
 
-        Paramters
-        ---------
-        vec: numpy.ndarray
+        Parameters
+        ----------
+        vec: ndarray
             argument vector, represented in fractional coordinates.
 
         Returns
         -------
-        numpy.ndarray
+        ndarray
             equivalent positions under set of symmetry operation.
         """
 
