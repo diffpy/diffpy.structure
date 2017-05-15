@@ -134,7 +134,7 @@ class SymOp(object):
         return numpy.allclose(self.R, symop.R) and numpy.allclose(self.t, symop.t)
 
     def is_identity(self):
-        """Returns True if this SymOp is a identity symmetry operation
+        """Returns True if this SymOp is an identity symmetry operation
         (no rotation, no translation), otherwise returns False.
         """
         if numpy.allclose(self.R, numpy.identity(3, float)) and \
@@ -185,9 +185,9 @@ class SpaceGroup(object):
         return False
 
     def iter_equivalent_positions(self, vec):
-        """Iterate the symmetry equivelant positions of the argument vector.
+        """Iterate the symmetry equivalent positions of the argument vector.
         The vector must already be in fractional coordinates, and the
-        symmetry equivelant vectors are also in fractional coordinates.
+        symmetry equivalent vectors are also in fractional coordinates.
         """
         for symop in self.symop_list:
             yield symop(vec)
