@@ -145,7 +145,6 @@ def _buildSGLookupTable():
         _sg_lookup_table.setdefault(str(sg.number), sg)
         _sg_lookup_table.setdefault(sg.short_name, sg)
         _sg_lookup_table.setdefault(sg.pdb_name, sg)
-        _sg_lookup_table.setdefault(sg.alt_name, sg)
     # extra aliases obtained from matching code in
     # cctbx::sgtbx::symbols::find_main_symbol_dict_entry
     alias_hmname = [
@@ -171,8 +170,7 @@ def _buildSGLookupTable():
         hmbare = hm.replace(' ', '')
         _sg_lookup_table.setdefault(a, _sg_lookup_table[hmbare])
     # make sure None does not sneak into the dictionary
-    if None in _sg_lookup_table:
-        del _sg_lookup_table[None]
+    assert not None in _sg_lookup_table
     return
 _sg_lookup_table = {}
 
