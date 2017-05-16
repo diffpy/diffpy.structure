@@ -192,32 +192,61 @@ class SymOp:
 
 
 class SpaceGroup:
-    """Contains the various names and symmetry operations for one space
-    group.
+    """Definition and basic operations for a specific space group.
+
+    Provide standard names and all symmetry operations contained in
+    one space group.
+
+    Parameters
+    ----------
+    number : int
+        The space group number.
+    num_sym_equiv : int
+        The number of symmetry equivalent sites for a general position.
+    num_primitive_sym_equiv : int
+        The number of symmetry equivalent sites in a primitive unit cell.
+    short_name : str
+        The short Hermann–Mauguin symbol of the space group.
+    alt_name : str
+        Alternative space group symbol consistent with FullProf.
+    point_group_name : str
+        The point group of this space group.
+    crystal_system : str
+        The crystal system of this space group.
+    pdb_name : str
+        The full Hermann–Mauguin symbol of the space group.
+    symop_list : list of SymOp
+        The symmetry operations contained in this space group.
 
     Attributes
     ----------
-    number: int
-        the number of space group.
-    num_sym_equiv: int
-        number of equivalent symmetry sites
-    num_primitive_sym_equiv: int
-        number of equivalent symmetry sites in primitive unit cell.
-    short_name: str
-        short name of space group
-    alt_name: str
-        alternative name of space group
-    point_group_name: str
-        name of point group
-    crystal_system: str
-        crystal system
-    pdb_name: str
-        full name of space group
-    symnp_list: list
-        list of symmetry operation
-
+    number : int
+        A unique space group number.  This may be incremented by
+        several thousands to facilitate unique values for multiple
+        settings of the same space group.  Use ``number % 1000``
+        to get the standard space group number from International
+        Tables.
+    num_sym_equiv : int
+        The number of symmetry equivalent sites for a general position.
+    num_primitive_sym_equiv : int
+        The number of symmetry equivalent sites in a primitive unit cell.
+    short_name : str
+        The short Hermann–Mauguin symbol of the space group.
+    alt_name : str
+        Alternative space group symbol consistent with FullProf.
+        Deprecated.
+    point_group_name : str
+        The point group to which this space group belongs to.
+    crystal_system : str
+        The crystal system of this space group.  The possible values are
+        ``"TRICLINIC", "MONOCLINIC", "ORTHORHOMBIC", "TETRAGONAL",
+        "TRIGONAL" "HEXAGONAL", "CUBIC"``.
+    pdb_name : str
+        The full Hermann–Mauguin symbol of the space group.
+    symop_list : list of SymOp
+        A list of `SymOp` objects for all symmetry operations
+        in this space group.
     """
-
 
     def __init__(self,
                  number                  = None,
@@ -230,34 +259,6 @@ class SpaceGroup:
                  pdb_name                = None,
                  symop_list              = None):
 
-        """Initialization fucntion for the spacegroup class
-
-        Parameters
-        ----------
-        number: int
-            the number of space group.
-        num_sym_equiv: int
-            number of equivalent symmetry sites
-        num_primitive_sym_equiv: int
-            number of equivalent symmetry sites in primitive unit cell.
-        short_name: str
-            short name of space group
-        alt_name: str
-            alternative name of space group
-        point_group_name: str
-            name of point group
-        crystal_system: str
-            crystal system
-        pdb_name: str
-            full name of space group
-        symnp_list: list
-            list of symmetry operation
-
-        Returns
-        -------
-        None.
-
-        """
         self.number                  = number
         self.num_sym_equiv           = num_sym_equiv
         self.num_primitive_sym_equiv = num_primitive_sym_equiv
@@ -268,34 +269,32 @@ class SpaceGroup:
         self.pdb_name                = pdb_name
         self.symop_list              = symop_list
 
+
     def iter_symops(self):
-        """Iterates over all SymOps in the SpaceGroup.
+        """Iterate over all symmetry operations in the space group.
 
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        iter(self.symop_list)
-
+        Yields
+        ------
+        `SymOp`
+            Generate all symmetry operations for this space group.
         """
         return iter(self.symop_list)
 
+
     def check_group_name(self, name):
-        """Checks if the given name is a name for this space group,
-        returns True or False.
+        """Check if given name matches this space group.
 
         Parameters
         ----------
-        name : str
-            A given space group name. The space group name can be in several forms:
-            the short name, the longer PDB-style name, or the space group number.
+        name : str or int
+            The space group identifier, a string name or number.
 
         Returns
         -------
         bool
-            if the given name is a name for this space group, returns True or False.
+            ``True`` if the specified name matches one of the recognized
+            names of this space group or if it equals its `number`.
+            Return ``False`` otherwise.
         """
 
         if name == self.short_name:       return True
@@ -305,22 +304,27 @@ class SpaceGroup:
         if name == self.number:           return True
         return False
 
+
     def iter_equivalent_positions(self, vec):
-        """Iterate the symmetry equivalent positions of the argument vector.
-        The vector must already be in fractional coordinates, and the
-        symmetry equivalent vectors are also in fractional coordinates.
+        """Generate symmetry equivalent positions for the specified position.
+
+        The initial position must be in fractional coordinates and so
+        are the symmetry equivalent positions yielded by iteration.
+        This generates `num_sym_equiv` positions regardless of initial
+        coordinates being a special symmetry position or not.
 
         Parameters
         ----------
-        vec: ndarray
-            argument vector, represented in fractional coordinates.
+        vec : ndarray
+            The initial position in fractional coordinates.
 
-        Returns
-        -------
+        Yields
+        ------
         ndarray
-            equivalent positions under set of symmetry operation.
+            The symmetry equivalent positions in fractional coordinates.
+            The positions may be duplicate or outside of the ``0 <= x < 1``
+            unit cell bounds.
         """
-
         for symop in self.symop_list:
             yield symop(vec)
         pass
