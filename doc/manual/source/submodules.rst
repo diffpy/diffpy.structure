@@ -74,7 +74,7 @@ diffpy.structure.spacegroupmod module
 .. automodule:: diffpy.structure.spacegroupmod
     :members:
     :undoc-members:
-    :show-inheritance:
+    :special-members: __call__, __eq__
 
 diffpy.structure.structure module
 ---------------------------------
