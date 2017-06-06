@@ -97,7 +97,8 @@ class TestP_discus(unittest.TestCase):
         """
         r1 = 'ignored record 1\n'
         r2 = 'ignored record 2\n'
-        ni_lines = open(datafile('Ni-discus.stru')).readlines()
+        with open(datafile('Ni-discus.stru')) as fp:
+            ni_lines = fp.readlines()
         ni_lines.insert(2, r1)
         ni_lines.insert(4, r2)
         s_s1 = "".join(ni_lines)
@@ -125,7 +126,8 @@ class TestP_discus(unittest.TestCase):
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['spdiameter'])
-        ni_lines = open(datafile('Ni.stru')).readlines()
+        with open(datafile('Ni.stru')) as fp:
+            ni_lines = fp.readlines()
         ni_lines.insert(3, 'shape invalid, 7\n')
         sbad = ''.join(ni_lines)
         self.assertRaises(StructureFormatError, self.stru.readStr,
@@ -148,7 +150,8 @@ class TestP_discus(unittest.TestCase):
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['stepcut'])
-        ni_lines = open(datafile('Ni.stru')).readlines()
+        with open(datafile('Ni.stru')) as fp:
+            ni_lines = fp.readlines()
         ni_lines.insert(3, 'shape invalid, 7\n')
         sbad = ''.join(ni_lines)
         self.assertRaises(StructureFormatError, self.stru.readStr,
