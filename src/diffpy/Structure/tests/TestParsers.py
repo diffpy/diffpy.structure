@@ -19,6 +19,7 @@
 import unittest
 import os
 import re
+import tempfile
 
 from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure import Structure, StructureFormatError
@@ -39,13 +40,21 @@ class TestP_xyz(unittest.TestCase):
     def setUp(self):
         self.stru = Structure()
         self.format = 'xyz'
-        import tempfile
-        handle, self.tmpname = tempfile.mkstemp()
-        os.close(handle)
+        self.tmpnames = []
+        return
+
 
     def tearDown(self):
-        import os
-        os.remove(self.tmpname)
+        for f in self.tmpnames:
+            os.remove(f)
+        return
+
+
+    def mktmpfile(self):
+        with tempfile.NamedTemporaryFile(delete=False) as ftmp:
+            self.tmpnames.append(ftmp.name)
+        return self.tmpnames[-1]
+
 
     def test_read_xyz(self):
         """check reading of normal xyz file"""
@@ -54,6 +63,8 @@ class TestP_xyz(unittest.TestCase):
         s_els = [a.element for a in stru]
         self.assertEqual(stru.title, 'bucky-ball')
         self.assertEqual(s_els, 60*['C'])
+        return
+
 
     def test_read_xyz_bad(self):
         """check exceptions when reading invalid xyz file"""
@@ -66,6 +77,8 @@ class TestP_xyz(unittest.TestCase):
                 datafile('bucky-plain.xyz'), self.format )
         self.assertRaises(StructureFormatError, stru.read,
                 datafile('hexagon-raw.xy'), self.format )
+        return
+
 
     def test_writeStr_xyz(self):
         """check string representation of normal xyz file"""
@@ -80,6 +93,8 @@ class TestP_xyz(unittest.TestCase):
         s1 = re.sub('[ \t]+', ' ', s1)
         s0 = "2\n%s\nH 1 2 3\nCl 3 4 3\n" % stru.title
         self.assertEqual(s1, s0)
+        return
+
 
     def test_write_xyz(self):
         """check writing of normal xyz file"""
@@ -90,11 +105,14 @@ class TestP_xyz(unittest.TestCase):
             Atom('H', [1., 1., 1.]),
             Atom('Cl', [3., 2., 1.])
         ]
-        stru.write(self.tmpname, self.format)
-        f_s = open(self.tmpname).read()
+        filename = self.mktmpfile()
+        stru.write(filename, self.format)
+        with open(filename) as fp:
+            f_s = fp.read()
         f_s = re.sub('[ \t]+', ' ', f_s)
         s_s = "2\n%s\nH 1 2 3\nCl 3 4 3\n" % stru.title
         self.assertEqual(f_s, s_s)
+        return
 
 # End of TestP_xyz
 
