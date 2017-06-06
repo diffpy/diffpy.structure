@@ -204,7 +204,7 @@ class P_xcfg(StructureParser):
                 elif line.find("A =") == 0:
                     xcfg_A = float(line[3:].split(None, 1)[0])
                 elif line.find("H0(") == 0:
-                    i, j = ( int(line[3])-1 ,  int(line[5])-1 )
+                    i, j = (int(line[3]) - 1, int(line[5]) - 1)
                     xcfg_H0[i,j] = float(line[10:].split(None, 1)[0])
                     xcfg_H0_set[i,j] = True
                 elif line.find(".NO_VELOCITY.") == 0:
@@ -279,7 +279,7 @@ class P_xcfg(StructureParser):
             emsg = "cannot convert empty structure to XCFG format"
             raise StructureFormatError(emsg)
         lines = []
-        lines.append( "Number of particles = %i" % len(stru) )
+        lines.append("Number of particles = %i" % len(stru))
         # figure out length unit A
         allxyz = numpy.array([a.xyz for a in stru])
         lo_xyz = allxyz.min(axis=0)
@@ -293,7 +293,7 @@ class P_xcfg(StructureParser):
         hi_ucvect = max([numpy.sqrt(numpy.dot(v,v)) for v in stru.lattice.base])
         if hi_ucvect*p_A < 3.5:
             p_A = numpy.ceil(3.5 / hi_ucvect)
-        lines.append( "A = %.8g Angstrom" % p_A )
+        lines.append("A = %.8g Angstrom" % p_A)
         # how much do we need to shift the coordinates?
         p_dxyz = numpy.zeros(3, dtype=float)
         for i in range(3):
@@ -303,8 +303,8 @@ class P_xcfg(StructureParser):
         # H0 tensor
         for i in range(3):
             for j in range(3):
-                lines.append( "H0(%i,%i) = %.8g A" % \
-                        (i+1, j+1, stru.lattice.base[i,j]) )
+                lines.append("H0(%i,%i) = %.8g A" %
+                             (i + 1, j + 1, stru.lattice.base[i, j]))
         # get out for empty structure
         if len(stru) == 0: return lines
         a_first = stru[0]
@@ -322,7 +322,7 @@ class P_xcfg(StructureParser):
         # add occupancy if any atom has nonunit occupancy
         for a in stru:
             if a.occupancy != 1.0:
-                p_auxiliaries.append( ('occupancy', 'a.occupancy') )
+                p_auxiliaries.append(('occupancy', 'a.occupancy'))
                 break
         # add temperature factor with as many terms as needed
         # check whether all temperature factors are zero or isotropic
