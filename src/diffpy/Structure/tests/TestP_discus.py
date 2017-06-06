@@ -23,19 +23,9 @@ from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure import Structure, StructureFormatError
 
 
-def assertListAlmostEqual(self, l1, l2, places=None):
-    """wrapper for list comparison"""
-    if places is None: places = self.places
-    self.assertEqual(len(l1), len(l2))
-    for i in range(len(l1)):
-        self.assertAlmostEqual(l1[i], l2[i], places)
-
-
 ##############################################################################
 class TestP_discus(unittest.TestCase):
     """test Parser for PDFFit file format"""
-
-    assertListAlmostEqual = assertListAlmostEqual
 
 
     def setUp(self):
