@@ -177,13 +177,16 @@ class P_xcfg(StructureParser):
         p_nl = 0
         p_auxiliary_re = re.compile(r"^auxiliary\[(\d+)\] =")
         p_auxiliary = {}
+        stru = Structure()
+        # ignore trailing blank lines
+        stop = len(lines)
+        for line in reversed(lines):
+            if line.strip():
+                break
+            stop -= 1
+        # iterator over the valid data lines
+        ilines = iter(lines[:stop])
         try:
-            stru = Structure()
-            # ignore trailing blank lines
-            stop = len(lines)
-            while stop>0 and lines[stop-1].strip() == "":
-                stop -= 1
-            ilines = iter(lines[:stop])
             # read XCFG header
             for line in ilines:
                 p_nl += 1
@@ -222,51 +225,22 @@ class P_xcfg(StructureParser):
             for i in range(p_auxnum):
                 if not i in p_auxiliary:
                     p_auxiliary[i] = "aux%d" % i
-            sorted_aux_keys = p_auxiliary.keys()
-            sorted_aux_keys.sort()
+            sorted_aux_keys = sorted(p_auxiliary.keys())
             if p_auxnum != 0:
                 stru.xcfg = {
                     'auxiliaries' : [ p_auxiliary[k]
                                       for k in sorted_aux_keys ]
                 }
-            if 6-3*xcfg_NO_VELOCITY+len(p_auxiliary) != xcfg_entry_count:
-                emsg = ("%d: auxiliary fields " +
+            ecnt = len(p_auxiliary) + (3 if xcfg_NO_VELOCITY else 6)
+            if ecnt != xcfg_entry_count:
+                emsg = ("%d: auxiliary fields are "
                         "not consistent with entry_count") % p_nl
                 raise StructureFormatError(emsg)
             # define proper lattice
             stru.lattice.setLatBase(xcfg_H0)
-            # build p_assign_atom function to assign entries to proper fields
-            p_exprs = [ "a.xyz[0]=fields[0]",
-                        "a.xyz[1]=fields[1]",
-                        "a.xyz[2]=fields[2]" ]
-            if not xcfg_NO_VELOCITY:
-                p_exprs += [  "a.v=numpy.zeros(3, dtype=float)",
-                              "a.v[0]=fields[3]",
-                              "a.v[1]=fields[4]",
-                              "a.v[2]=fields[5]" ]
-            for idx in sorted_aux_keys:
-                prop = p_auxiliary[idx]
-                col = idx + 6 - 3*xcfg_NO_VELOCITY
-                if prop == "Uiso":
-                    p_exprs.append("a.Uisoequiv=fields[%d]" % col)
-                elif re.match(r"^U\d\d$", prop) \
-                and 1<=int(prop[1])<=3 and 1<=int(prop[2])<=3 :
-                    p_exprs.append("a.anisotropy=True")
-                    i, j = int(prop[1])-1, int(prop[2])-1
-                    if i==j:
-                        p_exprs.append("a.U[%i,%i]=fields[%d]" % (i, j, col) )
-                    else:
-                        p_exprs.append("a.U[%i,%i]=a.U[%i,%i]=fields[%d]" % \
-                                (i, j, j, i, col) )
-                else:
-                    p_exprs.append( "a.__dict__[%r]=fields[%d]" % \
-                            (prop, col) )
-            p_assign_expr = "pass; " + "; ".join(p_exprs[3:])
-            exec "def p_assign_atom(a, fields) : %s" % p_assign_expr
-            # here we are inside data
+            # here we are inside the data block
             p_element = None
-            p_nl -= 1
-            for line in lines[p_nl:stop]:
+            for line in ilines:
                 p_nl += 1
                 words = line.split()
                 # ignore atom mass
@@ -277,11 +251,12 @@ class P_xcfg(StructureParser):
                     w = line.strip()
                     p_element = w[:1].upper() + w[1:].lower()
                 elif len(words) == xcfg_entry_count and p_element is not None:
-                    fields = [ float(w) for w in words ]
-                    stru.addNewAtom(p_element, fields[:3])
-                    a = stru.getLastAtom()
-                    a.xyz *= xcfg_A
-                    p_assign_atom(a, fields)
+                    fields = [float(w) for w in words]
+                    xyz = [xcfg_A * xi for xi in fields[:3]]
+                    stru.addNewAtom(p_element, xyz=xyz)
+                    a = stru[-1]
+                    _assign_auxiliaries(a, fields, auxiliaries=p_auxiliary,
+                                        no_velocity=xcfg_NO_VELOCITY)
                 else:
                     emsg = "%d: invalid record" % p_nl
                     raise StructureFormatError(emsg)
@@ -407,9 +382,48 @@ class P_xcfg(StructureParser):
 
 # End of class P_xcfg
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser():
     return P_xcfg()
+
+# Local Helpers --------------------------------------------------------------
+
+def _assign_auxiliaries(a, fields, auxiliaries, no_velocity):
+    """\
+    Assing auxiliary properties for Atom object when reading CFG format.
+
+    Parameters
+    ----------
+    a : Atom
+        The Atom instance for which the auxiliary properties need to be set.
+    fields : list
+        Floating point values for the current row of the processed CFG file.
+    auxiliaries : dict
+        Dictionary of zero-based indices and names of auxiliary properties
+        defined in the CFG format.
+    no_velocity : bool
+        When `False` set atom velocity `a.v` to `fields[3:6]`.
+        Use `fields[3:6]` for auxiliary values otherwise.
+
+    No return value.
+    """
+    if not no_velocity:
+        a.v = numpy.asarray(fields[3:6], dtype=float)
+    auxfirst = 3 if no_velocity else 6
+    for i, prop in auxiliaries.items():
+        value = fields[auxfirst + i]
+        if prop == "Uiso":
+            a.Uisoequiv = value
+        elif prop == "Biso":
+            a.Bisoequiv = value
+        elif prop[0] in 'BU' and all(d in '123' for d in prop[1:]):
+            nm = (prop if prop[1] <= prop[2]
+                  else prop[0] + prop[2] + prop[1])
+            a.anisotropy = True
+            setattr(a, nm, value)
+        else:
+            setattr(a, prop, value)
+    return
 
 # End of file
