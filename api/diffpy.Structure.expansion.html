@@ -1,12 +1,12 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>diffpy.Structure.expansion package &mdash; diffpy.Structure 1.3.4 documentation</title>
+    <title>diffpy.Structure.expansion package &#8212; diffpy.Structure 1.3.5 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,21 +14,22 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.3.4',
+        VERSION:     '1.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/sidebar.js"></script>
-    <link rel="top" title="diffpy.Structure 1.3.4 documentation" href="../index.html" />
-    <link rel="up" title="diffpy.Structure package" href="diffpy.Structure.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="diffpy.Structure.applications package" href="diffpy.Structure.applications.html" /> 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -41,8 +42,8 @@
         <li class="right" >
           <a href="diffpy.Structure.applications.html" title="diffpy.Structure.applications package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.4 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="diffpy.Structure.html" accesskey="U">diffpy.Structure package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="diffpy.Structure.html" accesskey="U">diffpy.Structure package</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -64,13 +65,13 @@
 <code class="descclassname">diffpy.Structure.expansion.makeEllipsoid.</code><code class="descname">makeEllipsoid</code><span class="sig-paren">(</span><em>S</em>, <em>a</em>, <em>b=None</em>, <em>c=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.expansion.makeEllipsoid.makeEllipsoid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cut a structure out of another one.</p>
 <p>Arguments
-S       &#8211;  A Structure instance
-a       &#8211;  primary equatorial radius (along x-axis)
-b       &#8211;  secondary equatorial radius (along y-axis). If b is None</p>
+S       –  A Structure instance
+a       –  primary equatorial radius (along x-axis)
+b       –  secondary equatorial radius (along y-axis). If b is None</p>
 <blockquote>
 <div>(default) then it is set equal to a</div></blockquote>
 <dl class="docutils">
-<dt>c       &#8211;  polar radius (along z-axis). If c is None (default), then it is</dt>
+<dt>c       –  polar radius (along z-axis). If c is None (default), then it is</dt>
 <dd>set equal to a.</dd>
 </dl>
 <p>Returns a new structure instance</p>
@@ -81,8 +82,8 @@ b       &#8211;  secondary equatorial radius (along y-axis). If b is None</p>
 <code class="descclassname">diffpy.Structure.expansion.makeEllipsoid.</code><code class="descname">makeSphere</code><span class="sig-paren">(</span><em>S</em>, <em>radius</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.Structure.expansion.makeEllipsoid.makeSphere" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a spherical nanoparticle.</p>
 <p>Arguments
-S       &#8211;  A Structure instance
-radius  &#8211;  primary equatorial radius (along x-axis)</p>
+S       –  A Structure instance
+radius  –  primary equatorial radius (along x-axis)</p>
 <p>Returns a new structure instance</p>
 </dd></dl>
 
@@ -109,8 +110,8 @@ radius  &#8211;  primary equatorial radius (along x-axis)</p>
 <p>New lattice parameters are multiplied and fractional coordinates
 divided by corresponding multiplier.  New atoms are grouped with
 their source in the original cell.</p>
-<p>S   &#8211; an instance of Structure from diffpy.Structure.
-mno &#8211; sequence of 3 integers for cell multipliers along</p>
+<p>S   – an instance of Structure from diffpy.Structure.
+mno – sequence of 3 integers for cell multipliers along</p>
 <blockquote>
 <div>the a, b and c axes.</div></blockquote>
 <p>Return a new expanded structure instance.
@@ -123,7 +124,7 @@ Raise ValueError for invalid mno argument.</p>
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-diffpy.Structure.expansion" title="Permalink to this headline">¶</a></h2>
 <p>Methods and classes for manipulating Structure instances.</p>
 <p>Package content:</p>
-<p>supercell   &#8211; create a supercell from an existing Structure.</p>
+<p>supercell   – create a supercell from an existing Structure.</p>
 </div>
 </div>
 
@@ -151,7 +152,7 @@ Raise ValueError for invalid mno argument.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/diffpy.Structure.expansion.txt"
+      <li><a href="../_sources/api/diffpy.Structure.expansion.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -181,13 +182,13 @@ Raise ValueError for invalid mno argument.</p>
         <li class="right" >
           <a href="diffpy.Structure.applications.html" title="diffpy.Structure.applications package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.4 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="diffpy.Structure.html" >diffpy.Structure package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">diffpy.Structure 1.3.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="diffpy.Structure.html" >diffpy.Structure package</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2016, Brookhaven National Laboratory.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+        &#169; Copyright 2017, Brookhaven National Laboratory.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.2.
     </div>
   </body>
 </html>
