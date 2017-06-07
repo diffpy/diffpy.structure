@@ -177,13 +177,16 @@ class P_xcfg(StructureParser):
         p_nl = 0
         p_auxiliary_re = re.compile(r"^auxiliary\[(\d+)\] =")
         p_auxiliary = {}
+        stru = Structure()
+        # ignore trailing blank lines
+        stop = len(lines)
+        for line in reversed(lines):
+            if line.strip():
+                break
+            stop -= 1
+        # iterator over the valid data lines
+        ilines = iter(lines[:stop])
         try:
-            stru = Structure()
-            # ignore trailing blank lines
-            stop = len(lines)
-            while stop>0 and lines[stop-1].strip() == "":
-                stop -= 1
-            ilines = iter(lines[:stop])
             # read XCFG header
             for line in ilines:
                 p_nl += 1
@@ -201,7 +204,7 @@ class P_xcfg(StructureParser):
                 elif line.find("A =") == 0:
                     xcfg_A = float(line[3:].split(None, 1)[0])
                 elif line.find("H0(") == 0:
-                    i, j = ( int(line[3])-1 ,  int(line[5])-1 )
+                    i, j = (int(line[3]) - 1, int(line[5]) - 1)
                     xcfg_H0[i,j] = float(line[10:].split(None, 1)[0])
                     xcfg_H0_set[i,j] = True
                 elif line.find(".NO_VELOCITY.") == 0:
@@ -222,51 +225,22 @@ class P_xcfg(StructureParser):
             for i in range(p_auxnum):
                 if not i in p_auxiliary:
                     p_auxiliary[i] = "aux%d" % i
-            sorted_aux_keys = p_auxiliary.keys()
-            sorted_aux_keys.sort()
+            sorted_aux_keys = sorted(p_auxiliary.keys())
             if p_auxnum != 0:
                 stru.xcfg = {
                     'auxiliaries' : [ p_auxiliary[k]
                                       for k in sorted_aux_keys ]
                 }
-            if 6-3*xcfg_NO_VELOCITY+len(p_auxiliary) != xcfg_entry_count:
-                emsg = ("%d: auxiliary fields " +
+            ecnt = len(p_auxiliary) + (3 if xcfg_NO_VELOCITY else 6)
+            if ecnt != xcfg_entry_count:
+                emsg = ("%d: auxiliary fields are "
                         "not consistent with entry_count") % p_nl
                 raise StructureFormatError(emsg)
             # define proper lattice
             stru.lattice.setLatBase(xcfg_H0)
-            # build p_assign_atom function to assign entries to proper fields
-            p_exprs = [ "a.xyz[0]=fields[0]",
-                        "a.xyz[1]=fields[1]",
-                        "a.xyz[2]=fields[2]" ]
-            if not xcfg_NO_VELOCITY:
-                p_exprs += [  "a.v=numpy.zeros(3, dtype=float)",
-                              "a.v[0]=fields[3]",
-                              "a.v[1]=fields[4]",
-                              "a.v[2]=fields[5]" ]
-            for idx in sorted_aux_keys:
-                prop = p_auxiliary[idx]
-                col = idx + 6 - 3*xcfg_NO_VELOCITY
-                if prop == "Uiso":
-                    p_exprs.append("a.Uisoequiv=fields[%d]" % col)
-                elif re.match(r"^U\d\d$", prop) \
-                and 1<=int(prop[1])<=3 and 1<=int(prop[2])<=3 :
-                    p_exprs.append("a.anisotropy=True")
-                    i, j = int(prop[1])-1, int(prop[2])-1
-                    if i==j:
-                        p_exprs.append("a.U[%i,%i]=fields[%d]" % (i, j, col) )
-                    else:
-                        p_exprs.append("a.U[%i,%i]=a.U[%i,%i]=fields[%d]" % \
-                                (i, j, j, i, col) )
-                else:
-                    p_exprs.append( "a.__dict__[%r]=fields[%d]" % \
-                            (prop, col) )
-            p_assign_expr = "pass; " + "; ".join(p_exprs[3:])
-            exec "def p_assign_atom(a, fields) : %s" % p_assign_expr
-            # here we are inside data
+            # here we are inside the data block
             p_element = None
-            p_nl -= 1
-            for line in lines[p_nl:stop]:
+            for line in ilines:
                 p_nl += 1
                 words = line.split()
                 # ignore atom mass
@@ -277,11 +251,12 @@ class P_xcfg(StructureParser):
                     w = line.strip()
                     p_element = w[:1].upper() + w[1:].lower()
                 elif len(words) == xcfg_entry_count and p_element is not None:
-                    fields = [ float(w) for w in words ]
-                    stru.addNewAtom(p_element, fields[:3])
-                    a = stru.getLastAtom()
-                    a.xyz *= xcfg_A
-                    p_assign_atom(a, fields)
+                    fields = [float(w) for w in words]
+                    xyz = [xcfg_A * xi for xi in fields[:3]]
+                    stru.addNewAtom(p_element, xyz=xyz)
+                    a = stru[-1]
+                    _assign_auxiliaries(a, fields, auxiliaries=p_auxiliary,
+                                        no_velocity=xcfg_NO_VELOCITY)
                 else:
                     emsg = "%d: invalid record" % p_nl
                     raise StructureFormatError(emsg)
@@ -304,7 +279,7 @@ class P_xcfg(StructureParser):
             emsg = "cannot convert empty structure to XCFG format"
             raise StructureFormatError(emsg)
         lines = []
-        lines.append( "Number of particles = %i" % len(stru) )
+        lines.append("Number of particles = %i" % len(stru))
         # figure out length unit A
         allxyz = numpy.array([a.xyz for a in stru])
         lo_xyz = allxyz.min(axis=0)
@@ -318,7 +293,7 @@ class P_xcfg(StructureParser):
         hi_ucvect = max([numpy.sqrt(numpy.dot(v,v)) for v in stru.lattice.base])
         if hi_ucvect*p_A < 3.5:
             p_A = numpy.ceil(3.5 / hi_ucvect)
-        lines.append( "A = %.8g Angstrom" % p_A )
+        lines.append("A = %.8g Angstrom" % p_A)
         # how much do we need to shift the coordinates?
         p_dxyz = numpy.zeros(3, dtype=float)
         for i in range(3):
@@ -328,8 +303,8 @@ class P_xcfg(StructureParser):
         # H0 tensor
         for i in range(3):
             for j in range(3):
-                lines.append( "H0(%i,%i) = %.8g A" % \
-                        (i+1, j+1, stru.lattice.base[i,j]) )
+                lines.append("H0(%i,%i) = %.8g A" %
+                             (i + 1, j + 1, stru.lattice.base[i, j]))
         # get out for empty structure
         if len(stru) == 0: return lines
         a_first = stru[0]
@@ -347,7 +322,7 @@ class P_xcfg(StructureParser):
         # add occupancy if any atom has nonunit occupancy
         for a in stru:
             if a.occupancy != 1.0:
-                p_auxiliaries.append( ('occupancy', 'a.occupancy') )
+                p_auxiliaries.append(('occupancy', 'a.occupancy'))
                 break
         # add temperature factor with as many terms as needed
         # check whether all temperature factors are zero or isotropic
@@ -363,36 +338,31 @@ class P_xcfg(StructureParser):
         if p_allUzero:
             pass
         elif p_allUiso:
-            p_auxiliaries.append( ('Uiso', 'a.U[0,0]') )
+            p_auxiliaries.append(('Uiso', 'uflat[0]'))
         else:
-            p_auxiliaries.extend([ ('U11', 'a.U[0,0]'),
-                                   ('U22', 'a.U[1,1]'),
-                                   ('U33', 'a.U[2,2]') ])
+            p_auxiliaries.extend([('U11', 'uflat[0]'),
+                                  ('U22', 'uflat[4]'),
+                                  ('U33', 'uflat[8]')])
             # check if there are off-diagonal elements
             allU = numpy.array([a.U for a in stru])
             if numpy.any(allU[:,0,1] != 0.0):
-                p_auxiliaries.append( ('U12', 'a.U[0,1]') )
+                p_auxiliaries.append(('U12', 'uflat[1]'))
             if numpy.any(allU[:,0,2] != 0.0):
-                p_auxiliaries.append( ('U13', 'a.U[0,2]') )
+                p_auxiliaries.append(('U13', 'uflat[2]'))
             if numpy.any(allU[:,1,2] != 0.0):
-                p_auxiliaries.append( ('U23', 'a.U[1,2]') )
+                p_auxiliaries.append(('U23', 'uflat[5]'))
         # count entries
-        p_entry_count = 6 - 3*p_NO_VELOCITY + len(p_auxiliaries)
+        p_entry_count = (3 if p_NO_VELOCITY else 6) + len(p_auxiliaries)
         lines.append("entry_count = %d" % p_entry_count)
         # add auxiliaries
         for i in range(len(p_auxiliaries)):
             lines.append("auxiliary[%d] = %s [au]" % (i, p_auxiliaries[i][0]))
-        # now define p_entry_line function for representing atom properties
-        p_exprs = [ "def p_entry_line(a, p_A, p_dxyz):",
-                    "    fields = list( a.xyz/p_A+p_dxyz )" ]
+        # now define entry format efmt for representing atom properties
+        fmwords = ["{pos[0]:.8g}", "{pos[1]:.8g}", "{pos[2]:.8g}"]
         if not p_NO_VELOCITY:
-            p_exprs.append( \
-                    "    fields += [ a.v[0], a.v[1], a.v[2] ]" )
-        p_exprs += ["    fields += [ " +
-                         ",".join([e for p,e in p_auxiliaries]) + " ]",
-                    "    line = ' '.join([ '%.8g' % x for x in fields ])",
-                    "    return line"  ]
-        exec "\n".join(p_exprs)
+            fmwords += ["{v[0]:.8g}", "{v[1]:.8g}", "{v[2]:.8g}"]
+        fmwords += (('{' + e + ':.8g}') for p, e in p_auxiliaries)
+        efmt = ' '.join(fmwords)
         # we are ready to output atoms:
         lines.append("")
         p_element = None
@@ -401,15 +371,58 @@ class P_xcfg(StructureParser):
                 p_element = a.element
                 lines.append("%.4f" % AtomicMass.get(p_element, 0.0))
                 lines.append(p_element)
-            lines.append(p_entry_line(a, p_A, p_dxyz))
+            pos = a.xyz / p_A + p_dxyz
+            v = None if p_NO_VELOCITY else a.v
+            uflat = numpy.ravel(a.U)
+            entry = efmt.format(pos=pos, v=v, uflat=uflat, a=a)
+            lines.append(entry)
         return lines
     # End of toLines
 
 # End of class P_xcfg
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser():
     return P_xcfg()
+
+# Local Helpers --------------------------------------------------------------
+
+def _assign_auxiliaries(a, fields, auxiliaries, no_velocity):
+    """\
+    Assing auxiliary properties for Atom object when reading CFG format.
+
+    Parameters
+    ----------
+    a : Atom
+        The Atom instance for which the auxiliary properties need to be set.
+    fields : list
+        Floating point values for the current row of the processed CFG file.
+    auxiliaries : dict
+        Dictionary of zero-based indices and names of auxiliary properties
+        defined in the CFG format.
+    no_velocity : bool
+        When `False` set atom velocity `a.v` to `fields[3:6]`.
+        Use `fields[3:6]` for auxiliary values otherwise.
+
+    No return value.
+    """
+    if not no_velocity:
+        a.v = numpy.asarray(fields[3:6], dtype=float)
+    auxfirst = 3 if no_velocity else 6
+    for i, prop in auxiliaries.items():
+        value = fields[auxfirst + i]
+        if prop == "Uiso":
+            a.Uisoequiv = value
+        elif prop == "Biso":
+            a.Bisoequiv = value
+        elif prop[0] in 'BU' and all(d in '123' for d in prop[1:]):
+            nm = (prop if prop[1] <= prop[2]
+                  else prop[0] + prop[2] + prop[1])
+            a.anisotropy = True
+            setattr(a, nm, value)
+        else:
+            setattr(a, prop, value)
+    return
 
 # End of file

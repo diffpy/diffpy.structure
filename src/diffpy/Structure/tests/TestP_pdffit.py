@@ -18,25 +18,15 @@
 
 import unittest
 import re
+import numpy
 
 from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure import Structure, StructureFormatError
 
 
-def assertListAlmostEqual(self, l1, l2, places=None):
-    """wrapper for list comparison"""
-    if places is None: places = self.places
-    self.assertEqual(len(l1), len(l2))
-    for i in range(len(l1)):
-        self.assertAlmostEqual(l1[i], l2[i], places)
-
-
 ##############################################################################
 class TestP_pdffit(unittest.TestCase):
     """test Parser for PDFFit file format"""
-
-    assertListAlmostEqual = assertListAlmostEqual
-
 
     def setUp(self):
         self.stru = Structure()
@@ -59,10 +49,10 @@ class TestP_pdffit(unittest.TestCase):
         s_lat = [ stru.lattice.a, stru.lattice.b, stru.lattice.c,
             stru.lattice.alpha, stru.lattice.beta, stru.lattice.gamma ]
         f_lat = [12.309436, 12.309436, 12.392839, 90.0, 90.0, 120.0]
-        self.assertListAlmostEqual(s_lat, f_lat)
+        self.assertTrue(numpy.allclose(s_lat, f_lat))
         s_dcell = stru.pdffit['dcell']
         f_dcell = [0.000008, 0.000008, 0.000013, 0.0, 0.0, 0.0]
-        self.assertListAlmostEqual(s_dcell, f_dcell)
+        self.assertTrue(numpy.allclose(s_dcell, f_dcell))
         self.assertEqual(stru.pdffit['ncell'], [1,1,1,66])
         s_els = [a.element for a in stru]
         self.assertEqual(s_els, 36*['Zn']+30*['Sb'])
@@ -77,9 +67,9 @@ class TestP_pdffit(unittest.TestCase):
         f_sigo = 0.0
         s_U = [ a0.U[i][i] for i in range(3) ]
         f_U = 3*[0.01]
-        self.assertListAlmostEqual(s_xyz, f_xyz)
-        self.assertListAlmostEqual(s_sigxyz, f_sigxyz)
-        self.assertListAlmostEqual(s_U, f_U)
+        self.assertTrue(numpy.allclose(s_xyz, f_xyz))
+        self.assertTrue(numpy.allclose(s_sigxyz, f_sigxyz))
+        self.assertTrue(numpy.allclose(s_U, f_U))
         self.assertAlmostEqual(s_o, f_o)
         self.assertAlmostEqual(s_sigo, f_sigo)
 
@@ -153,7 +143,8 @@ class TestP_pdffit(unittest.TestCase):
         """check writing of normal xyz file"""
         stru = self.stru
         stru.read(datafile('Ni.stru'), self.format)
-        f_s = open(datafile('Ni.stru')).read()
+        with open(datafile('Ni.stru')) as fp:
+            f_s = fp.read()
         f_s = re.sub('[ \t]+', ' ', f_s)
         f_s = re.sub('[ \t]+\n', '\n', f_s)
         s_s = stru.writeStr(self.format)
@@ -179,7 +170,8 @@ class TestP_pdffit(unittest.TestCase):
         """
         r1 = 'ignored record 1'
         r2 = 'ignored record 2'
-        ni_lines = open(datafile('Ni.stru')).readlines()
+        with open(datafile('Ni.stru')) as fp:
+            ni_lines = fp.readlines()
         ni_lines.insert(2, r1 + '\n')
         ni_lines.insert(4, r2 + '\n')
         s_s1 = "".join(ni_lines)
@@ -207,7 +199,8 @@ class TestP_pdffit(unittest.TestCase):
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['spdiameter'])
-        ni_lines = open(datafile('Ni.stru')).readlines()
+        with open(datafile('Ni.stru')) as fp:
+            ni_lines = fp.readlines()
         ni_lines.insert(3, 'shape invalid, 7\n')
         sbad = ''.join(ni_lines)
         self.assertRaises(StructureFormatError, self.stru.readStr,
@@ -230,7 +223,8 @@ class TestP_pdffit(unittest.TestCase):
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit['stepcut'])
-        ni_lines = open(datafile('Ni.stru')).readlines()
+        with open(datafile('Ni.stru')) as fp:
+            ni_lines = fp.readlines()
         ni_lines.insert(3, 'shape invalid, 7\n')
         sbad = ''.join(ni_lines)
         self.assertRaises(StructureFormatError, self.stru.readStr,

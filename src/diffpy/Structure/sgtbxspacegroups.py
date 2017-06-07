@@ -22,7 +22,14 @@ sgtbxSpaceGroupList -- list of space group instances defined in this module
 '''
 
 
-from diffpy.Structure.spacegroupmod import *
+from diffpy.Structure.spacegroupmod import SpaceGroup, SymOp
+from diffpy.Structure.spacegroupmod import (
+    Rot_X_Y_Z, Rot_mX_mY_mZ, Rot_mX_Y_mZ, Rot_X_mY_Z,
+    Rot_mX_mY_Z, Rot_X_mY_mZ, Rot_mX_Y_Z, Rot_X_Y_mZ,
+    Tr_0_0_0, Tr_0_12_0, Tr_12_12_0, Tr_0_0_12,
+    Tr_12_12_12, Tr_0_12_12, Tr_12_0_12, Tr_12_0_0,
+    Tr_14_14_14, Tr_14_34_34, Tr_34_14_34, Tr_34_34_14,
+)
 
 
 ##############################################################################

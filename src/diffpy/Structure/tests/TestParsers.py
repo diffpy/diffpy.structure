@@ -19,18 +19,13 @@
 import unittest
 import os
 import re
+import tempfile
+import numpy
 
 from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure import Structure, StructureFormatError
 from diffpy.Structure import Lattice
 from diffpy.Structure import Atom
-
-def assertListAlmostEqual(self, l1, l2, places=None):
-    """wrapper for list comparison"""
-    if places is None: places = self.places
-    self.assertEqual(len(l1), len(l2))
-    for i in range(len(l1)):
-        self.assertAlmostEqual(l1[i], l2[i], places)
 
 ##############################################################################
 class TestP_xyz(unittest.TestCase):
@@ -39,13 +34,21 @@ class TestP_xyz(unittest.TestCase):
     def setUp(self):
         self.stru = Structure()
         self.format = 'xyz'
-        import tempfile
-        handle, self.tmpname = tempfile.mkstemp()
-        os.close(handle)
+        self.tmpnames = []
+        return
+
 
     def tearDown(self):
-        import os
-        os.remove(self.tmpname)
+        for f in self.tmpnames:
+            os.remove(f)
+        return
+
+
+    def mktmpfile(self):
+        with tempfile.NamedTemporaryFile(delete=False) as ftmp:
+            self.tmpnames.append(ftmp.name)
+        return self.tmpnames[-1]
+
 
     def test_read_xyz(self):
         """check reading of normal xyz file"""
@@ -54,6 +57,8 @@ class TestP_xyz(unittest.TestCase):
         s_els = [a.element for a in stru]
         self.assertEqual(stru.title, 'bucky-ball')
         self.assertEqual(s_els, 60*['C'])
+        return
+
 
     def test_read_xyz_bad(self):
         """check exceptions when reading invalid xyz file"""
@@ -66,6 +71,8 @@ class TestP_xyz(unittest.TestCase):
                 datafile('bucky-plain.xyz'), self.format )
         self.assertRaises(StructureFormatError, stru.read,
                 datafile('hexagon-raw.xy'), self.format )
+        return
+
 
     def test_writeStr_xyz(self):
         """check string representation of normal xyz file"""
@@ -80,6 +87,8 @@ class TestP_xyz(unittest.TestCase):
         s1 = re.sub('[ \t]+', ' ', s1)
         s0 = "2\n%s\nH 1 2 3\nCl 3 4 3\n" % stru.title
         self.assertEqual(s1, s0)
+        return
+
 
     def test_write_xyz(self):
         """check writing of normal xyz file"""
@@ -90,11 +99,14 @@ class TestP_xyz(unittest.TestCase):
             Atom('H', [1., 1., 1.]),
             Atom('Cl', [3., 2., 1.])
         ]
-        stru.write(self.tmpname, self.format)
-        f_s = open(self.tmpname).read()
+        filename = self.mktmpfile()
+        stru.write(filename, self.format)
+        with open(filename) as fp:
+            f_s = fp.read()
         f_s = re.sub('[ \t]+', ' ', f_s)
         s_s = "2\n%s\nH 1 2 3\nCl 3 4 3\n" % stru.title
         self.assertEqual(f_s, s_s)
+        return
 
 # End of TestP_xyz
 
@@ -166,13 +178,6 @@ class TestP_pdb(unittest.TestCase):
         self.format = "pdb"
         self.places = 3
 
-    def assertListAlmostEqual(self, l1, l2, places=None):
-        """wrapper for list comparison"""
-        if places is None: places = self.places
-        self.assertEqual(len(l1), len(l2))
-        for i in range(len(l1)):
-            self.assertAlmostEqual(l1[i], l2[i], places)
-
     def test_read_pdb_arginine(self):
         """check reading of arginine PDB file"""
         stru = self.stru
@@ -187,7 +192,7 @@ class TestP_pdb(unittest.TestCase):
         f_lat = [1.0, 1.0, 1.0, 90.0, 90.0, 90.0]
         self.assertEqual(s_lat, f_lat)
         a0 = stru[0]
-        self.assertListAlmostEqual(a0.xyz, [0.735, 2.219, 1.389])
+        self.assertTrue(numpy.allclose(a0.xyz, [0.735, 2.219, 1.389]))
 
     def test_rwStr_pdb_CdSe(self):
         """check conversion to PDB file format"""
@@ -206,14 +211,14 @@ class TestP_pdb(unittest.TestCase):
         s_lat = [ stru.lattice.a, stru.lattice.b, stru.lattice.c,
             stru.lattice.alpha, stru.lattice.beta, stru.lattice.gamma ]
         f_lat = [ 4.235204,  4.235204,  6.906027, 90.0, 90.0, 120.0 ]
-        self.assertListAlmostEqual(s_lat, f_lat)
+        self.assertTrue(numpy.allclose(s_lat, f_lat, atol=5e-4))
         a0 = stru[0]
         s_Uii = [ a0.U[i,i] for i in range(3) ]
         f_Uii = [ 0.01303035, 0.01303035, 0.01401959 ]
-        self.assertListAlmostEqual(s_Uii, f_Uii)
+        self.assertTrue(numpy.allclose(s_Uii, f_Uii, atol=5e-4))
         s_sigUii = [ a0.sigU[i,i] for i in range(3) ]
         f_sigUii = [ 0.00011127, 0.00011127, 0.00019575 ]
-        self.assertListAlmostEqual(s_sigUii, f_sigUii)
+        self.assertTrue(numpy.allclose(s_sigUii, f_sigUii, atol=5e-4))
         s_title = stru.title
         f_title = "Cell structure file of CdSe #186"
         self.assertEqual(s_title, f_title)
@@ -229,12 +234,6 @@ class TestP_xcfg(unittest.TestCase):
         self.format = "xcfg"
         self.places = 6
 
-    def assertListAlmostEqual(self, l1, l2, places=None):
-        """wrapper for list comparison"""
-        if places is None: places = self.places
-        self.assertEqual(len(l1), len(l2))
-        for i in range(len(l1)):
-            self.assertAlmostEqual(l1[i], l2[i], places)
 
     def test_read_xcfg(self):
         """check reading of BubbleRaft XCFG file"""
@@ -247,7 +246,9 @@ class TestP_xcfg(unittest.TestCase):
         s_lat = [ stru.lattice.a, stru.lattice.b, stru.lattice.c,
             stru.lattice.alpha, stru.lattice.beta, stru.lattice.gamma ]
         f_lat = [127.5, 119.5, 3.0, 90.0, 90.0, 90.0]
-        self.assertListAlmostEqual(s_lat, f_lat)
+        self.assertTrue(numpy.allclose(s_lat, f_lat))
+        return
+
 
     def test_rwStr_xcfg_CdSe(self):
         """check conversion to XCFG file format"""
@@ -262,11 +263,11 @@ class TestP_xcfg(unittest.TestCase):
         s_lat = [ stru.lattice.a, stru.lattice.b, stru.lattice.c,
             stru.lattice.alpha, stru.lattice.beta, stru.lattice.gamma ]
         f_lat = [ 4.235204,  4.235204,  6.906027, 90.0, 90.0, 120.0 ]
-        self.assertListAlmostEqual(s_lat, f_lat)
+        self.assertTrue(numpy.allclose(s_lat, f_lat))
         a0 = stru[0]
         s_Uii = [ a0.U[i,i] for i in range(3) ]
         f_Uii = [ 0.01303035, 0.01303035, 0.01401959 ]
-        self.assertListAlmostEqual(s_Uii, f_Uii)
+        self.assertTrue(numpy.allclose(s_Uii, f_Uii))
 
 # End of TestP_xcfg
 

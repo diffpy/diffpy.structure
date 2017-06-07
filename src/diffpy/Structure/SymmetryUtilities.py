@@ -152,7 +152,7 @@ def positionDifference(xyz0, xyz1):
 
     Return dxyz, a numpy.array dxyz with 0 <= dxyz <= 0.5.
     """
-    dxyz = numpy.array(xyz0) - xyz1
+    dxyz = numpy.asarray(xyz0) - xyz1
     # map differences to [0,0.5]
     dxyz = dxyz - numpy.floor(dxyz)
     mask = (dxyz > 0.5)
@@ -695,23 +695,21 @@ class SymmetryConstraints(object):
         self.Ueqns = None
         self.Upars = []
         self.Uisotropy = None
-        # handle single position:
-        import types
         # handle list of lists returned by ExpandAsymmetricUnit
-        if len(positions) and type(positions[0]) is types.ListType:
+        if len(positions) and isinstance(positions[0], list):
             # concatenate lists before converting to Nx3 array
             flatpos = sum(positions, [])
             flatpos = numpy.array(flatpos, dtype=float).flatten()
-            self.positions = flatpos.reshape((flatpos.size/3, 3))
+            self.positions = flatpos.reshape((-1, 3))
         # otherwise convert to array
         else:
             flatpos = numpy.array(positions, dtype=float).flatten()
-            self.positions = flatpos.reshape((flatpos.size/3, 3))
+            self.positions = flatpos.reshape((-1, 3))
         # here self.positions should be a 2D numpy array
         numpos = len(self.positions)
         # adjust Uijs if not specified
         if Uijs is not None:
-            self.Uijs = numpy.array(Uijs)
+            self.Uijs = numpy.array(Uijs, dtype=float)
         else:
             self.Uijs = numpy.zeros((numpos, 3, 3), dtype=float)
         self.poseqns = numpos*[None]

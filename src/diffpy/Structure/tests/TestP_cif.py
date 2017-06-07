@@ -17,6 +17,7 @@
 """
 
 import unittest
+import numpy
 
 from diffpy.Structure.tests.testutils import datafile
 from diffpy.Structure.Parsers.P_cif import P_cif, leading_float, getSymOp
@@ -78,8 +79,10 @@ class TestP_cif(unittest.TestCase):
     def test_parse(self):
         """check P_cif.parse()
         """
-        sgood = open(self.goodciffile).read()
-        sbad = open(self.badciffile).read()
+        with open(self.goodciffile) as fp1:
+            sgood = fp1.read()
+        with open(self.badciffile) as fp2:
+            sbad = fp2.read()
         pfile, ptest = self.pfile, self.ptest
         stru_check = pfile.parseFile(self.goodciffile)
         stru = ptest.parse(sgood)
@@ -95,8 +98,10 @@ class TestP_cif(unittest.TestCase):
     def test_parseLines(self):
         """check P_cif.parseLines()
         """
-        goodlines = open(self.goodciffile).readlines()
-        badlines = open(self.badciffile).readlines()
+        with open(self.goodciffile) as fp1:
+            goodlines = fp1.readlines()
+        with open(self.badciffile) as fp2:
+            badlines = fp2.readlines()
         pfile, ptest = self.pfile, self.ptest
         stru_check = pfile.parseFile(self.goodciffile)
         stru = ptest.parseLines(goodlines)
@@ -205,14 +210,14 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(4, len(stru))
         a0 = stru[0]
         self.assertEqual('Cd', a0.element)
-        self.assertListAlmostEqual([0.3334, 0.6667, 0.0], a0.xyz)
+        self.assertTrue(numpy.allclose([0.3334, 0.6667, 0.0], a0.xyz))
         self.assertTrue(a0.anisotropy)
         self.assertAlmostEqual(0.01303, a0.U[0,0])
         self.assertAlmostEqual(0.01303, a0.U[1,1])
         self.assertAlmostEqual(0.01402, a0.U[2,2])
         a3 = stru[3]
         self.assertEqual('Se', a3.element)
-        self.assertListAlmostEqual([0.6666, 0.333300, 0.87667], a3.xyz)
+        self.assertTrue(numpy.allclose([0.6666, 0.333300, 0.87667], a3.xyz))
         self.assertAlmostEqual(0.015673, a3.U[0,0])
         self.assertAlmostEqual(0.015673, a3.U[1,1])
         self.assertAlmostEqual(0.046164, a3.U[2,2])
@@ -244,18 +249,6 @@ class TestP_cif(unittest.TestCase):
         pcif2 = getParser('cif')
         grph2 = pcif2.parseFile(self.graphiteciffile)
         self.assertEqual(4, len(grph2))
-        return
-
-    ########################################################################
-    # helpers
-    ########################################################################
-
-    def assertListAlmostEqual(self, l1, l2, places=None):
-        """wrapper for list comparison"""
-        if places is None: places = self.places
-        self.assertEqual(len(l1), len(l2))
-        for i in range(len(l1)):
-            self.assertAlmostEqual(l1[i], l2[i], places)
         return
 
 # End of class TestP_cif

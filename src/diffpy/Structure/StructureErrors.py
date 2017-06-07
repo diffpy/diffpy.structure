@@ -33,10 +33,4 @@ class SymmetryError(Exception):
     """
     pass
 
-
-class IsotropyError(Exception):
-    """Exception raised for invalid operations on isotropic atoms.
-    """
-    pass
-
 # End of file

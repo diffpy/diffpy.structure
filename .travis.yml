@@ -80,6 +80,7 @@ install:
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
 
   - $NOAPT || pip install $MYPIPFLAGS coverage
+  - $NOAPT || pip install $MYPIPFLAGS "pycifrw==4.2.1"
   - $NOAPT || easy_install --user "${MYTARBUNDLE}"
 
   # We need to capitalize MYNAME to match Python module name.

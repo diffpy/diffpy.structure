@@ -51,14 +51,6 @@ class TestStructure(unittest.TestCase):
         return
 
 
-    def assertListAlmostEqual(self, l1, l2, places=None):
-        """wrapper for list comparison"""
-        if places is None: places = self.places
-        self.assertEqual(len(l1), len(l2))
-        for i in range(len(l1)):
-            self.assertAlmostEqual(l1[i], l2[i], places)
-
-
     def test___init__(self):
         """check Structure.__init__()
         """
@@ -170,9 +162,9 @@ class TestStructure(unittest.TestCase):
         new_lattice = Lattice(.5, .5, .5, 90, 90, 60)
         stru.placeInLattice(new_lattice)
         a0 = stru[0]
-        self.assertListAlmostEqual(a0.xyz, 3*[0.0])
+        self.assertTrue(numpy.allclose(a0.xyz, [0.0, 0.0, 0.0]))
         a1 = stru[1]
-        self.assertListAlmostEqual(a1.xyz, [2.0, 0.0, 2.0])
+        self.assertTrue(numpy.allclose(a1.xyz, [2.0, 0.0, 2.0]))
 
 #   def test_read(self):
 #       """check Structure.read()
@@ -243,8 +235,7 @@ class TestStructure(unittest.TestCase):
         lst = stru.tolist()
         stru.extend(cdse)
         self.assertEqual(6, len(stru))
-        self.assertTrue(all([a.lattice is stru.lattice for a in stru]))
-        self.assertTrue(stru.lattice is a.lattice)
+        self.assertTrue(all(a.lattice is stru.lattice for a in stru))
         self.assertEqual(lst, stru.tolist()[:2])
         self.assertNotEqual(stru[-1], cdse[-1])
         return

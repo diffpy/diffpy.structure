@@ -23,15 +23,14 @@ Exceptions:
     StructureFormatError
     LatticeError
     SymmetryError
-    IsotropyError
 """
 
 ##############################################################################
 # interface definitions
 ##############################################################################
 
-from diffpy.Structure.StructureErrors import (StructureFormatError,
-        LatticeError, SymmetryError, IsotropyError)
+from diffpy.Structure.StructureErrors import (
+    StructureFormatError, LatticeError, SymmetryError)
 from diffpy.Structure.atom import Atom
 from diffpy.Structure.lattice import Lattice
 from diffpy.Structure.structure import Structure
@@ -61,7 +60,7 @@ def loadStructure(filename, fmt='auto', **kw):
 
 # silence pyflakes checker
 assert (StructureFormatError and
-        LatticeError and SymmetryError and IsotropyError)
+        LatticeError and SymmetryError)
 assert Atom
 assert Lattice
 assert Structure
