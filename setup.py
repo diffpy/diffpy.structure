@@ -84,7 +84,7 @@ setup_args = dict(
     include_package_data = True,
     zip_safe = False,
     install_requires = [
-        'pycifrw != 4.3.0',
+        'pycifrw',
     ],
 
     author = 'Simon J.L. Billinge group',
