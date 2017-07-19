@@ -24,7 +24,7 @@ This module is deprecated and will be removed in the future.
 
 
 import sys
-import importlib
+import importlib.abc
 from warnings import warn
 
 WMSG = "Module {!r} is deprecated.  Use {!r} instead."
