@@ -35,7 +35,7 @@ class TestOldImports(unittest.TestCase):
         "Uncache any already-imported old modules."
         for modname in tuple(sys.modules):
             if modname.startswith('diffpy.Structure'):
-                del sys.modules[modname]
+                del sys.modules[modname]    # pragma: no cover
         return
 
 
