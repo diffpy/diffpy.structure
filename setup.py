@@ -78,6 +78,7 @@ setup_args = dict(
     name = "diffpy.structure",
     version = versiondata.get('DEFAULT', 'version'),
     packages = [('diffpy.' + p) for p in find_packages('src/diffpy')],
+    py_modules = ['diffpy.Structure'],
     package_dir = {'' : 'src'},
     test_suite = 'diffpy.structure.tests',
     include_package_data = True,
