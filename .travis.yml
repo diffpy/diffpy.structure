@@ -31,6 +31,7 @@ addons:
     - python-setuptools
     - build-essential
 
+
 before_install:
   - MYNAME=diffpy.structure
   - umask 022
@@ -53,11 +54,11 @@ before_install:
     esac
   - MYRUNDIR=${PWD}/build/rundir
 
-  - mkdir -p ~/pkgs/
+  - mkdir -p ~/pkgs
   - mkdir -p ${MYRUNDIR}
   - cp .coveragerc ${MYRUNDIR}/
 
-  - $NOMC || pushd ~/pkgs/
+  - $NOMC || pushd ~/pkgs
   - $NOMC || wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
   - $NOMC || test -x ~/mc/bin/conda || bash ${MYMCBUNDLE} -b -f -p ~/mc
   - $NOMC || popd
@@ -70,6 +71,7 @@ before_install:
   - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
   - $NOAPT || devutils/makesdist
   - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
+
 
 install:
   - $NOMC || conda build --python=${MYPYTHON_VERSION} conda-recipe
@@ -93,8 +95,10 @@ install:
         exit 1;
     fi
 
+
 script:
   - coverage run --source ${MYNAME} -m ${MYNAME}.tests.run
+
 
 after_success:
   - pip install $MYPIPFLAGS codecov
