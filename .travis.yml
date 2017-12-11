@@ -67,7 +67,7 @@ before_install:
   - $NOBREW || test "${TRAVIS_OS_NAME}" = "osx" || exit $?
   - $NOBREW || brew update
   - $NOBREW || brew install python3
-  - $NOBREW || brew tap homebrew/python
+  - $NOBREW || brew install gcc || brew link --overwrite gcc
   - $NOBREW || brew install numpy --without-python --with-python3
   - $NOBREW || devutils/makesdist
   - $NOBREW || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
@@ -84,7 +84,7 @@ install:
   - $NOBREW || $MYPIP install $MYPIPFLAGS "${MYTARBUNDLE}"
 
   - cd ${MYRUNDIR}
-  - MYGIT_REV=$(python3 -c "import ${MYNAME}.version as v; print(v.__gitsha__)")
+  - MYGIT_REV=$(python3 -c "import ${MYNAME}.version as v; print(v.__git_commit__)")
   - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
         echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
         exit 1;
