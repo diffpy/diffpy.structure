@@ -13,7 +13,6 @@
 #
 ##############################################################################
 
-
 '''Space group classes and definitions from mmLib and sgtbx.
 '''
 
