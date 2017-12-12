@@ -13,7 +13,6 @@
 #
 ##############################################################################
 
-
 '''Extra space group representations generated using sgtbx module from cctbx.
 Import of this module extends the SpaceGroupList in the SpaceGroups module.
 Notable variables:
