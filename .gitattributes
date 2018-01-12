@@ -4,4 +4,4 @@
 /conda-recipe/  export-ignore
 /devutils  export-ignore
 /doc  export-ignore
-gitarchive.cfg  export-subst
+.gitarchive.cfg  export-subst
