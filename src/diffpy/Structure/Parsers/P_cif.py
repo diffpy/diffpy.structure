@@ -377,6 +377,9 @@ class P_cif(StructureParser):
         sitedatalist = zip(*atom_site_loop.values())
         for values in sitedatalist:
             curlabel = values[ilb]
+            # skip entries that have invalid label
+            if curlabel == '?':
+                continue
             self.labelindex[curlabel] = len(self.stru)
             self.stru.addNewAtom()
             a = self.stru.getLastAtom()
@@ -615,8 +618,8 @@ def leading_float(s):
     mx = rx_float.match(sbare)
     if mx:
         rv = float(mx.group())
-    elif sbare == '.':
-        # ICSD CIF files may contain "." for unknown Uiso
+    elif sbare == '.' or sbare == '?':
+        # CIF files may contain "." or "?" for unknown values
         rv = 0.0
     else:
         rv = float(sbare)
