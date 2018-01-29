@@ -233,6 +233,17 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(4, len(grph2))
         return
 
+    def test_nosites_cif(self):
+        """Test reading of CIF file with no valid sites.
+        """
+        ptest = self.ptest
+        stru = ptest.parseFile(datafile('nosites.cif'))
+        self.assertEqual(0, len(stru))
+        self.assertEqual(10.413, stru.lattice.a)
+        self.assertEqual(10.413, stru.lattice.b)
+        self.assertEqual(10.413, stru.lattice.c)
+        return
+
     def test_getParser(self):
         """Test passing of eps keyword argument by getParser function.
         """
