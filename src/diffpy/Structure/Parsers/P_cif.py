@@ -377,6 +377,9 @@ class P_cif(StructureParser):
         sitedatalist = zip(*atom_site_loop.values())
         for values in sitedatalist:
             curlabel = values[ilb]
+            # skip entries that have invalid label
+            if curlabel == '?':
+                continue
             self.labelindex[curlabel] = len(self.stru)
             self.stru.addNewAtom()
             a = self.stru.getLastAtom()
