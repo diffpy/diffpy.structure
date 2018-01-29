@@ -615,8 +615,8 @@ def leading_float(s):
     mx = rx_float.match(sbare)
     if mx:
         rv = float(mx.group())
-    elif sbare == '.':
-        # ICSD CIF files may contain "." for unknown Uiso
+    elif sbare == '.' or sbare == '?':
+        # CIF files may contain "." or "?" for unknown values
         rv = 0.0
     else:
         rv = float(sbare)
