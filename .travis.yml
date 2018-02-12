@@ -74,8 +74,8 @@ before_install:
 
 
 install:
-  - $NOMC || conda build --python=${MYPYTHON_VERSION} conda-recipe
-  - $NOMC || conda render --python=${MYPYTHON_VERSION} --output conda-recipe |
+  - $NOMC || conda build conda-recipe
+  - $NOMC || conda render --output conda-recipe |
                 sed 's,.*/,,; s/[.]tar[.]bz2$//; s/-/=/g' > /tmp/mypackage.txt
   - $NOMC || source activate testenv
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
