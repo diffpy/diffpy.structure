@@ -143,6 +143,8 @@ class TestGeneratorSite(unittest.TestCase):
         sg117 = GetSpaceGroup(117)
         sg143 = GetSpaceGroup(143)
         sg164 = GetSpaceGroup(164)
+        sg167h = GetSpaceGroup('H-3c')
+        sg167r = GetSpaceGroup('R-3c')
         sg186 = GetSpaceGroup(186)
         sg227 = GetSpaceGroup(227)
         g117c = GeneratorSite(sg117, [0, 0.5, 0])
@@ -155,6 +157,8 @@ class TestGeneratorSite(unittest.TestCase):
         g164f = GeneratorSite(sg164, (0.5, 0, 0.5))
         g164g = GeneratorSite(sg164, (x, 0, 0))
         g164h = GeneratorSite(sg164, (x, 0, 0.5))
+        gh167e = GeneratorSite(sg167h, (0.30624, 0.0, 0.25))
+        gr167e = GeneratorSite(sg167r, (0.1, 0.4, 0.25))
         g186c = GeneratorSite(sg186, (0.1695, 1.0 - 0.1695, 0.6365))
         g227a = GeneratorSite(sg227, [0, 0, 0])
         g227c = GeneratorSite(sg227, 3*[1./8])
@@ -166,6 +170,7 @@ class TestGeneratorSite(unittest.TestCase):
                 'g143c' : g143c,  'g143d' : g143d,
                 'g164e' : g164e,  'g164f' : g164f,
                 'g164g' : g164g,  'g164h' : g164h,
+                'gh167e' : gh167e, 'gr167e' : gr167e,
                 'g186c' : g186c,
                 'g227a' : g227a,  'g227c' : g227c,
                 'g227oa' : g227oa,  'g227oc' : g227oc
@@ -190,6 +195,8 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual(3,  self.g164f.multiplicity)
         self.assertEqual(6,  self.g164g.multiplicity)
         self.assertEqual(6,  self.g164h.multiplicity)
+        self.assertEqual(18,  self.gh167e.multiplicity)
+        self.assertEqual(6,  self.gr167e.multiplicity)
         self.assertEqual(8,  self.g227a.multiplicity)
         self.assertEqual(16, self.g227c.multiplicity)
         self.assertEqual(8,  self.g227oa.multiplicity)
@@ -232,10 +239,12 @@ class TestGeneratorSite(unittest.TestCase):
                    'U12':'D', 'U13':'E', 'U23':'F' }
         rule05 = { 'U11':'A', 'U22':'A', 'U33':'C',
                    'U12':'D', 'U13':'0', 'U23':'0' }
+        rule06 = { 'U11':'A', 'U22':'A', 'U33':'C',
+                   'U12':'D', 'U13':'E', 'U23':'E' }
         rule07 = { 'U11':'A', 'U22':'A', 'U33':'C',
                    'U12':'D', 'U13':'E', 'U23':'-E' }
         rule15 = { 'U11':'A', 'U22':'B', 'U33':'C',
-                   'U12':'0.5*B', 'U13':'0.5*E', 'U23':'E' }
+                   'U12':'0.5*B', 'U13':'0.5*F', 'U23':'F' }
         rule16 = { 'U11':'A', 'U22':'A', 'U33':'C',
                    'U12':'0.5*A', 'U13':'0', 'U23':'0' }
         rule17 = { 'U11':'A', 'U22':'A', 'U33':'A',
@@ -272,6 +281,11 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual(rule17, ufm)
         ufm = self.g227oc.UFormula(self.g227oc.xyz, smbl)
         self.assertEqual(rule18, ufm)
+        # SG 167 in hexagonal and rhombohedral setting
+        ufm = self.gh167e.UFormula(self.gh167e.xyz, smbl)
+        self.assertEqual(rule15, ufm)
+        ufm = self.gr167e.UFormula(self.gr167e.xyz, smbl)
+        self.assertEqual(rule06, ufm)
         return
 
 
@@ -314,6 +328,15 @@ class TestGeneratorSite(unittest.TestCase):
         for ufms in symcon.UFormulas():
             for n, fm in ufms.items():
                 self.assertEqual(uisod[n], eval(fm, upd))
+        return
+
+
+    def test_UFormula_self_reference(self):
+        "Ensure U formulas have no self reference such as U13=0.5*U13."
+        for g in self.generators.values():
+            badformulas = [(n, fm) for n, fm in g.UFormula(g.xyz).items()
+                           if n in fm and n != fm]
+            self.assertEqual([], badformulas)
         return
 
 
