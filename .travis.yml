@@ -28,6 +28,7 @@ branches:
 
 before_install:
   - MYNAME=diffpy.structure
+  - MYCOMMIT="$(git rev-parse HEAD)"
   - umask 022
   - git fetch origin --tags
   - if ${MYUSEMC}; then
@@ -85,8 +86,8 @@ install:
 
   - cd ${MYRUNDIR}
   - MYGIT_REV=$(python3 -c "import ${MYNAME}.version as v; print(v.__git_commit__)")
-  - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
-        echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
+  - if [[ "${MYCOMMIT}" != "${MYGIT_REV}" ]]; then
+        echo "Version mismatch ${MYCOMMIT} vs ${MYGIT_REV}.";
         exit 1;
     fi
 
