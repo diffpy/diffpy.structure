@@ -26,7 +26,8 @@ from diffpy.Structure.SymmetryUtilities import (isSpaceGroupLatPar,
         GeneratorSite, ExpandAsymmetricUnit, SymmetryConstraints)
 from diffpy.Structure.SymmetryUtilities import _Position2Tuple
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class TestRoutines(unittest.TestCase):
 
     def setUp(self):
@@ -92,7 +93,8 @@ class TestRoutines(unittest.TestCase):
 
 # End of class TestRoutines
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class Test_Position2Tuple(unittest.TestCase):
 
     def setUp(self):
@@ -126,7 +128,8 @@ class Test_Position2Tuple(unittest.TestCase):
 
 # End of class Test_Position2Tuple
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class TestGeneratorSite(unittest.TestCase):
 
     generators = {}
@@ -350,7 +353,8 @@ class TestGeneratorSite(unittest.TestCase):
 
 # End of class TestGeneratorSite
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class TestSymmetryConstraints(unittest.TestCase):
 
     def setUp(self):
@@ -479,6 +483,8 @@ class TestSymmetryConstraints(unittest.TestCase):
 #       return
 
 # End of class TestSymmetryConstraints
+
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
