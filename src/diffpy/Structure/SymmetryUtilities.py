@@ -456,7 +456,8 @@ class GeneratorSite(object):
         for Usp in self.Uspace:
             Uspflat = Usp.flatten()
             Uspnorm2 = numpy.dot(Uspflat, Uspflat)
-            permidx = numpy.where(Uspflat[diagorder])[0][0]
+            permidx = next(i for i, x in enumerate(Uspflat[diagorder])
+                           if x == 1)
             idx = diagorder[permidx]
             vname = self.idx2Usymbol[idx]
             varvalue = numpy.dot(Uijflat, Uspflat) / Uspnorm2

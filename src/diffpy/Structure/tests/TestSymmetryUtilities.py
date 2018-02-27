@@ -235,7 +235,7 @@ class TestGeneratorSite(unittest.TestCase):
         rule07 = { 'U11':'A', 'U22':'A', 'U33':'C',
                    'U12':'D', 'U13':'E', 'U23':'-E' }
         rule15 = { 'U11':'A', 'U22':'B', 'U33':'C',
-                   'U12':'0.5*B', 'U13':'0.5*E', 'U23':'E' }
+                   'U12':'0.5*B', 'U13':'0.5*F', 'U23':'F' }
         rule16 = { 'U11':'A', 'U22':'A', 'U33':'C',
                    'U12':'0.5*A', 'U13':'0', 'U23':'0' }
         rule17 = { 'U11':'A', 'U22':'A', 'U33':'A',
@@ -317,7 +317,6 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_UFormula_self_reference(self):
         "Ensure U formulas have no self reference such as U13=0.5*U13."
         for g in self.generators.values():
