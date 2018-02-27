@@ -314,6 +314,16 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
 
+    @unittest.expectedFailure
+    def test_UFormula_self_reference(self):
+        "Ensure U formulas have no self reference such as U13=0.5*U13."
+        for g in self.generators.values():
+            badformulas = [(n, fm) for n, fm in g.UFormula(g.xyz).items()
+                           if n in fm and n != fm]
+            self.assertEqual([], badformulas)
+        return
+
+
     def test__findUParameters(self):
         """check GeneratorSite._findUParameters()
         """
