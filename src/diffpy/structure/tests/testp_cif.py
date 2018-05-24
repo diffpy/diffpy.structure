@@ -260,6 +260,15 @@ class TestP_cif(unittest.TestCase):
         return
 
 
+    def test_badspacegroup_cif(self):
+        """Test reading of CIF file with unrecognized space group.
+        """
+        ptest = self.ptest
+        filename = datafile('badspacegroup.cif')
+        self.assertRaises(StructureFormatError, ptest.parseFile, filename)
+        return
+
+
     def test_getParser(self):
         """Test passing of eps keyword argument by getParser function.
         """

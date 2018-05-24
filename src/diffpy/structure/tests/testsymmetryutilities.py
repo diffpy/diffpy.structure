@@ -61,6 +61,13 @@ class TestRoutines(unittest.TestCase):
         self.assertTrue(isSpaceGroupLatPar(cubic, 3, 3, 3, 90, 90, 90))
         return
 
+    def test_sgtbx_spacegroup_aliases(self):
+        """check GetSpaceGroup for non-standard aliases from sgtbx.
+        """
+        self.assertIs(GetSpaceGroup('Fm3m'), GetSpaceGroup(225))
+        self.assertIs(GetSpaceGroup('Ia3d'), GetSpaceGroup('I a -3 d'))
+        return
+
     def test_expandPosition(self):
         """check expandPosition()
         """

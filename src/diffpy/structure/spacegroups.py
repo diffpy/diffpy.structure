@@ -84,6 +84,30 @@ def _buildSGLookupTable():
         _sg_lookup_table.setdefault(sg.short_name, sg)
         _sg_lookup_table.setdefault(sg.pdb_name, sg)
         _sg_lookup_table.setdefault(sg.alt_name, sg)
+    # extra aliases obtained from matching code in
+    # cctbx::sgtbx::symbols::find_main_symbol_dict_entry
+    alias_hmname = [
+        ('Pm3', 'P m -3'),
+        ('Pn3', 'P n -3'),
+        ('Fm3', 'F m -3'),
+        ('Fd3', 'F d -3'),
+        ('Im3', 'I m -3'),
+        ('Pa3', 'P a -3'),
+        ('Ia3', 'I a -3'),
+        ('Pm3m', 'P m -3 m'),
+        ('Pn3n', 'P n -3 n'),
+        ('Pm3n', 'P m -3 n'),
+        ('Pn3m', 'P n -3 m'),
+        ('Fm3m', 'F m -3 m'),
+        ('Fm3c', 'F m -3 c'),
+        ('Fd3m', 'F d -3 m'),
+        ('Fd3c', 'F d -3 c'),
+        ('Im3m', 'I m -3 m'),
+        ('Ia3d', 'I a -3 d'),
+    ]
+    for a, hm in alias_hmname:
+        hmbare = hm.replace(' ', '')
+        _sg_lookup_table.setdefault(a, _sg_lookup_table[hmbare])
     # make sure None does not sneak into the dictionary
     if None in _sg_lookup_table:
         del _sg_lookup_table[None]

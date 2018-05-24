@@ -1,0 +1,49 @@
+#------------------------------------------------------------------------------
+#$Date: 2015-01-27 21:58:39 +0200 (Tue, 27 Jan 2015) $
+#$Revision: 130149 $
+#$URL: svn://www.crystallography.net/cod/cif/1/10/01/1100106.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_1100106
+_publ_section_title              'Clay Montmorillonite'
+_chemical_name_common            Montmorillonite
+_symmetry_cell_setting           monoclinic
+_symmetry_space_group_name_H-M   C2:b1
+_audit_update_record             'Last update Thu Dec 18 14:12:16 CET 2003'
+_cell_angle_alpha                90
+_cell_angle_beta                 100.3(1)
+_cell_angle_gamma                90
+_cell_formula_units_Z            1
+_cell_length_a                   5.411(4)
+_cell_length_b                   9.0(5)
+_cell_length_c                   10.25(2)
+_refine_ls_goodness_of_fit_all   1.1109964
+_refine_ls_R_factor_all          0.04240644
+_refine_ls_wR_factor_all         0.06303699
+_cod_database_code               1100106
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_occupancy
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+Al1 Al3+ 1.00000 0 0 0 0.5
+Al2 Al3+ 1.00000 0 0.321 0 0.5
+Mg1 Mg2+ 1.00000 0 0.654 0 0.5
+Si1 Si4+ 1.00000 0.432 0.333 0.27 0.5
+Si2 Si4+ 1.00000 0.432 0.662 0.27 0.5
+K1 K1+ 1.00000 0.5 0 0.5 0.5
+O1 O2- 1.00000 0.489 0.496 0.335 0.8
+O2 O2- 1.00000 0.173 0.725 0.335 0.8
+O3 O2- 1.00000 0.17 0.268 0.32 0.8
+O4 O2- 1.00000 0.334 -0.024 0.105 0.8
+O5 O2- 1.00000 0.417 0.656 0.109 0.8
+O6 O2- 1.00000 0.343 0.347 0.109 0.8
