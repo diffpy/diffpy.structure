@@ -479,6 +479,9 @@ class P_cif(StructureParser):
                     short_name=new_short_name,
                     crystal_system=new_crystal_system,
                     symop_list=symop_list)
+        if self.spacegroup is None:
+            emsg = "CIF file has unknown space group identifier {!r}."
+            raise StructureFormatError(emsg.format(sgid))
         self._expandAsymmetricUnit()
         return
 
