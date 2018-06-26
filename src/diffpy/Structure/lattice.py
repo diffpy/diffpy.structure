@@ -192,9 +192,9 @@ class Lattice(object):
                 dtype=float )
         # standard Cartesian coordinates of lattice vectors
         self.stdbase = numpy.array( [
-                [ 1.0/ar,    -cgr/sgr/ar,   cb*self.a ],
-                [ 0.0,        self.b*sa,    self.b*ca ],
-                [ 0.0,        0.0,          self.c    ] ],
+                [ self.a,     cg*self.b,   cb*self.c ],
+                [ 0.0,        self.b*sg,   -car*sb*self.c ],
+                [ 0.0,        0.0,          1/self.cr    ] ],
                 dtype=float )
         # Cartesian coordinates of lattice vectors
         self.base = numpy.dot(self.stdbase, self.baserot)
@@ -248,11 +248,11 @@ class Lattice(object):
         self._betar = math.degrees(math.acos(cbr))
         self._gammar = math.degrees(math.acos(cgr))
         # standard orientation of lattice vectors
-        self.stdbase = numpy.array([
-                [ 1.0/ar,   -cgr/sgr/ar,    cb*a ],
-                [ 0.0,       b*sa,          b*ca ],
-                [ 0.0,       0.0,           c    ]],
-                dtype=float)
+        self.stdbase = numpy.array( [
+                [ self.a,     cg*self.b,   cb*self.c ],
+                [ 0.0,        self.b*sg,   -car*sb*self.c ],
+                [ 0.0,        0.0,          1/self.cr    ] ],
+                dtype=float )
         # calculate unit cell rotation matrix,  base = stdbase*baserot
         self.baserot = numpy.dot(numalg.inv(self.stdbase), self.base)
         self.recbase = numalg.inv(self.base)
