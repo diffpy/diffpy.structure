@@ -69,7 +69,6 @@ before_install:
   - $NOBREW || brew update
   - $NOBREW || brew upgrade python
   - $NOBREW || brew install gcc || brew link --overwrite gcc
-  - $NOBREW || brew install --without-python@2 numpy
   - $NOBREW || devutils/makesdist
   - $NOBREW || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
