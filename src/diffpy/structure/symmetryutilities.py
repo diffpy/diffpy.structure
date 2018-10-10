@@ -81,7 +81,7 @@ def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
 # compiled per every single call.
 
 _rx_constant_formula = re.compile(
-    '[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)??(/[-+]?\d+)?$')
+    r'[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)??(/[-+]?\d+)?$')
 
 def isconstantFormula(s):
     """Check if formula string is constant.  True when argument
