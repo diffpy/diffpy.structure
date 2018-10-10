@@ -144,7 +144,7 @@ def cleanUp(pd):
 def parseFormula(formula):
     """parse chemical formula and return a list of elements"""
     # remove all blanks
-    formula = re.sub('\s', '', formula)
+    formula = re.sub(r'\s', '', formula)
     if not re.match('^[A-Z]', formula):
         raise RuntimeError("InvalidFormula '%s'" % formula)
     elcnt = re.split('([A-Z][a-z]?)', formula)[1:]
