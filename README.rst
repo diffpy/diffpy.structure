@@ -33,7 +33,7 @@ the following software:
 * ``setuptools`` - software distribution tools for Python
 * ``NumPy`` - numerical mathematics and fast array operations for Python
 
-We recommend to use `Anaconda Python <https://www.continuum.io/downloads>`_
+We recommend to use `Anaconda Python <https://www.anaconda.com/download>`_
 as it allows to install all software dependencies together with
 diffpy.structure.  For other Python distributions it is necessary to
 install the required software separately.  As an example on Ubuntu
