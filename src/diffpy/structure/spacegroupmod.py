@@ -206,7 +206,7 @@ class SpaceGroup:
     num_primitive_sym_equiv : int
         The number of symmetry equivalent sites in a primitive unit cell.
     short_name : str
-        The short Hermann–Mauguin symbol of the space group.
+        The short Hermann-Mauguin symbol of the space group.
     alt_name : str
         Alternative space group symbol consistent with FullProf.
     point_group_name : str
@@ -214,7 +214,7 @@ class SpaceGroup:
     crystal_system : str
         The crystal system of this space group.
     pdb_name : str
-        The full Hermann–Mauguin symbol of the space group.
+        The full Hermann-Mauguin symbol of the space group.
     symop_list : list of SymOp
         The symmetry operations contained in this space group.
 
@@ -231,7 +231,7 @@ class SpaceGroup:
     num_primitive_sym_equiv : int
         The number of symmetry equivalent sites in a primitive unit cell.
     short_name : str
-        The short Hermann–Mauguin symbol of the space group.
+        The short Hermann-Mauguin symbol of the space group.
     alt_name : str
         Alternative space group symbol consistent with FullProf.
         Deprecated.
@@ -242,7 +242,7 @@ class SpaceGroup:
         ``"TRICLINIC", "MONOCLINIC", "ORTHORHOMBIC", "TETRAGONAL",
         "TRIGONAL" "HEXAGONAL", "CUBIC"``.
     pdb_name : str
-        The full Hermann–Mauguin symbol of the space group.
+        The full Hermann-Mauguin symbol of the space group.
     symop_list : list of SymOp
         A list of `SymOp` objects for all symmetry operations
         in this space group.
