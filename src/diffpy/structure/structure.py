@@ -671,4 +671,17 @@ class Structure(list):
         rv.__dict__.update([(k, getattr(self, k)) for k in rv.__dict__])
         return rv
 
+    # Python 2 Compatibility -------------------------------------------------
+
+    if six.PY2:
+
+        def __getslice__(self, lo, hi):
+            return self.__getitem__(slice(lo, hi))
+
+        def __setslice__(self, lo, hi, sequence):
+            self.__setitem__(slice(lo, hi), sequence)
+            return
+
+    # ------------------------------------------------------------------------
+
 # End of class Structure
