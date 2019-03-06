@@ -317,7 +317,7 @@ class Structure(list):
         """
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
-        super().append(adup)
+        super(Structure, self).append(adup)
         return
 
 
@@ -333,7 +333,7 @@ class Structure(list):
         """
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
-        super().insert(idx, adup)
+        super(Structure, self).insert(idx, adup)
         return
 
 
@@ -349,7 +349,7 @@ class Structure(list):
         """
         adups = map(Atom, atoms) if copy else atoms
         setlat = lambda a: (setattr(a, 'lattice', self.lattice), a)[-1]
-        super().extend(setlat(a) for a in adups)
+        super(Structure, self).extend(setlat(a) for a in adups)
         return
 
 
@@ -376,11 +376,11 @@ class Structure(list):
         """
         if isinstance(idx, slice):
             rv = self.__emptySharedStructure()
-            lst = super().__getitem__(idx)
+            lst = super(Structure, self).__getitem__(idx)
             rv.extend(lst, copy=False)
             return rv
         try:
-            rv = super().__getitem__(idx)
+            rv = super(Structure, self).__getitem__(idx)
             return rv
         except TypeError:
             pass
@@ -445,14 +445,14 @@ class Structure(list):
                 return a
             v1 = value
             if copy:
-                keep = set(super().__getitem__(idx))
+                keep = set(super(Structure, self).__getitem__(idx))
                 v1 = (a if a in keep else Atom(a) for a in value)
             vfinal = filter(_fixlat, v1)
         # handle scalar assingment
         else:
             vfinal = Atom(value) if copy else value
             vfinal.lattice = self.lattice
-        super().__setitem__(idx, vfinal)
+        super(Structure, self).__setitem__(idx, vfinal)
         return
 
 
