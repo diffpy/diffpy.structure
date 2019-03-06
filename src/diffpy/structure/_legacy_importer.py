@@ -35,16 +35,15 @@ class FindRenamedStructureModule(importlib.abc.MetaPathFinder):
 
     prefix = 'diffpy.Structure.'
 
-    @classmethod
-    def find_spec(cls, fullname, path=None, target=None):
+    def find_spec(self, fullname, path=None, target=None):
         # only handle submodules of diffpy.Structure
-        if not fullname.startswith(cls.prefix):
+        if not fullname.startswith(self.prefix):
             return None
         lcname = fullname.lower()
         spec = importlib.util.find_spec(lcname)
         if spec is not None:
             spec.name = fullname
-            spec.loader = MapRenamedStructureModule
+            spec.loader = MapRenamedStructureModule()
         return spec
 
 # end of class FindRenamedStructureModule
@@ -58,8 +57,7 @@ class MapRenamedStructureModule(importlib.abc.Loader):
     Import the current module and alias it under the old name.
     """
 
-    @staticmethod
-    def create_module(spec):
+    def create_module(self, spec):
         lcname = spec.name.lower()
         mod = importlib.import_module(lcname)
         sys.modules[spec.name] = mod
@@ -67,22 +65,18 @@ class MapRenamedStructureModule(importlib.abc.Loader):
         return mod
 
 
-    @staticmethod
-    def exec_module(module):
+    def exec_module(self, module):
         return
 
 # end of class MapRenamedStructureModule
 
 # ----------------------------------------------------------------------------
 
-# import diffpy.Structure with deprecation warning
-import diffpy.structure
-sys.modules['diffpy.Structure'] = diffpy.structure
-
+# show deprecation warning for diffpy.Structure
 warn(WMSG.format('diffpy.Structure', 'diffpy.structure'),
      DeprecationWarning, stacklevel=2)
 
 # install meta path finder for diffpy.Structure submodules
-sys.meta_path.append(FindRenamedStructureModule)
+sys.meta_path.append(FindRenamedStructureModule())
 
 # End of file
