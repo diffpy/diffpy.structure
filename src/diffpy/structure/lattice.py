@@ -50,7 +50,7 @@ def sind(x):
 
 # ----------------------------------------------------------------------------
 
-class Lattice:
+class Lattice(object):
     """
     General coordinate system and associated operations.
 

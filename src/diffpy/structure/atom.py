@@ -26,7 +26,7 @@ _UtoB = 1.0/_BtoU
 
 # ----------------------------------------------------------------------------
 
-class Atom:
+class Atom(object):
     """
     Storage of structure information relevant for a single atom.
 

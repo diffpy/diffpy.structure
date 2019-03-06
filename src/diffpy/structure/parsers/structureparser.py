@@ -16,7 +16,7 @@
 """Definition of StructureParser, a base class for specific parsers.
 """
 
-class StructureParser:
+class StructureParser(object):
     """Base class for all structure parsers.
 
     Data members:

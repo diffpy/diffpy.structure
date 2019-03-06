@@ -109,7 +109,7 @@ Tr_0_0_16     = numpy.array([     0.0,     0.0, 1.0/6.0 ], float)
 Tr_34_14_34   = numpy.array([ 3.0/4.0, 1.0/4.0, 3.0/4.0 ], float)
 
 
-class SymOp:
+class SymOp(object):
     """
     The transformation of coordinates to a symmetry-related position.
 
@@ -191,7 +191,7 @@ class SymOp:
 # End of class SymOp
 
 
-class SpaceGroup:
+class SpaceGroup(object):
     """Definition and basic operations for a specific space group.
 
     Provide standard names and all symmetry operations contained in
