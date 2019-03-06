@@ -20,12 +20,25 @@ The imported camel-case modules are aliases for the current module
 instances.  Their `__name__` attributes are thus all in lower-case.
 
 This module is deprecated and will be removed in the future.
+
+NOTE: this module must be only imported from `diffpy.Structure`.
 """
 
 
 import sys
-import importlib.abc
 from warnings import warn
+
+PY2 = sys.version_info[0] == 2
+if PY2:
+    import importlib
+    class mock_importlib_abc(object):
+        MetaPathFinder = object
+        Loader = object
+    importlib.abc = mock_importlib_abc
+    sys.modules.setdefault('importlib.abc', mock_importlib_abc)
+    del mock_importlib_abc
+
+import importlib.abc
 
 WMSG = "Module {!r} is deprecated.  Use {!r} instead."
 
@@ -45,6 +58,15 @@ class FindRenamedStructureModule(importlib.abc.MetaPathFinder):
             spec.name = fullname
             spec.loader = MapRenamedStructureModule()
         return spec
+
+
+    if PY2:
+        def find_module(self, fullname, path):
+            # only handle submodules of diffpy.Structure
+            loader = None
+            if fullname.startswith(self.prefix):
+                loader = MapRenamedStructureModule()
+            return loader
 
 # end of class FindRenamedStructureModule
 
@@ -67,6 +89,15 @@ class MapRenamedStructureModule(importlib.abc.Loader):
 
     def exec_module(self, module):
         return
+
+
+    if PY2:
+        from collections import namedtuple
+        ModuleSpec = namedtuple('ModuleSpec', 'name')
+
+        def load_module(self, fullname):
+            spec = self.ModuleSpec(fullname)
+            return self.create_module(spec)
 
 # end of class MapRenamedStructureModule
 
