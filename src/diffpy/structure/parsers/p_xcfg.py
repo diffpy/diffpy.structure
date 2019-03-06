@@ -18,6 +18,7 @@
 import sys
 import re
 import numpy
+import six
 
 from diffpy.structure import Structure
 from diffpy.structure import StructureFormatError
@@ -264,7 +265,8 @@ class P_xcfg(StructureParser):
         except (ValueError, IndexError):
             emsg = "%d: file is not in XCFG format" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError(emsg).with_traceback(exc_traceback)
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         return stru
 
 

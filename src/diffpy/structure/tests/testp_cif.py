@@ -18,6 +18,7 @@
 
 import unittest
 import numpy
+import six
 
 from diffpy.structure.tests.testutils import datafile
 from diffpy.structure.parsers.p_cif import P_cif, leading_float, getSymOp
@@ -156,7 +157,7 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(str, type(c1.label))
         self.assertEqual('C1', c1.label)
         # filename with unicode encoding
-        ugraphite = P_cif().parseFile(str(self.graphiteciffile))
+        ugraphite = P_cif().parseFile(six.u(self.graphiteciffile))
         self.assertEqual(4, len(ugraphite))
         # File with full space group name
         ptei = P_cif().parseFile(self.teiciffile)

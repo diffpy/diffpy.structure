@@ -16,6 +16,8 @@
 '''Space group classes and definitions from mmLib and sgtbx.
 '''
 
+import six
+
 from diffpy.structure.spacegroupmod import SymOp, SpaceGroup
 from diffpy.structure.mmlibspacegroups import mmLibSpaceGroupList
 from diffpy.structure.sgtbxspacegroups import sgtbxSpaceGroupList
@@ -39,7 +41,7 @@ def GetSpaceGroup(sgid):
         return _sg_lookup_table[sgid]
     # Try different versions of sgid, first make sure it is a string
     emsg = "Unknown space group identifier %r" % sgid
-    if not isinstance(sgid, str):
+    if not isinstance(sgid, six.string_types):
         raise ValueError(emsg)
     # short name case adjusted
     sgkey = sgid.strip()

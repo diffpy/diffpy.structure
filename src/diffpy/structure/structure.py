@@ -20,6 +20,7 @@ import collections
 import copy
 import numpy
 import codecs
+import six
 
 from diffpy.structure.lattice import Lattice
 from diffpy.structure.atom import Atom
@@ -385,10 +386,10 @@ class Structure(list):
         except TypeError:
             pass
         # check if there is any string label that should be resolved
-        scalarstringlabel = isinstance(idx, str)
+        scalarstringlabel = isinstance(idx, six.string_types)
         hasstringlabel = scalarstringlabel or (
             isinstance(idx, collections.Iterable) and
-            any(isinstance(ii, str) for ii in idx))
+            any(isinstance(ii, six.string_types) for ii in idx))
         # if not, use numpy indexing to resolve idx
         if not hasstringlabel:
             idx1 = idx

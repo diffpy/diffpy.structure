@@ -17,11 +17,12 @@
 """
 
 import sys
+from functools import reduce
+import six
 
 from diffpy.structure import PDFFitStructure, Lattice
 from diffpy.structure import StructureFormatError
 from diffpy.structure.parsers import StructureParser
-from functools import reduce
 
 class P_discus(StructureParser):
     """Parser for DISCUS structure format.  The parser chokes
@@ -96,7 +97,8 @@ class P_discus(StructureParser):
         except (ValueError, IndexError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: file is not in DISCUS format" % self.nl
-            raise StructureFormatError(emsg).with_traceback(exc_traceback)
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         return self.stru
 
 

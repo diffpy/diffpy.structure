@@ -23,6 +23,7 @@ import re
 import copy
 from contextlib import contextmanager
 import numpy
+import six
 
 from diffpy.structure import Structure, Lattice, Atom
 from diffpy.structure import StructureFormatError
@@ -250,10 +251,9 @@ class P_cif(StructureParser):
 
         Return Structure instance or raise StructureFormatError.
         """
-        from io import StringIO
         self.ciffile = None
         self.filename = ''
-        fp = StringIO(s)
+        fp = six.StringIO(s)
         rv = self._parseCifDataSource(fp)
         return rv
 
@@ -319,7 +319,8 @@ class P_cif(StructureParser):
         except (StarError, ValueError, IndexError) as err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err).strip()
-            raise StructureFormatError(emsg).with_traceback(exc_traceback)
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         return self.stru
 
 
@@ -366,7 +367,8 @@ class P_cif(StructureParser):
         except KeyError as err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err)
-            raise StructureFormatError(emsg).with_traceback(exc_traceback)
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         self.stru.lattice = Lattice(*latpars)
         return
 

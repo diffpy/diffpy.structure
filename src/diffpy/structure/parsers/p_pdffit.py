@@ -18,6 +18,7 @@
 
 import sys
 import numpy
+import six
 
 from diffpy.structure import PDFFitStructure, Lattice
 from diffpy.structure import StructureFormatError
@@ -156,7 +157,8 @@ class P_pdffit(StructureParser):
         except (ValueError, IndexError):
             emsg = "%d: file is not in PDFfit format" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError(emsg).with_traceback(exc_traceback)
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         return stru
 
 
