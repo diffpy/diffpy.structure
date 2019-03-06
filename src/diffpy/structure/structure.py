@@ -19,6 +19,8 @@
 import collections
 import copy
 import numpy
+import codecs
+
 from diffpy.structure.lattice import Lattice
 from diffpy.structure.atom import Atom
 from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol
@@ -279,7 +281,7 @@ class Structure(list):
         p = getParser(format)
         p.filename = filename
         s = p.tostring(self)
-        with open(filename, 'w', encoding='UTF-8', newline='\n') as fp:
+        with codecs.open(filename, 'w', encoding='UTF-8') as fp:
             fp.write(s)
         return
 

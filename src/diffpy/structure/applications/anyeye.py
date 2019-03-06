@@ -33,6 +33,8 @@ Options:
   -V, --version     show script version and exit
 """
 
+from __future__ import print_function
+
 import sys
 import os
 import re

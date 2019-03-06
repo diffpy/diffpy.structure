@@ -31,6 +31,8 @@ Options:
   -V, --version   show script version
 """
 
+from __future__ import print_function
+
 import sys
 
 from diffpy.structure import Structure, StructureFormatError
