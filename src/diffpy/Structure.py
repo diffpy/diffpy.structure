@@ -24,65 +24,11 @@ This module is deprecated and will be removed in the future.
 
 
 import sys
-import importlib.abc
-from warnings import warn
 
-WMSG = "Module {!r} is deprecated.  Use {!r} instead."
+# install legacy import hooks
+import diffpy.structure._legacy_importer
 
-# ----------------------------------------------------------------------------
-
-class FindRenamedStructureModule(importlib.abc.MetaPathFinder):
-
-    prefix = 'diffpy.Structure.'
-
-    @classmethod
-    def find_spec(cls, fullname, path=None, target=None):
-        # only handle submodules of diffpy.Structure
-        if not fullname.startswith(cls.prefix):
-            return None
-        lcname = fullname.lower()
-        spec = importlib.util.find_spec(lcname)
-        if spec is not None:
-            spec.name = fullname
-            spec.loader = MapRenamedStructureModule
-        return spec
-
-# end of class FindRenamedStructureModule
-
-# ----------------------------------------------------------------------------
-
-class MapRenamedStructureModule(importlib.abc.Loader):
-    """
-    Loader for old camel-case module names.
-
-    Import the current module and alias it under the old name.
-    """
-
-    @staticmethod
-    def create_module(spec):
-        lcname = spec.name.lower()
-        mod = importlib.import_module(lcname)
-        sys.modules[spec.name] = mod
-        warn(WMSG.format(spec.name, lcname), DeprecationWarning, stacklevel=2)
-        return mod
-
-
-    @staticmethod
-    def exec_module(module):
-        return
-
-# end of class MapRenamedStructureModule
-
-# ----------------------------------------------------------------------------
-
-# import diffpy.Structure with deprecation warning
-import diffpy.structure
+# replace this module with the new one
 sys.modules['diffpy.Structure'] = diffpy.structure
-
-warn(WMSG.format('diffpy.Structure', 'diffpy.structure'),
-     DeprecationWarning, stacklevel=2)
-
-# install meta path finder for diffpy.Structure submodules
-sys.meta_path.append(FindRenamedStructureModule)
 
 # End of file
