@@ -49,7 +49,7 @@ def mmSpaceGroupFromSymbol(symbol):
     kw['num_primitive_sym_equiv'] = countUniqueRotations(symop_list)
     kw['short_name'] = sgsmbls.hermann_mauguin().replace(' ', '')
     pgt = sgsmbls.point_group_type()
-    pgn = "PG" + re.sub('-(\d)', '\\1bar', pgt)
+    pgn = "PG" + re.sub(r'-(\d)', '\\1bar', pgt)
     kw['point_group_name'] = pgn
     kw['crystal_system'] = sgsmbls.crystal_system().upper()
     kw['pdb_name'] = sgsmbls.hermann_mauguin()
