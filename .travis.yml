@@ -1,6 +1,4 @@
-# Use container-based travis workers
-sudo: false
-
+dist: xenial
 language: generic
 
 os:
@@ -13,11 +11,6 @@ env:
   - MYUSEMC=true MYPYTHON_VERSION=3.6
   - MYUSEMC=true MYPYTHON_VERSION=3.7
   - MYUSEMC=false
-
-matrix:
-  exclude:
-    - os: linux
-      env: MYUSEMC=false
 
 git:
   depth: 999999
@@ -32,14 +25,20 @@ before_install:
   - MYCOMMIT="$(git rev-parse HEAD)"
   - umask 022
   - git fetch origin --tags
+  - MYPYTHON=python; MYPIP=pip
+  - NOSYS=true; NOAPT=true; NOBREW=true; NOMC=true
   - if ${MYUSEMC}; then
-        NOBREW=true; NOMC=false;
-        MYPIP=pip;
-    else
-        NOBREW=false; NOMC=true;
-        MYPIP=pip3; MYPIPFLAGS="--user";
+        NOMC=false;
+    elif [[ ${TRAVIS_OS_NAME} == linux ]]; then
+        NOAPT=false; NOSYS=false;
+        MYPIPFLAGS="--user";
+    elif [[ ${TRAVIS_OS_NAME} == osx ]]; then
+        NOBREW=false; NOSYS=false;
+        MYPYTHON=python3;
+        MYPIP=pip3;
+        MYPIPFLAGS="--user";
     fi
-  - MYMCREPO=https://repo.continuum.io/miniconda
+  - MYMCREPO=https://repo.anaconda.com/miniconda
   - case ${TRAVIS_OS_NAME} in
     linux)
         MYMCBUNDLE=Miniconda3-latest-Linux-x86_64.sh ;;
@@ -61,31 +60,41 @@ before_install:
   - $NOMC || popd
   - $NOMC || source ~/mc/bin/activate base
   - $NOMC || conda update --yes conda
-  - $NOMC || conda install --yes conda-build jinja2
+  - $NOMC || conda install --yes conda-build conda-verify jinja2
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
-    # TODO - switch to the diffpy channel after release.
+  - $NOMC || conda config --add channels diffpy
+  # FIXME - keep just the "diffpy" channel for public release.
   - $NOMC || conda config --add channels diffpy/channel/dev
+
+  - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
+  - $NOAPT || PATH="$(echo "$PATH" | sed 's,:/opt/pyenv/[^:]*,,g')"
+  - $NOAPT || test "$(which python)" = "/usr/bin/python" || (
+                  which python; exit 1)
+  - $NOAPT || sudo apt-get update -qq
+  - $NOAPT || sudo apt-get install -y
+                  python-dev python-numpy python-setuptools build-essential
 
   - $NOBREW || test "${TRAVIS_OS_NAME}" = "osx" || exit $?
   - $NOBREW || brew update
   - $NOBREW || brew upgrade python
   - $NOBREW || brew install gcc || brew link --overwrite gcc
-  - $NOBREW || devutils/makesdist
-  - $NOBREW || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
+
+  - $NOSYS || devutils/makesdist
+  - $NOSYS || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
 
 install:
-  - $NOMC || conda build conda-recipe
-  - $NOMC || conda render --output conda-recipe |
+  - $NOMC || conda build --python=${MYPYTHON_VERSION} conda-recipe
+  - $NOMC || conda render --python=${MYPYTHON_VERSION} --output conda-recipe |
                 sed 's,.*/,,; s/[.]tar[.]bz2$//; s/-/=/g' > /tmp/mypackage.txt
   - $NOMC || source activate testenv
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
 
-  - $NOBREW || $MYPIP install $MYPIPFLAGS coverage
-  - $NOBREW || $MYPIP install $MYPIPFLAGS "${MYTARBUNDLE}"
+  - $NOSYS || $MYPIP install $MYPIPFLAGS coverage
+  - $NOSYS || $MYPIP install $MYPIPFLAGS "${MYTARBUNDLE}"
 
   - cd ${MYRUNDIR}
-  - MYGIT_REV=$(python3 -c "import ${MYNAME}.version as v; print(v.__git_commit__)")
+  - MYGIT_REV=$($MYPYTHON -c "import ${MYNAME}.version as v; print(v.__git_commit__)")
   - if [[ "${MYCOMMIT}" != "${MYGIT_REV}" ]]; then
         echo "Version mismatch ${MYCOMMIT} vs ${MYGIT_REV}.";
         exit 1;
@@ -93,7 +102,7 @@ install:
 
 
 before_script:
-  - $NOBREW || USER_BASE="$(python3 -c 'import site; print(site.USER_BASE)')"
+  - $NOBREW || USER_BASE="$($MYPYTHON -c 'import site; print(site.USER_BASE)')"
   - $NOBREW || PATH="${USER_BASE}/bin:${PATH}"
 
 
