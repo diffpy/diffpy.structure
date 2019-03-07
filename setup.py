@@ -14,6 +14,9 @@ from setuptools import setup, find_packages
 # Update when tagging a new release.
 FALLBACK_VERSION = '3.0a2.post0'
 
+# determine if we run with Python 3.
+PY3 = (sys.version_info[0] == 3)
+
 # versioncfgfile holds version data for git commit hash and date.
 # It must reside in the same directory as version.py.
 MYDIR = os.path.dirname(os.path.abspath(__file__))
@@ -35,7 +38,7 @@ def gitinfo():
 
 
 def getversioncfg():
-    if sys.version_info[0] >= 3:
+    if PY3:
         from configparser import RawConfigParser
     else:
         from ConfigParser import RawConfigParser
