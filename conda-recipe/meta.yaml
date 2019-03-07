@@ -28,6 +28,7 @@ requirements:
   build:
     - python >=3.5|2.7*
     - setuptools
+    - six
     - pycifrw
 
   run:
