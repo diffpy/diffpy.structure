@@ -518,7 +518,7 @@ class TestStructure(unittest.TestCase):
     def test_label(self):
         """check Structure.label
         """
-        cdse = Structure(self.cdse)
+        cdse = Structure(filename=cdsefile)
         self.assertEqual(4 * [''], cdse.label.tolist())
         cdse.assignUniqueLabels()
         self.assertEqual('Cd1 Cd2 Se1 Se2'.split(), cdse.label.tolist())
