@@ -9,6 +9,7 @@ source:
   git_url: ..
 
 build:
+  preserve_egg_dir: True
   noarch: python
 
   # entry_points:
