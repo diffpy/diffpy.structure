@@ -27,9 +27,9 @@ NOTE: this module must be only imported from `diffpy.Structure`.
 
 import sys
 from warnings import warn
+import six
 
-PY2 = sys.version_info[0] == 2
-if PY2:
+if six.PY2:
     import importlib
     class mock_importlib_abc(object):
         MetaPathFinder = object
@@ -60,7 +60,7 @@ class FindRenamedStructureModule(importlib.abc.MetaPathFinder):
         return spec
 
 
-    if PY2:
+    if six.PY2:
         def find_module(self, fullname, path):
             # only handle submodules of diffpy.Structure
             loader = None
@@ -91,7 +91,7 @@ class MapRenamedStructureModule(importlib.abc.Loader):
         return
 
 
-    if PY2:
+    if six.PY2:
         from collections import namedtuple
         ModuleSpec = namedtuple('ModuleSpec', 'name')
 
