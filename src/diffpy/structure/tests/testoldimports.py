@@ -41,10 +41,9 @@ class TestOldImports(unittest.TestCase):
     def test_00TopImport(self):
         """check import of diffpy.Structure
         """
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter('always', category=DeprecationWarning)
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore', category=DeprecationWarning)
             import diffpy.Structure as m0
-            self.assertIs(DeprecationWarning, w[0].category)
         self.assertIs(diffpy.structure, m0)
         # second import should raise no warning
         with warnings.catch_warnings():
