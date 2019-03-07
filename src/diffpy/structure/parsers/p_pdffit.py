@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -18,10 +18,12 @@
 
 import sys
 import numpy
+import six
 
-from diffpy.Structure import PDFFitStructure, Lattice
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.Parsers import StructureParser
+from diffpy.structure import PDFFitStructure, Lattice
+from diffpy.structure import StructureFormatError
+from diffpy.structure.parsers import StructureParser
+from functools import reduce
 
 class P_pdffit(StructureParser):
     """Parser for PDFfit structure format.
@@ -35,6 +37,7 @@ class P_pdffit(StructureParser):
         self.ignored_lines = []
         self.stru = None
         return
+
 
     def parseLines(self, lines):
         """Parse list of lines in PDFfit format.
@@ -154,10 +157,9 @@ class P_pdffit(StructureParser):
         except (ValueError, IndexError):
             emsg = "%d: file is not in PDFfit format" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, emsg, exc_traceback
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         return stru
-
-    # End of parseLines
 
 
     def toLines(self, stru):
@@ -217,11 +219,7 @@ class P_pdffit(StructureParser):
             lines.append( "    %18.8f %17.8f %17.8f" % sigUij )
         return lines
 
-    # End of toLines
-
-
-    # Protected methods
-
+    # Protected methods ------------------------------------------------------
 
     def _parse_shape(self, line):
         """Process shape line from PDFfit file and update self.stru
@@ -241,15 +239,12 @@ class P_pdffit(StructureParser):
             self.stru.pdffit['stepcut'] = float(words[2])
         else:
             emsg = 'Invalid type of particle shape correction %r' % shapetype
-            raise StructureFormatError, emsg
+            raise StructureFormatError(emsg)
         return
-
 
 # End of class P_pdffit
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser():
     return P_pdffit()
-
-# End of file

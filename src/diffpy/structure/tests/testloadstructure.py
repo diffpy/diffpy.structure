@@ -4,9 +4,9 @@
 """
 
 import unittest
-from diffpy.Structure.tests.testutils import datafile
-from diffpy.Structure import loadStructure
-from diffpy.Structure import Structure, PDFFitStructure, StructureFormatError
+from diffpy.structure.tests.testutils import datafile
+from diffpy.structure import loadStructure
+from diffpy.structure import Structure, PDFFitStructure, StructureFormatError
 
 
 ##############################################################################
@@ -22,6 +22,7 @@ class TestLoadStructure(unittest.TestCase):
                 loadStructure, f, 'xyz')
         return
 
+
     def test_discus(self):
         """check loading of discus file format
         """
@@ -29,6 +30,7 @@ class TestLoadStructure(unittest.TestCase):
         stru = loadStructure(f)
         self.assertTrue(type(stru) is PDFFitStructure)
         return
+
 
     def test_cif(self):
         """check loading of CIF file format
@@ -39,12 +41,14 @@ class TestLoadStructure(unittest.TestCase):
         self.assertFalse(isinstance(stru, PDFFitStructure))
         return
 
+
     def test_badfile(self):
         """check loading of CIF file format
         """
         f = datafile('Ni-bad.stru')
         self.assertRaises(StructureFormatError, loadStructure, f)
         return
+
 
     def test_goodkwarg(self):
         """check loading of CIF file and passing of parser keyword argument.
@@ -53,6 +57,7 @@ class TestLoadStructure(unittest.TestCase):
         stru = loadStructure(f, eps=1e-10)
         self.assertEqual(8, len(stru))
         return
+
 
     def test_badkwarg(self):
         """check loading of xyz file format with invalid keyword argument
@@ -63,7 +68,7 @@ class TestLoadStructure(unittest.TestCase):
 
 # End of class TestLoadStructure
 
+# ----------------------------------------------------------------------------
+
 if __name__ == '__main__':
     unittest.main()
-
-# End of file

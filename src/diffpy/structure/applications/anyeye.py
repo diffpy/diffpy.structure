@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -33,11 +33,13 @@ Options:
   -V, --version     show script version and exit
 """
 
+from __future__ import print_function
+
 import sys
 import os
 import re
 import signal
-from diffpy.Structure import StructureFormatError
+from diffpy.structure import StructureFormatError
 
 # parameter dictionary
 pd = {  'formula' : None,
@@ -56,16 +58,16 @@ def usage(style = None):
         msg = msg.split("\n")[1] + "\n" + \
                 "Try `%s --help' for more information." % myname
     else:
-        from diffpy.Structure.Parsers import inputFormats
+        from diffpy.structure.parsers import inputFormats
         fmts = [ f for f in inputFormats() if f != 'auto' ]
         msg = msg.replace("inputFormats", " ".join(fmts))
-    print msg
+    print(msg)
     return
 
 
 def version():
-    from diffpy.Structure import __version__
-    print "anyeye", __version__
+    from diffpy.structure import __version__
+    print("anyeye", __version__)
     return
 
 
@@ -74,7 +76,7 @@ def loadStructureFile(filename, format="auto"):
 
     Return a tuple of (Structure, fileformat).
     """
-    from diffpy.Structure import Structure
+    from diffpy.structure import Structure
     stru = Structure()
     p = stru.read(filename, format)
     fileformat = p.format
@@ -186,23 +188,23 @@ def main():
         opts, args = getopt.getopt(sys.argv[1:], "f:whV",
                 ["formula=", "watch", "viewer=", "formats=",
                 "help", "version"])
-    except getopt.GetoptError, errmsg:
-        print >> sys.stderr, errmsg
+    except getopt.GetoptError as errmsg:
+        print(errmsg, file=sys.stderr)
         die(2)
     # process options
     for o, a in opts:
         if o in ("-f", "--formula"):
             try:
                 pd['formula'] = parseFormula(a)
-            except RuntimeError, msg:
-                print >> sys.stderr, msg
+            except RuntimeError as msg:
+                print(msg, file=sys.stderr)
                 die(2)
         elif o in ("-w", "--watch"):
             pd['watch'] = True
         elif o == "--viewer":
             pd['viewer'] = a
         elif o == "--formats":
-            pd['formats'] = map(str.strip, a.split(','))
+            pd['formats'] = [w.strip() for w in a.split(',')]
         elif o in ("-h", "--help"):
             usage()
             die()
@@ -213,7 +215,7 @@ def main():
         usage('brief')
         die()
     elif len(args) > 1:
-        print >> sys.stderr, "too many structure files"
+        print("too many structure files", file=sys.stderr)
         die(2)
     pd['strufile'] = args[0]
     # trap the following signals
@@ -237,11 +239,12 @@ def main():
         else:
             status = os.spawnlpe(os.P_WAIT, *spawnargs)
             die(status, pd)
-    except IOError, (errno, errmsg):
-        print >> sys.stderr, "%s: %s" % (args[0], errmsg)
+    except IOError as xxx_todo_changeme:
+        (errno, errmsg) = xxx_todo_changeme.args
+        print("%s: %s" % (args[0], errmsg), file=sys.stderr)
         die(1, pd)
-    except StructureFormatError, errmsg:
-        print >> sys.stderr, "%s: %s" % (args[0], errmsg)
+    except StructureFormatError as errmsg:
+        print("%s: %s" % (args[0], errmsg), file=sys.stderr)
         die(1, pd)
     return
 

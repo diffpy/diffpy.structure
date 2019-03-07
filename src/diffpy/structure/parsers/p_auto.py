@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -20,9 +20,9 @@ This Parser does not provide the the toLines() method.
 
 import os
 
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.Parsers import StructureParser
-from diffpy.Structure.Parsers import parser_index
+from diffpy.structure import StructureFormatError
+from diffpy.structure.parsers import StructureParser
+from diffpy.structure.parsers import parser_index
 
 class P_auto(StructureParser):
     """Parser with automatic detection of structure format.
@@ -41,7 +41,7 @@ class P_auto(StructureParser):
         """Build a list of relevance ordered structure formats.
         This only works when self.filename has a known extension.
         """
-        from diffpy.Structure.Parsers import inputFormats
+        from diffpy.structure.parsers import inputFormats
         ofmts = [fmt for fmt in inputFormats() if fmt != 'auto']
         if not self.filename:   return ofmts
         # filename is defined here
@@ -98,7 +98,7 @@ class P_auto(StructureParser):
         Set format attribute to the detected file format.
         Return Structure instance, or raise StructureFormatError.
         """
-        from diffpy.Structure.Parsers import getParser
+        from diffpy.structure.parsers import getParser
         ofmts = self._getOrderedFormats()
         stru = None
         # try all parsers in sequence
@@ -110,7 +110,7 @@ class P_auto(StructureParser):
                 stru = pmethod(*args, **kwargs)
                 self.format = fmt
                 break
-            except StructureFormatError, err:
+            except StructureFormatError as err:
                 parsers_emsgs.append("%s: %s" % (fmt, err))
             except NotImplementedError:
                 pass
@@ -121,13 +121,10 @@ class P_auto(StructureParser):
             raise StructureFormatError(emsg)
         self.__dict__.update(p.__dict__)
         return stru
-    # End of parseLines
 
 # End of class P_auto
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser(**kw):
     return P_auto(**kw)
-
-# End of file

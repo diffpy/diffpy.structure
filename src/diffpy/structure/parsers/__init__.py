@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -24,19 +24,20 @@ For normal usage it should be sufficient to use the routines provided
 in this module.
 
 Content:
-    StructureParser -- base class for concrete Parsers
+    StructureParser -- base class for a concrete Parser
     parser_index    -- dictionary of known structure formats
     getParser       -- factory for Parser at given format
     inputFormats    -- list of available input formats
     outputFormats   -- list of available output formats
 """
 
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.Parsers.structureparser import StructureParser
-from diffpy.Structure.Parsers.parser_index_mod import parser_index
+from diffpy.structure import StructureFormatError
+from diffpy.structure.parsers.structureparser import StructureParser
+from diffpy.structure.parsers.parser_index_mod import parser_index
 
 # silence pyflakes checker
 assert StructureParser
+
 
 def getParser(format, **kw):
     """Return Parser instance for a given structure format.
@@ -49,23 +50,23 @@ def getParser(format, **kw):
         emsg = "no parser for '%s' format" % format
         raise StructureFormatError(emsg)
     pmod = parser_index[format]['module']
-    pm = None
-    import_cmd = 'from diffpy.Structure.Parsers import %s as pm' % pmod
-    exec(import_cmd)
-    return pm.getParser(**kw)
+    ns = {}
+    import_cmd = 'from diffpy.structure.parsers import %s as pm' % pmod
+    exec(import_cmd, ns)
+    return ns['pm'].getParser(**kw)
+
 
 def inputFormats():
     """Return list of implemented input structure formats"""
-    input_formats = [ fmt for fmt, prop in parser_index.iteritems()
+    input_formats = [ fmt for fmt, prop in parser_index.items()
             if prop['has_input'] ]
     input_formats.sort()
     return input_formats
 
+
 def outputFormats():
     """return list of implemented output structure formats"""
-    output_formats = [ fmt for fmt, prop in parser_index.iteritems()
+    output_formats = [ fmt for fmt, prop in parser_index.items()
             if prop['has_output'] ]
     output_formats.sort()
     return output_formats
-
-# End of file

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -20,9 +20,9 @@ import unittest
 import numpy
 import numpy.linalg as numalg
 
-from diffpy.Structure import Lattice, LatticeError
+from diffpy.structure import Lattice, LatticeError
 
-##############################################################################
+# ----------------------------------------------------------------------------
 
 class TestLattice(unittest.TestCase):
     """test methods of Lattice class"""
@@ -31,6 +31,7 @@ class TestLattice(unittest.TestCase):
         self.lattice = Lattice()
         self.places = 12
         return
+
 
     def test___init__(self):
         '''Check Lattice.__init__ processing of arguments.
@@ -99,10 +100,10 @@ class TestLattice(unittest.TestCase):
         lat.c = 6
         self.assertEqual(1.0, lat.unitvolume)
         self.assertRaises(AttributeError, setattr,
-                lat, 'unitvolume', 3.33)
+                          lat, 'unitvolume', 3.33)
         self.assertEqual(12, lat.volume)
         self.assertRaises(AttributeError, setattr,
-                lat, 'volume', 3.33)
+                          lat, 'volume', 3.33)
         self.assertEqual(0.0, lat.ca)
         self.assertRaises(AttributeError, setattr,
                 lat, 'ca', 3.33)
@@ -162,15 +163,15 @@ class TestLattice(unittest.TestCase):
 
     def test_setLatBase(self):
         """check calculation of unit cell rotation"""
-        base = numpy.array([[ 1.0,  1.0,  0.0],
-                          [ 0.0,  1.0,  1.0],
-                          [ 1.0,  0.0,  1.0]])
+        base = numpy.array([[1.0,  1.0,  0.0],
+                            [0.0,  1.0,  1.0],
+                            [1.0,  0.0,  1.0]])
         self.lattice.setLatBase(base)
         self.assertAlmostEqual(self.lattice.a, numpy.sqrt(2.0), self.places)
         self.assertAlmostEqual(self.lattice.b, numpy.sqrt(2.0), self.places)
         self.assertAlmostEqual(self.lattice.c, numpy.sqrt(2.0), self.places)
         self.assertAlmostEqual(self.lattice.alpha, 60.0, self.places)
-        self.assertAlmostEqual(self.lattice.beta,  60.0, self.places)
+        self.assertAlmostEqual(self.lattice.beta, 60.0, self.places)
         self.assertAlmostEqual(self.lattice.gamma, 60.0, self.places)
         detR0 = numalg.det(self.lattice.baserot)
         self.assertAlmostEqual(detR0, 1.0, self.places)
@@ -284,16 +285,16 @@ class TestLattice(unittest.TestCase):
         r = repr(self.lattice)
         r0 = "Lattice(a=1, b=2, c=3, alpha=10, beta=20, gamma=30)"
         self.assertEqual(r, r0)
-        base = [[ 1.0,  1.0,  0.0],
-                [ 0.0,  2.0,  2.0],
-                [ 3.0,  0.0,  3.0]]
+        base = [[1.0,  1.0,  0.0],
+                [0.0,  2.0,  2.0],
+                [3.0,  0.0,  3.0]]
         self.lattice.setLatBase(base)
         r = repr(self.lattice)
         self.assertEqual(r, "Lattice(base=%r)" % self.lattice.base)
 
-# End of TestLattice
+# End of class TestLattice
+
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
-
-# End of file

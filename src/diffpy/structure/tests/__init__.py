@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2010 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -13,14 +13,14 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.Structure.
+"""Unit tests for diffpy.structure.
 """
 
 import unittest
 
 
 def testsuite(pattern=''):
-    '''Create a unit tests suite for diffpy.Structure package.
+    '''Create a unit tests suite for diffpy.structure package.
 
     Parameters
     ----------
@@ -44,7 +44,7 @@ def testsuite(pattern=''):
     topdir = thisdir
     for i in range(depth):
         topdir = dirname(topdir)
-    suite_all = loader.discover(thisdir, pattern='Test*.py', top_level_dir=topdir)
+    suite_all = loader.discover(thisdir, top_level_dir=topdir)
     # always filter the suite by pattern to test-cover the selection code.
     suite = unittest.TestSuite()
     rx = re.compile(pattern)
@@ -64,7 +64,7 @@ def testsuite(pattern=''):
 
 
 def test():
-    '''Execute all unit tests for the diffpy.Structure package.
+    '''Execute all unit tests for the diffpy.structure package.
 
     Returns
     -------
@@ -74,6 +74,3 @@ def test():
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
     return result
-
-
-# End of file

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -19,11 +19,15 @@
 import collections
 import copy
 import numpy
-from diffpy.Structure.lattice import Lattice
-from diffpy.Structure.atom import Atom
-from diffpy.Structure.utils import _linkAtomAttribute, atomBareSymbol
+import codecs
+import six
 
-##############################################################################
+from diffpy.structure.lattice import Lattice
+from diffpy.structure.atom import Atom
+from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol
+
+# ----------------------------------------------------------------------------
+
 class Structure(list):
     """Structure --> group of atoms
 
@@ -42,6 +46,7 @@ class Structure(list):
     title = ''
     _lattice = None
     pdffit = None
+
 
     def __init__(self, atoms=None, lattice=None, title=None,
             filename=None, format=None):
@@ -218,15 +223,15 @@ class Structure(list):
         """Load structure from a file, any original data become lost.
 
         filename -- file to be loaded
-        format   -- all structure formats are defined in Parsers submodule,
-                    when format == 'auto' all Parsers are tried one by one
+        format   -- all structure formats are defined in parsers submodule,
+                    when format == 'auto' all parsers are tried one by one
 
         Return instance of data Parser used to process file.  This
         can be inspected for information related to particular format.
         """
-        import diffpy.Structure
-        import diffpy.Structure.Parsers
-        getParser = diffpy.Structure.Parsers.getParser
+        import diffpy.structure
+        import diffpy.structure.parsers
+        getParser = diffpy.structure.parsers.getParser
         p = getParser(format)
         new_structure = p.parseFile(filename)
         # reinitialize data after successful parsing
@@ -247,13 +252,13 @@ class Structure(list):
         """Load structure from a string, any original data become lost.
 
         s        -- string with structure definition
-        format   -- all structure formats are defined in Parsers submodule,
-                    when format == 'auto' all Parsers are tried one by one
+        format   -- all structure formats are defined in parsers submodule,
+                    when format == 'auto' all parsers are tried one by one
 
         Return instance of data Parser used to process input string.  This
         can be inspected for information related to particular format.
         """
-        from diffpy.Structure.Parsers import getParser
+        from diffpy.structure.parsers import getParser
         p = getParser(format)
         new_structure = p.parse(s)
         # reinitialize data after successful parsing
@@ -271,15 +276,14 @@ class Structure(list):
         No return value.
 
         Note: available structure formats can be obtained by:
-            from Parsers import formats
+            from parsers import formats
         """
-        from diffpy.Structure.Parsers import getParser
+        from diffpy.structure.parsers import getParser
         p = getParser(format)
         p.filename = filename
         s = p.tostring(self)
-        f = open(filename, 'wb')
-        f.write(s)
-        f.close()
+        with codecs.open(filename, 'w', encoding='UTF-8') as fp:
+            fp.write(s)
         return
 
 
@@ -287,9 +291,9 @@ class Structure(list):
         """return string representation of the structure in specified format
 
         Note: available structure formats can be obtained by:
-            from Parsers import formats
+            from parsers import formats
         """
-        from diffpy.Structure.Parsers import getParser
+        from diffpy.structure.parsers import getParser
         p = getParser(format)
         s = p.tostring(self)
         return s
@@ -314,7 +318,7 @@ class Structure(list):
         """
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
-        list.append(self, adup)
+        super(Structure, self).append(adup)
         return
 
 
@@ -330,7 +334,7 @@ class Structure(list):
         """
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
-        list.insert(self, idx, adup)
+        super(Structure, self).insert(idx, adup)
         return
 
 
@@ -344,10 +348,9 @@ class Structure(list):
 
         No return value.
         """
-        if copy:    adups = [Atom(a) for a in atoms]
-        else:       adups = atoms
-        for a in adups: a.lattice = self.lattice
-        list.extend(self, adups)
+        adups = map(Atom, atoms) if copy else atoms
+        setlat = lambda a: (setattr(a, 'lattice', self.lattice), a)[-1]
+        super(Structure, self).extend(setlat(a) for a in adups)
         return
 
 
@@ -372,20 +375,21 @@ class Structure(list):
         stru['Na3', 2, 'Cl2']  -->  substructure of three atoms, lookup by
             label is more efficient when done for several atoms at once.
         """
+        if isinstance(idx, slice):
+            rv = self.__emptySharedStructure()
+            lst = super(Structure, self).__getitem__(idx)
+            rv.extend(lst, copy=False)
+            return rv
         try:
-            value = list.__getitem__(self, idx)
-            rv = value
-            if type(idx) is slice:
-                rv = self.__emptySharedStructure()
-                rv.extend(value, copy=False)
+            rv = super(Structure, self).__getitem__(idx)
             return rv
         except TypeError:
             pass
         # check if there is any string label that should be resolved
-        scalarstringlabel = isinstance(idx, basestring)
+        scalarstringlabel = isinstance(idx, six.string_types)
         hasstringlabel = scalarstringlabel or (
             isinstance(idx, collections.Iterable) and
-            any(isinstance(ii, basestring) for ii in idx))
+            any(isinstance(ii, six.string_types) for ii in idx))
         # if not, use numpy indexing to resolve idx
         if not hasstringlabel:
             idx1 = idx
@@ -415,9 +419,9 @@ class Structure(list):
         # generate new index object that has no strings
         if scalarstringlabel:
             idx2 = _resolveindex(idx)
-        # for iterables preserved the tuple object type
+        # for iterables preserve the tuple object type
         else:
-            idx2 = map(_resolveindex, idx)
+            idx2 = [_resolveindex(i) for i in idx]
             if type(idx) is tuple:
                 idx2 = tuple(idx2)
         # call this function again and hope there is no recursion loop
@@ -425,52 +429,31 @@ class Structure(list):
         return rv
 
 
-    def __setitem__(self, idx, a, copy=True):
-        """Set idx-th atom to a.
+    def __setitem__(self, idx, value, copy=True):
+        """Assign self[idx] atom to value.
 
-        idx  -- index of atom in this Structure
-        a    -- instance of Atom
-        copy -- flag for setting to a copy of a.
-                When False, set to a and update a.lattice.
-
-        No return value.
-        """
-        adup = copy and Atom(a) or a
-        adup.lattice = self.lattice
-        list.__setitem__(self, idx, adup)
-        return
-
-
-    def __getslice__(self, lo, hi):
-        '''Get a slice of atoms from this Structure.
-
-        lo, hi   -- slice indices, negative values are not supported
-
-        Return a sub-structure with atom instances in the slice.
-        '''
-        rv = self.__emptySharedStructure()
-        rv.extend(list.__getslice__(self, lo, hi), copy=False)
-        return rv
-
-
-    def __setslice__(self, lo, hi, atoms, copy=True):
-        """Set Structure slice from lo to hi-1 to the sequence of atoms.
-
-        lo    -- low index for the slice
-        hi    -- high index of the slice
-        atoms -- sequence of Atom instances
-        copy  -- flag for using copies of Atom instances.  When False, set
-                 to existing instances and update their lattice attributes.
+        idx  -- index of atom in this Structure or a slice
+        value -- instance of Atom or an iterable.
+        copy -- flag for making a copy of the value.  When False, update
+                the `lattice` attribute of Atom objects present in value.
 
         No return value.
         """
-        if copy:
-            ownatoms = set(list.__getslice__(self, lo, hi))
-            adups = [(a in ownatoms and a or Atom(a)) for a in atoms]
+        # handle slice assignment
+        if isinstance(idx, slice):
+            def _fixlat(a):
+                a.lattice = self.lattice
+                return a
+            v1 = value
+            if copy:
+                keep = set(super(Structure, self).__getitem__(idx))
+                v1 = (a if a in keep else Atom(a) for a in value)
+            vfinal = filter(_fixlat, v1)
+        # handle scalar assingment
         else:
-            adups = atoms
-        for a in adups: a.lattice = self.lattice
-        list.__setslice__(self, lo, hi, adups)
+            vfinal = Atom(value) if copy else value
+            vfinal.lattice = self.lattice
+        super(Structure, self).__setitem__(idx, vfinal)
         return
 
 
@@ -687,5 +670,18 @@ class Structure(list):
         rv = Structure()
         rv.__dict__.update([(k, getattr(self, k)) for k in rv.__dict__])
         return rv
+
+    # Python 2 Compatibility -------------------------------------------------
+
+    if six.PY2:
+
+        def __getslice__(self, lo, hi):
+            return self.__getitem__(slice(lo, hi))
+
+        def __setslice__(self, lo, hi, sequence):
+            self.__setitem__(slice(lo, hi), sequence)
+            return
+
+    # ------------------------------------------------------------------------
 
 # End of class Structure

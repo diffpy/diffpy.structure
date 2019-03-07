@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2011 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -16,9 +16,11 @@
 '''Space group classes and definitions from mmLib and sgtbx.
 '''
 
-from diffpy.Structure.spacegroupmod import SymOp, SpaceGroup
-from diffpy.Structure.mmlibspacegroups import mmLibSpaceGroupList
-from diffpy.Structure.sgtbxspacegroups import sgtbxSpaceGroupList
+import six
+
+from diffpy.structure.spacegroupmod import SymOp, SpaceGroup
+from diffpy.structure.mmlibspacegroups import mmLibSpaceGroupList
+from diffpy.structure.sgtbxspacegroups import sgtbxSpaceGroupList
 
 # all spacegroup definitions
 SpaceGroupList = mmLibSpaceGroupList + sgtbxSpaceGroupList
@@ -39,7 +41,7 @@ def GetSpaceGroup(sgid):
         return _sg_lookup_table[sgid]
     # Try different versions of sgid, first make sure it is a string
     emsg = "Unknown space group identifier %r" % sgid
-    if not isinstance(sgid, basestring):
+    if not isinstance(sgid, six.string_types):
         raise ValueError(emsg)
     # short name case adjusted
     sgkey = sgid.strip()
@@ -116,7 +118,7 @@ _sg_lookup_table = {}
 
 # Import SpaceGroup objects --------------------------------------------------
 
-from diffpy.Structure.spacegroupmod import (
+from diffpy.structure.spacegroupmod import (
     Rot_X_Y_Z, Rot_mX_mY_mZ, Rot_mX_Y_mZ, Rot_X_mY_Z,
     Rot_mX_mY_Z, Rot_X_mY_mZ, Rot_mX_Y_Z, Rot_X_Y_mZ,
     Rot_mY_X_Z, Rot_Y_mX_Z, Rot_Y_mX_mZ, Rot_mY_X_mZ,
@@ -143,7 +145,7 @@ from diffpy.Structure.spacegroupmod import (
     Tr_34_14_14, Tr_34_34_34, Tr_14_14_34, Tr_14_34_14,
 )
 
-from diffpy.Structure.mmlibspacegroups import (
+from diffpy.structure.mmlibspacegroups import (
     sg1, sg2, sg3, sg4, sg5, sg6, sg7, sg8,
     sg9, sg10, sg11, sg12, sg13, sg14, sg15, sg16,
     sg17, sg18, sg19, sg20, sg21, sg22, sg23, sg24,
@@ -180,7 +182,7 @@ from diffpy.Structure.mmlibspacegroups import (
     sg1197,
 )
 
-from diffpy.Structure.sgtbxspacegroups import (
+from diffpy.structure.sgtbxspacegroups import (
     sg2003, sg2004, sg4005, sg5005, sg6005, sg7005, sg8005, sg9005,
     sg10005, sg2006, sg2007, sg3007, sg4007, sg5007, sg6007, sg7007,
     sg8007, sg2008, sg3008, sg4008, sg5008, sg6008, sg7008, sg8008,
@@ -308,5 +310,3 @@ assert all(o is not None for o in (SpaceGroup, SymOp,
     sg5068, sg6068, sg7068, sg1072, sg2072, sg1073, sg1074, sg2074,
     sg3074, sg4074, sg5074,
 ))
-
-# End of file

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -21,17 +21,18 @@ import copy
 import unittest
 import numpy
 
-from diffpy.Structure.tests.testutils import datafile
-from diffpy.Structure import Structure
-from diffpy.Structure import Lattice
-from diffpy.Structure import Atom
+from diffpy.structure.tests.testutils import datafile
+from diffpy.structure import Structure
+from diffpy.structure import Lattice
+from diffpy.structure import Atom
 
 # useful variables
 cdsefile = datafile('CdSe_bulk.stru')
 teifile = datafile('TeI.cif')
 pbtefile = datafile('PbTe.cif')
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class TestStructure(unittest.TestCase):
     """test methods of Structure class"""
 
@@ -93,6 +94,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(4, len(pb3))
         return
 
+
     def test___copy__(self):
         """check Structure.__copy__()
         """
@@ -129,6 +131,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual('C1', self.stru[0].label)
         self.assertEqual('C2', self.stru[1].label)
         return
+
 
     def test_distance(self):
         """check Structure.distance()
@@ -246,7 +249,7 @@ class TestStructure(unittest.TestCase):
         """
         stru = self.stru
         self.assertTrue(stru[0] is stru.tolist()[0])
-        intidx = range(len(stru))[::-1]
+        intidx = list(range(len(stru)))[::-1]
         self.assertEqual(stru[intidx].tolist(), stru.tolist()[::-1])
         flagidx = (numpy.arange(len(stru)) > 0)
         self.assertEqual(stru[flagidx].tolist(), stru.tolist()[1:])
@@ -271,6 +274,15 @@ class TestStructure(unittest.TestCase):
         return
 
 
+    def test___getitem__slice(self):
+        """check Structure.__getitem__() with a slice argument
+        """
+        stru = self.stru
+        self.assertEqual([stru[0]], stru[:1].tolist())
+        self.assertEqual([stru[1], stru[0]], stru[::-1].tolist())
+        return
+
+
     def test___setitem__(self):
         """check Structure.__setitem__()
         """
@@ -287,17 +299,8 @@ class TestStructure(unittest.TestCase):
         return
 
 
-    def test___getslice__(self):
-        """check Structure.__getslice__()
-        """
-        stru = self.stru
-        self.assertEqual([stru[0]], stru[:1].tolist())
-        self.assertEqual([stru[1], stru[0]], stru[::-1].tolist())
-        return
-
-
-    def test___setslice__(self):
-        """check Structure.__setslice__()
+    def test___setitem__slice(self):
+        """check Structure.__setitem__() with a slice argument
         """
         a = Atom("Si", (0.1, 0.2, 0.3))
         lat = self.stru.lattice
@@ -515,7 +518,7 @@ class TestStructure(unittest.TestCase):
     def test_label(self):
         """check Structure.label
         """
-        cdse = Structure(self.cdse)
+        cdse = Structure(filename=cdsefile)
         self.assertEqual(4 * [''], cdse.label.tolist())
         cdse.assignUniqueLabels()
         self.assertEqual('Cd1 Cd2 Se1 Se2'.split(), cdse.label.tolist())
@@ -653,10 +656,9 @@ class TestStructure(unittest.TestCase):
         self.assertFalse(numpy.any(stru.U != 0.0))
         return
 
-
 # End of class TestStructure
+
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
-
-# End of file

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -20,10 +20,11 @@ remaining lines contain element, x, y, z
 """
 
 import sys
+import six
 
-from diffpy.Structure import Structure
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.Parsers import StructureParser
+from diffpy.structure import Structure
+from diffpy.structure import StructureFormatError
+from diffpy.structure.parsers import StructureParser
 
 class P_xyz(StructureParser):
     """Parser for standard XYZ structure format.
@@ -33,6 +34,7 @@ class P_xyz(StructureParser):
         StructureParser.__init__(self)
         self.format = "xyz"
         return
+
 
     def parseLines(self, lines):
         """Parse list of lines in XYZ format.
@@ -65,7 +67,8 @@ class P_xyz(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = ("%d: invalid XYZ format, missing number of atoms" %
                     (start + 1))
-            raise StructureFormatError, emsg, exc_traceback
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         # find the last valid record
         stop = len(lines)
         while stop > start and len(linefields[stop-1]) == 0:
@@ -96,13 +99,14 @@ class P_xyz(StructureParser):
         except ValueError:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: invalid number format" % p_nl
-            raise StructureFormatError, emsg, exc_traceback
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         # finally check if all the atoms have been read
         if p_natoms is not None and len(stru) != p_natoms:
             emsg = "expected %d atoms, read %d" % (p_natoms, len(stru))
             raise StructureFormatError(emsg)
         return stru
-    # End of parseLines
+
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in XYZ format.
@@ -117,13 +121,10 @@ class P_xyz(StructureParser):
             s = "%-3s %g %g %g" % (a.element, rc[0], rc[1], rc[2])
             lines.append(s)
         return lines
-    # End of toLines
 
 # End of class P_xyz
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser():
     return P_xyz()
-
-# End of file

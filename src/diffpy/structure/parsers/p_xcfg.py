@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -18,15 +18,14 @@
 import sys
 import re
 import numpy
+import six
 
-from diffpy.Structure import Structure
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.utils import isfloat
-from diffpy.Structure.Parsers import StructureParser
+from diffpy.structure import Structure
+from diffpy.structure import StructureFormatError
+from diffpy.structure.utils import isfloat
+from diffpy.structure.parsers import StructureParser
 
-
-##############################################################################
-# Constants
+# Constants ------------------------------------------------------------------
 
 # Atomic Mass of elements
 # This can be later when PeriodicTable package becomes available.
@@ -145,10 +144,8 @@ AtomicMass = {
     "Rg" : 272.0,       # 111 Rg roentgenium 272
 }
 
-# End of Constants
+# ----------------------------------------------------------------------------
 
-
-##############################################################################
 class P_xcfg(StructureParser):
     """Parser for AtomEye extended CFG format.
 
@@ -158,10 +155,12 @@ class P_xcfg(StructureParser):
 
     cluster_boundary = 2
 
+
     def __init__(self):
         StructureParser.__init__(self)
         self.format = "xcfg"
         return
+
 
     def parseLines(self, lines):
         """Parse list of lines in PDB format.
@@ -266,9 +265,10 @@ class P_xcfg(StructureParser):
         except (ValueError, IndexError):
             emsg = "%d: file is not in XCFG format" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, emsg, exc_traceback
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         return stru
-    # End of parseLines
+
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in XCFG atomeye format.
@@ -377,7 +377,6 @@ class P_xcfg(StructureParser):
             entry = efmt.format(pos=pos, v=v, uflat=uflat, a=a)
             lines.append(entry)
         return lines
-    # End of toLines
 
 # End of class P_xcfg
 
@@ -424,5 +423,3 @@ def _assign_auxiliaries(a, fields, auxiliaries, no_velocity):
         else:
             setattr(a, prop, value)
     return
-
-# End of file

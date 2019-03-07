@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -19,11 +19,12 @@ for atom types.
 """
 
 import sys
+import six
 
-from diffpy.Structure import Structure
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.utils import isfloat
-from diffpy.Structure.Parsers import StructureParser
+from diffpy.structure import Structure
+from diffpy.structure import StructureFormatError
+from diffpy.structure.utils import isfloat
+from diffpy.structure.parsers import StructureParser
 
 class P_rawxyz(StructureParser):
     """Parser --> StructureParser subclass for RAWXYZ format"""
@@ -32,6 +33,7 @@ class P_rawxyz(StructureParser):
         StructureParser.__init__(self)
         self.format = "rawxyz"
         return
+
 
     def parseLines(self, lines):
         """Parse list of lines in RAWXYZ format.
@@ -80,7 +82,7 @@ class P_rawxyz(StructureParser):
                 elif len(fields) != nfields:
                     emsg = ('%d: all lines must have ' +
                             'the same number of columns') % p_nl
-                    raise StructureFormatError, emsg
+                    raise StructureFormatError(emsg)
                 element = el_idx is not None and fields[el_idx] or ""
                 xyz = [ float(f) for f in fields[x_idx:x_idx+3] ]
                 if len(xyz) == 2:
@@ -89,9 +91,10 @@ class P_rawxyz(StructureParser):
         except ValueError:
             emsg = "%d: invalid number" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            raise StructureFormatError, emsg, exc_traceback
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         return stru
-    # End of parseLines
+
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in XYZ format.
@@ -104,13 +107,10 @@ class P_rawxyz(StructureParser):
             s = "%s %g %g %g" % (a.element, rc[0], rc[1], rc[2])
             lines.append(s.lstrip())
         return lines
-    # End of toLines
 
 # End of class P_rawxyz
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser():
     return P_rawxyz()
-
-# End of file

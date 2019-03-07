@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -51,5 +51,3 @@ __timestamp__ = int(cp['timestamp'])
 __gitsha__ = __git_commit__
 
 del cp, fcfg, fp, kwords
-
-# End of file

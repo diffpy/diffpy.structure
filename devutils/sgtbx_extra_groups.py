@@ -13,14 +13,14 @@ Not to be included with code distributions.
 import re
 import math
 import numpy
-from diffpy.Structure.SpaceGroups import SpaceGroup, SymOp
-from diffpy.Structure.SpaceGroups import mmLibSpaceGroupList
-from diffpy.Structure.SpaceGroups import IsSpaceGroupIdentifier
+from diffpy.structure.spacegroups import SpaceGroup, SymOp
+from diffpy.structure.spacegroups import mmLibSpaceGroupList
+from diffpy.structure.spacegroups import IsSpaceGroupIdentifier
 from cctbx import sgtbx
 
 def tupleToSGArray(tpl):
     if not _rtarrays:
-        import diffpy.Structure.SpaceGroups as sgmod
+        import diffpy.structure.SpaceGroups as sgmod
         for n in dir(sgmod):
             if not n.startswith('Rot_') and not n.startswith('Tr_'): continue
             a = getattr(sgmod, n)
@@ -39,7 +39,6 @@ def mmSpaceGroupFromSymbol(symbol):
     """
     sginfo = sgtbx.space_group_info(symbol)
     symop_list = []
-    unique_rotations = set()
     symop_list = getSymOpList(sginfo.group())
     sgtype = sginfo.type()
     uhm = sgtype.lookup_symbol()
@@ -60,7 +59,7 @@ def mmSpaceGroupFromSymbol(symbol):
 
 
 def adjustMMSpaceGroupNumber(mmsg):
-    sg0 = filter(lambda x : x.number == mmsg.number, mmLibSpaceGroupList)
+    sg0 = [x for x in mmLibSpaceGroupList if x.number == mmsg.number]
     if sg0 and cmpSpaceGroups(sg0[0], mmsg):
         return
     while mmsg.number in sgnumbers:
@@ -121,12 +120,12 @@ def hashMMSpaceGroup(sg):
     s = '\n'.join(lines)
     return s
 
+
 def hashSgtbxGroup(grp):
     n = grp.type().number()
     lines = [str(n)] + sorted(map(str, getSymOpList(grp)))
     s = '\n'.join(lines)
     return s
-
 
 sgnumbers = [sg.number for sg in mmLibSpaceGroupList]
 
@@ -159,7 +158,7 @@ def SymOpsCode(mmsg):
 
 def SymOpCode(op):
     if not _rtnames:
-        import diffpy.Structure.SpaceGroups as sgmod
+        import diffpy.structure.SpaceGroups as sgmod
         for n in dir(sgmod):
             if not n.startswith('Rot_') and not n.startswith('Tr_'): continue
             a = getattr(sgmod, n)
@@ -185,7 +184,7 @@ def main():
         if hsg in duplicates: continue
         adjustMMSpaceGroupNumber(sg)
         duplicates.add(hsg)
-        print SGCode(sg)
+        print(SGCode(sg))
     return
 
 if __name__ == '__main__':

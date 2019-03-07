@@ -2,7 +2,7 @@
 
 """Objects for storage and manipulation of crystal structure data.
 
-Packages:   diffpy.Structure
+Packages:   diffpy.structure
 """
 
 import os
@@ -12,12 +12,15 @@ from setuptools import setup, find_packages
 
 # Use this version when git data are not available, like in git zip archive.
 # Update when tagging a new release.
-FALLBACK_VERSION = '1.3.5.post0'
+FALLBACK_VERSION = '3.0a2.post0'
+
+# determine if we run with Python 3.
+PY3 = (sys.version_info[0] == 3)
 
 # versioncfgfile holds version data for git commit hash and date.
 # It must reside in the same directory as version.py.
 MYDIR = os.path.dirname(os.path.abspath(__file__))
-versioncfgfile = os.path.join(MYDIR, 'src/diffpy/Structure/version.cfg')
+versioncfgfile = os.path.join(MYDIR, 'src/diffpy/structure/version.cfg')
 gitarchivecfgfile = os.path.join(MYDIR, '.gitarchive.cfg')
 
 
@@ -35,7 +38,7 @@ def gitinfo():
 
 
 def getversioncfg():
-    if sys.version_info[0] >= 3:
+    if PY3:
         from configparser import RawConfigParser
     else:
         from ConfigParser import RawConfigParser
@@ -75,17 +78,18 @@ versiondata = getversioncfg()
 
 # define distribution
 setup_args = dict(
-    name = "diffpy.Structure",
+    name = "diffpy.structure",
     version = versiondata.get('DEFAULT', 'version'),
     packages = find_packages(os.path.join(MYDIR, 'src')),
+    py_modules = ['diffpy.Structure'],
     package_dir = {'' : 'src'},
-    test_suite = 'diffpy.Structure.tests',
+    test_suite = 'diffpy.structure.tests',
     include_package_data = True,
     zip_safe = False,
     install_requires = [
-        'pycifrw',
+        'six',
+        'pycifrw>=4.2',
     ],
-
     author = 'Simon J.L. Billinge group',
     author_email = 'sb2896@columbia.edu',
     maintainer = 'Pavol Juhas',
@@ -94,7 +98,7 @@ setup_args = dict(
     description = "Crystal structure container "
                   "and parsers for structure formats.",
     license = 'BSD-style license',
-    keywords = "crystal Structure data storage CIF PDB",
+    keywords = "crystal structure data storage CIF PDB",
     classifiers = [
         # List of possible values at
         # http://pypi.python.org/pypi?:action=list_classifiers
@@ -107,6 +111,9 @@ setup_args = dict(
         'Operating System :: POSIX',
         'Operating System :: Unix',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Scientific/Engineering :: Chemistry',
         'Topic :: Scientific/Engineering :: Physics',
     ],
@@ -114,5 +121,3 @@ setup_args = dict(
 
 if __name__ == '__main__':
     setup(**setup_args)
-
-# End of file

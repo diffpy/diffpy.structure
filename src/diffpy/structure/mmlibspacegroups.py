@@ -6,8 +6,8 @@
 """Space groups defined as a part of the pymmlib.
 """
 
-from diffpy.Structure.spacegroupmod import SpaceGroup, SymOp
-from diffpy.Structure.spacegroupmod import (
+from diffpy.structure.spacegroupmod import SpaceGroup, SymOp
+from diffpy.structure.spacegroupmod import (
     Rot_X_Y_Z, Rot_mX_mY_mZ, Rot_mX_Y_mZ, Rot_X_mY_Z,
     Rot_mX_mY_Z, Rot_X_mY_mZ, Rot_mX_Y_Z, Rot_X_Y_mZ,
     Rot_mY_X_Z, Rot_Y_mX_Z, Rot_Y_mX_mZ, Rot_mY_X_mZ,
@@ -7829,5 +7829,3 @@ mmLibSpaceGroupList = [
     sg1059,
     sg1094,
     sg1197]
-
-# End of file

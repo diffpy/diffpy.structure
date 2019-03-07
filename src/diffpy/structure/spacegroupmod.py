@@ -110,13 +110,37 @@ Tr_34_14_34   = numpy.array([ 3.0/4.0, 1.0/4.0, 3.0/4.0 ], float)
 
 
 class SymOp(object):
-    """A subclass of the tuple class for performing one symmetry operation.
     """
+    The transformation of coordinates to a symmetry-related position.
+
+    The SymOp operation involves rotation and translation in cell coordinates.
+
+    Parameters
+    ----------
+    R : ndarray
+        The 3x3 matrix of rotation for this symmetry operation.
+    t : ndarray
+        The vector of translation in this symmetry operation.
+
+    Attributes
+    ----------
+    R : ndarray
+        The 3x3 matrix of rotation pertaining to unit cell coordinates.
+        This may be identity, simple rotation, improper rotation, mirror
+        or inversion.  The determinant of *R* is either +1 or -1.
+    t : ndarray
+        The translation of cell coordinates applied after rotation *R*.
+    """
+
     def __init__(self, R, t):
         self.R = R
         self.t = t
+        return
+
 
     def __str__(self):
+        """Printable representation of this SymOp object.
+        """
         x  = "[%6.3f %6.3f %6.3f %6.3f]\n" % (
             self.R[0,0], self.R[0,1], self.R[0,2], self.t[0])
         x += "[%6.3f %6.3f %6.3f %6.3f]\n" % (
@@ -125,17 +149,40 @@ class SymOp(object):
             self.R[2,0], self.R[2,1], self.R[2,2], self.t[2])
         return x
 
+
     def __call__(self, vec):
-        """Return the symmetry operation on argument vector and.
+        """Return symmetry-related position for the specified coordinates.
+
+        Parameters
+        ----------
+        vec : ndarray
+            The initial position in fractional cell coordinates.
+
+        Returns
+        -------
+        ndarray
+            The transformed position after this symmetry operation.
         """
         return numpy.dot(self.R, vec) + self.t
 
+
     def __eq__(self, symop):
+        """Implement the ``(self == symop)`` test of equality.
+
+        Return ``True`` when *self* and *symop* difference is within
+        tiny round-off errors.
+        """
         return numpy.allclose(self.R, symop.R) and numpy.allclose(self.t, symop.t)
 
+
     def is_identity(self):
-        """Returns True if this SymOp is an identity symmetry operation
-        (no rotation, no translation), otherwise returns False.
+        """Check if this SymOp is an identity operation.
+
+        Returns
+        -------
+        bool
+            ``True`` if this is an identity operation within a small round-off.
+            Return ``False`` otherwise.
         """
         rv = (numpy.allclose(self.R, numpy.identity(3, float)) and
               numpy.allclose(self.t, numpy.zeros(3, float)))
@@ -145,9 +192,62 @@ class SymOp(object):
 
 
 class SpaceGroup(object):
-    """Contains the various names and symmetry operations for one space
-    group.
+    """Definition and basic operations for a specific space group.
+
+    Provide standard names and all symmetry operations contained in
+    one space group.
+
+    Parameters
+    ----------
+    number : int
+        The space group number.
+    num_sym_equiv : int
+        The number of symmetry equivalent sites for a general position.
+    num_primitive_sym_equiv : int
+        The number of symmetry equivalent sites in a primitive unit cell.
+    short_name : str
+        The short Hermann-Mauguin symbol of the space group.
+    alt_name : str
+        Alternative space group symbol consistent with FullProf.
+    point_group_name : str
+        The point group of this space group.
+    crystal_system : str
+        The crystal system of this space group.
+    pdb_name : str
+        The full Hermann-Mauguin symbol of the space group.
+    symop_list : list of SymOp
+        The symmetry operations contained in this space group.
+
+    Attributes
+    ----------
+    number : int
+        A unique space group number.  This may be incremented by
+        several thousands to facilitate unique values for multiple
+        settings of the same space group.  Use ``number % 1000``
+        to get the standard space group number from International
+        Tables.
+    num_sym_equiv : int
+        The number of symmetry equivalent sites for a general position.
+    num_primitive_sym_equiv : int
+        The number of symmetry equivalent sites in a primitive unit cell.
+    short_name : str
+        The short Hermann-Mauguin symbol of the space group.
+    alt_name : str
+        Alternative space group symbol consistent with FullProf.
+        Deprecated.
+    point_group_name : str
+        The point group to which this space group belongs to.
+    crystal_system : str
+        The crystal system of this space group.  The possible values are
+        ``"TRICLINIC", "MONOCLINIC", "ORTHORHOMBIC", "TETRAGONAL",
+        "TRIGONAL" "HEXAGONAL", "CUBIC"``.
+    pdb_name : str
+        The full Hermann-Mauguin symbol of the space group.
+    symop_list : list of SymOp
+        A list of `SymOp` objects for all symmetry operations
+        in this space group.
     """
+
     def __init__(self,
                  number                  = None,
                  num_sym_equiv           = None,
@@ -169,16 +269,34 @@ class SpaceGroup(object):
         self.pdb_name                = pdb_name
         self.symop_list              = symop_list
 
+
     def iter_symops(self):
-        """Iterates over all SymOps in the SpaceGroup.
+        """Iterate over all symmetry operations in the space group.
+
+        Yields
+        ------
+        `SymOp`
+            Generate all symmetry operations for this space group.
         """
         return iter(self.symop_list)
 
+
     def check_group_name(self, name):
-        """Checks if the given name is a name for this space group,
-        returns True or False.  The space group name can be in several forms:
-        the short name, the longer PDB-style name, or the space group number.
+        """Check if given name matches this space group.
+
+        Parameters
+        ----------
+        name : str or int
+            The space group identifier, a string name or number.
+
+        Returns
+        -------
+        bool
+            ``True`` if the specified name matches one of the recognized
+            names of this space group or if it equals its `number`.
+            Return ``False`` otherwise.
         """
+
         if name == self.short_name:       return True
         if name == self.alt_name:         return True
         if name == self.pdb_name:         return True
@@ -186,15 +304,29 @@ class SpaceGroup(object):
         if name == self.number:           return True
         return False
 
+
     def iter_equivalent_positions(self, vec):
-        """Iterate the symmetry equivalent positions of the argument vector.
-        The vector must already be in fractional coordinates, and the
-        symmetry equivalent vectors are also in fractional coordinates.
+        """Generate symmetry equivalent positions for the specified position.
+
+        The initial position must be in fractional coordinates and so
+        are the symmetry equivalent positions yielded by iteration.
+        This generates `num_sym_equiv` positions regardless of initial
+        coordinates being a special symmetry position or not.
+
+        Parameters
+        ----------
+        vec : ndarray
+            The initial position in fractional coordinates.
+
+        Yields
+        ------
+        ndarray
+            The symmetry equivalent positions in fractional coordinates.
+            The positions may be duplicate or outside of the ``0 <= x < 1``
+            unit cell bounds.
         """
         for symop in self.symop_list:
             yield symop(vec)
         pass
 
 # End of class SpaceGroup
-
-# End of file

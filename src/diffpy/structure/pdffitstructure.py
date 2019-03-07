@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -17,9 +17,10 @@
 """
 
 
-from diffpy.Structure.structure import Structure
+from diffpy.structure.structure import Structure
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class PDFFitStructure(Structure):
     """PDFFitStructure --> Structure with extra pdffit member
 
@@ -46,6 +47,7 @@ class PDFFitStructure(Structure):
         Structure.__init__(self, *args, **kwargs)
         return
 
+
     def read(self, filename, format='auto'):
         """Same as Structure.read, but update spcgr value in
         self.pdffit when parser can get spacegroup.
@@ -57,6 +59,7 @@ class PDFFitStructure(Structure):
         sg = getattr(p, 'spacegroup', None)
         if sg:  self.pdffit['spcgr'] = sg.short_name
         return p
+
 
     def readStr(self, s, format='auto'):
         """Same as Structure.readStr, but update spcgr value in
@@ -70,4 +73,4 @@ class PDFFitStructure(Structure):
         if sg:  self.pdffit['spcgr'] = sg.short_name
         return p
 
-# End of PDFFitStructure
+# End of class PDFFitStructure

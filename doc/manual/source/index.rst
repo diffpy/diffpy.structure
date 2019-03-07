@@ -1,66 +1,124 @@
-.. Structure documentation master file, created by
-   sphinx-quickstart on Tue Oct 22 12:02:48 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-####################################################
-diffpy.Structure documentation
-####################################################
+########################################################################
+diffpy.structure documentation
+########################################################################
 
 Software version |release|.
 
 Last updated |today|.
 
-diffpy.Structure - simple storage and manipulation of crystal structures
+diffpy.structure - simple storage and manipulation of crystal structures
 
-The diffpy.Structure package provides objects for storing atomic
+The diffpy.structure package provides objects for storing atomic
 coordinates, displacement parameters and other crystal structure data.
-diffpy.Structure supports import and export of structure data in several
+diffpy.structure supports import and export of structure data in several
 structure formats such as CIF, PDB, xyz.  It provides conversion
 between fractional and absolute Cartesian coordinates, functions for
 symmetry expansion from asymmetric unit and generation of symmetry
-constraints for atom positions and displacement parameters.  diffpy.Structure
+constraints for atom positions and displacement parameters.  diffpy.structure
 includes definitions of all space groups in over 500 symmetry settings.
 
-To learn more about diffpy.Structure library, see the examples directory
-included in this distribution or the API documentation
 
-===================
-Disclaimer
-===================
+Package contents
+========================================================================
 
-.. literalinclude:: ../../../LICENSE.txt
+.. module:: diffpy.structure
 
-================
-Acknowledgments
-================
-
-Developers
------------
-
-diffpy.Structure is developed and maintained by
-
-.. literalinclude:: ../../../AUTHORS.txt
+The top-level diffpy.structure module provides the following objects.
 
 
-Space group codes in *spacegroupmod.py* and *mmlibspacegroups.py*
-originate from the pymmlib project, http://pymmlib.sourceforge.net.
+Functions
+---------
+
+.. autofunction:: loadStructure
 
 
-======================================
-Installation
-======================================
+Classes
+-------
 
-See the `README.rst <https://github.com/diffpy/diffpy.structure#requirements>`_
-file included with the distribution.
+:py:class:`~atom.Atom`
+   describes one atom site in the structure - its type, position,
+   displacement parameters and so forth.
 
-======================================
-API and Index
-======================================
+:py:class:`~lattice.Lattice`
+   depicts general coordinate system and associated operations.
+
+:py:class:`~structure.Structure`
+   collection of :class:`!Atom` objects that form the structure together
+   with associated :py:class:`!Lattice`.
+
+
+Exceptions
+----------
+
+.. autoclass:: StructureFormatError
+
+.. autoclass:: LatticeError
+
+.. autoclass:: SymmetryError
+
+
+Submodules
+========================================================================
 
 .. toctree::
    :maxdepth: 2
 
-   api/diffpy.Structure.rst
+   mod_lattice.rst
+
+
+**FIXME BELOW**
+
+:doc:`submodules`
 
 * :ref:`genindex`
+
+**FIXME TO HERE**
+
+----
+
+
+Authors
+========================================================================
+
+diffpy.structure is developed by members of the Billinge Group at
+Columbia University and at Brookhaven National Laboratory including
+Pavol Juhás, Christopher L. Farrow, Xiaohao Yang, Simon J.L. Billinge.
+
+For a detailed list of contributors see
+https://github.com/diffpy/diffpy.structure/graphs/contributors.
+
+
+Acknowledgments
+========================================================================
+
+Space group codes in *spacegroupmod.py* and *mmlibspacegroups.py*
+originate from the pymmlib project, http://pymmlib.sourceforge.net.
+Less common settings of space groups were generating using the
+Computational Crystallography Toolbox,
+http://cctbx.sourceforge.net.
+
+
+.. index:: citation, reference
+
+Reference
+========================================================================
+
+If you use this program for a scientific research that leads
+to publication, we ask that you acknowledge use of the program
+by citing the following paper in your publication:
+
+   P. Juhás, C. L. Farrow, X. Yang, K. R. Knox and S. J. L. Billinge,
+   `Complex modeling: a strategy and software program for combining
+   multiple information sources to solve ill posed structure and
+   nanostructure inverse problems
+   <http://dx.doi.org/10.1107/S2053273315014473>`__,
+   *Acta Crystallogr. A* **71**, 562-568 (2015).
+
+
+
+.. index:: license
+
+License
+========================================================================
+
+.. literalinclude:: ../../../LICENSE.txt

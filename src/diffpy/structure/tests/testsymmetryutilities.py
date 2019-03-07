@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -20,11 +20,11 @@ import sys
 import unittest
 import numpy
 
-from diffpy.Structure.SpaceGroups import GetSpaceGroup
-from diffpy.Structure.SymmetryUtilities import (isSpaceGroupLatPar,
+from diffpy.structure.spacegroups import GetSpaceGroup
+from diffpy.structure.symmetryutilities import (isSpaceGroupLatPar,
         expandPosition, pruneFormulaDictionary, isconstantFormula,
         GeneratorSite, ExpandAsymmetricUnit, SymmetryConstraints)
-from diffpy.Structure.SymmetryUtilities import _Position2Tuple
+from diffpy.structure.symmetryutilities import _Position2Tuple
 
 # ----------------------------------------------------------------------------
 
@@ -117,7 +117,7 @@ class Test_Position2Tuple(unittest.TestCase):
         """check _Position2Tuple.__init__()
         """
         self.assertNotEqual(0.0, self.pos2tuple.eps)
-        self.pos2tuple = _Position2Tuple(1.0/sys.maxint/2)
+        self.pos2tuple = _Position2Tuple(1.0/sys.maxsize/2)
         self.assertEqual(0.0, self.pos2tuple.eps)
         return
 
@@ -419,10 +419,10 @@ class TestSymmetryConstraints(unittest.TestCase):
         self.assertTrue(numpy.all(corepos[0] == sc.corepos[0]))
         self.assertTrue(numpy.all(corepos[1] == sc.corepos[1]))
         self.assertEqual(2, len(sc.coremap))
-        mapped_count = sum([len(idcs) for idcs in sc.coremap.values()])
+        mapped_count = sum(len(idcs) for idcs in sc.coremap.values())
         self.assertEqual(len(sc.positions), mapped_count)
-        self.assertTrue(sc.coremap[0] == range(4))
-        self.assertTrue(sc.coremap[4] == range(4, 4+192))
+        self.assertTrue(sc.coremap[0] == list(range(4)))
+        self.assertTrue(sc.coremap[4] == list(range(4, 4+192)))
         return
 
     def test_Uisotropy(self):
@@ -508,5 +508,3 @@ class TestSymmetryConstraints(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-# End of file

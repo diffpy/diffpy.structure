@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -13,19 +13,21 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.Structure.Parsers.P_cif module
+"""Unit tests for diffpy.structure.parsers.p_cif module
 """
 
 import unittest
 import numpy
+import six
 
-from diffpy.Structure.tests.testutils import datafile
-from diffpy.Structure.Parsers.P_cif import P_cif, leading_float, getSymOp
-from diffpy.Structure.Parsers import getParser
-from diffpy.Structure import Structure
-from diffpy.Structure import StructureFormatError
+from diffpy.structure.tests.testutils import datafile
+from diffpy.structure.parsers.p_cif import P_cif, leading_float, getSymOp
+from diffpy.structure.parsers import getParser
+from diffpy.structure import Structure
+from diffpy.structure import StructureFormatError
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class TestRoutines(unittest.TestCase):
 
     def setUp(self):
@@ -33,6 +35,7 @@ class TestRoutines(unittest.TestCase):
 
     def tearDown(self):
         return
+
 
     def test_leading_float(self):
         """check leading_float()
@@ -42,15 +45,16 @@ class TestRoutines(unittest.TestCase):
         self.assertRaises(ValueError, leading_float, 'q1')
         return
 
+
     def test_getSymOp(self):
         """check getSymOp()
         """
-        from diffpy.Structure.SpaceGroups import SymOp
-        from diffpy.Structure.SpaceGroups import Rot_X_mY_Z, Tr_0_12_12
+        from diffpy.structure.spacegroups import SymOp
+        from diffpy.structure.spacegroups import Rot_X_mY_Z, Tr_0_12_12
         op = getSymOp('x,1/2-y,1/2+z')
         op_std = SymOp(Rot_X_mY_Z, Tr_0_12_12)
         self.assertEqual(str(op_std), str(op))
-        from diffpy.Structure.SpaceGroups import Rot_mX_mXY_Z, Tr_0_0_12
+        from diffpy.structure.spacegroups import Rot_mX_mXY_Z, Tr_0_0_12
         op1 = getSymOp('-x,-x+y,1/2+z')
         op1_std = SymOp(Rot_mX_mXY_Z, Tr_0_0_12)
         self.assertEqual(str(op1_std), str(op1))
@@ -58,7 +62,8 @@ class TestRoutines(unittest.TestCase):
 
 # End of class TestRoutines
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class TestP_cif(unittest.TestCase):
 
     goodciffile = datafile('PbTe.cif')
@@ -68,6 +73,7 @@ class TestP_cif(unittest.TestCase):
     teiciffile = datafile('TeI.cif')
     places = 6
 
+
     def setUp(self):
         self.ptest = P_cif()
         self.pfile = P_cif()
@@ -75,6 +81,7 @@ class TestP_cif(unittest.TestCase):
 
     def tearDown(self):
         return
+
 
     def test_parse(self):
         """check P_cif.parse()
@@ -95,6 +102,7 @@ class TestP_cif(unittest.TestCase):
             ptestb.parse, sbad)
         return
 
+
     def test_parseLines(self):
         """check P_cif.parseLines()
         """
@@ -111,8 +119,9 @@ class TestP_cif(unittest.TestCase):
             ptest.spacegroup.short_name)
         ptest2 = P_cif()
         self.assertRaises(StructureFormatError,
-                ptest2.parseLines, badlines)
+                          ptest2.parseLines, badlines)
         return
+
 
     def test_parseFile(self):
         """check P_cif.parseFile()
@@ -137,7 +146,7 @@ class TestP_cif(unittest.TestCase):
         # badciffile
         pfile2 = P_cif()
         self.assertRaises(StructureFormatError,
-                pfile2.parseFile, self.badciffile)
+                          pfile2.parseFile, self.badciffile)
         # graphite
         pgraphite = P_cif()
         graphite = pgraphite.parseFile(self.graphiteciffile)
@@ -148,7 +157,7 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(str, type(c1.label))
         self.assertEqual('C1', c1.label)
         # filename with unicode encoding
-        ugraphite = P_cif().parseFile(unicode(self.graphiteciffile))
+        ugraphite = P_cif().parseFile(six.u(self.graphiteciffile))
         self.assertEqual(4, len(ugraphite))
         # File with full space group name
         ptei = P_cif().parseFile(self.teiciffile)
@@ -223,6 +232,7 @@ class TestP_cif(unittest.TestCase):
         self.assertAlmostEqual(0.046164, a3.U[2,2])
         return
 
+
     def test_eps(self):
         """Test the P_cif.eps coordinates resolution.
         """
@@ -238,6 +248,7 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(4, len(grph2))
         return
 
+
     def test_nosites_cif(self):
         """Test reading of CIF file with no valid sites.
         """
@@ -249,6 +260,7 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(10.413, stru.lattice.c)
         return
 
+
     def test_badspacegroup_cif(self):
         """Test reading of CIF file with unrecognized space group.
         """
@@ -256,6 +268,7 @@ class TestP_cif(unittest.TestCase):
         filename = datafile('badspacegroup.cif')
         self.assertRaises(StructureFormatError, ptest.parseFile, filename)
         return
+
 
     def test_getParser(self):
         """Test passing of eps keyword argument by getParser function.
@@ -272,7 +285,7 @@ class TestP_cif(unittest.TestCase):
 
 # End of class TestP_cif
 
+# ----------------------------------------------------------------------------
+
 if __name__ == '__main__':
     unittest.main()
-
-# End of file

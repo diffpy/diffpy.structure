@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -13,17 +13,17 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.Structure.Parsers.P_discus module
+"""Unit tests for diffpy.structure.parsers.p_discus module
 """
 
 import unittest
 import re
 
-from diffpy.Structure.tests.testutils import datafile
-from diffpy.Structure import Structure, StructureFormatError
+from diffpy.structure.tests.testutils import datafile
+from diffpy.structure import Structure, StructureFormatError
 
+# ----------------------------------------------------------------------------
 
-##############################################################################
 class TestP_discus(unittest.TestCase):
     """test Parser for PDFFit file format"""
 
@@ -149,10 +149,9 @@ class TestP_discus(unittest.TestCase):
         return
 
 
-# End of TestP_discus
+# End of class TestP_discus
 
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
-
-# End of file

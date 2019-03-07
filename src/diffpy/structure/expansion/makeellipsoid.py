@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -17,8 +17,9 @@
 
 from math import ceil
 from numpy import array
-from diffpy.Structure import Structure
-from diffpy.Structure.expansion.shapeUtils import findCenter
+from diffpy.structure import Structure
+from diffpy.structure.expansion.shapeutils import findCenter
+
 
 def makeSphere(S, radius):
     """Create a spherical nanoparticle.
@@ -30,6 +31,7 @@ def makeSphere(S, radius):
     Returns a new structure instance
     """
     return makeEllipsoid(S, radius)
+
 
 def makeEllipsoid(S, a, b=None, c=None):
     """Cut a structure out of another one.
@@ -50,10 +52,10 @@ def makeEllipsoid(S, a, b=None, c=None):
 
     # Create a supercell large enough for the ellipsoid
     frac = S.lattice.fractional(sabc)
-    mno = map(ceil, 2*frac)
-    mno = max(map(ceil, 2*frac))*array([1,1,1])
+    # FIXME - this looks fishy for non-orthogonal lattices
+    mno = max(ceil(2 * xi) for xi in frac) * array([1, 1, 1])
     # Make the supercell
-    from diffpy.Structure.expansion import supercell
+    from diffpy.structure.expansion import supercell
     newS = supercell(S, mno)
     lat = newS.lattice
 
@@ -65,7 +67,7 @@ def makeEllipsoid(S, a, b=None, c=None):
     delList = []
     N = len(newS)
     j = N
-    for i in xrange(N):
+    for i in range(N):
         j -= 1
 
         # Calculate (x/a)**2 + (y/b)**2 + (z/c)**2
@@ -82,6 +84,7 @@ def makeEllipsoid(S, a, b=None, c=None):
 
     return newS
 
+# ----------------------------------------------------------------------------
 
 if __name__ == "__main__":
     import os.path

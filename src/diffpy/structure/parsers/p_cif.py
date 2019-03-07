@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -19,19 +19,17 @@ http://www.iucr.org/iucr-top/cif/home.html
 """
 
 import sys
-import os
 import re
 import copy
+from contextlib import contextmanager
 import numpy
+import six
 
-from diffpy.Structure import Structure, Lattice, Atom
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.Parsers import StructureParser
+from diffpy.structure import Structure, Lattice, Atom
+from diffpy.structure import StructureFormatError
+from diffpy.structure.parsers import StructureParser
 
-
-##############################################################################
-# class P_cif
-##############################################################################
+# ----------------------------------------------------------------------------
 
 class P_cif(StructureParser):
     """Simple parser for CIF structure format.
@@ -60,9 +58,7 @@ class P_cif(StructureParser):
                    items.  None when neither is defined.
     """
 
-    ########################################################################
-    # static data and methods
-    ########################################################################
+    # static data and methods ------------------------------------------------
 
     # dictionary set of class methods for translating CIF values
     # to Atom attributes
@@ -95,7 +91,7 @@ class P_cif(StructureParser):
         '_tr_atom_site_aniso_B_23',
         ))
     # make _atom_setters case insensitive
-    for k in _atom_setters.keys():
+    for k in list(_atom_setters.keys()):
         _atom_setters[k] = _atom_setters[k.lower()] = k
     del k
 
@@ -229,10 +225,7 @@ class P_cif(StructureParser):
         return rv
     _get_atom_setters = staticmethod(_get_atom_setters)
 
-
-    ########################################################################
-    # normal methods
-    ########################################################################
+    # normal methods ---------------------------------------------------------
 
     def __init__(self, eps=None):
         """Initialize the parser for CIF structure files.
@@ -252,22 +245,18 @@ class P_cif(StructureParser):
         self.cif_sgname = None
         pass
 
+
     def parse(self, s):
         """Create Structure instance from a string in CIF format.
 
         Return Structure instance or raise StructureFormatError.
         """
-        # CifFile seems to be only able to read from existing files
-        import tempfile
-        out, tmpfile = tempfile.mkstemp()
-        os.write(out, s)
-        os.close(out)
-        try:
-            rv = self.parseFile(tmpfile)
-        finally:
-            os.remove(tmpfile)
-            self.filename = None
+        self.ciffile = None
+        self.filename = ''
+        fp = six.StringIO(s)
+        rv = self._parseCifDataSource(fp)
         return rv
+
 
     def parseLines(self, lines):
         """Parse list of lines in CIF format.
@@ -279,6 +268,7 @@ class P_cif(StructureParser):
         s = "\n".join(lines) + '\n'
         return self.parse(s)
 
+
     def parseFile(self, filename):
         """Create Structure from an existing CIF file.
 
@@ -287,28 +277,50 @@ class P_cif(StructureParser):
         Return Structure object.
         Raise StructureFormatError or IOError.
         """
-        import CifFile
-        fixpycif = _FixPyCifRW()
-        StarError = fixpycif.importStarError()
-        # CifFile fails when filename is a unicode string
-        if type(filename) is unicode:
-            filename = str(filename)
+        self.ciffile = None
         self.filename = filename
+        fileurl = _fixIfWindowsPath(filename)
+        rv = self._parseCifDataSource(fileurl)
+        # all good here
+        return rv
+
+
+    def _parseCifDataSource(self, datasource):
+        """\
+        Open and process CIF data from the specified `datasource`.
+
+
+        Parameters
+        ----------
+        datasource : str or a file-like object
+            This is used as an argument to the CifFile class.  The CifFile
+            instance is stored in `ciffile` attribute of this Parser.
+
+        Returns
+        -------
+        Structure
+            The Structure object loaded from the specified data source.
+
+        Raises
+        ------
+        StructureFormatError
+            When the data do not constitute a valid CIF format.
+        """
+        from CifFile import CifFile, StarError
+        self.stru = None
         try:
-            fileurl = fixIfWindowsPath(filename)
-            fixpycif.disableParserOutput()
-            self.ciffile = CifFile.CifFile(fileurl)
-            for blockname, ignore in self.ciffile.items():
-                self._parseCifBlock(blockname)
-                # stop after reading the first structure
-                if self.stru:   break
-        except (StarError, ValueError, IndexError), err:
+            with _suppressCifParserOutput():
+                self.ciffile = CifFile(datasource)
+                for blockname in self.ciffile.keys():
+                    self._parseCifBlock(blockname)
+                    # stop after reading the first structure
+                    if self.stru is not None:
+                        break
+        except (StarError, ValueError, IndexError) as err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err).strip()
-            raise StructureFormatError, emsg, exc_traceback
-        finally:
-            fixpycif.restoreParserOutput()
-        # all good here
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         return self.stru
 
 
@@ -321,7 +333,7 @@ class P_cif(StructureParser):
         No return value.
         """
         block = self.ciffile[blockname]
-        if not block.has_key('_atom_site_label'):   return
+        if '_atom_site_label' not in block:   return
         # here block contains structure, initialize output data
         self.stru = Structure()
         self.labelindex.clear()
@@ -332,6 +344,7 @@ class P_cif(StructureParser):
         self._parse_space_group_symop_operation_xyz(block)
         return
 
+
     def _parse_lattice(self, block):
         """Obtain lattice parameters from a CifBlock.
         This method updates self.stru.lattice.
@@ -340,7 +353,7 @@ class P_cif(StructureParser):
 
         No return value.
         """
-        if not block.has_key('_cell_length_a'): return
+        if '_cell_length_a' not in block: return
         # obtain lattice parameters
         try:
             latpars = (
@@ -351,12 +364,14 @@ class P_cif(StructureParser):
                 leading_float(block['_cell_angle_beta']),
                 leading_float(block['_cell_angle_gamma']),
             )
-        except KeyError, err:
+        except KeyError as err:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err)
-            raise StructureFormatError, emsg, exc_traceback
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         self.stru.lattice = Lattice(*latpars)
         return
+
 
     def _parse_atom_site_label(self, block):
         """Obtain atoms in asymmetric unit from a CifBlock.
@@ -387,6 +402,7 @@ class P_cif(StructureParser):
                 fset(a, val)
         return
 
+
     def _parse_atom_site_aniso_label(self, block):
         """Obtain value of anisotropic thermal displacements from a CifBlock.
         This method updates U members of Atom instances in self.stru.
@@ -396,12 +412,12 @@ class P_cif(StructureParser):
 
         No return value.
         """
-        if not block.has_key('_atom_site_aniso_label'): return
+        if '_atom_site_aniso_label' not in block: return
         # was anisotropy set in the _atom_site_label loop?
         atom_site_loop = block.GetLoop('_atom_site_label')
         anisotropy_already_set = (
-            atom_site_loop.has_key('_atom_site_adp_type') or
-            atom_site_loop.has_key('_atom_site_thermal_displace_type'))
+            '_atom_site_adp_type' in atom_site_loop or
+            '_atom_site_thermal_displace_type' in atom_site_loop)
         # something to do here:
         adp_loop = block.GetLoop('_atom_site_aniso_label')
         # index of the _atom_site_label column
@@ -418,6 +434,7 @@ class P_cif(StructureParser):
                 fset(a, val)
         return
 
+
     def _parse_space_group_symop_operation_xyz(self, block):
         """Process symmetry operations from a CifBlock.  The method
         updates spacegroup and eau data according to symmetry
@@ -428,12 +445,12 @@ class P_cif(StructureParser):
 
         No return value.
         """
-        from diffpy.Structure.SpaceGroups import IsSpaceGroupIdentifier
-        from diffpy.Structure.SpaceGroups import SpaceGroup, GetSpaceGroup
+        from diffpy.structure.spacegroups import IsSpaceGroupIdentifier
+        from diffpy.structure.spacegroups import SpaceGroup, GetSpaceGroup
         self.asymmetric_unit = list(self.stru)
         sym_synonyms = ('_space_group_symop_operation_xyz',
                         '_symmetry_equiv_pos_as_xyz')
-        sym_loop_name = [n for n in sym_synonyms if block.has_key(n)]
+        sym_loop_name = [n for n in sym_synonyms if n in block]
         # recover explicit list of symmetry operations
         symop_list = []
         if sym_loop_name:
@@ -485,13 +502,14 @@ class P_cif(StructureParser):
         self._expandAsymmetricUnit()
         return
 
+
     def _expandAsymmetricUnit(self):
         """Perform symmetry expansion of self.stru using self.spacegroup.
         This method updates data in stru and eau.
 
         No return value.
         """
-        from diffpy.Structure.SymmetryUtilities import ExpandAsymmetricUnit
+        from diffpy.structure.symmetryutilities import ExpandAsymmetricUnit
         # get reverse-ordered unique indices
         corepos = [a.xyz for a in self.stru]
         coreUijs = [a.U for a in self.stru]
@@ -514,10 +532,7 @@ class P_cif(StructureParser):
         self.stru[:] = sum(newatoms, [])
         return
 
-
-    ########################################################################
-    # conversion to CIF
-    ########################################################################
+    # conversion to CIF ------------------------------------------------------
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in basic CIF format.
@@ -599,14 +614,10 @@ class P_cif(StructureParser):
                         a.U[0,1], a.U[0,2], a.U[1,2] )
                 lines.append(line)
         return lines
-    # End of toLines
 
 # End of class P_cif
 
-
-##############################################################################
-# Routines
-##############################################################################
+# Routines -------------------------------------------------------------------
 
 # constant regular expression for leading_float()
 rx_float = re.compile(r'[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?')
@@ -649,7 +660,7 @@ def getSymOp(s):
 
     Return instance of SymOp.
     """
-    from diffpy.Structure.SpaceGroups import SymOp
+    from diffpy.structure.spacegroups import SymOp
     snoblanks = s.replace(' ','')
     eqlist = snoblanks.split(',')
     R = numpy.zeros((3,3), dtype=float)
@@ -665,7 +676,7 @@ def getSymOp(s):
     return rv
 
 
-def fixIfWindowsPath(filename):
+def _fixIfWindowsPath(filename):
     """Convert Windows-style path to valid local URL.
     CifFile loads files using urlopen, which fails for Windows-style paths.
 
@@ -673,64 +684,11 @@ def fixIfWindowsPath(filename):
 
     Return fixed URL when run on Windows, otherwise return filename.
     """
-    fixedname = filename
-    if os.name == "nt" and re.match(r'^[a-z]:\\', filename, re.I):
-        import urllib
-        fixedname = urllib.pathname2url(filename)
-    return fixedname
-
-
-class _FixPyCifRW(object):
-
-    """Uniform interface helper for various PyCifRW versions.
-    """
-
-    _isversion4 = None
-    _yapps3_print_error = None
-    _yapps3_module = None
-
-    def isVersion4(self):
-        "True if the installed PyCifRW is at least 4.0 or later."
-        import pkg_resources
-        cls = _FixPyCifRW
-        if cls._isversion4 is None:
-            dist = pkg_resources.get_distribution('PyCifRW')
-            v4 = pkg_resources.parse_version('4')
-            cls._isversion4 = (dist.parsed_version >= v4)
-        return cls._isversion4
-
-
-    def importStarError(self):
-        "Import and return the StarError exception from PyCifRW."
-        if self.isVersion4():
-            from CifFile.StarFile import StarError
-        else:
-            from StarFile import StarError
-        return StarError
-
-
-    def disableParserOutput(self):
-        """Disable PyCifRW output due to CIF parsing errors.
-        """
-        if not self.isVersion4():  return
-        cls = _FixPyCifRW
-        if cls._yapps3_module is None:
-            import CifFile.yapps3_compiled_rt as mod
-            cls._yapps3_module = mod
-            cls._yapps3_print_error = mod.print_error
-        noop = lambda *a, **kw : None
-        cls._yapps3_module.print_error = noop
-        return
-
-
-    def restoreParserOutput(self):
-        """Restore PyCifRW output as implemented.
-        """
-        if not self.isVersion4():  return
-        cls = _FixPyCifRW
-        assert cls._yapps3_print_error is not None
-        cls._yapps3_module.print_error = cls._yapps3_print_error
-        return
+    rv = filename
+    if filename[:1].isalpha() and filename[1:3] == ':\\':
+        from urllib.request import pathname2url
+        rv = pathname2url(filename)
+    return rv
 
 
 def getParser(eps=None):
@@ -741,4 +699,19 @@ def getParser(eps=None):
     """
     return P_cif(eps=eps)
 
-# End of file
+# Local Helpers --------------------------------------------------------------
+
+@contextmanager
+def _suppressCifParserOutput():
+    """\
+    Context manager which suppresses diagnostic messages from CIF parser.
+    """
+    from CifFile import yapps3_compiled_rt
+    print_error = yapps3_compiled_rt.print_error
+    # replace the print_error function with no-operation
+    yapps3_compiled_rt.print_error = lambda *a, **kw : None
+    try:
+        yield print_error
+    finally:
+        yapps3_compiled_rt.print_error = print_error
+    pass

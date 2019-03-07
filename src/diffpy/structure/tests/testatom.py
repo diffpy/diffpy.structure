@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  Complex Modeling Initiative
+# diffpy.structure  Complex Modeling Initiative
 #                   (c) 2016 Brookhaven Science Associates,
 #                   Brookhaven National Laboratory.
 #                   All rights reserved.
@@ -21,17 +21,12 @@ Unit tests for the Atom class.
 import unittest
 import numpy
 
-from diffpy.Structure.atom import Atom
-from diffpy.Structure.lattice import Lattice
+from diffpy.structure.atom import Atom
+from diffpy.structure.lattice import Lattice
 
-##############################################################################
+# ----------------------------------------------------------------------------
+
 class TestAtom(unittest.TestCase):
-
-#   def setUp(self):
-#       return
-#
-#   def tearDown(self):
-#       return
 
     def test___init__(self):
         """check Atom.__init__()
@@ -61,7 +56,6 @@ class TestAtom(unittest.TestCase):
         self.assertRaises(ValueError, Atom,
                           'C', Uisoequiv=0.02, U=uani)
         return
-
 
 #   def test_msdLat(self):
 #       """check Atom.msdLat()
@@ -155,6 +149,7 @@ class TestAtom(unittest.TestCase):
 
 # End of class TestAtom
 
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()

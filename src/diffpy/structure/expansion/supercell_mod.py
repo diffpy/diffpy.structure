@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2008 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -17,7 +17,7 @@
 """
 
 import numpy
-from diffpy.Structure import Structure, Atom
+from diffpy.structure import Structure, Atom
 
 
 def supercell(S, mno):
@@ -27,7 +27,7 @@ def supercell(S, mno):
     divided by corresponding multiplier.  New atoms are grouped with
     their source in the original cell.
 
-    S   -- an instance of Structure from diffpy.Structure.
+    S   -- an instance of Structure from diffpy.structure.
     mno -- sequence of 3 integers for cell multipliers along
            the a, b and c axes.
 
@@ -38,13 +38,13 @@ def supercell(S, mno):
     # check arguments
     if len(mno) != 3:
         emsg = "Argument mno must contain 3 numbers."
-        raise ValueError, emsg
+        raise ValueError(emsg)
     elif min(mno) < 1:
         emsg = "Multipliers must be greater or equal 1"
-        raise ValueError, emsg
+        raise ValueError(emsg)
     if not isinstance(S, Structure):
         emsg = "The first argument must be a Structure instance."
-        raise TypeError, emsg
+        raise TypeError(emsg)
 
     # convert mno to a tuple of integers so it can be used as range limit.
     mno = (int(mno[0]), int(mno[1]), int(mno[2]))
@@ -70,7 +70,7 @@ def supercell(S, mno):
             adup.xyz = (a.xyz + ijk)/mnofloats
             newAtoms.append(adup)
     # newS can own references in newAtoms, no need to make copies
-    newS.__setslice__(0, len(newS), newAtoms, copy=False)
+    newS.__setitem__(slice(None), newAtoms, copy=False)
 
     # take care of lattice parameters
     newS.lattice.setLatPar(

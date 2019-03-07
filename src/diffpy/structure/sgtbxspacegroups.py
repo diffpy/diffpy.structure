@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2009 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -21,8 +21,8 @@ sgtbxSpaceGroupList -- list of space group instances defined in this module
 '''
 
 
-from diffpy.Structure.spacegroupmod import SpaceGroup, SymOp
-from diffpy.Structure.spacegroupmod import (
+from diffpy.structure.spacegroupmod import SpaceGroup, SymOp
+from diffpy.structure.spacegroupmod import (
     Rot_X_Y_Z, Rot_mX_mY_mZ, Rot_mX_Y_mZ, Rot_X_mY_Z,
     Rot_mX_mY_Z, Rot_X_mY_mZ, Rot_mX_Y_Z, Rot_X_Y_mZ,
     Tr_0_0_0, Tr_0_12_0, Tr_12_12_0, Tr_0_0_12,
@@ -4962,5 +4962,3 @@ sgtbxSpaceGroupList = [
         sg5068, sg6068, sg7068, sg1072, sg2072, sg1073, sg1074, sg2074,
         sg3074, sg4074, sg5074,
 ]
-
-# End of file

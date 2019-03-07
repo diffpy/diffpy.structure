@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.Structure  by DANSE Diffraction group
+# diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -17,10 +17,12 @@
 """
 
 import sys
+from functools import reduce
+import six
 
-from diffpy.Structure import PDFFitStructure, Lattice
-from diffpy.Structure import StructureFormatError
-from diffpy.Structure.Parsers import StructureParser
+from diffpy.structure import PDFFitStructure, Lattice
+from diffpy.structure import StructureFormatError
+from diffpy.structure.parsers import StructureParser
 
 class P_discus(StructureParser):
     """Parser for DISCUS structure format.  The parser chokes
@@ -39,6 +41,7 @@ class P_discus(StructureParser):
         self.cell_read = False
         self.ncell_read = False
         return
+
 
     def parseLines(self, lines):
         """Parse list of lines in DISCUS format.
@@ -94,9 +97,10 @@ class P_discus(StructureParser):
         except (ValueError, IndexError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: file is not in DISCUS format" % self.nl
-            raise StructureFormatError, emsg, exc_traceback
+            e = StructureFormatError(emsg)
+            six.reraise(StructureFormatError, e, exc_traceback)
         return self.stru
-    # End of parseLines
+
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in DISCUS format.
@@ -129,7 +133,7 @@ class P_discus(StructureParser):
             lines.append( "%-4s %17.8f %17.8f %17.8f %12.4f" % (
                 a.element.upper(), a.xyz[0], a.xyz[1], a.xyz[2], a.Bisoequiv))
         return lines
-    # End of toLines
+
 
     def _linesIterator(self):
         """Iterator over self.lines, which increments self.nl
@@ -143,7 +147,8 @@ class P_discus(StructureParser):
         for self.line in self.lines[:stop]:
             self.nl += 1
             yield self.line
-        # end of _linesIterator
+        pass
+
 
     def _parse_cell(self, words):
         """Process the cell record from DISCUS structure file.
@@ -160,6 +165,7 @@ class P_discus(StructureParser):
         self.cell_read = True
         return
 
+
     def _parse_format(self, words):
         """Process the format record from DISCUS structure file.
         """
@@ -167,6 +173,7 @@ class P_discus(StructureParser):
             emsg = "%d: file is not in DISCUS format" % self.nl
             raise StructureFormatError(emsg)
         return
+
 
     def _parse_ncell(self, words):
         """Process the ncell record from DISCUS structure file.
@@ -177,17 +184,20 @@ class P_discus(StructureParser):
         self.ncell_read = True
         return
 
+
     def _parse_spcgr(self, words):
         """Process the spcgr record from DISCUS structure file.
         """
         self.stru.pdffit['spcgr'] = ''.join(words[1:])
         return
 
+
     def _parse_title(self, words):
         """Process the title record from DISCUS structure file.
         """
         self.stru.title = self.line.lstrip()[5:].strip()
         return
+
 
     def _parse_shape(self, words):
         """Process the shape record from DISCUS structure file.
@@ -202,8 +212,9 @@ class P_discus(StructureParser):
             self.stru.pdffit['stepcut'] = float(words[2])
         else:
             emsg = 'Invalid type of particle shape correction %r' % shapetype
-            raise StructureFormatError, emsg
+            raise StructureFormatError(emsg)
         return
+
 
     def _parse_atom(self, words):
         """Process atom records in DISCUS structure file.
@@ -216,6 +227,7 @@ class P_discus(StructureParser):
         a.Bisoequiv = Biso
         return
 
+
     def _parse_unknown_record(self, words):
         """Process unknown record in DISCUS structure file.
         Silently ignores the line and adds it to self.ignored_lines
@@ -223,6 +235,7 @@ class P_discus(StructureParser):
         """
         self.ignored_lines.append(self.line)
         return
+
 
     def _parse_not_implemented(self, words):
         """Process the unimplemented records from DISCUS structure file.
@@ -234,9 +247,7 @@ class P_discus(StructureParser):
 
 # End of class P_pdffit
 
-# Routines
+# Routines -------------------------------------------------------------------
 
 def getParser():
     return P_discus()
-
-# End of file
