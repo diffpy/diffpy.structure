@@ -45,6 +45,12 @@ test:
     - diffpy.structure.applications
     - diffpy.structure.expansion
     - diffpy.structure.tests
+    # legacy imports
+    - diffpy.Structure
+    - diffpy.Structure.Parsers
+    - diffpy.Structure.applications
+    - diffpy.Structure.expansion
+    - diffpy.Structure.tests
 
   # commands:
     # You can put test commands to be run here.  Use this to test that the
