@@ -39,7 +39,6 @@ def mmSpaceGroupFromSymbol(symbol):
     """
     sginfo = sgtbx.space_group_info(symbol)
     symop_list = []
-    unique_rotations = set()
     symop_list = getSymOpList(sginfo.group())
     sgtype = sginfo.type()
     uhm = sgtype.lookup_symbol()

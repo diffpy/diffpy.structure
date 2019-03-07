@@ -33,25 +33,3 @@ def findCenter(S):
             best = i
 
     return best
-
-
-if __name__ == "__main__":
-    # FIXME ... remove or convert to unit test
-    import os.path
-    datadir = "../../tests/testdata"
-    S = Structure()
-    S.read(os.path.join(datadir, "CdSe_bulk.stru"), "pdffit")
-    newS = makeEllipsoid(S, 20)
-    newS.write("CdSe_d20.stru", "pdffit")
-    newS = makeEllipsoid(S, 20, 10, 10)
-    newS.write("CdSe_a20_b10_c10.stru", "pdffit")
-    newS = makeEllipsoid(S, 20, 15, 10)
-    newS.write("CdSe_a20_b15_c10.stru", "pdffit")
-    S = Structure()
-    S.read(os.path.join(datadir, "Ni.stru"), "pdffit")
-    newS = makeEllipsoid(S, 20)
-    newS.write("Ni_d20.stru", "pdffit")
-    newS = makeEllipsoid(S, 20, 4)
-    newS.write("Ni_a20_b4_c20.stru", "pdffit")
-    newS = makeEllipsoid(S, 20, 15, 10)
-    newS.write("Ni_a20_b15_c10.stru", "pdffit")
