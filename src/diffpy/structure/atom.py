@@ -18,6 +18,8 @@ Provide class Atom for managing properties of an atom in structure model.
 """
 
 import numpy
+import six
+
 from diffpy.structure.lattice import cartesian as cartesian_lattice
 
 # conversion constants
@@ -529,5 +531,15 @@ class _AtomCartesianCoordinates(numpy.ndarray):
         Ensure math operations on this type yield standard numpy array.
         """
         return out_arr.view(numpy.ndarray)
+
+    # Python 2 Compatibility -------------------------------------------------
+
+    if six.PY2:
+
+        def __setslice__(self, lo, hi, sequence):
+            self.__setitem__(slice(lo, hi), sequence)
+            return
+
+    # ------------------------------------------------------------------------
 
 # End of _AtomCartesianCoordinates
