@@ -94,23 +94,28 @@ Exceptions
 .. autoclass:: SymmetryError
 
 
-Submodules
+
+Table of contents
 ========================================================================
 
 .. toctree::
-   :maxdepth: 2
+   :titlesonly:
 
    license
    release
-   mod_lattice.rst
+   mod_lattice
 
 
 **FIXME BELOW**
 
 :doc:`submodules`
 
-* :ref:`genindex`
-
 **FIXME TO HERE**
 
 ----
+
+Indices
+========================================================================
+
+* :ref:`genindex`
+* :ref:`search`
