@@ -63,8 +63,6 @@ before_install:
   - $NOMC || conda install --yes conda-build conda-verify jinja2
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
   - $NOMC || conda config --add channels diffpy
-  # FIXME - keep just the "diffpy" channel for public release.
-  - $NOMC || conda config --add channels diffpy/channel/dev
 
   - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
   - $NOAPT || PATH="$(echo "$PATH" | sed 's,:/opt/pyenv/[^:]*,,g')"
