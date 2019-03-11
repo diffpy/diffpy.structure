@@ -103,6 +103,7 @@ Table of contents
 
    license
    release
+   package
    mod_lattice
 
 
