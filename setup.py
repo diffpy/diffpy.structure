@@ -76,6 +76,9 @@ def getversioncfg():
 
 versiondata = getversioncfg()
 
+with open(os.path.join(MYDIR, 'README.rst')) as fp:
+    long_description = fp.read()
+
 # define distribution
 setup_args = dict(
     name = "diffpy.structure",
@@ -97,6 +100,8 @@ setup_args = dict(
     url = 'https://github.com/diffpy/diffpy.structure',
     description = "Crystal structure container "
                   "and parsers for structure formats.",
+    long_description = long_description,
+    long_description_content_type = 'text/x-rst',
     license = 'BSD-style license',
     keywords = "crystal structure data storage CIF PDB",
     classifiers = [
