@@ -100,6 +100,8 @@ Submodules
 .. toctree::
    :maxdepth: 2
 
+   license
+   release
    mod_lattice.rst
 
 
@@ -112,12 +114,3 @@ Submodules
 **FIXME TO HERE**
 
 ----
-
-
-
-.. index:: license
-
-License
-========================================================================
-
-.. literalinclude:: ../../../LICENSE.txt
