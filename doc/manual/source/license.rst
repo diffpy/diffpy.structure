@@ -1,25 +1,28 @@
+License
+#######
+
 OPEN SOURCE LICENSE AGREEMENT
 =============================
 
-Copyright (c) 2009-2011, University of Tennessee
-Copyright (c) 1989, 1991 Free Software Foundation, Inc.
-Copyright (c) 2006, The Regents of the University of California through
-    Lawrence Berkeley National Laboratory
-Copyright (c) 2014, Australian Synchrotron Research Program Inc., ("ASRP")
-Copyright (c) 2006-2007, Board of Trustees of Michigan State University
-Copyright (c) 2008-2012, The Trustees of Columbia University in the City
-    of New York
-
-Copyright (c) 2014-2019, Brookhaven Science Associates, Brookhaven National
-    Laboratory
+| Copyright (c) 2009-2011, University of Tennessee
+| Copyright (c) 1989, 1991 Free Software Foundation, Inc.
+| Copyright (c) 2006, The Regents of the University of California through
+  Lawrence Berkeley National Laboratory
+| Copyright (c) 2014, Australian Synchrotron Research Program Inc., ("ASRP")
+| Copyright (c) 2006-2007, Board of Trustees of Michigan State University
+| Copyright (c) 2008-2012, The Trustees of Columbia University in
+  the City of New York
+| Copyright (c) 2014-2019, Brookhaven Science Associates,
+  Brookhaven National Laboratory
 
 
 The "DiffPy-CMI" is distributed subject to the following license conditions:
 
 
 SOFTWARE LICENSE AGREEMENT
+==========================
 
-    Software: DiffPy-CMI
+Software: **DiffPy-CMI**
 
 
 (1) The "Software", below, refers to the aforementioned DiffPy-CMI (in either
@@ -134,4 +137,4 @@ maintain this notice affixed to any distribution by the recipient that
 contains a copy or derivative of this software.
 
 
-END OF LICENSE
+.. rubric:: END OF LICENSE
