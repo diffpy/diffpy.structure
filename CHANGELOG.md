@@ -1,6 +1,6 @@
 # Release notes
 
-## Unreleased - Version 3.0.0
+## Version 3.0.0 -- 2019-03-11
 
 Notable differences from version 1.3.5.
 
