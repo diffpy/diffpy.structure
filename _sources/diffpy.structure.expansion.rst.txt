@@ -1,29 +1,29 @@
-diffpy.Structure.expansion package
+diffpy.structure.expansion package
 ==================================
 
 Submodules
 ----------
 
-diffpy.Structure.expansion.makeEllipsoid module
+diffpy.structure.expansion.makeellipsoid module
 -----------------------------------------------
 
-.. automodule:: diffpy.Structure.expansion.makeEllipsoid
+.. automodule:: diffpy.structure.expansion.makeellipsoid
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.expansion.shapeUtils module
+diffpy.structure.expansion.shapeutils module
 --------------------------------------------
 
-.. automodule:: diffpy.Structure.expansion.shapeUtils
+.. automodule:: diffpy.structure.expansion.shapeutils
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.Structure.expansion.supercell_mod module
+diffpy.structure.expansion.supercell_mod module
 -----------------------------------------------
 
-.. automodule:: diffpy.Structure.expansion.supercell_mod
+.. automodule:: diffpy.structure.expansion.supercell_mod
     :members:
     :undoc-members:
     :show-inheritance:
@@ -32,7 +32,7 @@ diffpy.Structure.expansion.supercell_mod module
 Module contents
 ---------------
 
-.. automodule:: diffpy.Structure.expansion
+.. automodule:: diffpy.structure.expansion
     :members:
     :undoc-members:
     :show-inheritance:

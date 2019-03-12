@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>diffpy.structure.expansion package &#8212; diffpy.structure 3.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="diffpy.structure.applications package" href="diffpy.structure.applications.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+
+  </head><body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="index.html">diffpy.structure 3.0.0 documentation</a> &#187;</li>
+          <li><a href="package.html" accesskey="U">Package API</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="diffpy-structure-expansion-package">
+<h1>diffpy.structure.expansion package<a class="headerlink" href="#diffpy-structure-expansion-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-diffpy.structure.expansion.makeellipsoid">
+<span id="diffpy-structure-expansion-makeellipsoid-module"></span><h2>diffpy.structure.expansion.makeellipsoid module<a class="headerlink" href="#module-diffpy.structure.expansion.makeellipsoid" title="Permalink to this headline">¶</a></h2>
+<p>Make a spheroid nanoparticle from a template structure.</p>
+<dl class="function">
+<dt id="diffpy.structure.expansion.makeellipsoid.makeSphere">
+<code class="descname">makeSphere</code><span class="sig-paren">(</span><em>S</em>, <em>radius</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.expansion.makeellipsoid.makeSphere" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a spherical nanoparticle.</p>
+<p>Arguments
+S       –  A Structure instance
+radius  –  primary equatorial radius (along x-axis)</p>
+<p>Returns a new structure instance</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.structure.expansion.makeellipsoid.makeEllipsoid">
+<code class="descname">makeEllipsoid</code><span class="sig-paren">(</span><em>S</em>, <em>a</em>, <em>b=None</em>, <em>c=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.expansion.makeellipsoid.makeEllipsoid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cut a structure out of another one.</p>
+<p>Arguments
+S       –  A Structure instance
+a       –  primary equatorial radius (along x-axis)
+b       –  secondary equatorial radius (along y-axis). If b is None</p>
+<blockquote>
+<div>(default) then it is set equal to a</div></blockquote>
+<dl class="docutils">
+<dt>c       –  polar radius (along z-axis). If c is None (default), then it is</dt>
+<dd>set equal to a.</dd>
+</dl>
+<p>Returns a new structure instance</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.structure.expansion.shapeutils">
+<span id="diffpy-structure-expansion-shapeutils-module"></span><h2>diffpy.structure.expansion.shapeutils module<a class="headerlink" href="#module-diffpy.structure.expansion.shapeutils" title="Permalink to this headline">¶</a></h2>
+<p>Utilities for making shapes.</p>
+<dl class="function">
+<dt id="diffpy.structure.expansion.shapeutils.findCenter">
+<code class="descname">findCenter</code><span class="sig-paren">(</span><em>S</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.expansion.shapeutils.findCenter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the approximate center atom of a structure.</p>
+<p>The center of the structure is the atom closest to (0.5, 0.5, 0.5)</p>
+<p>Returns the index of the atom.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.structure.expansion.supercell_mod">
+<span id="diffpy-structure-expansion-supercell-mod-module"></span><h2>diffpy.structure.expansion.supercell_mod module<a class="headerlink" href="#module-diffpy.structure.expansion.supercell_mod" title="Permalink to this headline">¶</a></h2>
+<p>This module contains functions for simple structure manipulation.</p>
+<dl class="function">
+<dt id="diffpy.structure.expansion.supercell_mod.supercell">
+<code class="descname">supercell</code><span class="sig-paren">(</span><em>S</em>, <em>mno</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.expansion.supercell_mod.supercell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform supercell expansion for a structure.</p>
+<p>New lattice parameters are multiplied and fractional coordinates
+divided by corresponding multiplier.  New atoms are grouped with
+their source in the original cell.</p>
+<p>S   – an instance of Structure from diffpy.structure.
+mno – sequence of 3 integers for cell multipliers along</p>
+<blockquote>
+<div>the a, b and c axes.</div></blockquote>
+<p>Return a new expanded structure instance.
+Raise TypeError when S is not Structure instance.
+Raise ValueError for invalid mno argument.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-diffpy.structure.expansion">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-diffpy.structure.expansion" title="Permalink to this headline">¶</a></h2>
+<p>Methods and classes for manipulating Structure instances.</p>
+<p>Package content:</p>
+<p>supercell   – create a supercell from an existing Structure.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a id="sidebar-anchor"></a>
+    
+
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">diffpy.structure.expansion package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-diffpy.structure.expansion.makeellipsoid">diffpy.structure.expansion.makeellipsoid module</a></li>
+<li><a class="reference internal" href="#module-diffpy.structure.expansion.shapeutils">diffpy.structure.expansion.shapeutils module</a></li>
+<li><a class="reference internal" href="#module-diffpy.structure.expansion.supercell_mod">diffpy.structure.expansion.supercell_mod module</a></li>
+<li><a class="reference internal" href="#module-diffpy.structure.expansion">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="diffpy.structure.applications.html"
+                        title="previous chapter">diffpy.structure.applications package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/diffpy.structure.expansion.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="diffpy.structure.applications.html" title="diffpy.structure.applications package"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Brookhaven National Laboratory.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

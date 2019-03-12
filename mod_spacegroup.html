@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>diffpy.structure.spacegroupmod &#8212; diffpy.structure 3.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="diffpy.structure.parsers package" href="diffpy.structure.parsers.html" />
+    <link rel="prev" title="diffpy.structure.lattice" href="mod_lattice.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+
+  </head><body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="index.html">diffpy.structure 3.0.0 documentation</a> &#187;</li>
+          <li><a href="package.html" accesskey="U">Package API</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-diffpy.structure.spacegroupmod">
+<span id="diffpy-structure-spacegroupmod"></span><h1>diffpy.structure.spacegroupmod<a class="headerlink" href="#module-diffpy.structure.spacegroupmod" title="Permalink to this headline">¶</a></h1>
+<p>Symmetry operations as functions on vectors or arrays.</p>
+<dl class="class">
+<dt id="diffpy.structure.spacegroupmod.SymOp">
+<em class="property">class </em><code class="descname">SymOp</code><span class="sig-paren">(</span><em>R</em>, <em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>The transformation of coordinates to a symmetry-related position.</p>
+<p>The SymOp operation involves rotation and translation in cell coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>R</strong> (<em>ndarray</em>) – The 3x3 matrix of rotation for this symmetry operation.</li>
+<li><strong>t</strong> (<em>ndarray</em>) – The vector of translation in this symmetry operation.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SymOp.R">
+<code class="descname">R</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp.R" title="Permalink to this definition">¶</a></dt>
+<dd><p>The 3x3 matrix of rotation pertaining to unit cell coordinates.
+This may be identity, simple rotation, improper rotation, mirror
+or inversion.  The determinant of <em>R</em> is either +1 or -1.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SymOp.t">
+<code class="descname">t</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>The translation of cell coordinates applied after rotation <em>R</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.spacegroupmod.SymOp.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return symmetry-related position for the specified coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vec</strong> (<em>ndarray</em>) – The initial position in fractional cell coordinates.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>ndarray</em> – The transformed position after this symmetry operation.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.spacegroupmod.SymOp.__eq__">
+<code class="descname">__eq__</code><span class="sig-paren">(</span><em>symop</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the <code class="docutils literal notranslate"><span class="pre">(self</span> <span class="pre">==</span> <span class="pre">symop)</span></code> test of equality.</p>
+<p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> when <em>self</em> and <em>symop</em> difference is within
+tiny round-off errors.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.spacegroupmod.SymOp.is_identity">
+<code class="descname">is_identity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp.is_identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if this SymOp is an identity operation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>bool</em> – <code class="docutils literal notranslate"><span class="pre">True</span></code> if this is an identity operation within a small round-off.
+Return <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup">
+<em class="property">class </em><code class="descname">SpaceGroup</code><span class="sig-paren">(</span><em>number=None</em>, <em>num_sym_equiv=None</em>, <em>num_primitive_sym_equiv=None</em>, <em>short_name=None</em>, <em>alt_name=None</em>, <em>point_group_name=None</em>, <em>crystal_system=None</em>, <em>pdb_name=None</em>, <em>symop_list=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Definition and basic operations for a specific space group.</p>
+<p>Provide standard names and all symmetry operations contained in
+one space group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>number</strong> (<em>int</em>) – The space group number.</li>
+<li><strong>num_sym_equiv</strong> (<em>int</em>) – The number of symmetry equivalent sites for a general position.</li>
+<li><strong>num_primitive_sym_equiv</strong> (<em>int</em>) – The number of symmetry equivalent sites in a primitive unit cell.</li>
+<li><strong>short_name</strong> (<em>str</em>) – The short Hermann-Mauguin symbol of the space group.</li>
+<li><strong>alt_name</strong> (<em>str</em>) – Alternative space group symbol consistent with FullProf.</li>
+<li><strong>point_group_name</strong> (<em>str</em>) – The point group of this space group.</li>
+<li><strong>crystal_system</strong> (<em>str</em>) – The crystal system of this space group.</li>
+<li><strong>pdb_name</strong> (<em>str</em>) – The full Hermann-Mauguin symbol of the space group.</li>
+<li><strong>symop_list</strong> (<em>list of SymOp</em>) – The symmetry operations contained in this space group.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.number">
+<code class="descname">number</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.number" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unique space group number.  This may be incremented by
+several thousands to facilitate unique values for multiple
+settings of the same space group.  Use <code class="docutils literal notranslate"><span class="pre">number</span> <span class="pre">%</span> <span class="pre">1000</span></code>
+to get the standard space group number from International
+Tables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.num_sym_equiv">
+<code class="descname">num_sym_equiv</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.num_sym_equiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of symmetry equivalent sites for a general position.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.num_primitive_sym_equiv">
+<code class="descname">num_primitive_sym_equiv</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.num_primitive_sym_equiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of symmetry equivalent sites in a primitive unit cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.short_name">
+<code class="descname">short_name</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.short_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The short Hermann-Mauguin symbol of the space group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.alt_name">
+<code class="descname">alt_name</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.alt_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alternative space group symbol consistent with FullProf.
+Deprecated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.point_group_name">
+<code class="descname">point_group_name</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.point_group_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The point group to which this space group belongs to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.crystal_system">
+<code class="descname">crystal_system</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.crystal_system" title="Permalink to this definition">¶</a></dt>
+<dd><p>The crystal system of this space group.  The possible values are
+<code class="docutils literal notranslate"><span class="pre">&quot;TRICLINIC&quot;,</span> <span class="pre">&quot;MONOCLINIC&quot;,</span> <span class="pre">&quot;ORTHORHOMBIC&quot;,</span> <span class="pre">&quot;TETRAGONAL&quot;,</span>
+<span class="pre">&quot;TRIGONAL&quot;</span> <span class="pre">&quot;HEXAGONAL&quot;,</span> <span class="pre">&quot;CUBIC&quot;</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.pdb_name">
+<code class="descname">pdb_name</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.pdb_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The full Hermann-Mauguin symbol of the space group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.symop_list">
+<code class="descname">symop_list</code><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.symop_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of <a class="reference internal" href="#diffpy.structure.spacegroupmod.SymOp" title="diffpy.structure.spacegroupmod.SymOp"><code class="xref any py py-class docutils literal notranslate"><span class="pre">SymOp</span></code></a> objects for all symmetry operations
+in this space group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list of SymOp</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.iter_symops">
+<code class="descname">iter_symops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.iter_symops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over all symmetry operations in the space group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Yields:</th><td class="field-body"><a class="reference internal" href="#diffpy.structure.spacegroupmod.SymOp" title="diffpy.structure.spacegroupmod.SymOp"><code class="xref any py py-class docutils literal notranslate"><span class="pre">SymOp</span></code></a> – Generate all symmetry operations for this space group.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.check_group_name">
+<code class="descname">check_group_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.check_group_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if given name matches this space group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str or int</em>) – The space group identifier, a string name or number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>bool</em> – <code class="docutils literal notranslate"><span class="pre">True</span></code> if the specified name matches one of the recognized
+names of this space group or if it equals its <a class="reference internal" href="#diffpy.structure.spacegroupmod.SpaceGroup.number" title="diffpy.structure.spacegroupmod.SpaceGroup.number"><code class="xref any py py-attr docutils literal notranslate"><span class="pre">number</span></code></a>.
+Return <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.spacegroupmod.SpaceGroup.iter_equivalent_positions">
+<code class="descname">iter_equivalent_positions</code><span class="sig-paren">(</span><em>vec</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.iter_equivalent_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate symmetry equivalent positions for the specified position.</p>
+<p>The initial position must be in fractional coordinates and so
+are the symmetry equivalent positions yielded by iteration.
+This generates <a class="reference internal" href="#diffpy.structure.spacegroupmod.SpaceGroup.num_sym_equiv" title="diffpy.structure.spacegroupmod.SpaceGroup.num_sym_equiv"><code class="xref any py py-attr docutils literal notranslate"><span class="pre">num_sym_equiv</span></code></a> positions regardless of initial
+coordinates being a special symmetry position or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vec</strong> (<em>ndarray</em>) – The initial position in fractional coordinates.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><em>ndarray</em> – The symmetry equivalent positions in fractional coordinates.
+The positions may be duplicate or outside of the <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">1</span></code>
+unit cell bounds.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a id="sidebar-anchor"></a>
+    
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mod_lattice.html"
+                        title="previous chapter">diffpy.structure.lattice</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="diffpy.structure.parsers.html"
+                        title="next chapter">diffpy.structure.parsers package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mod_spacegroup.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="diffpy.structure.parsers.html" title="diffpy.structure.parsers package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mod_lattice.html" title="diffpy.structure.lattice"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Brookhaven National Laboratory.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

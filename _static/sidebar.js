@@ -2,43 +2,34 @@
  * sidebar.js
  * ~~~~~~~~~~
  *
- * This script makes the Sphinx sidebar collapsible.
+ * This script makes the Sphinx sidebar collapsible and implements intelligent
+ * scrolling.
  *
- * .sphinxsidebar contains .sphinxsidebarwrapper.  This script adds
- * in .sphixsidebar, after .sphinxsidebarwrapper, the #sidebarbutton
- * used to collapse and expand the sidebar.
+ * .sphinxsidebar contains .sphinxsidebarwrapper.  This script adds in
+ * .sphixsidebar, after .sphinxsidebarwrapper, the #sidebarbutton used to
+ * collapse and expand the sidebar.
  *
- * When the sidebar is collapsed the .sphinxsidebarwrapper is hidden
- * and the width of the sidebar and the margin-left of the document
- * are decreased. When the sidebar is expanded the opposite happens.
- * This script saves a per-browser/per-session cookie used to
- * remember the position of the sidebar among the pages.
- * Once the browser is closed the cookie is deleted and the position
- * reset to the default (expanded).
+ * When the sidebar is collapsed the .sphinxsidebarwrapper is hidden and the
+ * width of the sidebar and the margin-left of the document are decreased.
+ * When the sidebar is expanded the opposite happens.  This script saves a
+ * per-browser/per-session cookie used to remember the position of the sidebar
+ * among the pages.  Once the browser is closed the cookie is deleted and the
+ * position reset to the default (expanded).
  *
- * :copyright: Copyright 2007-2017 by the Sphinx team, see AUTHORS.
+ * :copyright: Copyright 2007-2011 by the Sphinx team, see AUTHORS.
  * :license: BSD, see LICENSE for details.
  *
  */
 
 $(function() {
-  
-  
-  
-  
-  
-  
-  
-
   // global elements used by the functions.
   // the 'sidebarbutton' element is defined as global after its
   // creation, in the add_sidebar_button function
+  var jwindow = $(window);
+  var jdocument = $(document);
   var bodywrapper = $('.bodywrapper');
   var sidebar = $('.sphinxsidebar');
   var sidebarwrapper = $('.sphinxsidebarwrapper');
-
-  // for some reason, the document has no sidebar; do not run into errors
-  if (!sidebar.length) return;
 
   // original margin-left of the bodywrapper and width of the sidebar
   // with the sidebar expanded
@@ -51,8 +42,15 @@ $(function() {
   var ssb_width_collapsed = '.8em';
 
   // colors used by the current theme
-  var dark_color = $('.related').css('background-color');
-  var light_color = $('.document').css('background-color');
+  var dark_color = '#AAAAAA';
+  var light_color = '#CCCCCC';
+
+  function get_viewport_height() {
+    if (window.innerHeight)
+      return window.innerHeight;
+    else
+      return jwindow.height();
+  }
 
   function sidebar_is_collapsed() {
     return sidebarwrapper.is(':not(:visible)');
@@ -63,31 +61,38 @@ $(function() {
       expand_sidebar();
     else
       collapse_sidebar();
+    // adjust the scrolling of the sidebar
+    scroll_sidebar();
   }
-
+  var is_collapsed;
   function collapse_sidebar() {
+    is_collapsed = true;
     sidebarwrapper.hide();
     sidebar.css('width', ssb_width_collapsed);
     bodywrapper.css('margin-left', bw_margin_collapsed);
     sidebarbutton.css({
         'margin-left': '0',
-        'height': bodywrapper.height()
+        'height': bodywrapper.height(),
+        'border-radius': '5px'
     });
     sidebarbutton.find('span').text('»');
     sidebarbutton.attr('title', _('Expand sidebar'));
     document.cookie = 'sidebar=collapsed';
   }
-
   function expand_sidebar() {
+    is_collapsed = false;
     bodywrapper.css('margin-left', bw_margin_expanded);
     sidebar.css('width', ssb_width_expanded);
     sidebarwrapper.show();
     sidebarbutton.css({
         'margin-left': ssb_width_expanded-12,
-        'height': bodywrapper.height()
+        'height': bodywrapper.height(),
+        'border-radius': '0 5px 5px 0'
     });
     sidebarbutton.find('span').text('«');
     sidebarbutton.attr('title', _('Collapse sidebar'));
+    //sidebarwrapper.css({'padding-top':
+    //  Math.max(window.pageYOffset - sidebarwrapper.offset().top, 10)});
     document.cookie = 'sidebar=expanded';
   }
 
@@ -99,30 +104,30 @@ $(function() {
     });
     // create the button
     sidebar.append(
-        '<div id="sidebarbutton"><span>&laquo;</span></div>'
+      '<div id="sidebarbutton"><span>&laquo;</span></div>'
     );
     var sidebarbutton = $('#sidebarbutton');
-    light_color = sidebarbutton.css('background-color');
     // find the height of the viewport to center the '<<' in the page
-    var viewport_height;
-    if (window.innerHeight)
- 	  viewport_height = window.innerHeight;
-    else
-	  viewport_height = $(window).height();
+    var viewport_height = get_viewport_height();
+    var sidebar_offset = sidebar.offset().top;
+    var sidebar_height = Math.max(bodywrapper.height(), sidebar.height());
     sidebarbutton.find('span').css({
         'display': 'block',
-        'margin-top': (viewport_height - sidebar.position().top - 20) / 2
+        'position': 'fixed',
+        'top': Math.min(viewport_height/2, sidebar_height/2 + sidebar_offset) - 10
     });
 
     sidebarbutton.click(toggle_sidebar);
     sidebarbutton.attr('title', _('Collapse sidebar'));
     sidebarbutton.css({
-        'color': '#FFFFFF',
-        'border-left': '1px solid ' + dark_color,
+        'border-radius': '0 5px 5px 0',
+        'color': '#444444',
+        'background-color': '#CCCCCC',
         'font-size': '1.2em',
         'cursor': 'pointer',
-        'height': bodywrapper.height(),
+        'height': sidebar_height,
         'padding-top': '1px',
+        'padding-left': '1px',
         'margin-left': ssb_width_expanded - 12
     });
 
@@ -142,7 +147,7 @@ $(function() {
     var items = document.cookie.split(';');
     for(var k=0; k<items.length; k++) {
       var key_val = items[k].split('=');
-      var key = key_val[0].replace(/ /, "");  // strip leading spaces
+      var key = key_val[0];
       if (key == 'sidebar') {
         var value = key_val[1];
         if ((value == 'collapsed') && (!sidebar_is_collapsed()))
@@ -155,5 +160,54 @@ $(function() {
 
   add_sidebar_button();
   var sidebarbutton = $('#sidebarbutton');
-  set_position_from_cookie();
+  if (jwindow.width() > 768) {
+    set_position_from_cookie();
+  }
+
+  /* intelligent scrolling */
+  function scroll_sidebar() {
+    var sidebar_height = sidebarwrapper.height();
+    var viewport_height = get_viewport_height();
+    var offset = sidebar.position()['top'];
+    var wintop = jwindow.scrollTop();
+    var winbot = wintop + viewport_height;
+    var curtop = sidebarwrapper.position()['top'];
+    var curbot = curtop + sidebar_height;
+    // does sidebar fit in window?
+    if (sidebar_height < viewport_height) {
+      // yes: easy case -- always keep at the top
+      sidebarwrapper.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                            jdocument.height() - sidebar_height - 200]));
+    }
+    else {
+      // no: only scroll if top/bottom edge of sidebar is at
+      // top/bottom edge of window
+      if (curtop > wintop && curbot > winbot) {
+        sidebarwrapper.css('top', $u.max([wintop - offset - 10, 0]));
+      }
+      else if (curtop < wintop && curbot < winbot) {
+        sidebarwrapper.css('top', $u.min([winbot - sidebar_height - offset - 20,
+                              jdocument.height() - sidebar_height - 200]));
+      }
+    }
+  }
+  jwindow.scroll(scroll_sidebar);
+  function resize_sidebar() {
+    ssb_width_expanded = sidebar.css('width', '').width();
+    sidebarwrapper.css('width', ssb_width_expanded - 28);
+    sidebarbutton.css('margin-left', ssb_width_expanded-12);
+
+    if (jwindow.width() < 768) {
+      bodywrapper.css('margin-left', '');
+      sidebarwrapper.show();
+    } else {
+      sidebar.css('width', is_collapsed?ssb_width_collapsed:'').width();
+      if (is_collapsed) {
+        collapse_sidebar()
+      } else {
+        sidebarwrapper.show();
+      }
+    }
+  }
+  jwindow.resize(resize_sidebar);
 });

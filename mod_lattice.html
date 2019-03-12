@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>diffpy.structure.lattice &#8212; diffpy.structure 3.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="diffpy.structure.spacegroupmod" href="mod_spacegroup.html" />
+    <link rel="prev" title="diffpy.structure.atom" href="mod_atom.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+
+  </head><body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="index.html">diffpy.structure 3.0.0 documentation</a> &#187;</li>
+          <li><a href="package.html" accesskey="U">Package API</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-diffpy.structure.lattice">
+<span id="diffpy-structure-lattice"></span><h1>diffpy.structure.lattice<a class="headerlink" href="#module-diffpy.structure.lattice" title="Permalink to this headline">¶</a></h1>
+<p>class Lattice stores properties and provides simple operations in lattice
+coordinate system.</p>
+<dl class="docutils">
+<dt>Module variables:</dt>
+<dd>cartesian   – constant instance of Lattice, default Cartesian system</dd>
+</dl>
+<dl class="function">
+<dt id="diffpy.structure.lattice.cosd">
+<code class="descname">cosd</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.cosd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the cosine of x (measured in degrees).
+Avoid round-off errors for exact cosine values.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diffpy.structure.lattice.sind">
+<code class="descname">sind</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.sind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sine of x (measured in degrees).
+Avoid round-off errors for exact sine values.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="diffpy.structure.lattice.Lattice">
+<em class="property">class </em><code class="descname">Lattice</code><span class="sig-paren">(</span><em>a=None</em>, <em>b=None</em>, <em>c=None</em>, <em>alpha=None</em>, <em>beta=None</em>, <em>gamma=None</em>, <em>baserot=None</em>, <em>base=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>General coordinate system and associated operations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> (<em>float or Lattice, optional</em>) – The cell length <em>a</em>.  When present, other cell parameters
+must be also specified.  When of the <em>Lattice</em> type, create
+a duplicate Lattice.</li>
+<li><strong>b</strong> (<em>float</em>) – The cell length <em>b</em>.</li>
+<li><strong>c</strong> (<em>float</em>) – The cell length <em>c</em>.</li>
+<li><strong>alpha</strong> (<em>float</em>) – The angle between the <em>b</em> and <em>c</em> axes in degrees.</li>
+<li><strong>beta</strong> (<em>float</em>) – The angle between the <em>b</em> and <em>c</em> axes in degrees.</li>
+<li><strong>gamma</strong> (<em>float</em>) – The angle between the <em>a</em> and <em>b</em> axes in degrees.</li>
+<li><strong>baserot</strong> (<em>array_like, optional</em>) – The 3x3 rotation matrix of the base vectors with respect
+to their standard setting.</li>
+<li><strong>base</strong> (<em>array_like, optional</em>) – The 3x3 array of row base vectors.  This must be the
+only argument when present.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.metrics">
+<code class="descname">metrics</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>The metrics tensor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.base">
+<code class="descname">base</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.base" title="Permalink to this definition">¶</a></dt>
+<dd><p>The 3x3 matrix of row base vectors in Cartesian coordinates,
+which may be rotated, i.e., <code class="docutils literal notranslate"><span class="pre">base</span> <span class="pre">=</span> <span class="pre">stdbase</span> <span class="pre">&#64;</span> <span class="pre">baserot</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.stdbase">
+<code class="descname">stdbase</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.stdbase" title="Permalink to this definition">¶</a></dt>
+<dd><p>The 3x3 matrix of row base vectors in standard orientation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.baserot">
+<code class="descname">baserot</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.baserot" title="Permalink to this definition">¶</a></dt>
+<dd><p>The rotation matrix for the <a class="reference internal" href="#diffpy.structure.lattice.Lattice.base" title="diffpy.structure.lattice.Lattice.base"><code class="xref any py py-attr docutils literal notranslate"><span class="pre">base</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.recbase">
+<code class="descname">recbase</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.recbase" title="Permalink to this definition">¶</a></dt>
+<dd><p>The inverse of the <a class="reference internal" href="#diffpy.structure.lattice.Lattice.base" title="diffpy.structure.lattice.Lattice.base"><code class="xref any py py-attr docutils literal notranslate"><span class="pre">base</span></code></a> matrix, where the columns give
+reciprocal vectors in Cartesian coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.normbase">
+<code class="descname">normbase</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.normbase" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#diffpy.structure.lattice.Lattice.base" title="diffpy.structure.lattice.Lattice.base"><code class="xref any py py-attr docutils literal notranslate"><span class="pre">base</span></code></a> vectors scaled by magnitudes of reciprocal cell lengths.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.recnormbase">
+<code class="descname">recnormbase</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.recnormbase" title="Permalink to this definition">¶</a></dt>
+<dd><p>The inverse of the <a class="reference internal" href="#diffpy.structure.lattice.Lattice.normbase" title="diffpy.structure.lattice.Lattice.normbase"><code class="xref any py py-attr docutils literal notranslate"><span class="pre">normbase</span></code></a> matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.isotropicunit">
+<code class="descname">isotropicunit</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.isotropicunit" title="Permalink to this definition">¶</a></dt>
+<dd><p>The 3x3 tensor for a unit isotropic displacement parameters in this
+coordinate system.  This is an identity matrix when this Lattice
+is orthonormal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The array attributes are read-only.  They get updated by changing
+some lattice parameters or by calling the <a class="reference internal" href="#diffpy.structure.lattice.Lattice.setLatPar" title="diffpy.structure.lattice.Lattice.setLatPar"><code class="xref any py py-meth docutils literal notranslate"><span class="pre">setLatPar()</span></code></a> or
+<a class="reference internal" href="#diffpy.structure.lattice.Lattice.setLatBase" title="diffpy.structure.lattice.Lattice.setLatBase"><code class="xref any py py-meth docutils literal notranslate"><span class="pre">setLatBase()</span></code></a> methods.</p>
+</div>
+<p class="rubric">Examples</p>
+<p>Create a Cartesian coordinate system:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Create coordinate system with the cell lengths <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">c</span></code>
+and cell angles <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">beta</span></code>, <code class="docutils literal notranslate"><span class="pre">gamma</span></code> in degrees:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create a duplicate of an existing Lattice <code class="docutils literal notranslate"><span class="pre">lat</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create coordinate system with the base vectors given by rows
+of the <code class="docutils literal notranslate"><span class="pre">abc</span></code> matrix:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Lattice</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="n">abc</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.a">
+<code class="descname">a</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unit cell length <em>a</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.b">
+<code class="descname">b</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unit cell length <em>b</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.c">
+<code class="descname">c</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.c" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unit cell length <em>c</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.alpha">
+<code class="descname">alpha</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cell angle <em>alpha</em> in degrees.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.beta">
+<code class="descname">beta</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cell angle <em>beta</em> in degrees.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.gamma">
+<code class="descname">gamma</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.gamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cell angle <em>gamma</em> in degrees.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.unitvolume">
+<code class="descname">unitvolume</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.unitvolume" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unit cell volume when a = b = c = 1.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.volume">
+<code class="descname">volume</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unit cell volume.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.ar">
+<code class="descname">ar</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.ar" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cell length <em>a</em> of the reciprocal lattice.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.br">
+<code class="descname">br</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.br" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cell length <em>b</em> of the reciprocal lattice.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.cr">
+<code class="descname">cr</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cr" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cell length <em>c</em> of the reciprocal lattice.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.alphar">
+<code class="descname">alphar</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.alphar" title="Permalink to this definition">¶</a></dt>
+<dd><p>The reciprocal cell angle <em>alpha</em> in degrees.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.betar">
+<code class="descname">betar</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.betar" title="Permalink to this definition">¶</a></dt>
+<dd><p>The reciprocal cell angle <em>beta</em> in degrees</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.gammar">
+<code class="descname">gammar</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.gammar" title="Permalink to this definition">¶</a></dt>
+<dd><p>The reciprocal cell angle <em>gamma</em> in degrees</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.ca">
+<code class="descname">ca</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.ca" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cosine of the cell angle <em>alpha</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.cb">
+<code class="descname">cb</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cosine of the cell angle <em>beta</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.cg">
+<code class="descname">cg</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cg" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cosine of the cell angle <em>gamma</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.sa">
+<code class="descname">sa</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sa" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sine of the cell angle <em>alpha</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.sb">
+<code class="descname">sb</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sb" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sine of the cell angle <em>beta</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.sg">
+<code class="descname">sg</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sg" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sine of the cell angle <em>gamma</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.car">
+<code class="descname">car</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.car" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cosine of the reciprocal angle <em>alpha</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.cbr">
+<code class="descname">cbr</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cbr" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cosine of the reciprocal angle <em>beta</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.cgr">
+<code class="descname">cgr</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cgr" title="Permalink to this definition">¶</a></dt>
+<dd><p>The cosine of the reciprocal angle <em>gamma</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.sar">
+<code class="descname">sar</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sar" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sine of the reciprocal angle <em>alpha</em>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.sbr">
+<code class="descname">sbr</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sbr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sine of the reciprocal angle <em>beta</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">flot</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="diffpy.structure.lattice.Lattice.sgr">
+<code class="descname">sgr</code><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sgr" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sine of the reciprocal angle <em>gamma</em>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.setLatPar">
+<code class="descname">setLatPar</code><span class="sig-paren">(</span><em>a=None</em>, <em>b=None</em>, <em>c=None</em>, <em>alpha=None</em>, <em>beta=None</em>, <em>gamma=None</em>, <em>baserot=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.setLatPar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set one or more lattice parameters.</p>
+<p>This updates all attributes that depend on the lattice parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> (<em>float, optional</em>) – The new value of the cell length <em>a</em>.</li>
+<li><strong>b</strong> (<em>float, optional</em>) – The new value of the cell length <em>b</em>.</li>
+<li><strong>c</strong> (<em>float, optional</em>) – The new value of the cell length <em>c</em>.</li>
+<li><strong>alpha</strong> (<em>float, optional</em>) – The new value of the cell angle <em>alpha</em> in degrees.</li>
+<li><strong>beta</strong> (<em>float, optional</em>) – The new value of the cell angle <em>beta</em> in degrees.</li>
+<li><strong>gamma</strong> (<em>float, optional</em>) – The new value of the cell angle <em>gamma</em> in degrees.</li>
+<li><strong>baserot</strong> (<em>array_like, optional</em>) – The new 3x3 rotation matrix of the base vectors with respect
+to their standard setting in Cartesian coordinates.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Parameters that are not specified will keep their initial
+values.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.setLatBase">
+<code class="descname">setLatBase</code><span class="sig-paren">(</span><em>base</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.setLatBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set new base vectors for this lattice.</p>
+<p>This updates the cell lengths and cell angles according to the
+new base.  The <a class="reference internal" href="#diffpy.structure.lattice.Lattice.stdbase" title="diffpy.structure.lattice.Lattice.stdbase"><code class="xref any py py-attr docutils literal notranslate"><span class="pre">stdbase</span></code></a>, <a class="reference internal" href="#diffpy.structure.lattice.Lattice.baserot" title="diffpy.structure.lattice.Lattice.baserot"><code class="xref any py py-attr docutils literal notranslate"><span class="pre">baserot</span></code></a>, and <a class="reference internal" href="#diffpy.structure.lattice.Lattice.metrics" title="diffpy.structure.lattice.Lattice.metrics"><code class="xref any py py-attr docutils literal notranslate"><span class="pre">metrics</span></code></a> attributes
+are also updated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>base</strong> (<em>array_like</em>) – The 3x3 matrix of row base vectors expressed
+in Cartesian coordinates.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.abcABG">
+<code class="descname">abcABG</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.abcABG" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple of <code class="docutils literal notranslate"><span class="pre">(a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">alpha,</span> <span class="pre">beta,</span> <span class="pre">gamma)</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.reciprocal">
+<code class="descname">reciprocal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.reciprocal" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>Lattice</em> – The reciprocal lattice of the current lattice.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.cartesian">
+<code class="descname">cartesian</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cartesian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform lattice vector to Cartesian coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>u</strong> (<em>array_like</em>) – Vector of lattice coordinates or an Nx3 array
+of lattice vectors.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>rc</strong> (<em>ndarray</em>) – Cartesian coordinates of the <em>u</em> vector.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.fractional">
+<code class="descname">fractional</code><span class="sig-paren">(</span><em>rc</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.fractional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform Cartesian vector to fractional lattice coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rc</strong> (<em>array_like</em>) – A vector of Cartesian coordinates or an Nx3 array of
+Cartesian vectors.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>u</strong> (<em>ndarray</em>) – Fractional coordinates of the Cartesian vector <em>rc</em>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.dot">
+<code class="descname">dot</code><span class="sig-paren">(</span><em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate dot product of 2 lattice vectors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>u</strong> (<em>array_like</em>) – The first lattice vector or an Nx3 array.</li>
+<li><strong>v</strong> (<em>array_like</em>) – The second lattice vector or an array of
+the same shape as <em>u</em>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>float or ndarray</em> – The dot product of lattice vectors <em>u</em>, <em>v</em>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.norm">
+<code class="descname">norm</code><span class="sig-paren">(</span><em>xyz</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate norm of a lattice vector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>xyz</strong> (<em>array_like</em>) – A vector or an Nx3 array of fractional coordinates.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>float or ndarray</em> – The magnitude of the lattice vector <em>xyz</em>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.rnorm">
+<code class="descname">rnorm</code><span class="sig-paren">(</span><em>hkl</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.rnorm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate norm of a reciprocal vector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>hkl</strong> (<em>array_like</em>) – A vector or an Nx3 array of reciprocal coordinates.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>float or ndarray</em> – The magnitude of the reciprocal vector <em>hkl</em>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.dist">
+<code class="descname">dist</code><span class="sig-paren">(</span><em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate distance between 2 points in lattice coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>u</strong> (<em>array_like</em>) – A vector or an Nx3 matrix of fractional coordinates.</li>
+<li><strong>v</strong> (<em>ndarray</em>) – A vector or an Nx3 matrix of fractional coordinates.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><em>u</em> and <em>v</em> must be of the same shape when matrices.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>float or ndarray</em> – The distance between lattice points <em>u</em> and <em>v</em>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.angle">
+<code class="descname">angle</code><span class="sig-paren">(</span><em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate angle between 2 lattice vectors in degrees.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>u</strong> (<em>array_like</em>) – The first lattice vector.</li>
+<li><strong>v</strong> (<em>array_like</em>) – The second lattice vector.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>float</em> – The angle between lattice vectors <em>u</em> and <em>v</em> in degrees.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diffpy.structure.lattice.Lattice.isanisotropic">
+<code class="descname">isanisotropic</code><span class="sig-paren">(</span><em>umx</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.isanisotropic" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if displacement parameter matrix is anisotropic.</p>
+<p>This checks if the specified matrix of anisotropic displacement
+parameters (ADP) differs from isotropic values for this lattice
+by more than a small round-off error.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>umx</strong> (<em>array_like</em>) – The 3x3 matrix of displacement parameters.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>bool</em> – True when <em>umx</em> is anisotropic by more than a round-off error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a id="sidebar-anchor"></a>
+    
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mod_atom.html"
+                        title="previous chapter">diffpy.structure.atom</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mod_spacegroup.html"
+                        title="next chapter">diffpy.structure.spacegroupmod</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mod_lattice.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mod_spacegroup.html" title="diffpy.structure.spacegroupmod"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mod_atom.html" title="diffpy.structure.atom"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Brookhaven National Laboratory.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>
