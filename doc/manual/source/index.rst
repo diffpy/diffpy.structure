@@ -64,16 +64,7 @@ Table of contents
    license
    release
    package
-   mod_lattice
 
-
-**FIXME BELOW**
-
-:doc:`submodules`
-
-**FIXME TO HERE**
-
-----
 
 Indices
 ========================================================================

@@ -1,15 +1,16 @@
 :tocdepth: 2
 
-diffpy.structure API
-####################
+Package API
+###########
 
 
-Subpackages
-===========
+Submodules
+==========
 
 .. toctree::
     :titlesonly:
 
+    mod_lattice
     diffpy.structure.parsers
     diffpy.structure.applications
     diffpy.structure.expansion
