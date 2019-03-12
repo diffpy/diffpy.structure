@@ -10,7 +10,9 @@ Submodules
 .. toctree::
     :titlesonly:
 
+    mod_atom
     mod_lattice
+    mod_spacegroup
     diffpy.structure.parsers
     diffpy.structure.applications
     diffpy.structure.expansion
@@ -79,13 +81,6 @@ diffpy.structure.symmetryutilities
     :undoc-members:
     :show-inheritance:
 
-diffpy.structure.atom
-=====================
-
-.. automodule:: diffpy.structure.atom
-    :members:
-    :show-inheritance:
-
 diffpy.structure.mmlibspacegroups
 =================================
 
@@ -109,14 +104,6 @@ diffpy.structure.sgtbxspacegroups
     :members:
     :undoc-members:
     :show-inheritance:
-
-diffpy.structure.spacegroupmod
-==============================
-
-.. automodule:: diffpy.structure.spacegroupmod
-    :members:
-    :undoc-members:
-    :special-members: __call__, __eq__
 
 diffpy.structure.structure
 ==========================
