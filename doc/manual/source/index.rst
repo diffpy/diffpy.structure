@@ -2,11 +2,10 @@
 diffpy.structure documentation
 ########################################################################
 
-Software version |release|.
-
-Last updated |today|.
-
 diffpy.structure - simple storage and manipulation of crystal structures
+
+| Software version |release|.
+| Last updated |today|.
 
 The diffpy.structure package provides objects for storing atomic
 coordinates, displacement parameters and other crystal structure data.
@@ -16,65 +15,6 @@ between fractional and absolute Cartesian coordinates, functions for
 symmetry expansion from asymmetric unit and generation of symmetry
 constraints for atom positions and displacement parameters.  diffpy.structure
 includes definitions of all space groups in over 500 symmetry settings.
-
-
-Package contents
-========================================================================
-
-.. module:: diffpy.structure
-
-The top-level diffpy.structure module provides the following objects.
-
-
-Functions
----------
-
-.. autofunction:: loadStructure
-
-
-Classes
--------
-
-:py:class:`~atom.Atom`
-   describes one atom site in the structure - its type, position,
-   displacement parameters and so forth.
-
-:py:class:`~lattice.Lattice`
-   depicts general coordinate system and associated operations.
-
-:py:class:`~structure.Structure`
-   collection of :class:`!Atom` objects that form the structure together
-   with associated :py:class:`!Lattice`.
-
-
-Exceptions
-----------
-
-.. autoclass:: StructureFormatError
-
-.. autoclass:: LatticeError
-
-.. autoclass:: SymmetryError
-
-
-Submodules
-========================================================================
-
-.. toctree::
-   :maxdepth: 2
-
-   mod_lattice.rst
-
-
-**FIXME BELOW**
-
-:doc:`submodules`
-
-* :ref:`genindex`
-
-**FIXME TO HERE**
-
-----
 
 
 Authors
@@ -115,10 +55,19 @@ by citing the following paper in your publication:
    *Acta Crystallogr. A* **71**, 562-568 (2015).
 
 
-
-.. index:: license
-
-License
+Table of contents
 ========================================================================
 
-.. literalinclude:: ../../../LICENSE.txt
+.. toctree::
+   :titlesonly:
+
+   license
+   release
+   package
+
+
+Indices
+========================================================================
+
+* :ref:`genindex`
+* :ref:`search`
