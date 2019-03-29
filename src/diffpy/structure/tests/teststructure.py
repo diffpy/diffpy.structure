@@ -464,6 +464,7 @@ class TestStructure(unittest.TestCase):
         return
 
 
+    @unittest.expectedFailure
     def test_xyz(self):
         """check Structure.xyz
         """
@@ -473,6 +474,10 @@ class TestStructure(unittest.TestCase):
         stru.xyz += 0.1
         self.assertTrue(numpy.array_equal([0.1, 0.1, 0.1], stru[0].xyz))
         self.assertTrue(numpy.array_equal([1.1, 1.1, 1.1], stru[1].xyz))
+        stru.xyz = 0
+        stru[1].xyz[:] = 1
+        self.assertTrue(numpy.array_equal([0, 0, 0], stru[0].xyz))
+        self.assertTrue(numpy.array_equal([1, 1, 1], stru[0].xyz))
         return
 
 
@@ -527,6 +532,7 @@ class TestStructure(unittest.TestCase):
         return
 
 
+    @unittest.expectedFailure
     def test_occupancy(self):
         """check Structure.occupancy
         """
@@ -534,6 +540,8 @@ class TestStructure(unittest.TestCase):
         self.assertTrue(numpy.array_equal(numpy.ones(4), cdse.occupancy))
         self.stru.occupancy *= 0.5
         self.assertEqual(1.0, sum([a.occupancy for a in self.stru]))
+        cdse.occupancy = 1
+        self.assertTrue(all(isinstance(a.occupancy, int) for a in cdse))
         return
 
 
@@ -588,6 +596,9 @@ class TestStructure(unittest.TestCase):
         stru.U = 0
         self.assertTrue(numpy.all(stru.anisotropy))
         self.assertFalse(numpy.any(stru.U != 0.0))
+        stru[1].U[:] = 1
+        self.assertTrue(numpy.all(stru[0].U == 0.0))
+        self.assertTrue(numpy.all(stru[1].U == 1.0))
         return
 
 
