@@ -16,7 +16,19 @@
 """Small shared functions.
 """
 
+import six
 import numpy
+
+if six.PY2:
+    from collections import Iterable as _Iterable
+else:
+    from collections.abc import Iterable as _Iterable
+
+
+def isiterable(obj):
+    """True if argument is iterable."""
+    rv = isinstance(obj, _Iterable)
+    return rv
 
 
 def isfloat(s):

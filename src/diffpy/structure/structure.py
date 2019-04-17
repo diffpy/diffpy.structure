@@ -16,7 +16,6 @@
 """This module defines class Structure.
 """
 
-import collections
 import copy
 import numpy
 import codecs
@@ -25,6 +24,7 @@ import six
 from diffpy.structure.lattice import Lattice
 from diffpy.structure.atom import Atom
 from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol
+from diffpy.structure.utils import isiterable
 
 # ----------------------------------------------------------------------------
 
@@ -388,7 +388,7 @@ class Structure(list):
         # check if there is any string label that should be resolved
         scalarstringlabel = isinstance(idx, six.string_types)
         hasstringlabel = scalarstringlabel or (
-            isinstance(idx, collections.Iterable) and
+            isiterable(idx) and
             any(isinstance(ii, six.string_types) for ii in idx))
         # if not, use numpy indexing to resolve idx
         if not hasstringlabel:
