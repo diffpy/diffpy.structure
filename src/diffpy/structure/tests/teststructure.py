@@ -240,7 +240,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(6, len(stru))
         self.assertTrue(all(a.lattice is stru.lattice for a in stru))
         self.assertEqual(lst, stru.tolist()[:2])
-        self.assertNotEqual(stru[-1], cdse[-1])
+        self.assertFalse(stru[-1] is cdse[-1])
         return
 
 

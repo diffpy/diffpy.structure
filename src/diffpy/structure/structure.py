@@ -16,7 +16,7 @@
 """This module defines class Structure.
 """
 
-import copy
+import copy as copymod
 import numpy
 import codecs
 import six
@@ -95,9 +95,9 @@ class Structure(list):
 
 
     def copy(self):
-        '''Return a deep copy of this Structure object.
+        '''Return a copy of this Structure object.
         '''
-        return copy.copy(self)
+        return copymod.copy(self)
 
 
     def __copy__(self, target=None):
@@ -116,7 +116,7 @@ class Structure(list):
         # copy attributes as appropriate:
         target.title = self.title
         target.lattice = Lattice(self.lattice)
-        target.pdffit = copy.deepcopy(self.pdffit)
+        target.pdffit = copymod.deepcopy(self.pdffit)
         # copy all atoms to the target
         target[:] = self
         return target
@@ -332,7 +332,7 @@ class Structure(list):
 
         No return value.
         """
-        adup = copy and Atom(a) or a
+        adup = copy and copymod.copy(a) or a
         adup.lattice = self.lattice
         super(Structure, self).insert(idx, adup)
         return
@@ -464,7 +464,7 @@ class Structure(list):
 
         Return new Structure with a copy of Atom instances.
         '''
-        rv = copy.copy(self)
+        rv = copymod.copy(self)
         rv += other
         return rv
 
@@ -489,7 +489,7 @@ class Structure(list):
         '''
         otherset = set(other)
         keepindices = [i for i, a in enumerate(self) if not a in otherset]
-        rv = copy.copy(self[keepindices])
+        rv = copymod.copy(self[keepindices])
         return rv
 
 
@@ -513,7 +513,7 @@ class Structure(list):
 
         Return new Structure.
         '''
-        rv = copy.copy(self[:0])
+        rv = copymod.copy(self[:0])
         rv += n * self.tolist()
         return rv
 
