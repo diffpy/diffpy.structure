@@ -338,19 +338,38 @@ class Structure(list):
         return
 
 
-    def extend(self, atoms, copy=True):
-        """Extend Structure by appending copies from a list of atoms.
+    def extend(self, atoms, copy=None):
+        """Extend Structure with the specified sequence of atoms.
 
-        atoms -- list of Atom instances
-        copy  -- flag for extending with copies of Atom instances.
-                 When False extend with atoms and update their lattice
-                 attributes.
+        Update the `lattice` attribute of all added atoms.
 
-        No return value.
+        Parameters
+        ----------
+        atoms : iterable
+            The `Atom` instances to be appended to this Structure.
+        copy : bool, optional
+            Flag for adding copies of Atom objects.
+            Make copies when `True`, append `atoms` as are when ``False``.
+            The default behavior is to make copies when `atoms` are
+            of `Structure` type or if the new atoms introduce repeated
+            instances.
         """
-        adups = map(Atom, atoms) if copy else atoms
+        adups = (copymod.copy(a) for a in atoms)
+        if copy is None:
+            if isinstance(atoms, Structure):
+                extatoms = adups
+            else:
+                memo = set(id(a) for a in self)
+                newatom = lambda a: (a if id(a) not in memo
+                                     else copymod.copy(a))
+                mark = lambda a: (memo.add(id(a)), a)[-1]
+                extatoms = (mark(newatom(a)) for a in atoms)
+        elif copy:
+            extatoms = adups
+        else:
+            extatoms = atoms
         setlat = lambda a: (setattr(a, 'lattice', self.lattice), a)[-1]
-        super(Structure, self).extend(setlat(a) for a in adups)
+        super(Structure, self).extend(setlat(a) for a in extatoms)
         return
 
 
@@ -476,7 +495,7 @@ class Structure(list):
 
         Return self.
         '''
-        self.extend(other)
+        self.extend(other, copy=True)
         return self
 
 
@@ -533,7 +552,7 @@ class Structure(list):
         if n <= 0:
             self[:] = []
         else:
-            self.extend((n - 1) * self.tolist())
+            self.extend((n - 1) * self.tolist(), copy=True)
         return self
 
     # Properties -------------------------------------------------------------
