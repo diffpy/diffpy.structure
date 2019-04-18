@@ -339,37 +339,36 @@ class Structure(list):
 
 
     def extend(self, atoms, copy=None):
-        """Extend Structure with the specified sequence of atoms.
+        """Extend Structure with an iterable of atoms.
 
         Update the `lattice` attribute of all added atoms.
 
         Parameters
         ----------
         atoms : iterable
-            The `Atom` instances to be appended to this Structure.
+            The `Atom` objects to be appended to this Structure.
         copy : bool, optional
             Flag for adding copies of Atom objects.
-            Make copies when `True`, append `atoms` as are when ``False``.
-            The default behavior is to make copies when `atoms` are
-            of `Structure` type or if the new atoms introduce repeated
-            instances.
+            Make copies when `True`, append `atoms` unchanged when ``False``.
+            The default behavior is to make copies when `atoms` are of
+            `Structure` type or if new atoms introduce repeated objects.
         """
         adups = (copymod.copy(a) for a in atoms)
         if copy is None:
             if isinstance(atoms, Structure):
-                extatoms = adups
+                newatoms = adups
             else:
                 memo = set(id(a) for a in self)
-                newatom = lambda a: (a if id(a) not in memo
-                                     else copymod.copy(a))
+                nextatom = lambda a: (a if id(a) not in memo
+                                      else copymod.copy(a))
                 mark = lambda a: (memo.add(id(a)), a)[-1]
-                extatoms = (mark(newatom(a)) for a in atoms)
+                newatoms = (mark(nextatom(a)) for a in atoms)
         elif copy:
-            extatoms = adups
+            newatoms = adups
         else:
-            extatoms = atoms
+            newatoms = atoms
         setlat = lambda a: (setattr(a, 'lattice', self.lattice), a)[-1]
-        super(Structure, self).extend(setlat(a) for a in extatoms)
+        super(Structure, self).extend(setlat(a) for a in newatoms)
         return
 
 
