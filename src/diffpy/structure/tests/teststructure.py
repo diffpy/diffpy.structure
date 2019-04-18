@@ -18,6 +18,7 @@
 
 
 import copy
+import pickle
 import unittest
 import numpy
 
@@ -240,7 +241,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(6, len(stru))
         self.assertTrue(all(a.lattice is stru.lattice for a in stru))
         self.assertEqual(lst, stru.tolist()[:2])
-        self.assertNotEqual(stru[-1], cdse[-1])
+        self.assertFalse(stru[-1] is cdse[-1])
         return
 
 
@@ -654,6 +655,17 @@ class TestStructure(unittest.TestCase):
         self.assertTrue(numpy.allclose([0, 0.23], stru.B23))
         stru.B11 = stru.B22 = stru.B33 = stru.B12 = stru.B13 = stru.B23 = 0.0
         self.assertFalse(numpy.any(stru.U != 0.0))
+        return
+
+
+    def test_pickling(self):
+        """Make sure Atom in Structure can be consistently pickled.
+        """
+        stru = self.stru
+        a = stru[0]
+        self.assertTrue(a is stru[0])
+        a1, stru1 = pickle.loads(pickle.dumps((a, stru)))
+        self.assertTrue(a1 is stru1[0])
         return
 
 # End of class TestStructure

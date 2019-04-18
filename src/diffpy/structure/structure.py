@@ -16,8 +16,7 @@
 """This module defines class Structure.
 """
 
-import collections
-import copy
+import copy as copymod
 import numpy
 import codecs
 import six
@@ -25,6 +24,7 @@ import six
 from diffpy.structure.lattice import Lattice
 from diffpy.structure.atom import Atom
 from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol
+from diffpy.structure.utils import isiterable
 
 # ----------------------------------------------------------------------------
 
@@ -95,9 +95,9 @@ class Structure(list):
 
 
     def copy(self):
-        '''Return a deep copy of this Structure object.
+        '''Return a copy of this Structure object.
         '''
-        return copy.copy(self)
+        return copymod.copy(self)
 
 
     def __copy__(self, target=None):
@@ -116,7 +116,7 @@ class Structure(list):
         # copy attributes as appropriate:
         target.title = self.title
         target.lattice = Lattice(self.lattice)
-        target.pdffit = copy.deepcopy(self.pdffit)
+        target.pdffit = copymod.deepcopy(self.pdffit)
         # copy all atoms to the target
         target[:] = self
         return target
@@ -332,25 +332,43 @@ class Structure(list):
 
         No return value.
         """
-        adup = copy and Atom(a) or a
+        adup = copy and copymod.copy(a) or a
         adup.lattice = self.lattice
         super(Structure, self).insert(idx, adup)
         return
 
 
-    def extend(self, atoms, copy=True):
-        """Extend Structure by appending copies from a list of atoms.
+    def extend(self, atoms, copy=None):
+        """Extend Structure with an iterable of atoms.
 
-        atoms -- list of Atom instances
-        copy  -- flag for extending with copies of Atom instances.
-                 When False extend with atoms and update their lattice
-                 attributes.
+        Update the `lattice` attribute of all added atoms.
 
-        No return value.
+        Parameters
+        ----------
+        atoms : iterable
+            The `Atom` objects to be appended to this Structure.
+        copy : bool, optional
+            Flag for adding copies of Atom objects.
+            Make copies when `True`, append `atoms` unchanged when ``False``.
+            The default behavior is to make copies when `atoms` are of
+            `Structure` type or if new atoms introduce repeated objects.
         """
-        adups = map(Atom, atoms) if copy else atoms
+        adups = (copymod.copy(a) for a in atoms)
+        if copy is None:
+            if isinstance(atoms, Structure):
+                newatoms = adups
+            else:
+                memo = set(id(a) for a in self)
+                nextatom = lambda a: (a if id(a) not in memo
+                                      else copymod.copy(a))
+                mark = lambda a: (memo.add(id(a)), a)[-1]
+                newatoms = (mark(nextatom(a)) for a in atoms)
+        elif copy:
+            newatoms = adups
+        else:
+            newatoms = atoms
         setlat = lambda a: (setattr(a, 'lattice', self.lattice), a)[-1]
-        super(Structure, self).extend(setlat(a) for a in adups)
+        super(Structure, self).extend(setlat(a) for a in newatoms)
         return
 
 
@@ -388,7 +406,7 @@ class Structure(list):
         # check if there is any string label that should be resolved
         scalarstringlabel = isinstance(idx, six.string_types)
         hasstringlabel = scalarstringlabel or (
-            isinstance(idx, collections.Iterable) and
+            isiterable(idx) and
             any(isinstance(ii, six.string_types) for ii in idx))
         # if not, use numpy indexing to resolve idx
         if not hasstringlabel:
@@ -464,7 +482,7 @@ class Structure(list):
 
         Return new Structure with a copy of Atom instances.
         '''
-        rv = copy.copy(self)
+        rv = copymod.copy(self)
         rv += other
         return rv
 
@@ -476,7 +494,7 @@ class Structure(list):
 
         Return self.
         '''
-        self.extend(other)
+        self.extend(other, copy=True)
         return self
 
 
@@ -489,7 +507,7 @@ class Structure(list):
         '''
         otherset = set(other)
         keepindices = [i for i, a in enumerate(self) if not a in otherset]
-        rv = copy.copy(self[keepindices])
+        rv = copymod.copy(self[keepindices])
         return rv
 
 
@@ -513,7 +531,7 @@ class Structure(list):
 
         Return new Structure.
         '''
-        rv = copy.copy(self[:0])
+        rv = copymod.copy(self[:0])
         rv += n * self.tolist()
         return rv
 
@@ -533,7 +551,7 @@ class Structure(list):
         if n <= 0:
             self[:] = []
         else:
-            self.extend((n - 1) * self.tolist())
+            self.extend((n - 1) * self.tolist(), copy=True)
         return self
 
     # Properties -------------------------------------------------------------
