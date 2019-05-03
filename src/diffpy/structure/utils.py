@@ -54,15 +54,29 @@ def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
 
     Return a property object.
     '''
+    from itertools import repeat
+    from operator import setitem
+    _all = slice(None)
     def fget(self):
         va = toarray([getattr(a, attrname) for a in self])
         return va
     def fset(self, value):
-        if len(self) == 0:  return
-        # dummy array va helps to broadcast the value to proper iterable
-        va = numpy.asarray(len(self) * [getattr(self[0], attrname)])
-        for a, v in zip(self, numpy.broadcast_arrays(va, value)[1]):
-            setattr(a, attrname, v)
+        n = len(self)
+        if n == 0:
+            return
+        v0 = getattr(self[0], attrname)
+        # replace scalar values, but change array attributes in place
+        if numpy.isscalar(v0):
+            setval = lambda a, v: setattr(a, attrname, v)
+        else:
+            setval = lambda a, v: setitem(getattr(a, attrname), _all, v)
+        # avoid broadcasting if the new value is a scalar
+        if numpy.isscalar(value):
+            gvalues = repeat(value)
+        else:
+            gvalues = numpy.broadcast_to(value, (n,) + numpy.shape(v0))
+        for a, v in zip(self, gvalues):
+            setval(a, v)
         return
     rv = property(fget, fset, doc=doc)
     return rv

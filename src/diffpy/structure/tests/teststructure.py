@@ -464,7 +464,6 @@ class TestStructure(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_xyz(self):
         """check Structure.xyz
         """
@@ -477,7 +476,7 @@ class TestStructure(unittest.TestCase):
         stru.xyz = 0
         stru[1].xyz[:] = 1
         self.assertTrue(numpy.array_equal([0, 0, 0], stru[0].xyz))
-        self.assertTrue(numpy.array_equal([1, 1, 1], stru[0].xyz))
+        self.assertTrue(numpy.array_equal([1, 1, 1], stru[1].xyz))
         return
 
 
@@ -532,7 +531,6 @@ class TestStructure(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_occupancy(self):
         """check Structure.occupancy
         """
