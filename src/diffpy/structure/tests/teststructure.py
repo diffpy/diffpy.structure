@@ -477,6 +477,10 @@ class TestStructure(unittest.TestCase):
         stru[1].xyz[:] = 1
         self.assertTrue(numpy.array_equal([0, 0, 0], stru[0].xyz))
         self.assertTrue(numpy.array_equal([1, 1, 1], stru[1].xyz))
+        # verify noop when changing empty slice
+        xyz0 = numpy.copy(stru.xyz)
+        stru[1:1].xyz += 1
+        self.assertTrue(numpy.array_equal(xyz0, stru.xyz))
         return
 
 
