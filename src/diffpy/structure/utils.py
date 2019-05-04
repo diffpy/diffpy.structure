@@ -67,16 +67,16 @@ def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
         v0 = getattr(self[0], attrname)
         # replace scalar values, but change array attributes in place
         if numpy.isscalar(v0):
-            setval = lambda a, v: setattr(a, attrname, v)
+            setvalue = lambda a, v: setattr(a, attrname, v)
         else:
-            setval = lambda a, v: setitem(getattr(a, attrname), _all, v)
+            setvalue = lambda a, v: setitem(getattr(a, attrname), _all, v)
         # avoid broadcasting if the new value is a scalar
         if numpy.isscalar(value):
-            gvalues = repeat(value)
+            genvalues = repeat(value)
         else:
-            gvalues = numpy.broadcast_to(value, (n,) + numpy.shape(v0))
-        for a, v in zip(self, gvalues):
-            setval(a, v)
+            genvalues = numpy.broadcast_to(value, (n,) + numpy.shape(v0))
+        for a, v in zip(self, genvalues):
+            setvalue(a, v)
         return
     rv = property(fget, fset, doc=doc)
     return rv
