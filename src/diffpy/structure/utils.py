@@ -56,25 +56,45 @@ def atomBareSymbol(smbl):
 
 def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
     '''Create property wrapper that maps the specified atom attribute.
+
     The returned property object provides convenient access to atom
     attributes from the owner Structure class.
 
-    attrname -- string name of the Atom class attribute to be mapped
-    doc      -- docstring of the property wrapper
-    toarray  -- factory function that converts list of attributes to
-                numpy.array.  Use numpy.char.array for string attributes.
+    Parameters
+    ----------
+    attrname : str
+        The string name of the Atom class attribute to be mapped.
+    doc : str
+        The docstring for the property wrapper.
+    toarray : callable, optional
+        Factory function that converts list of attributes to `numpy.ndarray`.
+        Use `numpy.char.array` for string attributes.
 
     Return a property object.
     '''
+    from itertools import repeat
+    from operator import setitem
+    _all = slice(None)
     def fget(self):
         va = toarray([getattr(a, attrname) for a in self])
         return va
     def fset(self, value):
-        if len(self) == 0:  return
-        # dummy array va helps to broadcast the value to proper iterable
-        va = numpy.asarray(len(self) * [getattr(self[0], attrname)])
-        for a, v in zip(self, numpy.broadcast_arrays(va, value)[1]):
-            setattr(a, attrname, v)
+        n = len(self)
+        if n == 0:
+            return
+        v0 = getattr(self[0], attrname)
+        # replace scalar values, but change array attributes in place
+        if numpy.isscalar(v0):
+            setvalue = lambda a, v: setattr(a, attrname, v)
+        else:
+            setvalue = lambda a, v: setitem(getattr(a, attrname), _all, v)
+        # avoid broadcasting if the new value is a scalar
+        if numpy.isscalar(value):
+            genvalues = repeat(value)
+        else:
+            genvalues = numpy.broadcast_to(value, (n,) + numpy.shape(v0))
+        for a, v in zip(self, genvalues):
+            setvalue(a, v)
         return
     rv = property(fget, fset, doc=doc)
     return rv
