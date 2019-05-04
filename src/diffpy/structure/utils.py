@@ -44,13 +44,19 @@ def atomBareSymbol(smbl):
 
 def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
     '''Create property wrapper that maps the specified atom attribute.
+
     The returned property object provides convenient access to atom
     attributes from the owner Structure class.
 
-    attrname -- string name of the Atom class attribute to be mapped
-    doc      -- docstring of the property wrapper
-    toarray  -- factory function that converts list of attributes to
-                numpy.array.  Use numpy.char.array for string attributes.
+    Parameters
+    ----------
+    attrname : str
+        The string name of the Atom class attribute to be mapped.
+    doc : str
+        The docstring for the property wrapper.
+    toarray : callable, optional
+        Factory function that converts list of attributes to `numpy.ndarray`.
+        Use `numpy.char.array` for string attributes.
 
     Return a property object.
     '''
