@@ -156,7 +156,7 @@ class P_cif(StructureParser):
     _tr_atom_site_thermal_displace_type = _tr_atom_site_adp_type
 
     def _tr_atom_site_occupancy(a, value):
-        a.occupancy = leading_float(value)
+        a.occupancy = leading_float(value, 1.0)
     _tr_atom_site_occupancy = staticmethod(_tr_atom_site_occupancy)
 
     def _tr_atom_site_aniso_U_11(a, value):
@@ -622,11 +622,28 @@ class P_cif(StructureParser):
 # constant regular expression for leading_float()
 rx_float = re.compile(r'[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?')
 
-def leading_float(s):
-    """Obtain first float from a string and ignore any trailing characters.
+def leading_float(s, d=0.0):
+    """Extract the first float from a string and ignore trailing characters.
+
     Useful for extracting values from "value(std)" syntax.
 
-    Return float.
+    Parameters
+    ----------
+    s : str
+        The string to be scanned for floating point value.
+    d : float, optional
+        The default value when `s` is "." or "?", which in CIF
+        format stands for inapplicable and unknown, respectively.
+
+    Returns
+    -------
+    float
+        The extracted floating point value.
+
+    Raises
+    ------
+    ValueError
+        When string does not start with a float.
     """
     sbare = s.strip()
     mx = rx_float.match(sbare)
@@ -634,7 +651,7 @@ def leading_float(s):
         rv = float(mx.group())
     elif sbare == '.' or sbare == '?':
         # CIF files may contain "." or "?" for unknown values
-        rv = 0.0
+        rv = d
     else:
         rv = float(sbare)
     return rv
