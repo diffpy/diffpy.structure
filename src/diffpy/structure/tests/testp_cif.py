@@ -249,6 +249,13 @@ class TestP_cif(unittest.TestCase):
         return
 
 
+    def test_unknown_occupancy(self):
+        "test CIF file with unknown occupancy data"
+        stru = self.ptest.parseFile(datafile('TeI-unkocc.cif'))
+        self.assertTrue(numpy.array_equal(16 * [1], stru.occupancy))
+        return
+
+
     def test_nosites_cif(self):
         """Test reading of CIF file with no valid sites.
         """

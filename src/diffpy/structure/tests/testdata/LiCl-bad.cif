@@ -11,7 +11,7 @@ _cell_length_a                            5.12952
 _cell_length_b                            5.12952 
 _cell_length_c                            5.12952 
 _cell_volume                              134.968 
-_cgraph_comments                         'Praezisionsbestimmung von Gitterkonstanten hygroskopischer 
+_cgraph_comments                         'Praezisionsbestimmung von Gitterkonstanten hygroskopischer
      Verbindungen (Li Cl. Na Br).
 '
 _cgraph_title                            'Lithium Chloride'
