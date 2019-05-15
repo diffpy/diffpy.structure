@@ -73,6 +73,26 @@ def IsSpaceGroupIdentifier(sgid):
     return rv
 
 
+def _hashSymOpList(symops):
+    """Return hash value for a sequence of `SymOp` objects.
+
+    The symops are sorted so the results is independent of symops order.
+
+    Parameters
+    ----------
+    symops : sequence
+        The sequence of `SymOp` objects to be hashed
+
+    Returns
+    -------
+    int
+        The hash value.
+    """
+    ssop = sorted(str(o) for o in symops)
+    rv = hash(tuple(ssop))
+    return rv
+
+
 def _buildSGLookupTable():
     """Rebuild space group lookup table from the SpaceGroupList data.
 
