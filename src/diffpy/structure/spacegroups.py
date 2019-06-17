@@ -109,6 +109,7 @@ def FindSpaceGroup(symops, shuffle=False):
         sameorder = all(str(o0) == str(o1) for o0, o1 in zz)
         if not sameorder:
             rv = copy.copy(rv)
+            rv.symop_list = symops
     return rv
 
 

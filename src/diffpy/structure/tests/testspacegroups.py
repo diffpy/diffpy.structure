@@ -39,6 +39,8 @@ class TestRoutines(unittest.TestCase):
         self.assertIs(sg123, FindSpaceGroup(ops123))
         sg123r = FindSpaceGroup(ops123[::-1])
         self.assertIsNot(sg123, sg123r)
+        self.assertIsNot(sg123.symop_list, sg123r.symop_list)
+        self.assertEqual(ops123[::-1], sg123r.symop_list)
         self.assertEqual(_hashSymOpList(sg123.symop_list),
                          _hashSymOpList(sg123r.symop_list))
         self.assertIs(sg123, FindSpaceGroup(ops123[::-1], shuffle=True))
