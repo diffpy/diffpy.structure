@@ -20,7 +20,6 @@ http://www.iucr.org/iucr-top/cif/home.html
 
 import sys
 import re
-import copy
 from contextlib import contextmanager
 import numpy
 import six
@@ -447,6 +446,7 @@ class P_cif(StructureParser):
         """
         from diffpy.structure.spacegroups import IsSpaceGroupIdentifier
         from diffpy.structure.spacegroups import SpaceGroup, GetSpaceGroup
+        from diffpy.structure.spacegroups import FindSpaceGroup
         self.asymmetric_unit = list(self.stru)
         sym_synonyms = ('_space_group_symop_operation_xyz',
                         '_symmetry_equiv_pos_as_xyz')
@@ -469,21 +469,16 @@ class P_cif(StructureParser):
         sgid = (int(block.get('_space_group_IT_number', '0')) or
                 int(block.get('_symmetry_Int_Tables_number', '0')) or
                 sg_nameHM)
-        # try to reuse existing space group
         self.spacegroup = None
-        if sgid and IsSpaceGroupIdentifier(sgid):
-            sgstd = GetSpaceGroup(sgid)
-            oprep_std = [str(op) for op in sgstd.iter_symops()]
-            oprep_std.sort()
-            oprep_cif = [str(op) for op in symop_list]
-            oprep_cif.sort()
-            # make sure symmetry operations have the same order
-            if oprep_std == oprep_cif:
-                self.spacegroup = copy.copy(sgstd)
-                self.spacegroup.symop_list = symop_list
-            # use standard definition when symmetry operations were not listed
-            elif not symop_list:
-                self.spacegroup = sgstd
+        # try to reuse existing space group from symmetry operations
+        if symop_list:
+            try:
+                self.spacegroup = FindSpaceGroup(symop_list)
+            except ValueError:
+                pass
+        # otherwise lookup the space group from its identifier
+        if self.spacegroup is None and sgid and IsSpaceGroupIdentifier(sgid):
+            self.spacegroup = GetSpaceGroup(sgid)
         # define new spacegroup when symmetry operations were listed, but
         # there is no match to an existing definition
         if symop_list and self.spacegroup is None:
