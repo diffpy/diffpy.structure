@@ -73,6 +73,45 @@ def IsSpaceGroupIdentifier(sgid):
     return rv
 
 
+def FindSpaceGroup(symops, shuffle=False):
+    """Lookup SpaceGroup from a given list of symmetry operations.
+
+    Parameters
+    ----------
+    symops : list
+        The list of `SymOp` objects for which to find SpaceGroup.
+    shuffle : bool, optional
+        Flag for allowing different order of symops in the returned
+        SpaceGroup.  The default is ``False``.
+
+    Returns
+    -------
+    SpaceGroup
+        The SpaceGroup object with equivalent list of symmetry
+        operations.  Return predefined SpaceGroup instance when
+        symmetry operations have the same order or when the
+        `shuffle` flag is set.
+
+    Raises
+    ------
+    ValueError
+        When `symops` do not match any known SpaceGroup.
+    """
+    import copy
+    from six.moves import zip_longest
+    tb = _getSGHashLookupTable()
+    hh = _hashSymOpList(symops)
+    if not hh in tb:
+        raise ValueError('Cannot find SpaceGroup for the specified symops.')
+    rv = tb[hh]
+    if not shuffle:
+        zz = zip_longest(rv.iter_symops(), symops, fillvalue='')
+        sameorder = all(str(o0) == str(o1) for o0, o1 in zz)
+        if not sameorder:
+            rv = copy.copy(rv)
+    return rv
+
+
 def _hashSymOpList(symops):
     """Return hash value for a sequence of `SymOp` objects.
 
@@ -135,6 +174,19 @@ def _buildSGLookupTable():
         del _sg_lookup_table[None]
     return
 _sg_lookup_table = {}
+
+
+def _getSGHashLookupTable():
+    """Return lookup table of symop hashes to standard SpaceGroup objects.
+    """
+    if _sg_hash_lookup_table:
+        return _sg_hash_lookup_table
+    for sg in SpaceGroupList:
+        h = _hashSymOpList(sg.symop_list)
+        _sg_hash_lookup_table[h] = sg
+    assert len(_sg_hash_lookup_table) == len(SpaceGroupList)
+    return _getSGHashLookupTable()
+_sg_hash_lookup_table = {}
 
 # Import SpaceGroup objects --------------------------------------------------
 
