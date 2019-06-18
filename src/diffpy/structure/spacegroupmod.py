@@ -207,8 +207,6 @@ class SpaceGroup(object):
         The number of symmetry equivalent sites in a primitive unit cell.
     short_name : str
         The short Hermann-Mauguin symbol of the space group.
-    alt_name : str
-        Alternative space group symbol consistent with FullProf.
     point_group_name : str
         The point group of this space group.
     crystal_system : str
@@ -232,9 +230,6 @@ class SpaceGroup(object):
         The number of symmetry equivalent sites in a primitive unit cell.
     short_name : str
         The short Hermann-Mauguin symbol of the space group.
-    alt_name : str
-        Alternative space group symbol consistent with FullProf.
-        Deprecated.
     point_group_name : str
         The point group to which this space group belongs to.
     crystal_system : str
@@ -253,7 +248,6 @@ class SpaceGroup(object):
                  num_sym_equiv           = None,
                  num_primitive_sym_equiv = None,
                  short_name              = None,
-                 alt_name                = None,
                  point_group_name        = None,
                  crystal_system          = None,
                  pdb_name                = None,
@@ -263,7 +257,6 @@ class SpaceGroup(object):
         self.num_sym_equiv           = num_sym_equiv
         self.num_primitive_sym_equiv = num_primitive_sym_equiv
         self.short_name              = short_name
-        self.alt_name                = alt_name
         self.point_group_name        = point_group_name
         self.crystal_system          = crystal_system
         self.pdb_name                = pdb_name
@@ -298,7 +291,6 @@ class SpaceGroup(object):
         """
 
         if name == self.short_name:       return True
-        if name == self.alt_name:         return True
         if name == self.pdb_name:         return True
         if name == self.point_group_name: return True
         if name == self.number:           return True
