@@ -7231,9 +7231,9 @@ sg1008 = SpaceGroup(
     pdb_name                = "B 1 1 m",
     symop_list = [
         SymOp(Rot_X_Y_Z,     Tr_0_0_0),
-        SymOp(Rot_X_mY_Z,    Tr_0_0_0),
-        SymOp(Rot_X_Y_Z,     Tr_12_12_0),
-        SymOp(Rot_X_mY_Z,    Tr_12_12_0)])
+        SymOp(Rot_X_Y_mZ,    Tr_0_0_0),
+        SymOp(Rot_X_Y_Z,     Tr_12_0_12),
+        SymOp(Rot_X_Y_mZ,    Tr_12_0_12)])
 
 sg1009 = SpaceGroup(
     number                  = 1009,

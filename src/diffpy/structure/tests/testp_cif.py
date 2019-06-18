@@ -277,6 +277,18 @@ class TestP_cif(unittest.TestCase):
         return
 
 
+    def test_custom_spacegroup_cif(self):
+        """Test parsing of nonstandard symops-defined space group.
+        """
+        pfile = self.pfile
+        filename = datafile('customsg.cif')
+        pfile.parseFile(filename)
+        sg = pfile.spacegroup
+        self.assertEqual('CIF data', sg.short_name)
+        self.assertEqual(6, len(sg.symop_list))
+        return
+
+
     def test_getParser(self):
         """Test passing of eps keyword argument by getParser function.
         """
