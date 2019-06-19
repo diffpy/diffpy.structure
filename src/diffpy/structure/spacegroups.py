@@ -43,17 +43,14 @@ def GetSpaceGroup(sgid):
     emsg = "Unknown space group identifier %r" % sgid
     if not isinstance(sgid, six.string_types):
         raise ValueError(emsg)
-    # short name case adjusted
-    sgkey = sgid.strip()
+    sgbare = sgid.strip()
+    # short_name case adjusted
+    sgkey = sgbare.replace(' ', '')
     sgkey = sgkey[:1].upper() + sgkey[1:].lower()
     if sgkey in _sg_lookup_table:
         return _sg_lookup_table[sgkey]
-    # long name all upper case
-    sgkey = sgid.strip().upper()
-    if sgkey in _sg_lookup_table:
-        return _sg_lookup_table[sgkey]
-    # try to remove any blanks
-    sgkey = sgid.replace(' ', '')
+    # pdb_name case adjusted
+    sgkey = sgbare[:1].upper() + sgbare[1:].lower()
     if sgkey in _sg_lookup_table:
         return _sg_lookup_table[sgkey]
     # nothing worked, sgid is unknown identifier
@@ -145,7 +142,6 @@ def _buildSGLookupTable():
         _sg_lookup_table.setdefault(str(sg.number), sg)
         _sg_lookup_table.setdefault(sg.short_name, sg)
         _sg_lookup_table.setdefault(sg.pdb_name, sg)
-        _sg_lookup_table.setdefault(sg.alt_name, sg)
     # extra aliases obtained from matching code in
     # cctbx::sgtbx::symbols::find_main_symbol_dict_entry
     alias_hmname = [
@@ -171,8 +167,7 @@ def _buildSGLookupTable():
         hmbare = hm.replace(' ', '')
         _sg_lookup_table.setdefault(a, _sg_lookup_table[hmbare])
     # make sure None does not sneak into the dictionary
-    if None in _sg_lookup_table:
-        del _sg_lookup_table[None]
+    assert not None in _sg_lookup_table
     return
 _sg_lookup_table = {}
 
