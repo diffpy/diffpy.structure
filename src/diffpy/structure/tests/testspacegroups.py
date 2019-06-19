@@ -30,6 +30,39 @@ class TestRoutines(unittest.TestCase):
         return
 
 
+    def test_old_alt_name(self):
+        "check GetSpaceGroup lookup from deprecated alt_name values"
+        # alt_name values which do not map to short_name or pdb_name
+        altnames_sgnos = (
+            ("P M 3", 200), ("P N 3", 201), ("F M 3", 202),
+            ("F D 3", 203), ("I M 3", 204), ("P A 3", 205),
+            ("I A 3", 206), ("P M 3 M", 221), ("P N 3 N", 222),
+            ("P M 3 N", 223), ("P N 3 M", 224), ("F M 3 M", 225),
+            ("F M 3 C", 226), ("F D 3 M", 227), ("F D 3 C", 228),
+            ("I M 3 M", 229), ("I A 3 D", 230)
+        )
+        for name, sgno in altnames_sgnos:
+            self.assertIs(GetSpaceGroup(sgno), GetSpaceGroup(name))
+        return
+
+
+    def test_GetSpaceGroup(self):
+        "check GetSpaceGroup function"
+        from diffpy.structure.spacegroups import sg125
+        self.assertRaises(ValueError, GetSpaceGroup, 0)
+        self.assertRaises(ValueError, GetSpaceGroup, 300)
+        self.assertRaises(ValueError, GetSpaceGroup, "300")
+        self.assertIs(sg125, GetSpaceGroup(125))
+        self.assertIs(sg125, GetSpaceGroup("125"))
+        self.assertIs(sg125, GetSpaceGroup("P4/nbm"))
+        self.assertIs(sg125, GetSpaceGroup("P 4/n 2/b 2/m"))
+        # old alt_name
+        self.assertIs(sg125, GetSpaceGroup("P 4/N B M"))
+        # upper case pdb_name
+        self.assertIs(sg125, GetSpaceGroup("P 4/N 2/B 2/M"))
+        return
+
+
     def test_FindSpaceGroup(self):
         "check FindSpaceGroup function"
         sg123 = GetSpaceGroup(123)
