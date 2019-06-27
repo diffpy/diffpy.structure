@@ -1,6 +1,35 @@
 # Release notes
 
-## Version 3.0.0 -- 2019-03-11
+## Unreleased – Version 3.0.1
+
+### Added
+
+- Function `FindSpaceGroup` for SpaceGroup lookup from its list
+  of symmetry operations.
+
+### Changed
+
+- Reuse existing `SpaceGroup` object when loading a CIF file.
+- Simplified check of SpaceGroup names in `GetSpaceGroup`.
+- When loading CIF file, preset `Atom.anisotropy` according
+  to symmetry constraints at each site.  Adhere to specific
+  atom site ADP type if specified in the CIF.
+
+### Removed
+
+- Unused attribute `SpaceGroup.alt_name`.
+
+### Fixed
+
+- Fix inconsistent (`Atom`, `Structure`) pickle.  Preserve `Atom`
+  ownership in a `Structure` after unpickling.
+- Spuriously linked array views after `stru.xyz = 0`.
+- Preserve scalar value type when setting `stru.occupancy = value`.
+- Process unknown CIF occupancy "?" as an occupancy of 1.
+- Incorrect `SymOp` list for spacegroup B11m (number 1008).
+
+
+## Version 3.0.0 – 2019-03-11
 
 Notable differences from version 1.3.5.
 
