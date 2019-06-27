@@ -1,6 +1,6 @@
 # Release notes
 
-## Unreleased – Version 3.0.1
+## Version 3.0.1 – 2019-06-27
 
 ### Added
 
