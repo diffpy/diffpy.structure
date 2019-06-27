@@ -239,12 +239,11 @@ def main():
         else:
             status = os.spawnlpe(os.P_WAIT, *spawnargs)
             die(status, pd)
-    except IOError as xxx_todo_changeme:
-        (errno, errmsg) = xxx_todo_changeme.args
-        print("%s: %s" % (args[0], errmsg), file=sys.stderr)
+    except IOError as e:
+        print("%s: %s" % (args[0], e.strerror), file=sys.stderr)
         die(1, pd)
-    except StructureFormatError as errmsg:
-        print("%s: %s" % (args[0], errmsg), file=sys.stderr)
+    except StructureFormatError as e:
+        print("%s: %s" % (args[0], e), file=sys.stderr)
         die(1, pd)
     return
 

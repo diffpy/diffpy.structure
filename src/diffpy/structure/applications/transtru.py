@@ -104,12 +104,11 @@ def main():
     except IndexError:
         print("strufile not specified", file=sys.stderr)
         sys.exit(2)
-    except IOError as xxx_todo_changeme:
-        (errno, errmsg) = xxx_todo_changeme.args
-        print("%s: %s" % (strufile, errmsg), file=sys.stderr)
+    except IOError as e:
+        print("%s: %s" % (strufile, e.strerror), file=sys.stderr)
         sys.exit(1)
-    except StructureFormatError as errmsg:
-        print("%s: %s" % (strufile, errmsg), file=sys.stderr)
+    except StructureFormatError as e:
+        print("%s: %s" % (strufile, e), file=sys.stderr)
         sys.exit(1)
     return
 
