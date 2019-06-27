@@ -66,7 +66,7 @@ class TestRoutines(unittest.TestCase):
 
 class TestP_cif(unittest.TestCase):
 
-    goodciffile = datafile('PbTe.cif')
+    pbteciffile = datafile('PbTe.cif')
     badciffile = datafile('LiCl-bad.cif')
     graphiteciffile = datafile('graphite.cif')
     cdsebulkpdffitfile = datafile('CdSe_bulk.stru')
@@ -86,12 +86,12 @@ class TestP_cif(unittest.TestCase):
     def test_parse(self):
         """check P_cif.parse()
         """
-        with open(self.goodciffile) as fp1:
+        with open(self.pbteciffile) as fp1:
             sgood = fp1.read()
         with open(self.badciffile) as fp2:
             sbad = fp2.read()
         pfile, ptest = self.pfile, self.ptest
-        stru_check = pfile.parseFile(self.goodciffile)
+        stru_check = pfile.parseFile(self.pbteciffile)
         stru = ptest.parse(sgood)
         self.assertEqual(str(stru_check), str(stru))
         self.assertEqual(str(stru_check.lattice), str(stru.lattice))
@@ -106,12 +106,12 @@ class TestP_cif(unittest.TestCase):
     def test_parseLines(self):
         """check P_cif.parseLines()
         """
-        with open(self.goodciffile) as fp1:
+        with open(self.pbteciffile) as fp1:
             goodlines = fp1.readlines()
         with open(self.badciffile) as fp2:
             badlines = fp2.readlines()
         pfile, ptest = self.pfile, self.ptest
-        stru_check = pfile.parseFile(self.goodciffile)
+        stru_check = pfile.parseFile(self.pbteciffile)
         stru = ptest.parseLines(goodlines)
         self.assertEqual(str(stru_check), str(stru))
         self.assertEqual(str(stru_check.lattice), str(stru.lattice))
@@ -126,8 +126,8 @@ class TestP_cif(unittest.TestCase):
     def test_parseFile(self):
         """check P_cif.parseFile()
         """
-        # goodciffile
-        stru = self.pfile.parseFile(self.goodciffile)
+        # pbteciffile
+        stru = self.pfile.parseFile(self.pbteciffile)
         self.assertEqual(8, len(stru))
         self.assertEqual(6.461, stru.lattice.a)
         self.assertEqual(6.461, stru.lattice.b)
@@ -286,6 +286,61 @@ class TestP_cif(unittest.TestCase):
         sg = pfile.spacegroup
         self.assertEqual('CIF data', sg.short_name)
         self.assertEqual(6, len(sg.symop_list))
+        return
+
+
+    def test_spacegroup_isotropy(self):
+        "verify site isotropy due to site symmetry."
+        # remove the _atom_site_thermal_displace_type field
+        with open(self.pbteciffile) as fp:
+            lines = [line.replace(' Uiso ', ' ') for line in fp
+                     if '_atom_site_thermal_displace_type' not in line]
+        ciftxt = ''.join(lines)
+        ptest = self.ptest
+        stru = ptest.parse(ciftxt)
+        self.assertFalse(any(stru.anisotropy))
+        self.assertTrue(all(not a.anisotropy for a in ptest.asymmetric_unit))
+        return
+
+
+    def test_spacegroup_anisotropy(self):
+        "verify site anisotropy due to site symmetry."
+        stru = self.ptest.parseFile(self.graphiteciffile)
+        self.assertTrue(all(stru.anisotropy))
+        return
+
+
+    def test_adp_type_ani(self):
+        "verify adp type override to anisotropic"
+        with open(self.pbteciffile) as fp:
+            ciftxt = fp.read()
+            ciftxt = ciftxt.replace(' Uiso ', ' Uani ')
+        stru = self.ptest.parse(ciftxt)
+        self.assertTrue(all(stru.anisotropy))
+        return
+
+
+    def test_adp_type_iso(self):
+        "verify adp type override to isotropic"
+        with open(self.graphiteciffile) as fp:
+            lines = fp.readlines()
+        lines.insert(-2, '_atom_site_adp_type\n')
+        lines[-2] = lines[-2].rstrip() + '   Uiso\n'
+        lines[-1] = lines[-1].rstrip() + '   Uiso\n'
+        ciftxt = ''.join(lines)
+        stru = self.ptest.parse(ciftxt)
+        self.assertFalse(any(a.anisotropy for a in stru))
+        return
+
+
+    def test_adp_aniso_label(self):
+        "verify ADP type setting from _atom_site_aniso_label loop"
+        with open(self.teiciffile) as fp:
+            lines = [line.replace(' Uani ', ' ') for line in fp
+                     if not '_atom_site_adp_type' in line]
+        ciftxt = ''.join(lines)
+        stru = self.ptest.parse(ciftxt)
+        self.assertTrue(all(stru.anisotropy))
         return
 
 
