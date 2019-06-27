@@ -303,7 +303,6 @@ class TestP_cif(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_spacegroup_anisotropy(self):
         "verify site anisotropy due to site symmetry."
         stru = self.ptest.parseFile(self.graphiteciffile)

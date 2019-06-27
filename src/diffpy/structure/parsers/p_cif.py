@@ -412,11 +412,8 @@ class P_cif(StructureParser):
         No return value.
         """
         if '_atom_site_aniso_label' not in block: return
-        # was anisotropy set in the _atom_site_label loop?
-        atom_site_loop = block.GetLoop('_atom_site_label')
-        anisotropy_already_set = (
-            '_atom_site_adp_type' in atom_site_loop or
-            '_atom_site_thermal_displace_type' in atom_site_loop)
+        # was anisotropy processed in the _atom_site_label loop?
+        isotropy_done = _hasAtomSiteADPType(block)
         # something to do here:
         adp_loop = block.GetLoop('_atom_site_aniso_label')
         # index of the _atom_site_label column
@@ -427,7 +424,7 @@ class P_cif(StructureParser):
         for values in sitedatalist:
             idx = self.labelindex[values[ilb]]
             a = self.stru[idx]
-            if not anisotropy_already_set:
+            if not isotropy_done:
                 a.anisotropy = True
             for fset, val in zip(prop_setters, values):
                 fset(a, val)
@@ -494,22 +491,32 @@ class P_cif(StructureParser):
         if self.spacegroup is None:
             emsg = "CIF file has unknown space group identifier {!r}."
             raise StructureFormatError(emsg.format(sgid))
-        self._expandAsymmetricUnit()
+        self._expandAsymmetricUnit(block)
         return
 
 
-    def _expandAsymmetricUnit(self):
+    def _expandAsymmetricUnit(self, block):
         """Perform symmetry expansion of self.stru using self.spacegroup.
+
         This method updates data in stru and eau.
 
-        No return value.
+        Parameters
+        ----------
+        block : CifBlock
+            The top-level block containing crystal structure data.
         """
         from diffpy.structure.symmetryutilities import ExpandAsymmetricUnit
-        # get reverse-ordered unique indices
         corepos = [a.xyz for a in self.stru]
         coreUijs = [a.U for a in self.stru]
         self.eau = ExpandAsymmetricUnit(self.spacegroup, corepos, coreUijs,
                                         eps=self.eps)
+        # setup anisotropy according to symmetry requirements
+        # was isotropy flag already processed
+        isotropy_done = (_hasAtomSiteADPType(block) or
+                         '_atom_site_aniso_label' in block)
+        if not isotropy_done:
+            for ca, uisotropy in zip(self.stru, self.eau.Uisotropy):
+                ca.anisotropy = not uisotropy
         # build a nested list of new atoms:
         newatoms = []
         for i, ca in enumerate(self.stru):
@@ -727,3 +734,12 @@ def _suppressCifParserOutput():
     finally:
         yapps3_compiled_rt.print_error = print_error
     pass
+
+
+def _hasAtomSiteADPType(block):
+    """Return True if the CIF specifies _atom_site_adp_type.
+    """
+    atom_site_loop = block.GetLoop('_atom_site_label')
+    rv = ('_atom_site_adp_type' in atom_site_loop or
+          '_atom_site_thermal_displace_type' in atom_site_loop)
+    return rv
