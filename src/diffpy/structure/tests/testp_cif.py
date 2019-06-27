@@ -66,7 +66,7 @@ class TestRoutines(unittest.TestCase):
 
 class TestP_cif(unittest.TestCase):
 
-    goodciffile = datafile('PbTe.cif')
+    pbteciffile = datafile('PbTe.cif')
     badciffile = datafile('LiCl-bad.cif')
     graphiteciffile = datafile('graphite.cif')
     cdsebulkpdffitfile = datafile('CdSe_bulk.stru')
@@ -86,12 +86,12 @@ class TestP_cif(unittest.TestCase):
     def test_parse(self):
         """check P_cif.parse()
         """
-        with open(self.goodciffile) as fp1:
+        with open(self.pbteciffile) as fp1:
             sgood = fp1.read()
         with open(self.badciffile) as fp2:
             sbad = fp2.read()
         pfile, ptest = self.pfile, self.ptest
-        stru_check = pfile.parseFile(self.goodciffile)
+        stru_check = pfile.parseFile(self.pbteciffile)
         stru = ptest.parse(sgood)
         self.assertEqual(str(stru_check), str(stru))
         self.assertEqual(str(stru_check.lattice), str(stru.lattice))
@@ -106,12 +106,12 @@ class TestP_cif(unittest.TestCase):
     def test_parseLines(self):
         """check P_cif.parseLines()
         """
-        with open(self.goodciffile) as fp1:
+        with open(self.pbteciffile) as fp1:
             goodlines = fp1.readlines()
         with open(self.badciffile) as fp2:
             badlines = fp2.readlines()
         pfile, ptest = self.pfile, self.ptest
-        stru_check = pfile.parseFile(self.goodciffile)
+        stru_check = pfile.parseFile(self.pbteciffile)
         stru = ptest.parseLines(goodlines)
         self.assertEqual(str(stru_check), str(stru))
         self.assertEqual(str(stru_check.lattice), str(stru.lattice))
@@ -126,8 +126,8 @@ class TestP_cif(unittest.TestCase):
     def test_parseFile(self):
         """check P_cif.parseFile()
         """
-        # goodciffile
-        stru = self.pfile.parseFile(self.goodciffile)
+        # pbteciffile
+        stru = self.pfile.parseFile(self.pbteciffile)
         self.assertEqual(8, len(stru))
         self.assertEqual(6.461, stru.lattice.a)
         self.assertEqual(6.461, stru.lattice.b)
