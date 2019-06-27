@@ -289,6 +289,62 @@ class TestP_cif(unittest.TestCase):
         return
 
 
+    def test_spacegroup_isotropy(self):
+        "verify site isotropy due to site symmetry."
+        # remove the _atom_site_thermal_displace_type field
+        with open(self.pbteciffile) as fp:
+            lines = [line.replace(' Uiso ', ' ') for line in fp
+                     if '_atom_site_thermal_displace_type' not in line]
+        ciftxt = ''.join(lines)
+        ptest = self.ptest
+        stru = ptest.parse(ciftxt)
+        self.assertFalse(any(stru.anisotropy))
+        self.assertTrue(all(not a.anisotropy for a in ptest.asymmetric_unit))
+        return
+
+
+    @unittest.expectedFailure
+    def test_spacegroup_anisotropy(self):
+        "verify site anisotropy due to site symmetry."
+        stru = self.ptest.parseFile(self.graphiteciffile)
+        self.assertTrue(all(stru.anisotropy))
+        return
+
+
+    def test_adp_type_ani(self):
+        "verify adp type override to anisotropic"
+        with open(self.pbteciffile) as fp:
+            ciftxt = fp.read()
+            ciftxt = ciftxt.replace(' Uiso ', ' Uani ')
+        stru = self.ptest.parse(ciftxt)
+        self.assertTrue(all(stru.anisotropy))
+        return
+
+
+    def test_adp_type_iso(self):
+        "verify adp type override to isotropic"
+        with open(self.graphiteciffile) as fp:
+            lines = fp.readlines()
+        lines.insert(-2, '_atom_site_adp_type\n')
+        lines[-2] = lines[-2].rstrip() + '   Uiso\n'
+        lines[-1] = lines[-1].rstrip() + '   Uiso\n'
+        ciftxt = ''.join(lines)
+        stru = self.ptest.parse(ciftxt)
+        self.assertFalse(any(a.anisotropy for a in stru))
+        return
+
+
+    def test_adp_aniso_label(self):
+        "verify ADP type setting from _atom_site_aniso_label loop"
+        with open(self.teiciffile) as fp:
+            lines = [line.replace(' Uani ', ' ') for line in fp
+                     if not '_atom_site_adp_type' in line]
+        ciftxt = ''.join(lines)
+        stru = self.ptest.parse(ciftxt)
+        self.assertTrue(all(stru.anisotropy))
+        return
+
+
     def test_getParser(self):
         """Test passing of eps keyword argument by getParser function.
         """
