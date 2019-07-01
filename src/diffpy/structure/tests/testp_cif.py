@@ -365,6 +365,14 @@ class TestP_cif(unittest.TestCase):
         return
 
 
+    def test_curly_brace(self):
+        "verify loading of a CIF file with unquoted curly brace"
+        ptest = self.ptest
+        stru = ptest.parseFile(datafile('curlybrackets.cif'))
+        self.assertEqual(20, len(stru))
+        return
+
+
     def test_getParser(self):
         """Test passing of eps keyword argument by getParser function.
         """
