@@ -256,6 +256,28 @@ class TestP_cif(unittest.TestCase):
         return
 
 
+    @unittest.expectedFailure
+    def test_unknown_spacegroup_number(self):
+        "test CIF file with unknown space group symbol"
+        from diffpy.structure.spacegroups import GetSpaceGroup, _hashSymOpList
+        with open(self.pbteciffile) as fp:
+            lines = fp.readlines()
+        self.assertTrue(lines[16].startswith('_symmetry_space_group'))
+        self.assertTrue(lines[17].startswith('_symmetry_space_group'))
+        lines[16:18] = [
+            '_space_group_IT_number  ?\n',
+            '_symmetry_space_group_name_H-M  ?\n',
+            '_symmetry_space_group_name_Hall  ?\n',
+        ]
+        ciftxt = ''.join(lines)
+        stru = self.ptest.parse(ciftxt)
+        self.assertEqual(8, len(stru))
+        h225 = _hashSymOpList(GetSpaceGroup(225).iter_symops())
+        sgcif = self.ptest.spacegroup
+        self.assertEqual(h225, _hashSymOpList(sgcif.iter_symops()))
+        return
+
+
     def test_nosites_cif(self):
         """Test reading of CIF file with no valid sites.
         """
