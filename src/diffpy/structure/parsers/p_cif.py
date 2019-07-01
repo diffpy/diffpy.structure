@@ -463,8 +463,8 @@ class P_cif(StructureParser):
         sg_nameHM = (block.get('_space_group_name_H-M_alt', '') or
                 block.get('_symmetry_space_group_name_H-M', ''))
         self.cif_sgname = (sg_nameHall or sg_nameHM or None)
-        sgid = (int(block.get('_space_group_IT_number', '0')) or
-                int(block.get('_symmetry_Int_Tables_number', '0')) or
+        sgid = (block.get('_space_group_IT_number', '') or
+                block.get('_symmetry_Int_Tables_number', '') or
                 sg_nameHM)
         self.spacegroup = None
         # try to reuse existing space group from symmetry operations

@@ -256,7 +256,6 @@ class TestP_cif(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_unknown_spacegroup_number(self):
         "test CIF file with unknown space group symbol"
         from diffpy.structure.spacegroups import GetSpaceGroup, _hashSymOpList
