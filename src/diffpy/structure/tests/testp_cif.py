@@ -344,7 +344,6 @@ class TestP_cif(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_curly_brace(self):
         "verify loading of a CIF file with unquoted curly brace"
         ptest = self.ptest

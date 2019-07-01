@@ -309,7 +309,9 @@ class P_cif(StructureParser):
         self.stru = None
         try:
             with _suppressCifParserOutput():
-                self.ciffile = CifFile(datasource)
+                # Use `grammar` option to digest values with curly-brackets.
+                # Ref: https://bitbucket.org/jamesrhester/pycifrw/issues/19
+                self.ciffile = CifFile(datasource, grammar='auto')
                 for blockname in self.ciffile.keys():
                     self._parseCifBlock(blockname)
                     # stop after reading the first structure
