@@ -1,0 +1,120 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-16 22:30:59 +0200 (Tue, 16 Feb 2016) $
+#$Revision: 176467 $
+#$URL: svn://www.crystallography.net/cod/cif/4/34/14/4341415.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_4341415
+loop_
+_publ_author_name
+'Bernal, Fabian L.'
+'Yusenko, Kirill V.'
+'Sottmann, Jonas'
+'Drathen, Christina'
+'Guignard, J\'er\'emy'
+'L\/ovvik, Ole Martin'
+'Crichton, Wilson A.'
+'Margadonna, Serena'
+_publ_section_title
+;
+ Perovskite to Postperovskite Transition in NaFeF3
+;
+_journal_name_full               'Inorganic Chemistry'
+_journal_page_first              141029080759008
+_journal_paper_doi               10.1021/ic502224y
+_journal_year                    2014
+_chemical_formula_analytical     NaFeF3
+_chemical_formula_moiety         NaFeF3
+_chemical_formula_structural     NaFeF3
+_chemical_formula_sum            'F3 Fe Na'
+_chemical_formula_weight         135.84
+_space_group_IT_number           63
+_symmetry_cell_setting           orthorhombic
+_symmetry_space_group_name_Hall  '-C 2c 2'
+_symmetry_space_group_name_H-M   'C m c m'
+_audit_update_record
+;
+2014-09-10 # Formatted by publCIF
+
+;
+_cell_angle_alpha                90.0
+_cell_angle_beta                 90.0
+_cell_angle_gamma                90.0
+_cell_formula_units_Z            4
+_cell_length_a                   3.13774(4)
+_cell_length_b                   10.20870(10)
+_cell_length_c                   7.45875(9)
+_cell_measurement_temperature    300
+_cell_volume                     238.921(5)
+_computing_structure_refinement  GSAS
+_diffrn_ambient_temperature      300
+_diffrn_measurement_device_type  ID31
+_diffrn_radiation_type           synchrotron
+_diffrn_radiation_wavelength     0.3999
+_pd_block_id                     2014-09-10T16:28|PPV_RT_phase1|BaAs_233-2||
+_pd_phase_name                   'NaFeF3 FM001 RT ID09 ESRF'
+_refine_ls_goodness_of_fit_all   1.33
+_refine_ls_matrix_type           full
+_refine_ls_number_parameters     23
+_refine_ls_number_restraints     0
+_refine_ls_shift/su_max          0.07
+_refine_ls_shift/su_mean         0.01
+_cod_data_source_file            ic502224y_si_002.cif
+_cod_data_source_block           PPV_RT_phase_1
+_cod_original_cell_volume        238.921(4)
+_cod_original_formula_sum        F3FeNa
+_cod_database_code               4341415
+#BEGIN Tags that were not found in dictionaries:
+_publcif_datablock.id            {15d6793f-0b54-44dd-81a5-d864469fb48d}
+#END Tags that were not found in dictionaries
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 +x,+y,+z
+2 -x,+y,+z
+3 +x,-y,+z+1/2
+4 -x,-y,+z+1/2
+-1 -x,-y,-z
+-2 +x,-y,-z
+-3 -x,+y,-z+1/2
+-4 +x,+y,-z+1/2
+101 +x+1/2,+y+1/2,+z
+102 -x+1/2,+y+1/2,+z
+103 +x+1/2,-y+1/2,+z+1/2
+104 -x+1/2,-y+1/2,+z+1/2
+-101 -x+1/2,-y+1/2,-z
+-102 +x+1/2,-y+1/2,-z
+-103 -x+1/2,+y+1/2,-z+1/2
+-104 +x+1/2,+y+1/2,-z+1/2
+loop_
+_atom_site_type_symbol
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_thermal_displace_type
+_atom_site_U_iso_or_equiv
+_atom_site_symmetry_multiplicity
+Na Na 0.0 0.7457 0.25 1.0 Uiso 0.01658 4
+Fe Fe 0.0 0.0 0.0 1.0 Uiso 0.00792 4
+F F1 0.0 0.0842 0.25 1.0 Uiso 0.01837 4
+F F2 0.0 0.6278 0.94370 1.0 Uiso 0.02025 8
+loop_
+_pd_block_diffractogram_id
+2014-09-10T16:28|PPV_RT_H_01|BaAs_233-2|PPV
+#BEGIN Loops that were not found in dictionaries:
+loop_
+_publcif_info_datablock.id
+_publcif_info_datablock.publ_exptl
+_publcif_info_datablock.publ_geom
+_publcif_info_datablock.structure
+{15d6793f-0b54-44dd-81a5-d864469fb48d} y ? y
+{f121c8c0-c58f-4149-a4e0-8a727689246c} n y y
+#END Loops that were not found in dictionaries
