@@ -365,7 +365,6 @@ class TestP_cif(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_unknown_aniso(self):
         "test CIF file with unknown values in the aniso block."
         with open(self.teiciffile) as fp:
