@@ -365,6 +365,18 @@ class TestP_cif(unittest.TestCase):
         return
 
 
+    def test_unknown_aniso(self):
+        "test CIF file with unknown values in the aniso block."
+        with open(self.teiciffile) as fp:
+            lines = fp.readlines()
+        lines[-4:] = ['  ?  ?  ?  ?  ?  ?  ?\n']
+        ciftxt = ''.join(lines)
+        stru = self.ptest.parse(ciftxt)
+        self.assertEqual(16, len(stru))
+        self.assertTrue(all(stru.anisotropy))
+        return
+
+
     def test_curly_brace(self):
         "verify loading of a CIF file with unquoted curly brace"
         ptest = self.ptest

@@ -51,6 +51,8 @@ class P_cif(StructureParser):
                    unit in the CIF file
     labelindex  -- dictionary mapping unique atom label to index of atom
                    in self.asymmetric_unit
+    anisotropy  -- dictionary mapping unique atom label to displacement
+                   anisotropy resolved at that site
     cif_sgname  -- space group name obtained by looking up the value of
                    _space_group_name_Hall, _symmetry_space_group_name_Hall,
                    _space_group_name_H-M_alt, _symmetry_space_group_name_H-M
@@ -241,6 +243,7 @@ class P_cif(StructureParser):
         self.eau = None
         self.asymmetric_unit = None
         self.labelindex = {}
+        self.anisotropy = {}
         self.cif_sgname = None
         pass
 
@@ -338,6 +341,7 @@ class P_cif(StructureParser):
         # here block contains structure, initialize output data
         self.stru = Structure()
         self.labelindex.clear()
+        self.anisotropy.clear()
         # execute specialized block parsers
         self._parse_lattice(block)
         self._parse_atom_site_label(block)
@@ -385,6 +389,8 @@ class P_cif(StructureParser):
         """
         # process _atom_site_label
         atom_site_loop = block.GetLoop('_atom_site_label')
+        does_adp_type = ('_atom_site_adp_type' in atom_site_loop or
+                         '_atom_site_thermal_displace_type' in atom_site_loop)
         # get a list of setters for atom_site values
         prop_setters = P_cif._get_atom_setters(atom_site_loop)
         # index of the _atom_site_label item for the labelindex dictionary
@@ -401,6 +407,8 @@ class P_cif(StructureParser):
             a = self.stru.getLastAtom()
             for fset, val in zip(prop_setters, values):
                 fset(a, val)
+            if does_adp_type:
+                self.anisotropy[curlabel] = a.anisotropy
         return
 
 
@@ -414,8 +422,6 @@ class P_cif(StructureParser):
         No return value.
         """
         if '_atom_site_aniso_label' not in block: return
-        # was anisotropy processed in the _atom_site_label loop?
-        isotropy_done = _hasAtomSiteADPType(block)
         # something to do here:
         adp_loop = block.GetLoop('_atom_site_aniso_label')
         # index of the _atom_site_label column
@@ -424,10 +430,14 @@ class P_cif(StructureParser):
         prop_setters = P_cif._get_atom_setters(adp_loop)
         sitedatalist = zip(*adp_loop.values())
         for values in sitedatalist:
-            idx = self.labelindex[values[ilb]]
+            lb = values[ilb]
+            if lb == '?':
+                break
+            idx = self.labelindex[lb]
             a = self.stru[idx]
-            if not isotropy_done:
+            if not lb in self.anisotropy:
                 a.anisotropy = True
+                self.anisotropy[lb] = True
             for fset, val in zip(prop_setters, values):
                 fset(a, val)
         return
@@ -513,12 +523,11 @@ class P_cif(StructureParser):
         self.eau = ExpandAsymmetricUnit(self.spacegroup, corepos, coreUijs,
                                         eps=self.eps)
         # setup anisotropy according to symmetry requirements
-        # was isotropy flag already processed
-        isotropy_done = (_hasAtomSiteADPType(block) or
-                         '_atom_site_aniso_label' in block)
-        if not isotropy_done:
-            for ca, uisotropy in zip(self.stru, self.eau.Uisotropy):
+        # unless it was already explicitly set
+        for ca, uisotropy in zip(self.stru, self.eau.Uisotropy):
+            if not ca.label in self.anisotropy:
                 ca.anisotropy = not uisotropy
+                self.anisotropy[ca.label] = ca.anisotropy
         # build a nested list of new atoms:
         newatoms = []
         for i, ca in enumerate(self.stru):
@@ -736,12 +745,3 @@ def _suppressCifParserOutput():
     finally:
         yapps3_compiled_rt.print_error = print_error
     pass
-
-
-def _hasAtomSiteADPType(block):
-    """Return True if the CIF specifies _atom_site_adp_type.
-    """
-    atom_site_loop = block.GetLoop('_atom_site_label')
-    rv = ('_atom_site_adp_type' in atom_site_loop or
-          '_atom_site_thermal_displace_type' in atom_site_loop)
-    return rv
