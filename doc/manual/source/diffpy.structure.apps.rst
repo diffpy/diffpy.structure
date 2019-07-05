@@ -1,21 +1,21 @@
-diffpy.structure.applications package
-=====================================
+diffpy.structure.apps package
+=============================
 
 Submodules
 ----------
 
-diffpy.structure.applications.anyeye module
--------------------------------------------
+diffpy.structure.apps.anyeye module
+-----------------------------------
 
-.. automodule:: diffpy.structure.applications.anyeye
+.. automodule:: diffpy.structure.apps.anyeye
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.structure.applications.transtru module
----------------------------------------------
+diffpy.structure.apps.transtru module
+-------------------------------------
 
-.. automodule:: diffpy.structure.applications.transtru
+.. automodule:: diffpy.structure.apps.transtru
     :members:
     :undoc-members:
     :show-inheritance:
@@ -24,7 +24,7 @@ diffpy.structure.applications.transtru module
 Module contents
 ---------------
 
-.. automodule:: diffpy.structure.applications
+.. automodule:: diffpy.structure.apps
     :members:
     :undoc-members:
     :show-inheritance:
