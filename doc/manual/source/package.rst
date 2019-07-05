@@ -14,7 +14,7 @@ Submodules
     mod_lattice
     mod_spacegroup
     diffpy.structure.parsers
-    diffpy.structure.applications
+    diffpy.structure.apps
     diffpy.structure.expansion
 
 
