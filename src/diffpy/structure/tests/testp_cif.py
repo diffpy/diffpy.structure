@@ -62,7 +62,6 @@ class TestRoutines(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test__fixIfWindowsPath(self):
         "check _fixIfWindowsPath()"
         from six.moves.urllib.request import pathname2url as p2u

@@ -707,16 +707,29 @@ def getSymOp(s):
 
 
 def _fixIfWindowsPath(filename):
-    """Convert Windows-style path to valid local URL.
-    CifFile loads files using urlopen, which fails for Windows-style paths.
+    """Convert local paths which may confuse urlopen to file URL.
 
-    filename -- path to be fixed
+    CifFile reads files with urlopen, which fails for Windows paths or
+    for paths containing ":".
 
-    Return fixed URL when run on Windows, otherwise return filename.
+    Parameters
+    ----------
+    filename : str
+        The path to be corrected.
+
+    Returns
+    -------
+    str
+        The fixed URL when it contains ":" or `filename`.
+        Return filename if it forms http or ftp URL.
     """
     rv = filename
-    if filename[:1].isalpha() and filename[1:3] == ':\\':
-        from urllib.request import pathname2url
+    cnvflag = False
+    if ':' in filename:
+        head = filename.split(':', 1)[0].lower()
+        cnvflag = head.isalpha() and head not in ('http', 'https', 'ftp')
+    if cnvflag:
+        from six.moves.urllib.request import pathname2url
         rv = pathname2url(filename)
     return rv
 
