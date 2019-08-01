@@ -170,7 +170,11 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(str, type(c1.label))
         self.assertEqual('C1', c1.label)
         # filename with unicode encoding
-        ugraphite = P_cif().parseFile(six.u(self.graphiteciffile))
+        hasbs = '\\' in self.graphiteciffile
+        uciffile = six.u(self.graphiteciffile.replace('\\', '/'))
+        if hasbs:   # pragma: no cover
+            uciffile = uciffile.replace(u'/', u'\\')
+        ugraphite = P_cif().parseFile(uciffile)
         self.assertEqual(4, len(ugraphite))
         # File with full space group name
         ptei = P_cif().parseFile(self.teiciffile)
