@@ -281,7 +281,7 @@ class P_cif(StructureParser):
         """
         self.ciffile = None
         self.filename = filename
-        fileurl = _fixIfWindowsPath(filename)
+        fileurl = _quoteLocalPath(filename)
         rv = self._parseCifDataSource(fileurl)
         # all good here
         return rv
@@ -706,8 +706,8 @@ def getSymOp(s):
     return rv
 
 
-def _fixIfWindowsPath(filename):
-    """Convert local paths which may confuse urlopen to file URL.
+def _quoteLocalPath(filename):
+    """Quote local paths to file URL-s.
 
     CifFile reads files with urlopen, which fails for Windows paths or
     for paths containing ":".
