@@ -362,7 +362,7 @@ class GeneratorSite(object):
 
         Return string.
         """
-        s = str(x)
+        s = "{:.8g}".format(x)
         if len(s) < 6:  return "%+g" % x
         den = numpy.array([3.0, 6.0, 7.0, 9.0])
         nom = x * den

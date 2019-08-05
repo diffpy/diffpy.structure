@@ -211,7 +211,6 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_signedRatStr(self):
         "check GeneratorSite.signedRatStr()"
         g = self.g117c
