@@ -246,7 +246,6 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_positionFormula_sg209(self):
         """check positionFormula at [x, 1-x, -x] site or F432 space group.
         """
@@ -255,6 +254,8 @@ class TestGeneratorSite(unittest.TestCase):
         g209e = GeneratorSite(sg209, xyz)
         pfm = g209e.positionFormula(xyz)
         self.assertEqual('x', pfm['x'])
+        self.assertEqual('-x+1', pfm['y'].replace(' ', ''))
+        self.assertEqual('-x+1', pfm['z'].replace(' ', ''))
         return
 
 

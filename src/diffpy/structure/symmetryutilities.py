@@ -387,11 +387,19 @@ class GeneratorSite(object):
         self.null_space = self.null_space[order[::-1]]
         # rationalize by the smallest element larger than cutoff
         cutoff = 1.0/32
-        for i in range(len(self.null_space)):
-            row = self.null_space[i]
-            small = numpy.fabs(row[numpy.fabs(row) > cutoff]).min()
-            signedsmall = row[numpy.fabs(row) == small][0]
-            self.null_space[i] = self.null_space[i] / signedsmall
+        for row in self.null_space:
+            abrow = numpy.abs(row)
+            sgrow = numpy.sign(row)
+            # equalize items with round-off-equal absolute value
+            ii = abrow.argsort()
+            delta = 1e-8 * abrow[ii[-1]]
+            for k in ii[1:]:
+                if abrow[k] - abrow[k - 1] < delta:
+                    abrow[k] = abrow[k - 1]
+            # find the smallest nonzero absolute element
+            jnz = numpy.flatnonzero(abrow > cutoff)
+            idx = jnz[abrow[jnz].argmin()]
+            row[:] = (sgrow * abrow) / sgrow[idx] / abrow[idx]
         return
 
 
