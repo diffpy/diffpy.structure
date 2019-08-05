@@ -17,6 +17,7 @@
 """
 
 import sys
+import re
 import unittest
 import numpy
 
@@ -222,7 +223,6 @@ class TestGeneratorSite(unittest.TestCase):
     def test_positionFormula(self):
         """check GeneratorSite.positionFormula()
         """
-        import re
         # 117c
         self.assertEqual([], self.g117c.pparameters)
         self.assertEqual([("x", self.x)], self.g117h.pparameters)
@@ -247,10 +247,9 @@ class TestGeneratorSite(unittest.TestCase):
 
 
     def test_positionFormula_sg209(self):
-        """check positionFormula at [x, 1-x, -x] site or F432 space group.
-        """
+        "check positionFormula at [x, 1-x, -x] site of the F432 space group."
         sg209 = GetSpaceGroup('F 4 3 2')
-        xyz = [0.05198,  0.94802,  -0.05198]
+        xyz = [0.05198, 0.94802, -0.05198]
         g209e = GeneratorSite(sg209, xyz)
         pfm = g209e.positionFormula(xyz)
         self.assertEqual('x', pfm['x'])
