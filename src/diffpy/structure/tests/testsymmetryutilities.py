@@ -210,6 +210,15 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual(16, self.g227oc.multiplicity)
         return
 
+
+    def test_signedRatStr(self):
+        "check GeneratorSite.signedRatStr()"
+        g = self.g117c
+        self.assertEqual('-1', g.signedRatStr(-1.00000000000002))
+        self.assertEqual('+1', g.signedRatStr(1.00000000000002))
+        return
+
+
     def test_positionFormula(self):
         """check GeneratorSite.positionFormula()
         """
@@ -235,6 +244,20 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual([], self.g227c.pparameters)
         self.assertEqual([], self.g227oc.pparameters)
         return
+
+
+    def test_positionFormula_sg209(self):
+        """check positionFormula at [x, 1-x, -x] site or F432 space group.
+        """
+        sg209 = GetSpaceGroup('F 4 3 2')
+        xyz = [0.05198,  0.94802,  -0.05198]
+        g209e = GeneratorSite(sg209, xyz)
+        pfm = g209e.positionFormula(xyz)
+        self.assertEqual('x', pfm['x'])
+        self.assertEqual('-x+1', pfm['y'].replace(' ', ''))
+        self.assertEqual('-x+1', pfm['z'].replace(' ', ''))
+        return
+
 
     def test_UFormula(self):
         """check GeneratorSite.UFormula()
