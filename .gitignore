@@ -42,3 +42,9 @@ nosetests.xml
 # version information
 setup.cfg
 /src/diffpy/*/version.cfg
+
+# PyCharm
+.idea
+
+# Coverage report
+htmlcov

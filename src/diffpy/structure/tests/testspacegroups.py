@@ -86,6 +86,35 @@ class TestRoutines(unittest.TestCase):
         self.assertEqual(len(SpaceGroupList), len(hset))
         return
 
+    def test_spacegroup_representation(self):
+        """Verify SpaceGroup.__repr__()."""
+        numbers = [1, 3, 16, 75, 143, 168, 229]
+        short_names = ["P1", "P2", "P222", "P4", "P3", "P6", "Im-3m"]
+        systems = [
+            "Triclinic",
+            "Monoclinic",
+            "Orthorhombic",
+            "Tetragonal",
+            "Trigonal",
+            "Hexagonal",
+            "Cubic",
+        ]
+        n_symmetry_matrices = [1, 2, 4, 4, 3, 6, 96]
+        n_point_symmetry_matrices = [1, 2, 4, 4, 3, 6, 48]
+        sg_dict = dict(zip(
+            numbers,
+            zip(short_names, systems, n_symmetry_matrices, n_point_symmetry_matrices)
+        ))
+        for key, value in sg_dict.items():
+            sg = GetSpaceGroup(key)
+            expected_str = (
+                               "SpaceGroup #%i (%s, %s). Symmetry matrices: %i, "
+                               "point sym. matr.: %i"
+                           ) % ((key,) + value)
+
+            self.assertEqual(sg.__repr__(), expected_str)
+
+
 # End of class TestRoutines
 
 # ----------------------------------------------------------------------------
