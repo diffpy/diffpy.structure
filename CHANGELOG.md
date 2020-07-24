@@ -4,6 +4,8 @@
 
 ### Added
 
+- A string representation of `SpaceGroup` with key information.
+
 ### Changed
 
 ### Deprecated

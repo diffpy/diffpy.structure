@@ -111,9 +111,8 @@ class TestRoutines(unittest.TestCase):
                                "SpaceGroup #%i (%s, %s). Symmetry matrices: %i, "
                                "point sym. matr.: %i"
                            ) % ((key,) + value)
-
             self.assertEqual(sg.__repr__(), expected_str)
-
+        return
 
 # End of class TestRoutines
 
