@@ -86,6 +86,44 @@ class TestRoutines(unittest.TestCase):
         self.assertEqual(len(SpaceGroupList), len(hset))
         return
 
+    def test_spacegroup_representation(self):
+        """Verify SpaceGroup.__repr__()."""
+        self.assertEqual(
+            repr(GetSpaceGroup(1)),
+            "SpaceGroup #1 (P1, Triclinic). Symmetry matrices: 1, point sym. matr.: 1"
+        )
+        self.assertEqual(
+            repr(GetSpaceGroup(3)),
+            "SpaceGroup #3 (P2, Monoclinic). Symmetry matrices: 2, point sym. matr.: 2"
+        )
+        self.assertEqual(
+            repr(GetSpaceGroup(16)),
+            (
+                "SpaceGroup #16 (P222, Orthorhombic). Symmetry matrices: 4, point sym. "
+                "matr.: 4"
+            )
+        )
+        self.assertEqual(
+            repr(GetSpaceGroup(75)),
+            "SpaceGroup #75 (P4, Tetragonal). Symmetry matrices: 4, point sym. matr.: 4"
+        )
+        self.assertEqual(
+            repr(GetSpaceGroup(143)),
+            "SpaceGroup #143 (P3, Trigonal). Symmetry matrices: 3, point sym. matr.: 3"
+        )
+        self.assertEqual(
+            repr(GetSpaceGroup(168)),
+            "SpaceGroup #168 (P6, Hexagonal). Symmetry matrices: 6, point sym. matr.: 6"
+        )
+        self.assertEqual(
+            repr(GetSpaceGroup(229)),
+            (
+                "SpaceGroup #229 (Im-3m, Cubic). Symmetry matrices: 96, point sym. "
+                "matr.: 48"
+            )
+        )
+        return
+
 # End of class TestRoutines
 
 # ----------------------------------------------------------------------------

@@ -1,5 +1,20 @@
 # Release notes
 
+## Unreleased - Version 3.0.2
+
+### Added
+
+- A string representation of `SpaceGroup` with key information.
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+
 ## Version 3.0.1 – 2019-06-27
 
 ### Added

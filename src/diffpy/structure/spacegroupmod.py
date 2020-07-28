@@ -262,6 +262,19 @@ class SpaceGroup(object):
         self.pdb_name                = pdb_name
         self.symop_list              = symop_list
 
+    def __repr__(self):
+        """Return a string representation of the space group."""
+        return (
+                   "SpaceGroup #%i (%s, %s). Symmetry matrices: %i, "
+                   "point sym. matr.: %i"
+               ) % (
+            self.number,
+            self.short_name,
+            self.crystal_system[0] + self.crystal_system[1:].lower(),
+            self.num_sym_equiv,
+            self.num_primitive_sym_equiv,
+        )
+
 
     def iter_symops(self):
         """Iterate over all symmetry operations in the space group.
