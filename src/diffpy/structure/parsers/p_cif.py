@@ -731,6 +731,8 @@ def _quoteLocalPath(filename):
     if cnvflag:
         from six.moves.urllib.request import pathname2url
         rv = pathname2url(filename)
+        if rv.startswith("///"):
+            rv = "file:" + rv
     return rv
 
 
