@@ -281,8 +281,7 @@ class P_cif(StructureParser):
         """
         self.ciffile = None
         self.filename = filename
-        fileurl = _quoteLocalPath(filename)
-        rv = self._parseCifDataSource(fileurl)
+        rv = self._parseCifDataSource(filename)
         # all good here
         return rv
 
@@ -731,8 +730,6 @@ def _quoteLocalPath(filename):
     if cnvflag:
         from six.moves.urllib.request import pathname2url
         rv = pathname2url(filename)
-        if rv.startswith("///"):
-            rv = "file:" + rv
     return rv
 
 

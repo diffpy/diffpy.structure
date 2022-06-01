@@ -66,8 +66,8 @@ class TestRoutines(unittest.TestCase):
         "check _quoteLocalPath()"
         from six.moves.urllib.request import pathname2url as p2u
         self.assertEqual('/a/b/c.cif', _quoteLocalPath('/a/b/c.cif'))
-        self.assertEqual('file:' + p2u('c:\\a.cif'), _quoteLocalPath('c:\\a.cif'))
-        self.assertEqual('file:' + p2u('c:/a.cif'), _quoteLocalPath('c:/a.cif'))
+        self.assertEqual(p2u('c:\\a.cif'), _quoteLocalPath('c:\\a.cif'))
+        self.assertEqual(p2u('c:/a.cif'), _quoteLocalPath('c:/a.cif'))
         self.assertEqual('/x:y/c.cif', _quoteLocalPath('/x:y/c.cif'))
         self.assertEqual('http::cif.org/a.cif',
                          _quoteLocalPath('http::cif.org/a.cif'))
