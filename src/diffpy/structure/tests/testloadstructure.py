@@ -46,8 +46,9 @@ class TestLoadStructure(unittest.TestCase):
         """check loading of CIF file format from pathlib.Path
         """
         f = datafile('PbTe.cif')
-        f = Path(f)
-        stru = loadStructure(f)
+        p = Path(f)
+        self.assertTrue(isinstance(p, Path))
+        stru = loadStructure(p)
         self.assertTrue(isinstance(stru, Structure))
         self.assertFalse(isinstance(stru, PDFFitStructure))
         return
