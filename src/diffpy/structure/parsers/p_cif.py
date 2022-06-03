@@ -23,6 +23,11 @@ import re
 from contextlib import contextmanager
 import numpy
 import six
+try:
+    import pathlib
+    has_pathlib = True
+except ImportError:
+    has_pathlib = False
 
 from diffpy.structure import Structure, Lattice, Atom
 from diffpy.structure import StructureFormatError
@@ -281,7 +286,11 @@ class P_cif(StructureParser):
         """
         self.ciffile = None
         self.filename = filename
-        rv = self._parseCifDataSource(filename)
+        if has_pathlib:
+            rv = self._parseCifDataSource(filename)
+        else:
+            fileurl = _quoteLocalPath(filename)
+            rv = self._parseCifDataSource(fileurl)
         # all good here
         return rv
 
