@@ -3,6 +3,7 @@
 """Unit tests for the loadStructure factory.
 """
 
+from pathlib import Path
 import unittest
 from diffpy.structure.tests.testutils import datafile
 from diffpy.structure import loadStructure
@@ -41,6 +42,15 @@ class TestLoadStructure(unittest.TestCase):
         self.assertFalse(isinstance(stru, PDFFitStructure))
         return
 
+    def test_cif_pathlib(self):
+        """check loading of CIF file format from pathlib.Path
+        """
+        f = datafile('PbTe.cif')
+        f = Path(f)
+        stru = loadStructure(f)
+        self.assertTrue(isinstance(stru, Structure))
+        self.assertFalse(isinstance(stru, PDFFitStructure))
+        return
 
     def test_badfile(self):
         """check loading of CIF file format
