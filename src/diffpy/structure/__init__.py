@@ -66,7 +66,7 @@ def loadStructure(filename, fmt='auto', **kw):
     """
     from diffpy.structure.parsers import getParser
     p = getParser(fmt, **kw)
-    rv = p.parseFile(str(filename))
+    rv = p.parseFile(filename)
     return rv
 
 # silence pyflakes checker
