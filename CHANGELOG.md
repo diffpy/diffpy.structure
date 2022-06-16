@@ -8,12 +8,15 @@
 
 ### Changed
 
+- Bumped minimum `PyCifRW` version to `4.4.3`.
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
 
+- Handling of paths on Windows when using the `P_cif` parser.
 
 ## Version 3.0.1 – 2019-06-27
 

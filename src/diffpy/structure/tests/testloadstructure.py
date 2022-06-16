@@ -40,7 +40,7 @@ class TestLoadStructure(unittest.TestCase):
         self.assertTrue(isinstance(stru, Structure))
         self.assertFalse(isinstance(stru, PDFFitStructure))
         return
-        
+
 
     def test_badfile(self):
         """check loading of CIF file format
