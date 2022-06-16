@@ -91,7 +91,7 @@ setup_args = dict(
     zip_safe = False,
     install_requires = [
         'six',
-        'pycifrw>=4.2',
+        'pycifrw>=4.4.3',
     ],
     author = 'Simon J.L. Billinge group',
     author_email = 'sb2896@columbia.edu',
