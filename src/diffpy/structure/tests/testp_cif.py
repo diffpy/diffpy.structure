@@ -22,7 +22,6 @@ import six
 
 from diffpy.structure.tests.testutils import datafile
 from diffpy.structure.parsers.p_cif import P_cif, leading_float, getSymOp
-from diffpy.structure.parsers.p_cif import _quoteLocalPath
 from diffpy.structure.parsers import getParser
 from diffpy.structure import Structure
 from diffpy.structure import StructureFormatError
@@ -59,18 +58,6 @@ class TestRoutines(unittest.TestCase):
         op1 = getSymOp('-x,-x+y,1/2+z')
         op1_std = SymOp(Rot_mX_mXY_Z, Tr_0_0_12)
         self.assertEqual(str(op1_std), str(op1))
-        return
-
-
-    def test__quoteLocalPath(self):
-        "check _quoteLocalPath()"
-        from six.moves.urllib.request import pathname2url as p2u
-        self.assertEqual('/a/b/c.cif', _quoteLocalPath('/a/b/c.cif'))
-        self.assertEqual(p2u('c:\\a.cif'), _quoteLocalPath('c:\\a.cif'))
-        self.assertEqual(p2u('c:/a.cif'), _quoteLocalPath('c:/a.cif'))
-        self.assertEqual('/x:y/c.cif', _quoteLocalPath('/x:y/c.cif'))
-        self.assertEqual('http::cif.org/a.cif',
-                         _quoteLocalPath('http::cif.org/a.cif'))
         return
 
 # End of class TestRoutines

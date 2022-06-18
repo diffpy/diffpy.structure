@@ -704,35 +704,6 @@ def getSymOp(s):
     rv = SymOp(R, t)
     return rv
 
-
-def _quoteLocalPath(filename):
-    """Quote local paths to file URL-s.
-
-    CifFile reads files with urlopen, which fails for Windows paths or
-    for paths containing ":".
-
-    Parameters
-    ----------
-    filename : str
-        The path to be corrected.
-
-    Returns
-    -------
-    str
-        The fixed URL when it contains ":" or `filename`.
-        Return filename if it forms http or ftp URL.
-    """
-    rv = filename
-    cnvflag = False
-    if ':' in filename:
-        head = filename.split(':', 1)[0].lower()
-        cnvflag = head.isalpha() and head not in ('http', 'https', 'ftp')
-    if cnvflag:
-        from six.moves.urllib.request import pathname2url
-        rv = pathname2url(filename)
-    return rv
-
-
 def getParser(eps=None):
     """Return new parser object for CIF structure format.
 
