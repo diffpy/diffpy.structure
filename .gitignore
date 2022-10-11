@@ -42,3 +42,6 @@ nosetests.xml
 # version information
 setup.cfg
 /src/diffpy/*/version.cfg
+
+# Rever
+rever/
