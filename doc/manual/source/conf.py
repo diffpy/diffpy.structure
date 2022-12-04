@@ -204,7 +204,7 @@ texinfo_documents = [
 # -- intersphinx configuration --------------------------------------------
 
 intersphinx_mapping = {
-    'python' : ('https://docs.python.org/3.7', None),
+    'python' : ('https://docs.python.org/3.10', None),
     'numpy' : ('https://docs.scipy.org/doc/numpy', None),
 }
 

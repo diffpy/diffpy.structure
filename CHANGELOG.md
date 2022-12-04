@@ -1,6 +1,20 @@
 # Release notes
 
-## Unreleased - Version 3.0.2
+## Version 3.1.0 – 2022-12-04
+
+### Added
+
+- Compatibility with Python 3.10, 3.9, 3.8
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## Version 3.0.2 - 2022-10-12
 
 ### Added
 
