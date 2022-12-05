@@ -27,7 +27,7 @@ user manual at http://diffpy.github.io/diffpy.structure.
 REQUIREMENTS
 ------------------------------------------------------------------------
 
-The diffpy.structure package requires Python 3.5 or later or 2.7 and
+The diffpy.structure package requires Python 3.7 or later or 2.7 and
 the following software:
 
 * ``setuptools`` - software distribution tools for Python

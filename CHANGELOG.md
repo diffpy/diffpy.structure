@@ -12,6 +12,8 @@
 
 ### Removed
 
+- Remove the support for Python 3.5, 3.6.
+
 ### Fixed
 
 ## Version 3.0.2 - 2022-10-12
