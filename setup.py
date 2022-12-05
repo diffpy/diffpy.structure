@@ -12,7 +12,7 @@ from setuptools import setup, find_packages
 
 # Use this version when git data are not available, like in git zip archive.
 # Update when tagging a new release.
-FALLBACK_VERSION = '3.0.1.post0'
+FALLBACK_VERSION = '3.1.0'
 
 # determine if we run with Python 3.
 PY3 = (sys.version_info[0] == 3)
@@ -116,9 +116,10 @@ setup_args = dict(
         'Operating System :: POSIX',
         'Operating System :: Unix',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Topic :: Scientific/Engineering :: Chemistry',
         'Topic :: Scientific/Engineering :: Physics',
     ],
