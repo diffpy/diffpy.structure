@@ -71,6 +71,7 @@ class TestP_cif(unittest.TestCase):
     graphiteciffile = datafile('graphite.cif')
     cdsebulkpdffitfile = datafile('CdSe_bulk.stru')
     teiciffile = datafile('TeI.cif')
+    refciffile = datafile('Ni_ref.cif')
     places = 6
 
 
@@ -334,6 +335,14 @@ class TestP_cif(unittest.TestCase):
         self.assertTrue(all(stru.anisotropy))
         return
 
+    def test_spacegroup_ref(self):
+        "verify space group reference"
+        pfile = self.pfile
+        pfile.parseFile(self.refciffile)
+        sg = pfile.spacegroup
+        self.assertEqual('Fm-3m', sg.short_name)
+
+        return
 
     def test_adp_type_ani(self):
         "verify adp type override to anisotropic"

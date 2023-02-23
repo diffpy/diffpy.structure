@@ -472,6 +472,7 @@ class P_cif(StructureParser):
         sg_nameHall = (block.get('_space_group_name_Hall', '') or
                 block.get('_symmetry_space_group_name_Hall', ''))
         sg_nameHM = (block.get('_space_group_name_H-M_alt', '') or
+                block.get('_space_group_name_H-M_ref', '') or
                 block.get('_symmetry_space_group_name_H-M', ''))
         self.cif_sgname = (sg_nameHall or sg_nameHM or None)
         sgid = (block.get('_space_group_IT_number', '') or
