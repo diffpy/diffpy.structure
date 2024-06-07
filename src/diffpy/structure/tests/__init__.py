@@ -35,16 +35,18 @@ def testsuite(pattern=''):
         The TestSuite object containing the matching tests.
     '''
     import re
+    from importlib.resources import as_file, files
     from os.path import dirname
     from itertools import chain
-    from pkg_resources import resource_filename
+    
     loader = unittest.defaultTestLoader
-    thisdir = resource_filename(__name__, '')
-    depth = __name__.count('.') + 1
-    topdir = thisdir
-    for i in range(depth):
-        topdir = dirname(topdir)
-    suite_all = loader.discover(thisdir, top_level_dir=topdir)
+    ref = files(__package__)
+    with as_file(ref) as thisdir:
+        depth = __name__.count(".") + 1
+        topdir = thisdir
+        for i in range(depth):
+            topdir = dirname(topdir)
+        suite_all = loader.discover(thisdir, top_level_dir=topdir)
     # always filter the suite by pattern to test-cover the selection code.
     suite = unittest.TestSuite()
     rx = re.compile(pattern)
