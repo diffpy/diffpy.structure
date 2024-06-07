@@ -33,7 +33,7 @@ classifiers = [
         'Programming Language :: Python :: 3.10',
         'Topic :: Scientific/Engineering :: Chemistry',
         'Topic :: Scientific/Engineering :: Physics',
-]
+    ]
 [project.urls]
 Homepage = "https://github.com/diffpy/diffpy.utils/"
 Issues = "https://github.com/diffpy/diffpy.utils/issues"
