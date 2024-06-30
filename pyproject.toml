@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=62.0", "setuptools-git-versioning<2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diffpy.structure"
+dynamic=['version']
+authors = [
+  { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
+]
+maintainers = [
+  { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
+]
+description = "Storage and manipulation of crystal structure data."
+keywords = ['diffpy', 'pdf', 'crystal structure data storage', 'CIF', 'PDB']
+readme = "README.rst"
+requires-python = ">=3.10"
+classifiers = [
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Console',
+        'Intended Audience :: Developers',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
+        'Operating System :: Unix',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Topic :: Scientific/Engineering :: Physics',
+        'Topic :: Scientific/Engineering :: Chemistry',
+]
+
+[project.urls]
+Homepage = "https://github.com/diffpy/diffpy.structure/"
+Issues = "https://github.com/diffpy/diffpy.structure/issues/"
+
+[tool.setuptools-git-versioning]
+enabled = true
+template = "{tag}"
+dev_template = "{tag}"
+dirty_template = "{tag}"
+
+[tool.setuptools.packages.find]
+where = ["src"]  # list of folders that contain the packages (["."] by default)
+include = ["*"]  # package names should match these glob patterns (["*"] by default)
+exclude = ["diffpy.structure.tests*"]  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+
+[tool.black]
+line-length = 115
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | \.rst
+  | \.txt
+  | _build
+  | buck-out
+  | build
+  | dist
+
+  # The following are specific to Black, you probably don't want those.
+  | blib2to3
+  | tests/data
+)/
+'''
