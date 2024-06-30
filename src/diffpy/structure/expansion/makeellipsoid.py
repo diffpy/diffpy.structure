@@ -88,7 +88,7 @@ def makeEllipsoid(S, a, b=None, c=None):
 
 if __name__ == "__main__":
     import os.path
-    datadir = "../../tests/testdata"
+    datadir = "../tests/testdata"
     S = Structure()
     S.read(os.path.join(datadir, "CdSe_bulk.stru"), "pdffit")
     newS = makeEllipsoid(S, 12)
