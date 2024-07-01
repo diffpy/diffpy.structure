@@ -1,26 +1,35 @@
+LICENSE
+=======
+
 This program is part of the DiffPy and DANSE open-source projects
 and is available subject to the conditions and terms laid out below.
 
 Copyright 2006-2007, Board of Trustees of Michigan State University,
+
 Copyright 2008-2012, The Trustees of Columbia University in the
 City of New York.  (Copyright holder indicated in each source file).
 
+Copyright (c) 2024, The Trustees of Columbia University in the City of New York. 
+All rights reserved.
+
 For more information please visit the project web-page:
+
     http://www.diffpy.org/
+    
 or email Prof. Simon Billinge at sb2896@columbia.edu
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
 are met:
 
-  * Redistributions of source code must retain the above copyright
+- Redistributions of source code must retain the above copyright
     notice, this list of conditions and the following disclaimer.
 
-  * Redistributions in binary form must reproduce the above copyright
+- Redistributions in binary form must reproduce the above copyright
     notice, this list of conditions and the following disclaimer in the
     documentation and/or other materials provided with the distribution.
 
-  * Neither the name of the copyright holder nor the names of its
+- Neither the name of the copyright holder nor the names of its
     contributors may be used to endorse or promote products derived from
     this software without specific prior written permission.
 
