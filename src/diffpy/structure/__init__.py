@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.structure  by DANSE Diffraction group
-#                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
-#                   All rights reserved.
+# (c) 2024 The Trustees of Columbia University in the City of New York.
+# All rights reserved.
 #
-# File coded by:    Pavol Juhas
+# File coded by: Billinge Group members and community contributors.
 #
-# See AUTHORS.txt for a list of people who contributed.
-# See LICENSE_DANSE.txt for license information.
+# See GitHub contributions for a more detailed list of contributors.
+# https://github.com/diffpy/diffpy.structure/graphs/contributors
+#
+# See LICENSE.rst for license information.
 #
 ##############################################################################
 
@@ -35,6 +35,10 @@ from diffpy.structure.structure import Structure
 from diffpy.structure.pdffitstructure import PDFFitStructure
 
 # obtain version information
+
+"""Crystal structure container and parsers for structure formats."""
+
+# package version
 from diffpy.structure.version import __version__
 
 # top level routines
@@ -76,4 +80,8 @@ assert Atom
 assert Lattice
 assert Structure
 assert PDFFitStructure
+
+# silence the pyflakes syntax checker
 assert __version__ or True
+
+# End of file
