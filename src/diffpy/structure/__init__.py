@@ -27,12 +27,11 @@ Exceptions:
 
 # Interface definitions ------------------------------------------------------
 
-from diffpy.structure.structureerrors import (StructureFormatError,
-        LatticeError, SymmetryError)
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
-from diffpy.structure.structure import Structure
 from diffpy.structure.pdffitstructure import PDFFitStructure
+from diffpy.structure.structure import Structure
+from diffpy.structure.structureerrors import LatticeError, StructureFormatError, SymmetryError
 
 # obtain version information
 
@@ -43,7 +42,8 @@ from diffpy.structure.version import __version__
 
 # top level routines
 
-def loadStructure(filename, fmt='auto', **kw):
+
+def loadStructure(filename, fmt="auto", **kw):
     """
     Load new structure object from the specified file.
 
@@ -69,13 +69,14 @@ def loadStructure(filename, fmt='auto', **kw):
         and 'discus' formats.
     """
     from diffpy.structure.parsers import getParser
+
     p = getParser(fmt, **kw)
     rv = p.parseFile(filename)
     return rv
 
+
 # silence pyflakes checker
-assert (StructureFormatError and
-        LatticeError and SymmetryError)
+assert StructureFormatError and LatticeError and SymmetryError
 assert Atom
 assert Lattice
 assert Structure

@@ -17,7 +17,8 @@
 """
 
 import numpy
-from diffpy.structure import Structure, Atom
+
+from diffpy.structure import Atom, Structure
 
 
 def supercell(S, mno):
@@ -55,10 +56,7 @@ def supercell(S, mno):
         return newS
 
     # back to business
-    ijklist = [(i,j,k)
-                for i in range(mno[0])
-                    for j in range(mno[1])
-                        for k in range(mno[2])]
+    ijklist = [(i, j, k) for i in range(mno[0]) for j in range(mno[1]) for k in range(mno[2])]
     # numpy.floor returns float array
     mnofloats = numpy.array(mno, dtype=float)
 
@@ -67,16 +65,14 @@ def supercell(S, mno):
     for a in S:
         for ijk in ijklist:
             adup = Atom(a)
-            adup.xyz = (a.xyz + ijk)/mnofloats
+            adup.xyz = (a.xyz + ijk) / mnofloats
             newAtoms.append(adup)
     # newS can own references in newAtoms, no need to make copies
     newS.__setitem__(slice(None), newAtoms, copy=False)
 
     # take care of lattice parameters
-    newS.lattice.setLatPar(
-            a=mno[0]*S.lattice.a,
-            b=mno[1]*S.lattice.b,
-            c=mno[2]*S.lattice.c )
+    newS.lattice.setLatPar(a=mno[0] * S.lattice.a, b=mno[1] * S.lattice.b, c=mno[2] * S.lattice.c)
     return newS
+
 
 # End of supercell

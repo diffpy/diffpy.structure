@@ -16,18 +16,26 @@
 """Unit tests for SymmetryUtilities.py
 """
 
-import sys
 import re
+import sys
 import unittest
+
 import numpy
 
 from diffpy.structure.spacegroups import GetSpaceGroup
-from diffpy.structure.symmetryutilities import (isSpaceGroupLatPar,
-        expandPosition, pruneFormulaDictionary, isconstantFormula,
-        GeneratorSite, ExpandAsymmetricUnit, SymmetryConstraints)
-from diffpy.structure.symmetryutilities import _Position2Tuple
+from diffpy.structure.symmetryutilities import (
+    ExpandAsymmetricUnit,
+    GeneratorSite,
+    SymmetryConstraints,
+    _Position2Tuple,
+    expandPosition,
+    isconstantFormula,
+    isSpaceGroupLatPar,
+    pruneFormulaDictionary,
+)
 
 # ----------------------------------------------------------------------------
+
 
 class TestRoutines(unittest.TestCase):
 
@@ -38,8 +46,7 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_isSpaceGroupLatPar(self):
-        """check isSpaceGroupLatPar()
-        """
+        """check isSpaceGroupLatPar()"""
         triclinic = GetSpaceGroup("P1")
         monoclinic = GetSpaceGroup("P2")
         orthorhombic = GetSpaceGroup("P222")
@@ -63,18 +70,16 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_sgtbx_spacegroup_aliases(self):
-        """check GetSpaceGroup for non-standard aliases from sgtbx.
-        """
-        self.assertIs(GetSpaceGroup('Fm3m'), GetSpaceGroup(225))
-        self.assertIs(GetSpaceGroup('Ia3d'), GetSpaceGroup('I a -3 d'))
+        """check GetSpaceGroup for non-standard aliases from sgtbx."""
+        self.assertIs(GetSpaceGroup("Fm3m"), GetSpaceGroup(225))
+        self.assertIs(GetSpaceGroup("Ia3d"), GetSpaceGroup("I a -3 d"))
         return
 
     def test_expandPosition(self):
-        """check expandPosition()
-        """
+        """check expandPosition()"""
         # ok again Ni example
         fcc = GetSpaceGroup(225)
-        pos,pops,pmult = expandPosition(fcc, [0,0,0])
+        pos, pops, pmult = expandPosition(fcc, [0, 0, 0])
         self.assertTrue(numpy.all(pos[0] == 0.0))
         self.assertEqual(4, len(pos))
         self.assertEqual(192, sum([len(l) for l in pops]))
@@ -82,26 +87,26 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_pruneFormulaDictionary(self):
-        """check pruneFormulaDictionary()
-        """
-        fmdict = {"x" : "3*y-0.17", "y" : '0', "z" : "0.13"}
+        """check pruneFormulaDictionary()"""
+        fmdict = {"x": "3*y-0.17", "y": "0", "z": "0.13"}
         pruned = pruneFormulaDictionary(fmdict)
-        self.assertEqual({"x" : "3*y-0.17"}, pruned)
+        self.assertEqual({"x": "3*y-0.17"}, pruned)
         return
 
     def test_isconstantFormula(self):
-        """check isconstantFormula()
-        """
-        self.assertFalse(isconstantFormula('x-y+z'))
-        self.assertTrue(isconstantFormula('6.023e23'))
-        self.assertTrue(isconstantFormula('22/7'))
-        self.assertTrue(isconstantFormula('- 22/7'))
-        self.assertTrue(isconstantFormula('+13/ 9'))
+        """check isconstantFormula()"""
+        self.assertFalse(isconstantFormula("x-y+z"))
+        self.assertTrue(isconstantFormula("6.023e23"))
+        self.assertTrue(isconstantFormula("22/7"))
+        self.assertTrue(isconstantFormula("- 22/7"))
+        self.assertTrue(isconstantFormula("+13/ 9"))
         return
+
 
 # End of class TestRoutines
 
 # ----------------------------------------------------------------------------
+
 
 class Test_Position2Tuple(unittest.TestCase):
 
@@ -115,28 +120,28 @@ class Test_Position2Tuple(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check _Position2Tuple.__init__()
-        """
+        """check _Position2Tuple.__init__()"""
         self.assertNotEqual(0.0, self.pos2tuple.eps)
-        self.pos2tuple = _Position2Tuple(1.0/sys.maxsize/2)
+        self.pos2tuple = _Position2Tuple(1.0 / sys.maxsize / 2)
         self.assertEqual(0.0, self.pos2tuple.eps)
         return
 
     def test___call__(self):
-        """check _Position2Tuple.__call__()
-        """
+        """check _Position2Tuple.__call__()"""
         pos2tuple = self.pos2tuple
-        positions = numpy.zeros((100,3), dtype=float)
-        positions[:,0] = numpy.arange(100)/100.0*pos2tuple.eps + 0.1
+        positions = numpy.zeros((100, 3), dtype=float)
+        positions[:, 0] = numpy.arange(100) / 100.0 * pos2tuple.eps + 0.1
         positions = positions - numpy.floor(positions)
         # pos2tuple should generate at most 2 distinct tuples
         alltuples = dict.fromkeys([pos2tuple(xyz) for xyz in positions])
         self.assertFalse(len(alltuples) > 2)
         return
 
+
 # End of class Test_Position2Tuple
 
 # ----------------------------------------------------------------------------
+
 
 class TestGeneratorSite(unittest.TestCase):
 
@@ -151,15 +156,15 @@ class TestGeneratorSite(unittest.TestCase):
         sg117 = GetSpaceGroup(117)
         sg143 = GetSpaceGroup(143)
         sg164 = GetSpaceGroup(164)
-        sg167h = GetSpaceGroup('H-3c')
-        sg167r = GetSpaceGroup('R-3c')
+        sg167h = GetSpaceGroup("H-3c")
+        sg167r = GetSpaceGroup("R-3c")
         sg186 = GetSpaceGroup(186)
         sg227 = GetSpaceGroup(227)
         g117c = GeneratorSite(sg117, [0, 0.5, 0])
-        g117h = GeneratorSite(sg117, [x, x+0.5, 0.5])
+        g117h = GeneratorSite(sg117, [x, x + 0.5, 0.5])
         g143a = GeneratorSite(sg143, [0, 0, z])
-        g143b = GeneratorSite(sg143, [1./3, 2./3, z])
-        g143c = GeneratorSite(sg143, [2./3, 1./3, z])
+        g143b = GeneratorSite(sg143, [1.0 / 3, 2.0 / 3, z])
+        g143c = GeneratorSite(sg143, [2.0 / 3, 1.0 / 3, z])
         g143d = GeneratorSite(sg143, [x, y, z])
         g164e = GeneratorSite(sg164, (0.5, 0, 0))
         g164f = GeneratorSite(sg164, (0.5, 0, 0.5))
@@ -169,19 +174,27 @@ class TestGeneratorSite(unittest.TestCase):
         gr167e = GeneratorSite(sg167r, (0.1, 0.4, 0.25))
         g186c = GeneratorSite(sg186, (0.1695, 1.0 - 0.1695, 0.6365))
         g227a = GeneratorSite(sg227, [0, 0, 0])
-        g227c = GeneratorSite(sg227, 3*[1./8])
-        g227oa = GeneratorSite(sg227, 3*[1./8], sgoffset=3*[1./8])
-        g227oc = GeneratorSite(sg227, [0, 0, 0], sgoffset=3*[1./8])
+        g227c = GeneratorSite(sg227, 3 * [1.0 / 8])
+        g227oa = GeneratorSite(sg227, 3 * [1.0 / 8], sgoffset=3 * [1.0 / 8])
+        g227oc = GeneratorSite(sg227, [0, 0, 0], sgoffset=3 * [1.0 / 8])
         TestGeneratorSite.generators = {
-                'g117c' : g117c,  'g117h' : g117h,
-                'g143a' : g143a,  'g143b' : g143b,
-                'g143c' : g143c,  'g143d' : g143d,
-                'g164e' : g164e,  'g164f' : g164f,
-                'g164g' : g164g,  'g164h' : g164h,
-                'gh167e' : gh167e, 'gr167e' : gr167e,
-                'g186c' : g186c,
-                'g227a' : g227a,  'g227c' : g227c,
-                'g227oa' : g227oa,  'g227oc' : g227oc
+            "g117c": g117c,
+            "g117h": g117h,
+            "g143a": g143a,
+            "g143b": g143b,
+            "g143c": g143c,
+            "g143d": g143d,
+            "g164e": g164e,
+            "g164f": g164f,
+            "g164g": g164g,
+            "g164h": g164h,
+            "gh167e": gh167e,
+            "gr167e": gr167e,
+            "g186c": g186c,
+            "g227a": g227a,
+            "g227c": g227c,
+            "g227oa": g227oa,
+            "g227oc": g227oc,
         }
         self.__dict__.update(TestGeneratorSite.generators)
         return
@@ -190,39 +203,35 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check GeneratorSite.__init__()
-        """
+        """check GeneratorSite.__init__()"""
         # check multiplicities
-        self.assertEqual(2,  self.g117c.multiplicity)
-        self.assertEqual(4,  self.g117h.multiplicity)
-        self.assertEqual(1,  self.g143a.multiplicity)
-        self.assertEqual(1,  self.g143b.multiplicity)
-        self.assertEqual(1,  self.g143c.multiplicity)
-        self.assertEqual(3,  self.g143d.multiplicity)
-        self.assertEqual(3,  self.g164e.multiplicity)
-        self.assertEqual(3,  self.g164f.multiplicity)
-        self.assertEqual(6,  self.g164g.multiplicity)
-        self.assertEqual(6,  self.g164h.multiplicity)
-        self.assertEqual(18,  self.gh167e.multiplicity)
-        self.assertEqual(6,  self.gr167e.multiplicity)
-        self.assertEqual(8,  self.g227a.multiplicity)
+        self.assertEqual(2, self.g117c.multiplicity)
+        self.assertEqual(4, self.g117h.multiplicity)
+        self.assertEqual(1, self.g143a.multiplicity)
+        self.assertEqual(1, self.g143b.multiplicity)
+        self.assertEqual(1, self.g143c.multiplicity)
+        self.assertEqual(3, self.g143d.multiplicity)
+        self.assertEqual(3, self.g164e.multiplicity)
+        self.assertEqual(3, self.g164f.multiplicity)
+        self.assertEqual(6, self.g164g.multiplicity)
+        self.assertEqual(6, self.g164h.multiplicity)
+        self.assertEqual(18, self.gh167e.multiplicity)
+        self.assertEqual(6, self.gr167e.multiplicity)
+        self.assertEqual(8, self.g227a.multiplicity)
         self.assertEqual(16, self.g227c.multiplicity)
-        self.assertEqual(8,  self.g227oa.multiplicity)
+        self.assertEqual(8, self.g227oa.multiplicity)
         self.assertEqual(16, self.g227oc.multiplicity)
         return
-
 
     def test_signedRatStr(self):
         "check GeneratorSite.signedRatStr()"
         g = self.g117c
-        self.assertEqual('-1', g.signedRatStr(-1.00000000000002))
-        self.assertEqual('+1', g.signedRatStr(1.00000000000002))
+        self.assertEqual("-1", g.signedRatStr(-1.00000000000002))
+        self.assertEqual("+1", g.signedRatStr(1.00000000000002))
         return
 
-
     def test_positionFormula(self):
-        """check GeneratorSite.positionFormula()
-        """
+        """check GeneratorSite.positionFormula()"""
         # 117c
         self.assertEqual([], self.g117c.pparameters)
         self.assertEqual([("x", self.x)], self.g117h.pparameters)
@@ -233,9 +242,9 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual("z", pfm143c["z"])
         # 143d
         x, y, z = self.x, self.y, self.z
-        pfm143d = self.g143d.positionFormula([-x+y, -x, z])
-        self.assertEqual("-x+y", pfm143d["x"].replace(' ',''))
-        self.assertEqual("-x+1", pfm143d["y"].replace(' ',''))
+        pfm143d = self.g143d.positionFormula([-x + y, -x, z])
+        self.assertEqual("-x+y", pfm143d["x"].replace(" ", ""))
+        self.assertEqual("-x+1", pfm143d["y"].replace(" ", ""))
         self.assertTrue(re.match("[+]?z", pfm143d["z"].strip()))
         # 227a
         self.assertEqual([], self.g227a.pparameters)
@@ -245,41 +254,30 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual([], self.g227oc.pparameters)
         return
 
-
     def test_positionFormula_sg209(self):
         "check positionFormula at [x, 1-x, -x] site of the F432 space group."
-        sg209 = GetSpaceGroup('F 4 3 2')
+        sg209 = GetSpaceGroup("F 4 3 2")
         xyz = [0.05198, 0.94802, -0.05198]
         g209e = GeneratorSite(sg209, xyz)
         pfm = g209e.positionFormula(xyz)
-        self.assertEqual('x', pfm['x'])
-        self.assertEqual('-x+1', pfm['y'].replace(' ', ''))
-        self.assertEqual('-x+1', pfm['z'].replace(' ', ''))
+        self.assertEqual("x", pfm["x"])
+        self.assertEqual("-x+1", pfm["y"].replace(" ", ""))
+        self.assertEqual("-x+1", pfm["z"].replace(" ", ""))
         return
 
-
     def test_UFormula(self):
-        """check GeneratorSite.UFormula()
-        """
+        """check GeneratorSite.UFormula()"""
         # Ref: Willis and Pryor, Thermal Vibrations in Crystallography,
         # Cambridge University Press 1975, p. 104-110
-        smbl = ('A', 'B', 'C', 'D', 'E', 'F')
-        norule = { 'U11':'A', 'U22':'B', 'U33':'C',
-                   'U12':'D', 'U13':'E', 'U23':'F' }
-        rule05 = { 'U11':'A', 'U22':'A', 'U33':'C',
-                   'U12':'D', 'U13':'0', 'U23':'0' }
-        rule06 = { 'U11':'A', 'U22':'A', 'U33':'C',
-                   'U12':'D', 'U13':'E', 'U23':'E' }
-        rule07 = { 'U11':'A', 'U22':'A', 'U33':'C',
-                   'U12':'D', 'U13':'E', 'U23':'-E' }
-        rule15 = { 'U11':'A', 'U22':'B', 'U33':'C',
-                   'U12':'0.5*B', 'U13':'0.5*F', 'U23':'F' }
-        rule16 = { 'U11':'A', 'U22':'A', 'U33':'C',
-                   'U12':'0.5*A', 'U13':'0', 'U23':'0' }
-        rule17 = { 'U11':'A', 'U22':'A', 'U33':'A',
-                   'U12':'0', 'U13':'0', 'U23':'0' }
-        rule18 = { 'U11':'A', 'U22':'A', 'U33':'A',
-                   'U12':'D', 'U13':'D', 'U23':'D' }
+        smbl = ("A", "B", "C", "D", "E", "F")
+        norule = {"U11": "A", "U22": "B", "U33": "C", "U12": "D", "U13": "E", "U23": "F"}
+        rule05 = {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "0", "U23": "0"}
+        rule06 = {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "E", "U23": "E"}
+        rule07 = {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "E", "U23": "-E"}
+        rule15 = {"U11": "A", "U22": "B", "U33": "C", "U12": "0.5*B", "U13": "0.5*F", "U23": "F"}
+        rule16 = {"U11": "A", "U22": "A", "U33": "C", "U12": "0.5*A", "U13": "0", "U23": "0"}
+        rule17 = {"U11": "A", "U22": "A", "U33": "A", "U12": "0", "U13": "0", "U23": "0"}
+        rule18 = {"U11": "A", "U22": "A", "U33": "A", "U12": "D", "U13": "D", "U23": "D"}
         ufm = self.g117c.UFormula(self.g117c.xyz, smbl)
         self.assertEqual(rule05, ufm)
         ufm = self.g117h.UFormula(self.g117h.xyz, smbl)
@@ -317,61 +315,47 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual(rule06, ufm)
         return
 
-
     def test_UFormula_g186c_eqxyz(self):
-        '''Check rotated U formulas at the symmetry positions of c-site in 186.
-        '''
+        """Check rotated U formulas at the symmetry positions of c-site in 186."""
         sg186 = GetSpaceGroup(186)
         crules = [
-                {'U11': 'A', 'U22': 'A', 'U33': 'C',
-                    'U12': 'D', 'U13': 'E', 'U23': '-E'},
-                {'U11': 'A', 'U22': '2*A-2*D', 'U33': 'C',
-                    'U12': 'A-D', 'U13': 'E', 'U23': '2*E'},
-                {'U11': '2*A-2*D', 'U22': 'A', 'U33': 'C',
-                    'U12': 'A-D', 'U13': '-2*E', 'U23': '-E'},
-                {'U11': 'A', 'U22': 'A', 'U33': 'C',
-                    'U12': 'D', 'U13': '-E', 'U23': 'E'},
-                {'U11': 'A', 'U22': '2*A-2*D', 'U33': 'C',
-                    'U12': 'A-D', 'U13': '-E', 'U23': '-2*E'},
-                {'U11': '2*A-2*D', 'U22': 'A', 'U33': 'C',
-                    'U12': 'A-D', 'U13': '2*E', 'U23': 'E'},
-                ]
+            {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "E", "U23": "-E"},
+            {"U11": "A", "U22": "2*A-2*D", "U33": "C", "U12": "A-D", "U13": "E", "U23": "2*E"},
+            {"U11": "2*A-2*D", "U22": "A", "U33": "C", "U12": "A-D", "U13": "-2*E", "U23": "-E"},
+            {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "-E", "U23": "E"},
+            {"U11": "A", "U22": "2*A-2*D", "U33": "C", "U12": "A-D", "U13": "-E", "U23": "-2*E"},
+            {"U11": "2*A-2*D", "U22": "A", "U33": "C", "U12": "A-D", "U13": "2*E", "U23": "E"},
+        ]
         self.assertEqual(6, len(self.g186c.eqxyz))
         gc = self.g186c
         for idx in range(6):
-            self.assertEqual(crules[idx], gc.UFormula(gc.eqxyz[idx], 'ABCDEF'))
+            self.assertEqual(crules[idx], gc.UFormula(gc.eqxyz[idx], "ABCDEF"))
         uiso = numpy.array([[2, 1, 0], [1, 2, 0], [0, 0, 2]])
         eau = ExpandAsymmetricUnit(sg186, [gc.xyz], [uiso])
         for u in eau.expandedUijs:
             du = numpy.linalg.norm((uiso - u).flatten())
             self.assertAlmostEqual(0.0, du, 8)
-        symcon = SymmetryConstraints(sg186, sum(eau.expandedpos, []),
-                sum(eau.expandedUijs, []))
+        symcon = SymmetryConstraints(sg186, sum(eau.expandedpos, []), sum(eau.expandedUijs, []))
         upd = dict(symcon.Upars)
-        self.assertEqual(2.0, upd['U110'])
-        self.assertEqual(2.0, upd['U330'])
-        self.assertEqual(1.0, upd['U120'])
-        self.assertEqual(0.0, upd['U130'])
-        uisod = {'U11' : 2.0, 'U22' : 2.0, 'U33' : 2.0,
-                 'U12' : 1.0, 'U13' : 0.0, 'U23' : 0.0}
+        self.assertEqual(2.0, upd["U110"])
+        self.assertEqual(2.0, upd["U330"])
+        self.assertEqual(1.0, upd["U120"])
+        self.assertEqual(0.0, upd["U130"])
+        uisod = {"U11": 2.0, "U22": 2.0, "U33": 2.0, "U12": 1.0, "U13": 0.0, "U23": 0.0}
         for ufms in symcon.UFormulas():
             for n, fm in ufms.items():
                 self.assertEqual(uisod[n], eval(fm, upd))
         return
 
-
     def test_UFormula_self_reference(self):
         "Ensure U formulas have no self reference such as U13=0.5*U13."
         for g in self.generators.values():
-            badformulas = [(n, fm) for n, fm in g.UFormula(g.xyz).items()
-                           if n in fm and n != fm]
+            badformulas = [(n, fm) for n, fm in g.UFormula(g.xyz).items() if n in fm and n != fm]
             self.assertEqual([], badformulas)
         return
 
-
     def test__findUParameters(self):
-        """check GeneratorSite._findUParameters()
-        """
+        """check GeneratorSite._findUParameters()"""
         # by default all Uparameters equal zero, this would fail for NaNs
         for gen in TestGeneratorSite.generators.values():
             for usym, uval in gen.Uparameters:
@@ -381,21 +365,22 @@ class TestGeneratorSite(unittest.TestCase):
         sg117 = GetSpaceGroup(117)
         g117h = GeneratorSite(sg117, self.g117h.xyz, Uij)
         upd = dict(g117h.Uparameters)
-        self.assertEqual(1, upd['U11'])
-        self.assertEqual(2, upd['U33'])
-        self.assertEqual(3, upd['U12'])
-        self.assertEqual(4, upd['U13'])
+        self.assertEqual(1, upd["U11"])
+        self.assertEqual(2, upd["U33"])
+        self.assertEqual(3, upd["U12"])
+        self.assertEqual(4, upd["U13"])
         return
 
     def test_eqIndex(self):
-        """check GeneratorSite.eqIndex()
-        """
+        """check GeneratorSite.eqIndex()"""
         self.assertEqual(13, self.g227oc.eqIndex(self.g227oc.eqxyz[13]))
         return
+
 
 # End of class TestGeneratorSite
 
 # ----------------------------------------------------------------------------
+
 
 class TestSymmetryConstraints(unittest.TestCase):
 
@@ -406,8 +391,7 @@ class TestSymmetryConstraints(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check SymmetryConstraints.__init__()
-        """
+        """check SymmetryConstraints.__init__()"""
         sg225 = GetSpaceGroup(225)
         # initialize from nested lists and arrays from ExpandAsymmetricUnit
         eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
@@ -431,8 +415,7 @@ class TestSymmetryConstraints(unittest.TestCase):
         return
 
     def test_corepos(self):
-        """test_corepos - find positions in the asymmetric unit.
-        """
+        """test_corepos - find positions in the asymmetric unit."""
         sg225 = GetSpaceGroup(225)
         corepos = [[0, 0, 0], [0.1, 0.13, 0.17]]
         eau = ExpandAsymmetricUnit(sg225, corepos)
@@ -444,12 +427,11 @@ class TestSymmetryConstraints(unittest.TestCase):
         mapped_count = sum(len(idcs) for idcs in sc.coremap.values())
         self.assertEqual(len(sc.positions), mapped_count)
         self.assertTrue(sc.coremap[0] == list(range(4)))
-        self.assertTrue(sc.coremap[4] == list(range(4, 4+192)))
+        self.assertTrue(sc.coremap[4] == list(range(4, 4 + 192)))
         return
 
     def test_Uisotropy(self):
-        """check isotropy value for ADP-s at specified sites.
-        """
+        """check isotropy value for ADP-s at specified sites."""
         sg225 = GetSpaceGroup(225)
         corepos = [[0, 0, 0], [0.1, 0.13, 0.17]]
         eau = ExpandAsymmetricUnit(sg225, corepos)
@@ -458,34 +440,33 @@ class TestSymmetryConstraints(unittest.TestCase):
         self.assertEqual(4 * [True] + 192 * [False], sc.Uisotropy)
         return
 
-#   def test__findConstraints(self):
-#       """check SymmetryConstraints._findConstraints()
-#       """
-#       return
-#
-#   def test_posparSymbols(self):
-#       """check SymmetryConstraints.posparSymbols()
-#       """
-#       return
-#
-#   def test_posparValues(self):
-#       """check SymmetryConstraints.posparValues()
-#       """
-#       return
-#
-#   def test_positionFormulas(self):
-#       """check SymmetryConstraints.positionFormulas()
-#       """
-#       return
-#
-#   def test_positionFormulasPruned(self):
-#       """check SymmetryConstraints.positionFormulasPruned()
-#       """
-#       return
-#
+    #   def test__findConstraints(self):
+    #       """check SymmetryConstraints._findConstraints()
+    #       """
+    #       return
+    #
+    #   def test_posparSymbols(self):
+    #       """check SymmetryConstraints.posparSymbols()
+    #       """
+    #       return
+    #
+    #   def test_posparValues(self):
+    #       """check SymmetryConstraints.posparValues()
+    #       """
+    #       return
+    #
+    #   def test_positionFormulas(self):
+    #       """check SymmetryConstraints.positionFormulas()
+    #       """
+    #       return
+    #
+    #   def test_positionFormulasPruned(self):
+    #       """check SymmetryConstraints.positionFormulasPruned()
+    #       """
+    #       return
+    #
     def test_UparSymbols(self):
-        """check SymmetryConstraints.UparSymbols()
-        """
+        """check SymmetryConstraints.UparSymbols()"""
         sg1 = GetSpaceGroup(1)
         sg225 = GetSpaceGroup(225)
         pos = [[0, 0, 0]]
@@ -493,19 +474,16 @@ class TestSymmetryConstraints(unittest.TestCase):
         sc1 = SymmetryConstraints(sg1, pos, Uijs)
         self.assertEqual(6, len(sc1.UparSymbols()))
         sc225 = SymmetryConstraints(sg225, pos, Uijs)
-        self.assertEqual(['U110'], sc225.UparSymbols())
+        self.assertEqual(["U110"], sc225.UparSymbols())
         return
 
     def test_UparValues(self):
-        """check SymmetryConstraints.UparValues()
-        """
+        """check SymmetryConstraints.UparValues()"""
         places = 12
         sg1 = GetSpaceGroup(1)
         sg225 = GetSpaceGroup(225)
         pos = [[0, 0, 0]]
-        Uijs = [[[0.1, 0.4, 0.5],
-                 [0.4, 0.2, 0.6],
-                 [0.5, 0.6, 0.3]]]
+        Uijs = [[[0.1, 0.4, 0.5], [0.4, 0.2, 0.6], [0.5, 0.6, 0.3]]]
         sc1 = SymmetryConstraints(sg1, pos, Uijs)
         duv = 0.1 * numpy.arange(1, 7) - sc1.UparValues()
         self.assertAlmostEqual(0, max(numpy.fabs(duv)), places)
@@ -513,6 +491,7 @@ class TestSymmetryConstraints(unittest.TestCase):
         self.assertEqual(1, len(sc225.UparValues()))
         self.assertAlmostEqual(0.2, sc225.UparValues()[0], places)
         return
+
 
 #   def test_UFormulas(self):
 #       """check SymmetryConstraints.UFormulas()
@@ -528,5 +507,5 @@ class TestSymmetryConstraints(unittest.TestCase):
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

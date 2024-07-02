@@ -15,6 +15,7 @@
 
 """Utilities for making shapes."""
 
+
 def findCenter(S):
     """Find the approximate center atom of a structure.
 
@@ -24,7 +25,7 @@ def findCenter(S):
     """
     best = -1
     bestd = len(S)
-    center = [0.5, 0.5, 0.5] # the cannonical center
+    center = [0.5, 0.5, 0.5]  # the cannonical center
 
     for i in range(len(S)):
         d = S.lattice.dist(S[i].xyz, center)

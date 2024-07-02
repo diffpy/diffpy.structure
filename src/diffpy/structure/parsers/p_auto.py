@@ -21,8 +21,8 @@ This Parser does not provide the the toLines() method.
 import os
 
 from diffpy.structure import StructureFormatError
-from diffpy.structure.parsers import StructureParser
-from diffpy.structure.parsers import parser_index
+from diffpy.structure.parsers import StructureParser, parser_index
+
 
 class P_auto(StructureParser):
     """Parser with automatic detection of structure format.
@@ -42,21 +42,24 @@ class P_auto(StructureParser):
         This only works when self.filename has a known extension.
         """
         from diffpy.structure.parsers import inputFormats
-        ofmts = [fmt for fmt in inputFormats() if fmt != 'auto']
-        if not self.filename:   return ofmts
+
+        ofmts = [fmt for fmt in inputFormats() if fmt != "auto"]
+        if not self.filename:
+            return ofmts
         # filename is defined here
         filebase = os.path.basename(self.filename)
         from fnmatch import fnmatch
+
         # loop over copy of ofmts
         for fmt in list(ofmts):
-            pattern = parser_index[fmt]['file_pattern']
-            if pattern in ('*.*', '*'):     continue
-            anymatch = [1 for p in pattern.split('|') if fnmatch(filebase, p)]
+            pattern = parser_index[fmt]["file_pattern"]
+            if pattern in ("*.*", "*"):
+                continue
+            anymatch = [1 for p in pattern.split("|") if fnmatch(filebase, p)]
             if anymatch:
                 ofmts.remove(fmt)
                 ofmts.insert(0, fmt)
         return ofmts
-
 
     def parseLines(self, lines):
         """Detect format and create Structure instance from a list of lines.
@@ -66,28 +69,25 @@ class P_auto(StructureParser):
         """
         return self._wrapParseMethod("parseLines", lines)
 
-
     def parse(self, s):
         """Detect format and create Structure instance from a string.
         Set format attribute to the detected file format.
 
         Return Structure object or raise StructureFormatError exception.
         """
-        return self._wrapParseMethod('parse', s)
-
+        return self._wrapParseMethod("parse", s)
 
     def parseFile(self, filename):
-        '''Detect format and create Structure instance from an existing file.
+        """Detect format and create Structure instance from an existing file.
         Set format attribute to the detected file format.
 
         filename  -- path to structure file
 
         Return Structure object.
         Raise StructureFormatError or IOError.
-        '''
+        """
         self.filename = filename
         return self._wrapParseMethod("parseFile", filename)
-
 
     def _wrapParseMethod(self, method, *args, **kwargs):
         """A helper evaluator method.  Try the specified parse method with
@@ -99,6 +99,7 @@ class P_auto(StructureParser):
         Return Structure instance, or raise StructureFormatError.
         """
         from diffpy.structure.parsers import getParser
+
         ofmts = self._getOrderedFormats()
         stru = None
         # try all parsers in sequence
@@ -115,16 +116,19 @@ class P_auto(StructureParser):
             except NotImplementedError:
                 pass
         if stru is None:
-            emsg = "\n".join([
-                "Unknown or invalid structure format.",
-                "Errors per each tested structure format:"] + parsers_emsgs)
+            emsg = "\n".join(
+                ["Unknown or invalid structure format.", "Errors per each tested structure format:"]
+                + parsers_emsgs
+            )
             raise StructureFormatError(emsg)
         self.__dict__.update(p.__dict__)
         return stru
 
+
 # End of class P_auto
 
 # Routines -------------------------------------------------------------------
+
 
 def getParser(**kw):
     return P_auto(**kw)

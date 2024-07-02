@@ -18,14 +18,15 @@ Unit tests for imports of old camel-case names.
 """
 
 
-import sys
-import warnings
 import importlib
+import sys
 import unittest
+import warnings
 
 import diffpy
 
 # ----------------------------------------------------------------------------
+
 
 class TestOldImports(unittest.TestCase):
 
@@ -33,46 +34,44 @@ class TestOldImports(unittest.TestCase):
     def setUpClass(cls):
         "Uncache any already-imported old modules."
         for modname in tuple(sys.modules):
-            if modname.startswith('diffpy.Structure'):
-                del sys.modules[modname]    # pragma: no cover
+            if modname.startswith("diffpy.Structure"):
+                del sys.modules[modname]  # pragma: no cover
         return
 
-
     def test_00TopImport(self):
-        """check import of diffpy.Structure
-        """
+        """check import of diffpy.Structure"""
         with warnings.catch_warnings():
-            warnings.simplefilter('ignore', category=DeprecationWarning)
+            warnings.simplefilter("ignore", category=DeprecationWarning)
             import diffpy.Structure as m0
         self.assertIs(diffpy.structure, m0)
         # second import should raise no warning
         with warnings.catch_warnings():
-            warnings.simplefilter('error')
+            warnings.simplefilter("error")
             import diffpy.Structure as m1
         self.assertIs(diffpy.structure, m1)
         return
 
-
     def test_O1SubmoduleImport(self):
-        """check import of diffpy.Structure submodules.
-        """
+        """check import of diffpy.Structure submodules."""
         with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter('always', category=DeprecationWarning)
+            warnings.simplefilter("always", category=DeprecationWarning)
             import diffpy.Structure.SymmetryUtilities as symutil
+
             self.assertIs(DeprecationWarning, w[0].category)
         self.assertIs(diffpy.structure.symmetryutilities, symutil)
         with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter('always', category=DeprecationWarning)
+            warnings.simplefilter("always", category=DeprecationWarning)
             import diffpy.Structure.Parsers.P_cif as pcif
+
             self.assertIs(DeprecationWarning, w[0].category)
         self.assertIs(diffpy.structure.parsers.p_cif, pcif)
-        self.assertRaises(ImportError, importlib.import_module,
-                          'diffpy.Structure.SSpaceGroups')
+        self.assertRaises(ImportError, importlib.import_module, "diffpy.Structure.SSpaceGroups")
         return
+
 
 # End of class TestOldImports
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

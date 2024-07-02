@@ -16,7 +16,9 @@
 """Make a spheroid nanoparticle from a template structure."""
 
 from math import ceil
+
 from numpy import array
+
 from diffpy.structure import Structure
 from diffpy.structure.expansion.shapeutils import findCenter
 
@@ -46,8 +48,10 @@ def makeEllipsoid(S, a, b=None, c=None):
 
     Returns a new structure instance
     """
-    if b is None: b = a
-    if c is None: c = a
+    if b is None:
+        b = a
+    if c is None:
+        c = a
     sabc = array([a, b, c])
 
     # Create a supercell large enough for the ellipsoid
@@ -56,6 +60,7 @@ def makeEllipsoid(S, a, b=None, c=None):
     mno = max(ceil(2 * xi) for xi in frac) * array([1, 1, 1])
     # Make the supercell
     from diffpy.structure.expansion import supercell
+
     newS = supercell(S, mno)
     lat = newS.lattice
 
@@ -72,8 +77,8 @@ def makeEllipsoid(S, a, b=None, c=None):
 
         # Calculate (x/a)**2 + (y/b)**2 + (z/c)**2
         xyz = lat.cartesian(newS[j].xyz)
-        darray = ((xyz-cxyz)/sabc)**2
-        d = sum(darray)**0.5
+        darray = ((xyz - cxyz) / sabc) ** 2
+        d = sum(darray) ** 0.5
 
         # Discard atom if (x/a)**2 + (y/b)**2 + (z/c)**2 > 1
         if d > 1:
@@ -84,10 +89,12 @@ def makeEllipsoid(S, a, b=None, c=None):
 
     return newS
 
+
 # ----------------------------------------------------------------------------
 
 if __name__ == "__main__":
     import os.path
+
     datadir = "../../tests/testdata"
     S = Structure()
     S.read(os.path.join(datadir, "CdSe_bulk.stru"), "pdffit")
