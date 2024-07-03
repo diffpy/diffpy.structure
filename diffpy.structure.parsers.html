@@ -1,607 +1,146 @@
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>diffpy.structure.parsers package &#8212; diffpy.structure 3.0.0 documentation</title>
-    <link rel="stylesheet" href="_static/pydoctheme.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/sidebar.js"></script>
-    
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="diffpy.structure.applications package" href="diffpy.structure.applications.html" />
-    <link rel="prev" title="diffpy.structure.spacegroupmod" href="mod_spacegroup.html" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="shortcut icon" type="image/png" href="_static/favicon.png" />
-    <meta name="viewport" content="width=device-width,initial-scale=0.8">
-    
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.structure.parsers package &mdash; diffpy.structure 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
-  </head><body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
-        <li><a href="index.html">diffpy.structure 3.0.0 documentation</a> &#187;</li>
-          <li><a href="package.html" accesskey="U">Package API</a> &#187;</li> 
-      </ul>
-    </div>
-    
   
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=0ffc2956"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="diffpy-structure-parsers-package">
-<h1>diffpy.structure.parsers package<a class="headerlink" href="#diffpy-structure-parsers-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            diffpy.structure
+          </a>
+              <div class="version">
+                3.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-<div class="section" id="module-diffpy.structure.parsers.p_auto">
-<span id="diffpy-structure-parsers-p-auto-module"></span><h2>diffpy.structure.parsers.p_auto module<a class="headerlink" href="#module-diffpy.structure.parsers.p_auto" title="Permalink to this headline">¶</a></h2>
-<p>Parser for automatic file format detection</p>
-<p>This Parser does not provide the the toLines() method.</p>
-<dl class="class">
-<dt id="diffpy.structure.parsers.p_auto.P_auto">
-<em class="property">class </em><code class="descname">P_auto</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_auto.P_auto" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.structure.parsers.structureparser.StructureParser" title="diffpy.structure.parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">diffpy.structure.parsers.structureparser.StructureParser</span></code></a></p>
-<p>Parser with automatic detection of structure format.
-When successful, it sets its format attribute to detected
-structure format.</p>
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_auto.P_auto.parseLines">
-<code class="descname">parseLines</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_auto.P_auto.parseLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Detect format and create Structure instance from a list of lines.
-Set format attribute to the detected file format.</p>
-<p>Return Structure object or raise StructureFormatError exception.</p>
-</dd></dl>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/diffpy.structure.html">Package API</a></li>
+</ul>
 
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_auto.P_auto.parse">
-<code class="descname">parse</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_auto.P_auto.parse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Detect format and create Structure instance from a string.
-Set format attribute to the detected file format.</p>
-<p>Return Structure object or raise StructureFormatError exception.</p>
-</dd></dl>
+        </div>
+      </div>
+    </nav>
 
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_auto.P_auto.parseFile">
-<code class="descname">parseFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_auto.P_auto.parseFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Detect format and create Structure instance from an existing file.
-Set format attribute to the detected file format.</p>
-<p>filename  – path to structure file</p>
-<p>Return Structure object.
-Raise StructureFormatError or IOError.</p>
-</dd></dl>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">diffpy.structure</a>
+      </nav>
 
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.p_auto.getParser">
-<code class="descname">getParser</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_auto.getParser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">diffpy.structure.parsers package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/diffpy.structure.parsers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
 </div>
-<div class="section" id="module-diffpy.structure.parsers.p_cif">
-<span id="diffpy-structure-parsers-p-cif-module"></span><h2>diffpy.structure.parsers.p_cif module<a class="headerlink" href="#module-diffpy.structure.parsers.p_cif" title="Permalink to this headline">¶</a></h2>
-<p>Parser for basic CIF file format</p>
-<p><a class="reference external" href="http://www.iucr.org/iucr-top/cif/home.html">http://www.iucr.org/iucr-top/cif/home.html</a></p>
-<dl class="class">
-<dt id="diffpy.structure.parsers.p_cif.P_cif">
-<em class="property">class </em><code class="descname">P_cif</code><span class="sig-paren">(</span><em>eps=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.structure.parsers.structureparser.StructureParser" title="diffpy.structure.parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">diffpy.structure.parsers.structureparser.StructureParser</span></code></a></p>
-<p>Simple parser for CIF structure format.
-Reads Structure from the first block containing _atom_site_label key.
-Following blocks, if any are ignored.</p>
-<p>Data members:</p>
-<p>format      – structure format name
-ciffile     – instance of CifFile from PyCifRW
-stru        – Structure instance used for cif input or output</p>
-<p>Data members used for input only:</p>
-<p>spacegroup  – instance of SpaceGroup used for symmetry expansion
-eps         – resolution in fractional coordinates for non-equal</p>
-<blockquote>
-<div>positions.  Use for expansion of asymmetric unit.</div></blockquote>
-<p>eau         – instance of ExpandAsymmetricUnit from SymmetryUtilities
-asymmetric_unit – list of atom instances for the original asymmetric</p>
-<blockquote>
-<div>unit in the CIF file</div></blockquote>
-<dl class="docutils">
-<dt>labelindex  – dictionary mapping unique atom label to index of atom</dt>
-<dd>in self.asymmetric_unit</dd>
-<dt>cif_sgname  – space group name obtained by looking up the value of</dt>
-<dd>_space_group_name_Hall, _symmetry_space_group_name_Hall,
-_space_group_name_H-M_alt, _symmetry_space_group_name_H-M
-items.  None when neither is defined.</dd>
-</dl>
-<dl class="attribute">
-<dt id="diffpy.structure.parsers.p_cif.P_cif.BtoU">
-<code class="descname">BtoU</code><em class="property"> = 0.012665147955292222</em><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.BtoU" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_cif.P_cif.parse">
-<code class="descname">parse</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.parse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create Structure instance from a string in CIF format.</p>
-<p>Return Structure instance or raise StructureFormatError.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_cif.P_cif.parseLines">
-<code class="descname">parseLines</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.parseLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse list of lines in CIF format.</p>
-<p>lines – list of strings stripped of line terminator</p>
-<p>Return Structure instance or raise StructureFormatError.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_cif.P_cif.parseFile">
-<code class="descname">parseFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.parseFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create Structure from an existing CIF file.</p>
-<p>filename  – path to structure file</p>
-<p>Return Structure object.
-Raise StructureFormatError or IOError.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_cif.P_cif.toLines">
-<code class="descname">toLines</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.toLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert Structure stru to a list of lines in basic CIF format.</p>
-<p>Return list of strings.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.p_cif.leading_float">
-<code class="descname">leading_float</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.leading_float" title="Permalink to this definition">¶</a></dt>
-<dd><p>Obtain first float from a string and ignore any trailing characters.
-Useful for extracting values from “value(std)” syntax.</p>
-<p>Return float.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.p_cif.getSymOp">
-<code class="descname">getSymOp</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.getSymOp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create SpaceGroups.SymOp instance from a string.</p>
-<p>s   – formula for equivalent coordinates, for example ‘x,1/2-y,1/2+z’</p>
-<p>Return instance of SymOp.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.p_cif.getParser">
-<code class="descname">getParser</code><span class="sig-paren">(</span><em>eps=None</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.getParser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return new parser object for CIF structure format.</p>
-<dl class="docutils">
-<dt>eps  – fractional coordinates cutoff for duplicate positions.</dt>
-<dd>When None use the default for ExpandAsymmetricUnit.</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="module-diffpy.structure.parsers.p_discus">
-<span id="diffpy-structure-parsers-p-discus-module"></span><h2>diffpy.structure.parsers.p_discus module<a class="headerlink" href="#module-diffpy.structure.parsers.p_discus" title="Permalink to this headline">¶</a></h2>
-<p>Parser for DISCUS structure format</p>
-<dl class="class">
-<dt id="diffpy.structure.parsers.p_discus.P_discus">
-<em class="property">class </em><code class="descname">P_discus</code><a class="headerlink" href="#diffpy.structure.parsers.p_discus.P_discus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.structure.parsers.structureparser.StructureParser" title="diffpy.structure.parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">diffpy.structure.parsers.structureparser.StructureParser</span></code></a></p>
-<p>Parser for DISCUS structure format.  The parser chokes
-on molecule and generator records.</p>
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_discus.P_discus.parseLines">
-<code class="descname">parseLines</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_discus.P_discus.parseLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse list of lines in DISCUS format.</p>
-<p>Return PDFFitStructure instance or raise StructureFormatError.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_discus.P_discus.toLines">
-<code class="descname">toLines</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_discus.P_discus.toLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert Structure stru to a list of lines in DISCUS format.
-Return list of strings.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.p_discus.getParser">
-<code class="descname">getParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_discus.getParser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-diffpy.structure.parsers.p_pdb">
-<span id="diffpy-structure-parsers-p-pdb-module"></span><h2>diffpy.structure.parsers.p_pdb module<a class="headerlink" href="#module-diffpy.structure.parsers.p_pdb" title="Permalink to this headline">¶</a></h2>
-<p>Basic parser for PDB structure format.</p>
-<p>References</p>
-<blockquote>
-<div><a class="reference external" href="http://www.wwpdb.org/documentation/format23/v2.3.html">http://www.wwpdb.org/documentation/format23/v2.3.html</a>
-<a class="reference external" href="http://www.wwpdb.org/documentation/format30/index.html">http://www.wwpdb.org/documentation/format30/index.html</a></div></blockquote>
-<dl class="class">
-<dt id="diffpy.structure.parsers.p_pdb.P_pdb">
-<em class="property">class </em><code class="descname">P_pdb</code><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.structure.parsers.structureparser.StructureParser" title="diffpy.structure.parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">diffpy.structure.parsers.structureparser.StructureParser</span></code></a></p>
-<p>Simple parser for PDB format.
-The parser understands following PDB records: TITLE, CRYST1, SCALE1,
-SCALE2, SCALE3, ATOM, SIGATM, ANISOU, SIGUIJ, TER, HETATM, END</p>
-<p>Static data members:</p>
-<p>orderOfRecords – order of PDB record labels
-validRecords   – dictionary of valid PDB records</p>
-<dl class="attribute">
-<dt id="diffpy.structure.parsers.p_pdb.P_pdb.orderOfRecords">
-<code class="descname">orderOfRecords</code><em class="property"> = ['HEADER', 'OBSLTE', 'TITLE', 'CAVEAT', 'COMPND', 'SOURCE', 'KEYWDS', 'EXPDTA', 'AUTHOR', 'REVDAT', 'SPRSDE', 'JRNL', 'REMARK', 'REMARK', 'REMARK', 'REMARK', 'DBREF', 'SEQADV', 'SEQRES', 'MODRES', 'HET', 'HETNAM', 'HETSYN', 'FORMUL', 'HELIX', 'SHEET', 'TURN', 'SSBOND', 'LINK', 'HYDBND', 'SLTBRG', 'CISPEP', 'SITE', 'CRYST1', 'ORIGX1', 'ORIGX2', 'ORIGX3', 'SCALE1', 'SCALE2', 'SCALE3', 'MTRIX1', 'MTRIX2', 'MTRIX3', 'TVECT', 'MODEL', 'ATOM', 'SIGATM', 'ANISOU', 'SIGUIJ', 'TER', 'HETATM', 'ENDMDL', 'CONECT', 'MASTER', 'END']</em><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.orderOfRecords" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="diffpy.structure.parsers.p_pdb.P_pdb.validRecords">
-<code class="descname">validRecords</code><em class="property"> = {'ANISOU': None, 'ATOM': None, 'AUTHOR': None, 'CAVEAT': None, 'CISPEP': None, 'COMPND': None, 'CONECT': None, 'CRYST1': None, 'DBREF': None, 'END': None, 'ENDMDL': None, 'EXPDTA': None, 'FORMUL': None, 'HEADER': None, 'HELIX': None, 'HET': None, 'HETATM': None, 'HETNAM': None, 'HETSYN': None, 'HYDBND': None, 'JRNL': None, 'KEYWDS': None, 'LINK': None, 'MASTER': None, 'MODEL': None, 'MODRES': None, 'MTRIX1': None, 'MTRIX2': None, 'MTRIX3': None, 'OBSLTE': None, 'ORIGX1': None, 'ORIGX2': None, 'ORIGX3': None, 'REMARK': None, 'REVDAT': None, 'SCALE1': None, 'SCALE2': None, 'SCALE3': None, 'SEQADV': None, 'SEQRES': None, 'SHEET': None, 'SIGATM': None, 'SIGUIJ': None, 'SITE': None, 'SLTBRG': None, 'SOURCE': None, 'SPRSDE': None, 'SSBOND': None, 'TER': None, 'TITLE': None, 'TURN': None, 'TVECT': None}</em><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.validRecords" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_pdb.P_pdb.parseLines">
-<code class="descname">parseLines</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.parseLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse list of lines in PDB format.</p>
-<p>Return Structure instance or raise StructureFormatError.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_pdb.P_pdb.titleLines">
-<code class="descname">titleLines</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.titleLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>build lines corresponding to TITLE record</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_pdb.P_pdb.cryst1Lines">
-<code class="descname">cryst1Lines</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.cryst1Lines" title="Permalink to this definition">¶</a></dt>
-<dd><p>build lines corresponding to CRYST1 record</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_pdb.P_pdb.atomLines">
-<code class="descname">atomLines</code><span class="sig-paren">(</span><em>stru</em>, <em>idx</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.atomLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>build ATOM records and possibly SIGATM, ANISOU or SIGUIJ records
-for structure stru atom number aidx</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_pdb.P_pdb.toLines">
-<code class="descname">toLines</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.toLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert Structure stru to a list of lines in PDFFit format.</p>
-<p>Return list of strings.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.p_pdb.getParser">
-<code class="descname">getParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.getParser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-diffpy.structure.parsers.p_pdffit">
-<span id="diffpy-structure-parsers-p-pdffit-module"></span><h2>diffpy.structure.parsers.p_pdffit module<a class="headerlink" href="#module-diffpy.structure.parsers.p_pdffit" title="Permalink to this headline">¶</a></h2>
-<p>Parser for PDFfit structure format</p>
-<dl class="class">
-<dt id="diffpy.structure.parsers.p_pdffit.P_pdffit">
-<em class="property">class </em><code class="descname">P_pdffit</code><a class="headerlink" href="#diffpy.structure.parsers.p_pdffit.P_pdffit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.structure.parsers.structureparser.StructureParser" title="diffpy.structure.parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">diffpy.structure.parsers.structureparser.StructureParser</span></code></a></p>
-<p>Parser for PDFfit structure format.</p>
-<p>stru – Structure instance used for cif input or output</p>
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_pdffit.P_pdffit.parseLines">
-<code class="descname">parseLines</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_pdffit.P_pdffit.parseLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse list of lines in PDFfit format.</p>
-<p>Return Structure object or raise StructureFormatError.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_pdffit.P_pdffit.toLines">
-<code class="descname">toLines</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_pdffit.P_pdffit.toLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert Structure stru to a list of lines in PDFfit format.</p>
-<p>Return list of strings.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.p_pdffit.getParser">
-<code class="descname">getParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_pdffit.getParser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-diffpy.structure.parsers.p_rawxyz">
-<span id="diffpy-structure-parsers-p-rawxyz-module"></span><h2>diffpy.structure.parsers.p_rawxyz module<a class="headerlink" href="#module-diffpy.structure.parsers.p_rawxyz" title="Permalink to this headline">¶</a></h2>
-<p>Parser for raw XYZ file format.  Raw XYZ is a 3 or 4 column text
-file with cartesian coordinates of atoms and an optional first column
-for atom types.</p>
-<dl class="class">
-<dt id="diffpy.structure.parsers.p_rawxyz.P_rawxyz">
-<em class="property">class </em><code class="descname">P_rawxyz</code><a class="headerlink" href="#diffpy.structure.parsers.p_rawxyz.P_rawxyz" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.structure.parsers.structureparser.StructureParser" title="diffpy.structure.parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">diffpy.structure.parsers.structureparser.StructureParser</span></code></a></p>
-<p>Parser –&gt; StructureParser subclass for RAWXYZ format</p>
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_rawxyz.P_rawxyz.parseLines">
-<code class="descname">parseLines</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_rawxyz.P_rawxyz.parseLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse list of lines in RAWXYZ format.</p>
-<p>Return Structure object or raise StructureFormatError.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_rawxyz.P_rawxyz.toLines">
-<code class="descname">toLines</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_rawxyz.P_rawxyz.toLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert Structure stru to a list of lines in XYZ format.</p>
-<p>Return list of strings.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.p_rawxyz.getParser">
-<code class="descname">getParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_rawxyz.getParser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-diffpy.structure.parsers.p_xcfg">
-<span id="diffpy-structure-parsers-p-xcfg-module"></span><h2>diffpy.structure.parsers.p_xcfg module<a class="headerlink" href="#module-diffpy.structure.parsers.p_xcfg" title="Permalink to this headline">¶</a></h2>
-<p>Parser for extended CFG format used by atomeye</p>
-<dl class="class">
-<dt id="diffpy.structure.parsers.p_xcfg.P_xcfg">
-<em class="property">class </em><code class="descname">P_xcfg</code><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.P_xcfg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.structure.parsers.structureparser.StructureParser" title="diffpy.structure.parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">diffpy.structure.parsers.structureparser.StructureParser</span></code></a></p>
-<p>Parser for AtomEye extended CFG format.</p>
-<dl class="docutils">
-<dt>cluster_boundary – width of boundary around corners of non-periodic</dt>
-<dd>cluster to avoid PBC effects in atomeye</dd>
-</dl>
-<dl class="attribute">
-<dt id="diffpy.structure.parsers.p_xcfg.P_xcfg.cluster_boundary">
-<code class="descname">cluster_boundary</code><em class="property"> = 2</em><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.P_xcfg.cluster_boundary" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_xcfg.P_xcfg.parseLines">
-<code class="descname">parseLines</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.P_xcfg.parseLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse list of lines in PDB format.</p>
-<p>Return Structure object or raise StructureFormatError.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_xcfg.P_xcfg.toLines">
-<code class="descname">toLines</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.P_xcfg.toLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert Structure stru to a list of lines in XCFG atomeye format.</p>
-<p>Return list of strings.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.p_xcfg.getParser">
-<code class="descname">getParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.getParser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-diffpy.structure.parsers.p_xyz">
-<span id="diffpy-structure-parsers-p-xyz-module"></span><h2>diffpy.structure.parsers.p_xyz module<a class="headerlink" href="#module-diffpy.structure.parsers.p_xyz" title="Permalink to this headline">¶</a></h2>
-<p>Parser for XYZ file format, where
-first line gives number of atoms
-second one has optional title
-remaining lines contain element, x, y, z</p>
-<dl class="class">
-<dt id="diffpy.structure.parsers.p_xyz.P_xyz">
-<em class="property">class </em><code class="descname">P_xyz</code><a class="headerlink" href="#diffpy.structure.parsers.p_xyz.P_xyz" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.structure.parsers.structureparser.StructureParser" title="diffpy.structure.parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">diffpy.structure.parsers.structureparser.StructureParser</span></code></a></p>
-<p>Parser for standard XYZ structure format.</p>
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_xyz.P_xyz.parseLines">
-<code class="descname">parseLines</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_xyz.P_xyz.parseLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse list of lines in XYZ format.</p>
-<p>Return Structure object or raise StructureFormatError.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.p_xyz.P_xyz.toLines">
-<code class="descname">toLines</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_xyz.P_xyz.toLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert Structure stru to a list of lines in XYZ format.</p>
-<p>Return list of strings.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.p_xyz.getParser">
-<code class="descname">getParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_xyz.getParser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="module-diffpy.structure.parsers.parser_index_mod">
-<span id="diffpy-structure-parsers-parser-index-mod-module"></span><h2>diffpy.structure.parsers.parser_index_mod module<a class="headerlink" href="#module-diffpy.structure.parsers.parser_index_mod" title="Permalink to this headline">¶</a></h2>
-<p>Index of recognized structure formats, their IO capabilities and
-associated modules where they are defined.  Plugins for new structure
-formats need to be added to the parser_index dictionary in this module.</p>
-</div>
-<div class="section" id="module-diffpy.structure.parsers.structureparser">
-<span id="diffpy-structure-parsers-structureparser-module"></span><h2>diffpy.structure.parsers.structureparser module<a class="headerlink" href="#module-diffpy.structure.parsers.structureparser" title="Permalink to this headline">¶</a></h2>
-<p>Definition of StructureParser, a base class for specific parsers.</p>
-<dl class="class">
-<dt id="diffpy.structure.parsers.structureparser.StructureParser">
-<em class="property">class </em><code class="descname">StructureParser</code><a class="headerlink" href="#diffpy.structure.parsers.structureparser.StructureParser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Base class for all structure parsers.</p>
-<dl class="docutils">
-<dt>Data members:</dt>
-<dd>format   – format of particular parser
-filename – path to structure file that is read or written</dd>
-</dl>
-<dl class="method">
-<dt id="diffpy.structure.parsers.structureparser.StructureParser.parseLines">
-<code class="descname">parseLines</code><span class="sig-paren">(</span><em>lines</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.structureparser.StructureParser.parseLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create Structure instance from a list of lines.</p>
-<p>Return Structure object or raise StructureFormatError exception.
-This method has to be overloaded in derived class.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.structureparser.StructureParser.toLines">
-<code class="descname">toLines</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.structureparser.StructureParser.toLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert Structure stru to a list of lines.
-This method has to be overloaded in derived class.</p>
-<p>Return list of strings.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.structureparser.StructureParser.parse">
-<code class="descname">parse</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.structureparser.StructureParser.parse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create Structure instance from a string.</p>
-<p>Return Structure object or raise StructureFormatError exception.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.structureparser.StructureParser.tostring">
-<code class="descname">tostring</code><span class="sig-paren">(</span><em>stru</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.structureparser.StructureParser.tostring" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert Structure instance to a string.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="diffpy.structure.parsers.structureparser.StructureParser.parseFile">
-<code class="descname">parseFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.structureparser.StructureParser.parseFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create Structure instance from an existing file.</p>
-<p>filename  – path to structure file</p>
-<p>Return Structure object.
-Raise StructureFormatError or IOError.</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-diffpy.structure.parsers">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-diffpy.structure.parsers" title="Permalink to this headline">¶</a></h2>
-<p>Conversion plugins for various structure formats</p>
-<p>The recognized structure formats are defined by subclassing StructureParser,
-by convention these classes are named P_&lt;format&gt;.  The parser classes should
-to override the parseLines() and toLines() methods of StructureParser.
-Any structure parser needs to be registered in parser_index module.</p>
-<p>For normal usage it should be sufficient to use the routines provided
-in this module.</p>
-<dl class="docutils">
-<dt>Content:</dt>
-<dd>StructureParser – base class for a concrete Parser
-parser_index    – dictionary of known structure formats
-getParser       – factory for Parser at given format
-inputFormats    – list of available input formats
-outputFormats   – list of available output formats</dd>
-</dl>
-<dl class="function">
-<dt id="diffpy.structure.parsers.getParser">
-<code class="descname">getParser</code><span class="sig-paren">(</span><em>format</em>, <em>**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.getParser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return Parser instance for a given structure format.</p>
-<p>kw   – keyword arguments passed to the Parser init function.</p>
-<p>Raises StructureFormatError exception when format is not defined.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.inputFormats">
-<code class="descname">inputFormats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.inputFormats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return list of implemented input structure formats</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="diffpy.structure.parsers.outputFormats">
-<code class="descname">outputFormats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.outputFormats" title="Permalink to this definition">¶</a></dt>
-<dd><p>return list of implemented output structure formats</p>
-</dd></dl>
-
-</div>
-</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="diffpy-structure-parsers-package">
+<h1>diffpy.structure.parsers package<a class="headerlink" href="#diffpy-structure-parsers-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="diffpy-structure-parsers-p-auto-module">
+<h2>diffpy.structure.parsers.p_auto module<a class="headerlink" href="#diffpy-structure-parsers-p-auto-module" title="Link to this heading"></a></h2>
+</section>
+<section id="diffpy-structure-parsers-p-cif-module">
+<h2>diffpy.structure.parsers.p_cif module<a class="headerlink" href="#diffpy-structure-parsers-p-cif-module" title="Link to this heading"></a></h2>
+</section>
+<section id="diffpy-structure-parsers-p-discus-module">
+<h2>diffpy.structure.parsers.p_discus module<a class="headerlink" href="#diffpy-structure-parsers-p-discus-module" title="Link to this heading"></a></h2>
+</section>
+<section id="diffpy-structure-parsers-p-pdb-module">
+<h2>diffpy.structure.parsers.p_pdb module<a class="headerlink" href="#diffpy-structure-parsers-p-pdb-module" title="Link to this heading"></a></h2>
+</section>
+<section id="diffpy-structure-parsers-p-pdffit-module">
+<h2>diffpy.structure.parsers.p_pdffit module<a class="headerlink" href="#diffpy-structure-parsers-p-pdffit-module" title="Link to this heading"></a></h2>
+</section>
+<section id="diffpy-structure-parsers-p-rawxyz-module">
+<h2>diffpy.structure.parsers.p_rawxyz module<a class="headerlink" href="#diffpy-structure-parsers-p-rawxyz-module" title="Link to this heading"></a></h2>
+</section>
+<section id="diffpy-structure-parsers-p-xcfg-module">
+<h2>diffpy.structure.parsers.p_xcfg module<a class="headerlink" href="#diffpy-structure-parsers-p-xcfg-module" title="Link to this heading"></a></h2>
+</section>
+<section id="diffpy-structure-parsers-p-xyz-module">
+<h2>diffpy.structure.parsers.p_xyz module<a class="headerlink" href="#diffpy-structure-parsers-p-xyz-module" title="Link to this heading"></a></h2>
+</section>
+<section id="diffpy-structure-parsers-parser-index-mod-module">
+<h2>diffpy.structure.parsers.parser_index_mod module<a class="headerlink" href="#diffpy-structure-parsers-parser-index-mod-module" title="Link to this heading"></a></h2>
+</section>
+<section id="diffpy-structure-parsers-structureparser-module">
+<h2>diffpy.structure.parsers.structureparser module<a class="headerlink" href="#diffpy-structure-parsers-structureparser-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+</section>
+</section>
 
 
+           </div>
           </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-    <a id="sidebar-anchor"></a>
-    
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">diffpy.structure.parsers package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers.p_auto">diffpy.structure.parsers.p_auto module</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers.p_cif">diffpy.structure.parsers.p_cif module</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers.p_discus">diffpy.structure.parsers.p_discus module</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers.p_pdb">diffpy.structure.parsers.p_pdb module</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers.p_pdffit">diffpy.structure.parsers.p_pdffit module</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers.p_rawxyz">diffpy.structure.parsers.p_rawxyz module</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers.p_xcfg">diffpy.structure.parsers.p_xcfg module</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers.p_xyz">diffpy.structure.parsers.p_xyz module</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers.parser_index_mod">diffpy.structure.parsers.parser_index_mod module</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers.structureparser">diffpy.structure.parsers.structureparser module</a></li>
-<li><a class="reference internal" href="#module-diffpy.structure.parsers">Module contents</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="mod_spacegroup.html"
-                        title="previous chapter">diffpy.structure.spacegroupmod</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="diffpy.structure.applications.html"
-                        title="next chapter">diffpy.structure.applications package</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/diffpy.structure.parsers.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="diffpy.structure.applications.html" title="diffpy.structure.applications package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="mod_spacegroup.html" title="diffpy.structure.spacegroupmod"
-             accesskey="P">previous</a> |</li>
-      </ul>
-    </div>
-
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Brookhaven National Laboratory.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
-    </div>
-  </body>
+</body>
 </html>
