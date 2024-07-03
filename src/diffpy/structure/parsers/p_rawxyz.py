@@ -19,12 +19,13 @@ for atom types.
 """
 
 import sys
+
 import six
 
-from diffpy.structure import Structure
-from diffpy.structure import StructureFormatError
-from diffpy.structure.utils import isfloat
+from diffpy.structure import Structure, StructureFormatError
 from diffpy.structure.parsers import StructureParser
+from diffpy.structure.utils import isfloat
+
 
 class P_rawxyz(StructureParser):
     """Parser --> StructureParser subclass for RAWXYZ format"""
@@ -33,7 +34,6 @@ class P_rawxyz(StructureParser):
         StructureParser.__init__(self)
         self.format = "rawxyz"
         return
-
 
     def parseLines(self, lines):
         """Parse list of lines in RAWXYZ format.
@@ -52,18 +52,17 @@ class P_rawxyz(StructureParser):
                 break
         # find the last valid record
         stop = len(lines)
-        while stop > start and len(linefields[stop-1]) == 0:
+        while stop > start and len(linefields[stop - 1]) == 0:
             stop -= 1
         # get out for empty structure
         if start >= stop:
             return stru
         # here we have at least one valid record line
         # figure out xyz layout from the first line for plain and raw formats
-        floatfields = [ isfloat(f) for f in linefields[start] ]
+        floatfields = [isfloat(f) for f in linefields[start]]
         nfields = len(linefields[start])
         if nfields not in (3, 4):
-            emsg = ("%d: invalid RAWXYZ format, expected 3 or 4 columns" %
-                    (start + 1))
+            emsg = "%d: invalid RAWXYZ format, expected 3 or 4 columns" % (start + 1)
             raise StructureFormatError(emsg)
         if floatfields[:3] == [True, True, True]:
             el_idx, x_idx = (None, 0)
@@ -75,16 +74,15 @@ class P_rawxyz(StructureParser):
         # now try to read all record lines
         try:
             p_nl = start
-            for fields in linefields[start:] :
+            for fields in linefields[start:]:
                 p_nl += 1
                 if fields == []:
                     continue
                 elif len(fields) != nfields:
-                    emsg = ('%d: all lines must have ' +
-                            'the same number of columns') % p_nl
+                    emsg = ("%d: all lines must have " + "the same number of columns") % p_nl
                     raise StructureFormatError(emsg)
                 element = el_idx is not None and fields[el_idx] or ""
-                xyz = [ float(f) for f in fields[x_idx:x_idx+3] ]
+                xyz = [float(f) for f in fields[x_idx : x_idx + 3]]
                 if len(xyz) == 2:
                     xyz.append(0.0)
                 stru.addNewAtom(element, xyz=xyz)
@@ -94,7 +92,6 @@ class P_rawxyz(StructureParser):
             e = StructureFormatError(emsg)
             six.reraise(StructureFormatError, e, exc_traceback)
         return stru
-
 
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in XYZ format.
@@ -108,9 +105,11 @@ class P_rawxyz(StructureParser):
             lines.append(s.lstrip())
         return lines
 
+
 # End of class P_rawxyz
 
 # Routines -------------------------------------------------------------------
+
 
 def getParser():
     return P_rawxyz()

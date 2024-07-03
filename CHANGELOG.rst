@@ -1,47 +1,71 @@
-# Release notes
+=============
+Release Notes
+=============
 
-## Version 3.1.0 – 2022-12-04
+.. current developments
 
-### Added
+Version 3.2.0 - 2024-7-2
+--------------------------
+**Added:**
+
+**Changed:**
+
+**Deprecated:**
+
+**Removed:**
+
+**Fixed:**
+
+- Repo structure modified to the new diffpy standard
+
+**Security:**
+
+
+Version 3.1.0 - 2022-12-04
+--------------------------
+
+**Added**
 
 - Compatibility with Python 3.10, 3.9, 3.8
 
-### Changed
+**Changed**
 
-### Deprecated
+**Deprecated**
 
-### Removed
+**Removed**
 
 - Remove the support for Python 3.5, 3.6.
 
-### Fixed
+**Fixed**
 
-## Version 3.0.2 - 2022-10-12
+Version 3.0.2 - 2022-10-12
+--------------------------
 
-### Added
+**Added**
 
 - A string representation of `SpaceGroup` with key information.
 
-### Changed
+**Changed**
 
 - Bumped minimum `PyCifRW` version to `4.4.3`.
 
-### Deprecated
+**Deprecated**
 
-### Removed
+**Removed**
 
-### Fixed
+**Fixed**
 
 - Handling of paths on Windows when using the `P_cif` parser.
 
-## Version 3.0.1 – 2019-06-27
+Version 3.0.1 - 2019-06-27
+--------------------------
 
-### Added
+**Added**
 
 - Function `FindSpaceGroup` for space group lookup from its list
   of symmetry operations.
 
-### Changed
+**Changed**
 
 - Reuse existing `SpaceGroup` instance when loading a CIF file.
 - Improve check of SpaceGroup identifiers in `GetSpaceGroup`.
@@ -49,11 +73,11 @@
   to symmetry constraints at each site.  Adhere to specific
   ADP type when specified in the CIF.
 
-### Removed
+**Removed**
 
 - Unused attribute `SpaceGroup.alt_name`.
 
-### Fixed
+**Fixed**
 
 - Fix inconsistent (`Atom`, `Structure`) pickle.  Preserve `Atom`
   ownership in a `Structure` after pickling and unpickling.
@@ -63,11 +87,12 @@
 - Incorrect `SymOp` list for spacegroup "B11m" (number 1008).
 
 
-## Version 3.0.0 – 2019-03-11
+Version 3.0.0 - 2019-03-11
+--------------------------
 
 Notable differences from version 1.3.5.
 
-### Added
+**Added**
 
 - Compatibility with Python 3.7, 3.6, 3.5 in addition to 2.7.
 - Aliases for 17 non-standard space group names from cctbx.
@@ -75,7 +100,7 @@ Notable differences from version 1.3.5.
 - Dependency and use of the `six` PY2/PY3 compatibility package.
 - Documentation hosting at readthedocs.org.
 
-### Changed
+**Changed**
 
 - Rename the package and all its module names to lowercase.
 - Use UTF-8 encoding when writing structure files.
@@ -85,18 +110,18 @@ Notable differences from version 1.3.5.
 - Update docstrings for `Atom`, `Lattice`, `SymOp`, `SpaceGroup`.
 - Switch to platform-independent "noarch" Anaconda package.
 
-### Deprecated
+**Deprecated**
 
 - Old camel case module names such as `diffpy.Structure`.
 - Variable `__gitsha__` in the `version` module which was renamed
   to `__git_commit__`.
 
-### Removed
+**Removed**
 
 - Unused exception `IsotropyError`.
 - Unused class `BRAtomsStructure` and associated parser.
 
-### Fixed
+**Fixed**
 
 - Loading of empty CIF files with no specified sites.
 - Parsing of CIFs with `?` value for unknown displacement parameters.

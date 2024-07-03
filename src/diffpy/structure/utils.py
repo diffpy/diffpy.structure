@@ -16,8 +16,8 @@
 """Small shared functions.
 """
 
-import six
 import numpy
+import six
 
 if six.PY2:
     from collections import Iterable as _Iterable
@@ -42,20 +42,22 @@ def isfloat(s):
 
 
 def atomBareSymbol(smbl):
-    '''Remove atom type string stripped of isotope and ion charge symbols.
+    """Remove atom type string stripped of isotope and ion charge symbols.
     This removes blank and leading [0-9-] or trailing [1-9][+-] characters.
 
     smbl -- atom type string such as "Cl-", "Ca2+" or "12-C".
 
     Return bare element symbol.
-    '''
-    rv = smbl.strip().lstrip('0123456789-').rstrip('123456789+-')
+    """
+    rv = smbl.strip().lstrip("0123456789-").rstrip("123456789+-")
     return rv
+
 
 # Helpers for the Structure class --------------------------------------------
 
+
 def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
-    '''Create property wrapper that maps the specified atom attribute.
+    """Create property wrapper that maps the specified atom attribute.
 
     The returned property object provides convenient access to atom
     attributes from the owner Structure class.
@@ -71,13 +73,16 @@ def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
         Use `numpy.char.array` for string attributes.
 
     Return a property object.
-    '''
+    """
     from itertools import repeat
     from operator import setitem
+
     _all = slice(None)
+
     def fget(self):
         va = toarray([getattr(a, attrname) for a in self])
         return va
+
     def fset(self, value):
         n = len(self)
         if n == 0:
@@ -96,5 +101,6 @@ def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
         for a, v in zip(self, genvalues):
             setvalue(a, v)
         return
+
     rv = property(fget, fset, doc=doc)
     return rv

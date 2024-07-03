@@ -23,7 +23,8 @@ This module is deprecated and will be removed in version 3.1.
 
 from warnings import warn
 
-
-warn("Module 'diffpy.structure.applications' is deprecated.  "
-     "Import 'diffpy.structure.apps' instead.",
-     DeprecationWarning, stacklevel=2)
+warn(
+    "Module 'diffpy.structure.applications' is deprecated.  " "Import 'diffpy.structure.apps' instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)

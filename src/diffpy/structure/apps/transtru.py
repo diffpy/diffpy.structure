@@ -37,16 +37,18 @@ import sys
 
 from diffpy.structure import Structure, StructureFormatError
 
-def usage(style = None):
+
+def usage(style=None):
     """show usage info, for style=="brief" show only first 2 lines"""
     import os.path
+
     myname = os.path.basename(sys.argv[0])
     msg = __doc__.replace("transtru", myname)
-    if style == 'brief':
-        msg = msg.split("\n")[1] + "\n" + \
-                "Try `%s --help' for more information." % myname
+    if style == "brief":
+        msg = msg.split("\n")[1] + "\n" + "Try `%s --help' for more information." % myname
     else:
         from diffpy.structure.parsers import inputFormats, outputFormats
+
         msg = msg.replace("inputFormats", " ".join(inputFormats()))
         msg = msg.replace("outputFormats", " ".join(outputFormats()))
     print(msg)
@@ -55,16 +57,17 @@ def usage(style = None):
 
 def version():
     from diffpy.structure import __version__
+
     print("diffpy.structure", __version__)
     return
 
 
 def main():
     import getopt
+
     # default parameters
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hV",
-                ["help", "version"])
+        opts, args = getopt.getopt(sys.argv[1:], "hV", ["help", "version"])
     except getopt.GetoptError as errmsg:
         print(errmsg, file=sys.stderr)
         sys.exit(2)
@@ -77,12 +80,13 @@ def main():
             version()
             sys.exit()
     if len(args) < 1:
-        usage('brief')
+        usage("brief")
         sys.exit()
     # process arguments
     from diffpy.structure.parsers import inputFormats, outputFormats
+
     try:
-        infmt, outfmt = args[0].split('..', 1)
+        infmt, outfmt = args[0].split("..", 1)
         if infmt not in inputFormats():
             print("'%s' is not valid input format" % infmt, file=sys.stderr)
             sys.exit(2)
@@ -100,7 +104,7 @@ def main():
             stru.readStr(sys.stdin.read(), infmt)
         else:
             stru.read(strufile, infmt)
-        sys.stdout.write( stru.writeStr(outfmt) )
+        sys.stdout.write(stru.writeStr(outfmt))
     except IndexError:
         print("strufile not specified", file=sys.stderr)
         sys.exit(2)

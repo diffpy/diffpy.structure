@@ -16,17 +16,18 @@
 """This module defines class Structure.
 """
 
-import copy as copymod
-import numpy
 import codecs
+import copy as copymod
+
+import numpy
 import six
 
-from diffpy.structure.lattice import Lattice
 from diffpy.structure.atom import Atom
-from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol
-from diffpy.structure.utils import isiterable
+from diffpy.structure.lattice import Lattice
+from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol, isiterable
 
 # ----------------------------------------------------------------------------
+
 
 class Structure(list):
     """Structure --> group of atoms
@@ -43,13 +44,11 @@ class Structure(list):
 
     # default values for instance attributes
 
-    title = ''
+    title = ""
     _lattice = None
     pdffit = None
 
-
-    def __init__(self, atoms=None, lattice=None, title=None,
-            filename=None, format=None):
+    def __init__(self, atoms=None, lattice=None, title=None, filename=None, format=None):
         """define group of atoms in a specified lattice.
 
         atoms    -- list of Atom instances to be included in this Structure.
@@ -75,7 +74,7 @@ class Structure(list):
             if any((atoms, lattice, title)):
                 emsg = "Cannot use filename and atoms arguments together."
                 raise ValueError(emsg)
-            readkwargs = (format is not None) and {'format' : format} or {}
+            readkwargs = (format is not None) and {"format": format} or {}
             self.read(filename, **readkwargs)
             return
         # copy initialization, must be first to allow lattice, title override
@@ -93,22 +92,19 @@ class Structure(list):
             self.extend(atoms)
         return
 
-
     def copy(self):
-        '''Return a copy of this Structure object.
-        '''
+        """Return a copy of this Structure object."""
         return copymod.copy(self)
 
-
     def __copy__(self, target=None):
-        '''Create a deep copy of this instance.
+        """Create a deep copy of this instance.
 
         target   -- optional target instance for copying, useful for
                     copying a derived class.  Defaults to new instance
                     of the same type as self.
 
         Return a duplicate instance of this object.
-        '''
+        """
         if target is None:
             target = Structure()
         elif target is self:
@@ -121,13 +117,11 @@ class Structure(list):
         target[:] = self
         return target
 
-
     def __str__(self):
         """simple string representation"""
         s_lattice = "lattice=%s" % self.lattice
-        s_atoms = '\n'.join([str(a) for a in self])
-        return s_lattice + '\n' + s_atoms
-
+        s_atoms = "\n".join([str(a) for a in self])
+        return s_lattice + "\n" + s_atoms
 
     def addNewAtom(self, *args, **kwargs):
         """Add new Atom instance to the end of this Structure.
@@ -136,18 +130,15 @@ class Structure(list):
 
         No return value.
         """
-        kwargs['lattice'] = self.lattice
+        kwargs["lattice"] = self.lattice
         a = Atom(*args, **kwargs)
         self.append(a, copy=False)
         return
 
-
     def getLastAtom(self):
-        """Return Reference to the last Atom in this structure.
-        """
+        """Return Reference to the last Atom in this structure."""
         last_atom = self[-1]
         return last_atom
-
 
     def assignUniqueLabels(self):
         """Set a unique label string for each atom in this structure.
@@ -160,13 +151,13 @@ class Structure(list):
         # support duplicate atom instances
         islabeled = set()
         for a in self:
-            if a in islabeled:  continue
+            if a in islabeled:
+                continue
             baresmbl = atomBareSymbol(a.element)
             elnum[baresmbl] = elnum.get(baresmbl, 0) + 1
             a.label = baresmbl + str(elnum[baresmbl])
             islabeled.add(a)
         return
-
 
     def distance(self, aid0, aid1):
         """Distance between 2 atoms, no periodic boundary conditions.
@@ -181,7 +172,6 @@ class Structure(list):
         # lookup by labels
         a0, a1 = self[aid0, aid1]
         return self.lattice.dist(a0.xyz, a1.xyz)
-
 
     def angle(self, aid0, aid1, aid2):
         """The bond angle at the second of three atoms in degrees.
@@ -200,7 +190,6 @@ class Structure(list):
         u12 = a2.xyz - a1.xyz
         return self.lattice.angle(u10, u12)
 
-
     def placeInLattice(self, new_lattice):
         """place structure into new_lattice coordinate system
 
@@ -218,8 +207,7 @@ class Structure(list):
         self.lattice = new_lattice
         return self
 
-
-    def read(self, filename, format='auto'):
+    def read(self, filename, format="auto"):
         """Load structure from a file, any original data become lost.
 
         filename -- file to be loaded
@@ -231,6 +219,7 @@ class Structure(list):
         """
         import diffpy.structure
         import diffpy.structure.parsers
+
         getParser = diffpy.structure.parsers.getParser
         p = getParser(format)
         new_structure = p.parseFile(filename)
@@ -242,13 +231,13 @@ class Structure(list):
             self[:] = new_structure
         if not self.title:
             import os.path
+
             tailname = os.path.basename(filename)
             tailbase = os.path.splitext(tailname)[0]
             self.title = tailbase
         return p
 
-
-    def readStr(self, s, format='auto'):
+    def readStr(self, s, format="auto"):
         """Load structure from a string, any original data become lost.
 
         s        -- string with structure definition
@@ -259,6 +248,7 @@ class Structure(list):
         can be inspected for information related to particular format.
         """
         from diffpy.structure.parsers import getParser
+
         p = getParser(format)
         new_structure = p.parse(s)
         # reinitialize data after successful parsing
@@ -269,7 +259,6 @@ class Structure(list):
             self[:] = new_structure
         return p
 
-
     def write(self, filename, format):
         """Save structure to file in the specified format
 
@@ -279,13 +268,13 @@ class Structure(list):
             from parsers import formats
         """
         from diffpy.structure.parsers import getParser
+
         p = getParser(format)
         p.filename = filename
         s = p.tostring(self)
-        with codecs.open(filename, 'w', encoding='UTF-8') as fp:
+        with codecs.open(filename, "w", encoding="UTF-8") as fp:
             fp.write(s)
         return
-
 
     def writeStr(self, format):
         """return string representation of the structure in specified format
@@ -294,14 +283,13 @@ class Structure(list):
             from parsers import formats
         """
         from diffpy.structure.parsers import getParser
+
         p = getParser(format)
         s = p.tostring(self)
         return s
 
-
     def tolist(self):
-        '''Return atoms in this Structure as a standard Python list.
-        '''
+        """Return atoms in this Structure as a standard Python list."""
         rv = [a for a in self]
         return rv
 
@@ -321,7 +309,6 @@ class Structure(list):
         super(Structure, self).append(adup)
         return
 
-
     def insert(self, idx, a, copy=True):
         """Insert atom a before position idx in this Structure.
 
@@ -336,7 +323,6 @@ class Structure(list):
         adup.lattice = self.lattice
         super(Structure, self).insert(idx, adup)
         return
-
 
     def extend(self, atoms, copy=None):
         """Extend Structure with an iterable of atoms.
@@ -359,18 +345,16 @@ class Structure(list):
                 newatoms = adups
             else:
                 memo = set(id(a) for a in self)
-                nextatom = lambda a: (a if id(a) not in memo
-                                      else copymod.copy(a))
+                nextatom = lambda a: (a if id(a) not in memo else copymod.copy(a))
                 mark = lambda a: (memo.add(id(a)), a)[-1]
                 newatoms = (mark(nextatom(a)) for a in atoms)
         elif copy:
             newatoms = adups
         else:
             newatoms = atoms
-        setlat = lambda a: (setattr(a, 'lattice', self.lattice), a)[-1]
+        setlat = lambda a: (setattr(a, "lattice", self.lattice), a)[-1]
         super(Structure, self).extend(setlat(a) for a in newatoms)
         return
-
 
     def __getitem__(self, idx):
         """Get one or more atoms in this structure.
@@ -406,8 +390,8 @@ class Structure(list):
         # check if there is any string label that should be resolved
         scalarstringlabel = isinstance(idx, six.string_types)
         hasstringlabel = scalarstringlabel or (
-            isiterable(idx) and
-            any(isinstance(ii, six.string_types) for ii in idx))
+            isiterable(idx) and any(isinstance(ii, six.string_types) for ii in idx)
+        )
         # if not, use numpy indexing to resolve idx
         if not hasstringlabel:
             idx1 = idx
@@ -423,8 +407,8 @@ class Structure(list):
         duplicate = object()
         labeltoindex = {}
         for i, a in enumerate(self):
-            labeltoindex[a.label] = (
-                duplicate if a.label in labeltoindex else i)
+            labeltoindex[a.label] = duplicate if a.label in labeltoindex else i
+
         def _resolveindex(aid):
             aid1 = aid
             if type(aid) is str:
@@ -434,6 +418,7 @@ class Structure(list):
                 if aid1 is duplicate:
                     raise IndexError("Atom label %r is not unique." % aid)
             return aid1
+
         # generate new index object that has no strings
         if scalarstringlabel:
             idx2 = _resolveindex(idx)
@@ -445,7 +430,6 @@ class Structure(list):
         # call this function again and hope there is no recursion loop
         rv = self[idx2]
         return rv
-
 
     def __setitem__(self, idx, value, copy=True):
         """Assign self[idx] atom to value.
@@ -459,9 +443,11 @@ class Structure(list):
         """
         # handle slice assignment
         if isinstance(idx, slice):
+
             def _fixlat(a):
                 a.lattice = self.lattice
                 return a
+
             v1 = value
             if copy:
                 keep = set(super(Structure, self).__getitem__(idx))
@@ -474,63 +460,58 @@ class Structure(list):
         super(Structure, self).__setitem__(idx, vfinal)
         return
 
-
     def __add__(self, other):
-        '''Return new Structure object with appended atoms from other.
+        """Return new Structure object with appended atoms from other.
 
         other    -- sequence of Atom instances
 
         Return new Structure with a copy of Atom instances.
-        '''
+        """
         rv = copymod.copy(self)
         rv += other
         return rv
 
-
     def __iadd__(self, other):
-        '''Extend this Structure with atoms from other.
+        """Extend this Structure with atoms from other.
 
         other    -- sequence of Atom instances
 
         Return self.
-        '''
+        """
         self.extend(other, copy=True)
         return self
 
-
     def __sub__(self, other):
-        '''Return new Structure that has atoms from the other removed.
+        """Return new Structure that has atoms from the other removed.
 
         other    -- sequence of Atom instances
 
         Return new Structure with a copy of Atom instances.
-        '''
+        """
         otherset = set(other)
         keepindices = [i for i, a in enumerate(self) if not a in otherset]
         rv = copymod.copy(self[keepindices])
         return rv
 
-
     def __isub__(self, other):
-        '''Remove other atoms if present in this structure.
+        """Remove other atoms if present in this structure.
 
         other    -- sequence of Atom instances
 
         Return self.
-        '''
+        """
         otherset = set(other)
         self[:] = [a for a in self if a not in otherset]
         return self
 
-
     def __mul__(self, n):
-        '''Return new Structure with n-times concatenated atoms from self.
+        """Return new Structure with n-times concatenated atoms from self.
         Atoms and lattice in the new structure are all copies.
 
         n    -- integer multiple
 
         Return new Structure.
-        '''
+        """
         rv = copymod.copy(self[:0])
         rv += n * self.tolist()
         return rv
@@ -538,16 +519,15 @@ class Structure(list):
     # right-side multiplication is the same as left-side
     __rmul__ = __mul__
 
-
     def __imul__(self, n):
-        '''Concatenate this Structure to n-times more atoms.
+        """Concatenate this Structure to n-times more atoms.
         For positive multiple the current Atom objects remain at the
         beginning of this Structure.
 
         n    -- integer multiple
 
         Return self.
-        '''
+        """
         if n <= 0:
             self[:] = []
         else:
@@ -562,12 +542,12 @@ class Structure(list):
         return self._lattice
 
     def _set_lattice(self, value):
-        for a in self:  a.lattice = value
+        for a in self:
+            a.lattice = value
         self._lattice = value
         return
 
-    lattice = property(_get_lattice, _set_lattice, doc =
-        "Coordinate system for this Structure.")
+    lattice = property(_get_lattice, _set_lattice, doc="Coordinate system for this Structure.")
 
     # composition
 
@@ -577,114 +557,160 @@ class Structure(list):
             rv[a.element] = rv.get(a.element, 0.0) + a.occupancy
         return rv
 
-    composition = property(_get_composition,
-        doc="Dictionary of chemical symbols and their total occupancies.")
+    composition = property(_get_composition, doc="Dictionary of chemical symbols and their total occupancies.")
 
     # linked atom attributes
 
-    element = _linkAtomAttribute('element',
-        '''Character array of atom types.  Assignment updates
-        the element attribute of the respective atoms.''',
-        toarray=numpy.char.array)
+    element = _linkAtomAttribute(
+        "element",
+        """Character array of atom types.  Assignment updates
+        the element attribute of the respective atoms.""",
+        toarray=numpy.char.array,
+    )
 
-    xyz = _linkAtomAttribute('xyz',
-        '''Array of fractional coordinates of all atoms.
-        Assignment updates xyz attribute of all atoms.''')
+    xyz = _linkAtomAttribute(
+        "xyz",
+        """Array of fractional coordinates of all atoms.
+        Assignment updates xyz attribute of all atoms.""",
+    )
 
-    x = _linkAtomAttribute('x',
-        '''Array of all fractional coordinates x.
-        Assignment updates xyz attribute of all atoms.''')
+    x = _linkAtomAttribute(
+        "x",
+        """Array of all fractional coordinates x.
+        Assignment updates xyz attribute of all atoms.""",
+    )
 
-    y = _linkAtomAttribute('y',
-        '''Array of all fractional coordinates y.
-        Assignment updates xyz attribute of all atoms.''')
+    y = _linkAtomAttribute(
+        "y",
+        """Array of all fractional coordinates y.
+        Assignment updates xyz attribute of all atoms.""",
+    )
 
-    z = _linkAtomAttribute('z',
-        '''Array of all fractional coordinates z.
-        Assignment updates xyz attribute of all atoms.''')
+    z = _linkAtomAttribute(
+        "z",
+        """Array of all fractional coordinates z.
+        Assignment updates xyz attribute of all atoms.""",
+    )
 
-    label = _linkAtomAttribute('label',
-        '''Character array of atom names.  Assignment updates
-        the label attribute of all atoms.''',
-        toarray=numpy.char.array)
+    label = _linkAtomAttribute(
+        "label",
+        """Character array of atom names.  Assignment updates
+        the label attribute of all atoms.""",
+        toarray=numpy.char.array,
+    )
 
-    occupancy = _linkAtomAttribute('occupancy',
-        '''Array of atom occupancies.  Assignment updates the
-        occupancy attribute of all atoms.''')
+    occupancy = _linkAtomAttribute(
+        "occupancy",
+        """Array of atom occupancies.  Assignment updates the
+        occupancy attribute of all atoms.""",
+    )
 
-    xyz_cartn = _linkAtomAttribute('xyz_cartn',
-        '''Array of absolute Cartesian coordinates of all atoms.
-        Assignment updates the xyz attribute of all atoms.''')
+    xyz_cartn = _linkAtomAttribute(
+        "xyz_cartn",
+        """Array of absolute Cartesian coordinates of all atoms.
+        Assignment updates the xyz attribute of all atoms.""",
+    )
 
-    anisotropy = _linkAtomAttribute('anisotropy',
-        '''Boolean array for anisotropic thermal displacement flags.
-        Assignment updates the anisotropy attribute of all atoms.''')
+    anisotropy = _linkAtomAttribute(
+        "anisotropy",
+        """Boolean array for anisotropic thermal displacement flags.
+        Assignment updates the anisotropy attribute of all atoms.""",
+    )
 
-    U = _linkAtomAttribute('U',
-        '''Array of anisotropic thermal displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    U = _linkAtomAttribute(
+        "U",
+        """Array of anisotropic thermal displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    Uisoequiv = _linkAtomAttribute('Uisoequiv',
-        '''Array of isotropic thermal displacement or equivalent values.
-        Assignment updates the U attribute of all atoms.''')
+    Uisoequiv = _linkAtomAttribute(
+        "Uisoequiv",
+        """Array of isotropic thermal displacement or equivalent values.
+        Assignment updates the U attribute of all atoms.""",
+    )
 
-    U11 = _linkAtomAttribute('U11',
-        '''Array of U11 elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    U11 = _linkAtomAttribute(
+        "U11",
+        """Array of U11 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    U22 = _linkAtomAttribute('U22',
-        '''Array of U22 elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    U22 = _linkAtomAttribute(
+        "U22",
+        """Array of U22 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    U33 = _linkAtomAttribute('U33',
-        '''Array of U33 elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    U33 = _linkAtomAttribute(
+        "U33",
+        """Array of U33 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    U12 = _linkAtomAttribute('U12',
-        '''Array of U12 elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    U12 = _linkAtomAttribute(
+        "U12",
+        """Array of U12 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    U13 = _linkAtomAttribute('U13',
-        '''Array of U13 elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    U13 = _linkAtomAttribute(
+        "U13",
+        """Array of U13 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    U23 = _linkAtomAttribute('U23',
-        '''Array of U23 elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    U23 = _linkAtomAttribute(
+        "U23",
+        """Array of U23 elements of the anisotropic displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    Bisoequiv = _linkAtomAttribute('Bisoequiv',
-        '''Array of Debye-Waller isotropic thermal displacement or equivalent
-        values.  Assignment updates the U attribute of all atoms.''')
+    Bisoequiv = _linkAtomAttribute(
+        "Bisoequiv",
+        """Array of Debye-Waller isotropic thermal displacement or equivalent
+        values.  Assignment updates the U attribute of all atoms.""",
+    )
 
-    B11 = _linkAtomAttribute('B11',
-        '''Array of B11 elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    B11 = _linkAtomAttribute(
+        "B11",
+        """Array of B11 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    B22 = _linkAtomAttribute('B22',
-        '''Array of B22 elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    B22 = _linkAtomAttribute(
+        "B22",
+        """Array of B22 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    B33 = _linkAtomAttribute('B33',
-        '''Array of B33 elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    B33 = _linkAtomAttribute(
+        "B33",
+        """Array of B33 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    B12 = _linkAtomAttribute('B12',
-        '''Array of B12 elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    B12 = _linkAtomAttribute(
+        "B12",
+        """Array of B12 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    B13 = _linkAtomAttribute('B13',
-        '''Array of B13 elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    B13 = _linkAtomAttribute(
+        "B13",
+        """Array of B13 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
-    B23 = _linkAtomAttribute('B23',
-        '''Array of B23 elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all atoms.''')
+    B23 = _linkAtomAttribute(
+        "B23",
+        """Array of B23 elements of the Debye-Waller displacement tensors.
+        Assignment updates the U and anisotropy attributes of all atoms.""",
+    )
 
     # Private Methods --------------------------------------------------------
 
     def __emptySharedStructure(self):
-        '''Return empty Structure with standard attributes same as in self.
-        '''
+        """Return empty Structure with standard attributes same as in self."""
         rv = Structure()
         rv.__dict__.update([(k, getattr(self, k)) for k in rv.__dict__])
         return rv
@@ -701,5 +727,6 @@ class Structure(list):
             return
 
     # ------------------------------------------------------------------------
+
 
 # End of class Structure

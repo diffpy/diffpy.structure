@@ -23,10 +23,11 @@ import six
 from diffpy.structure.lattice import cartesian as cartesian_lattice
 
 # conversion constants
-_BtoU = 1.0/(8 * numpy.pi**2)
-_UtoB = 1.0/_BtoU
+_BtoU = 1.0 / (8 * numpy.pi**2)
+_UtoB = 1.0 / _BtoU
 
 # ----------------------------------------------------------------------------
+
 
 class Atom(object):
     """
@@ -91,14 +92,23 @@ class Atom(object):
     #       Internal storage of the displacement parameters.
 
     # instance attributes that have immutable default values
-    element = ''
-    label = ''
+    element = ""
+    label = ""
     occupancy = 1.0
     _anisotropy = False
     lattice = None
 
-    def __init__(self, atype=None, xyz=None, label=None, occupancy=None,
-                 anisotropy=None, U=None, Uisoequiv=None, lattice=None):
+    def __init__(
+        self,
+        atype=None,
+        xyz=None,
+        label=None,
+        occupancy=None,
+        anisotropy=None,
+        U=None,
+        Uisoequiv=None,
+        lattice=None,
+    ):
         """
         Create atom of the specified type at the given lattice coordinates.
 
@@ -110,7 +120,7 @@ class Atom(object):
             raise ValueError(emsg)
         # declare data members
         self.xyz = numpy.zeros(3, dtype=float)
-        self._U = numpy.zeros((3,3), dtype=float)
+        self._U = numpy.zeros((3, 3), dtype=float)
         # assign them as needed
         if isinstance(atype, Atom):
             atype.__copy__(target=self)
@@ -137,7 +147,6 @@ class Atom(object):
             self.anisotropy = bool(anisotropy)
         return
 
-
     def msdLat(self, vl):
         """
         Calculate mean square displacement along the lattice vector.
@@ -152,18 +161,16 @@ class Atom(object):
         float
             The mean square displacement along *vl*.
         """
-        if not self.anisotropy:     return self.Uisoequiv
+        if not self.anisotropy:
+            return self.Uisoequiv
         # here we need to calculate msd
         lat = self.lattice or cartesian_lattice
-        vln = numpy.array(vl, dtype=float)/lat.norm(vl)
+        vln = numpy.array(vl, dtype=float) / lat.norm(vl)
         G = lat.metrics
-        rhs = numpy.array([ G[0]*lat.ar,
-                            G[1]*lat.br,
-                            G[2]*lat.cr ], dtype=float)
+        rhs = numpy.array([G[0] * lat.ar, G[1] * lat.br, G[2] * lat.cr], dtype=float)
         rhs = numpy.dot(rhs, vln)
         msd = numpy.dot(rhs, numpy.dot(self.U, rhs))
         return msd
-
 
     def msdCart(self, vc):
         """
@@ -179,7 +186,8 @@ class Atom(object):
         float
             The mean square displacement along *vc*.
         """
-        if not self.anisotropy:     return self.Uisoequiv
+        if not self.anisotropy:
+            return self.Uisoequiv
         # here we need to calculate msd
         lat = self.lattice or cartesian_lattice
         vcn = numpy.array(vc, dtype=float)
@@ -189,16 +197,13 @@ class Atom(object):
         msd = numpy.dot(vcn, numpy.dot(Uc, vcn))
         return msd
 
-
     def __repr__(self):
         """
         String representation of this Atom.
         """
         xyz = self.xyz
-        s = "%-4s %8.6f %8.6f %8.6f %6.4f" % \
-                (self.element, xyz[0], xyz[1], xyz[2], self.occupancy)
+        s = "%-4s %8.6f %8.6f %8.6f %6.4f" % (self.element, xyz[0], xyz[1], xyz[2], self.occupancy)
         return s
-
 
     def __copy__(self, target=None):
         """
@@ -228,15 +233,21 @@ class Atom(object):
 
     # property handlers ------------------------------------------------------
 
-    x = property(lambda self: self.xyz[0],
-                 lambda self, val: self.xyz.__setitem__(0, val),
-                 doc='float : fractional coordinate *x*, same as ``xyz[0]``.')
-    y = property(lambda self: self.xyz[1],
-                 lambda self, val: self.xyz.__setitem__(1, val),
-                 doc='float : fractional coordinate *y*, same as ``xyz[1]``.')
-    z = property(lambda self: self.xyz[2],
-                 lambda self, val: self.xyz.__setitem__(2, val),
-                 doc='float : fractional coordinate *z*, same as ``xyz[2]``.')
+    x = property(
+        lambda self: self.xyz[0],
+        lambda self, val: self.xyz.__setitem__(0, val),
+        doc="float : fractional coordinate *x*, same as ``xyz[0]``.",
+    )
+    y = property(
+        lambda self: self.xyz[1],
+        lambda self, val: self.xyz.__setitem__(1, val),
+        doc="float : fractional coordinate *y*, same as ``xyz[1]``.",
+    )
+    z = property(
+        lambda self: self.xyz[2],
+        lambda self, val: self.xyz.__setitem__(2, val),
+        doc="float : fractional coordinate *z*, same as ``xyz[2]``.",
+    )
 
     # xyz_cartn
 
@@ -350,15 +361,15 @@ class Atom(object):
         tensor *U*.
         """
 
-    U11 = property(lambda self : self._get_Uij(0, 0),
-                   lambda self, value : self._set_Uij(0, 0, value),
-                   doc=_doc_uii.format(0))
-    U22 = property(lambda self : self._get_Uij(1, 1),
-                   lambda self, value : self._set_Uij(1, 1, value),
-                   doc=_doc_uii.format(1))
-    U33 = property(lambda self : self._get_Uij(2, 2),
-                   lambda self, value : self._set_Uij(2, 2, value),
-                   doc=_doc_uii.format(2))
+    U11 = property(
+        lambda self: self._get_Uij(0, 0), lambda self, value: self._set_Uij(0, 0, value), doc=_doc_uii.format(0)
+    )
+    U22 = property(
+        lambda self: self._get_Uij(1, 1), lambda self, value: self._set_Uij(1, 1, value), doc=_doc_uii.format(1)
+    )
+    U33 = property(
+        lambda self: self._get_Uij(2, 2), lambda self, value: self._set_Uij(2, 2, value), doc=_doc_uii.format(2)
+    )
 
     _doc_uij = """
         float : The ``U[{0}, {1}]`` element of the displacement tensor `U`.
@@ -367,15 +378,15 @@ class Atom(object):
         has no effect when `anisotropy` is ``False``.
         """
 
-    U12 = property(lambda self : self._get_Uij(0, 1),
-                   lambda self, value : self._set_Uij(0, 1, value),
-                   doc=_doc_uij.format(0, 1))
-    U13 = property(lambda self : self._get_Uij(0, 2),
-                   lambda self, value : self._set_Uij(0, 2, value),
-                   doc=_doc_uij.format(0, 2))
-    U23 = property(lambda self : self._get_Uij(1, 2),
-                   lambda self, value : self._set_Uij(1, 2, value),
-                   doc=_doc_uij.format(1, 2))
+    U12 = property(
+        lambda self: self._get_Uij(0, 1), lambda self, value: self._set_Uij(0, 1, value), doc=_doc_uij.format(0, 1)
+    )
+    U13 = property(
+        lambda self: self._get_Uij(0, 2), lambda self, value: self._set_Uij(0, 2, value), doc=_doc_uij.format(0, 2)
+    )
+    U23 = property(
+        lambda self: self._get_Uij(1, 2), lambda self, value: self._set_Uij(1, 2, value), doc=_doc_uij.format(1, 2)
+    )
 
     # clean local variables
     del _doc_uii, _doc_uij
@@ -395,13 +406,18 @@ class Atom(object):
         if self.lattice is None:
             return numpy.trace(self._U) / 3.0
         lat = self.lattice
-        rv = 1.0 / 3.0 * (
-                self._U[0,0]*lat.ar*lat.ar*lat.a*lat.a +
-                self._U[1,1]*lat.br*lat.br*lat.b*lat.b +
-                self._U[2,2]*lat.cr*lat.cr*lat.c*lat.c +
-                2*self._U[0,1]*lat.ar*lat.br*lat.a*lat.b*lat.cg +
-                2*self._U[0,2]*lat.ar*lat.cr*lat.a*lat.c*lat.cb +
-                2*self._U[1,2]*lat.br*lat.cr*lat.b*lat.c*lat.ca)
+        rv = (
+            1.0
+            / 3.0
+            * (
+                self._U[0, 0] * lat.ar * lat.ar * lat.a * lat.a
+                + self._U[1, 1] * lat.br * lat.br * lat.b * lat.b
+                + self._U[2, 2] * lat.cr * lat.cr * lat.c * lat.c
+                + 2 * self._U[0, 1] * lat.ar * lat.br * lat.a * lat.b * lat.cg
+                + 2 * self._U[0, 2] * lat.ar * lat.cr * lat.a * lat.c * lat.cb
+                + 2 * self._U[1, 2] * lat.br * lat.cr * lat.b * lat.c * lat.ca
+            )
+        )
         return rv
 
     @Uisoequiv.setter
@@ -436,24 +452,36 @@ class Atom(object):
         when `anisotropy` is ``False``.
         """
 
-    B11 = property(lambda self : _UtoB * self._get_Uij(0, 0),
-                   lambda self, value : self._set_Uij(0, 0, _BtoU * value),
-                   doc=_doc_bii.format(1))
-    B22 = property(lambda self : _UtoB * self._get_Uij(1, 1),
-                   lambda self, value : self._set_Uij(1, 1, _BtoU * value),
-                   doc=_doc_bii.format(2))
-    B33 = property(lambda self : _UtoB * self._get_Uij(2, 2),
-                   lambda self, value : self._set_Uij(2, 2, _BtoU * value),
-                   doc=_doc_bii.format(3))
-    B12 = property(lambda self : _UtoB * self._get_Uij(0, 1),
-                   lambda self, value : self._set_Uij(0, 1, _BtoU * value),
-                   doc=_doc_bij.format(1, 2))
-    B13 = property(lambda self : _UtoB * self._get_Uij(0, 2),
-                   lambda self, value : self._set_Uij(0, 2, _BtoU * value),
-                   doc=_doc_bij.format(1, 3))
-    B23 = property(lambda self : _UtoB * self._get_Uij(1, 2),
-                   lambda self, value : self._set_Uij(1, 2, _BtoU * value),
-                   doc=_doc_bij.format(2, 3))
+    B11 = property(
+        lambda self: _UtoB * self._get_Uij(0, 0),
+        lambda self, value: self._set_Uij(0, 0, _BtoU * value),
+        doc=_doc_bii.format(1),
+    )
+    B22 = property(
+        lambda self: _UtoB * self._get_Uij(1, 1),
+        lambda self, value: self._set_Uij(1, 1, _BtoU * value),
+        doc=_doc_bii.format(2),
+    )
+    B33 = property(
+        lambda self: _UtoB * self._get_Uij(2, 2),
+        lambda self, value: self._set_Uij(2, 2, _BtoU * value),
+        doc=_doc_bii.format(3),
+    )
+    B12 = property(
+        lambda self: _UtoB * self._get_Uij(0, 1),
+        lambda self, value: self._set_Uij(0, 1, _BtoU * value),
+        doc=_doc_bij.format(1, 2),
+    )
+    B13 = property(
+        lambda self: _UtoB * self._get_Uij(0, 2),
+        lambda self, value: self._set_Uij(0, 2, _BtoU * value),
+        doc=_doc_bij.format(1, 3),
+    )
+    B23 = property(
+        lambda self: _UtoB * self._get_Uij(1, 2),
+        lambda self, value: self._set_Uij(1, 2, _BtoU * value),
+        doc=_doc_bij.format(2, 3),
+    )
 
     # clean local variables
     del _doc_bii, _doc_bij
@@ -476,9 +504,11 @@ class Atom(object):
         self.Uisoequiv = _BtoU * value
         return
 
+
 # End of class Atom
 
 # Local Helpers --------------------------------------------------------------
+
 
 class _AtomCartesianCoordinates(numpy.ndarray):
     """
@@ -499,12 +529,10 @@ class _AtomCartesianCoordinates(numpy.ndarray):
         """
         return numpy.empty(3, dtype=float).view(self)
 
-
     def __init__(self, atom):
         self._atom = atom
         self.asarray[:] = atom.lattice.cartesian(atom.xyz)
         return
-
 
     @property
     def asarray(self):
@@ -512,7 +540,6 @@ class _AtomCartesianCoordinates(numpy.ndarray):
         ndarray : This array viewed as standard numpy array.
         """
         return self.view(numpy.ndarray)
-
 
     def __setitem__(self, idx, value):
         """
@@ -524,7 +551,6 @@ class _AtomCartesianCoordinates(numpy.ndarray):
         self.asarray[idx] = value
         self._atom.xyz[:] = self._atom.lattice.fractional(self)
         return
-
 
     def __array_wrap__(self, out_arr, context=None):
         """
@@ -541,5 +567,6 @@ class _AtomCartesianCoordinates(numpy.ndarray):
             return
 
     # ------------------------------------------------------------------------
+
 
 # End of _AtomCartesianCoordinates

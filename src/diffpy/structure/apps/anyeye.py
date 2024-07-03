@@ -35,31 +35,34 @@ Options:
 
 from __future__ import print_function
 
-import sys
 import os
 import re
 import signal
+import sys
+
 from diffpy.structure import StructureFormatError
 
 # parameter dictionary
-pd = {  'formula' : None,
-        'watch' : False,
-        'viewer' : 'atomeye',
-        'formats' : ['xcfg', 'pdb'],
+pd = {
+    "formula": None,
+    "watch": False,
+    "viewer": "atomeye",
+    "formats": ["xcfg", "pdb"],
 }
 
 
-def usage(style = None):
+def usage(style=None):
     """show usage info, for style=="brief" show only first 2 lines"""
     import os.path
+
     myname = os.path.basename(sys.argv[0])
     msg = __doc__.replace("anyeye", myname)
-    if style == 'brief':
-        msg = msg.split("\n")[1] + "\n" + \
-                "Try `%s --help' for more information." % myname
+    if style == "brief":
+        msg = msg.split("\n")[1] + "\n" + "Try `%s --help' for more information." % myname
     else:
         from diffpy.structure.parsers import inputFormats
-        fmts = [ f for f in inputFormats() if f != 'auto' ]
+
+        fmts = [f for f in inputFormats() if f != "auto"]
         msg = msg.replace("inputFormats", " ".join(fmts))
     print(msg)
     return
@@ -67,6 +70,7 @@ def usage(style = None):
 
 def version():
     from diffpy.structure import __version__
+
     print("anyeye", __version__)
     return
 
@@ -77,6 +81,7 @@ def loadStructureFile(filename, format="auto"):
     Return a tuple of (Structure, fileformat).
     """
     from diffpy.structure import Structure
+
     stru = Structure()
     p = stru.read(filename, format)
     fileformat = p.format
@@ -85,48 +90,51 @@ def loadStructureFile(filename, format="auto"):
 
 def convertStructureFile(pd):
     # make temporary directory on the first pass
-    if 'tmpdir' not in pd:
+    if "tmpdir" not in pd:
         from tempfile import mkdtemp
-        pd['tmpdir'] = mkdtemp()
-    strufile = pd['strufile']
-    tmpfile = os.path.join(pd['tmpdir'], os.path.basename(strufile))
-    pd['tmpfile'] = tmpfile
+
+        pd["tmpdir"] = mkdtemp()
+    strufile = pd["strufile"]
+    tmpfile = os.path.join(pd["tmpdir"], os.path.basename(strufile))
+    pd["tmpfile"] = tmpfile
     # speed up file processing in the watch mode
-    fmt = pd.get('format', 'auto')
+    fmt = pd.get("format", "auto")
     stru = None
-    if fmt == 'auto':
+    if fmt == "auto":
         stru, fmt = loadStructureFile(strufile)
-        pd['fmt'] = fmt
+        pd["fmt"] = fmt
     # if fmt is recognized by the viewer, use as is
-    if fmt in pd['formats'] and pd['formula'] is None:
+    if fmt in pd["formats"] and pd["formula"] is None:
         import shutil
-        shutil.copyfile(strufile, tmpfile+'.tmp')
-        os.rename(tmpfile+'.tmp', tmpfile)
+
+        shutil.copyfile(strufile, tmpfile + ".tmp")
+        os.rename(tmpfile + ".tmp", tmpfile)
         return
     # otherwise convert to the first recognized viewer format
     if stru is None:
         stru = loadStructureFile(strufile, fmt)[0]
-    if pd['formula']:
-        formula = pd['formula']
+    if pd["formula"]:
+        formula = pd["formula"]
         if len(formula) != len(stru):
-            emsg = "Formula has %i atoms while structure %i" % (
-                            len(formula), len(stru) )
+            emsg = "Formula has %i atoms while structure %i" % (len(formula), len(stru))
             raise RuntimeError(emsg)
         for a, el in zip(stru, formula):
             a.element = el
     elif format == "rawxyz":
         for a in stru:
-            if a.element == "": a.element = "C"
-    stru.write(tmpfile+'.tmp', pd['formats'][0])
-    os.rename(tmpfile+'.tmp', tmpfile)
+            if a.element == "":
+                a.element = "C"
+    stru.write(tmpfile + ".tmp", pd["formats"][0])
+    os.rename(tmpfile + ".tmp", tmpfile)
     return
 
 
 def watchStructureFile(pd):
     from time import sleep
-    strufile = pd['strufile']
-    tmpfile  = pd['tmpfile']
-    while pd['watch']:
+
+    strufile = pd["strufile"]
+    tmpfile = pd["tmpfile"]
+    while pd["watch"]:
         if os.path.getmtime(tmpfile) < os.path.getmtime(strufile):
             convertStructureFile(pd)
         sleep(1)
@@ -134,31 +142,31 @@ def watchStructureFile(pd):
 
 
 def cleanUp(pd):
-    if 'tmpfile' in pd:
-        os.remove(pd['tmpfile'])
-        del pd['tmpfile']
-    if 'tmpdir' in pd:
-        os.rmdir(pd['tmpdir'])
-        del pd['tmpdir']
+    if "tmpfile" in pd:
+        os.remove(pd["tmpfile"])
+        del pd["tmpfile"]
+    if "tmpdir" in pd:
+        os.rmdir(pd["tmpdir"])
+        del pd["tmpdir"]
     return
 
 
 def parseFormula(formula):
     """parse chemical formula and return a list of elements"""
     # remove all blanks
-    formula = re.sub(r'\s', '', formula)
-    if not re.match('^[A-Z]', formula):
+    formula = re.sub(r"\s", "", formula)
+    if not re.match("^[A-Z]", formula):
         raise RuntimeError("InvalidFormula '%s'" % formula)
-    elcnt = re.split('([A-Z][a-z]?)', formula)[1:]
+    elcnt = re.split("([A-Z][a-z]?)", formula)[1:]
     ellst = []
     try:
         for i in range(0, len(elcnt), 2):
             el = elcnt[i]
-            cnt = elcnt[i+1]
+            cnt = elcnt[i + 1]
             cnt = (cnt == "") and 1 or int(cnt)
-            ellst.extend(cnt*[el])
+            ellst.extend(cnt * [el])
     except ValueError:
-        emsg = "Invalid formula, %r is not valid count" % elcnt[i+1]
+        emsg = "Invalid formula, %r is not valid count" % elcnt[i + 1]
         raise RuntimeError(emsg)
     return ellst
 
@@ -173,7 +181,7 @@ def signalHandler(signum, stackframe):
     signal.signal(signum, signal.SIG_DFL)
     if signum == signal.SIGCHLD:
         pid, exit_status = os.wait()
-        exit_status = (exit_status >> 8) + (exit_status & 0x00ff)
+        exit_status = (exit_status >> 8) + (exit_status & 0x00FF)
         die(exit_status, pd)
     else:
         die(1, pd)
@@ -182,12 +190,13 @@ def signalHandler(signum, stackframe):
 
 def main():
     import getopt
+
     # default parameters
-    pd['watch'] = False
+    pd["watch"] = False
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "f:whV",
-                ["formula=", "watch", "viewer=", "formats=",
-                "help", "version"])
+        opts, args = getopt.getopt(
+            sys.argv[1:], "f:whV", ["formula=", "watch", "viewer=", "formats=", "help", "version"]
+        )
     except getopt.GetoptError as errmsg:
         print(errmsg, file=sys.stderr)
         die(2)
@@ -195,16 +204,16 @@ def main():
     for o, a in opts:
         if o in ("-f", "--formula"):
             try:
-                pd['formula'] = parseFormula(a)
+                pd["formula"] = parseFormula(a)
             except RuntimeError as msg:
                 print(msg, file=sys.stderr)
                 die(2)
         elif o in ("-w", "--watch"):
-            pd['watch'] = True
+            pd["watch"] = True
         elif o == "--viewer":
-            pd['viewer'] = a
+            pd["viewer"] = a
         elif o == "--formats":
-            pd['formats'] = [w.strip() for w in a.split(',')]
+            pd["formats"] = [w.strip() for w in a.split(",")]
         elif o in ("-h", "--help"):
             usage()
             die()
@@ -212,12 +221,12 @@ def main():
             version()
             die()
     if len(args) < 1:
-        usage('brief')
+        usage("brief")
         die()
     elif len(args) > 1:
         print("too many structure files", file=sys.stderr)
         die(2)
-    pd['strufile'] = args[0]
+    pd["strufile"] = args[0]
     # trap the following signals
     signal.signal(signal.SIGHUP, signalHandler)
     signal.signal(signal.SIGQUIT, signalHandler)
@@ -225,14 +234,14 @@ def main():
     signal.signal(signal.SIGTERM, signalHandler)
     signal.signal(signal.SIGINT, signalHandler)
     env = os.environ.copy()
-    if os.path.basename(pd['viewer']).startswith('atomeye'):
-        env['XLIB_SKIP_ARGB_VISUALS'] = "1"
+    if os.path.basename(pd["viewer"]).startswith("atomeye"):
+        env["XLIB_SKIP_ARGB_VISUALS"] = "1"
     # try to run the thing:
     try:
         convertStructureFile(pd)
-        spawnargs = (pd['viewer'], pd['viewer'], pd['tmpfile'], env)
+        spawnargs = (pd["viewer"], pd["viewer"], pd["tmpfile"], env)
         # load strufile in atomeye
-        if pd['watch']:
+        if pd["watch"]:
             signal.signal(signal.SIGCLD, signalHandler)
             os.spawnlpe(os.P_NOWAIT, *spawnargs)
             watchStructureFile(pd)

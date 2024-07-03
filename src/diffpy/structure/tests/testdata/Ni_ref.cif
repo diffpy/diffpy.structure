@@ -18,4 +18,3 @@ _atom_site_occupancy
 _atom_site_adp_type
 _atom_site_U_iso_or_equiv
 Ni Ni 0.00000000 0.00000000 0.00000000 1.00000000 Uiso 0.025
-

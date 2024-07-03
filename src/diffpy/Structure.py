@@ -29,6 +29,6 @@ import sys
 import diffpy.structure._legacy_importer
 
 # replace this module with the new one
-sys.modules['diffpy.Structure'] = diffpy.structure
+sys.modules["diffpy.Structure"] = diffpy.structure
 
 # End of file

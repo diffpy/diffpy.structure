@@ -32,8 +32,8 @@ Content:
 """
 
 from diffpy.structure import StructureFormatError
-from diffpy.structure.parsers.structureparser import StructureParser
 from diffpy.structure.parsers.parser_index_mod import parser_index
+from diffpy.structure.parsers.structureparser import StructureParser
 
 # silence pyflakes checker
 assert StructureParser
@@ -49,24 +49,22 @@ def getParser(format, **kw):
     if format not in parser_index:
         emsg = "no parser for '%s' format" % format
         raise StructureFormatError(emsg)
-    pmod = parser_index[format]['module']
+    pmod = parser_index[format]["module"]
     ns = {}
-    import_cmd = 'from diffpy.structure.parsers import %s as pm' % pmod
+    import_cmd = "from diffpy.structure.parsers import %s as pm" % pmod
     exec(import_cmd, ns)
-    return ns['pm'].getParser(**kw)
+    return ns["pm"].getParser(**kw)
 
 
 def inputFormats():
     """Return list of implemented input structure formats"""
-    input_formats = [ fmt for fmt, prop in parser_index.items()
-            if prop['has_input'] ]
+    input_formats = [fmt for fmt, prop in parser_index.items() if prop["has_input"]]
     input_formats.sort()
     return input_formats
 
 
 def outputFormats():
     """return list of implemented output structure formats"""
-    output_formats = [ fmt for fmt, prop in parser_index.items()
-            if prop['has_output'] ]
+    output_formats = [fmt for fmt, prop in parser_index.items() if prop["has_output"]]
     output_formats.sort()
     return output_formats

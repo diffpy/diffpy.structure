@@ -16,19 +16,20 @@
 """Exceptions used in Structure package.
 """
 
+
 class StructureFormatError(Exception):
-    """Exception for failed IO from Structure file
-    """
+    """Exception for failed IO from Structure file"""
+
     pass
 
 
 class LatticeError(Exception):
-    """Exception for impossible lattice parameters.
-    """
+    """Exception for impossible lattice parameters."""
+
     pass
 
 
 class SymmetryError(Exception):
-    """Exception raised for invalid symmetry operations.
-    """
+    """Exception raised for invalid symmetry operations."""
+
     pass

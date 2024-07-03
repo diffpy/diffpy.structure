@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.structure  by DANSE Diffraction group
-#                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
-#                   All rights reserved.
+# (c) 2024 The Trustees of Columbia University in the City of New York.
+# All rights reserved.
 #
-# File coded by:    Pavol Juhas
+# File coded by: Billinge Group members and community contributors.
 #
-# See AUTHORS.txt for a list of people who contributed.
-# See LICENSE_DANSE.txt for license information.
+# See GitHub contributions for a more detailed list of contributors.
+# https://github.com/diffpy/diffpy.structure/graphs/contributors
+#
+# See LICENSE.rst for license information.
 #
 ##############################################################################
 
@@ -27,19 +27,23 @@ Exceptions:
 
 # Interface definitions ------------------------------------------------------
 
-from diffpy.structure.structureerrors import (StructureFormatError,
-        LatticeError, SymmetryError)
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
-from diffpy.structure.structure import Structure
 from diffpy.structure.pdffitstructure import PDFFitStructure
+from diffpy.structure.structure import Structure
+from diffpy.structure.structureerrors import LatticeError, StructureFormatError, SymmetryError
 
 # obtain version information
+
+"""Crystal structure container and parsers for structure formats."""
+
+# package version
 from diffpy.structure.version import __version__
 
 # top level routines
 
-def loadStructure(filename, fmt='auto', **kw):
+
+def loadStructure(filename, fmt="auto", **kw):
     """
     Load new structure object from the specified file.
 
@@ -65,15 +69,20 @@ def loadStructure(filename, fmt='auto', **kw):
         and 'discus' formats.
     """
     from diffpy.structure.parsers import getParser
+
     p = getParser(fmt, **kw)
     rv = p.parseFile(filename)
     return rv
 
+
 # silence pyflakes checker
-assert (StructureFormatError and
-        LatticeError and SymmetryError)
+assert StructureFormatError and LatticeError and SymmetryError
 assert Atom
 assert Lattice
 assert Structure
 assert PDFFitStructure
+
+# silence the pyflakes syntax checker
 assert __version__ or True
+
+# End of file
