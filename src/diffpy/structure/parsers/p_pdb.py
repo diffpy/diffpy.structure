@@ -27,8 +27,9 @@ import numpy
 import six
 from numpy import pi
 
-from diffpy.structure import Structure, StructureFormatError
+from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
+from diffpy.structure.structureerrors import StructureFormatError
 
 
 class P_pdb(StructureParser):

@@ -16,182 +16,13 @@
 """Space group classes and definitions from mmLib and sgtbx.
 """
 
+import copy
+
 import six
-
-from diffpy.structure.mmlibspacegroups import mmLibSpaceGroupList
-from diffpy.structure.sgtbxspacegroups import sgtbxSpaceGroupList
-from diffpy.structure.spacegroupmod import SpaceGroup, SymOp
-
-# all spacegroup definitions
-SpaceGroupList = mmLibSpaceGroupList + sgtbxSpaceGroupList
-
-
-def GetSpaceGroup(sgid):
-    """Returns the SpaceGroup instance for the given identifier.
-
-    sgid -- space group symbol, either short_name or pdb_name,
-            whatever it means in mmlib.  Can be also an integer.
-
-    Return space group instance.
-    Raise ValueError when not found.
-    """
-    if not _sg_lookup_table:
-        _buildSGLookupTable()
-    if sgid in _sg_lookup_table:
-        return _sg_lookup_table[sgid]
-    # Try different versions of sgid, first make sure it is a string
-    emsg = "Unknown space group identifier %r" % sgid
-    if not isinstance(sgid, six.string_types):
-        raise ValueError(emsg)
-    sgbare = sgid.strip()
-    # short_name case adjusted
-    sgkey = sgbare.replace(" ", "")
-    sgkey = sgkey[:1].upper() + sgkey[1:].lower()
-    if sgkey in _sg_lookup_table:
-        return _sg_lookup_table[sgkey]
-    # pdb_name case adjusted
-    sgkey = sgbare[:1].upper() + sgbare[1:].lower()
-    if sgkey in _sg_lookup_table:
-        return _sg_lookup_table[sgkey]
-    # nothing worked, sgid is unknown identifier
-    raise ValueError(emsg)
-
-
-def IsSpaceGroupIdentifier(sgid):
-    """Check if identifier can be used as an argument to GetSpaceGroup.
-
-    Return bool.
-    """
-    try:
-        GetSpaceGroup(sgid)
-        rv = True
-    except ValueError:
-        rv = False
-    return rv
-
-
-def FindSpaceGroup(symops, shuffle=False):
-    """Lookup SpaceGroup from a given list of symmetry operations.
-
-    Parameters
-    ----------
-    symops : list
-        The list of `SymOp` objects for which to find SpaceGroup.
-    shuffle : bool, optional
-        Flag for allowing different order of symops in the returned
-        SpaceGroup.  The default is ``False``.
-
-    Returns
-    -------
-    SpaceGroup
-        The SpaceGroup object with equivalent list of symmetry
-        operations.  Return predefined SpaceGroup instance when
-        symmetry operations have the same order or when the
-        `shuffle` flag is set.
-
-    Raises
-    ------
-    ValueError
-        When `symops` do not match any known SpaceGroup.
-    """
-    import copy
-
-    from six.moves import zip_longest
-
-    tb = _getSGHashLookupTable()
-    hh = _hashSymOpList(symops)
-    if not hh in tb:
-        raise ValueError("Cannot find SpaceGroup for the specified symops.")
-    rv = tb[hh]
-    if not shuffle:
-        zz = zip_longest(rv.iter_symops(), symops, fillvalue="")
-        sameorder = all(str(o0) == str(o1) for o0, o1 in zz)
-        if not sameorder:
-            rv = copy.copy(rv)
-            rv.symop_list = symops
-    return rv
-
-
-def _hashSymOpList(symops):
-    """Return hash value for a sequence of `SymOp` objects.
-
-    The symops are sorted so the results is independent of symops order.
-
-    Parameters
-    ----------
-    symops : sequence
-        The sequence of `SymOp` objects to be hashed
-
-    Returns
-    -------
-    int
-        The hash value.
-    """
-    ssop = sorted(str(o) for o in symops)
-    rv = hash(tuple(ssop))
-    return rv
-
-
-def _buildSGLookupTable():
-    """Rebuild space group lookup table from the SpaceGroupList data.
-
-    This routine updates the global _sg_lookup_table dictionary.
-    No return value.
-    """
-    _sg_lookup_table.clear()
-    for sg in SpaceGroupList:
-        _sg_lookup_table.setdefault(sg.number, sg)
-        _sg_lookup_table.setdefault(str(sg.number), sg)
-        _sg_lookup_table.setdefault(sg.short_name, sg)
-        _sg_lookup_table.setdefault(sg.pdb_name, sg)
-    # extra aliases obtained from matching code in
-    # cctbx::sgtbx::symbols::find_main_symbol_dict_entry
-    alias_hmname = [
-        ("Pm3", "P m -3"),
-        ("Pn3", "P n -3"),
-        ("Fm3", "F m -3"),
-        ("Fd3", "F d -3"),
-        ("Im3", "I m -3"),
-        ("Pa3", "P a -3"),
-        ("Ia3", "I a -3"),
-        ("Pm3m", "P m -3 m"),
-        ("Pn3n", "P n -3 n"),
-        ("Pm3n", "P m -3 n"),
-        ("Pn3m", "P n -3 m"),
-        ("Fm3m", "F m -3 m"),
-        ("Fm3c", "F m -3 c"),
-        ("Fd3m", "F d -3 m"),
-        ("Fd3c", "F d -3 c"),
-        ("Im3m", "I m -3 m"),
-        ("Ia3d", "I a -3 d"),
-    ]
-    for a, hm in alias_hmname:
-        hmbare = hm.replace(" ", "")
-        _sg_lookup_table.setdefault(a, _sg_lookup_table[hmbare])
-    # make sure None does not sneak into the dictionary
-    assert not None in _sg_lookup_table
-    return
-
-
-_sg_lookup_table = {}
-
-
-def _getSGHashLookupTable():
-    """Return lookup table of symop hashes to standard SpaceGroup objects."""
-    if _sg_hash_lookup_table:
-        return _sg_hash_lookup_table
-    for sg in SpaceGroupList:
-        h = _hashSymOpList(sg.symop_list)
-        _sg_hash_lookup_table[h] = sg
-    assert len(_sg_hash_lookup_table) == len(SpaceGroupList)
-    return _getSGHashLookupTable()
-
-
-_sg_hash_lookup_table = {}
-
-# Import SpaceGroup objects --------------------------------------------------
+from six.moves import zip_longest
 
 from diffpy.structure.mmlibspacegroups import (
+    mmLibSpaceGroupList,
     sg1,
     sg2,
     sg3,
@@ -708,6 +539,7 @@ from diffpy.structure.sgtbxspacegroups import (
     sg16015,
     sg17009,
     sg17015,
+    sgtbxSpaceGroupList,
 )
 from diffpy.structure.spacegroupmod import (
     Rot_mX_mXY_mZ,
@@ -774,6 +606,8 @@ from diffpy.structure.spacegroupmod import (
     Rot_Z_X_Y,
     Rot_Z_Y_mX,
     Rot_Z_Y_X,
+    SpaceGroup,
+    SymOp,
     Tr_0_0_0,
     Tr_0_0_12,
     Tr_0_0_13,
@@ -807,6 +641,173 @@ from diffpy.structure.spacegroupmod import (
     Tr_34_34_14,
     Tr_34_34_34,
 )
+
+# Import SpaceGroup objects --------------------------------------------------
+
+
+# all spacegroup definitions
+SpaceGroupList = mmLibSpaceGroupList + sgtbxSpaceGroupList
+
+
+def GetSpaceGroup(sgid):
+    """Returns the SpaceGroup instance for the given identifier.
+
+    sgid -- space group symbol, either short_name or pdb_name,
+            whatever it means in mmlib.  Can be also an integer.
+
+    Return space group instance.
+    Raise ValueError when not found.
+    """
+    if not _sg_lookup_table:
+        _buildSGLookupTable()
+    if sgid in _sg_lookup_table:
+        return _sg_lookup_table[sgid]
+    # Try different versions of sgid, first make sure it is a string
+    emsg = "Unknown space group identifier %r" % sgid
+    if not isinstance(sgid, six.string_types):
+        raise ValueError(emsg)
+    sgbare = sgid.strip()
+    # short_name case adjusted
+    sgkey = sgbare.replace(" ", "")
+    sgkey = sgkey[:1].upper() + sgkey[1:].lower()
+    if sgkey in _sg_lookup_table:
+        return _sg_lookup_table[sgkey]
+    # pdb_name case adjusted
+    sgkey = sgbare[:1].upper() + sgbare[1:].lower()
+    if sgkey in _sg_lookup_table:
+        return _sg_lookup_table[sgkey]
+    # nothing worked, sgid is unknown identifier
+    raise ValueError(emsg)
+
+
+def IsSpaceGroupIdentifier(sgid):
+    """Check if identifier can be used as an argument to GetSpaceGroup.
+
+    Return bool.
+    """
+    try:
+        GetSpaceGroup(sgid)
+        rv = True
+    except ValueError:
+        rv = False
+    return rv
+
+
+def FindSpaceGroup(symops, shuffle=False):
+    """Lookup SpaceGroup from a given list of symmetry operations.
+
+    Parameters
+    ----------
+    symops : list
+        The list of `SymOp` objects for which to find SpaceGroup.
+    shuffle : bool, optional
+        Flag for allowing different order of symops in the returned
+        SpaceGroup.  The default is ``False``.
+
+    Returns
+    -------
+    SpaceGroup
+        The SpaceGroup object with equivalent list of symmetry
+        operations.  Return predefined SpaceGroup instance when
+        symmetry operations have the same order or when the
+        `shuffle` flag is set.
+
+    Raises
+    ------
+    ValueError
+        When `symops` do not match any known SpaceGroup.
+    """
+
+    tb = _getSGHashLookupTable()
+    hh = _hashSymOpList(symops)
+    if hh not in tb:
+        raise ValueError("Cannot find SpaceGroup for the specified symops.")
+    rv = tb[hh]
+    if not shuffle:
+        zz = zip_longest(rv.iter_symops(), symops, fillvalue="")
+        sameorder = all(str(o0) == str(o1) for o0, o1 in zz)
+        if not sameorder:
+            rv = copy.copy(rv)
+            rv.symop_list = symops
+    return rv
+
+
+def _hashSymOpList(symops):
+    """Return hash value for a sequence of `SymOp` objects.
+
+    The symops are sorted so the results is independent of symops order.
+
+    Parameters
+    ----------
+    symops : sequence
+        The sequence of `SymOp` objects to be hashed
+
+    Returns
+    -------
+    int
+        The hash value.
+    """
+    ssop = sorted(str(o) for o in symops)
+    rv = hash(tuple(ssop))
+    return rv
+
+
+def _buildSGLookupTable():
+    """Rebuild space group lookup table from the SpaceGroupList data.
+
+    This routine updates the global _sg_lookup_table dictionary.
+    No return value.
+    """
+    _sg_lookup_table.clear()
+    for sg in SpaceGroupList:
+        _sg_lookup_table.setdefault(sg.number, sg)
+        _sg_lookup_table.setdefault(str(sg.number), sg)
+        _sg_lookup_table.setdefault(sg.short_name, sg)
+        _sg_lookup_table.setdefault(sg.pdb_name, sg)
+    # extra aliases obtained from matching code in
+    # cctbx::sgtbx::symbols::find_main_symbol_dict_entry
+    alias_hmname = [
+        ("Pm3", "P m -3"),
+        ("Pn3", "P n -3"),
+        ("Fm3", "F m -3"),
+        ("Fd3", "F d -3"),
+        ("Im3", "I m -3"),
+        ("Pa3", "P a -3"),
+        ("Ia3", "I a -3"),
+        ("Pm3m", "P m -3 m"),
+        ("Pn3n", "P n -3 n"),
+        ("Pm3n", "P m -3 n"),
+        ("Pn3m", "P n -3 m"),
+        ("Fm3m", "F m -3 m"),
+        ("Fm3c", "F m -3 c"),
+        ("Fd3m", "F d -3 m"),
+        ("Fd3c", "F d -3 c"),
+        ("Im3m", "I m -3 m"),
+        ("Ia3d", "I a -3 d"),
+    ]
+    for a, hm in alias_hmname:
+        hmbare = hm.replace(" ", "")
+        _sg_lookup_table.setdefault(a, _sg_lookup_table[hmbare])
+    # make sure None does not sneak into the dictionary
+    assert None not in _sg_lookup_table
+    return
+
+
+_sg_lookup_table = {}
+
+
+def _getSGHashLookupTable():
+    """Return lookup table of symop hashes to standard SpaceGroup objects."""
+    if _sg_hash_lookup_table:
+        return _sg_hash_lookup_table
+    for sg in SpaceGroupList:
+        h = _hashSymOpList(sg.symop_list)
+        _sg_hash_lookup_table[h] = sg
+    assert len(_sg_hash_lookup_table) == len(SpaceGroupList)
+    return _getSGHashLookupTable()
+
+
+_sg_hash_lookup_table = {}
 
 # silence pyflakes checker
 assert all(

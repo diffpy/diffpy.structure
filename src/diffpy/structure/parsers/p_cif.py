@@ -25,8 +25,9 @@ from contextlib import contextmanager
 import numpy
 import six
 
-from diffpy.structure import Atom, Lattice, Structure, StructureFormatError
+from diffpy.structure import Atom, Lattice, Structure
 from diffpy.structure.parsers import StructureParser
+from diffpy.structure.structureerrors import StructureFormatError
 
 # ----------------------------------------------------------------------------
 
@@ -460,7 +461,7 @@ class P_cif(StructureParser):
                 break
             idx = self.labelindex[lb]
             a = self.stru[idx]
-            if not lb in self.anisotropy:
+            if lb not in self.anisotropy:
                 a.anisotropy = True
                 self.anisotropy[lb] = True
             for fset, val in zip(prop_setters, values):
@@ -544,7 +545,7 @@ class P_cif(StructureParser):
         # setup anisotropy according to symmetry requirements
         # unless it was already explicitly set
         for ca, uisotropy in zip(self.stru, self.eau.Uisotropy):
-            if not ca.label in self.anisotropy:
+            if ca.label not in self.anisotropy:
                 ca.anisotropy = not uisotropy
                 self.anisotropy[ca.label] = ca.anisotropy
         # build a nested list of new atoms:

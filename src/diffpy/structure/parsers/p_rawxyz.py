@@ -22,8 +22,9 @@ import sys
 
 import six
 
-from diffpy.structure import Structure, StructureFormatError
+from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
+from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.utils import isfloat
 
 
@@ -40,7 +41,7 @@ class P_rawxyz(StructureParser):
 
         Return Structure object or raise StructureFormatError.
         """
-        linefields = [l.split() for l in lines]
+        linefields = [line.split() for line in lines]
         # prepare output structure
         stru = Structure()
         # find first valid record

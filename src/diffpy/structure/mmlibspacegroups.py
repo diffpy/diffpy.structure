@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-## Copyright 2002 by PyMMLib Development Group, http://pymmlib.sourceforge.net/
-## This code is part of the PyMMLib distribution and governed by
-## its license.  Please see the LICENSE_pymmlib file that should have been
-## included as part of this package.
+# Copyright 2002 by PyMMLib Development Group, http://pymmlib.sourceforge.net/
+# This code is part of the PyMMLib distribution and governed by
+# its license.  Please see the LICENSE_pymmlib file that should have been
+# included as part of this package.
 """Space groups defined as a part of the pymmlib.
 """
 
@@ -107,7 +107,7 @@ from diffpy.structure.spacegroupmod import (
     Tr_34_34_34,
 )
 
-## spacegroup definitions
+# spacegroup definitions
 sg1 = SpaceGroup(
     number=1,
     num_sym_equiv=1,
@@ -7884,7 +7884,7 @@ sg1197 = SpaceGroup(
 )
 
 
-## list of the space groups
+# list of the space groups
 mmLibSpaceGroupList = [
     sg1,
     sg2,

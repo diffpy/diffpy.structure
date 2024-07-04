@@ -20,8 +20,8 @@ This Parser does not provide the the toLines() method.
 
 import os
 
-from diffpy.structure import StructureFormatError
 from diffpy.structure.parsers import StructureParser, parser_index
+from diffpy.structure.structureerrors import StructureFormatError
 
 
 class P_auto(StructureParser):

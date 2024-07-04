@@ -219,7 +219,7 @@ def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
         mask = numpy.logical_or(pos < 0.0, pos >= 1.0)
         pos[mask] -= numpy.floor(pos[mask])
         tpl = pos2tuple(pos)
-        if not tpl in site_symops:
+        if tpl not in site_symops:
             pos_is_new = True
             site_symops[tpl] = []
             # double check if there is any position nearby
@@ -429,7 +429,7 @@ class GeneratorSite(object):
             varvalue = txyz[idx] / nvec[idx]
             txyz = txyz - varvalue * nvec
             # determine standard parameter name
-            vname = [s for s in "xyz"[idx:] if not s in usedsymbol][0]
+            vname = [s for s in "xyz"[idx:] if s not in usedsymbol][0]
             self.pparameters.append((vname, varvalue))
             usedsymbol[vname] = True
         return
@@ -745,7 +745,7 @@ class SymmetryConstraints(object):
         Usymbols = [smbl + str(i) for i in range(numpos) for smbl in stdUsymbols]
         independent = set(range(numpos))
         for genidx in range(numpos):
-            if not genidx in independent:
+            if genidx not in independent:
                 continue
             # it is a generator
             self.coremap[genidx] = []

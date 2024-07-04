@@ -21,9 +21,10 @@ import unittest
 import numpy
 import six
 
-from diffpy.structure import Structure, StructureFormatError
+from diffpy.structure import Structure
 from diffpy.structure.parsers import getParser
 from diffpy.structure.parsers.p_cif import P_cif, getSymOp, leading_float
+from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------
@@ -343,7 +344,7 @@ class TestP_cif(unittest.TestCase):
     def test_adp_aniso_label(self):
         "verify ADP type setting from _atom_site_aniso_label loop"
         with open(self.teiciffile) as fp:
-            lines = [line.replace(" Uani ", " ") for line in fp if not "_atom_site_adp_type" in line]
+            lines = [line.replace(" Uani ", " ") for line in fp if "_atom_site_adp_type" not in line]
         ciftxt = "".join(lines)
         stru = self.ptest.parse(ciftxt)
         self.assertTrue(all(stru.anisotropy))

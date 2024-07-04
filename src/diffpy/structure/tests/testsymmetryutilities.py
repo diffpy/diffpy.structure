@@ -82,7 +82,7 @@ class TestRoutines(unittest.TestCase):
         pos, pops, pmult = expandPosition(fcc, [0, 0, 0])
         self.assertTrue(numpy.all(pos[0] == 0.0))
         self.assertEqual(4, len(pos))
-        self.assertEqual(192, sum([len(l) for l in pops]))
+        self.assertEqual(192, sum([len(line) for line in pops]))
         self.assertEqual(4, pmult)
         return
 

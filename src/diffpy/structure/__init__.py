@@ -29,16 +29,15 @@ Exceptions:
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
+from diffpy.structure.parsers import getParser
 from diffpy.structure.pdffitstructure import PDFFitStructure
 from diffpy.structure.structure import Structure
 from diffpy.structure.structureerrors import LatticeError, StructureFormatError, SymmetryError
 
-# obtain version information
-
-"""Crystal structure container and parsers for structure formats."""
-
 # package version
 from diffpy.structure.version import __version__
+
+"""Crystal structure container and parsers for structure formats."""
 
 # top level routines
 
@@ -68,7 +67,6 @@ def loadStructure(filename, fmt="auto", **kw):
         Return a more specific PDFFitStructure type for 'pdffit'
         and 'discus' formats.
     """
-    from diffpy.structure.parsers import getParser
 
     p = getParser(fmt, **kw)
     rv = p.parseFile(filename)

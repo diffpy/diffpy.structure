@@ -22,8 +22,9 @@ from functools import reduce
 import numpy
 import six
 
-from diffpy.structure import Lattice, PDFFitStructure, StructureFormatError
+from diffpy.structure import Lattice, PDFFitStructure
 from diffpy.structure.parsers import StructureParser
+from diffpy.structure.structureerrors import StructureFormatError
 
 
 class P_pdffit(StructureParser):
@@ -54,17 +55,17 @@ class P_pdffit(StructureParser):
                 stop -= 1
             ilines = iter(lines[:stop])
             # read header of PDFFit file
-            for l in ilines:
+            for line in ilines:
                 p_nl += 1
-                words = l.split()
+                words = line.split()
                 if len(words) == 0 or words[0][0] == "#":
                     continue
                 elif words[0] == "title":
-                    stru.title = l.lstrip()[5:].strip()
+                    stru.title = line.lstrip()[5:].strip()
                 elif words[0] == "scale":
                     stru.pdffit["scale"] = float(words[1])
                 elif words[0] == "sharp":
-                    l1 = l.replace(",", " ")
+                    l1 = line.replace(",", " ")
                     sharp_pars = [float(w) for w in l1.split()[1:]]
                     if len(sharp_pars) < 4:
                         stru.pdffit["delta2"] = sharp_pars[0]
@@ -77,21 +78,21 @@ class P_pdffit(StructureParser):
                         stru.pdffit["rcut"] = sharp_pars[3]
                 elif words[0] == "spcgr":
                     key = "spcgr"
-                    start = l.find(key) + len(key)
-                    value = l[start:].strip()
+                    start = line.find(key) + len(key)
+                    value = line[start:].strip()
                     stru.pdffit["spcgr"] = value
                 elif words[0] == "shape":
-                    self._parse_shape(l)
+                    self._parse_shape(line)
                 elif words[0] == "cell":
                     cell_line_read = True
-                    l1 = l.replace(",", " ")
+                    l1 = line.replace(",", " ")
                     latpars = [float(w) for w in l1.split()[1:7]]
                     stru.lattice = Lattice(*latpars)
                 elif words[0] == "dcell":
-                    l1 = l.replace(",", " ")
+                    l1 = line.replace(",", " ")
                     stru.pdffit["dcell"] = [float(w) for w in l1.split()[1:7]]
                 elif words[0] == "ncell":
-                    l1 = l.replace(",", " ")
+                    l1 = line.replace(",", " ")
                     stru.pdffit["ncell"] = [int(w) for w in l1.split()[1:5]]
                 elif words[0] == "format":
                     if words[1] != "pdffit":
@@ -100,7 +101,7 @@ class P_pdffit(StructureParser):
                 elif words[0] == "atoms" and cell_line_read:
                     break
                 else:
-                    self.ignored_lines.append(l)
+                    self.ignored_lines.append(line)
             # Header reading finished, check if required lines were present.
             if not cell_line_read:
                 emsg = "%d: file is not in PDFfit format" % p_nl
@@ -108,9 +109,9 @@ class P_pdffit(StructureParser):
             # Load data from atom entries.
             p_natoms = reduce(lambda x, y: x * y, stru.pdffit["ncell"])
             # we are now inside data block
-            for l in ilines:
+            for line in ilines:
                 p_nl += 1
-                wl1 = l.split()
+                wl1 = line.split()
                 element = wl1[0][0].upper() + wl1[0][1:].lower()
                 xyz = [float(w) for w in wl1[1:4]]
                 occ = float(wl1[4])
@@ -176,8 +177,8 @@ class P_pdffit(StructureParser):
         d_sigo = 0.0
         d_sigU = numpy.zeros((3, 3), dtype=float)
         # here we can start
-        l = "title  " + stru.title
-        lines.append(l.strip())
+        line = "title  " + stru.title
+        lines.append(line.strip())
         lines.append("format pdffit")
         lines.append("scale  %9.6f" % stru_pdffit["scale"])
         lines.append(
