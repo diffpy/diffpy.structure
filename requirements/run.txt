@@ -1,0 +1,3 @@
+numpy < 2.0.0  # Need to fix deprecations before 2.0.0 compat
+pycifrw
+six
