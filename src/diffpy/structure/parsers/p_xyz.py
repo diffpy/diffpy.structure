@@ -40,7 +40,7 @@ class P_xyz(StructureParser):
 
         Return Structure object or raise StructureFormatError.
         """
-        linefields = [l.split() for l in lines]
+        linefields = [line.split() for line in lines]
         # prepare output structure
         stru = Structure()
         # find first valid record

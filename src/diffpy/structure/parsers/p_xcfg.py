@@ -215,12 +215,12 @@ class P_xcfg(StructureParser):
                 else:
                     break
             # check header for consistency
-            if numpy.any(xcfg_H0_set == False):
+            if not numpy.all(xcfg_H0_set):
                 emsg = "H0 tensor is not properly defined"
                 raise StructureFormatError(emsg)
             p_auxnum = len(p_auxiliary) and max(p_auxiliary.keys()) + 1
             for i in range(p_auxnum):
-                if not i in p_auxiliary:
+                if i not in p_auxiliary:
                     p_auxiliary[i] = "aux%d" % i
             sorted_aux_keys = sorted(p_auxiliary.keys())
             if p_auxnum != 0:

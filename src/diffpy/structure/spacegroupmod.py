@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-## Copyright 2002 by PyMMLib Development Group, http://pymmlib.sourceforge.net/
-## This code is part of the PyMMLib distribution and governed by
-## its license.  Please see the LICENSE_pymmlib file that should have been
-## included as part of this package.
+# Copyright 2002 by PyMMLib Development Group, http://pymmlib.sourceforge.net/
+# This code is part of the PyMMLib distribution and governed by
+# its license.  Please see the LICENSE_pymmlib file that should have been
+# included as part of this package.
 """Symmetry operations as functions on vectors or arrays.
 """
 
 import numpy
 
-## 64 unique rotation matricies
+# 64 unique rotation matricies
 Rot_Z_mY_X = numpy.array([[0.0, 0.0, 1.0], [0.0, -1.0, 0.0], [1.0, 0.0, 0.0]], float)
 Rot_Y_mX_mZ = numpy.array([[0.0, 1.0, 0.0], [-1.0, 0.0, 0.0], [0.0, 0.0, -1.0]], float)
 Rot_XmY_X_mZ = numpy.array([[1.0, -1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, -1.0]], float)
@@ -74,7 +74,7 @@ Rot_Y_mXY_mZ = numpy.array([[0.0, 1.0, 0.0], [-1.0, 1.0, 0.0], [0.0, 0.0, -1.0]]
 Rot_mZ_X_mY = numpy.array([[0.0, 0.0, -1.0], [1.0, 0.0, 0.0], [0.0, -1.0, 0.0]], float)
 Rot_Y_X_Z = numpy.array([[0.0, 1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 1.0]], float)
 
-## 32 unique translation vectors
+# 32 unique translation vectors
 Tr_0_0_34 = numpy.array([0.0, 0.0, 3.0 / 4.0], float)
 Tr_12_0_34 = numpy.array([1.0 / 2.0, 0.0, 3.0 / 4.0], float)
 Tr_0_0_56 = numpy.array([0.0, 0.0, 5.0 / 6.0], float)

@@ -345,14 +345,15 @@ class Structure(list):
                 newatoms = adups
             else:
                 memo = set(id(a) for a in self)
-                nextatom = lambda a: (a if id(a) not in memo else copymod.copy(a))
-                mark = lambda a: (memo.add(id(a)), a)[-1]
+                def nextatom(a): return (a if id(a) not in memo else copymod.copy(a))
+                def mark(a): return (memo.add(id(a)), a)[-1]
                 newatoms = (mark(nextatom(a)) for a in atoms)
         elif copy:
             newatoms = adups
         else:
             newatoms = atoms
-        setlat = lambda a: (setattr(a, "lattice", self.lattice), a)[-1]
+
+        def setlat(a): return (setattr(a, "lattice", self.lattice), a)[-1]
         super(Structure, self).extend(setlat(a) for a in newatoms)
         return
 
@@ -489,7 +490,7 @@ class Structure(list):
         Return new Structure with a copy of Atom instances.
         """
         otherset = set(other)
-        keepindices = [i for i, a in enumerate(self) if not a in otherset]
+        keepindices = [i for i, a in enumerate(self) if a not in otherset]
         rv = copymod.copy(self[keepindices])
         return rv
 

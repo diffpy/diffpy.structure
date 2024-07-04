@@ -226,7 +226,7 @@ class TestP_pdb(unittest.TestCase):
         stru.read(datafile("CdSe_bulk.stru"), "pdffit")
         s = stru.writeStr(self.format)
         # all lines should be 80 characters long
-        linelens = [len(l) for l in s.split("\n") if l != ""]
+        linelens = [len(line) for line in s.split("\n") if line != ""]
         self.assertEqual(linelens, len(linelens) * [80])
         # now clean and re-read structure
         stru = Structure()
