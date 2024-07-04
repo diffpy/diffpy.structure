@@ -58,9 +58,12 @@ class TestLattice(unittest.TestCase):
 
         from numpy import dot
 
-        def norm(x): return sqrt(sum([xi**2 for xi in x]))
+        def norm(x):
+            return sqrt(sum([xi**2 for xi in x]))
 
-        def cosd(x): return cos(radians(x))
+        def cosd(x):
+            return cos(radians(x))
+
         self.lattice.setLatPar(1.0, 2.0, 3.0, 80, 100, 120)
         base = self.lattice.base
         self.assertAlmostEqual(1.0, norm(base[0]), self.places)

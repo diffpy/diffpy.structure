@@ -16,18 +16,13 @@
 """Space group classes and definitions from mmLib and sgtbx.
 """
 
-import six
-
-from diffpy.structure.mmlibspacegroups import mmLibSpaceGroupList
-from diffpy.structure.sgtbxspacegroups import sgtbxSpaceGroupList
-from diffpy.structure.spacegroupmod import SpaceGroup, SymOp
-
 import copy
+
+import six
 from six.moves import zip_longest
 
-# Import SpaceGroup objects --------------------------------------------------
-
 from diffpy.structure.mmlibspacegroups import (
+    mmLibSpaceGroupList,
     sg1,
     sg2,
     sg3,
@@ -544,6 +539,7 @@ from diffpy.structure.sgtbxspacegroups import (
     sg16015,
     sg17009,
     sg17015,
+    sgtbxSpaceGroupList,
 )
 from diffpy.structure.spacegroupmod import (
     Rot_mX_mXY_mZ,
@@ -610,6 +606,8 @@ from diffpy.structure.spacegroupmod import (
     Rot_Z_X_Y,
     Rot_Z_Y_mX,
     Rot_Z_Y_X,
+    SpaceGroup,
+    SymOp,
     Tr_0_0_0,
     Tr_0_0_12,
     Tr_0_0_13,
@@ -643,6 +641,9 @@ from diffpy.structure.spacegroupmod import (
     Tr_34_34_14,
     Tr_34_34_34,
 )
+
+# Import SpaceGroup objects --------------------------------------------------
+
 
 # all spacegroup definitions
 SpaceGroupList = mmLibSpaceGroupList + sgtbxSpaceGroupList

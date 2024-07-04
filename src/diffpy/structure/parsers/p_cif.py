@@ -26,8 +26,8 @@ import numpy
 import six
 
 from diffpy.structure import Atom, Lattice, Structure
-from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.parsers import StructureParser
+from diffpy.structure.structureerrors import StructureFormatError
 
 # ----------------------------------------------------------------------------
 

@@ -22,8 +22,8 @@ from functools import reduce
 import six
 
 from diffpy.structure import Lattice, PDFFitStructure
-from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.parsers import StructureParser
+from diffpy.structure.structureerrors import StructureFormatError
 
 
 class P_discus(StructureParser):

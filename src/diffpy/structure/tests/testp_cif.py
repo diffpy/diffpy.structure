@@ -22,9 +22,9 @@ import numpy
 import six
 
 from diffpy.structure import Structure
-from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.parsers import getParser
 from diffpy.structure.parsers.p_cif import P_cif, getSymOp, leading_float
+from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------

@@ -23,8 +23,8 @@ import sys
 import six
 
 from diffpy.structure import Structure
-from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.parsers import StructureParser
+from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.utils import isfloat
 
 
