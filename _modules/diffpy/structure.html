@@ -106,16 +106,15 @@
 
 <span class="kn">from</span> <span class="nn">diffpy.structure.atom</span> <span class="kn">import</span> <span class="n">Atom</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.lattice</span> <span class="kn">import</span> <span class="n">Lattice</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">getParser</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.pdffitstructure</span> <span class="kn">import</span> <span class="n">PDFFitStructure</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.structure</span> <span class="kn">import</span> <span class="n">Structure</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.structureerrors</span> <span class="kn">import</span> <span class="n">LatticeError</span><span class="p">,</span> <span class="n">StructureFormatError</span><span class="p">,</span> <span class="n">SymmetryError</span>
 
-<span class="c1"># obtain version information</span>
-
-<span class="sd">&quot;&quot;&quot;Crystal structure container and parsers for structure formats.&quot;&quot;&quot;</span>
-
 <span class="c1"># package version</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.version</span> <span class="kn">import</span> <span class="n">__version__</span>
+
+<span class="sd">&quot;&quot;&quot;Crystal structure container and parsers for structure formats.&quot;&quot;&quot;</span>
 
 <span class="c1"># top level routines</span>
 
@@ -147,7 +146,6 @@
 <span class="sd">        Return a more specific PDFFitStructure type for &#39;pdffit&#39;</span>
 <span class="sd">        and &#39;discus&#39; formats.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">getParser</span>
 
     <span class="n">p</span> <span class="o">=</span> <span class="n">getParser</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
     <span class="n">rv</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">parseFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>

@@ -177,9 +177,15 @@
         <span class="n">v0</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">attrname</span><span class="p">)</span>
         <span class="c1"># replace scalar values, but change array attributes in place</span>
         <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">v0</span><span class="p">):</span>
-            <span class="n">setvalue</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">setattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">attrname</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">setvalue</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+                <span class="k">return</span> <span class="nb">setattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">attrname</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">setvalue</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">setitem</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">attrname</span><span class="p">),</span> <span class="n">_all</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">setvalue</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">setitem</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">attrname</span><span class="p">),</span> <span class="n">_all</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
         <span class="c1"># avoid broadcasting if the new value is a scalar</span>
         <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
             <span class="n">genvalues</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>

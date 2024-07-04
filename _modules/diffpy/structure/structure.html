@@ -469,14 +469,22 @@
                 <span class="n">newatoms</span> <span class="o">=</span> <span class="n">adups</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">memo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">)</span>
-                <span class="n">nextatom</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span> <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">memo</span> <span class="k">else</span> <span class="n">copymod</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
-                <span class="n">mark</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="p">(</span><span class="n">memo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="n">a</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="k">def</span> <span class="nf">nextatom</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">a</span> <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">memo</span> <span class="k">else</span> <span class="n">copymod</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+                <span class="k">def</span> <span class="nf">mark</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="n">memo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="n">a</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
                 <span class="n">newatoms</span> <span class="o">=</span> <span class="p">(</span><span class="n">mark</span><span class="p">(</span><span class="n">nextatom</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">atoms</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">copy</span><span class="p">:</span>
             <span class="n">newatoms</span> <span class="o">=</span> <span class="n">adups</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">newatoms</span> <span class="o">=</span> <span class="n">atoms</span>
-        <span class="n">setlat</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="p">(</span><span class="nb">setattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s2">&quot;lattice&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">),</span> <span class="n">a</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">setlat</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">setattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s2">&quot;lattice&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">),</span> <span class="n">a</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
         <span class="nb">super</span><span class="p">(</span><span class="n">Structure</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">setlat</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">newatoms</span><span class="p">)</span>
         <span class="k">return</span></div>
 
@@ -614,7 +622,7 @@
 <span class="sd">        Return new Structure with a copy of Atom instances.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">otherset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-        <span class="n">keepindices</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">otherset</span><span class="p">]</span>
+        <span class="n">keepindices</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">otherset</span><span class="p">]</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="n">copymod</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">keepindices</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">rv</span>
 

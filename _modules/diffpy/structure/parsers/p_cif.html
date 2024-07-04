@@ -104,8 +104,9 @@
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">six</span>
 
-<span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Atom</span><span class="p">,</span> <span class="n">Lattice</span><span class="p">,</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">StructureFormatError</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Atom</span><span class="p">,</span> <span class="n">Lattice</span><span class="p">,</span> <span class="n">Structure</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">StructureParser</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure.structureerrors</span> <span class="kn">import</span> <span class="n">StructureFormatError</span>
 
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
@@ -550,7 +551,7 @@
                 <span class="k">break</span>
             <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelindex</span><span class="p">[</span><span class="n">lb</span><span class="p">]</span>
             <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stru</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">lb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lb</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
                 <span class="n">a</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">[</span><span class="n">lb</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">for</span> <span class="n">fset</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">prop_setters</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
@@ -634,7 +635,7 @@
         <span class="c1"># setup anisotropy according to symmetry requirements</span>
         <span class="c1"># unless it was already explicitly set</span>
         <span class="k">for</span> <span class="n">ca</span><span class="p">,</span> <span class="n">uisotropy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stru</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eau</span><span class="o">.</span><span class="n">Uisotropy</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">ca</span><span class="o">.</span><span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ca</span><span class="o">.</span><span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
                 <span class="n">ca</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">uisotropy</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">[</span><span class="n">ca</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">ca</span><span class="o">.</span><span class="n">anisotropy</span>
         <span class="c1"># build a nested list of new atoms:</span>
