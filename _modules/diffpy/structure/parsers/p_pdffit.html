@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.structure.parsers.p_pdffit &mdash; diffpy.structure 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=0ffc2956"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.structure
+          </a>
+              <div class="version">
+                3.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.structure.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.structure</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../structure.html">diffpy.structure</a></li>
+          <li class="breadcrumb-item"><a href="../parsers.html">diffpy.structure.parsers</a></li>
+      <li class="breadcrumb-item active">diffpy.structure.parsers.p_pdffit</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.structure.parsers.p_pdffit</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># diffpy.structure  by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2007 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Pavol Juhas</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE_DANSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;Parser for PDFfit structure format</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">six</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Lattice</span><span class="p">,</span> <span class="n">PDFFitStructure</span><span class="p">,</span> <span class="n">StructureFormatError</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">StructureParser</span>
+
+
+<div class="viewcode-block" id="P_pdffit">
+<a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdffit.P_pdffit">[docs]</a>
+<span class="k">class</span> <span class="nc">P_pdffit</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for PDFfit structure format.</span>
+
+<span class="sd">    stru -- Structure instance used for cif input or output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">StructureParser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s2">&quot;pdffit&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ignored_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stru</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="P_pdffit.parseLines">
+<a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdffit.P_pdffit.parseLines">[docs]</a>
+    <span class="k">def</span> <span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse list of lines in PDFfit format.</span>
+
+<span class="sd">        Return Structure object or raise StructureFormatError.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p_nl</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stru</span> <span class="o">=</span> <span class="n">PDFFitStructure</span><span class="p">()</span>
+            <span class="n">stru</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stru</span>
+            <span class="n">cell_line_read</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+            <span class="k">while</span> <span class="n">stop</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">lines</span><span class="p">[</span><span class="n">stop</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">stop</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">ilines</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">lines</span><span class="p">[:</span><span class="n">stop</span><span class="p">])</span>
+            <span class="c1"># read header of PDFFit file</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ilines</span><span class="p">:</span>
+                <span class="n">p_nl</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">words</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">elif</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span>
+                    <span class="n">stru</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()[</span><span class="mi">5</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;scale&quot;</span><span class="p">:</span>
+                    <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;sharp&quot;</span><span class="p">:</span>
+                    <span class="n">l1</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+                    <span class="n">sharp_pars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">l1</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]]</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sharp_pars</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+                        <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;delta2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sharp_pars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;sratio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sharp_pars</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;rcut&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sharp_pars</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;delta2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sharp_pars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;delta1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sharp_pars</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;sratio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sharp_pars</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                        <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;rcut&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sharp_pars</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;spcgr&quot;</span><span class="p">:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;spcgr&quot;</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="n">start</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;spcgr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">elif</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_parse_shape</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;cell&quot;</span><span class="p">:</span>
+                    <span class="n">cell_line_read</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">l1</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+                    <span class="n">latpars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">l1</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="mi">7</span><span class="p">]]</span>
+                    <span class="n">stru</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">Lattice</span><span class="p">(</span><span class="o">*</span><span class="n">latpars</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;dcell&quot;</span><span class="p">:</span>
+                    <span class="n">l1</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+                    <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;dcell&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">l1</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="mi">7</span><span class="p">]]</span>
+                <span class="k">elif</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ncell&quot;</span><span class="p">:</span>
+                    <span class="n">l1</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+                    <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;ncell&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">l1</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]]</span>
+                <span class="k">elif</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;format&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">:</span>
+                        <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: file is not in PDFfit format&quot;</span> <span class="o">%</span> <span class="n">p_nl</span>
+                        <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;atoms&quot;</span> <span class="ow">and</span> <span class="n">cell_line_read</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ignored_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="c1"># Header reading finished, check if required lines were present.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">cell_line_read</span><span class="p">:</span>
+                <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: file is not in PDFfit format&quot;</span> <span class="o">%</span> <span class="n">p_nl</span>
+                <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+            <span class="c1"># Load data from atom entries.</span>
+            <span class="n">p_natoms</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;ncell&quot;</span><span class="p">])</span>
+            <span class="c1"># we are now inside data block</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ilines</span><span class="p">:</span>
+                <span class="n">p_nl</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">wl1</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">element</span> <span class="o">=</span> <span class="n">wl1</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">wl1</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="n">xyz</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wl1</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]]</span>
+                <span class="n">occ</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl1</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+                <span class="n">stru</span><span class="o">.</span><span class="n">addNewAtom</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">xyz</span><span class="o">=</span><span class="n">xyz</span><span class="p">,</span> <span class="n">occupancy</span><span class="o">=</span><span class="n">occ</span><span class="p">)</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">stru</span><span class="o">.</span><span class="n">getLastAtom</span><span class="p">()</span>
+                <span class="n">p_nl</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">wl2</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">ilines</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">sigxyz</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wl2</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]]</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">sigo</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl2</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                <span class="n">p_nl</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">wl3</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">ilines</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">p_nl</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">wl4</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">ilines</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">p_nl</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">wl5</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">ilines</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">p_nl</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">wl6</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">ilines</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">U</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="n">sigU</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl3</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl3</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">U</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl3</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">sigU</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl4</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">sigU</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl4</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">sigU</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl4</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl5</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl5</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl5</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">sigU</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sigU</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl6</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">sigU</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">sigU</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl6</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">sigU</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">sigU</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wl6</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="n">stru</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">isanisotropic</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">U</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">sigU</span> <span class="o">=</span> <span class="n">sigU</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">)</span> <span class="o">!=</span> <span class="n">p_natoms</span><span class="p">:</span>
+                <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;expected </span><span class="si">%d</span><span class="s2"> atoms, read </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">p_natoms</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;ncell&quot;</span><span class="p">][:</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+                <span class="n">superlatpars</span> <span class="o">=</span> <span class="p">[</span><span class="n">latpars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;ncell&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span> <span class="o">+</span> <span class="n">latpars</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+                <span class="n">superlattice</span> <span class="o">=</span> <span class="n">Lattice</span><span class="p">(</span><span class="o">*</span><span class="n">superlatpars</span><span class="p">)</span>
+                <span class="n">stru</span><span class="o">.</span><span class="n">placeInLattice</span><span class="p">(</span><span class="n">superlattice</span><span class="p">)</span>
+                <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;ncell&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p_natoms</span><span class="p">]</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: file is not in PDFfit format&quot;</span> <span class="o">%</span> <span class="n">p_nl</span>
+            <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+            <span class="n">six</span><span class="o">.</span><span class="n">reraise</span><span class="p">(</span><span class="n">StructureFormatError</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">stru</span></div>
+
+
+<div class="viewcode-block" id="P_pdffit.toLines">
+<a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdffit.P_pdffit.toLines">[docs]</a>
+    <span class="k">def</span> <span class="nf">toLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Structure stru to a list of lines in PDFfit format.</span>
+
+<span class="sd">        Return list of strings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># build the stru_pdffit dictionary initialized from the defaults</span>
+        <span class="c1"># in PDFFitStructure</span>
+        <span class="n">stru_pdffit</span> <span class="o">=</span> <span class="n">PDFFitStructure</span><span class="p">()</span><span class="o">.</span><span class="n">pdffit</span>
+        <span class="k">if</span> <span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">:</span>
+            <span class="n">stru_pdffit</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># default values of standard deviations</span>
+        <span class="n">d_sigxyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">d_sigo</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">d_sigU</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="c1"># here we can start</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="s2">&quot;title  &quot;</span> <span class="o">+</span> <span class="n">stru</span><span class="o">.</span><span class="n">title</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;format pdffit&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;scale  </span><span class="si">%9.6f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">stru_pdffit</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">])</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;sharp  </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">stru_pdffit</span><span class="p">[</span><span class="s2">&quot;delta2&quot;</span><span class="p">],</span> <span class="n">stru_pdffit</span><span class="p">[</span><span class="s2">&quot;delta1&quot;</span><span class="p">],</span> <span class="n">stru_pdffit</span><span class="p">[</span><span class="s2">&quot;sratio&quot;</span><span class="p">],</span> <span class="n">stru_pdffit</span><span class="p">[</span><span class="s2">&quot;rcut&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;spcgr   &quot;</span> <span class="o">+</span> <span class="n">stru_pdffit</span><span class="p">[</span><span class="s2">&quot;spcgr&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">stru_pdffit</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spdiameter&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="s2">&quot;shape   sphere, </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">stru_pdffit</span><span class="p">[</span><span class="s2">&quot;spdiameter&quot;</span><span class="p">]</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stru_pdffit</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;stepcut&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="s2">&quot;shape   stepcut, </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">stru_pdffit</span><span class="p">[</span><span class="s2">&quot;stepcut&quot;</span><span class="p">]</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="n">stru</span><span class="o">.</span><span class="n">lattice</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;cell   </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">lat</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">lat</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">lat</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">lat</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="n">lat</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="n">lat</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;dcell  </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">, </span><span class="si">%9.6f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">stru_pdffit</span><span class="p">[</span><span class="s2">&quot;dcell&quot;</span><span class="p">]))</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;ncell  </span><span class="si">%9i</span><span class="s2">, </span><span class="si">%9i</span><span class="s2">, </span><span class="si">%9i</span><span class="s2">, </span><span class="si">%9i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">)))</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;atoms&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">stru</span><span class="p">:</span>
+            <span class="n">ad</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="vm">__dict__</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%-4s</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2"> </span><span class="si">%12.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">element</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">a</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">occupancy</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">sigmas</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">ad</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sigxyz&quot;</span><span class="p">,</span> <span class="n">d_sigxyz</span><span class="p">),</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sigo&quot;</span><span class="p">,</span> <span class="n">d_sigo</span><span class="p">)]))</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%18.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2"> </span><span class="si">%12.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">sigmas</span><span class="p">))</span>
+            <span class="n">sigU</span> <span class="o">=</span> <span class="n">ad</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sigU&quot;</span><span class="p">,</span> <span class="n">d_sigU</span><span class="p">)</span>
+            <span class="n">Uii</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">Uij</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">a</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">sigUii</span> <span class="o">=</span> <span class="p">(</span><span class="n">sigU</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">sigU</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">sigU</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">sigUij</span> <span class="o">=</span> <span class="p">(</span><span class="n">sigU</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">sigU</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">sigU</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%18.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">Uii</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%18.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sigUii</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%18.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">Uij</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    </span><span class="si">%18.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2"> </span><span class="si">%17.8f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sigUij</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lines</span></div>
+
+
+    <span class="c1"># Protected methods ------------------------------------------------------</span>
+
+    <span class="k">def</span> <span class="nf">_parse_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process shape line from PDFfit file and update self.stru</span>
+
+<span class="sd">        line -- line containing data for particle shape correction</span>
+
+<span class="sd">        No return value.</span>
+<span class="sd">        Raise StructureFormatError for invalid record.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">line_nocommas</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">line_nocommas</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;shape&quot;</span>
+        <span class="n">shapetype</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">shapetype</span> <span class="o">==</span> <span class="s2">&quot;sphere&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;spdiameter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">shapetype</span> <span class="o">==</span> <span class="s2">&quot;stepcut&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stru</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;stepcut&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Invalid type of particle shape correction </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">shapetype</span>
+            <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+
+<span class="c1"># End of class P_pdffit</span>
+
+<span class="c1"># Routines -------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="getParser">
+<a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdffit.getParser">[docs]</a>
+<span class="k">def</span> <span class="nf">getParser</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">P_pdffit</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

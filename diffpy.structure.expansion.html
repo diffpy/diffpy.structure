@@ -80,17 +80,76 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="diffpy-structure-expansion-makeellipsoid-module">
-<h2>diffpy.structure.expansion.makeellipsoid module<a class="headerlink" href="#diffpy-structure-expansion-makeellipsoid-module" title="Link to this heading"></a></h2>
+<section id="module-diffpy.structure.expansion.makeellipsoid">
+<span id="diffpy-structure-expansion-makeellipsoid-module"></span><h2>diffpy.structure.expansion.makeellipsoid module<a class="headerlink" href="#module-diffpy.structure.expansion.makeellipsoid" title="Link to this heading"></a></h2>
+<p>Make a spheroid nanoparticle from a template structure.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.expansion.makeellipsoid.makeEllipsoid">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.expansion.makeellipsoid.</span></span><span class="sig-name descname"><span class="pre">makeEllipsoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/expansion/makeellipsoid.html#makeEllipsoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.expansion.makeellipsoid.makeEllipsoid" title="Link to this definition"></a></dt>
+<dd><p>Cut a structure out of another one.</p>
+<p>Arguments
+S       –  A Structure instance
+a       –  primary equatorial radius (along x-axis)
+b       –  secondary equatorial radius (along y-axis). If b is None</p>
+<blockquote>
+<div><p>(default) then it is set equal to a</p>
+</div></blockquote>
+<dl class="simple">
+<dt>c       –  polar radius (along z-axis). If c is None (default), then it is</dt><dd><p>set equal to a.</p>
+</dd>
+</dl>
+<p>Returns a new structure instance</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.expansion.makeellipsoid.makeSphere">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.expansion.makeellipsoid.</span></span><span class="sig-name descname"><span class="pre">makeSphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/expansion/makeellipsoid.html#makeSphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.expansion.makeellipsoid.makeSphere" title="Link to this definition"></a></dt>
+<dd><p>Create a spherical nanoparticle.</p>
+<p>Arguments
+S       –  A Structure instance
+radius  –  primary equatorial radius (along x-axis)</p>
+<p>Returns a new structure instance</p>
+</dd></dl>
+
 </section>
-<section id="diffpy-structure-expansion-shapeutils-module">
-<h2>diffpy.structure.expansion.shapeutils module<a class="headerlink" href="#diffpy-structure-expansion-shapeutils-module" title="Link to this heading"></a></h2>
+<section id="module-diffpy.structure.expansion.shapeutils">
+<span id="diffpy-structure-expansion-shapeutils-module"></span><h2>diffpy.structure.expansion.shapeutils module<a class="headerlink" href="#module-diffpy.structure.expansion.shapeutils" title="Link to this heading"></a></h2>
+<p>Utilities for making shapes.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.expansion.shapeutils.findCenter">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.expansion.shapeutils.</span></span><span class="sig-name descname"><span class="pre">findCenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/expansion/shapeutils.html#findCenter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.expansion.shapeutils.findCenter" title="Link to this definition"></a></dt>
+<dd><p>Find the approximate center atom of a structure.</p>
+<p>The center of the structure is the atom closest to (0.5, 0.5, 0.5)</p>
+<p>Returns the index of the atom.</p>
+</dd></dl>
+
 </section>
-<section id="diffpy-structure-expansion-supercell-mod-module">
-<h2>diffpy.structure.expansion.supercell_mod module<a class="headerlink" href="#diffpy-structure-expansion-supercell-mod-module" title="Link to this heading"></a></h2>
+<section id="module-diffpy.structure.expansion.supercell_mod">
+<span id="diffpy-structure-expansion-supercell-mod-module"></span><h2>diffpy.structure.expansion.supercell_mod module<a class="headerlink" href="#module-diffpy.structure.expansion.supercell_mod" title="Link to this heading"></a></h2>
+<p>This module contains functions for simple structure manipulation.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.expansion.supercell_mod.supercell">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.expansion.supercell_mod.</span></span><span class="sig-name descname"><span class="pre">supercell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mno</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/expansion/supercell_mod.html#supercell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.expansion.supercell_mod.supercell" title="Link to this definition"></a></dt>
+<dd><p>Perform supercell expansion for a structure.</p>
+<p>New lattice parameters are multiplied and fractional coordinates
+divided by corresponding multiplier.  New atoms are grouped with
+their source in the original cell.</p>
+<p>S   – an instance of Structure from diffpy.structure.
+mno – sequence of 3 integers for cell multipliers along</p>
+<blockquote>
+<div><p>the a, b and c axes.</p>
+</div></blockquote>
+<p>Return a new expanded structure instance.
+Raise TypeError when S is not Structure instance.
+Raise ValueError for invalid mno argument.</p>
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="module-diffpy.structure.expansion">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-diffpy.structure.expansion" title="Link to this heading"></a></h2>
+<p>Methods and classes for manipulating Structure instances.</p>
+<p>Package content:</p>
+<p>supercell   – create a supercell from an existing Structure.</p>
 </section>
 </section>
 

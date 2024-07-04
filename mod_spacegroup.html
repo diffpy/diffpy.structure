@@ -75,8 +75,255 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="diffpy-structure-spacegroupmod">
-<h1>diffpy.structure.spacegroupmod<a class="headerlink" href="#diffpy-structure-spacegroupmod" title="Link to this heading"></a></h1>
+  <section id="module-diffpy.structure.spacegroupmod">
+<span id="diffpy-structure-spacegroupmod"></span><h1>diffpy.structure.spacegroupmod<a class="headerlink" href="#module-diffpy.structure.spacegroupmod" title="Link to this heading"></a></h1>
+<p>Symmetry operations as functions on vectors or arrays.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.spacegroupmod.</span></span><span class="sig-name descname"><span class="pre">SpaceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sym_equiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_primitive_sym_equiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_group_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crystal_system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdb_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symop_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/spacegroupmod.html#SpaceGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup" title="Link to this definition"></a></dt>
+<dd><p>Definition and basic operations for a specific space group.</p>
+<p>Provide standard names and all symmetry operations contained in
+one space group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number</strong> (<em>int</em>) – The space group number.</p></li>
+<li><p><strong>num_sym_equiv</strong> (<em>int</em>) – The number of symmetry equivalent sites for a general position.</p></li>
+<li><p><strong>num_primitive_sym_equiv</strong> (<em>int</em>) – The number of symmetry equivalent sites in a primitive unit cell.</p></li>
+<li><p><strong>short_name</strong> (<em>str</em>) – The short Hermann-Mauguin symbol of the space group.</p></li>
+<li><p><strong>point_group_name</strong> (<em>str</em>) – The point group of this space group.</p></li>
+<li><p><strong>crystal_system</strong> (<em>str</em>) – The crystal system of this space group.</p></li>
+<li><p><strong>pdb_name</strong> (<em>str</em>) – The full Hermann-Mauguin symbol of the space group.</p></li>
+<li><p><strong>symop_list</strong> (<em>list</em><em> of </em><a class="reference internal" href="#diffpy.structure.spacegroupmod.SymOp" title="diffpy.structure.spacegroupmod.SymOp"><em>SymOp</em></a>) – The symmetry operations contained in this space group.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.number">
+<span class="sig-name descname"><span class="pre">number</span></span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.number" title="Link to this definition"></a></dt>
+<dd><p>A unique space group number.  This may be incremented by
+several thousands to facilitate unique values for multiple
+settings of the same space group.  Use <code class="docutils literal notranslate"><span class="pre">number</span> <span class="pre">%</span> <span class="pre">1000</span></code>
+to get the standard space group number from International
+Tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.num_sym_equiv">
+<span class="sig-name descname"><span class="pre">num_sym_equiv</span></span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.num_sym_equiv" title="Link to this definition"></a></dt>
+<dd><p>The number of symmetry equivalent sites for a general position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.num_primitive_sym_equiv">
+<span class="sig-name descname"><span class="pre">num_primitive_sym_equiv</span></span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.num_primitive_sym_equiv" title="Link to this definition"></a></dt>
+<dd><p>The number of symmetry equivalent sites in a primitive unit cell.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.short_name">
+<span class="sig-name descname"><span class="pre">short_name</span></span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.short_name" title="Link to this definition"></a></dt>
+<dd><p>The short Hermann-Mauguin symbol of the space group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.point_group_name">
+<span class="sig-name descname"><span class="pre">point_group_name</span></span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.point_group_name" title="Link to this definition"></a></dt>
+<dd><p>The point group to which this space group belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.crystal_system">
+<span class="sig-name descname"><span class="pre">crystal_system</span></span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.crystal_system" title="Link to this definition"></a></dt>
+<dd><p>The crystal system of this space group.  The possible values are
+<code class="docutils literal notranslate"><span class="pre">&quot;TRICLINIC&quot;,</span> <span class="pre">&quot;MONOCLINIC&quot;,</span> <span class="pre">&quot;ORTHORHOMBIC&quot;,</span> <span class="pre">&quot;TETRAGONAL&quot;,</span>
+<span class="pre">&quot;TRIGONAL&quot;</span> <span class="pre">&quot;HEXAGONAL&quot;,</span> <span class="pre">&quot;CUBIC&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.pdb_name">
+<span class="sig-name descname"><span class="pre">pdb_name</span></span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.pdb_name" title="Link to this definition"></a></dt>
+<dd><p>The full Hermann-Mauguin symbol of the space group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.symop_list">
+<span class="sig-name descname"><span class="pre">symop_list</span></span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.symop_list" title="Link to this definition"></a></dt>
+<dd><p>A list of <cite>SymOp</cite> objects for all symmetry operations
+in this space group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of <a class="reference internal" href="#diffpy.structure.spacegroupmod.SymOp" title="diffpy.structure.spacegroupmod.SymOp">SymOp</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.check_group_name">
+<span class="sig-name descname"><span class="pre">check_group_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/spacegroupmod.html#SpaceGroup.check_group_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.check_group_name" title="Link to this definition"></a></dt>
+<dd><p>Check if given name matches this space group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em> or </em><em>int</em>) – The space group identifier, a string name or number.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the specified name matches one of the recognized
+names of this space group or if it equals its <cite>number</cite>.
+Return <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.iter_equivalent_positions">
+<span class="sig-name descname"><span class="pre">iter_equivalent_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/spacegroupmod.html#SpaceGroup.iter_equivalent_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.iter_equivalent_positions" title="Link to this definition"></a></dt>
+<dd><p>Generate symmetry equivalent positions for the specified position.</p>
+<p>The initial position must be in fractional coordinates and so
+are the symmetry equivalent positions yielded by iteration.
+This generates <cite>num_sym_equiv</cite> positions regardless of initial
+coordinates being a special symmetry position or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vec</strong> (<em>ndarray</em>) – The initial position in fractional coordinates.</p>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em> – The symmetry equivalent positions in fractional coordinates.
+The positions may be duplicate or outside of the <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">1</span></code>
+unit cell bounds.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.iter_symops">
+<span class="sig-name descname"><span class="pre">iter_symops</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/spacegroupmod.html#SpaceGroup.iter_symops"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.iter_symops" title="Link to this definition"></a></dt>
+<dd><p>Iterate over all symmetry operations in the space group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Yields<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>SymOp</cite> – Generate all symmetry operations for this space group.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SymOp">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.spacegroupmod.</span></span><span class="sig-name descname"><span class="pre">SymOp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/spacegroupmod.html#SymOp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp" title="Link to this definition"></a></dt>
+<dd><p>The transformation of coordinates to a symmetry-related position.</p>
+<p>The SymOp operation involves rotation and translation in cell coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>R</strong> (<em>ndarray</em>) – The 3x3 matrix of rotation for this symmetry operation.</p></li>
+<li><p><strong>t</strong> (<em>ndarray</em>) – The vector of translation in this symmetry operation.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SymOp.R">
+<span class="sig-name descname"><span class="pre">R</span></span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp.R" title="Link to this definition"></a></dt>
+<dd><p>The 3x3 matrix of rotation pertaining to unit cell coordinates.
+This may be identity, simple rotation, improper rotation, mirror
+or inversion.  The determinant of <em>R</em> is either +1 or -1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SymOp.t">
+<span class="sig-name descname"><span class="pre">t</span></span><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp.t" title="Link to this definition"></a></dt>
+<dd><p>The translation of cell coordinates applied after rotation <em>R</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SymOp.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/spacegroupmod.html#SymOp.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp.__call__" title="Link to this definition"></a></dt>
+<dd><p>Return symmetry-related position for the specified coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vec</strong> (<em>ndarray</em>) – The initial position in fractional cell coordinates.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The transformed position after this symmetry operation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SymOp.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/spacegroupmod.html#SymOp.__eq__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp.__eq__" title="Link to this definition"></a></dt>
+<dd><p>Implement the <code class="docutils literal notranslate"><span class="pre">(self</span> <span class="pre">==</span> <span class="pre">symop)</span></code> test of equality.</p>
+<p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> when <em>self</em> and <em>symop</em> difference is within
+tiny round-off errors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SymOp.is_identity">
+<span class="sig-name descname"><span class="pre">is_identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/spacegroupmod.html#SymOp.is_identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp.is_identity" title="Link to this definition"></a></dt>
+<dd><p>Check if this SymOp is an identity operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if this is an identity operation within a small round-off.
+Return <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

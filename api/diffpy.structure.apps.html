@@ -83,15 +83,144 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="diffpy-structure-apps-package">
-<h1>diffpy.structure.apps package<a class="headerlink" href="#diffpy-structure-apps-package" title="Link to this heading"></a></h1>
+  <section id="module-diffpy.structure.apps">
+<span id="diffpy-structure-apps-package"></span><h1>diffpy.structure.apps package<a class="headerlink" href="#module-diffpy.structure.apps" title="Link to this heading"></a></h1>
+<p>Script applications that use the diffpy.structure package.</p>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-<section id="diffpy-structure-apps-transtru-module">
-<h3>diffpy.structure.apps.transtru module<a class="headerlink" href="#diffpy-structure-apps-transtru-module" title="Link to this heading"></a></h3>
+<section id="module-diffpy.structure.apps.transtru">
+<span id="diffpy-structure-apps-transtru-module"></span><h3>diffpy.structure.apps.transtru module<a class="headerlink" href="#module-diffpy.structure.apps.transtru" title="Link to this heading"></a></h3>
+<p>transtru   translate structure file to different format
+Usage: transtru INFMT..OUTFMT strufile</p>
+<p>translates structure file strufile from INFMT to OUTFMT format and prints it
+to the screen.  Use “-” as strufile to read from standard input.  To save the
+translated file, use</p>
+<blockquote>
+<div><p>transtru INFMT..OUTFMT strufile &gt; strufile.out</p>
+</div></blockquote>
+<dl>
+<dt>Supported input and output structure formats are</dt><dd><p>INFMT:   inputFormats
+OUTFMT:  outputFormats</p>
+</dd>
+<dt>Options:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>display this message</p>
+</dd>
+<dt><kbd><span class="option">-V</span>, <span class="option">--version</span></kbd></dt>
+<dd><p>show script version</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.transtru.main">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.transtru.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/transtru.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.transtru.main" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.transtru.usage">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.transtru.</span></span><span class="sig-name descname"><span class="pre">usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/transtru.html#usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.transtru.usage" title="Link to this definition"></a></dt>
+<dd><p>show usage info, for style==”brief” show only first 2 lines</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.transtru.version">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.transtru.</span></span><span class="sig-name descname"><span class="pre">version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/transtru.html#version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.transtru.version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
-<section id="diffpy-structure-apps-anyeye-module">
-<h3>diffpy.structure.apps.anyeye module<a class="headerlink" href="#diffpy-structure-apps-anyeye-module" title="Link to this heading"></a></h3>
+<section id="module-diffpy.structure.apps.anyeye">
+<span id="diffpy-structure-apps-anyeye-module"></span><h3>diffpy.structure.apps.anyeye module<a class="headerlink" href="#module-diffpy.structure.apps.anyeye" title="Link to this heading"></a></h3>
+<p>anyeye    view structure file in atomeye
+Usage: anyeye [options] strufile</p>
+<p>anyeye understands more structure formats than atomeye.  It converts strufile
+to a temporary XCFG file which is opened in atomeye.  Supported file formats:</p>
+<blockquote>
+<div><p>inputFormats</p>
+</div></blockquote>
+<dl>
+<dt>Options:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-f</span>, <span class="option">--formula</span></kbd></dt>
+<dd><p>override chemical formula in strufile, formula defines
+elements in the same order as in strufile, e.g, Na4Cl4</p>
+</dd>
+<dt><kbd><span class="option">-w</span>, <span class="option">--watch</span></kbd></dt>
+<dd><p>watch input file for changes</p>
+</dd>
+<dt><kbd><span class="option">--viewer=<var>VIEWER</var></span></kbd></dt>
+<dd><p>the structure viewer program, by default “atomeye”.
+The program will be executed as “VIEWER structurefile”</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>–formats=FORMATS comma separated list of file formats that are understood</dt><dd><p>by the VIEWER, by default “xcfg,pdb”.  Files of other
+formats will be converted to the first listed format.</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>display this message and exit</p>
+</dd>
+<dt><kbd><span class="option">-V</span>, <span class="option">--version</span></kbd></dt>
+<dd><p>show script version and exit</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.anyeye.cleanUp">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.anyeye.</span></span><span class="sig-name descname"><span class="pre">cleanUp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/anyeye.html#cleanUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.anyeye.cleanUp" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.anyeye.convertStructureFile">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.anyeye.</span></span><span class="sig-name descname"><span class="pre">convertStructureFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/anyeye.html#convertStructureFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.anyeye.convertStructureFile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.anyeye.die">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.anyeye.</span></span><span class="sig-name descname"><span class="pre">die</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exit_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/anyeye.html#die"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.anyeye.die" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.anyeye.loadStructureFile">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.anyeye.</span></span><span class="sig-name descname"><span class="pre">loadStructureFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/anyeye.html#loadStructureFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.anyeye.loadStructureFile" title="Link to this definition"></a></dt>
+<dd><p>Load structure from specified file.</p>
+<p>Return a tuple of (Structure, fileformat).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.anyeye.main">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.anyeye.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/anyeye.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.anyeye.main" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.anyeye.parseFormula">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.anyeye.</span></span><span class="sig-name descname"><span class="pre">parseFormula</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formula</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/anyeye.html#parseFormula"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.anyeye.parseFormula" title="Link to this definition"></a></dt>
+<dd><p>parse chemical formula and return a list of elements</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.anyeye.signalHandler">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.anyeye.</span></span><span class="sig-name descname"><span class="pre">signalHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stackframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/anyeye.html#signalHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.anyeye.signalHandler" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.anyeye.usage">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.anyeye.</span></span><span class="sig-name descname"><span class="pre">usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/anyeye.html#usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.anyeye.usage" title="Link to this definition"></a></dt>
+<dd><p>show usage info, for style==”brief” show only first 2 lines</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.anyeye.version">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.anyeye.</span></span><span class="sig-name descname"><span class="pre">version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/anyeye.html#version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.anyeye.version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.structure.apps.anyeye.watchStructureFile">
+<span class="sig-prename descclassname"><span class="pre">diffpy.structure.apps.anyeye.</span></span><span class="sig-name descname"><span class="pre">watchStructureFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/apps/anyeye.html#watchStructureFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.apps.anyeye.watchStructureFile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 </section>
 </section>

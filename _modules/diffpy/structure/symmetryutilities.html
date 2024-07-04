@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.structure.symmetryutilities &mdash; diffpy.structure 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=0ffc2956"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            diffpy.structure
+          </a>
+              <div class="version">
+                3.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.structure.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">diffpy.structure</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../structure.html">diffpy.structure</a></li>
+      <li class="breadcrumb-item active">diffpy.structure.symmetryutilities</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.structure.symmetryutilities</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># diffpy.structure  by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Pavol Juhas</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE_DANSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;Symmetry utility functions such as expansion of asymmetric unit,</span>
+<span class="sd">and generation of positional constraints.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.structure.structureerrors</span> <span class="kn">import</span> <span class="n">SymmetryError</span>
+
+<span class="c1"># Constants ------------------------------------------------------------------</span>
+
+<span class="c1"># Default tolerance for equality of 2 positions, also</span>
+<span class="c1"># used for identification of special positions.</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0e-5</span>
+
+<span class="c1"># Standard symbols denoting elements of anisotropic thermal</span>
+<span class="c1"># displacement tensor.</span>
+<span class="n">stdUsymbols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;U11&quot;</span><span class="p">,</span> <span class="s2">&quot;U22&quot;</span><span class="p">,</span> <span class="s2">&quot;U33&quot;</span><span class="p">,</span> <span class="s2">&quot;U12&quot;</span><span class="p">,</span> <span class="s2">&quot;U13&quot;</span><span class="p">,</span> <span class="s2">&quot;U23&quot;</span><span class="p">]</span>
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="isSpaceGroupLatPar">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.isSpaceGroupLatPar">[docs]</a>
+<span class="k">def</span> <span class="nf">isSpaceGroupLatPar</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if space group allows passed lattice parameters.</span>
+
+<span class="sd">    spacegroup -- instance of SpaceGroup</span>
+<span class="sd">    a, b, c, alpha, beta, gamma -- lattice parameters</span>
+
+<span class="sd">    Return bool.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># crystal system rules</span>
+    <span class="c1"># ref: Benjamin, W. A., Introduction to crystallography,</span>
+    <span class="c1"># New York (1969), p.60</span>
+    <span class="k">def</span> <span class="nf">check_triclinic</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">check_monoclinic</span><span class="p">():</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">==</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">90</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="mi">90</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span>
+
+    <span class="k">def</span> <span class="nf">check_orthorhombic</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">90</span>
+
+    <span class="k">def</span> <span class="nf">check_tetragonal</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">90</span>
+
+    <span class="k">def</span> <span class="nf">check_trigonal</span><span class="p">():</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="o">==</span> <span class="n">c</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="n">gamma</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="mi">90</span> <span class="ow">and</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">120</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span>
+
+    <span class="k">def</span> <span class="nf">check_hexagonal</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="mi">90</span> <span class="ow">and</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">120</span>
+
+    <span class="k">def</span> <span class="nf">check_cubic</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="o">==</span> <span class="n">c</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">90</span>
+
+    <span class="n">crystal_system_rules</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;TRICLINIC&quot;</span><span class="p">:</span> <span class="n">check_triclinic</span><span class="p">,</span>
+        <span class="s2">&quot;MONOCLINIC&quot;</span><span class="p">:</span> <span class="n">check_monoclinic</span><span class="p">,</span>
+        <span class="s2">&quot;ORTHORHOMBIC&quot;</span><span class="p">:</span> <span class="n">check_orthorhombic</span><span class="p">,</span>
+        <span class="s2">&quot;TETRAGONAL&quot;</span><span class="p">:</span> <span class="n">check_tetragonal</span><span class="p">,</span>
+        <span class="s2">&quot;TRIGONAL&quot;</span><span class="p">:</span> <span class="n">check_trigonal</span><span class="p">,</span>
+        <span class="s2">&quot;HEXAGONAL&quot;</span><span class="p">:</span> <span class="n">check_hexagonal</span><span class="p">,</span>
+        <span class="s2">&quot;CUBIC&quot;</span><span class="p">:</span> <span class="n">check_cubic</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">rule</span> <span class="o">=</span> <span class="n">crystal_system_rules</span><span class="p">[</span><span class="n">spacegroup</span><span class="o">.</span><span class="n">crystal_system</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">rule</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># Constant regular expression used in isconstantFormula().</span>
+<span class="c1"># isconstantFormula runs faster when regular expression is not</span>
+<span class="c1"># compiled per every single call.</span>
+
+<span class="n">_rx_constant_formula</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)??(/[-+]?\d+)?$&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="isconstantFormula">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.isconstantFormula">[docs]</a>
+<span class="k">def</span> <span class="nf">isconstantFormula</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if formula string is constant.  True when argument</span>
+<span class="sd">    is a floating point number or a fraction of float with integer.</span>
+
+<span class="sd">    s   -- formula string</span>
+
+<span class="sd">    Return bool.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">_rx_constant_formula</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Helper class intended for this module only:</span>
+
+
+<span class="k">class</span> <span class="nc">_Position2Tuple</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create callable object that converts fractional coordinates to</span>
+<span class="sd">    a tuple of integers with given precision.  For presision close to zero</span>
+<span class="sd">    it will return a tuples of double.</span>
+
+<span class="sd">    Note: Helper class intended for local use only.</span>
+
+<span class="sd">    Data members:</span>
+
+<span class="sd">    eps -- cutoff for equivalent coordinates.  When two coordiantes map to the</span>
+<span class="sd">           same tuple, they are closer than eps.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize _Position2Tuple</span>
+
+<span class="sd">        eps -- cutoff for equivalent coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="c1"># ensure self.eps has exact machine representation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span> <span class="o">+</span> <span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">-</span> <span class="mf">1.0</span>
+        <span class="c1"># no conversions for very small eps</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert array of fractional coordinates to a tuple.</span>
+
+<span class="sd">        xyz -- fractional coordinates</span>
+
+<span class="sd">        Return a tuple of 3 numbers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># no conversion case</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">tpl</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">xyz</span> <span class="o">%</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tpl</span>
+        <span class="c1"># here we convert to integer</span>
+        <span class="n">tpl</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">int</span><span class="p">((</span><span class="n">xi</span> <span class="o">-</span> <span class="n">numpy</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">xi</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">xyz</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">tpl</span>
+
+
+<span class="c1"># End of class _Position2Tuple</span>
+
+
+<div class="viewcode-block" id="positionDifference">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.positionDifference">[docs]</a>
+<span class="k">def</span> <span class="nf">positionDifference</span><span class="p">(</span><span class="n">xyz0</span><span class="p">,</span> <span class="n">xyz1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Smallest difference between two coordinates in periodic lattice.</span>
+
+<span class="sd">    xyz0, xyz1  -- fractional coordinates</span>
+
+<span class="sd">    Return dxyz, a numpy.array dxyz with 0 &lt;= dxyz &lt;= 0.5.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dxyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xyz0</span><span class="p">)</span> <span class="o">-</span> <span class="n">xyz1</span>
+    <span class="c1"># map differences to [0,0.5]</span>
+    <span class="n">dxyz</span> <span class="o">=</span> <span class="n">dxyz</span> <span class="o">-</span> <span class="n">numpy</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">dxyz</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">dxyz</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+    <span class="n">dxyz</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">dxyz</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">dxyz</span></div>
+
+
+
+<div class="viewcode-block" id="nearestSiteIndex">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.nearestSiteIndex">[docs]</a>
+<span class="k">def</span> <span class="nf">nearestSiteIndex</span><span class="p">(</span><span class="n">sites</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Index of the nearest site to a specified position.</span>
+
+<span class="sd">    sites -- list of coordinates or a 2-dimensional numpy.array</span>
+<span class="sd">    xyz   -- single position</span>
+
+<span class="sd">    Return integer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># we use box distance to be consistent with _Position2Tuple conversion</span>
+    <span class="n">dbox</span> <span class="o">=</span> <span class="n">positionDifference</span><span class="p">(</span><span class="n">sites</span><span class="p">,</span> <span class="n">xyz</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">nearindex</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dbox</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nearindex</span></div>
+
+
+
+<div class="viewcode-block" id="equalPositions">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.equalPositions">[docs]</a>
+<span class="k">def</span> <span class="nf">equalPositions</span><span class="p">(</span><span class="n">xyz0</span><span class="p">,</span> <span class="n">xyz1</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Equality of two coordinates with optional tolerance.</span>
+
+<span class="sd">    xyz0, xyz1 -- fractional coordinates</span>
+<span class="sd">    eps        -- tolerance for equality of coordinates</span>
+
+<span class="sd">    Return bool.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># we use box distance to be consistent with _Position2Tuple conversion</span>
+    <span class="n">dxyz</span> <span class="o">=</span> <span class="n">positionDifference</span><span class="p">(</span><span class="n">xyz0</span><span class="p">,</span> <span class="n">xyz1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">dxyz</span> <span class="o">&lt;=</span> <span class="n">eps</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="expandPosition">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.expandPosition">[docs]</a>
+<span class="k">def</span> <span class="nf">expandPosition</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obtain unique equivalent positions and corresponding operations.</span>
+
+<span class="sd">    spacegroup -- instance of SpaceGroup</span>
+<span class="sd">    xyz        -- position to be expanded</span>
+<span class="sd">    sgoffset   -- offset of space group origin [0, 0, 0]</span>
+<span class="sd">    eps        -- cutoff for equal positions</span>
+
+<span class="sd">    Return a tuple with (list of unique equivalent positions, nested</span>
+<span class="sd">    list of SpaceGroups.SymOp instances, site multiplicity).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sgoffset</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sgoffset</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
+    <span class="n">pos2tuple</span> <span class="o">=</span> <span class="n">_Position2Tuple</span><span class="p">(</span><span class="n">eps</span><span class="p">)</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">site_symops</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># position tuples with [related symops]</span>
+    <span class="k">for</span> <span class="n">symop</span> <span class="ow">in</span> <span class="n">spacegroup</span><span class="o">.</span><span class="n">iter_symops</span><span class="p">():</span>
+        <span class="c1"># operate on coordinates in non-shifted spacegroup</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">symop</span><span class="p">(</span><span class="n">xyz</span> <span class="o">+</span> <span class="n">sgoffset</span><span class="p">)</span> <span class="o">-</span> <span class="n">sgoffset</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">pos</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">pos</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">-=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+        <span class="n">tpl</span> <span class="o">=</span> <span class="n">pos2tuple</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tpl</span> <span class="ow">in</span> <span class="n">site_symops</span><span class="p">:</span>
+            <span class="n">pos_is_new</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">site_symops</span><span class="p">[</span><span class="n">tpl</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># double check if there is any position nearby</span>
+            <span class="k">if</span> <span class="n">positions</span><span class="p">:</span>
+                <span class="n">nearpos</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">nearestSiteIndex</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">pos</span><span class="p">)]</span>
+                <span class="c1"># is it an equivalent position?</span>
+                <span class="k">if</span> <span class="n">equalPositions</span><span class="p">(</span><span class="n">nearpos</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+                    <span class="c1"># tpl should map to the same list as nearpos</span>
+                    <span class="n">site_symops</span><span class="p">[</span><span class="n">tpl</span><span class="p">]</span> <span class="o">=</span> <span class="n">site_symops</span><span class="p">[</span><span class="n">pos2tuple</span><span class="p">(</span><span class="n">nearpos</span><span class="p">)]</span>
+                    <span class="n">pos_is_new</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">pos_is_new</span><span class="p">:</span>
+                <span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+        <span class="c1"># here tpl is inside site_symops</span>
+        <span class="n">site_symops</span><span class="p">[</span><span class="n">tpl</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">symop</span><span class="p">)</span>
+    <span class="c1"># pos_symops is nested list of symops associated with each position</span>
+    <span class="n">pos_symops</span> <span class="o">=</span> <span class="p">[</span><span class="n">site_symops</span><span class="p">[</span><span class="n">pos2tuple</span><span class="p">(</span><span class="n">p</span><span class="p">)]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">]</span>
+    <span class="n">multiplicity</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">positions</span><span class="p">,</span> <span class="n">pos_symops</span><span class="p">,</span> <span class="n">multiplicity</span></div>
+
+
+
+<div class="viewcode-block" id="nullSpace">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.nullSpace">[docs]</a>
+<span class="k">def</span> <span class="nf">nullSpace</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Null space of matrix A.&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">linalg</span>
+
+    <span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+    <span class="c1"># s may have smaller dimension than v</span>
+    <span class="n">vnrows</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">v</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">vnrows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">mask</span><span class="p">[</span><span class="n">s</span> <span class="o">&gt;</span> <span class="n">epsilon</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">null_space</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">null_space</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">_findInvariants</span><span class="p">(</span><span class="n">symops</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find a list of symmetry operations which contains identity.</span>
+
+<span class="sd">    symops  -- nested list of SymOp instances</span>
+
+<span class="sd">    Return the list-item in symops which contains identity.</span>
+<span class="sd">    Raise ValueError when identity was not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">invrnts</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">R0</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ops</span> <span class="ow">in</span> <span class="n">symops</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">R</span> <span class="o">==</span> <span class="n">R0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">numpy</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="n">t0</span><span class="p">):</span>
+                <span class="n">invrnts</span> <span class="o">=</span> <span class="n">ops</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">invrnts</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="n">invrnts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Could not find identity operation.&quot;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">invrnts</span>
+
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="GeneratorSite">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite">[docs]</a>
+<span class="k">class</span> <span class="nc">GeneratorSite</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Storage of data related to a generator positions.</span>
+
+<span class="sd">    Data members:</span>
+<span class="sd">        xyz          -- fractional coordinates of generator site</span>
+<span class="sd">        Uij          -- anisotropic thermal displacement at generator site</span>
+<span class="sd">        sgoffset     -- offset of space group origin [0, 0, 0]</span>
+<span class="sd">        eps          -- cutoff for equal positions</span>
+<span class="sd">        eqxyz        -- list of equivalent positions</span>
+<span class="sd">        eqUij        -- list of displacement matrices at equivalent positions</span>
+<span class="sd">        symops       -- nested list of operations per each eqxyz</span>
+<span class="sd">        multiplicity -- generator site multiplicity</span>
+<span class="sd">        Uisotropy    -- bool flag for isotropic thermal factors</span>
+<span class="sd">        invariants   -- list of invariant operations for generator site</span>
+<span class="sd">        null_space   -- null space of all possible differences of invariant</span>
+<span class="sd">                        rotational matrices, this is a base of symmetry</span>
+<span class="sd">                        allowed shifts.</span>
+<span class="sd">        Uspace       -- 3D array of independent components of U matrices.</span>
+<span class="sd">        pparameters  -- list of (xyz symbol, value) pairs</span>
+<span class="sd">        Uparameters  -- list of (U symbol, value) pairs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">Ucomponents</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+            <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+            <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+            <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+            <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+            <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+        <span class="p">],</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">idx2Usymbol</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;U11&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;U12&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;U13&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;U12&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;U22&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;U23&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;U13&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;U23&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;U33&quot;</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">Uij</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GeneratorSite.</span>
+
+<span class="sd">        spacegroup -- instance of SpaceGroup</span>
+<span class="sd">        xyz        -- generating site.  When xyz is close to special</span>
+<span class="sd">                      position self.xyz will be adjusted.</span>
+<span class="sd">        Uij        -- thermal factors at generator site.  Yields self.Uij</span>
+<span class="sd">                      after adjusting to spacegroup symmetry.</span>
+<span class="sd">        sgoffset   -- offset of space group origin [0, 0, 0]</span>
+<span class="sd">        eps        -- cutoff for equal positions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="c1"># just declare the members</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xyz</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uij</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Uij</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sgoffset</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sgoffset</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqxyz</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqUij</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symops</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uisotropy</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">null_space</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uspace</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pparameters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uparameters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># fill in the values</span>
+        <span class="n">sites</span><span class="p">,</span> <span class="n">ops</span><span class="p">,</span> <span class="n">mult</span> <span class="o">=</span> <span class="n">expandPosition</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">sgoffset</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+        <span class="n">invariants</span> <span class="o">=</span> <span class="n">_findInvariants</span><span class="p">(</span><span class="n">ops</span><span class="p">)</span>
+        <span class="c1"># shift self.xyz exactly to the special position</span>
+        <span class="k">if</span> <span class="n">mult</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">xyzdups</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">op</span><span class="p">(</span><span class="n">xyz</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sgoffset</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sgoffset</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">invariants</span><span class="p">])</span>
+            <span class="n">dxyz</span> <span class="o">=</span> <span class="n">xyzdups</span> <span class="o">-</span> <span class="n">xyz</span>
+            <span class="n">dxyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dxyz</span> <span class="o">-</span> <span class="n">dxyz</span><span class="o">.</span><span class="n">round</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c1"># recalculate if needed</span>
+            <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">dxyz</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span> <span class="o">=</span> <span class="n">xyz</span> <span class="o">+</span> <span class="n">dxyz</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="n">sites</span><span class="p">,</span> <span class="n">ops</span><span class="p">,</span> <span class="n">mult</span> <span class="o">=</span> <span class="n">expandPosition</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sgoffset</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+                <span class="n">invariants</span> <span class="o">=</span> <span class="n">_findInvariants</span><span class="p">(</span><span class="n">ops</span><span class="p">)</span>
+        <span class="c1"># self.xyz, sites, ops are all adjusted here</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqxyz</span> <span class="o">=</span> <span class="n">sites</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symops</span> <span class="o">=</span> <span class="n">ops</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span> <span class="o">=</span> <span class="n">mult</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span> <span class="o">=</span> <span class="n">invariants</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_findNullSpace</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_findPosParameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_findUSpace</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_findUParameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_findeqUij</span><span class="p">()</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="GeneratorSite.signedRatStr">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.signedRatStr">[docs]</a>
+    <span class="k">def</span> <span class="nf">signedRatStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert floating point number to signed rational representation.</span>
+<span class="sd">        Possible fractional are multiples of 1/3, 1/6, 1/7, 1/9, if these</span>
+<span class="sd">        are not close, return &quot;%+g&quot; format.</span>
+
+<span class="sd">        Return string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:.8g}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%+g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span>
+        <span class="n">den</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
+        <span class="n">nom</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">den</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">nom</span> <span class="o">-</span> <span class="n">nom</span><span class="o">.</span><span class="n">round</span><span class="p">())</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">idx</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%+g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span>
+        <span class="c1"># here we have fraction</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%+.0f</span><span class="s2">/</span><span class="si">%.0f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nom</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">den</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_findNullSpace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate self.null_space from self.invariants.</span>
+<span class="sd">        Try to represent self.null_space using small integers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">R0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">R</span>
+        <span class="n">Rdiff</span> <span class="o">=</span> <span class="p">[(</span><span class="n">symop</span><span class="o">.</span><span class="n">R</span> <span class="o">-</span> <span class="n">R0</span><span class="p">)</span> <span class="k">for</span> <span class="n">symop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">]</span>
+        <span class="n">Rdiff</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">Rdiff</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">null_space</span> <span class="o">=</span> <span class="n">nullSpace</span><span class="p">(</span><span class="n">Rdiff</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">null_space</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># reverse sort rows of null_space rows by absolute value</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">null_space</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">lexsort</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">null_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">null_space</span><span class="p">[</span><span class="n">order</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="c1"># rationalize by the smallest element larger than cutoff</span>
+        <span class="n">cutoff</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mi">32</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">null_space</span><span class="p">:</span>
+            <span class="n">abrow</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="n">sgrow</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="c1"># equalize items with round-off-equal absolute value</span>
+            <span class="n">ii</span> <span class="o">=</span> <span class="n">abrow</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+            <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-8</span> <span class="o">*</span> <span class="n">abrow</span><span class="p">[</span><span class="n">ii</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ii</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="k">if</span> <span class="n">abrow</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">abrow</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">delta</span><span class="p">:</span>
+                    <span class="n">abrow</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">abrow</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># find the smallest nonzero absolute element</span>
+            <span class="n">jnz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">abrow</span> <span class="o">&gt;</span> <span class="n">cutoff</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">jnz</span><span class="p">[</span><span class="n">abrow</span><span class="p">[</span><span class="n">jnz</span><span class="p">]</span><span class="o">.</span><span class="n">argmin</span><span class="p">()]</span>
+            <span class="n">row</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sgrow</span> <span class="o">*</span> <span class="n">abrow</span><span class="p">)</span> <span class="o">/</span> <span class="n">sgrow</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">/</span> <span class="n">abrow</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_findPosParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find pparameters and their values for expressing self.xyz.&quot;&quot;&quot;</span>
+        <span class="n">usedsymbol</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># parameter values depend on offset of self.xyz</span>
+        <span class="n">txyz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span>
+        <span class="c1"># define txyz such that most of its elements are zero</span>
+        <span class="k">for</span> <span class="n">nvec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">null_space</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">nvec</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">epsilon</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">varvalue</span> <span class="o">=</span> <span class="n">txyz</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">/</span> <span class="n">nvec</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">txyz</span> <span class="o">=</span> <span class="n">txyz</span> <span class="o">-</span> <span class="n">varvalue</span> <span class="o">*</span> <span class="n">nvec</span>
+            <span class="c1"># determine standard parameter name</span>
+            <span class="n">vname</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="s2">&quot;xyz&quot;</span><span class="p">[</span><span class="n">idx</span><span class="p">:]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">usedsymbol</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pparameters</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">vname</span><span class="p">,</span> <span class="n">varvalue</span><span class="p">))</span>
+            <span class="n">usedsymbol</span><span class="p">[</span><span class="n">vname</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_findUSpace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find independent U components with respect to invariant</span>
+<span class="sd">        rotations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">)</span>
+        <span class="n">R6zall</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="o">-</span><span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">R6zall_iter</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">R6zall</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">i6kl</span> <span class="o">=</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">R6z</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">,</span> <span class="n">R6zall_iter</span><span class="p">):</span>
+            <span class="n">R</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">R</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">Ucj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ucomponents</span><span class="p">):</span>
+                <span class="n">Ucj2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Ucj</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">kl</span> <span class="ow">in</span> <span class="n">i6kl</span><span class="p">:</span>
+                    <span class="n">R6z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Ucj2</span><span class="p">[</span><span class="n">kl</span><span class="p">]</span>
+        <span class="n">Usp6</span> <span class="o">=</span> <span class="n">nullSpace</span><span class="p">(</span><span class="n">R6zall</span><span class="p">)</span>
+        <span class="c1"># normalize Usp6 by its maximum component</span>
+        <span class="n">mxcols</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">Usp6</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">mxrows</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mxcols</span><span class="p">))</span>
+        <span class="n">Usp6</span> <span class="o">/=</span> <span class="n">Usp6</span><span class="p">[</span><span class="n">mxrows</span><span class="p">,</span> <span class="n">mxcols</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">Usp6</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">Usp6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># normalize again after rounding to get correct signs</span>
+        <span class="n">mxcols</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">Usp6</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">Usp6</span> <span class="o">/=</span> <span class="n">Usp6</span><span class="p">[</span><span class="n">mxrows</span><span class="p">,</span> <span class="n">mxcols</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uspace</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">Usp6</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ucomponents</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uisotropy</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Uspace</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_findUParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find Uparameters and their values for expressing self.Uij.&quot;&quot;&quot;</span>
+        <span class="c1"># permute indices as     00 11 22 01 02 12 10 20 21</span>
+        <span class="n">diagorder</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+        <span class="n">Uijflat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uij</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">Usp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uspace</span><span class="p">:</span>
+            <span class="n">Uspflat</span> <span class="o">=</span> <span class="n">Usp</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">Uspnorm2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Uspflat</span><span class="p">,</span> <span class="n">Uspflat</span><span class="p">)</span>
+            <span class="n">permidx</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Uspflat</span><span class="p">[</span><span class="n">diagorder</span><span class="p">])</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">diagorder</span><span class="p">[</span><span class="n">permidx</span><span class="p">]</span>
+            <span class="n">vname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx2Usymbol</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">varvalue</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Uijflat</span><span class="p">,</span> <span class="n">Uspflat</span><span class="p">)</span> <span class="o">/</span> <span class="n">Uspnorm2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Uparameters</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">vname</span><span class="p">,</span> <span class="n">varvalue</span><span class="p">))</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_findeqUij</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjust self.Uij and self.eqUij to be consistent with spacegroup&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uij</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Uparameters</span><span class="p">)):</span>
+            <span class="n">Usp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uspace</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">varvalue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uparameters</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Uij</span> <span class="o">+=</span> <span class="n">varvalue</span> <span class="o">*</span> <span class="n">Usp</span>
+        <span class="c1"># now determine eqUij</span>
+        <span class="k">for</span> <span class="n">ops</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">symops</span><span class="p">:</span>
+            <span class="c1"># take first rotation matrix</span>
+            <span class="n">R</span> <span class="o">=</span> <span class="n">ops</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">R</span>
+            <span class="n">Rt</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eqUij</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Uij</span><span class="p">,</span> <span class="n">Rt</span><span class="p">)))</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="GeneratorSite.positionFormula">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.positionFormula">[docs]</a>
+    <span class="k">def</span> <span class="nf">positionFormula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">)):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Formula of equivalent position with respect to generator site</span>
+
+<span class="sd">        pos        -- fractional coordinates of possibly equivalent site</span>
+<span class="sd">        xyzsymbols -- symbols for parametrized coordinates</span>
+
+<span class="sd">        Return position formulas in a dictionary with keys equal (&quot;x&quot;, &quot;y&quot;, &quot;z&quot;)</span>
+<span class="sd">        or an empty dictionary when pos is not equivalent to generator.</span>
+<span class="sd">        Formulas are formatted as &quot;[[-][%g*]{x|y|z}] [{+|-}%g]&quot;, for example</span>
+<span class="sd">        &quot;-x&quot;, &quot;z +0.5&quot;, &quot;0.25&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># find pos in eqxyz</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">nearestSiteIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eqxyz</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+        <span class="n">eqpos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqxyz</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">equalPositions</span><span class="p">(</span><span class="n">eqpos</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="c1"># any rotation matrix should do fine</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">symops</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">R</span>
+        <span class="n">nsrotated</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">null_space</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">R</span><span class="p">))</span>
+        <span class="c1"># build formulas using eqpos</span>
+        <span class="c1"># find offset</span>
+        <span class="n">teqpos</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eqpos</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">nvec</span><span class="p">,</span> <span class="p">(</span><span class="n">vname</span><span class="p">,</span> <span class="n">varvalue</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nsrotated</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pparameters</span><span class="p">):</span>
+            <span class="n">teqpos</span> <span class="o">-=</span> <span class="n">nvec</span> <span class="o">*</span> <span class="n">varvalue</span>
+        <span class="c1"># map varnames to xyzsymbols</span>
+        <span class="n">name2sym</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">((</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">),</span> <span class="n">xyzsymbols</span><span class="p">))</span>
+        <span class="n">xyzformula</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">nvec</span><span class="p">,</span> <span class="p">(</span><span class="n">vname</span><span class="p">,</span> <span class="n">ignore</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nsrotated</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pparameters</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nvec</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">epsilon</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">xyzformula</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">*</span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signedRatStr</span><span class="p">(</span><span class="n">nvec</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">name2sym</span><span class="p">[</span><span class="n">vname</span><span class="p">])</span>
+        <span class="c1"># add constant offset teqpos to all formulas</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">xyzformula</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">teqpos</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">epsilon</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">xyzformula</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signedRatStr</span><span class="p">(</span><span class="n">teqpos</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="c1"># reduce unnecessary +1* and -1*</span>
+        <span class="n">xyzformula</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;^[+]1[*]|(?&lt;=[+-])1[*]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">xyzformula</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">((</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">),</span> <span class="n">xyzformula</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="GeneratorSite.UFormula">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.UFormula">[docs]</a>
+    <span class="k">def</span> <span class="nf">UFormula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="n">stdUsymbols</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formulas with custom parameter symbols.</span>
+
+<span class="sd">        pos        -- fractional coordinates of possibly equivalent site</span>
+<span class="sd">        Usymbols   -- 6 symbols for possible U matrix parameters</span>
+
+<span class="sd">        Return U element formulas in a dictionary where keys are from</span>
+<span class="sd">        (&#39;U11&#39;,&#39;U22&#39;,&#39;U33&#39;,&#39;U12&#39;,&#39;U13&#39;,&#39;U23&#39;) or empty dictionary when</span>
+<span class="sd">        pos is not equivalent to generator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># find pos in eqxyz</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">nearestSiteIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eqxyz</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+        <span class="n">eqpos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqxyz</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">equalPositions</span><span class="p">(</span><span class="n">eqpos</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="c1"># any rotation matrix should do fine</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">symops</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">R</span>
+        <span class="n">Rt</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="n">Usrotated</span> <span class="o">=</span> <span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Us</span><span class="p">,</span> <span class="n">Rt</span><span class="p">))</span> <span class="k">for</span> <span class="n">Us</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uspace</span><span class="p">]</span>
+        <span class="n">Uformula</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">stdUsymbols</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">name2sym</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">stdUsymbols</span><span class="p">,</span> <span class="n">Usymbols</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">Usr</span><span class="p">,</span> <span class="p">(</span><span class="n">vname</span><span class="p">,</span> <span class="n">ignore</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Usrotated</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uparameters</span><span class="p">):</span>
+            <span class="c1"># avoid adding off-diagonal elements twice</span>
+            <span class="k">assert</span> <span class="n">numpy</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">Usr</span> <span class="o">==</span> <span class="n">Usr</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">Usr</span> <span class="o">-=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">tril</span><span class="p">(</span><span class="n">Usr</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">Usrflat</span> <span class="o">=</span> <span class="n">Usr</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">numpy</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Usrflat</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%+g</span><span class="s2">*</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">Usrflat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">name2sym</span><span class="p">[</span><span class="n">vname</span><span class="p">])</span>
+                <span class="n">smbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx2Usymbol</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">Uformula</span><span class="p">[</span><span class="n">smbl</span><span class="p">]</span> <span class="o">+=</span> <span class="n">f</span>
+        <span class="k">for</span> <span class="n">smbl</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">Uformula</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[+]?1[*]|^[+](?=\d)|(?&lt;=[+-])1[*]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">Uformula</span><span class="p">[</span><span class="n">smbl</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="k">return</span> <span class="n">Uformula</span></div>
+
+
+<div class="viewcode-block" id="GeneratorSite.eqIndex">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.eqIndex">[docs]</a>
+    <span class="k">def</span> <span class="nf">eqIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Index of the nearest generator equivalent site</span>
+
+<span class="sd">        pos -- fractional coordinates</span>
+
+<span class="sd">        Return integer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">nearestSiteIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eqxyz</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># End of class GeneratorSite</span>
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="ExpandAsymmetricUnit">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.ExpandAsymmetricUnit">[docs]</a>
+<span class="k">class</span> <span class="nc">ExpandAsymmetricUnit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Expand asymmetric unit and anisotropic thermal displacement</span>
+
+<span class="sd">    Data members:</span>
+<span class="sd">        spacegroup  -- instance of SpaceGroup</span>
+<span class="sd">        corepos     -- list of positions in asymmetric unit,</span>
+<span class="sd">                       it may contain duplicates</span>
+<span class="sd">        coreUijs    -- thermal factors for corepos (defaults to zeros)</span>
+<span class="sd">        sgoffset    -- optional offset of space group origin [0, 0, 0]</span>
+<span class="sd">        eps         -- cutoff for equivalent positions</span>
+<span class="sd">    Calculated data members:</span>
+<span class="sd">        multiplicity -- multiplicity of each site in corepos</span>
+<span class="sd">        Uisotropy   -- bool flags for isotropic sites in corepos</span>
+<span class="sd">        expandedpos -- list of equivalent positions per each site in corepos</span>
+<span class="sd">        expandedUijs -- list of thermal factors per each site in corepos</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># By design Atom instances are not accepted as arguments to keep</span>
+    <span class="c1"># number of required imports low.</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">corepos</span><span class="p">,</span> <span class="n">coreUijs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize and calculate instance of ExpandAsymmetricUnit</span>
+
+<span class="sd">        spacegroup   -- instance of SpaceGroup</span>
+<span class="sd">        corepos      -- list of positions in asymmetric unit,</span>
+<span class="sd">                        it may contain duplicates</span>
+<span class="sd">        coreUijs     -- thermal factors for corepos (defaults to zeros)</span>
+<span class="sd">        sgoffset     -- offset of space group origin [0, 0, 0]</span>
+<span class="sd">        eps          -- cutoff for duplicate positions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="c1"># declare data members</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spacegroup</span> <span class="o">=</span> <span class="n">spacegroup</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corepos</span> <span class="o">=</span> <span class="n">corepos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coreUijs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sgoffset</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sgoffset</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uisotropy</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expandedpos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expandedUijs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># obtain their values</span>
+        <span class="n">corelen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corepos</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">coreUijs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coreUijs</span> <span class="o">=</span> <span class="n">coreUijs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coreUijs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">corelen</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">cpos</span><span class="p">,</span> <span class="n">cUij</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corepos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coreUijs</span><span class="p">):</span>
+            <span class="n">gen</span> <span class="o">=</span> <span class="n">GeneratorSite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">cpos</span><span class="p">,</span> <span class="n">cUij</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sgoffset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gen</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Uisotropy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gen</span><span class="o">.</span><span class="n">Uisotropy</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">expandedpos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gen</span><span class="o">.</span><span class="n">eqxyz</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">expandedUijs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gen</span><span class="o">.</span><span class="n">eqUij</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+
+<span class="c1"># End of class ExpandAsymmetricUnit</span>
+
+
+<span class="c1"># Helper function for SymmetryConstraints class.  It may be useful</span>
+<span class="c1"># elsewhere therefore its name does not start with underscore.</span>
+
+
+<div class="viewcode-block" id="pruneFormulaDictionary">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.pruneFormulaDictionary">[docs]</a>
+<span class="k">def</span> <span class="nf">pruneFormulaDictionary</span><span class="p">(</span><span class="n">eqdict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove constant items from formula dictionary.</span>
+
+<span class="sd">    eqdict -- formula dictionary which maps standard variable symbols</span>
+<span class="sd">              (&quot;x&quot;, &quot;U11&quot;) to string formulas (&quot;0&quot;, &quot;-x3&quot;, &quot;z7 +0.5&quot;)</span>
+
+<span class="sd">    Return pruned formula dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pruned</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">smb</span><span class="p">,</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">eqdict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isconstantFormula</span><span class="p">(</span><span class="n">eq</span><span class="p">):</span>
+            <span class="n">pruned</span><span class="p">[</span><span class="n">smb</span><span class="p">]</span> <span class="o">=</span> <span class="n">eq</span>
+    <span class="k">return</span> <span class="n">pruned</span></div>
+
+
+
+<div class="viewcode-block" id="SymmetryConstraints">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints">[docs]</a>
+<span class="k">class</span> <span class="nc">SymmetryConstraints</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate symmetry constraints for specified positions</span>
+
+<span class="sd">    Data members:</span>
+<span class="sd">        spacegroup -- instance of SpaceGroup</span>
+<span class="sd">        positions  -- all positions to be constrained</span>
+<span class="sd">        Uijs       -- thermal factors for all positions (defaults to zeros)</span>
+<span class="sd">        sgoffset   -- optional offset of space group origin [0, 0, 0]</span>
+<span class="sd">        eps        -- cutoff for equivalent positions</span>
+<span class="sd">    Calculated data members:</span>
+<span class="sd">        corepos    -- list of of positions in the asymmetric unit</span>
+<span class="sd">        coremap    -- dictionary mapping indices of asymmetric core positions</span>
+<span class="sd">                      to indices of all symmetry related positions</span>
+<span class="sd">        poseqns    -- list of coordinate formula dictionaries per each site.</span>
+<span class="sd">                      Formula dictionary keys are from (&quot;x&quot;, &quot;y&quot;, &quot;z&quot;) and</span>
+<span class="sd">                      the values are formatted as [[-]{x|y|z}%i] [{+|-}%g],</span>
+<span class="sd">                      for example: &quot;x0&quot;, &quot;-x3&quot;, &quot;z7 +0.5&quot;, &quot;0.25&quot;.</span>
+<span class="sd">        pospars    -- list of (xyz symbol, value) pairs</span>
+<span class="sd">        Ueqns      -- list of anisotropic atomic displacement formula</span>
+<span class="sd">                      dictionaries per each position.  Formula dictionary</span>
+<span class="sd">                      keys are from (&#39;U11&#39;,&#39;U22&#39;,&#39;U33&#39;,&#39;U12&#39;,&#39;U13&#39;,&#39;U23&#39;)</span>
+<span class="sd">                      and the values are formatted as {[%g*][Uij%i]|0},</span>
+<span class="sd">                      for example: &quot;U110&quot;, &quot;0.5*U2213&quot;, &quot;0&quot;</span>
+<span class="sd">        Upars      -- list of (U symbol, value) pairs</span>
+<span class="sd">        Uisotropy  -- list of bool flags for isotropic thermal displacements</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">Uijs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize and calculate SymmetryConstraints.</span>
+
+<span class="sd">        spacegroup -- instance of SpaceGroup</span>
+<span class="sd">        positions  -- list of all positions to be constrained</span>
+<span class="sd">        Uijs       -- list of U matrices for all constrained positions</span>
+<span class="sd">        sgoffset   -- optional offset of space group origin [0, 0, 0]</span>
+<span class="sd">        eps        -- cutoff for equivalent positions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="c1"># fill in data members</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spacegroup</span> <span class="o">=</span> <span class="n">spacegroup</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uijs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sgoffset</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sgoffset</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corepos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coremap</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">poseqns</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pospars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ueqns</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Upars</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uisotropy</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># handle list of lists returned by ExpandAsymmetricUnit</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="c1"># concatenate lists before converting to Nx3 array</span>
+            <span class="n">flatpos</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">flatpos</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">flatpos</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">flatpos</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="c1"># otherwise convert to array</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flatpos</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">flatpos</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="c1"># here self.positions should be a 2D numpy array</span>
+        <span class="n">numpos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+        <span class="c1"># adjust Uijs if not specified</span>
+        <span class="k">if</span> <span class="n">Uijs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Uijs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Uijs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Uijs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">numpos</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">poseqns</span> <span class="o">=</span> <span class="n">numpos</span> <span class="o">*</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ueqns</span> <span class="o">=</span> <span class="n">numpos</span> <span class="o">*</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uisotropy</span> <span class="o">=</span> <span class="n">numpos</span> <span class="o">*</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span>
+        <span class="c1"># all members should be initialized here</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_findConstraints</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_findConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find constraints for positions and anisotropic displacements Uij&quot;&quot;&quot;</span>
+        <span class="n">numpos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+        <span class="c1"># canonical xyzsymbols and Usymbols</span>
+        <span class="n">xyzsymbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">smbl</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numpos</span><span class="p">)</span> <span class="k">for</span> <span class="n">smbl</span> <span class="ow">in</span> <span class="s2">&quot;xyz&quot;</span><span class="p">]</span>
+        <span class="n">Usymbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">smbl</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numpos</span><span class="p">)</span> <span class="k">for</span> <span class="n">smbl</span> <span class="ow">in</span> <span class="n">stdUsymbols</span><span class="p">]</span>
+        <span class="n">independent</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">numpos</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">genidx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numpos</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">genidx</span> <span class="ow">in</span> <span class="n">independent</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># it is a generator</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coremap</span><span class="p">[</span><span class="n">genidx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">genpos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">genidx</span><span class="p">]</span>
+            <span class="n">genUij</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uijs</span><span class="p">[</span><span class="n">genidx</span><span class="p">]</span>
+            <span class="n">gen</span> <span class="o">=</span> <span class="n">GeneratorSite</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">genpos</span><span class="p">,</span> <span class="n">genUij</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sgoffset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+            <span class="c1"># append new pparameters if there are any</span>
+            <span class="n">gxyzsymbols</span> <span class="o">=</span> <span class="n">xyzsymbols</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">genidx</span> <span class="p">:</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">genidx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">gen</span><span class="o">.</span><span class="n">pparameters</span><span class="p">:</span>
+                <span class="n">smbl</span> <span class="o">=</span> <span class="n">gxyzsymbols</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pospars</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">smbl</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+            <span class="n">gUsymbols</span> <span class="o">=</span> <span class="n">Usymbols</span><span class="p">[</span><span class="mi">6</span> <span class="o">*</span> <span class="n">genidx</span> <span class="p">:</span> <span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="n">genidx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">gen</span><span class="o">.</span><span class="n">Uparameters</span><span class="p">:</span>
+                <span class="n">smbl</span> <span class="o">=</span> <span class="n">gUsymbols</span><span class="p">[</span><span class="n">stdUsymbols</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Upars</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">smbl</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+            <span class="c1"># search for equivalents inside indies</span>
+            <span class="n">indies</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">independent</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">indidx</span> <span class="ow">in</span> <span class="n">indies</span><span class="p">:</span>
+                <span class="n">indpos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">indidx</span><span class="p">]</span>
+                <span class="n">formula</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">positionFormula</span><span class="p">(</span><span class="n">indpos</span><span class="p">,</span> <span class="n">gxyzsymbols</span><span class="p">)</span>
+                <span class="c1"># formula is empty when indidx is independent</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">formula</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># indidx is dependent here</span>
+                <span class="n">independent</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">indidx</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">coremap</span><span class="p">[</span><span class="n">genidx</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indidx</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">poseqns</span><span class="p">[</span><span class="n">indidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">formula</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Ueqns</span><span class="p">[</span><span class="n">indidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">UFormula</span><span class="p">(</span><span class="n">indpos</span><span class="p">,</span> <span class="n">gUsymbols</span><span class="p">)</span>
+                <span class="c1"># make sure positions and Uijs are consistent with spacegroup</span>
+                <span class="n">eqidx</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">eqIndex</span><span class="p">(</span><span class="n">indpos</span><span class="p">)</span>
+                <span class="n">dxyz</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">eqxyz</span><span class="p">[</span><span class="n">eqidx</span><span class="p">]</span> <span class="o">-</span> <span class="n">indpos</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">indidx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dxyz</span> <span class="o">-</span> <span class="n">dxyz</span><span class="o">.</span><span class="n">round</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Uijs</span><span class="p">[</span><span class="n">indidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">eqUij</span><span class="p">[</span><span class="n">eqidx</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Uisotropy</span><span class="p">[</span><span class="n">indidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">Uisotropy</span>
+        <span class="c1"># all done here</span>
+        <span class="n">coreidx</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coremap</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corepos</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">coreidx</span><span class="p">]</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="SymmetryConstraints.posparSymbols">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.posparSymbols">[docs]</a>
+    <span class="k">def</span> <span class="nf">posparSymbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of standard position parameter symbols.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pospars</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SymmetryConstraints.posparValues">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.posparValues">[docs]</a>
+    <span class="k">def</span> <span class="nf">posparValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of position parameters values.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pospars</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SymmetryConstraints.positionFormulas">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.positionFormulas">[docs]</a>
+    <span class="k">def</span> <span class="nf">positionFormulas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of position formulas with custom parameter symbols.</span>
+
+<span class="sd">        xyzsymbols -- list of custom symbols used in formula strings</span>
+
+<span class="sd">        Return list of coordinate formulas dictionaries.  Formulas dictionary</span>
+<span class="sd">        keys are from (&quot;x&quot;, &quot;y&quot;, &quot;z&quot;) and the values are formatted as</span>
+<span class="sd">        [[-]{symbol}] [{+|-}%g], for example: &quot;x0&quot;, &quot;-sym&quot;, &quot;@7 +0.5&quot;, &quot;0.25&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">xyzsymbols</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">poseqns</span><span class="p">)</span>
+        <span class="c1"># check xyzsymbols</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xyzsymbols</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pospars</span><span class="p">):</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Not enough symbols for </span><span class="si">%i</span><span class="s2"> position parameters&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pospars</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">SymmetryError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="c1"># build translation dictionary</span>
+        <span class="n">trsmbl</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">posparSymbols</span><span class="p">(),</span> <span class="n">xyzsymbols</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">translatesymbol</span><span class="p">(</span><span class="n">matchobj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">trsmbl</span><span class="p">[</span><span class="n">matchobj</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+
+        <span class="n">pat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\b[xyz]\d+&quot;</span><span class="p">)</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">eqns</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">poseqns</span><span class="p">:</span>
+            <span class="n">treqns</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">smbl</span><span class="p">,</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">eqns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">treqns</span><span class="p">[</span><span class="n">smbl</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">translatesymbol</span><span class="p">,</span> <span class="n">eq</span><span class="p">)</span>
+            <span class="n">rv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">treqns</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
+
+
+<div class="viewcode-block" id="SymmetryConstraints.positionFormulasPruned">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.positionFormulasPruned">[docs]</a>
+    <span class="k">def</span> <span class="nf">positionFormulasPruned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of position formula dictionaries with constant items removed.</span>
+<span class="sd">        See also positionFormulas().</span>
+
+<span class="sd">        xyzsymbols -- list of custom symbols used in formula strings</span>
+
+<span class="sd">        Return list of coordinate formula dictionaries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">[</span><span class="n">pruneFormulaDictionary</span><span class="p">(</span><span class="n">eqns</span><span class="p">)</span> <span class="k">for</span> <span class="n">eqns</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">positionFormulas</span><span class="p">(</span><span class="n">xyzsymbols</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
+
+
+<div class="viewcode-block" id="SymmetryConstraints.UparSymbols">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.UparSymbols">[docs]</a>
+    <span class="k">def</span> <span class="nf">UparSymbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of standard atom displacement parameter symbols.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Upars</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SymmetryConstraints.UparValues">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.UparValues">[docs]</a>
+    <span class="k">def</span> <span class="nf">UparValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of atom displacement parameters values.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Upars</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SymmetryConstraints.UFormulas">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulas">[docs]</a>
+    <span class="k">def</span> <span class="nf">UFormulas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formulas with custom parameter symbols.</span>
+
+<span class="sd">        Usymbols -- list of custom symbols used in formula strings</span>
+
+<span class="sd">        Return list of atom displacement formula dictionaries per each site.</span>
+<span class="sd">        Formula dictionary keys are from (&#39;U11&#39;,&#39;U22&#39;,&#39;U33&#39;,&#39;U12&#39;,&#39;U13&#39;,&#39;U23&#39;)</span>
+<span class="sd">        and the values are formatted as {[%g*][Usymbol]|0}, for example:</span>
+<span class="sd">        &quot;U11&quot;, &quot;0.5*@37&quot;, &quot;0&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">Usymbols</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ueqns</span><span class="p">)</span>
+        <span class="c1"># check Usymbols</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Usymbols</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Upars</span><span class="p">):</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Not enough symbols for </span><span class="si">%i</span><span class="s2"> U parameters&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Upars</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">SymmetryError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="c1"># build translation dictionary</span>
+        <span class="n">trsmbl</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">UparSymbols</span><span class="p">(),</span> <span class="n">Usymbols</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">translatesymbol</span><span class="p">(</span><span class="n">matchobj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">trsmbl</span><span class="p">[</span><span class="n">matchobj</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+
+        <span class="n">pat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\bU\d\d\d+&quot;</span><span class="p">)</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">eqns</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ueqns</span><span class="p">:</span>
+            <span class="n">treqns</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">smbl</span><span class="p">,</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">eqns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">treqns</span><span class="p">[</span><span class="n">smbl</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">translatesymbol</span><span class="p">,</span> <span class="n">eq</span><span class="p">)</span>
+            <span class="n">rv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">treqns</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
+
+
+<div class="viewcode-block" id="SymmetryConstraints.UFormulasPruned">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulasPruned">[docs]</a>
+    <span class="k">def</span> <span class="nf">UFormulasPruned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formula dictionaries with constant items</span>
+<span class="sd">        removed.  See also UFormulas().</span>
+
+<span class="sd">        Usymbols -- list of custom symbols used in formula strings</span>
+
+<span class="sd">        Return list of atom displacement formulas in tuples of</span>
+<span class="sd">        (U11, U22, U33, U12, U13, U23).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">[</span><span class="n">pruneFormulaDictionary</span><span class="p">(</span><span class="n">eqns</span><span class="p">)</span> <span class="k">for</span> <span class="n">eqns</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">UFormulas</span><span class="p">(</span><span class="n">Usymbols</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
+</div>
+
+
+
+<span class="c1"># End of class SymmetryConstraints</span>
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+<span class="c1"># basic demonstration</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">diffpy.structure.spacegroups</span> <span class="kn">import</span> <span class="n">sg100</span>
+
+    <span class="n">site</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.625</span><span class="p">,</span> <span class="mf">0.13</span><span class="p">]</span>
+    <span class="n">Uij</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">GeneratorSite</span><span class="p">(</span><span class="n">sg100</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">Uij</span><span class="o">=</span><span class="n">Uij</span><span class="p">)</span>
+    <span class="n">fm100</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">positionFormula</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;g = GeneratorSite(sg100, </span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">site</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;g.positionFormula(</span><span class="si">%r</span><span class="s2">) = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">fm100</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;g.pparameters =&quot;</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">pparameters</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;g.Uparameters =&quot;</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">Uparameters</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;g.UFormula(</span><span class="si">%r</span><span class="s2">) =&quot;</span> <span class="o">%</span> <span class="n">site</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">UFormula</span><span class="p">(</span><span class="n">site</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

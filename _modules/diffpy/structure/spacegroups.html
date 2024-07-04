@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.structure.spacegroups &mdash; diffpy.structure 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=0ffc2956"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            diffpy.structure
+          </a>
+              <div class="version">
+                3.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.structure.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">diffpy.structure</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../structure.html">diffpy.structure</a></li>
+      <li class="breadcrumb-item active">diffpy.structure.spacegroups</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.structure.spacegroups</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># diffpy.structure  by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2011 Trustees of the Columbia University</span>
+<span class="c1">#                   in the City of New York.  All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Pavol Juhas</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE_DANSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;Space group classes and definitions from mmLib and sgtbx.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">six</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.structure.mmlibspacegroups</span> <span class="kn">import</span> <span class="n">mmLibSpaceGroupList</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure.sgtbxspacegroups</span> <span class="kn">import</span> <span class="n">sgtbxSpaceGroupList</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure.spacegroupmod</span> <span class="kn">import</span> <span class="n">SpaceGroup</span><span class="p">,</span> <span class="n">SymOp</span>
+
+<span class="c1"># all spacegroup definitions</span>
+<span class="n">SpaceGroupList</span> <span class="o">=</span> <span class="n">mmLibSpaceGroupList</span> <span class="o">+</span> <span class="n">sgtbxSpaceGroupList</span>
+
+
+<div class="viewcode-block" id="GetSpaceGroup">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.spacegroups.GetSpaceGroup">[docs]</a>
+<span class="k">def</span> <span class="nf">GetSpaceGroup</span><span class="p">(</span><span class="n">sgid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the SpaceGroup instance for the given identifier.</span>
+
+<span class="sd">    sgid -- space group symbol, either short_name or pdb_name,</span>
+<span class="sd">            whatever it means in mmlib.  Can be also an integer.</span>
+
+<span class="sd">    Return space group instance.</span>
+<span class="sd">    Raise ValueError when not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_sg_lookup_table</span><span class="p">:</span>
+        <span class="n">_buildSGLookupTable</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">sgid</span> <span class="ow">in</span> <span class="n">_sg_lookup_table</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_sg_lookup_table</span><span class="p">[</span><span class="n">sgid</span><span class="p">]</span>
+    <span class="c1"># Try different versions of sgid, first make sure it is a string</span>
+    <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Unknown space group identifier </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sgid</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sgid</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+    <span class="n">sgbare</span> <span class="o">=</span> <span class="n">sgid</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="c1"># short_name case adjusted</span>
+    <span class="n">sgkey</span> <span class="o">=</span> <span class="n">sgbare</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">sgkey</span> <span class="o">=</span> <span class="n">sgkey</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">sgkey</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">sgkey</span> <span class="ow">in</span> <span class="n">_sg_lookup_table</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_sg_lookup_table</span><span class="p">[</span><span class="n">sgkey</span><span class="p">]</span>
+    <span class="c1"># pdb_name case adjusted</span>
+    <span class="n">sgkey</span> <span class="o">=</span> <span class="n">sgbare</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">sgbare</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">sgkey</span> <span class="ow">in</span> <span class="n">_sg_lookup_table</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_sg_lookup_table</span><span class="p">[</span><span class="n">sgkey</span><span class="p">]</span>
+    <span class="c1"># nothing worked, sgid is unknown identifier</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="IsSpaceGroupIdentifier">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.spacegroups.IsSpaceGroupIdentifier">[docs]</a>
+<span class="k">def</span> <span class="nf">IsSpaceGroupIdentifier</span><span class="p">(</span><span class="n">sgid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if identifier can be used as an argument to GetSpaceGroup.</span>
+
+<span class="sd">    Return bool.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">GetSpaceGroup</span><span class="p">(</span><span class="n">sgid</span><span class="p">)</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">rv</span></div>
+
+
+
+<div class="viewcode-block" id="FindSpaceGroup">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.spacegroups.FindSpaceGroup">[docs]</a>
+<span class="k">def</span> <span class="nf">FindSpaceGroup</span><span class="p">(</span><span class="n">symops</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lookup SpaceGroup from a given list of symmetry operations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    symops : list</span>
+<span class="sd">        The list of `SymOp` objects for which to find SpaceGroup.</span>
+<span class="sd">    shuffle : bool, optional</span>
+<span class="sd">        Flag for allowing different order of symops in the returned</span>
+<span class="sd">        SpaceGroup.  The default is ``False``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    SpaceGroup</span>
+<span class="sd">        The SpaceGroup object with equivalent list of symmetry</span>
+<span class="sd">        operations.  Return predefined SpaceGroup instance when</span>
+<span class="sd">        symmetry operations have the same order or when the</span>
+<span class="sd">        `shuffle` flag is set.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        When `symops` do not match any known SpaceGroup.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">copy</span>
+
+    <span class="kn">from</span> <span class="nn">six.moves</span> <span class="kn">import</span> <span class="n">zip_longest</span>
+
+    <span class="n">tb</span> <span class="o">=</span> <span class="n">_getSGHashLookupTable</span><span class="p">()</span>
+    <span class="n">hh</span> <span class="o">=</span> <span class="n">_hashSymOpList</span><span class="p">(</span><span class="n">symops</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hh</span> <span class="ow">in</span> <span class="n">tb</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot find SpaceGroup for the specified symops.&quot;</span><span class="p">)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">tb</span><span class="p">[</span><span class="n">hh</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">shuffle</span><span class="p">:</span>
+        <span class="n">zz</span> <span class="o">=</span> <span class="n">zip_longest</span><span class="p">(</span><span class="n">rv</span><span class="o">.</span><span class="n">iter_symops</span><span class="p">(),</span> <span class="n">symops</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">sameorder</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">o0</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">o1</span><span class="p">)</span> <span class="k">for</span> <span class="n">o0</span><span class="p">,</span> <span class="n">o1</span> <span class="ow">in</span> <span class="n">zz</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sameorder</span><span class="p">:</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span>
+            <span class="n">rv</span><span class="o">.</span><span class="n">symop_list</span> <span class="o">=</span> <span class="n">symops</span>
+    <span class="k">return</span> <span class="n">rv</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">_hashSymOpList</span><span class="p">(</span><span class="n">symops</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return hash value for a sequence of `SymOp` objects.</span>
+
+<span class="sd">    The symops are sorted so the results is independent of symops order.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    symops : sequence</span>
+<span class="sd">        The sequence of `SymOp` objects to be hashed</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        The hash value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ssop</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">symops</span><span class="p">)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">ssop</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">rv</span>
+
+
+<span class="k">def</span> <span class="nf">_buildSGLookupTable</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rebuild space group lookup table from the SpaceGroupList data.</span>
+
+<span class="sd">    This routine updates the global _sg_lookup_table dictionary.</span>
+<span class="sd">    No return value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_sg_lookup_table</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">SpaceGroupList</span><span class="p">:</span>
+        <span class="n">_sg_lookup_table</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">sg</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">sg</span><span class="p">)</span>
+        <span class="n">_sg_lookup_table</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sg</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">sg</span><span class="p">)</span>
+        <span class="n">_sg_lookup_table</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">sg</span><span class="o">.</span><span class="n">short_name</span><span class="p">,</span> <span class="n">sg</span><span class="p">)</span>
+        <span class="n">_sg_lookup_table</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">sg</span><span class="o">.</span><span class="n">pdb_name</span><span class="p">,</span> <span class="n">sg</span><span class="p">)</span>
+    <span class="c1"># extra aliases obtained from matching code in</span>
+    <span class="c1"># cctbx::sgtbx::symbols::find_main_symbol_dict_entry</span>
+    <span class="n">alias_hmname</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;Pm3&quot;</span><span class="p">,</span> <span class="s2">&quot;P m -3&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Pn3&quot;</span><span class="p">,</span> <span class="s2">&quot;P n -3&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Fm3&quot;</span><span class="p">,</span> <span class="s2">&quot;F m -3&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Fd3&quot;</span><span class="p">,</span> <span class="s2">&quot;F d -3&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Im3&quot;</span><span class="p">,</span> <span class="s2">&quot;I m -3&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Pa3&quot;</span><span class="p">,</span> <span class="s2">&quot;P a -3&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Ia3&quot;</span><span class="p">,</span> <span class="s2">&quot;I a -3&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Pm3m&quot;</span><span class="p">,</span> <span class="s2">&quot;P m -3 m&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Pn3n&quot;</span><span class="p">,</span> <span class="s2">&quot;P n -3 n&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Pm3n&quot;</span><span class="p">,</span> <span class="s2">&quot;P m -3 n&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Pn3m&quot;</span><span class="p">,</span> <span class="s2">&quot;P n -3 m&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Fm3m&quot;</span><span class="p">,</span> <span class="s2">&quot;F m -3 m&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Fm3c&quot;</span><span class="p">,</span> <span class="s2">&quot;F m -3 c&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Fd3m&quot;</span><span class="p">,</span> <span class="s2">&quot;F d -3 m&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Fd3c&quot;</span><span class="p">,</span> <span class="s2">&quot;F d -3 c&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Im3m&quot;</span><span class="p">,</span> <span class="s2">&quot;I m -3 m&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Ia3d&quot;</span><span class="p">,</span> <span class="s2">&quot;I a -3 d&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">hm</span> <span class="ow">in</span> <span class="n">alias_hmname</span><span class="p">:</span>
+        <span class="n">hmbare</span> <span class="o">=</span> <span class="n">hm</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">_sg_lookup_table</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">_sg_lookup_table</span><span class="p">[</span><span class="n">hmbare</span><span class="p">])</span>
+    <span class="c1"># make sure None does not sneak into the dictionary</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">in</span> <span class="n">_sg_lookup_table</span>
+    <span class="k">return</span>
+
+
+<span class="n">_sg_lookup_table</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span> <span class="nf">_getSGHashLookupTable</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return lookup table of symop hashes to standard SpaceGroup objects.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">_sg_hash_lookup_table</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_sg_hash_lookup_table</span>
+    <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">SpaceGroupList</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">_hashSymOpList</span><span class="p">(</span><span class="n">sg</span><span class="o">.</span><span class="n">symop_list</span><span class="p">)</span>
+        <span class="n">_sg_hash_lookup_table</span><span class="p">[</span><span class="n">h</span><span class="p">]</span> <span class="o">=</span> <span class="n">sg</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">_sg_hash_lookup_table</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">SpaceGroupList</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_getSGHashLookupTable</span><span class="p">()</span>
+
+
+<span class="n">_sg_hash_lookup_table</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Import SpaceGroup objects --------------------------------------------------</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.structure.mmlibspacegroups</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">sg1</span><span class="p">,</span>
+    <span class="n">sg2</span><span class="p">,</span>
+    <span class="n">sg3</span><span class="p">,</span>
+    <span class="n">sg4</span><span class="p">,</span>
+    <span class="n">sg5</span><span class="p">,</span>
+    <span class="n">sg6</span><span class="p">,</span>
+    <span class="n">sg7</span><span class="p">,</span>
+    <span class="n">sg8</span><span class="p">,</span>
+    <span class="n">sg9</span><span class="p">,</span>
+    <span class="n">sg10</span><span class="p">,</span>
+    <span class="n">sg11</span><span class="p">,</span>
+    <span class="n">sg12</span><span class="p">,</span>
+    <span class="n">sg13</span><span class="p">,</span>
+    <span class="n">sg14</span><span class="p">,</span>
+    <span class="n">sg15</span><span class="p">,</span>
+    <span class="n">sg16</span><span class="p">,</span>
+    <span class="n">sg17</span><span class="p">,</span>
+    <span class="n">sg18</span><span class="p">,</span>
+    <span class="n">sg19</span><span class="p">,</span>
+    <span class="n">sg20</span><span class="p">,</span>
+    <span class="n">sg21</span><span class="p">,</span>
+    <span class="n">sg22</span><span class="p">,</span>
+    <span class="n">sg23</span><span class="p">,</span>
+    <span class="n">sg24</span><span class="p">,</span>
+    <span class="n">sg25</span><span class="p">,</span>
+    <span class="n">sg26</span><span class="p">,</span>
+    <span class="n">sg27</span><span class="p">,</span>
+    <span class="n">sg28</span><span class="p">,</span>
+    <span class="n">sg29</span><span class="p">,</span>
+    <span class="n">sg30</span><span class="p">,</span>
+    <span class="n">sg31</span><span class="p">,</span>
+    <span class="n">sg32</span><span class="p">,</span>
+    <span class="n">sg33</span><span class="p">,</span>
+    <span class="n">sg34</span><span class="p">,</span>
+    <span class="n">sg35</span><span class="p">,</span>
+    <span class="n">sg36</span><span class="p">,</span>
+    <span class="n">sg37</span><span class="p">,</span>
+    <span class="n">sg38</span><span class="p">,</span>
+    <span class="n">sg39</span><span class="p">,</span>
+    <span class="n">sg40</span><span class="p">,</span>
+    <span class="n">sg41</span><span class="p">,</span>
+    <span class="n">sg42</span><span class="p">,</span>
+    <span class="n">sg43</span><span class="p">,</span>
+    <span class="n">sg44</span><span class="p">,</span>
+    <span class="n">sg45</span><span class="p">,</span>
+    <span class="n">sg46</span><span class="p">,</span>
+    <span class="n">sg47</span><span class="p">,</span>
+    <span class="n">sg48</span><span class="p">,</span>
+    <span class="n">sg49</span><span class="p">,</span>
+    <span class="n">sg50</span><span class="p">,</span>
+    <span class="n">sg51</span><span class="p">,</span>
+    <span class="n">sg52</span><span class="p">,</span>
+    <span class="n">sg53</span><span class="p">,</span>
+    <span class="n">sg54</span><span class="p">,</span>
+    <span class="n">sg55</span><span class="p">,</span>
+    <span class="n">sg56</span><span class="p">,</span>
+    <span class="n">sg57</span><span class="p">,</span>
+    <span class="n">sg58</span><span class="p">,</span>
+    <span class="n">sg59</span><span class="p">,</span>
+    <span class="n">sg60</span><span class="p">,</span>
+    <span class="n">sg61</span><span class="p">,</span>
+    <span class="n">sg62</span><span class="p">,</span>
+    <span class="n">sg63</span><span class="p">,</span>
+    <span class="n">sg64</span><span class="p">,</span>
+    <span class="n">sg65</span><span class="p">,</span>
+    <span class="n">sg66</span><span class="p">,</span>
+    <span class="n">sg67</span><span class="p">,</span>
+    <span class="n">sg68</span><span class="p">,</span>
+    <span class="n">sg69</span><span class="p">,</span>
+    <span class="n">sg70</span><span class="p">,</span>
+    <span class="n">sg71</span><span class="p">,</span>
+    <span class="n">sg72</span><span class="p">,</span>
+    <span class="n">sg73</span><span class="p">,</span>
+    <span class="n">sg74</span><span class="p">,</span>
+    <span class="n">sg75</span><span class="p">,</span>
+    <span class="n">sg76</span><span class="p">,</span>
+    <span class="n">sg77</span><span class="p">,</span>
+    <span class="n">sg78</span><span class="p">,</span>
+    <span class="n">sg79</span><span class="p">,</span>
+    <span class="n">sg80</span><span class="p">,</span>
+    <span class="n">sg81</span><span class="p">,</span>
+    <span class="n">sg82</span><span class="p">,</span>
+    <span class="n">sg83</span><span class="p">,</span>
+    <span class="n">sg84</span><span class="p">,</span>
+    <span class="n">sg85</span><span class="p">,</span>
+    <span class="n">sg86</span><span class="p">,</span>
+    <span class="n">sg87</span><span class="p">,</span>
+    <span class="n">sg88</span><span class="p">,</span>
+    <span class="n">sg89</span><span class="p">,</span>
+    <span class="n">sg90</span><span class="p">,</span>
+    <span class="n">sg91</span><span class="p">,</span>
+    <span class="n">sg92</span><span class="p">,</span>
+    <span class="n">sg93</span><span class="p">,</span>
+    <span class="n">sg94</span><span class="p">,</span>
+    <span class="n">sg95</span><span class="p">,</span>
+    <span class="n">sg96</span><span class="p">,</span>
+    <span class="n">sg97</span><span class="p">,</span>
+    <span class="n">sg98</span><span class="p">,</span>
+    <span class="n">sg99</span><span class="p">,</span>
+    <span class="n">sg100</span><span class="p">,</span>
+    <span class="n">sg101</span><span class="p">,</span>
+    <span class="n">sg102</span><span class="p">,</span>
+    <span class="n">sg103</span><span class="p">,</span>
+    <span class="n">sg104</span><span class="p">,</span>
+    <span class="n">sg105</span><span class="p">,</span>
+    <span class="n">sg106</span><span class="p">,</span>
+    <span class="n">sg107</span><span class="p">,</span>
+    <span class="n">sg108</span><span class="p">,</span>
+    <span class="n">sg109</span><span class="p">,</span>
+    <span class="n">sg110</span><span class="p">,</span>
+    <span class="n">sg111</span><span class="p">,</span>
+    <span class="n">sg112</span><span class="p">,</span>
+    <span class="n">sg113</span><span class="p">,</span>
+    <span class="n">sg114</span><span class="p">,</span>
+    <span class="n">sg115</span><span class="p">,</span>
+    <span class="n">sg116</span><span class="p">,</span>
+    <span class="n">sg117</span><span class="p">,</span>
+    <span class="n">sg118</span><span class="p">,</span>
+    <span class="n">sg119</span><span class="p">,</span>
+    <span class="n">sg120</span><span class="p">,</span>
+    <span class="n">sg121</span><span class="p">,</span>
+    <span class="n">sg122</span><span class="p">,</span>
+    <span class="n">sg123</span><span class="p">,</span>
+    <span class="n">sg124</span><span class="p">,</span>
+    <span class="n">sg125</span><span class="p">,</span>
+    <span class="n">sg126</span><span class="p">,</span>
+    <span class="n">sg127</span><span class="p">,</span>
+    <span class="n">sg128</span><span class="p">,</span>
+    <span class="n">sg129</span><span class="p">,</span>
+    <span class="n">sg130</span><span class="p">,</span>
+    <span class="n">sg131</span><span class="p">,</span>
+    <span class="n">sg132</span><span class="p">,</span>
+    <span class="n">sg133</span><span class="p">,</span>
+    <span class="n">sg134</span><span class="p">,</span>
+    <span class="n">sg135</span><span class="p">,</span>
+    <span class="n">sg136</span><span class="p">,</span>
+    <span class="n">sg137</span><span class="p">,</span>
+    <span class="n">sg138</span><span class="p">,</span>
+    <span class="n">sg139</span><span class="p">,</span>
+    <span class="n">sg140</span><span class="p">,</span>
+    <span class="n">sg141</span><span class="p">,</span>
+    <span class="n">sg142</span><span class="p">,</span>
+    <span class="n">sg143</span><span class="p">,</span>
+    <span class="n">sg144</span><span class="p">,</span>
+    <span class="n">sg145</span><span class="p">,</span>
+    <span class="n">sg146</span><span class="p">,</span>
+    <span class="n">sg147</span><span class="p">,</span>
+    <span class="n">sg148</span><span class="p">,</span>
+    <span class="n">sg149</span><span class="p">,</span>
+    <span class="n">sg150</span><span class="p">,</span>
+    <span class="n">sg151</span><span class="p">,</span>
+    <span class="n">sg152</span><span class="p">,</span>
+    <span class="n">sg153</span><span class="p">,</span>
+    <span class="n">sg154</span><span class="p">,</span>
+    <span class="n">sg155</span><span class="p">,</span>
+    <span class="n">sg156</span><span class="p">,</span>
+    <span class="n">sg157</span><span class="p">,</span>
+    <span class="n">sg158</span><span class="p">,</span>
+    <span class="n">sg159</span><span class="p">,</span>
+    <span class="n">sg160</span><span class="p">,</span>
+    <span class="n">sg161</span><span class="p">,</span>
+    <span class="n">sg162</span><span class="p">,</span>
+    <span class="n">sg163</span><span class="p">,</span>
+    <span class="n">sg164</span><span class="p">,</span>
+    <span class="n">sg165</span><span class="p">,</span>
+    <span class="n">sg166</span><span class="p">,</span>
+    <span class="n">sg167</span><span class="p">,</span>
+    <span class="n">sg168</span><span class="p">,</span>
+    <span class="n">sg169</span><span class="p">,</span>
+    <span class="n">sg170</span><span class="p">,</span>
+    <span class="n">sg171</span><span class="p">,</span>
+    <span class="n">sg172</span><span class="p">,</span>
+    <span class="n">sg173</span><span class="p">,</span>
+    <span class="n">sg174</span><span class="p">,</span>
+    <span class="n">sg175</span><span class="p">,</span>
+    <span class="n">sg176</span><span class="p">,</span>
+    <span class="n">sg177</span><span class="p">,</span>
+    <span class="n">sg178</span><span class="p">,</span>
+    <span class="n">sg179</span><span class="p">,</span>
+    <span class="n">sg180</span><span class="p">,</span>
+    <span class="n">sg181</span><span class="p">,</span>
+    <span class="n">sg182</span><span class="p">,</span>
+    <span class="n">sg183</span><span class="p">,</span>
+    <span class="n">sg184</span><span class="p">,</span>
+    <span class="n">sg185</span><span class="p">,</span>
+    <span class="n">sg186</span><span class="p">,</span>
+    <span class="n">sg187</span><span class="p">,</span>
+    <span class="n">sg188</span><span class="p">,</span>
+    <span class="n">sg189</span><span class="p">,</span>
+    <span class="n">sg190</span><span class="p">,</span>
+    <span class="n">sg191</span><span class="p">,</span>
+    <span class="n">sg192</span><span class="p">,</span>
+    <span class="n">sg193</span><span class="p">,</span>
+    <span class="n">sg194</span><span class="p">,</span>
+    <span class="n">sg195</span><span class="p">,</span>
+    <span class="n">sg196</span><span class="p">,</span>
+    <span class="n">sg197</span><span class="p">,</span>
+    <span class="n">sg198</span><span class="p">,</span>
+    <span class="n">sg199</span><span class="p">,</span>
+    <span class="n">sg200</span><span class="p">,</span>
+    <span class="n">sg201</span><span class="p">,</span>
+    <span class="n">sg202</span><span class="p">,</span>
+    <span class="n">sg203</span><span class="p">,</span>
+    <span class="n">sg204</span><span class="p">,</span>
+    <span class="n">sg205</span><span class="p">,</span>
+    <span class="n">sg206</span><span class="p">,</span>
+    <span class="n">sg207</span><span class="p">,</span>
+    <span class="n">sg208</span><span class="p">,</span>
+    <span class="n">sg209</span><span class="p">,</span>
+    <span class="n">sg210</span><span class="p">,</span>
+    <span class="n">sg211</span><span class="p">,</span>
+    <span class="n">sg212</span><span class="p">,</span>
+    <span class="n">sg213</span><span class="p">,</span>
+    <span class="n">sg214</span><span class="p">,</span>
+    <span class="n">sg215</span><span class="p">,</span>
+    <span class="n">sg216</span><span class="p">,</span>
+    <span class="n">sg217</span><span class="p">,</span>
+    <span class="n">sg218</span><span class="p">,</span>
+    <span class="n">sg219</span><span class="p">,</span>
+    <span class="n">sg220</span><span class="p">,</span>
+    <span class="n">sg221</span><span class="p">,</span>
+    <span class="n">sg222</span><span class="p">,</span>
+    <span class="n">sg223</span><span class="p">,</span>
+    <span class="n">sg224</span><span class="p">,</span>
+    <span class="n">sg225</span><span class="p">,</span>
+    <span class="n">sg226</span><span class="p">,</span>
+    <span class="n">sg227</span><span class="p">,</span>
+    <span class="n">sg228</span><span class="p">,</span>
+    <span class="n">sg229</span><span class="p">,</span>
+    <span class="n">sg230</span><span class="p">,</span>
+    <span class="n">sg1003</span><span class="p">,</span>
+    <span class="n">sg1004</span><span class="p">,</span>
+    <span class="n">sg1005</span><span class="p">,</span>
+    <span class="n">sg1006</span><span class="p">,</span>
+    <span class="n">sg1007</span><span class="p">,</span>
+    <span class="n">sg1008</span><span class="p">,</span>
+    <span class="n">sg1009</span><span class="p">,</span>
+    <span class="n">sg1010</span><span class="p">,</span>
+    <span class="n">sg1011</span><span class="p">,</span>
+    <span class="n">sg1012</span><span class="p">,</span>
+    <span class="n">sg1013</span><span class="p">,</span>
+    <span class="n">sg1014</span><span class="p">,</span>
+    <span class="n">sg1015</span><span class="p">,</span>
+    <span class="n">sg1017</span><span class="p">,</span>
+    <span class="n">sg1018</span><span class="p">,</span>
+    <span class="n">sg1020</span><span class="p">,</span>
+    <span class="n">sg1021</span><span class="p">,</span>
+    <span class="n">sg1022</span><span class="p">,</span>
+    <span class="n">sg1023</span><span class="p">,</span>
+    <span class="n">sg1059</span><span class="p">,</span>
+    <span class="n">sg1094</span><span class="p">,</span>
+    <span class="n">sg1146</span><span class="p">,</span>
+    <span class="n">sg1148</span><span class="p">,</span>
+    <span class="n">sg1155</span><span class="p">,</span>
+    <span class="n">sg1160</span><span class="p">,</span>
+    <span class="n">sg1161</span><span class="p">,</span>
+    <span class="n">sg1166</span><span class="p">,</span>
+    <span class="n">sg1167</span><span class="p">,</span>
+    <span class="n">sg1197</span><span class="p">,</span>
+    <span class="n">sg2005</span><span class="p">,</span>
+    <span class="n">sg2017</span><span class="p">,</span>
+    <span class="n">sg2018</span><span class="p">,</span>
+    <span class="n">sg3004</span><span class="p">,</span>
+    <span class="n">sg3005</span><span class="p">,</span>
+    <span class="n">sg3018</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure.sgtbxspacegroups</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">sg1025</span><span class="p">,</span>
+    <span class="n">sg1026</span><span class="p">,</span>
+    <span class="n">sg1027</span><span class="p">,</span>
+    <span class="n">sg1028</span><span class="p">,</span>
+    <span class="n">sg1029</span><span class="p">,</span>
+    <span class="n">sg1030</span><span class="p">,</span>
+    <span class="n">sg1031</span><span class="p">,</span>
+    <span class="n">sg1032</span><span class="p">,</span>
+    <span class="n">sg1033</span><span class="p">,</span>
+    <span class="n">sg1034</span><span class="p">,</span>
+    <span class="n">sg1035</span><span class="p">,</span>
+    <span class="n">sg1036</span><span class="p">,</span>
+    <span class="n">sg1037</span><span class="p">,</span>
+    <span class="n">sg1038</span><span class="p">,</span>
+    <span class="n">sg1039</span><span class="p">,</span>
+    <span class="n">sg1040</span><span class="p">,</span>
+    <span class="n">sg1041</span><span class="p">,</span>
+    <span class="n">sg1042</span><span class="p">,</span>
+    <span class="n">sg1043</span><span class="p">,</span>
+    <span class="n">sg1044</span><span class="p">,</span>
+    <span class="n">sg1045</span><span class="p">,</span>
+    <span class="n">sg1046</span><span class="p">,</span>
+    <span class="n">sg1049</span><span class="p">,</span>
+    <span class="n">sg1050</span><span class="p">,</span>
+    <span class="n">sg1051</span><span class="p">,</span>
+    <span class="n">sg1052</span><span class="p">,</span>
+    <span class="n">sg1053</span><span class="p">,</span>
+    <span class="n">sg1054</span><span class="p">,</span>
+    <span class="n">sg1055</span><span class="p">,</span>
+    <span class="n">sg1056</span><span class="p">,</span>
+    <span class="n">sg1057</span><span class="p">,</span>
+    <span class="n">sg1058</span><span class="p">,</span>
+    <span class="n">sg1060</span><span class="p">,</span>
+    <span class="n">sg1061</span><span class="p">,</span>
+    <span class="n">sg1062</span><span class="p">,</span>
+    <span class="n">sg1063</span><span class="p">,</span>
+    <span class="n">sg1064</span><span class="p">,</span>
+    <span class="n">sg1065</span><span class="p">,</span>
+    <span class="n">sg1066</span><span class="p">,</span>
+    <span class="n">sg1067</span><span class="p">,</span>
+    <span class="n">sg1068</span><span class="p">,</span>
+    <span class="n">sg1072</span><span class="p">,</span>
+    <span class="n">sg1073</span><span class="p">,</span>
+    <span class="n">sg1074</span><span class="p">,</span>
+    <span class="n">sg2003</span><span class="p">,</span>
+    <span class="n">sg2004</span><span class="p">,</span>
+    <span class="n">sg2006</span><span class="p">,</span>
+    <span class="n">sg2007</span><span class="p">,</span>
+    <span class="n">sg2008</span><span class="p">,</span>
+    <span class="n">sg2009</span><span class="p">,</span>
+    <span class="n">sg2010</span><span class="p">,</span>
+    <span class="n">sg2011</span><span class="p">,</span>
+    <span class="n">sg2012</span><span class="p">,</span>
+    <span class="n">sg2013</span><span class="p">,</span>
+    <span class="n">sg2014</span><span class="p">,</span>
+    <span class="n">sg2015</span><span class="p">,</span>
+    <span class="n">sg2020</span><span class="p">,</span>
+    <span class="n">sg2021</span><span class="p">,</span>
+    <span class="n">sg2025</span><span class="p">,</span>
+    <span class="n">sg2026</span><span class="p">,</span>
+    <span class="n">sg2027</span><span class="p">,</span>
+    <span class="n">sg2028</span><span class="p">,</span>
+    <span class="n">sg2029</span><span class="p">,</span>
+    <span class="n">sg2030</span><span class="p">,</span>
+    <span class="n">sg2031</span><span class="p">,</span>
+    <span class="n">sg2032</span><span class="p">,</span>
+    <span class="n">sg2033</span><span class="p">,</span>
+    <span class="n">sg2034</span><span class="p">,</span>
+    <span class="n">sg2035</span><span class="p">,</span>
+    <span class="n">sg2036</span><span class="p">,</span>
+    <span class="n">sg2037</span><span class="p">,</span>
+    <span class="n">sg2038</span><span class="p">,</span>
+    <span class="n">sg2039</span><span class="p">,</span>
+    <span class="n">sg2040</span><span class="p">,</span>
+    <span class="n">sg2041</span><span class="p">,</span>
+    <span class="n">sg2042</span><span class="p">,</span>
+    <span class="n">sg2043</span><span class="p">,</span>
+    <span class="n">sg2044</span><span class="p">,</span>
+    <span class="n">sg2045</span><span class="p">,</span>
+    <span class="n">sg2046</span><span class="p">,</span>
+    <span class="n">sg2049</span><span class="p">,</span>
+    <span class="n">sg2050</span><span class="p">,</span>
+    <span class="n">sg2051</span><span class="p">,</span>
+    <span class="n">sg2052</span><span class="p">,</span>
+    <span class="n">sg2053</span><span class="p">,</span>
+    <span class="n">sg2054</span><span class="p">,</span>
+    <span class="n">sg2055</span><span class="p">,</span>
+    <span class="n">sg2056</span><span class="p">,</span>
+    <span class="n">sg2057</span><span class="p">,</span>
+    <span class="n">sg2058</span><span class="p">,</span>
+    <span class="n">sg2059</span><span class="p">,</span>
+    <span class="n">sg2060</span><span class="p">,</span>
+    <span class="n">sg2062</span><span class="p">,</span>
+    <span class="n">sg2063</span><span class="p">,</span>
+    <span class="n">sg2064</span><span class="p">,</span>
+    <span class="n">sg2065</span><span class="p">,</span>
+    <span class="n">sg2066</span><span class="p">,</span>
+    <span class="n">sg2067</span><span class="p">,</span>
+    <span class="n">sg2068</span><span class="p">,</span>
+    <span class="n">sg2072</span><span class="p">,</span>
+    <span class="n">sg2074</span><span class="p">,</span>
+    <span class="n">sg3007</span><span class="p">,</span>
+    <span class="n">sg3008</span><span class="p">,</span>
+    <span class="n">sg3009</span><span class="p">,</span>
+    <span class="n">sg3012</span><span class="p">,</span>
+    <span class="n">sg3013</span><span class="p">,</span>
+    <span class="n">sg3014</span><span class="p">,</span>
+    <span class="n">sg3015</span><span class="p">,</span>
+    <span class="n">sg3020</span><span class="p">,</span>
+    <span class="n">sg3021</span><span class="p">,</span>
+    <span class="n">sg3026</span><span class="p">,</span>
+    <span class="n">sg3028</span><span class="p">,</span>
+    <span class="n">sg3029</span><span class="p">,</span>
+    <span class="n">sg3030</span><span class="p">,</span>
+    <span class="n">sg3031</span><span class="p">,</span>
+    <span class="n">sg3033</span><span class="p">,</span>
+    <span class="n">sg3036</span><span class="p">,</span>
+    <span class="n">sg3038</span><span class="p">,</span>
+    <span class="n">sg3039</span><span class="p">,</span>
+    <span class="n">sg3040</span><span class="p">,</span>
+    <span class="n">sg3041</span><span class="p">,</span>
+    <span class="n">sg3046</span><span class="p">,</span>
+    <span class="n">sg3050</span><span class="p">,</span>
+    <span class="n">sg3051</span><span class="p">,</span>
+    <span class="n">sg3052</span><span class="p">,</span>
+    <span class="n">sg3053</span><span class="p">,</span>
+    <span class="n">sg3054</span><span class="p">,</span>
+    <span class="n">sg3057</span><span class="p">,</span>
+    <span class="n">sg3059</span><span class="p">,</span>
+    <span class="n">sg3060</span><span class="p">,</span>
+    <span class="n">sg3062</span><span class="p">,</span>
+    <span class="n">sg3063</span><span class="p">,</span>
+    <span class="n">sg3064</span><span class="p">,</span>
+    <span class="n">sg3067</span><span class="p">,</span>
+    <span class="n">sg3068</span><span class="p">,</span>
+    <span class="n">sg3074</span><span class="p">,</span>
+    <span class="n">sg4005</span><span class="p">,</span>
+    <span class="n">sg4007</span><span class="p">,</span>
+    <span class="n">sg4008</span><span class="p">,</span>
+    <span class="n">sg4009</span><span class="p">,</span>
+    <span class="n">sg4012</span><span class="p">,</span>
+    <span class="n">sg4013</span><span class="p">,</span>
+    <span class="n">sg4014</span><span class="p">,</span>
+    <span class="n">sg4015</span><span class="p">,</span>
+    <span class="n">sg4026</span><span class="p">,</span>
+    <span class="n">sg4028</span><span class="p">,</span>
+    <span class="n">sg4029</span><span class="p">,</span>
+    <span class="n">sg4030</span><span class="p">,</span>
+    <span class="n">sg4031</span><span class="p">,</span>
+    <span class="n">sg4033</span><span class="p">,</span>
+    <span class="n">sg4036</span><span class="p">,</span>
+    <span class="n">sg4038</span><span class="p">,</span>
+    <span class="n">sg4039</span><span class="p">,</span>
+    <span class="n">sg4040</span><span class="p">,</span>
+    <span class="n">sg4041</span><span class="p">,</span>
+    <span class="n">sg4046</span><span class="p">,</span>
+    <span class="n">sg4050</span><span class="p">,</span>
+    <span class="n">sg4051</span><span class="p">,</span>
+    <span class="n">sg4052</span><span class="p">,</span>
+    <span class="n">sg4053</span><span class="p">,</span>
+    <span class="n">sg4054</span><span class="p">,</span>
+    <span class="n">sg4057</span><span class="p">,</span>
+    <span class="n">sg4059</span><span class="p">,</span>
+    <span class="n">sg4060</span><span class="p">,</span>
+    <span class="n">sg4062</span><span class="p">,</span>
+    <span class="n">sg4063</span><span class="p">,</span>
+    <span class="n">sg4064</span><span class="p">,</span>
+    <span class="n">sg4067</span><span class="p">,</span>
+    <span class="n">sg4068</span><span class="p">,</span>
+    <span class="n">sg4074</span><span class="p">,</span>
+    <span class="n">sg5005</span><span class="p">,</span>
+    <span class="n">sg5007</span><span class="p">,</span>
+    <span class="n">sg5008</span><span class="p">,</span>
+    <span class="n">sg5009</span><span class="p">,</span>
+    <span class="n">sg5012</span><span class="p">,</span>
+    <span class="n">sg5013</span><span class="p">,</span>
+    <span class="n">sg5014</span><span class="p">,</span>
+    <span class="n">sg5015</span><span class="p">,</span>
+    <span class="n">sg5026</span><span class="p">,</span>
+    <span class="n">sg5028</span><span class="p">,</span>
+    <span class="n">sg5029</span><span class="p">,</span>
+    <span class="n">sg5030</span><span class="p">,</span>
+    <span class="n">sg5031</span><span class="p">,</span>
+    <span class="n">sg5033</span><span class="p">,</span>
+    <span class="n">sg5036</span><span class="p">,</span>
+    <span class="n">sg5038</span><span class="p">,</span>
+    <span class="n">sg5039</span><span class="p">,</span>
+    <span class="n">sg5040</span><span class="p">,</span>
+    <span class="n">sg5041</span><span class="p">,</span>
+    <span class="n">sg5046</span><span class="p">,</span>
+    <span class="n">sg5051</span><span class="p">,</span>
+    <span class="n">sg5052</span><span class="p">,</span>
+    <span class="n">sg5053</span><span class="p">,</span>
+    <span class="n">sg5054</span><span class="p">,</span>
+    <span class="n">sg5057</span><span class="p">,</span>
+    <span class="n">sg5059</span><span class="p">,</span>
+    <span class="n">sg5060</span><span class="p">,</span>
+    <span class="n">sg5062</span><span class="p">,</span>
+    <span class="n">sg5063</span><span class="p">,</span>
+    <span class="n">sg5064</span><span class="p">,</span>
+    <span class="n">sg5067</span><span class="p">,</span>
+    <span class="n">sg5068</span><span class="p">,</span>
+    <span class="n">sg5074</span><span class="p">,</span>
+    <span class="n">sg6005</span><span class="p">,</span>
+    <span class="n">sg6007</span><span class="p">,</span>
+    <span class="n">sg6008</span><span class="p">,</span>
+    <span class="n">sg6009</span><span class="p">,</span>
+    <span class="n">sg6012</span><span class="p">,</span>
+    <span class="n">sg6013</span><span class="p">,</span>
+    <span class="n">sg6014</span><span class="p">,</span>
+    <span class="n">sg6015</span><span class="p">,</span>
+    <span class="n">sg6068</span><span class="p">,</span>
+    <span class="n">sg7005</span><span class="p">,</span>
+    <span class="n">sg7007</span><span class="p">,</span>
+    <span class="n">sg7008</span><span class="p">,</span>
+    <span class="n">sg7009</span><span class="p">,</span>
+    <span class="n">sg7012</span><span class="p">,</span>
+    <span class="n">sg7013</span><span class="p">,</span>
+    <span class="n">sg7014</span><span class="p">,</span>
+    <span class="n">sg7015</span><span class="p">,</span>
+    <span class="n">sg7068</span><span class="p">,</span>
+    <span class="n">sg8005</span><span class="p">,</span>
+    <span class="n">sg8007</span><span class="p">,</span>
+    <span class="n">sg8008</span><span class="p">,</span>
+    <span class="n">sg8009</span><span class="p">,</span>
+    <span class="n">sg8012</span><span class="p">,</span>
+    <span class="n">sg8013</span><span class="p">,</span>
+    <span class="n">sg8014</span><span class="p">,</span>
+    <span class="n">sg8015</span><span class="p">,</span>
+    <span class="n">sg9005</span><span class="p">,</span>
+    <span class="n">sg9009</span><span class="p">,</span>
+    <span class="n">sg9015</span><span class="p">,</span>
+    <span class="n">sg10005</span><span class="p">,</span>
+    <span class="n">sg10009</span><span class="p">,</span>
+    <span class="n">sg10015</span><span class="p">,</span>
+    <span class="n">sg11009</span><span class="p">,</span>
+    <span class="n">sg11015</span><span class="p">,</span>
+    <span class="n">sg12009</span><span class="p">,</span>
+    <span class="n">sg12015</span><span class="p">,</span>
+    <span class="n">sg13009</span><span class="p">,</span>
+    <span class="n">sg13015</span><span class="p">,</span>
+    <span class="n">sg14009</span><span class="p">,</span>
+    <span class="n">sg14015</span><span class="p">,</span>
+    <span class="n">sg15009</span><span class="p">,</span>
+    <span class="n">sg15015</span><span class="p">,</span>
+    <span class="n">sg16009</span><span class="p">,</span>
+    <span class="n">sg16015</span><span class="p">,</span>
+    <span class="n">sg17009</span><span class="p">,</span>
+    <span class="n">sg17015</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure.spacegroupmod</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Rot_mX_mXY_mZ</span><span class="p">,</span>
+    <span class="n">Rot_mX_mXY_Z</span><span class="p">,</span>
+    <span class="n">Rot_mX_mY_mZ</span><span class="p">,</span>
+    <span class="n">Rot_mX_mY_Z</span><span class="p">,</span>
+    <span class="n">Rot_mX_mZ_mY</span><span class="p">,</span>
+    <span class="n">Rot_mX_mZ_Y</span><span class="p">,</span>
+    <span class="n">Rot_mX_Y_mZ</span><span class="p">,</span>
+    <span class="n">Rot_mX_Y_Z</span><span class="p">,</span>
+    <span class="n">Rot_mX_Z_mY</span><span class="p">,</span>
+    <span class="n">Rot_mX_Z_Y</span><span class="p">,</span>
+    <span class="n">Rot_mXY_mX_mZ</span><span class="p">,</span>
+    <span class="n">Rot_mXY_mX_Z</span><span class="p">,</span>
+    <span class="n">Rot_mXY_Y_mZ</span><span class="p">,</span>
+    <span class="n">Rot_mXY_Y_Z</span><span class="p">,</span>
+    <span class="n">Rot_mY_mX_mZ</span><span class="p">,</span>
+    <span class="n">Rot_mY_mX_Z</span><span class="p">,</span>
+    <span class="n">Rot_mY_mZ_mX</span><span class="p">,</span>
+    <span class="n">Rot_mY_mZ_X</span><span class="p">,</span>
+    <span class="n">Rot_mY_X_mZ</span><span class="p">,</span>
+    <span class="n">Rot_mY_X_Z</span><span class="p">,</span>
+    <span class="n">Rot_mY_XmY_mZ</span><span class="p">,</span>
+    <span class="n">Rot_mY_XmY_Z</span><span class="p">,</span>
+    <span class="n">Rot_mY_Z_mX</span><span class="p">,</span>
+    <span class="n">Rot_mY_Z_X</span><span class="p">,</span>
+    <span class="n">Rot_mZ_mX_mY</span><span class="p">,</span>
+    <span class="n">Rot_mZ_mX_Y</span><span class="p">,</span>
+    <span class="n">Rot_mZ_mY_mX</span><span class="p">,</span>
+    <span class="n">Rot_mZ_mY_X</span><span class="p">,</span>
+    <span class="n">Rot_mZ_X_mY</span><span class="p">,</span>
+    <span class="n">Rot_mZ_X_Y</span><span class="p">,</span>
+    <span class="n">Rot_mZ_Y_mX</span><span class="p">,</span>
+    <span class="n">Rot_mZ_Y_X</span><span class="p">,</span>
+    <span class="n">Rot_X_mY_mZ</span><span class="p">,</span>
+    <span class="n">Rot_X_mY_Z</span><span class="p">,</span>
+    <span class="n">Rot_X_mZ_mY</span><span class="p">,</span>
+    <span class="n">Rot_X_mZ_Y</span><span class="p">,</span>
+    <span class="n">Rot_X_XmY_mZ</span><span class="p">,</span>
+    <span class="n">Rot_X_XmY_Z</span><span class="p">,</span>
+    <span class="n">Rot_X_Y_mZ</span><span class="p">,</span>
+    <span class="n">Rot_X_Y_Z</span><span class="p">,</span>
+    <span class="n">Rot_X_Z_mY</span><span class="p">,</span>
+    <span class="n">Rot_X_Z_Y</span><span class="p">,</span>
+    <span class="n">Rot_XmY_mY_mZ</span><span class="p">,</span>
+    <span class="n">Rot_XmY_mY_Z</span><span class="p">,</span>
+    <span class="n">Rot_XmY_X_mZ</span><span class="p">,</span>
+    <span class="n">Rot_XmY_X_Z</span><span class="p">,</span>
+    <span class="n">Rot_Y_mX_mZ</span><span class="p">,</span>
+    <span class="n">Rot_Y_mX_Z</span><span class="p">,</span>
+    <span class="n">Rot_Y_mXY_mZ</span><span class="p">,</span>
+    <span class="n">Rot_Y_mXY_Z</span><span class="p">,</span>
+    <span class="n">Rot_Y_mZ_mX</span><span class="p">,</span>
+    <span class="n">Rot_Y_mZ_X</span><span class="p">,</span>
+    <span class="n">Rot_Y_X_mZ</span><span class="p">,</span>
+    <span class="n">Rot_Y_X_Z</span><span class="p">,</span>
+    <span class="n">Rot_Y_Z_mX</span><span class="p">,</span>
+    <span class="n">Rot_Y_Z_X</span><span class="p">,</span>
+    <span class="n">Rot_Z_mX_mY</span><span class="p">,</span>
+    <span class="n">Rot_Z_mX_Y</span><span class="p">,</span>
+    <span class="n">Rot_Z_mY_mX</span><span class="p">,</span>
+    <span class="n">Rot_Z_mY_X</span><span class="p">,</span>
+    <span class="n">Rot_Z_X_mY</span><span class="p">,</span>
+    <span class="n">Rot_Z_X_Y</span><span class="p">,</span>
+    <span class="n">Rot_Z_Y_mX</span><span class="p">,</span>
+    <span class="n">Rot_Z_Y_X</span><span class="p">,</span>
+    <span class="n">Tr_0_0_0</span><span class="p">,</span>
+    <span class="n">Tr_0_0_12</span><span class="p">,</span>
+    <span class="n">Tr_0_0_13</span><span class="p">,</span>
+    <span class="n">Tr_0_0_14</span><span class="p">,</span>
+    <span class="n">Tr_0_0_16</span><span class="p">,</span>
+    <span class="n">Tr_0_0_23</span><span class="p">,</span>
+    <span class="n">Tr_0_0_34</span><span class="p">,</span>
+    <span class="n">Tr_0_0_56</span><span class="p">,</span>
+    <span class="n">Tr_0_12_0</span><span class="p">,</span>
+    <span class="n">Tr_0_12_12</span><span class="p">,</span>
+    <span class="n">Tr_0_12_14</span><span class="p">,</span>
+    <span class="n">Tr_0_12_34</span><span class="p">,</span>
+    <span class="n">Tr_12_0_0</span><span class="p">,</span>
+    <span class="n">Tr_12_0_12</span><span class="p">,</span>
+    <span class="n">Tr_12_0_14</span><span class="p">,</span>
+    <span class="n">Tr_12_0_34</span><span class="p">,</span>
+    <span class="n">Tr_12_12_0</span><span class="p">,</span>
+    <span class="n">Tr_12_12_12</span><span class="p">,</span>
+    <span class="n">Tr_12_12_14</span><span class="p">,</span>
+    <span class="n">Tr_12_12_34</span><span class="p">,</span>
+    <span class="n">Tr_13_23_16</span><span class="p">,</span>
+    <span class="n">Tr_13_23_23</span><span class="p">,</span>
+    <span class="n">Tr_14_14_14</span><span class="p">,</span>
+    <span class="n">Tr_14_14_34</span><span class="p">,</span>
+    <span class="n">Tr_14_34_14</span><span class="p">,</span>
+    <span class="n">Tr_14_34_34</span><span class="p">,</span>
+    <span class="n">Tr_23_13_13</span><span class="p">,</span>
+    <span class="n">Tr_23_13_56</span><span class="p">,</span>
+    <span class="n">Tr_34_14_14</span><span class="p">,</span>
+    <span class="n">Tr_34_14_34</span><span class="p">,</span>
+    <span class="n">Tr_34_34_14</span><span class="p">,</span>
+    <span class="n">Tr_34_34_34</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># silence pyflakes checker</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">(</span>
+    <span class="n">o</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="n">SpaceGroup</span><span class="p">,</span>
+        <span class="n">SymOp</span><span class="p">,</span>
+        <span class="n">Rot_X_Y_Z</span><span class="p">,</span>
+        <span class="n">Rot_mX_mY_mZ</span><span class="p">,</span>
+        <span class="n">Rot_mX_Y_mZ</span><span class="p">,</span>
+        <span class="n">Rot_X_mY_Z</span><span class="p">,</span>
+        <span class="n">Rot_mX_mY_Z</span><span class="p">,</span>
+        <span class="n">Rot_X_mY_mZ</span><span class="p">,</span>
+        <span class="n">Rot_mX_Y_Z</span><span class="p">,</span>
+        <span class="n">Rot_X_Y_mZ</span><span class="p">,</span>
+        <span class="n">Rot_mY_X_Z</span><span class="p">,</span>
+        <span class="n">Rot_Y_mX_Z</span><span class="p">,</span>
+        <span class="n">Rot_Y_mX_mZ</span><span class="p">,</span>
+        <span class="n">Rot_mY_X_mZ</span><span class="p">,</span>
+        <span class="n">Rot_Y_X_mZ</span><span class="p">,</span>
+        <span class="n">Rot_mY_mX_mZ</span><span class="p">,</span>
+        <span class="n">Rot_mY_mX_Z</span><span class="p">,</span>
+        <span class="n">Rot_Y_X_Z</span><span class="p">,</span>
+        <span class="n">Rot_mY_XmY_Z</span><span class="p">,</span>
+        <span class="n">Rot_mXY_mX_Z</span><span class="p">,</span>
+        <span class="n">Rot_Z_X_Y</span><span class="p">,</span>
+        <span class="n">Rot_Y_Z_X</span><span class="p">,</span>
+        <span class="n">Rot_Y_mXY_mZ</span><span class="p">,</span>
+        <span class="n">Rot_XmY_X_mZ</span><span class="p">,</span>
+        <span class="n">Rot_mZ_mX_mY</span><span class="p">,</span>
+        <span class="n">Rot_mY_mZ_mX</span><span class="p">,</span>
+        <span class="n">Rot_mXY_Y_mZ</span><span class="p">,</span>
+        <span class="n">Rot_X_XmY_mZ</span><span class="p">,</span>
+        <span class="n">Rot_XmY_mY_mZ</span><span class="p">,</span>
+        <span class="n">Rot_mX_mXY_mZ</span><span class="p">,</span>
+        <span class="n">Rot_mX_mZ_mY</span><span class="p">,</span>
+        <span class="n">Rot_mZ_mY_mX</span><span class="p">,</span>
+        <span class="n">Rot_mXY_Y_Z</span><span class="p">,</span>
+        <span class="n">Rot_X_XmY_Z</span><span class="p">,</span>
+        <span class="n">Rot_XmY_mY_Z</span><span class="p">,</span>
+        <span class="n">Rot_mX_mXY_Z</span><span class="p">,</span>
+        <span class="n">Rot_X_Z_Y</span><span class="p">,</span>
+        <span class="n">Rot_Z_Y_X</span><span class="p">,</span>
+        <span class="n">Rot_Y_mXY_Z</span><span class="p">,</span>
+        <span class="n">Rot_XmY_X_Z</span><span class="p">,</span>
+        <span class="n">Rot_mY_XmY_mZ</span><span class="p">,</span>
+        <span class="n">Rot_mXY_mX_mZ</span><span class="p">,</span>
+        <span class="n">Rot_Z_mX_mY</span><span class="p">,</span>
+        <span class="n">Rot_mZ_mX_Y</span><span class="p">,</span>
+        <span class="n">Rot_mZ_X_mY</span><span class="p">,</span>
+        <span class="n">Rot_mY_Z_mX</span><span class="p">,</span>
+        <span class="n">Rot_Y_mZ_mX</span><span class="p">,</span>
+        <span class="n">Rot_mY_mZ_X</span><span class="p">,</span>
+        <span class="n">Rot_mZ_X_Y</span><span class="p">,</span>
+        <span class="n">Rot_Z_X_mY</span><span class="p">,</span>
+        <span class="n">Rot_Z_mX_Y</span><span class="p">,</span>
+        <span class="n">Rot_Y_mZ_X</span><span class="p">,</span>
+        <span class="n">Rot_mY_Z_X</span><span class="p">,</span>
+        <span class="n">Rot_Y_Z_mX</span><span class="p">,</span>
+        <span class="n">Rot_X_Z_mY</span><span class="p">,</span>
+        <span class="n">Rot_mX_Z_Y</span><span class="p">,</span>
+        <span class="n">Rot_X_mZ_Y</span><span class="p">,</span>
+        <span class="n">Rot_Z_Y_mX</span><span class="p">,</span>
+        <span class="n">Rot_Z_mY_X</span><span class="p">,</span>
+        <span class="n">Rot_mZ_Y_X</span><span class="p">,</span>
+        <span class="n">Rot_mX_Z_mY</span><span class="p">,</span>
+        <span class="n">Rot_mX_mZ_Y</span><span class="p">,</span>
+        <span class="n">Rot_X_mZ_mY</span><span class="p">,</span>
+        <span class="n">Rot_Z_mY_mX</span><span class="p">,</span>
+        <span class="n">Rot_mZ_Y_mX</span><span class="p">,</span>
+        <span class="n">Rot_mZ_mY_X</span><span class="p">,</span>
+        <span class="n">Tr_0_0_0</span><span class="p">,</span>
+        <span class="n">Tr_0_12_0</span><span class="p">,</span>
+        <span class="n">Tr_12_12_0</span><span class="p">,</span>
+        <span class="n">Tr_0_0_12</span><span class="p">,</span>
+        <span class="n">Tr_12_12_12</span><span class="p">,</span>
+        <span class="n">Tr_0_12_12</span><span class="p">,</span>
+        <span class="n">Tr_12_0_12</span><span class="p">,</span>
+        <span class="n">Tr_12_0_0</span><span class="p">,</span>
+        <span class="n">Tr_14_14_14</span><span class="p">,</span>
+        <span class="n">Tr_14_34_34</span><span class="p">,</span>
+        <span class="n">Tr_34_14_34</span><span class="p">,</span>
+        <span class="n">Tr_34_34_14</span><span class="p">,</span>
+        <span class="n">Tr_0_0_14</span><span class="p">,</span>
+        <span class="n">Tr_0_0_34</span><span class="p">,</span>
+        <span class="n">Tr_0_12_14</span><span class="p">,</span>
+        <span class="n">Tr_12_0_34</span><span class="p">,</span>
+        <span class="n">Tr_12_12_14</span><span class="p">,</span>
+        <span class="n">Tr_12_12_34</span><span class="p">,</span>
+        <span class="n">Tr_0_12_34</span><span class="p">,</span>
+        <span class="n">Tr_12_0_14</span><span class="p">,</span>
+        <span class="n">Tr_0_0_13</span><span class="p">,</span>
+        <span class="n">Tr_0_0_23</span><span class="p">,</span>
+        <span class="n">Tr_23_13_13</span><span class="p">,</span>
+        <span class="n">Tr_13_23_23</span><span class="p">,</span>
+        <span class="n">Tr_23_13_56</span><span class="p">,</span>
+        <span class="n">Tr_13_23_16</span><span class="p">,</span>
+        <span class="n">Tr_0_0_56</span><span class="p">,</span>
+        <span class="n">Tr_0_0_16</span><span class="p">,</span>
+        <span class="n">Tr_34_14_14</span><span class="p">,</span>
+        <span class="n">Tr_34_34_34</span><span class="p">,</span>
+        <span class="n">Tr_14_14_34</span><span class="p">,</span>
+        <span class="n">Tr_14_34_14</span><span class="p">,</span>
+        <span class="n">sg1</span><span class="p">,</span>
+        <span class="n">sg2</span><span class="p">,</span>
+        <span class="n">sg3</span><span class="p">,</span>
+        <span class="n">sg4</span><span class="p">,</span>
+        <span class="n">sg5</span><span class="p">,</span>
+        <span class="n">sg6</span><span class="p">,</span>
+        <span class="n">sg7</span><span class="p">,</span>
+        <span class="n">sg8</span><span class="p">,</span>
+        <span class="n">sg9</span><span class="p">,</span>
+        <span class="n">sg10</span><span class="p">,</span>
+        <span class="n">sg11</span><span class="p">,</span>
+        <span class="n">sg12</span><span class="p">,</span>
+        <span class="n">sg13</span><span class="p">,</span>
+        <span class="n">sg14</span><span class="p">,</span>
+        <span class="n">sg15</span><span class="p">,</span>
+        <span class="n">sg16</span><span class="p">,</span>
+        <span class="n">sg17</span><span class="p">,</span>
+        <span class="n">sg18</span><span class="p">,</span>
+        <span class="n">sg19</span><span class="p">,</span>
+        <span class="n">sg20</span><span class="p">,</span>
+        <span class="n">sg21</span><span class="p">,</span>
+        <span class="n">sg22</span><span class="p">,</span>
+        <span class="n">sg23</span><span class="p">,</span>
+        <span class="n">sg24</span><span class="p">,</span>
+        <span class="n">sg25</span><span class="p">,</span>
+        <span class="n">sg26</span><span class="p">,</span>
+        <span class="n">sg27</span><span class="p">,</span>
+        <span class="n">sg28</span><span class="p">,</span>
+        <span class="n">sg29</span><span class="p">,</span>
+        <span class="n">sg30</span><span class="p">,</span>
+        <span class="n">sg31</span><span class="p">,</span>
+        <span class="n">sg32</span><span class="p">,</span>
+        <span class="n">sg33</span><span class="p">,</span>
+        <span class="n">sg34</span><span class="p">,</span>
+        <span class="n">sg35</span><span class="p">,</span>
+        <span class="n">sg36</span><span class="p">,</span>
+        <span class="n">sg37</span><span class="p">,</span>
+        <span class="n">sg38</span><span class="p">,</span>
+        <span class="n">sg39</span><span class="p">,</span>
+        <span class="n">sg40</span><span class="p">,</span>
+        <span class="n">sg41</span><span class="p">,</span>
+        <span class="n">sg42</span><span class="p">,</span>
+        <span class="n">sg43</span><span class="p">,</span>
+        <span class="n">sg44</span><span class="p">,</span>
+        <span class="n">sg45</span><span class="p">,</span>
+        <span class="n">sg46</span><span class="p">,</span>
+        <span class="n">sg47</span><span class="p">,</span>
+        <span class="n">sg48</span><span class="p">,</span>
+        <span class="n">sg49</span><span class="p">,</span>
+        <span class="n">sg50</span><span class="p">,</span>
+        <span class="n">sg51</span><span class="p">,</span>
+        <span class="n">sg52</span><span class="p">,</span>
+        <span class="n">sg53</span><span class="p">,</span>
+        <span class="n">sg54</span><span class="p">,</span>
+        <span class="n">sg55</span><span class="p">,</span>
+        <span class="n">sg56</span><span class="p">,</span>
+        <span class="n">sg57</span><span class="p">,</span>
+        <span class="n">sg58</span><span class="p">,</span>
+        <span class="n">sg59</span><span class="p">,</span>
+        <span class="n">sg60</span><span class="p">,</span>
+        <span class="n">sg61</span><span class="p">,</span>
+        <span class="n">sg62</span><span class="p">,</span>
+        <span class="n">sg63</span><span class="p">,</span>
+        <span class="n">sg64</span><span class="p">,</span>
+        <span class="n">sg65</span><span class="p">,</span>
+        <span class="n">sg66</span><span class="p">,</span>
+        <span class="n">sg67</span><span class="p">,</span>
+        <span class="n">sg68</span><span class="p">,</span>
+        <span class="n">sg69</span><span class="p">,</span>
+        <span class="n">sg70</span><span class="p">,</span>
+        <span class="n">sg71</span><span class="p">,</span>
+        <span class="n">sg72</span><span class="p">,</span>
+        <span class="n">sg73</span><span class="p">,</span>
+        <span class="n">sg74</span><span class="p">,</span>
+        <span class="n">sg75</span><span class="p">,</span>
+        <span class="n">sg76</span><span class="p">,</span>
+        <span class="n">sg77</span><span class="p">,</span>
+        <span class="n">sg78</span><span class="p">,</span>
+        <span class="n">sg79</span><span class="p">,</span>
+        <span class="n">sg80</span><span class="p">,</span>
+        <span class="n">sg81</span><span class="p">,</span>
+        <span class="n">sg82</span><span class="p">,</span>
+        <span class="n">sg83</span><span class="p">,</span>
+        <span class="n">sg84</span><span class="p">,</span>
+        <span class="n">sg85</span><span class="p">,</span>
+        <span class="n">sg86</span><span class="p">,</span>
+        <span class="n">sg87</span><span class="p">,</span>
+        <span class="n">sg88</span><span class="p">,</span>
+        <span class="n">sg89</span><span class="p">,</span>
+        <span class="n">sg90</span><span class="p">,</span>
+        <span class="n">sg91</span><span class="p">,</span>
+        <span class="n">sg92</span><span class="p">,</span>
+        <span class="n">sg93</span><span class="p">,</span>
+        <span class="n">sg94</span><span class="p">,</span>
+        <span class="n">sg95</span><span class="p">,</span>
+        <span class="n">sg96</span><span class="p">,</span>
+        <span class="n">sg97</span><span class="p">,</span>
+        <span class="n">sg98</span><span class="p">,</span>
+        <span class="n">sg99</span><span class="p">,</span>
+        <span class="n">sg100</span><span class="p">,</span>
+        <span class="n">sg101</span><span class="p">,</span>
+        <span class="n">sg102</span><span class="p">,</span>
+        <span class="n">sg103</span><span class="p">,</span>
+        <span class="n">sg104</span><span class="p">,</span>
+        <span class="n">sg105</span><span class="p">,</span>
+        <span class="n">sg106</span><span class="p">,</span>
+        <span class="n">sg107</span><span class="p">,</span>
+        <span class="n">sg108</span><span class="p">,</span>
+        <span class="n">sg109</span><span class="p">,</span>
+        <span class="n">sg110</span><span class="p">,</span>
+        <span class="n">sg111</span><span class="p">,</span>
+        <span class="n">sg112</span><span class="p">,</span>
+        <span class="n">sg113</span><span class="p">,</span>
+        <span class="n">sg114</span><span class="p">,</span>
+        <span class="n">sg115</span><span class="p">,</span>
+        <span class="n">sg116</span><span class="p">,</span>
+        <span class="n">sg117</span><span class="p">,</span>
+        <span class="n">sg118</span><span class="p">,</span>
+        <span class="n">sg119</span><span class="p">,</span>
+        <span class="n">sg120</span><span class="p">,</span>
+        <span class="n">sg121</span><span class="p">,</span>
+        <span class="n">sg122</span><span class="p">,</span>
+        <span class="n">sg123</span><span class="p">,</span>
+        <span class="n">sg124</span><span class="p">,</span>
+        <span class="n">sg125</span><span class="p">,</span>
+        <span class="n">sg126</span><span class="p">,</span>
+        <span class="n">sg127</span><span class="p">,</span>
+        <span class="n">sg128</span><span class="p">,</span>
+        <span class="n">sg129</span><span class="p">,</span>
+        <span class="n">sg130</span><span class="p">,</span>
+        <span class="n">sg131</span><span class="p">,</span>
+        <span class="n">sg132</span><span class="p">,</span>
+        <span class="n">sg133</span><span class="p">,</span>
+        <span class="n">sg134</span><span class="p">,</span>
+        <span class="n">sg135</span><span class="p">,</span>
+        <span class="n">sg136</span><span class="p">,</span>
+        <span class="n">sg137</span><span class="p">,</span>
+        <span class="n">sg138</span><span class="p">,</span>
+        <span class="n">sg139</span><span class="p">,</span>
+        <span class="n">sg140</span><span class="p">,</span>
+        <span class="n">sg141</span><span class="p">,</span>
+        <span class="n">sg142</span><span class="p">,</span>
+        <span class="n">sg143</span><span class="p">,</span>
+        <span class="n">sg144</span><span class="p">,</span>
+        <span class="n">sg145</span><span class="p">,</span>
+        <span class="n">sg146</span><span class="p">,</span>
+        <span class="n">sg1146</span><span class="p">,</span>
+        <span class="n">sg147</span><span class="p">,</span>
+        <span class="n">sg148</span><span class="p">,</span>
+        <span class="n">sg1148</span><span class="p">,</span>
+        <span class="n">sg149</span><span class="p">,</span>
+        <span class="n">sg150</span><span class="p">,</span>
+        <span class="n">sg151</span><span class="p">,</span>
+        <span class="n">sg152</span><span class="p">,</span>
+        <span class="n">sg153</span><span class="p">,</span>
+        <span class="n">sg154</span><span class="p">,</span>
+        <span class="n">sg155</span><span class="p">,</span>
+        <span class="n">sg1155</span><span class="p">,</span>
+        <span class="n">sg156</span><span class="p">,</span>
+        <span class="n">sg157</span><span class="p">,</span>
+        <span class="n">sg158</span><span class="p">,</span>
+        <span class="n">sg159</span><span class="p">,</span>
+        <span class="n">sg160</span><span class="p">,</span>
+        <span class="n">sg1160</span><span class="p">,</span>
+        <span class="n">sg161</span><span class="p">,</span>
+        <span class="n">sg1161</span><span class="p">,</span>
+        <span class="n">sg162</span><span class="p">,</span>
+        <span class="n">sg163</span><span class="p">,</span>
+        <span class="n">sg164</span><span class="p">,</span>
+        <span class="n">sg165</span><span class="p">,</span>
+        <span class="n">sg166</span><span class="p">,</span>
+        <span class="n">sg1166</span><span class="p">,</span>
+        <span class="n">sg167</span><span class="p">,</span>
+        <span class="n">sg1167</span><span class="p">,</span>
+        <span class="n">sg168</span><span class="p">,</span>
+        <span class="n">sg169</span><span class="p">,</span>
+        <span class="n">sg170</span><span class="p">,</span>
+        <span class="n">sg171</span><span class="p">,</span>
+        <span class="n">sg172</span><span class="p">,</span>
+        <span class="n">sg173</span><span class="p">,</span>
+        <span class="n">sg174</span><span class="p">,</span>
+        <span class="n">sg175</span><span class="p">,</span>
+        <span class="n">sg176</span><span class="p">,</span>
+        <span class="n">sg177</span><span class="p">,</span>
+        <span class="n">sg178</span><span class="p">,</span>
+        <span class="n">sg179</span><span class="p">,</span>
+        <span class="n">sg180</span><span class="p">,</span>
+        <span class="n">sg181</span><span class="p">,</span>
+        <span class="n">sg182</span><span class="p">,</span>
+        <span class="n">sg183</span><span class="p">,</span>
+        <span class="n">sg184</span><span class="p">,</span>
+        <span class="n">sg185</span><span class="p">,</span>
+        <span class="n">sg186</span><span class="p">,</span>
+        <span class="n">sg187</span><span class="p">,</span>
+        <span class="n">sg188</span><span class="p">,</span>
+        <span class="n">sg189</span><span class="p">,</span>
+        <span class="n">sg190</span><span class="p">,</span>
+        <span class="n">sg191</span><span class="p">,</span>
+        <span class="n">sg192</span><span class="p">,</span>
+        <span class="n">sg193</span><span class="p">,</span>
+        <span class="n">sg194</span><span class="p">,</span>
+        <span class="n">sg195</span><span class="p">,</span>
+        <span class="n">sg196</span><span class="p">,</span>
+        <span class="n">sg197</span><span class="p">,</span>
+        <span class="n">sg198</span><span class="p">,</span>
+        <span class="n">sg199</span><span class="p">,</span>
+        <span class="n">sg200</span><span class="p">,</span>
+        <span class="n">sg201</span><span class="p">,</span>
+        <span class="n">sg202</span><span class="p">,</span>
+        <span class="n">sg203</span><span class="p">,</span>
+        <span class="n">sg204</span><span class="p">,</span>
+        <span class="n">sg205</span><span class="p">,</span>
+        <span class="n">sg206</span><span class="p">,</span>
+        <span class="n">sg207</span><span class="p">,</span>
+        <span class="n">sg208</span><span class="p">,</span>
+        <span class="n">sg209</span><span class="p">,</span>
+        <span class="n">sg210</span><span class="p">,</span>
+        <span class="n">sg211</span><span class="p">,</span>
+        <span class="n">sg212</span><span class="p">,</span>
+        <span class="n">sg213</span><span class="p">,</span>
+        <span class="n">sg214</span><span class="p">,</span>
+        <span class="n">sg215</span><span class="p">,</span>
+        <span class="n">sg216</span><span class="p">,</span>
+        <span class="n">sg217</span><span class="p">,</span>
+        <span class="n">sg218</span><span class="p">,</span>
+        <span class="n">sg219</span><span class="p">,</span>
+        <span class="n">sg220</span><span class="p">,</span>
+        <span class="n">sg221</span><span class="p">,</span>
+        <span class="n">sg222</span><span class="p">,</span>
+        <span class="n">sg223</span><span class="p">,</span>
+        <span class="n">sg224</span><span class="p">,</span>
+        <span class="n">sg225</span><span class="p">,</span>
+        <span class="n">sg226</span><span class="p">,</span>
+        <span class="n">sg227</span><span class="p">,</span>
+        <span class="n">sg228</span><span class="p">,</span>
+        <span class="n">sg229</span><span class="p">,</span>
+        <span class="n">sg230</span><span class="p">,</span>
+        <span class="n">sg1003</span><span class="p">,</span>
+        <span class="n">sg1004</span><span class="p">,</span>
+        <span class="n">sg3004</span><span class="p">,</span>
+        <span class="n">sg1005</span><span class="p">,</span>
+        <span class="n">sg2005</span><span class="p">,</span>
+        <span class="n">sg3005</span><span class="p">,</span>
+        <span class="n">sg1006</span><span class="p">,</span>
+        <span class="n">sg1007</span><span class="p">,</span>
+        <span class="n">sg1008</span><span class="p">,</span>
+        <span class="n">sg1009</span><span class="p">,</span>
+        <span class="n">sg1010</span><span class="p">,</span>
+        <span class="n">sg1011</span><span class="p">,</span>
+        <span class="n">sg1012</span><span class="p">,</span>
+        <span class="n">sg1013</span><span class="p">,</span>
+        <span class="n">sg1014</span><span class="p">,</span>
+        <span class="n">sg1015</span><span class="p">,</span>
+        <span class="n">sg1017</span><span class="p">,</span>
+        <span class="n">sg2017</span><span class="p">,</span>
+        <span class="n">sg1018</span><span class="p">,</span>
+        <span class="n">sg2018</span><span class="p">,</span>
+        <span class="n">sg3018</span><span class="p">,</span>
+        <span class="n">sg1020</span><span class="p">,</span>
+        <span class="n">sg1021</span><span class="p">,</span>
+        <span class="n">sg1022</span><span class="p">,</span>
+        <span class="n">sg1023</span><span class="p">,</span>
+        <span class="n">sg1059</span><span class="p">,</span>
+        <span class="n">sg1094</span><span class="p">,</span>
+        <span class="n">sg1197</span><span class="p">,</span>
+        <span class="n">sg2003</span><span class="p">,</span>
+        <span class="n">sg2004</span><span class="p">,</span>
+        <span class="n">sg4005</span><span class="p">,</span>
+        <span class="n">sg5005</span><span class="p">,</span>
+        <span class="n">sg6005</span><span class="p">,</span>
+        <span class="n">sg7005</span><span class="p">,</span>
+        <span class="n">sg8005</span><span class="p">,</span>
+        <span class="n">sg9005</span><span class="p">,</span>
+        <span class="n">sg10005</span><span class="p">,</span>
+        <span class="n">sg2006</span><span class="p">,</span>
+        <span class="n">sg2007</span><span class="p">,</span>
+        <span class="n">sg3007</span><span class="p">,</span>
+        <span class="n">sg4007</span><span class="p">,</span>
+        <span class="n">sg5007</span><span class="p">,</span>
+        <span class="n">sg6007</span><span class="p">,</span>
+        <span class="n">sg7007</span><span class="p">,</span>
+        <span class="n">sg8007</span><span class="p">,</span>
+        <span class="n">sg2008</span><span class="p">,</span>
+        <span class="n">sg3008</span><span class="p">,</span>
+        <span class="n">sg4008</span><span class="p">,</span>
+        <span class="n">sg5008</span><span class="p">,</span>
+        <span class="n">sg6008</span><span class="p">,</span>
+        <span class="n">sg7008</span><span class="p">,</span>
+        <span class="n">sg8008</span><span class="p">,</span>
+        <span class="n">sg2009</span><span class="p">,</span>
+        <span class="n">sg3009</span><span class="p">,</span>
+        <span class="n">sg4009</span><span class="p">,</span>
+        <span class="n">sg5009</span><span class="p">,</span>
+        <span class="n">sg6009</span><span class="p">,</span>
+        <span class="n">sg7009</span><span class="p">,</span>
+        <span class="n">sg8009</span><span class="p">,</span>
+        <span class="n">sg9009</span><span class="p">,</span>
+        <span class="n">sg10009</span><span class="p">,</span>
+        <span class="n">sg11009</span><span class="p">,</span>
+        <span class="n">sg12009</span><span class="p">,</span>
+        <span class="n">sg13009</span><span class="p">,</span>
+        <span class="n">sg14009</span><span class="p">,</span>
+        <span class="n">sg15009</span><span class="p">,</span>
+        <span class="n">sg16009</span><span class="p">,</span>
+        <span class="n">sg17009</span><span class="p">,</span>
+        <span class="n">sg2010</span><span class="p">,</span>
+        <span class="n">sg2011</span><span class="p">,</span>
+        <span class="n">sg2012</span><span class="p">,</span>
+        <span class="n">sg3012</span><span class="p">,</span>
+        <span class="n">sg4012</span><span class="p">,</span>
+        <span class="n">sg5012</span><span class="p">,</span>
+        <span class="n">sg6012</span><span class="p">,</span>
+        <span class="n">sg7012</span><span class="p">,</span>
+        <span class="n">sg8012</span><span class="p">,</span>
+        <span class="n">sg2013</span><span class="p">,</span>
+        <span class="n">sg3013</span><span class="p">,</span>
+        <span class="n">sg4013</span><span class="p">,</span>
+        <span class="n">sg5013</span><span class="p">,</span>
+        <span class="n">sg6013</span><span class="p">,</span>
+        <span class="n">sg7013</span><span class="p">,</span>
+        <span class="n">sg8013</span><span class="p">,</span>
+        <span class="n">sg2014</span><span class="p">,</span>
+        <span class="n">sg3014</span><span class="p">,</span>
+        <span class="n">sg4014</span><span class="p">,</span>
+        <span class="n">sg5014</span><span class="p">,</span>
+        <span class="n">sg6014</span><span class="p">,</span>
+        <span class="n">sg7014</span><span class="p">,</span>
+        <span class="n">sg8014</span><span class="p">,</span>
+        <span class="n">sg2015</span><span class="p">,</span>
+        <span class="n">sg3015</span><span class="p">,</span>
+        <span class="n">sg4015</span><span class="p">,</span>
+        <span class="n">sg5015</span><span class="p">,</span>
+        <span class="n">sg6015</span><span class="p">,</span>
+        <span class="n">sg7015</span><span class="p">,</span>
+        <span class="n">sg8015</span><span class="p">,</span>
+        <span class="n">sg9015</span><span class="p">,</span>
+        <span class="n">sg10015</span><span class="p">,</span>
+        <span class="n">sg11015</span><span class="p">,</span>
+        <span class="n">sg12015</span><span class="p">,</span>
+        <span class="n">sg13015</span><span class="p">,</span>
+        <span class="n">sg14015</span><span class="p">,</span>
+        <span class="n">sg15015</span><span class="p">,</span>
+        <span class="n">sg16015</span><span class="p">,</span>
+        <span class="n">sg17015</span><span class="p">,</span>
+        <span class="n">sg2020</span><span class="p">,</span>
+        <span class="n">sg3020</span><span class="p">,</span>
+        <span class="n">sg2021</span><span class="p">,</span>
+        <span class="n">sg3021</span><span class="p">,</span>
+        <span class="n">sg1025</span><span class="p">,</span>
+        <span class="n">sg2025</span><span class="p">,</span>
+        <span class="n">sg1026</span><span class="p">,</span>
+        <span class="n">sg2026</span><span class="p">,</span>
+        <span class="n">sg3026</span><span class="p">,</span>
+        <span class="n">sg4026</span><span class="p">,</span>
+        <span class="n">sg5026</span><span class="p">,</span>
+        <span class="n">sg1027</span><span class="p">,</span>
+        <span class="n">sg2027</span><span class="p">,</span>
+        <span class="n">sg1028</span><span class="p">,</span>
+        <span class="n">sg2028</span><span class="p">,</span>
+        <span class="n">sg3028</span><span class="p">,</span>
+        <span class="n">sg4028</span><span class="p">,</span>
+        <span class="n">sg5028</span><span class="p">,</span>
+        <span class="n">sg1029</span><span class="p">,</span>
+        <span class="n">sg2029</span><span class="p">,</span>
+        <span class="n">sg3029</span><span class="p">,</span>
+        <span class="n">sg4029</span><span class="p">,</span>
+        <span class="n">sg5029</span><span class="p">,</span>
+        <span class="n">sg1030</span><span class="p">,</span>
+        <span class="n">sg2030</span><span class="p">,</span>
+        <span class="n">sg3030</span><span class="p">,</span>
+        <span class="n">sg4030</span><span class="p">,</span>
+        <span class="n">sg5030</span><span class="p">,</span>
+        <span class="n">sg1031</span><span class="p">,</span>
+        <span class="n">sg2031</span><span class="p">,</span>
+        <span class="n">sg3031</span><span class="p">,</span>
+        <span class="n">sg4031</span><span class="p">,</span>
+        <span class="n">sg5031</span><span class="p">,</span>
+        <span class="n">sg1032</span><span class="p">,</span>
+        <span class="n">sg2032</span><span class="p">,</span>
+        <span class="n">sg1033</span><span class="p">,</span>
+        <span class="n">sg2033</span><span class="p">,</span>
+        <span class="n">sg3033</span><span class="p">,</span>
+        <span class="n">sg4033</span><span class="p">,</span>
+        <span class="n">sg5033</span><span class="p">,</span>
+        <span class="n">sg1034</span><span class="p">,</span>
+        <span class="n">sg2034</span><span class="p">,</span>
+        <span class="n">sg1035</span><span class="p">,</span>
+        <span class="n">sg2035</span><span class="p">,</span>
+        <span class="n">sg1036</span><span class="p">,</span>
+        <span class="n">sg2036</span><span class="p">,</span>
+        <span class="n">sg3036</span><span class="p">,</span>
+        <span class="n">sg4036</span><span class="p">,</span>
+        <span class="n">sg5036</span><span class="p">,</span>
+        <span class="n">sg1037</span><span class="p">,</span>
+        <span class="n">sg2037</span><span class="p">,</span>
+        <span class="n">sg1038</span><span class="p">,</span>
+        <span class="n">sg2038</span><span class="p">,</span>
+        <span class="n">sg3038</span><span class="p">,</span>
+        <span class="n">sg4038</span><span class="p">,</span>
+        <span class="n">sg5038</span><span class="p">,</span>
+        <span class="n">sg1039</span><span class="p">,</span>
+        <span class="n">sg2039</span><span class="p">,</span>
+        <span class="n">sg3039</span><span class="p">,</span>
+        <span class="n">sg4039</span><span class="p">,</span>
+        <span class="n">sg5039</span><span class="p">,</span>
+        <span class="n">sg1040</span><span class="p">,</span>
+        <span class="n">sg2040</span><span class="p">,</span>
+        <span class="n">sg3040</span><span class="p">,</span>
+        <span class="n">sg4040</span><span class="p">,</span>
+        <span class="n">sg5040</span><span class="p">,</span>
+        <span class="n">sg1041</span><span class="p">,</span>
+        <span class="n">sg2041</span><span class="p">,</span>
+        <span class="n">sg3041</span><span class="p">,</span>
+        <span class="n">sg4041</span><span class="p">,</span>
+        <span class="n">sg5041</span><span class="p">,</span>
+        <span class="n">sg1042</span><span class="p">,</span>
+        <span class="n">sg2042</span><span class="p">,</span>
+        <span class="n">sg1043</span><span class="p">,</span>
+        <span class="n">sg2043</span><span class="p">,</span>
+        <span class="n">sg1044</span><span class="p">,</span>
+        <span class="n">sg2044</span><span class="p">,</span>
+        <span class="n">sg1045</span><span class="p">,</span>
+        <span class="n">sg2045</span><span class="p">,</span>
+        <span class="n">sg1046</span><span class="p">,</span>
+        <span class="n">sg2046</span><span class="p">,</span>
+        <span class="n">sg3046</span><span class="p">,</span>
+        <span class="n">sg4046</span><span class="p">,</span>
+        <span class="n">sg5046</span><span class="p">,</span>
+        <span class="n">sg1049</span><span class="p">,</span>
+        <span class="n">sg2049</span><span class="p">,</span>
+        <span class="n">sg1050</span><span class="p">,</span>
+        <span class="n">sg2050</span><span class="p">,</span>
+        <span class="n">sg3050</span><span class="p">,</span>
+        <span class="n">sg4050</span><span class="p">,</span>
+        <span class="n">sg1051</span><span class="p">,</span>
+        <span class="n">sg2051</span><span class="p">,</span>
+        <span class="n">sg3051</span><span class="p">,</span>
+        <span class="n">sg4051</span><span class="p">,</span>
+        <span class="n">sg5051</span><span class="p">,</span>
+        <span class="n">sg1052</span><span class="p">,</span>
+        <span class="n">sg2052</span><span class="p">,</span>
+        <span class="n">sg3052</span><span class="p">,</span>
+        <span class="n">sg4052</span><span class="p">,</span>
+        <span class="n">sg5052</span><span class="p">,</span>
+        <span class="n">sg1053</span><span class="p">,</span>
+        <span class="n">sg2053</span><span class="p">,</span>
+        <span class="n">sg3053</span><span class="p">,</span>
+        <span class="n">sg4053</span><span class="p">,</span>
+        <span class="n">sg5053</span><span class="p">,</span>
+        <span class="n">sg1054</span><span class="p">,</span>
+        <span class="n">sg2054</span><span class="p">,</span>
+        <span class="n">sg3054</span><span class="p">,</span>
+        <span class="n">sg4054</span><span class="p">,</span>
+        <span class="n">sg5054</span><span class="p">,</span>
+        <span class="n">sg1055</span><span class="p">,</span>
+        <span class="n">sg2055</span><span class="p">,</span>
+        <span class="n">sg1056</span><span class="p">,</span>
+        <span class="n">sg2056</span><span class="p">,</span>
+        <span class="n">sg1057</span><span class="p">,</span>
+        <span class="n">sg2057</span><span class="p">,</span>
+        <span class="n">sg3057</span><span class="p">,</span>
+        <span class="n">sg4057</span><span class="p">,</span>
+        <span class="n">sg5057</span><span class="p">,</span>
+        <span class="n">sg1058</span><span class="p">,</span>
+        <span class="n">sg2058</span><span class="p">,</span>
+        <span class="n">sg2059</span><span class="p">,</span>
+        <span class="n">sg3059</span><span class="p">,</span>
+        <span class="n">sg4059</span><span class="p">,</span>
+        <span class="n">sg5059</span><span class="p">,</span>
+        <span class="n">sg1060</span><span class="p">,</span>
+        <span class="n">sg2060</span><span class="p">,</span>
+        <span class="n">sg3060</span><span class="p">,</span>
+        <span class="n">sg4060</span><span class="p">,</span>
+        <span class="n">sg5060</span><span class="p">,</span>
+        <span class="n">sg1061</span><span class="p">,</span>
+        <span class="n">sg1062</span><span class="p">,</span>
+        <span class="n">sg2062</span><span class="p">,</span>
+        <span class="n">sg3062</span><span class="p">,</span>
+        <span class="n">sg4062</span><span class="p">,</span>
+        <span class="n">sg5062</span><span class="p">,</span>
+        <span class="n">sg1063</span><span class="p">,</span>
+        <span class="n">sg2063</span><span class="p">,</span>
+        <span class="n">sg3063</span><span class="p">,</span>
+        <span class="n">sg4063</span><span class="p">,</span>
+        <span class="n">sg5063</span><span class="p">,</span>
+        <span class="n">sg1064</span><span class="p">,</span>
+        <span class="n">sg2064</span><span class="p">,</span>
+        <span class="n">sg3064</span><span class="p">,</span>
+        <span class="n">sg4064</span><span class="p">,</span>
+        <span class="n">sg5064</span><span class="p">,</span>
+        <span class="n">sg1065</span><span class="p">,</span>
+        <span class="n">sg2065</span><span class="p">,</span>
+        <span class="n">sg1066</span><span class="p">,</span>
+        <span class="n">sg2066</span><span class="p">,</span>
+        <span class="n">sg1067</span><span class="p">,</span>
+        <span class="n">sg2067</span><span class="p">,</span>
+        <span class="n">sg3067</span><span class="p">,</span>
+        <span class="n">sg4067</span><span class="p">,</span>
+        <span class="n">sg5067</span><span class="p">,</span>
+        <span class="n">sg1068</span><span class="p">,</span>
+        <span class="n">sg2068</span><span class="p">,</span>
+        <span class="n">sg3068</span><span class="p">,</span>
+        <span class="n">sg4068</span><span class="p">,</span>
+        <span class="n">sg5068</span><span class="p">,</span>
+        <span class="n">sg6068</span><span class="p">,</span>
+        <span class="n">sg7068</span><span class="p">,</span>
+        <span class="n">sg1072</span><span class="p">,</span>
+        <span class="n">sg2072</span><span class="p">,</span>
+        <span class="n">sg1073</span><span class="p">,</span>
+        <span class="n">sg1074</span><span class="p">,</span>
+        <span class="n">sg2074</span><span class="p">,</span>
+        <span class="n">sg3074</span><span class="p">,</span>
+        <span class="n">sg4074</span><span class="p">,</span>
+        <span class="n">sg5074</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

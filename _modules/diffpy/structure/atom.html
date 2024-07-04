@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.structure.atom &mdash; diffpy.structure 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=0ffc2956"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            diffpy.structure
+          </a>
+              <div class="version">
+                3.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.structure.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">diffpy.structure</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../structure.html">diffpy.structure</a></li>
+      <li class="breadcrumb-item active">diffpy.structure.atom</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.structure.atom</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># diffpy.structure  by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Pavol Juhas</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE_DANSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Provide class Atom for managing properties of an atom in structure model.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">six</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.structure.lattice</span> <span class="kn">import</span> <span class="n">cartesian</span> <span class="k">as</span> <span class="n">cartesian_lattice</span>
+
+<span class="c1"># conversion constants</span>
+<span class="n">_BtoU</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">_UtoB</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">_BtoU</span>
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="Atom">
+<a class="viewcode-back" href="../../../mod_atom.html#diffpy.structure.atom.Atom">[docs]</a>
+<span class="k">class</span> <span class="nc">Atom</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Storage of structure information relevant for a single atom.</span>
+
+<span class="sd">    This class manages atom information such as element symbol, position</span>
+<span class="sd">    in fractional and Cartesian coordinates, atomic displacement parameters</span>
+<span class="sd">    and so forth.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    atype : str or Atom, optional</span>
+<span class="sd">        The string atom type to be set as the `element` attribute.</span>
+<span class="sd">        By default an empty string.  When of the *Atom* type, create</span>
+<span class="sd">        a copy of *atype* and adjust it per other arguments.</span>
+<span class="sd">    xyz : ndarray, optional</span>
+<span class="sd">        Fractional coordinates within the associated `lattice`.</span>
+<span class="sd">        By default ``[0, 0, 0]``.</span>
+<span class="sd">    label : str, optional</span>
+<span class="sd">        A unique string `label` for referring to this Atom.</span>
+<span class="sd">        By default an empty string.</span>
+<span class="sd">    occupancy : float, optional</span>
+<span class="sd">        The initial `occupancy` of this atom, by default ``1``.</span>
+<span class="sd">    anisotropy : bool, optional</span>
+<span class="sd">        The flag for anisotropic thermal displacements parameters.</span>
+<span class="sd">        This overrides `anisotropy` implied by presence of the</span>
+<span class="sd">        *U* or *Uisoequiv* arguments.  Defaults to ``False``</span>
+<span class="sd">        when not set in any other way.</span>
+<span class="sd">    U : ndarray, optional</span>
+<span class="sd">        The 3x3 matrix of anisotropic thermal displacement parameters.</span>
+<span class="sd">        When present `anisotropy` defaults to ``True``.</span>
+<span class="sd">    Uisoequiv: float, optional</span>
+<span class="sd">        The isotropic atomic displacement parameter.  The `anisotropy`</span>
+<span class="sd">        defaults to ``False`` when present.  Only one of the *U* and</span>
+<span class="sd">        *Uisoequiv* arguments may be provided at the same time.  Assume</span>
+<span class="sd">        zero atomic displacements when *U* and *Uisoequiv* are unset.</span>
+<span class="sd">    lattice : Lattice</span>
+<span class="sd">        Coordinate system for the fractional coordinates `xyz`.</span>
+<span class="sd">        Use the absolute Cartesian system when ``None``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    element : str</span>
+<span class="sd">        The string type of the atom.  An element or ion symbol.</span>
+<span class="sd">    xyz : ndarray</span>
+<span class="sd">        The fractional coordinates in the associated `lattice`.</span>
+<span class="sd">    label : str</span>
+<span class="sd">        A unique string label referring to this atom, for example, &quot;C_1&quot;.</span>
+<span class="sd">        The *label* can be used to reference this atom when contained in</span>
+<span class="sd">        a `Structure` object.</span>
+<span class="sd">    occupancy : float</span>
+<span class="sd">        The fractional occupancy of this atom.</span>
+<span class="sd">    lattice : Lattice</span>
+<span class="sd">        Coordinate system for the fractional coordinates `xyz` and</span>
+<span class="sd">        the tensor of atomic displacement parameters `U`.</span>
+<span class="sd">        Use the absolute Cartesian coordinates when ``None``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Private attributes</span>
+    <span class="c1">#</span>
+    <span class="c1">#   _U : 3-by-3 ndarray</span>
+    <span class="c1">#       Internal storage of the displacement parameters.</span>
+
+    <span class="c1"># instance attributes that have immutable default values</span>
+    <span class="n">element</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">occupancy</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">_anisotropy</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">lattice</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">atype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">xyz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">occupancy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">anisotropy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">U</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">Uisoequiv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">lattice</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create atom of the specified type at the given lattice coordinates.</span>
+
+<span class="sd">        Atom(a) creates a copy of Atom instance *a*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># check arguments</span>
+        <span class="k">if</span> <span class="n">U</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Uisoequiv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Cannot use both U and Uisoequiv arguments.&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="c1"># declare data members</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_U</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="c1"># assign them as needed</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">atype</span><span class="p">,</span> <span class="n">Atom</span><span class="p">):</span>
+            <span class="n">atype</span><span class="o">.</span><span class="n">__copy__</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">atype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">element</span> <span class="o">=</span> <span class="n">atype</span>
+        <span class="c1"># take care of remaining arguments</span>
+        <span class="k">if</span> <span class="n">xyz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">xyz</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="k">if</span> <span class="n">occupancy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">occupancy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">occupancy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">U</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">U</span>
+        <span class="k">if</span> <span class="n">Uisoequiv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Uisoequiv</span> <span class="o">=</span> <span class="n">Uisoequiv</span>
+        <span class="c1"># lattice needs to be set before anisotropy</span>
+        <span class="k">if</span> <span class="n">lattice</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">lattice</span>
+        <span class="c1"># process anisotropy after U, Uisoequiv and lattice.</span>
+        <span class="k">if</span> <span class="n">anisotropy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">anisotropy</span><span class="p">)</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="Atom.msdLat">
+<a class="viewcode-back" href="../../../mod_atom.html#diffpy.structure.atom.Atom.msdLat">[docs]</a>
+    <span class="k">def</span> <span class="nf">msdLat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vl</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate mean square displacement along the lattice vector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vl : array_like</span>
+<span class="sd">            The vector in lattice coordinates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The mean square displacement along *vl*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uisoequiv</span>
+        <span class="c1"># here we need to calculate msd</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="ow">or</span> <span class="n">cartesian_lattice</span>
+        <span class="n">vln</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vl</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">/</span> <span class="n">lat</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vl</span><span class="p">)</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">metrics</span>
+        <span class="n">rhs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">G</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">ar</span><span class="p">,</span> <span class="n">G</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">br</span><span class="p">,</span> <span class="n">G</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">cr</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">rhs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">vln</span><span class="p">)</span>
+        <span class="n">msd</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">rhs</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">msd</span></div>
+
+
+<div class="viewcode-block" id="Atom.msdCart">
+<a class="viewcode-back" href="../../../mod_atom.html#diffpy.structure.atom.Atom.msdCart">[docs]</a>
+    <span class="k">def</span> <span class="nf">msdCart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate mean square displacement along the Cartesian vector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vc : array_like</span>
+<span class="sd">            Vector in Cartesian coordinates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The mean square displacement along *vc*.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uisoequiv</span>
+        <span class="c1"># here we need to calculate msd</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="ow">or</span> <span class="n">cartesian_lattice</span>
+        <span class="n">vcn</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">vcn</span> <span class="o">/=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vcn</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">F1</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">normbase</span>
+        <span class="n">Uc</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">F1</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">,</span> <span class="n">F1</span><span class="p">))</span>
+        <span class="n">msd</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vcn</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Uc</span><span class="p">,</span> <span class="n">vcn</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">msd</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        String representation of this Atom.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xyz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%-4s</span><span class="s2"> </span><span class="si">%8.6f</span><span class="s2"> </span><span class="si">%8.6f</span><span class="s2"> </span><span class="si">%8.6f</span><span class="s2"> </span><span class="si">%6.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">,</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">occupancy</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a copy of this instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        target : Atom, optional</span>
+<span class="sd">            An already existing Atom object to be updated to a duplicate</span>
+<span class="sd">            of this Atom.  Create a new Atom object when not specified.</span>
+<span class="sd">            This facilitates extension of the `__copy__` method</span>
+<span class="sd">            in a derived class.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Atom</span>
+<span class="sd">            The copy of this object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">Atom</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">target</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">target</span>
+        <span class="n">target</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+        <span class="n">target</span><span class="o">.</span><span class="n">xyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">)</span>
+        <span class="n">target</span><span class="o">.</span><span class="n">_U</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">target</span>
+
+    <span class="c1"># property handlers ------------------------------------------------------</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">val</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;float : fractional coordinate *x*, same as ``xyz[0]``.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">val</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;float : fractional coordinate *y*, same as ``xyz[1]``.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">val</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;float : fractional coordinate *z*, same as ``xyz[2]``.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># xyz_cartn</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">xyz_cartn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        ndarray: Atom position in absolute Cartesian coordinates.</span>
+
+<span class="sd">        This is computed from fractional coordinates `xyz` and the</span>
+<span class="sd">        current `lattice` setup.  Assignment to *xyz_cartn* or</span>
+<span class="sd">        its components is applied on fractional coordinates `xyz`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">:</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="n">_AtomCartesianCoordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span>
+
+    <span class="nd">@xyz_cartn</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">xyz_cartn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">fractional</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># anisotropy</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">anisotropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        bool : Flag for allowing anisotropic displacement parameters.</span>
+
+<span class="sd">        When ``False`` the tensor of thermal displacement parameters `U`</span>
+<span class="sd">        must be isotropic and only its diagonal elements are taken into</span>
+<span class="sd">        account.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anisotropy</span>
+
+    <span class="nd">@anisotropy</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">anisotropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anisotropy</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># convert from isotropic to anisotropic</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span>
+        <span class="c1"># otherwise convert from anisotropic to isotropic</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uisoequiv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_anisotropy</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># U</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">U</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        ndarray : The 3x3 matrix of anisotropic atomic displacements.</span>
+
+<span class="sd">        For isotropic displacements (when `anisotropy` is ``False``)</span>
+<span class="sd">        assignment to *U* uses only the first ``Unew[0, 0]`` element</span>
+<span class="sd">        and the remaining components of *U* are adjusted to obtain</span>
+<span class="sd">        isotropic tensor in the active `lattice`.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        Elements of the *U* tensor such as ``U[0, 1]`` should be</span>
+<span class="sd">        considered read-only as setting them directly leads to</span>
+<span class="sd">        undefined behavior.  Use the `U11`, `U22`, ..., or `B11`,</span>
+<span class="sd">        `B22`, ..., descriptors to set only some *U* components.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
+            <span class="c1"># for isotropic displacements assume first element</span>
+            <span class="c1"># to be equal to the displacement value</span>
+            <span class="n">lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="ow">or</span> <span class="n">cartesian_lattice</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">lat</span><span class="o">.</span><span class="n">isotropicunit</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span>
+
+    <span class="nd">@U</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">U</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Uij elements</span>
+
+    <span class="k">def</span> <span class="nf">_get_Uij</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The getter function for the `U11`, `U22`, ..., properties.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="ow">or</span> <span class="n">cartesian_lattice</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">isotropicunit</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_set_Uij</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The setter function for the  `U11`, `U22`, ..., properties.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anisotropy</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span>
+
+    <span class="c1"># _doc_uii, _doc_uij are temporary local variables.</span>
+
+    <span class="n">_doc_uii</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        float : The ``U[</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{0}</span><span class="s2">]`` component of the displacement tensor `U`.</span>
+
+<span class="s2">        When `anisotropy` is ``False`` setting a new value updates entire</span>
+<span class="s2">        tensor *U*.</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+    <span class="n">U11</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span> <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">U22</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span> <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">U33</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span> <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">_doc_uij</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        float : The ``U[</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">]`` element of the displacement tensor `U`.</span>
+
+<span class="s2">        Sets ``U[</span><span class="si">{1}</span><span class="s2">, </span><span class="si">{0}</span><span class="s2">]`` together with ``U[</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">]``.  Assignment</span>
+<span class="s2">        has no effect when `anisotropy` is ``False``.</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+    <span class="n">U12</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span> <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">U13</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span> <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">U23</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span> <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># clean local variables</span>
+    <span class="k">del</span> <span class="n">_doc_uii</span><span class="p">,</span> <span class="n">_doc_uij</span>
+
+    <span class="c1"># Uisoequiv</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">Uisoequiv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        float : The isotropic displacement parameter or an equivalent value.</span>
+
+<span class="sd">        Setting a new value rescales tensor `U` so it yields equivalent</span>
+<span class="sd">        direction-averaged displacements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">)</span> <span class="o">/</span> <span class="mf">3.0</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mf">1.0</span>
+            <span class="o">/</span> <span class="mf">3.0</span>
+            <span class="o">*</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">ar</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">ar</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">a</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">br</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">br</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">b</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">cr</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">cr</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">c</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">c</span>
+                <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">ar</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">br</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">cg</span>
+                <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">ar</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">cr</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">c</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">cb</span>
+                <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">br</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">cr</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">c</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">ca</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span>
+
+    <span class="nd">@Uisoequiv</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">Uisoequiv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
+            <span class="n">lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="ow">or</span> <span class="n">cartesian_lattice</span>
+            <span class="n">uequiv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uisoequiv</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">uequiv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">lat</span><span class="o">.</span><span class="n">_epsilon</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_U</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">isotropicunit</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_U</span> <span class="o">*=</span> <span class="n">value</span> <span class="o">/</span> <span class="n">uequiv</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Bij elements</span>
+
+    <span class="c1"># _doc_bii, _doc_bij are local variables.</span>
+
+    <span class="n">_doc_bii</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        float : The ``B</span><span class="si">{0}{0}</span><span class="s2">`` element of the Debye-Waller matrix.</span>
+
+<span class="s2">        This is equivalent to ``8 * pi**2 * U</span><span class="si">{0}{0}</span><span class="s2">``.  When `anisotropy`</span>
+<span class="s2">        is ``False`` setting a new value updates entire tensor `U`.</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+    <span class="n">_doc_bij</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        float : The ``B</span><span class="si">{0}{1}</span><span class="s2">`` element of the Debye-Waller matrix.</span>
+
+<span class="s2">        This is equivalent to ``8 * pi**2 * U</span><span class="si">{0}{1}</span><span class="s2">``.  Setting a new</span>
+<span class="s2">        value updates `U` in a symmetric way.  Assignment has no effect</span>
+<span class="s2">        when `anisotropy` is ``False``.</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+    <span class="n">B11</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">B22</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">B33</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">B12</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">B13</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">B23</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># clean local variables</span>
+    <span class="k">del</span> <span class="n">_doc_bii</span><span class="p">,</span> <span class="n">_doc_bij</span>
+
+    <span class="c1"># Bisoequiv</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">Bisoequiv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        float : The Debye-Waller isotropic displacement or an equivalent value.</span>
+
+<span class="sd">        This equals ``8 * pi**2 * Uisoequiv``.  Setting a new value</span>
+<span class="sd">        rescales `U` tensor to yield equivalent direction-average of</span>
+<span class="sd">        Debye-Waller displacements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uisoequiv</span>
+
+    <span class="nd">@Bisoequiv</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">Bisoequiv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Uisoequiv</span> <span class="o">=</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span>
+        <span class="k">return</span></div>
+
+
+
+<span class="c1"># End of class Atom</span>
+
+<span class="c1"># Local Helpers --------------------------------------------------------------</span>
+
+
+<span class="k">class</span> <span class="nc">_AtomCartesianCoordinates</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specialized numpy.ndarray for accessing Cartesian coordinates.</span>
+
+<span class="sd">    Inplace assignments to this array are applied on the *xyz* position</span>
+<span class="sd">    position of owner `Atom` as per the associated `Atom.lattice`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    atom : Atom</span>
+<span class="sd">        Atom instance to be linked to these coordinate array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the underlying numpy array base object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_atom</span> <span class="o">=</span> <span class="n">atom</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asarray</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">cartesian</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">xyz</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">asarray</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        ndarray : This array viewed as standard numpy array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set some element or slice of this Cartesian coordinates.</span>
+
+<span class="sd">        This overrides inplace array assignment to update the</span>
+<span class="sd">        *xyz* fractional coordinate of the linked `Atom`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asarray</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_atom</span><span class="o">.</span><span class="n">xyz</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_atom</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">fractional</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">__array_wrap__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ensure math operations on this type yield standard numpy array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">out_arr</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+
+    <span class="c1"># Python 2 Compatibility -------------------------------------------------</span>
+
+    <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span><span class="p">:</span>
+
+        <span class="k">def</span> <span class="nf">__setslice__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">),</span> <span class="n">sequence</span><span class="p">)</span>
+            <span class="k">return</span>
+
+    <span class="c1"># ------------------------------------------------------------------------</span>
+
+
+<span class="c1"># End of _AtomCartesianCoordinates</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

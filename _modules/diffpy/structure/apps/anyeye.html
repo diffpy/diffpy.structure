@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.structure.apps.anyeye &mdash; diffpy.structure 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=0ffc2956"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.structure
+          </a>
+              <div class="version">
+                3.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.structure.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.structure</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../structure.html">diffpy.structure</a></li>
+      <li class="breadcrumb-item active">diffpy.structure.apps.anyeye</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.structure.apps.anyeye</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># diffpy.structure  by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Pavol Juhas</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE_DANSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;anyeye    view structure file in atomeye</span>
+<span class="sd">Usage: anyeye [options] strufile</span>
+
+<span class="sd">anyeye understands more structure formats than atomeye.  It converts strufile</span>
+<span class="sd">to a temporary XCFG file which is opened in atomeye.  Supported file formats:</span>
+<span class="sd">  inputFormats</span>
+
+<span class="sd">Options:</span>
+<span class="sd">  -f, --formula     override chemical formula in strufile, formula defines</span>
+<span class="sd">                    elements in the same order as in strufile, e.g, Na4Cl4</span>
+<span class="sd">  -w, --watch       watch input file for changes</span>
+<span class="sd">  --viewer=VIEWER   the structure viewer program, by default &quot;atomeye&quot;.</span>
+<span class="sd">                    The program will be executed as &quot;VIEWER structurefile&quot;</span>
+<span class="sd">  --formats=FORMATS comma separated list of file formats that are understood</span>
+<span class="sd">                    by the VIEWER, by default &quot;xcfg,pdb&quot;.  Files of other</span>
+<span class="sd">                    formats will be converted to the first listed format.</span>
+<span class="sd">  -h, --help        display this message and exit</span>
+<span class="sd">  -V, --version     show script version and exit</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">signal</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">StructureFormatError</span>
+
+<span class="c1"># parameter dictionary</span>
+<span class="n">pd</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;formula&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;watch&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;viewer&quot;</span><span class="p">:</span> <span class="s2">&quot;atomeye&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;formats&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xcfg&quot;</span><span class="p">,</span> <span class="s2">&quot;pdb&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="usage">
+<a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.anyeye.usage">[docs]</a>
+<span class="k">def</span> <span class="nf">usage</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;show usage info, for style==&quot;brief&quot; show only first 2 lines&quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">os.path</span>
+
+    <span class="n">myname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;anyeye&quot;</span><span class="p">,</span> <span class="n">myname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;brief&quot;</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Try `</span><span class="si">%s</span><span class="s2"> --help&#39; for more information.&quot;</span> <span class="o">%</span> <span class="n">myname</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">inputFormats</span>
+
+        <span class="n">fmts</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">inputFormats</span><span class="p">()</span> <span class="k">if</span> <span class="n">f</span> <span class="o">!=</span> <span class="s2">&quot;auto&quot;</span><span class="p">]</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;inputFormats&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmts</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="version">
+<a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.anyeye.version">[docs]</a>
+<span class="k">def</span> <span class="nf">version</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">__version__</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;anyeye&quot;</span><span class="p">,</span> <span class="n">__version__</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="loadStructureFile">
+<a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.anyeye.loadStructureFile">[docs]</a>
+<span class="k">def</span> <span class="nf">loadStructureFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load structure from specified file.</span>
+
+<span class="sd">    Return a tuple of (Structure, fileformat).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Structure</span>
+
+    <span class="n">stru</span> <span class="o">=</span> <span class="n">Structure</span><span class="p">()</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">stru</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
+    <span class="n">fileformat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">format</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">stru</span><span class="p">,</span> <span class="n">fileformat</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="convertStructureFile">
+<a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.anyeye.convertStructureFile">[docs]</a>
+<span class="k">def</span> <span class="nf">convertStructureFile</span><span class="p">(</span><span class="n">pd</span><span class="p">):</span>
+    <span class="c1"># make temporary directory on the first pass</span>
+    <span class="k">if</span> <span class="s2">&quot;tmpdir&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pd</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">mkdtemp</span>
+
+        <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mkdtemp</span><span class="p">()</span>
+    <span class="n">strufile</span> <span class="o">=</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;strufile&quot;</span><span class="p">]</span>
+    <span class="n">tmpfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpdir&quot;</span><span class="p">],</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">strufile</span><span class="p">))</span>
+    <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpfile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmpfile</span>
+    <span class="c1"># speed up file processing in the watch mode</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;format&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+    <span class="n">stru</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+        <span class="n">stru</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span> <span class="n">loadStructureFile</span><span class="p">(</span><span class="n">strufile</span><span class="p">)</span>
+        <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;fmt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fmt</span>
+    <span class="c1"># if fmt is recognized by the viewer, use as is</span>
+    <span class="k">if</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formats&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formula&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">shutil</span>
+
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">strufile</span><span class="p">,</span> <span class="n">tmpfile</span> <span class="o">+</span> <span class="s2">&quot;.tmp&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">tmpfile</span> <span class="o">+</span> <span class="s2">&quot;.tmp&quot;</span><span class="p">,</span> <span class="n">tmpfile</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="c1"># otherwise convert to the first recognized viewer format</span>
+    <span class="k">if</span> <span class="n">stru</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">stru</span> <span class="o">=</span> <span class="n">loadStructureFile</span><span class="p">(</span><span class="n">strufile</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formula&quot;</span><span class="p">]:</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formula&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">):</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Formula has </span><span class="si">%i</span><span class="s2"> atoms while structure </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">formula</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">el</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">stru</span><span class="p">,</span> <span class="n">formula</span><span class="p">):</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">element</span> <span class="o">=</span> <span class="n">el</span>
+    <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;rawxyz&quot;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">stru</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">element</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">element</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span>
+    <span class="n">stru</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tmpfile</span> <span class="o">+</span> <span class="s2">&quot;.tmp&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formats&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">tmpfile</span> <span class="o">+</span> <span class="s2">&quot;.tmp&quot;</span><span class="p">,</span> <span class="n">tmpfile</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="watchStructureFile">
+<a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.anyeye.watchStructureFile">[docs]</a>
+<span class="k">def</span> <span class="nf">watchStructureFile</span><span class="p">(</span><span class="n">pd</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+    <span class="n">strufile</span> <span class="o">=</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;strufile&quot;</span><span class="p">]</span>
+    <span class="n">tmpfile</span> <span class="o">=</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpfile&quot;</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;watch&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">tmpfile</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">strufile</span><span class="p">):</span>
+            <span class="n">convertStructureFile</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="cleanUp">
+<a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.anyeye.cleanUp">[docs]</a>
+<span class="k">def</span> <span class="nf">cleanUp</span><span class="p">(</span><span class="n">pd</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;tmpfile&quot;</span> <span class="ow">in</span> <span class="n">pd</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpfile&quot;</span><span class="p">])</span>
+        <span class="k">del</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpfile&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;tmpdir&quot;</span> <span class="ow">in</span> <span class="n">pd</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpdir&quot;</span><span class="p">])</span>
+        <span class="k">del</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpdir&quot;</span><span class="p">]</span>
+    <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="parseFormula">
+<a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.anyeye.parseFormula">[docs]</a>
+<span class="k">def</span> <span class="nf">parseFormula</span><span class="p">(</span><span class="n">formula</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;parse chemical formula and return a list of elements&quot;&quot;&quot;</span>
+    <span class="c1"># remove all blanks</span>
+    <span class="n">formula</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">formula</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;^[A-Z]&quot;</span><span class="p">,</span> <span class="n">formula</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;InvalidFormula &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">formula</span><span class="p">)</span>
+    <span class="n">elcnt</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;([A-Z][a-z]?)&quot;</span><span class="p">,</span> <span class="n">formula</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">ellst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">elcnt</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">el</span> <span class="o">=</span> <span class="n">elcnt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">cnt</span> <span class="o">=</span> <span class="n">elcnt</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">cnt</span> <span class="o">=</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+            <span class="n">ellst</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">cnt</span> <span class="o">*</span> <span class="p">[</span><span class="n">el</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Invalid formula, </span><span class="si">%r</span><span class="s2"> is not valid count&quot;</span> <span class="o">%</span> <span class="n">elcnt</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ellst</span></div>
+
+
+
+<div class="viewcode-block" id="die">
+<a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.anyeye.die">[docs]</a>
+<span class="k">def</span> <span class="nf">die</span><span class="p">(</span><span class="n">exit_status</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pd</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="n">cleanUp</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">exit_status</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="signalHandler">
+<a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.anyeye.signalHandler">[docs]</a>
+<span class="k">def</span> <span class="nf">signalHandler</span><span class="p">(</span><span class="n">signum</span><span class="p">,</span> <span class="n">stackframe</span><span class="p">):</span>
+    <span class="c1"># revert to default handler</span>
+    <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signum</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIG_DFL</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">signum</span> <span class="o">==</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGCHLD</span><span class="p">:</span>
+        <span class="n">pid</span><span class="p">,</span> <span class="n">exit_status</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="n">exit_status</span> <span class="o">=</span> <span class="p">(</span><span class="n">exit_status</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">exit_status</span> <span class="o">&amp;</span> <span class="mh">0x00FF</span><span class="p">)</span>
+        <span class="n">die</span><span class="p">(</span><span class="n">exit_status</span><span class="p">,</span> <span class="n">pd</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">die</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pd</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.anyeye.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">getopt</span>
+
+    <span class="c1"># default parameters</span>
+    <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;watch&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">opts</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;f:whV&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;formula=&quot;</span><span class="p">,</span> <span class="s2">&quot;watch&quot;</span><span class="p">,</span> <span class="s2">&quot;viewer=&quot;</span><span class="p">,</span> <span class="s2">&quot;formats=&quot;</span><span class="p">,</span> <span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span> <span class="k">as</span> <span class="n">errmsg</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">errmsg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="n">die</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># process options</span>
+    <span class="k">for</span> <span class="n">o</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--formula&quot;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formula&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parseFormula</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">msg</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+                <span class="n">die</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-w&quot;</span><span class="p">,</span> <span class="s2">&quot;--watch&quot;</span><span class="p">):</span>
+            <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;watch&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">o</span> <span class="o">==</span> <span class="s2">&quot;--viewer&quot;</span><span class="p">:</span>
+            <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;viewer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="k">elif</span> <span class="n">o</span> <span class="o">==</span> <span class="s2">&quot;--formats&quot;</span><span class="p">:</span>
+            <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formats&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-h&quot;</span><span class="p">,</span> <span class="s2">&quot;--help&quot;</span><span class="p">):</span>
+            <span class="n">usage</span><span class="p">()</span>
+            <span class="n">die</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-V&quot;</span><span class="p">,</span> <span class="s2">&quot;--version&quot;</span><span class="p">):</span>
+            <span class="n">version</span><span class="p">()</span>
+            <span class="n">die</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">usage</span><span class="p">(</span><span class="s2">&quot;brief&quot;</span><span class="p">)</span>
+        <span class="n">die</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;too many structure files&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="n">die</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;strufile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># trap the following signals</span>
+    <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGHUP</span><span class="p">,</span> <span class="n">signalHandler</span><span class="p">)</span>
+    <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGQUIT</span><span class="p">,</span> <span class="n">signalHandler</span><span class="p">)</span>
+    <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGSEGV</span><span class="p">,</span> <span class="n">signalHandler</span><span class="p">)</span>
+    <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGTERM</span><span class="p">,</span> <span class="n">signalHandler</span><span class="p">)</span>
+    <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">signalHandler</span><span class="p">)</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">&quot;viewer&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;atomeye&quot;</span><span class="p">):</span>
+        <span class="n">env</span><span class="p">[</span><span class="s2">&quot;XLIB_SKIP_ARGB_VISUALS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+    <span class="c1"># try to run the thing:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">convertStructureFile</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span>
+        <span class="n">spawnargs</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">&quot;viewer&quot;</span><span class="p">],</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;viewer&quot;</span><span class="p">],</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpfile&quot;</span><span class="p">],</span> <span class="n">env</span><span class="p">)</span>
+        <span class="c1"># load strufile in atomeye</span>
+        <span class="k">if</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;watch&quot;</span><span class="p">]:</span>
+            <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGCLD</span><span class="p">,</span> <span class="n">signalHandler</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">spawnlpe</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">P_NOWAIT</span><span class="p">,</span> <span class="o">*</span><span class="n">spawnargs</span><span class="p">)</span>
+            <span class="n">watchStructureFile</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">spawnlpe</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">P_WAIT</span><span class="p">,</span> <span class="o">*</span><span class="n">spawnargs</span><span class="p">)</span>
+            <span class="n">die</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">pd</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="n">die</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pd</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">StructureFormatError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="n">die</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pd</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

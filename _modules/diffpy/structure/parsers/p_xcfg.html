@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.structure.parsers.p_xcfg &mdash; diffpy.structure 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=0ffc2956"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.structure
+          </a>
+              <div class="version">
+                3.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.structure.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.structure</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../structure.html">diffpy.structure</a></li>
+          <li class="breadcrumb-item"><a href="../parsers.html">diffpy.structure.parsers</a></li>
+      <li class="breadcrumb-item active">diffpy.structure.parsers.p_xcfg</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.structure.parsers.p_xcfg</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># diffpy.structure  by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2007 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Pavol Juhas</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE_DANSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;Parser for extended CFG format used by atomeye&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">six</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">StructureFormatError</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">StructureParser</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure.utils</span> <span class="kn">import</span> <span class="n">isfloat</span>
+
+<span class="c1"># Constants ------------------------------------------------------------------</span>
+
+<span class="c1"># Atomic Mass of elements</span>
+<span class="c1"># This can be later when PeriodicTable package becomes available.</span>
+
+<span class="n">AtomicMass</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;H&quot;</span><span class="p">:</span> <span class="mf">1.007947</span><span class="p">,</span>  <span class="c1"># 1 H hydrogen 1.007947</span>
+    <span class="s2">&quot;He&quot;</span><span class="p">:</span> <span class="mf">4.0026022</span><span class="p">,</span>  <span class="c1"># 2 He helium 4.0026022</span>
+    <span class="s2">&quot;Li&quot;</span><span class="p">:</span> <span class="mf">6.9412</span><span class="p">,</span>  <span class="c1"># 3 Li lithium 6.9412</span>
+    <span class="s2">&quot;Be&quot;</span><span class="p">:</span> <span class="mf">9.0121823</span><span class="p">,</span>  <span class="c1"># 4 Be beryllium 9.0121823</span>
+    <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mf">10.8117</span><span class="p">,</span>  <span class="c1"># 5 B boron 10.8117</span>
+    <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="mf">12.01078</span><span class="p">,</span>  <span class="c1"># 6 C carbon 12.01078</span>
+    <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="mf">14.00672</span><span class="p">,</span>  <span class="c1"># 7 N nitrogen 14.00672</span>
+    <span class="s2">&quot;O&quot;</span><span class="p">:</span> <span class="mf">15.99943</span><span class="p">,</span>  <span class="c1"># 8 O oxygen 15.99943</span>
+    <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="mf">18.99840325</span><span class="p">,</span>  <span class="c1"># 9 F fluorine 18.99840325</span>
+    <span class="s2">&quot;Ne&quot;</span><span class="p">:</span> <span class="mf">20.17976</span><span class="p">,</span>  <span class="c1"># 10 Ne neon 20.17976</span>
+    <span class="s2">&quot;Na&quot;</span><span class="p">:</span> <span class="mf">22.9897702</span><span class="p">,</span>  <span class="c1"># 11 Na sodium 22.9897702</span>
+    <span class="s2">&quot;Mg&quot;</span><span class="p">:</span> <span class="mf">24.30506</span><span class="p">,</span>  <span class="c1"># 12 Mg magnesium 24.30506</span>
+    <span class="s2">&quot;Al&quot;</span><span class="p">:</span> <span class="mf">26.9815382</span><span class="p">,</span>  <span class="c1"># 13 Al aluminium 26.9815382</span>
+    <span class="s2">&quot;Si&quot;</span><span class="p">:</span> <span class="mf">28.08553</span><span class="p">,</span>  <span class="c1"># 14 Si silicon 28.08553</span>
+    <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="mf">30.9737612</span><span class="p">,</span>  <span class="c1"># 15 P phosphorus 30.9737612</span>
+    <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="mf">32.0655</span><span class="p">,</span>  <span class="c1"># 16 S sulfur 32.0655</span>
+    <span class="s2">&quot;Cl&quot;</span><span class="p">:</span> <span class="mf">35.4532</span><span class="p">,</span>  <span class="c1"># 17 Cl chlorine 35.4532</span>
+    <span class="s2">&quot;Ar&quot;</span><span class="p">:</span> <span class="mf">39.9481</span><span class="p">,</span>  <span class="c1"># 18 Ar argon 39.9481</span>
+    <span class="s2">&quot;K&quot;</span><span class="p">:</span> <span class="mf">39.09831</span><span class="p">,</span>  <span class="c1"># 19 K potassium 39.09831</span>
+    <span class="s2">&quot;Ca&quot;</span><span class="p">:</span> <span class="mf">40.0784</span><span class="p">,</span>  <span class="c1"># 20 Ca calcium 40.0784</span>
+    <span class="s2">&quot;Sc&quot;</span><span class="p">:</span> <span class="mf">44.9559108</span><span class="p">,</span>  <span class="c1"># 21 Sc scandium 44.9559108</span>
+    <span class="s2">&quot;Ti&quot;</span><span class="p">:</span> <span class="mf">47.8671</span><span class="p">,</span>  <span class="c1"># 22 Ti titanium 47.8671</span>
+    <span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="mf">50.94151</span><span class="p">,</span>  <span class="c1"># 23 V vanadium 50.94151</span>
+    <span class="s2">&quot;Cr&quot;</span><span class="p">:</span> <span class="mf">51.99616</span><span class="p">,</span>  <span class="c1"># 24 Cr chromium 51.99616</span>
+    <span class="s2">&quot;Mn&quot;</span><span class="p">:</span> <span class="mf">54.9380499</span><span class="p">,</span>  <span class="c1"># 25 Mn manganese 54.9380499</span>
+    <span class="s2">&quot;Fe&quot;</span><span class="p">:</span> <span class="mf">55.8452</span><span class="p">,</span>  <span class="c1"># 26 Fe iron 55.8452</span>
+    <span class="s2">&quot;Co&quot;</span><span class="p">:</span> <span class="mf">58.9332009</span><span class="p">,</span>  <span class="c1"># 27 Co cobalt 58.9332009</span>
+    <span class="s2">&quot;Ni&quot;</span><span class="p">:</span> <span class="mf">58.69342</span><span class="p">,</span>  <span class="c1"># 28 Ni nickel 58.69342</span>
+    <span class="s2">&quot;Cu&quot;</span><span class="p">:</span> <span class="mf">63.5463</span><span class="p">,</span>  <span class="c1"># 29 Cu copper 63.5463</span>
+    <span class="s2">&quot;Zn&quot;</span><span class="p">:</span> <span class="mf">65.4094</span><span class="p">,</span>  <span class="c1"># 30 Zn zinc 65.4094</span>
+    <span class="s2">&quot;Ga&quot;</span><span class="p">:</span> <span class="mf">69.7231</span><span class="p">,</span>  <span class="c1"># 31 Ga gallium 69.7231</span>
+    <span class="s2">&quot;Ge&quot;</span><span class="p">:</span> <span class="mf">72.641</span><span class="p">,</span>  <span class="c1"># 32 Ge germanium 72.641</span>
+    <span class="s2">&quot;As&quot;</span><span class="p">:</span> <span class="mf">74.921602</span><span class="p">,</span>  <span class="c1"># 33 As arsenic 74.921602</span>
+    <span class="s2">&quot;Se&quot;</span><span class="p">:</span> <span class="mf">78.963</span><span class="p">,</span>  <span class="c1"># 34 Se selenium 78.963</span>
+    <span class="s2">&quot;Br&quot;</span><span class="p">:</span> <span class="mf">79.9041</span><span class="p">,</span>  <span class="c1"># 35 Br bromine 79.9041</span>
+    <span class="s2">&quot;Kr&quot;</span><span class="p">:</span> <span class="mf">83.7982</span><span class="p">,</span>  <span class="c1"># 36 Kr krypton 83.7982</span>
+    <span class="s2">&quot;Rb&quot;</span><span class="p">:</span> <span class="mf">85.46783</span><span class="p">,</span>  <span class="c1"># 37 Rb rubidium 85.46783</span>
+    <span class="s2">&quot;Sr&quot;</span><span class="p">:</span> <span class="mf">87.621</span><span class="p">,</span>  <span class="c1"># 38 Sr strontium 87.621</span>
+    <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="mf">88.905852</span><span class="p">,</span>  <span class="c1"># 39 Y yttrium 88.905852</span>
+    <span class="s2">&quot;Zr&quot;</span><span class="p">:</span> <span class="mf">91.2242</span><span class="p">,</span>  <span class="c1"># 40 Zr zirconium 91.2242</span>
+    <span class="s2">&quot;Nb&quot;</span><span class="p">:</span> <span class="mf">92.906382</span><span class="p">,</span>  <span class="c1"># 41 Nb niobium 92.906382</span>
+    <span class="s2">&quot;Mo&quot;</span><span class="p">:</span> <span class="mf">95.942</span><span class="p">,</span>  <span class="c1"># 42 Mo molybdenum 95.942</span>
+    <span class="s2">&quot;Tc&quot;</span><span class="p">:</span> <span class="mf">98.0</span><span class="p">,</span>  <span class="c1"># 43 Tc technetium 98</span>
+    <span class="s2">&quot;Ru&quot;</span><span class="p">:</span> <span class="mf">101.072</span><span class="p">,</span>  <span class="c1"># 44 Ru ruthenium 101.072</span>
+    <span class="s2">&quot;Rh&quot;</span><span class="p">:</span> <span class="mf">102.905502</span><span class="p">,</span>  <span class="c1"># 45 Rh rhodium 102.905502</span>
+    <span class="s2">&quot;Pd&quot;</span><span class="p">:</span> <span class="mf">106.421</span><span class="p">,</span>  <span class="c1"># 46 Pd palladium 106.421</span>
+    <span class="s2">&quot;Ag&quot;</span><span class="p">:</span> <span class="mf">107.86822</span><span class="p">,</span>  <span class="c1"># 47 Ag silver 107.86822</span>
+    <span class="s2">&quot;Cd&quot;</span><span class="p">:</span> <span class="mf">112.4118</span><span class="p">,</span>  <span class="c1"># 48 Cd cadmium 112.4118</span>
+    <span class="s2">&quot;In&quot;</span><span class="p">:</span> <span class="mf">114.8183</span><span class="p">,</span>  <span class="c1"># 49 In indium 114.8183</span>
+    <span class="s2">&quot;Sn&quot;</span><span class="p">:</span> <span class="mf">118.7107</span><span class="p">,</span>  <span class="c1"># 50 Sn tin 118.7107</span>
+    <span class="s2">&quot;Sb&quot;</span><span class="p">:</span> <span class="mf">121.7601</span><span class="p">,</span>  <span class="c1"># 51 Sb antimony 121.7601</span>
+    <span class="s2">&quot;Te&quot;</span><span class="p">:</span> <span class="mf">127.603</span><span class="p">,</span>  <span class="c1"># 52 Te tellurium 127.603</span>
+    <span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="mf">126.904473</span><span class="p">,</span>  <span class="c1"># 53 I iodine 126.904473</span>
+    <span class="s2">&quot;Xe&quot;</span><span class="p">:</span> <span class="mf">131.2936</span><span class="p">,</span>  <span class="c1"># 54 Xe xenon 131.2936</span>
+    <span class="s2">&quot;Cs&quot;</span><span class="p">:</span> <span class="mf">132.905452</span><span class="p">,</span>  <span class="c1"># 55 Cs caesium 132.905452</span>
+    <span class="s2">&quot;Ba&quot;</span><span class="p">:</span> <span class="mf">137.3277</span><span class="p">,</span>  <span class="c1"># 56 Ba barium 137.3277</span>
+    <span class="s2">&quot;La&quot;</span><span class="p">:</span> <span class="mf">138.90552</span><span class="p">,</span>  <span class="c1"># 57 La lanthanum 138.90552</span>
+    <span class="s2">&quot;Ce&quot;</span><span class="p">:</span> <span class="mf">140.1161</span><span class="p">,</span>  <span class="c1"># 58 Ce cerium 140.1161</span>
+    <span class="s2">&quot;Pr&quot;</span><span class="p">:</span> <span class="mf">140.907652</span><span class="p">,</span>  <span class="c1"># 59 Pr praseodymium 140.907652</span>
+    <span class="s2">&quot;Nd&quot;</span><span class="p">:</span> <span class="mf">144.243</span><span class="p">,</span>  <span class="c1"># 60 Nd neodymium 144.243</span>
+    <span class="s2">&quot;Pm&quot;</span><span class="p">:</span> <span class="mf">145.0</span><span class="p">,</span>  <span class="c1"># 61 Pm promethium 145</span>
+    <span class="s2">&quot;Sm&quot;</span><span class="p">:</span> <span class="mf">150.363</span><span class="p">,</span>  <span class="c1"># 62 Sm samarium 150.363</span>
+    <span class="s2">&quot;Eu&quot;</span><span class="p">:</span> <span class="mf">151.9641</span><span class="p">,</span>  <span class="c1"># 63 Eu europium 151.9641</span>
+    <span class="s2">&quot;Gd&quot;</span><span class="p">:</span> <span class="mf">157.253</span><span class="p">,</span>  <span class="c1"># 64 Gd gadolinium 157.253</span>
+    <span class="s2">&quot;Tb&quot;</span><span class="p">:</span> <span class="mf">158.925342</span><span class="p">,</span>  <span class="c1"># 65 Tb terbium 158.925342</span>
+    <span class="s2">&quot;Dy&quot;</span><span class="p">:</span> <span class="mf">162.5001</span><span class="p">,</span>  <span class="c1"># 66 Dy dysprosium 162.5001</span>
+    <span class="s2">&quot;Ho&quot;</span><span class="p">:</span> <span class="mf">164.930322</span><span class="p">,</span>  <span class="c1"># 67 Ho holmium 164.930322</span>
+    <span class="s2">&quot;Er&quot;</span><span class="p">:</span> <span class="mf">167.2593</span><span class="p">,</span>  <span class="c1"># 68 Er erbium 167.2593</span>
+    <span class="s2">&quot;Tm&quot;</span><span class="p">:</span> <span class="mf">168.934212</span><span class="p">,</span>  <span class="c1"># 69 Tm thulium 168.934212</span>
+    <span class="s2">&quot;Yb&quot;</span><span class="p">:</span> <span class="mf">173.043</span><span class="p">,</span>  <span class="c1"># 70 Yb ytterbium 173.043</span>
+    <span class="s2">&quot;Lu&quot;</span><span class="p">:</span> <span class="mf">174.9671</span><span class="p">,</span>  <span class="c1"># 71 Lu lutetium 174.9671</span>
+    <span class="s2">&quot;Hf&quot;</span><span class="p">:</span> <span class="mf">178.492</span><span class="p">,</span>  <span class="c1"># 72 Hf hafnium 178.492</span>
+    <span class="s2">&quot;Ta&quot;</span><span class="p">:</span> <span class="mf">180.94791</span><span class="p">,</span>  <span class="c1"># 73 Ta tantalum 180.94791</span>
+    <span class="s2">&quot;W&quot;</span><span class="p">:</span> <span class="mf">183.841</span><span class="p">,</span>  <span class="c1"># 74 W tungsten 183.841</span>
+    <span class="s2">&quot;Re&quot;</span><span class="p">:</span> <span class="mf">186.2071</span><span class="p">,</span>  <span class="c1"># 75 Re rhenium 186.2071</span>
+    <span class="s2">&quot;Os&quot;</span><span class="p">:</span> <span class="mf">190.233</span><span class="p">,</span>  <span class="c1"># 76 Os osmium 190.233</span>
+    <span class="s2">&quot;Ir&quot;</span><span class="p">:</span> <span class="mf">192.2173</span><span class="p">,</span>  <span class="c1"># 77 Ir iridium 192.2173</span>
+    <span class="s2">&quot;Pt&quot;</span><span class="p">:</span> <span class="mf">195.0782</span><span class="p">,</span>  <span class="c1"># 78 Pt platinum 195.0782</span>
+    <span class="s2">&quot;Au&quot;</span><span class="p">:</span> <span class="mf">196.966552</span><span class="p">,</span>  <span class="c1"># 79 Au gold 196.966552</span>
+    <span class="s2">&quot;Hg&quot;</span><span class="p">:</span> <span class="mf">200.592</span><span class="p">,</span>  <span class="c1"># 80 Hg mercury 200.592</span>
+    <span class="s2">&quot;Tl&quot;</span><span class="p">:</span> <span class="mf">204.38332</span><span class="p">,</span>  <span class="c1"># 81 Tl thallium 204.38332</span>
+    <span class="s2">&quot;Pb&quot;</span><span class="p">:</span> <span class="mf">207.21</span><span class="p">,</span>  <span class="c1"># 82 Pb lead 207.21</span>
+    <span class="s2">&quot;Bi&quot;</span><span class="p">:</span> <span class="mf">208.980382</span><span class="p">,</span>  <span class="c1"># 83 Bi bismuth 208.980382</span>
+    <span class="s2">&quot;Po&quot;</span><span class="p">:</span> <span class="mf">209.0</span><span class="p">,</span>  <span class="c1"># 84 Po polonium 209</span>
+    <span class="s2">&quot;At&quot;</span><span class="p">:</span> <span class="mf">210.0</span><span class="p">,</span>  <span class="c1"># 85 At astatine 210</span>
+    <span class="s2">&quot;Rn&quot;</span><span class="p">:</span> <span class="mf">222.0</span><span class="p">,</span>  <span class="c1"># 86 Rn radon 222</span>
+    <span class="s2">&quot;Fr&quot;</span><span class="p">:</span> <span class="mf">223.0</span><span class="p">,</span>  <span class="c1"># 87 Fr francium 223</span>
+    <span class="s2">&quot;Ra&quot;</span><span class="p">:</span> <span class="mf">226.0</span><span class="p">,</span>  <span class="c1"># 88 Ra radium 226</span>
+    <span class="s2">&quot;Ac&quot;</span><span class="p">:</span> <span class="mf">227.0</span><span class="p">,</span>  <span class="c1"># 89 Ac actinium 227</span>
+    <span class="s2">&quot;Th&quot;</span><span class="p">:</span> <span class="mf">232.03811</span><span class="p">,</span>  <span class="c1"># 90 Th thorium 232.03811</span>
+    <span class="s2">&quot;Pa&quot;</span><span class="p">:</span> <span class="mf">231.035882</span><span class="p">,</span>  <span class="c1"># 91 Pa protactinium 231.035882</span>
+    <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="mf">238.028913</span><span class="p">,</span>  <span class="c1"># 92 U uranium 238.028913</span>
+    <span class="s2">&quot;Np&quot;</span><span class="p">:</span> <span class="mf">237.0</span><span class="p">,</span>  <span class="c1"># 93 Np neptunium 237</span>
+    <span class="s2">&quot;Pu&quot;</span><span class="p">:</span> <span class="mf">244.0</span><span class="p">,</span>  <span class="c1"># 94 Pu plutonium 244</span>
+    <span class="s2">&quot;Am&quot;</span><span class="p">:</span> <span class="mf">243.0</span><span class="p">,</span>  <span class="c1"># 95 Am americium 243</span>
+    <span class="s2">&quot;Cm&quot;</span><span class="p">:</span> <span class="mf">247.0</span><span class="p">,</span>  <span class="c1"># 96 Cm curium 247</span>
+    <span class="s2">&quot;Bk&quot;</span><span class="p">:</span> <span class="mf">247.0</span><span class="p">,</span>  <span class="c1"># 97 Bk berkelium 247</span>
+    <span class="s2">&quot;Cf&quot;</span><span class="p">:</span> <span class="mf">251.0</span><span class="p">,</span>  <span class="c1"># 98 Cf californium 251</span>
+    <span class="s2">&quot;Es&quot;</span><span class="p">:</span> <span class="mf">252.0</span><span class="p">,</span>  <span class="c1"># 99 Es einsteinium 252</span>
+    <span class="s2">&quot;Fm&quot;</span><span class="p">:</span> <span class="mf">257.0</span><span class="p">,</span>  <span class="c1"># 100 Fm fermium 257</span>
+    <span class="s2">&quot;Md&quot;</span><span class="p">:</span> <span class="mf">258.0</span><span class="p">,</span>  <span class="c1"># 101 Md mendelevium 258</span>
+    <span class="s2">&quot;No&quot;</span><span class="p">:</span> <span class="mf">259.0</span><span class="p">,</span>  <span class="c1"># 102 No nobelium 259</span>
+    <span class="s2">&quot;Lr&quot;</span><span class="p">:</span> <span class="mf">262.0</span><span class="p">,</span>  <span class="c1"># 103 Lr lawrencium 262</span>
+    <span class="s2">&quot;Rf&quot;</span><span class="p">:</span> <span class="mf">261.0</span><span class="p">,</span>  <span class="c1"># 104 Rf rutherfordium 261</span>
+    <span class="s2">&quot;Db&quot;</span><span class="p">:</span> <span class="mf">262.0</span><span class="p">,</span>  <span class="c1"># 105 Db dubnium 262</span>
+    <span class="s2">&quot;Sg&quot;</span><span class="p">:</span> <span class="mf">266.0</span><span class="p">,</span>  <span class="c1"># 106 Sg seaborgium 266</span>
+    <span class="s2">&quot;Bh&quot;</span><span class="p">:</span> <span class="mf">264.0</span><span class="p">,</span>  <span class="c1"># 107 Bh bohrium 264</span>
+    <span class="s2">&quot;Hs&quot;</span><span class="p">:</span> <span class="mf">277.0</span><span class="p">,</span>  <span class="c1"># 108 Hs hassium 277</span>
+    <span class="s2">&quot;Mt&quot;</span><span class="p">:</span> <span class="mf">268.0</span><span class="p">,</span>  <span class="c1"># 109 Mt meitnerium 268</span>
+    <span class="s2">&quot;Ds&quot;</span><span class="p">:</span> <span class="mf">281.0</span><span class="p">,</span>  <span class="c1"># 110 Ds darmstadtium 281</span>
+    <span class="s2">&quot;Rg&quot;</span><span class="p">:</span> <span class="mf">272.0</span><span class="p">,</span>  <span class="c1"># 111 Rg roentgenium 272</span>
+<span class="p">}</span>
+
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="P_xcfg">
+<a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_xcfg.P_xcfg">[docs]</a>
+<span class="k">class</span> <span class="nc">P_xcfg</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for AtomEye extended CFG format.</span>
+
+<span class="sd">    cluster_boundary -- width of boundary around corners of non-periodic</span>
+<span class="sd">                        cluster to avoid PBC effects in atomeye</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cluster_boundary</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">StructureParser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s2">&quot;xcfg&quot;</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="P_xcfg.parseLines">
+<a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_xcfg.P_xcfg.parseLines">[docs]</a>
+    <span class="k">def</span> <span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse list of lines in PDB format.</span>
+
+<span class="sd">        Return Structure object or raise StructureFormatError.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xcfg_Number_of_particles</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">xcfg_A</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">xcfg_H0</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">xcfg_H0_set</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">xcfg_NO_VELOCITY</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">xcfg_entry_count</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">p_nl</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p_auxiliary_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^auxiliary\[(\d+)\] =&quot;</span><span class="p">)</span>
+        <span class="n">p_auxiliary</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">stru</span> <span class="o">=</span> <span class="n">Structure</span><span class="p">()</span>
+        <span class="c1"># ignore trailing blank lines</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="k">break</span>
+            <span class="n">stop</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="c1"># iterator over the valid data lines</span>
+        <span class="n">ilines</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">lines</span><span class="p">[:</span><span class="n">stop</span><span class="p">])</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># read XCFG header</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">ilines</span><span class="p">:</span>
+                <span class="n">p_nl</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">stripped_line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="c1"># blank lines and lines starting with # are ignored</span>
+                <span class="k">if</span> <span class="n">stripped_line</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">elif</span> <span class="n">xcfg_Number_of_particles</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;Number of particles =&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">emsg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: first line must &quot;</span> <span class="o">+</span> <span class="s2">&quot;contain &#39;Number of particles =&#39;&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">p_nl</span>
+                        <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+                    <span class="n">xcfg_Number_of_particles</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">21</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">p_natoms</span> <span class="o">=</span> <span class="n">xcfg_Number_of_particles</span>
+                <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;A =&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">xcfg_A</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;H0(&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">xcfg_H0</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">10</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">xcfg_H0_set</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.NO_VELOCITY.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">xcfg_NO_VELOCITY</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;entry_count =&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">xcfg_entry_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">13</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">p_auxiliary_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+                    <span class="n">m</span> <span class="o">=</span> <span class="n">p_auxiliary_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                    <span class="n">p_auxiliary</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">end</span><span class="p">()</span> <span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="c1"># check header for consistency</span>
+            <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">xcfg_H0_set</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;H0 tensor is not properly defined&quot;</span>
+                <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+            <span class="n">p_auxnum</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_auxiliary</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">max</span><span class="p">(</span><span class="n">p_auxiliary</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">p_auxnum</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p_auxiliary</span><span class="p">:</span>
+                    <span class="n">p_auxiliary</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;aux</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span>
+            <span class="n">sorted_aux_keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">p_auxiliary</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">p_auxnum</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">stru</span><span class="o">.</span><span class="n">xcfg</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;auxiliaries&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">p_auxiliary</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">sorted_aux_keys</span><span class="p">]}</span>
+            <span class="n">ecnt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_auxiliary</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span> <span class="k">if</span> <span class="n">xcfg_NO_VELOCITY</span> <span class="k">else</span> <span class="mi">6</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ecnt</span> <span class="o">!=</span> <span class="n">xcfg_entry_count</span><span class="p">:</span>
+                <span class="n">emsg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: auxiliary fields are &quot;</span> <span class="s2">&quot;not consistent with entry_count&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">p_nl</span>
+                <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+            <span class="c1"># define proper lattice</span>
+            <span class="n">stru</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">setLatBase</span><span class="p">(</span><span class="n">xcfg_H0</span><span class="p">)</span>
+            <span class="c1"># here we are inside the data block</span>
+            <span class="n">p_element</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">ilines</span><span class="p">:</span>
+                <span class="n">p_nl</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="c1"># ignore atom mass</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">isfloat</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="k">continue</span>
+                <span class="c1"># parse element allowing empty symbol</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">w</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="n">p_element</span> <span class="o">=</span> <span class="n">w</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="n">xcfg_entry_count</span> <span class="ow">and</span> <span class="n">p_element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+                    <span class="n">xyz</span> <span class="o">=</span> <span class="p">[</span><span class="n">xcfg_A</span> <span class="o">*</span> <span class="n">xi</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">[:</span><span class="mi">3</span><span class="p">]]</span>
+                    <span class="n">stru</span><span class="o">.</span><span class="n">addNewAtom</span><span class="p">(</span><span class="n">p_element</span><span class="p">,</span> <span class="n">xyz</span><span class="o">=</span><span class="n">xyz</span><span class="p">)</span>
+                    <span class="n">a</span> <span class="o">=</span> <span class="n">stru</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">_assign_auxiliaries</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">auxiliaries</span><span class="o">=</span><span class="n">p_auxiliary</span><span class="p">,</span> <span class="n">no_velocity</span><span class="o">=</span><span class="n">xcfg_NO_VELOCITY</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: invalid record&quot;</span> <span class="o">%</span> <span class="n">p_nl</span>
+                    <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">)</span> <span class="o">!=</span> <span class="n">p_natoms</span><span class="p">:</span>
+                <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;expected </span><span class="si">%d</span><span class="s2"> atoms, read </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">p_natoms</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: file is not in XCFG format&quot;</span> <span class="o">%</span> <span class="n">p_nl</span>
+            <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+            <span class="n">six</span><span class="o">.</span><span class="n">reraise</span><span class="p">(</span><span class="n">StructureFormatError</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">stru</span></div>
+
+
+<div class="viewcode-block" id="P_xcfg.toLines">
+<a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_xcfg.P_xcfg.toLines">[docs]</a>
+    <span class="k">def</span> <span class="nf">toLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Structure stru to a list of lines in XCFG atomeye format.</span>
+
+<span class="sd">        Return list of strings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;cannot convert empty structure to XCFG format&quot;</span>
+            <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Number of particles = </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">))</span>
+        <span class="c1"># figure out length unit A</span>
+        <span class="n">allxyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">xyz</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">stru</span><span class="p">])</span>
+        <span class="n">lo_xyz</span> <span class="o">=</span> <span class="n">allxyz</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">hi_xyz</span> <span class="o">=</span> <span class="n">allxyz</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">max_range_xyz</span> <span class="o">=</span> <span class="p">(</span><span class="n">hi_xyz</span> <span class="o">-</span> <span class="n">lo_xyz</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">stru</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">abcABG</span><span class="p">(),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">)):</span>
+            <span class="n">max_range_xyz</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_boundary</span>
+        <span class="c1"># range of CFG coordinates must be less than 1</span>
+        <span class="n">p_A</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">max_range_xyz</span> <span class="o">+</span> <span class="mf">1.0e-13</span><span class="p">)</span>
+        <span class="c1"># atomeye draws rubbish when boxsize is less than 3.5</span>
+        <span class="n">hi_ucvect</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">stru</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">base</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">hi_ucvect</span> <span class="o">*</span> <span class="n">p_A</span> <span class="o">&lt;</span> <span class="mf">3.5</span><span class="p">:</span>
+            <span class="n">p_A</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mf">3.5</span> <span class="o">/</span> <span class="n">hi_ucvect</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;A = </span><span class="si">%.8g</span><span class="s2"> Angstrom&quot;</span> <span class="o">%</span> <span class="n">p_A</span><span class="p">)</span>
+        <span class="c1"># how much do we need to shift the coordinates?</span>
+        <span class="n">p_dxyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">lo_xyz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">p_A</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">hi_xyz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">p_A</span> <span class="o">&gt;=</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">lo_xyz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">hi_xyz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">and</span> <span class="n">lo_xyz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">):</span>
+                <span class="n">p_dxyz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="p">(</span><span class="n">hi_xyz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">lo_xyz</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">p_A</span>
+        <span class="c1"># H0 tensor</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;H0(</span><span class="si">%i</span><span class="s2">,</span><span class="si">%i</span><span class="s2">) = </span><span class="si">%.8g</span><span class="s2"> A&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stru</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]))</span>
+        <span class="c1"># get out for empty structure</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lines</span>
+        <span class="n">a_first</span> <span class="o">=</span> <span class="n">stru</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">p_NO_VELOCITY</span> <span class="o">=</span> <span class="s2">&quot;v&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">a_first</span><span class="o">.</span><span class="vm">__dict__</span>
+        <span class="k">if</span> <span class="n">p_NO_VELOCITY</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;.NO_VELOCITY.&quot;</span><span class="p">)</span>
+        <span class="c1"># build a p_auxiliaries list of (aux_name,atom_expression) tuples</span>
+        <span class="c1"># if stru came from xcfg file, it would store original auxiliaries in</span>
+        <span class="c1"># xcfg dictionary</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">p_auxiliaries</span> <span class="o">=</span> <span class="p">[(</span><span class="n">aux</span><span class="p">,</span> <span class="s2">&quot;a.&quot;</span> <span class="o">+</span> <span class="n">aux</span><span class="p">)</span> <span class="k">for</span> <span class="n">aux</span> <span class="ow">in</span> <span class="n">stru</span><span class="o">.</span><span class="n">xcfg</span><span class="p">[</span><span class="s2">&quot;auxiliaries&quot;</span><span class="p">]]</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">p_auxiliaries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># add occupancy if any atom has nonunit occupancy</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">stru</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">occupancy</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">:</span>
+                <span class="n">p_auxiliaries</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;occupancy&quot;</span><span class="p">,</span> <span class="s2">&quot;a.occupancy&quot;</span><span class="p">))</span>
+                <span class="k">break</span>
+        <span class="c1"># add temperature factor with as many terms as needed</span>
+        <span class="c1"># check whether all temperature factors are zero or isotropic</span>
+        <span class="n">p_allUzero</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">p_allUiso</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">stru</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p_allUzero</span> <span class="ow">and</span> <span class="n">numpy</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">U</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">):</span>
+                <span class="n">p_allUzero</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">numpy</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">U</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
+                <span class="n">p_allUiso</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="c1"># here p_allUzero must be false</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">p_allUzero</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">p_allUiso</span><span class="p">:</span>
+            <span class="n">p_auxiliaries</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Uiso&quot;</span><span class="p">,</span> <span class="s2">&quot;uflat[0]&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">p_auxiliaries</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="s2">&quot;U11&quot;</span><span class="p">,</span> <span class="s2">&quot;uflat[0]&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;U22&quot;</span><span class="p">,</span> <span class="s2">&quot;uflat[4]&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;U33&quot;</span><span class="p">,</span> <span class="s2">&quot;uflat[8]&quot;</span><span class="p">)])</span>
+            <span class="c1"># check if there are off-diagonal elements</span>
+            <span class="n">allU</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">U</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">stru</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">allU</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">):</span>
+                <span class="n">p_auxiliaries</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;U12&quot;</span><span class="p">,</span> <span class="s2">&quot;uflat[1]&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">allU</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">):</span>
+                <span class="n">p_auxiliaries</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;U13&quot;</span><span class="p">,</span> <span class="s2">&quot;uflat[2]&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">allU</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">):</span>
+                <span class="n">p_auxiliaries</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;U23&quot;</span><span class="p">,</span> <span class="s2">&quot;uflat[5]&quot;</span><span class="p">))</span>
+        <span class="c1"># count entries</span>
+        <span class="n">p_entry_count</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span> <span class="k">if</span> <span class="n">p_NO_VELOCITY</span> <span class="k">else</span> <span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_auxiliaries</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;entry_count = </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">p_entry_count</span><span class="p">)</span>
+        <span class="c1"># add auxiliaries</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p_auxiliaries</span><span class="p">)):</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;auxiliary[</span><span class="si">%d</span><span class="s2">] = </span><span class="si">%s</span><span class="s2"> [au]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">p_auxiliaries</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="c1"># now define entry format efmt for representing atom properties</span>
+        <span class="n">fmwords</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;</span><span class="si">{pos[0]:.8g}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{pos[1]:.8g}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{pos[2]:.8g}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">p_NO_VELOCITY</span><span class="p">:</span>
+            <span class="n">fmwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;</span><span class="si">{v[0]:.8g}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{v[1]:.8g}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{v[2]:.8g}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">fmwords</span> <span class="o">+=</span> <span class="p">((</span><span class="s2">&quot;{&quot;</span> <span class="o">+</span> <span class="n">e</span> <span class="o">+</span> <span class="s2">&quot;:.8g}&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">p_auxiliaries</span><span class="p">)</span>
+        <span class="n">efmt</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmwords</span><span class="p">)</span>
+        <span class="c1"># we are ready to output atoms:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">p_element</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">stru</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">element</span> <span class="o">!=</span> <span class="n">p_element</span><span class="p">:</span>
+                <span class="n">p_element</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">element</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">AtomicMass</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p_element</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_element</span><span class="p">)</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">xyz</span> <span class="o">/</span> <span class="n">p_A</span> <span class="o">+</span> <span class="n">p_dxyz</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">p_NO_VELOCITY</span> <span class="k">else</span> <span class="n">a</span><span class="o">.</span><span class="n">v</span>
+            <span class="n">uflat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">U</span><span class="p">)</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="n">efmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">uflat</span><span class="o">=</span><span class="n">uflat</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lines</span></div>
+</div>
+
+
+
+<span class="c1"># End of class P_xcfg</span>
+
+<span class="c1"># Routines -------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="getParser">
+<a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_xcfg.getParser">[docs]</a>
+<span class="k">def</span> <span class="nf">getParser</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">P_xcfg</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># Local Helpers --------------------------------------------------------------</span>
+
+
+<span class="k">def</span> <span class="nf">_assign_auxiliaries</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">auxiliaries</span><span class="p">,</span> <span class="n">no_velocity</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;\</span>
+<span class="sd">    Assing auxiliary properties for Atom object when reading CFG format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : Atom</span>
+<span class="sd">        The Atom instance for which the auxiliary properties need to be set.</span>
+<span class="sd">    fields : list</span>
+<span class="sd">        Floating point values for the current row of the processed CFG file.</span>
+<span class="sd">    auxiliaries : dict</span>
+<span class="sd">        Dictionary of zero-based indices and names of auxiliary properties</span>
+<span class="sd">        defined in the CFG format.</span>
+<span class="sd">    no_velocity : bool</span>
+<span class="sd">        When `False` set atom velocity `a.v` to `fields[3:6]`.</span>
+<span class="sd">        Use `fields[3:6]` for auxiliary values otherwise.</span>
+
+<span class="sd">    No return value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">no_velocity</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">auxfirst</span> <span class="o">=</span> <span class="mi">3</span> <span class="k">if</span> <span class="n">no_velocity</span> <span class="k">else</span> <span class="mi">6</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">auxiliaries</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">auxfirst</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;Uiso&quot;</span><span class="p">:</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">Uisoequiv</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;Biso&quot;</span><span class="p">:</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">Bisoequiv</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">elif</span> <span class="n">prop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="s2">&quot;BU&quot;</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">d</span> <span class="ow">in</span> <span class="s2">&quot;123&quot;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">prop</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">nm</span> <span class="o">=</span> <span class="n">prop</span> <span class="k">if</span> <span class="n">prop</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">prop</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">else</span> <span class="n">prop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">prop</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">prop</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
