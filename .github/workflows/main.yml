@@ -44,11 +44,11 @@ jobs:
           conda activate test
           conda install --file requirements/run.txt
           conda install --file requirements/test.txt
-          pip install .
+          pip install -e .
       - name: Validate diffpy.structure
         shell: bash -l {0}
         run: |
           conda activate test
-          coverage run -m pytest -vv -s
+          coverage run -m diffpy.structure.tests.run
           coverage report -m
           codecov

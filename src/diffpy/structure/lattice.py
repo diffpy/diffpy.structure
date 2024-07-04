@@ -25,7 +25,7 @@ import math
 import numpy
 import numpy.linalg as numalg
 
-from diffpy.structure import LatticeError
+from diffpy.structure.structureerrors import LatticeError
 
 # Helper Functions -----------------------------------------------------------
 
