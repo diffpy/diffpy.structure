@@ -25,7 +25,8 @@ from contextlib import contextmanager
 import numpy
 import six
 
-from diffpy.structure import Atom, Lattice, Structure, StructureFormatError
+from diffpy.structure import Atom, Lattice, Structure
+from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.parsers import StructureParser
 
 # ----------------------------------------------------------------------------

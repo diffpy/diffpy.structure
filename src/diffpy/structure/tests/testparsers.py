@@ -23,7 +23,8 @@ import unittest
 
 import numpy
 
-from diffpy.structure import Atom, Lattice, Structure, StructureFormatError
+from diffpy.structure import Atom, Lattice, Structure
+from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------

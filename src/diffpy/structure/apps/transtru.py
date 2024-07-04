@@ -35,7 +35,8 @@ from __future__ import print_function
 
 import sys
 
-from diffpy.structure import Structure, StructureFormatError
+from diffpy.structure import Structure
+from diffpy.structure.structureerrors import StructureFormatError
 
 
 def usage(style=None):

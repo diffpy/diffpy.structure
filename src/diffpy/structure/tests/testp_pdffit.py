@@ -21,7 +21,8 @@ import unittest
 
 import numpy
 
-from diffpy.structure import Structure, StructureFormatError
+from diffpy.structure import Structure
+from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------

@@ -23,7 +23,8 @@ import sys
 
 import six
 
-from diffpy.structure import Structure, StructureFormatError
+from diffpy.structure import Structure
+from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.parsers import StructureParser
 
 

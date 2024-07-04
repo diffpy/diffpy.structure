@@ -40,7 +40,7 @@ import re
 import signal
 import sys
 
-from diffpy.structure import StructureFormatError
+from diffpy.structure.structureerrors import StructureFormatError
 
 # parameter dictionary
 pd = {

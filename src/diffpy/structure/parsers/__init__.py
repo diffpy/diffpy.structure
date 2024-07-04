@@ -31,7 +31,7 @@ Content:
     outputFormats   -- list of available output formats
 """
 
-from diffpy.structure import StructureFormatError
+from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.parsers.parser_index_mod import parser_index
 from diffpy.structure.parsers.structureparser import StructureParser
 

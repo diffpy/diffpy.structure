@@ -5,7 +5,8 @@
 
 import unittest
 
-from diffpy.structure import PDFFitStructure, Structure, StructureFormatError, loadStructure
+from diffpy.structure import PDFFitStructure, Structure, loadStructure
+from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.tests.testutils import datafile
 
 
