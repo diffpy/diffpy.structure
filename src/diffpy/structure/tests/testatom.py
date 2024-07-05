@@ -82,7 +82,7 @@ class TestAtom(unittest.TestCase):
         hexagonal = Lattice(1, 1, 1, 90, 90, 120)
         a0 = Atom("C", [0, 0, 0], lattice=hexagonal)
         a1 = Atom("C", [1, 1, 1], lattice=hexagonal)
-        self.assertTrue(all(a0.xyz_cartn == 0))
+        self.assertTrue(all(x == 0 for x in a0.xyz_cartn))
         rc1 = numpy.array([0.75**0.5, 0.5, 1])
         self.assertTrue(numpy.allclose(rc1, a1.xyz_cartn))
         a1.xyz_cartn[2] = 0
