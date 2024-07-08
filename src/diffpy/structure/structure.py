@@ -574,6 +574,7 @@ class Structure(list):
         """Character array of atom types.  Assignment updates
         the element attribute of the respective atoms.""",
         toarray=numpy.char.array,
+        dtype="U5",
     )
 
     xyz = _linkAtomAttribute(
