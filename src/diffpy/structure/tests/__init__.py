@@ -38,11 +38,7 @@ def testsuite(pattern=""):
     from itertools import chain
     from os.path import dirname
 
-    # Use importlib.resources for Python 3.9 and newer or importlib_resources for older versions
-    try:
-        from importlib import resources as importlib_resources
-    except ImportError:
-        import importlib_resources
+    import importlib_resources
 
     loader = unittest.defaultTestLoader
     # Use importlib_resources.files() to get a reference to the package directory
