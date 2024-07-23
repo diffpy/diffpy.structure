@@ -38,10 +38,15 @@ def testsuite(pattern=""):
     from itertools import chain
     from os.path import dirname
 
-    from pkg_resources import resource_filename
+    # Use importlib.resources for Python 3.9 and newer or importlib_resources for older versions
+    try:
+        from importlib import resources as importlib_resources
+    except ImportError:
+        import importlib_resources
 
     loader = unittest.defaultTestLoader
-    thisdir = resource_filename(__name__, "")
+    # Use importlib_resources.files() to get a reference to the package directory
+    thisdir = str(importlib_resources.files(__name__))
     depth = __name__.count(".") + 1
     topdir = thisdir
     for i in range(depth):
