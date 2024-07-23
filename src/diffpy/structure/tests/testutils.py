@@ -18,8 +18,8 @@
 
 # helper functions
 
-from importlib_resources import files
+from importlib import resources as importlib_resources
 
 
 def datafile(filename):
-    return str(files(__package__).joinpath("testdata/" + filename))
+    return str(importlib_resources.files(__package__).joinpath("testdata/" + filename))
