@@ -17,8 +17,8 @@
 
 References
 
-    http://www.wwpdb.org/documentation/format23/v2.3.html
-    http://www.wwpdb.org/documentation/format30/index.html
+    https://www.wwpdb.org/documentation/file-format-content/format23/v2.3.html
+    https://www.wwpdb.org/documentation/file-format-content/format30/index.html
 """
 
 import sys
