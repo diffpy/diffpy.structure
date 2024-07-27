@@ -15,7 +15,7 @@
 
 """Parser for basic CIF file format
 
-http://www.iucr.org/iucr-top/cif/home.html
+https://www.iucr.org/resources/cif
 """
 
 import re
