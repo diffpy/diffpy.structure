@@ -39,27 +39,27 @@ class Atom(object):
 
     Parameters
     ----------
-    atype : str or Atom, optional
+    atype : str or Atom, Optional
         The string atom type to be set as the `element` attribute.
         By default an empty string.  When of the *Atom* type, create
         a copy of *atype* and adjust it per other arguments.
-    xyz : ndarray, optional
+    xyz : numpy.ndarray, Optional
         Fractional coordinates within the associated `lattice`.
         By default ``[0, 0, 0]``.
-    label : str, optional
+    label : str, Optional
         A unique string `label` for referring to this Atom.
         By default an empty string.
-    occupancy : float, optional
+    occupancy : float, Optional
         The initial `occupancy` of this atom, by default ``1``.
-    anisotropy : bool, optional
+    anisotropy : bool, Optional
         The flag for anisotropic thermal displacements parameters.
         This overrides `anisotropy` implied by presence of the
         *U* or *Uisoequiv* arguments.  Defaults to ``False``
         when not set in any other way.
-    U : ndarray, optional
+    U : numpy.ndarray, Optional
         The 3x3 matrix of anisotropic thermal displacement parameters.
         When present `anisotropy` defaults to ``True``.
-    Uisoequiv: float, optional
+    Uisoequiv: float, Optional
         The isotropic atomic displacement parameter.  The `anisotropy`
         defaults to ``False`` when present.  Only one of the *U* and
         *Uisoequiv* arguments may be provided at the same time.  Assume
@@ -72,7 +72,7 @@ class Atom(object):
     ----------
     element : str
         The string type of the atom.  An element or ion symbol.
-    xyz : ndarray
+    xyz : numpy.ndarray
         The fractional coordinates in the associated `lattice`.
     label : str
         A unique string label referring to this atom, for example, "C_1".
@@ -211,7 +211,7 @@ class Atom(object):
 
         Parameters
         ----------
-        target : Atom, optional
+        target : Atom, Optional
             An already existing Atom object to be updated to a duplicate
             of this Atom.  Create a new Atom object when not specified.
             This facilitates extension of the `__copy__` method
@@ -254,7 +254,7 @@ class Atom(object):
     @property
     def xyz_cartn(self):
         """
-        ndarray: Atom position in absolute Cartesian coordinates.
+        numpy.ndarray: Atom position in absolute Cartesian coordinates.
 
         This is computed from fractional coordinates `xyz` and the
         current `lattice` setup.  Assignment to *xyz_cartn* or
@@ -305,7 +305,7 @@ class Atom(object):
     @property
     def U(self):
         """
-        ndarray : The 3x3 matrix of anisotropic atomic displacements.
+        numpy.ndarray : The 3x3 matrix of anisotropic atomic displacements.
 
         For isotropic displacements (when `anisotropy` is ``False``)
         assignment to *U* uses only the first ``Unew[0, 0]`` element

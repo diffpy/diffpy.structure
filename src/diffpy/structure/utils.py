@@ -68,7 +68,7 @@ def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
         The string name of the Atom class attribute to be mapped.
     doc : str
         The docstring for the property wrapper.
-    toarray : callable, optional
+    toarray : callable, Optional
         Factory function that converts list of attributes to `numpy.ndarray`.
         Use `numpy.char.array` for string attributes.
 

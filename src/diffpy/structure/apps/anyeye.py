@@ -13,24 +13,37 @@
 #
 ##############################################################################
 
-"""anyeye    view structure file in atomeye
+"""
+anyeye view structure file in atomeye
+
 Usage: anyeye [options] strufile
 
-anyeye understands more structure formats than atomeye.  It converts strufile
-to a temporary XCFG file which is opened in atomeye.  Supported file formats:
+Anyeye understands more structure formats than atomeye. It converts strufile
+to a temporary XCFG file which is opened in atomeye. Supported file formats:
   inputFormats
 
 Options:
-  -f, --formula     override chemical formula in strufile, formula defines
-                    elements in the same order as in strufile, e.g, Na4Cl4
-  -w, --watch       watch input file for changes
-  --viewer=VIEWER   the structure viewer program, by default "atomeye".
-                    The program will be executed as "VIEWER structurefile"
-  --formats=FORMATS comma separated list of file formats that are understood
-                    by the VIEWER, by default "xcfg,pdb".  Files of other
-                    formats will be converted to the first listed format.
-  -h, --help        display this message and exit
-  -V, --version     show script version and exit
+  -f, --formula
+      Override chemical formula in strufile. The formula defines
+      elements in the same order as in strufile, e.g., Na4Cl4.
+
+  -w, --watch
+      Watch input file for changes.
+
+  --viewer=VIEWER
+      The structure viewer program, by default "atomeye".
+      The program will be executed as "VIEWER structurefile".
+
+  --formats=FORMATS
+      Comma-separated list of file formats that are understood
+      by the VIEWER, by default "xcfg,pdb". Files of other
+      formats will be converted to the first listed format.
+
+  -h, --help
+      Display this message and exit.
+
+  -V, --version
+      Show script version and exit.
 """
 
 from __future__ import print_function
