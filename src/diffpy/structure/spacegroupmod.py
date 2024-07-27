@@ -117,18 +117,18 @@ class SymOp(object):
 
     Parameters
     ----------
-    R : ndarray
+    R : numpy.ndarray
         The 3x3 matrix of rotation for this symmetry operation.
-    t : ndarray
+    t : numpy.ndarray
         The vector of translation in this symmetry operation.
 
     Attributes
     ----------
-    R : ndarray
+    R : numpy.ndarray
         The 3x3 matrix of rotation pertaining to unit cell coordinates.
         This may be identity, simple rotation, improper rotation, mirror
         or inversion.  The determinant of *R* is either +1 or -1.
-    t : ndarray
+    t : numpy.ndarray
         The translation of cell coordinates applied after rotation *R*.
     """
 
@@ -149,12 +149,12 @@ class SymOp(object):
 
         Parameters
         ----------
-        vec : ndarray
+        vec : numpy.ndarray
             The initial position in fractional cell coordinates.
 
         Returns
         -------
-        ndarray
+        numpy.ndarray
             The transformed position after this symmetry operation.
         """
         return numpy.dot(self.R, vec) + self.t
@@ -312,12 +312,12 @@ class SpaceGroup(object):
 
         Parameters
         ----------
-        vec : ndarray
+        vec : numpy.ndarray
             The initial position in fractional coordinates.
 
         Yields
         ------
-        ndarray
+        numpy.ndarray
             The symmetry equivalent positions in fractional coordinates.
             The positions may be duplicate or outside of the ``0 <= x < 1``
             unit cell bounds.

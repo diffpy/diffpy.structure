@@ -56,9 +56,9 @@ class Structure(list):
                     the new Structure is its copy.
         lattice  -- instance of Lattice defining coordinate systems, property.
         title    -- string description of the structure
-        filename -- optional, name of a file to load the structure from.
+        filename -- Optional, name of a file to load the structure from.
                     Overrides atoms argument when specified.
-        format   -- optional structure format of the loaded filename.  By default
+        format   -- Optional structure format of the loaded filename.  By default
                     all structure formats are tried one by one.  Ignored when
                     filename has not been specified.
 
@@ -99,7 +99,7 @@ class Structure(list):
     def __copy__(self, target=None):
         """Create a deep copy of this instance.
 
-        target   -- optional target instance for copying, useful for
+        target   -- Optional target instance for copying, useful for
                     copying a derived class.  Defaults to new instance
                     of the same type as self.
 
@@ -160,30 +160,52 @@ class Structure(list):
         return
 
     def distance(self, aid0, aid1):
-        """Distance between 2 atoms, no periodic boundary conditions.
+        """
+        Calculate distance between 2 atoms, no periodic boundary conditions.
 
-        aid0 -- zero based index of the first atom or a string label
-                such as "Na1"
-        aid1 -- zero based index or string label of the second atom.
+        Parameters
+        ----------
+        aid0 : int or str
+            Zero based index of the first atom or a string label such as "Na1".
+        aid1 : int or str
+            Zero based index or string label of the second atom.
 
-        Return float.
-        Raise IndexError for invalid arguments.
+        Returns
+        -------
+        float
+            Distance between the two atoms in Angstroms.
+
+        Raises
+        ------
+        IndexError
+            If any of the atom indices or labels are invalid.
         """
         # lookup by labels
         a0, a1 = self[aid0, aid1]
         return self.lattice.dist(a0.xyz, a1.xyz)
 
     def angle(self, aid0, aid1, aid2):
-        """The bond angle at the second of three atoms in degrees.
+        """
+        The bond angle at the second of three atoms in degrees.
 
-        aid0 -- zero based index of the first atom or a string label
-                such as "Na1"
-        aid1 -- index or string label for the second atom,
-                where the angle is formed
-        aid2 -- index or string label for the third atom
+        Parameters
+        ----------
+        aid0 : int or str
+            Zero based index of the first atom or a string label such as "Na1".
+        aid1 : int or str
+            Index or string label for the second atom, where the angle is formed.
+        aid2 : int or str
+            Index or string label for the third atom.
 
-        Return float.
-        Raise IndexError for invalid arguments.
+        Returns
+        -------
+        float
+            The bond angle in degrees.
+
+        Raises
+        ------
+        IndexError
+            If any of the arguments are invalid.
         """
         a0, a1, a2 = self[aid0, aid1, aid2]
         u10 = a0.xyz - a1.xyz
@@ -208,14 +230,22 @@ class Structure(list):
         return self
 
     def read(self, filename, format="auto"):
-        """Load structure from a file, any original data become lost.
+        """
+        Load structure from a file, any original data become lost.
 
-        filename -- file to be loaded
-        format   -- all structure formats are defined in parsers submodule,
-                    when format == 'auto' all parsers are tried one by one
+        Parameters
+        ----------
+        filename : str
+            File to be loaded
+        format : str, Optional
+            all structure formats are defined in parsers submodule,
+            when format == 'auto' all parsers are tried one by one
 
-        Return instance of data Parser used to process file.  This
-        can be inspected for information related to particular format.
+        Returns
+        -------
+        Parser
+            Return instance of data Parser used to process input string. This
+            can be inspected for information related to particular format.
         """
         import diffpy.structure
         import diffpy.structure.parsers
@@ -238,14 +268,22 @@ class Structure(list):
         return p
 
     def readStr(self, s, format="auto"):
-        """Load structure from a string, any original data become lost.
+        """
+        Read structure from a string.
 
-        s        -- string with structure definition
-        format   -- all structure formats are defined in parsers submodule,
-                    when format == 'auto' all parsers are tried one by one
+        Parameters
+        ----------
+        s : str
+            String with structure definition.
+        format : str, Optional
+            All structure formats are defined in parsers submodule. When format == 'auto',
+            all parsers are tried one by one.
 
-        Return instance of data Parser used to process input string.  This
-        can be inspected for information related to particular format.
+        Returns
+        -------
+        Parser
+            Return instance of data Parser used to process input string. This
+            can be inspected for information related to particular format.
         """
         from diffpy.structure.parsers import getParser
 
@@ -296,13 +334,19 @@ class Structure(list):
     # Overloaded list Methods and Operators ----------------------------------
 
     def append(self, a, copy=True):
-        """Append atom to a structure and update its lattice attribute.
+        """
+        Append atom to a structure and update its lattice attribute.
 
-        a    -- instance of Atom
-        copy -- flag for appending a copy of a.
-                When False, append a and update a.lattice.
+        Parameters
+        ----------
+        a : Atom
+            Instance of Atom to be appended.
+        copy : bool, Optional
+            Flag for appending a copy of a. When False, append a and update a.lattice.
 
-        No return value.
+        Returns
+        -------
+        None
         """
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
@@ -310,14 +354,21 @@ class Structure(list):
         return
 
     def insert(self, idx, a, copy=True):
-        """Insert atom a before position idx in this Structure.
+        """
+        Insert atom a before position idx in this Structure.
 
-        idx  -- position in atom list
-        a    -- instance of Atom
-        copy -- flag for inserting a copy of a.
-                When False, append a and update a.lattice.
+        Parameters
+        ----------
+        idx : int
+            Position in atom list.
+        a : Atom
+            Instance of Atom to be inserted.
+        copy : bool, Optional
+            Flag for inserting a copy of a. When False, append a and update a.lattice.
 
-        No return value.
+        Returns
+        -------
+        None
         """
         adup = copy and copymod.copy(a) or a
         adup.lattice = self.lattice
@@ -331,9 +382,9 @@ class Structure(list):
 
         Parameters
         ----------
-        atoms : iterable
+        atoms : Iterable
             The `Atom` objects to be appended to this Structure.
-        copy : bool, optional
+        copy : bool, Optional
             Flag for adding copies of Atom objects.
             Make copies when `True`, append `atoms` unchanged when ``False``.
             The default behavior is to make copies when `atoms` are of

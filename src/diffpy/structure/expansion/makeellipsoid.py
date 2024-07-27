@@ -36,17 +36,26 @@ def makeSphere(S, radius):
 
 
 def makeEllipsoid(S, a, b=None, c=None):
-    """Cut a structure out of another one.
+    """
+    Cut a structure out of another one.
 
-    Arguments
-    S       --  A Structure instance
-    a       --  primary equatorial radius (along x-axis)
-    b       --  secondary equatorial radius (along y-axis). If b is None
-                (default) then it is set equal to a
-    c       --  polar radius (along z-axis). If c is None (default), then it is
-                set equal to a.
+    Parameters
+    ----------
+    S :
+        A Structure instance.
+    a :
+        Primary equatorial radius (along x-axis).
+    b :
+        Secondary equatorial radius (along y-axis). If b is None
+        (default), then it is set equal to a.
+    c :
+        Polar radius (along z-axis). If c is None (default), then it is
+        set equal to a.
 
-    Returns a new structure instance
+    Returns
+    -------
+    Structure :
+        A new structure instance.
     """
     if b is None:
         b = a

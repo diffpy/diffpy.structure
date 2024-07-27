@@ -700,7 +700,7 @@ def FindSpaceGroup(symops, shuffle=False):
     ----------
     symops : list
         The list of `SymOp` objects for which to find SpaceGroup.
-    shuffle : bool, optional
+    shuffle : bool, Optional
         Flag for allowing different order of symops in the returned
         SpaceGroup.  The default is ``False``.
 

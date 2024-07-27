@@ -33,33 +33,46 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 
 class P_cif(StructureParser):
-    """Simple parser for CIF structure format.
+    """
+    Simple parser for CIF structure format.
     Reads Structure from the first block containing _atom_site_label key.
-    Following blocks, if any are ignored.
+    Following blocks, if any, are ignored.
 
     Data members:
-
-    format      -- structure format name
-    ciffile     -- instance of CifFile from PyCifRW
-    stru        -- Structure instance used for cif input or output
+        format :
+            Structure format name.
+        ciffile :
+            Instance of CifFile from PyCifRW.
+        stru :
+            Structure instance used for CIF input or output.
 
     Data members used for input only:
-
-    spacegroup  -- instance of SpaceGroup used for symmetry expansion
-    eps         -- resolution in fractional coordinates for non-equal
-                   positions.  Use for expansion of asymmetric unit.
-    eau         -- instance of ExpandAsymmetricUnit from SymmetryUtilities
-    asymmetric_unit -- list of atom instances for the original asymmetric
-                   unit in the CIF file
-    labelindex  -- dictionary mapping unique atom label to index of atom
-                   in self.asymmetric_unit
-    anisotropy  -- dictionary mapping unique atom label to displacement
-                   anisotropy resolved at that site
-    cif_sgname  -- space group name obtained by looking up the value of
-                   _space_group_name_Hall, _symmetry_space_group_name_Hall,
-                   _space_group_name_H-M_alt, _symmetry_space_group_name_H-M
-                   items.  None when neither is defined.
+        spacegroup :
+            Instance of SpaceGroup used for symmetry expansion.
+        eps :
+            Resolution in fractional coordinates for non-equal positions.
+            Used for expansion of asymmetric unit.
+        eau :
+            Instance of ExpandAsymmetricUnit from SymmetryUtilities.
+        asymmetric_unit :
+            List of atom instances for the original asymmetric unit in the CIF file.
+        labelindex :
+            Dictionary mapping unique atom label to index of atom in self.asymmetric_unit.
+        anisotropy :
+            Dictionary mapping unique atom label to displacement anisotropy resolved at that site.
+        cif_sgname :
+            Space group name obtained by looking up the value of
+            _space_group_name_Hall,
+            _symmetry_space_group_name_Hall,
+            _space_group_name_H-M_alt,
+            _symmetry_space_group_name_H-M
+            items. None when neither is defined.
     """
+
+    # static data and methods ------------------------------------------------
+
+    # dictionary set of class methods for translating CIF values
+    # to Atom attributes
 
     # static data and methods ------------------------------------------------
 
@@ -692,7 +705,7 @@ def leading_float(s, d=0.0):
     ----------
     s : str
         The string to be scanned for floating point value.
-    d : float, optional
+    d : float, Optional
         The default value when `s` is "." or "?", which in CIF
         format stands for inapplicable and unknown, respectively.
 

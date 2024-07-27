@@ -284,22 +284,36 @@ class GeneratorSite(object):
     """Storage of data related to a generator positions.
 
     Data members:
-        xyz          -- fractional coordinates of generator site
-        Uij          -- anisotropic thermal displacement at generator site
-        sgoffset     -- offset of space group origin [0, 0, 0]
-        eps          -- cutoff for equal positions
-        eqxyz        -- list of equivalent positions
-        eqUij        -- list of displacement matrices at equivalent positions
-        symops       -- nested list of operations per each eqxyz
-        multiplicity -- generator site multiplicity
-        Uisotropy    -- bool flag for isotropic thermal factors
-        invariants   -- list of invariant operations for generator site
-        null_space   -- null space of all possible differences of invariant
-                        rotational matrices, this is a base of symmetry
-                        allowed shifts.
-        Uspace       -- 3D array of independent components of U matrices.
-        pparameters  -- list of (xyz symbol, value) pairs
-        Uparameters  -- list of (U symbol, value) pairs
+        xyz :
+            Fractional coordinates of generator site
+        Uij :
+            Anisotropic thermal displacement at generator site
+        sgoffset :
+            Offset of space group origin [0, 0, 0]
+        eps :
+            Cutoff for equal positions
+        eqxyz :
+            List of equivalent positions
+        eqUij :
+            List of displacement matrices at equivalent positions
+        symops :
+            Nested list of operations per each eqxyz
+        multiplicity :
+            Generator site multiplicity
+        Uisotropy :
+            Bool flag for isotropic thermal factors
+        invariants :
+            List of invariant operations for generator site
+        null_space :
+            Null space of all possible differences of invariant
+            rotational matrices, this is a base of symmetry
+            allowed shifts.
+        Uspace :
+            3D array of independent components of U matrices.
+        pparameters :
+            List of (xyz symbol, value) pairs
+        Uparameters :
+            List of (U symbol, value) pairs
     """
 
     Ucomponents = numpy.array(
@@ -585,20 +599,31 @@ class GeneratorSite(object):
 
 
 class ExpandAsymmetricUnit(object):
-    """Expand asymmetric unit and anisotropic thermal displacement
+    """
+    Expand asymmetric unit and anisotropic thermal displacement
 
     Data members:
-        spacegroup  -- instance of SpaceGroup
-        corepos     -- list of positions in asymmetric unit,
-                       it may contain duplicates
-        coreUijs    -- thermal factors for corepos (defaults to zeros)
-        sgoffset    -- optional offset of space group origin [0, 0, 0]
-        eps         -- cutoff for equivalent positions
+        spacegroup :
+            Instance of SpaceGroup
+        corepos :
+            List of positions in asymmetric unit,
+            it may contain duplicates
+        coreUijs :
+            Thermal factors for corepos (defaults to zeros)
+        sgoffset :
+            Optional offset of space group origin [0, 0, 0]
+        eps :
+            Cutoff for equivalent positions
+
     Calculated data members:
-        multiplicity -- multiplicity of each site in corepos
-        Uisotropy   -- bool flags for isotropic sites in corepos
-        expandedpos -- list of equivalent positions per each site in corepos
-        expandedUijs -- list of thermal factors per each site in corepos
+        multiplicity :
+            Multiplicity of each site in corepos
+        Uisotropy :
+            Bool flags for isotropic sites in corepos
+        expandedpos :
+            List of equivalent positions per each site in corepos
+        expandedUijs :
+            List of thermal factors per each site in corepos
     """
 
     # By design Atom instances are not accepted as arguments to keep
@@ -663,30 +688,44 @@ def pruneFormulaDictionary(eqdict):
 
 
 class SymmetryConstraints(object):
-    """Generate symmetry constraints for specified positions
+    """
+    Generate symmetry constraints for specified positions
 
     Data members:
-        spacegroup -- instance of SpaceGroup
-        positions  -- all positions to be constrained
-        Uijs       -- thermal factors for all positions (defaults to zeros)
-        sgoffset   -- optional offset of space group origin [0, 0, 0]
-        eps        -- cutoff for equivalent positions
+        spacegroup :
+            Instance of SpaceGroup
+        positions :
+            All positions to be constrained
+        Uijs :
+            Thermal factors for all positions (defaults to zeros)
+        sgoffset :
+            Optional offset of space group origin [0, 0, 0]
+        eps :
+            Cutoff for equivalent positions
+
     Calculated data members:
-        corepos    -- list of of positions in the asymmetric unit
-        coremap    -- dictionary mapping indices of asymmetric core positions
-                      to indices of all symmetry related positions
-        poseqns    -- list of coordinate formula dictionaries per each site.
-                      Formula dictionary keys are from ("x", "y", "z") and
-                      the values are formatted as [[-]{x|y|z}%i] [{+|-}%g],
-                      for example: "x0", "-x3", "z7 +0.5", "0.25".
-        pospars    -- list of (xyz symbol, value) pairs
-        Ueqns      -- list of anisotropic atomic displacement formula
-                      dictionaries per each position.  Formula dictionary
-                      keys are from ('U11','U22','U33','U12','U13','U23')
-                      and the values are formatted as {[%g*][Uij%i]|0},
-                      for example: "U110", "0.5*U2213", "0"
-        Upars      -- list of (U symbol, value) pairs
-        Uisotropy  -- list of bool flags for isotropic thermal displacements
+        corepos :
+            List of of positions in the asymmetric unit
+        coremap :
+            Dictionary mapping indices of asymmetric core positions
+            to indices of all symmetry related positions
+        poseqns :
+            List of coordinate formula dictionaries per each site.
+            Formula dictionary keys are from ("x", "y", "z") and
+            the values are formatted as [[-]{x|y|z}%i] [{+|-}%g],
+            for example: "x0", "-x3", "z7 +0.5", "0.25".
+        pospars :
+            List of (xyz symbol, value) pairs
+        Ueqns :
+            List of anisotropic atomic displacement formula
+            dictionaries per each position.  Formula dictionary
+            keys are from ('U11','U22','U33','U12','U13','U23')
+            and the values are formatted as {[%g*][Uij%i]|0},
+            for example: "U110", "0.5*U2213", "0"
+        Upars :
+            List of (U symbol, value) pairs
+        Uisotropy :
+            List of bool flags for isotropic thermal displacements
     """
 
     def __init__(self, spacegroup, positions, Uijs=None, sgoffset=[0, 0, 0], eps=None):

@@ -59,7 +59,7 @@ class Lattice(object):
 
     Parameters
     ----------
-    a : float or Lattice, optional
+    a : float or Lattice, Optional
         The cell length *a*.  When present, other cell parameters
         must be also specified.  When of the *Lattice* type, create
         a duplicate Lattice.
@@ -73,32 +73,32 @@ class Lattice(object):
         The angle between the *b* and *c* axes in degrees.
     gamma : float
         The angle between the *a* and *b* axes in degrees.
-    baserot : array_like, optional
+    baserot : array_like, Optional
         The 3x3 rotation matrix of the base vectors with respect
         to their standard setting.
-    base : array_like, optional
+    base : array_like, Optional
         The 3x3 array of row base vectors.  This must be the
         only argument when present.
 
     Attributes
     ----------
-    metrics : ndarray
+    metrics : numpy.ndarray
         The metrics tensor.
-    base : ndarray
+    base : numpy.ndarray
         The 3x3 matrix of row base vectors in Cartesian coordinates,
         which may be rotated, i.e., ``base = stdbase @ baserot``.
-    stdbase : ndarray
+    stdbase : numpy.ndarray
         The 3x3 matrix of row base vectors in standard orientation.
-    baserot : ndarray
+    baserot : numpy.ndarray
         The rotation matrix for the `base`.
-    recbase : ndarray
+    recbase : numpy.ndarray
         The inverse of the `base` matrix, where the columns give
         reciprocal vectors in Cartesian coordinates.
-    normbase : ndarray
+    normbase : numpy.ndarray
         The `base` vectors scaled by magnitudes of reciprocal cell lengths.
-    recnormbase : ndarray
+    recnormbase : numpy.ndarray
         The inverse of the `normbase` matrix.
-    isotropicunit : ndarray
+    isotropicunit : numpy.ndarray
         The 3x3 tensor for a unit isotropic displacement parameters in this
         coordinate system.  This is an identity matrix when this Lattice
         is orthonormal.
@@ -212,7 +212,7 @@ class Lattice(object):
 
     sar = property(lambda self: self._sar, doc="The sine of the reciprocal angle *alpha*.")
 
-    sbr = property(lambda self: self._sbr, doc="flot: Sine of the reciprocal angle *beta*.")
+    sbr = property(lambda self: self._sbr, doc="The sine of the reciprocal angle *beta*.")
 
     sgr = property(lambda self: self._sgr, doc="The sine of the reciprocal angle *gamma*.")
 
@@ -272,19 +272,19 @@ class Lattice(object):
 
         Parameters
         ----------
-        a : float, optional
+        a : float, Optional
             The new value of the cell length *a*.
-        b : float, optional
+        b : float, Optional
             The new value of the cell length *b*.
-        c : float, optional
+        c : float, Optional
             The new value of the cell length *c*.
-        alpha : float, optional
+        alpha : float, Optional
             The new value of the cell angle *alpha* in degrees.
-        beta : float, optional
+        beta : float, Optional
             The new value of the cell angle *beta* in degrees.
-        gamma : float, optional
+        gamma : float, Optional
             The new value of the cell angle *gamma* in degrees.
-        baserot : array_like, optional
+        baserot : array_like, Optional
             The new 3x3 rotation matrix of the base vectors with respect
             to their standard setting in Cartesian coordinates.
 
@@ -447,7 +447,7 @@ class Lattice(object):
 
         Returns
         -------
-        rc : ndarray
+        rc : numpy.ndarray
             Cartesian coordinates of the *u* vector.
         """
         rc = numpy.dot(u, self.base)
@@ -464,7 +464,7 @@ class Lattice(object):
 
         Returns
         -------
-        u : ndarray
+        u : numpy.ndarray
             Fractional coordinates of the Cartesian vector *rc*.
         """
         u = numpy.dot(rc, self.recbase)
@@ -483,7 +483,7 @@ class Lattice(object):
 
         Returns
         -------
-        float or ndarray
+        float or numpy.ndarray
             The dot product of lattice vectors *u*, *v*.
         """
         dp = (u * numpy.dot(v, self.metrics)).sum(axis=-1)
@@ -499,7 +499,7 @@ class Lattice(object):
 
         Returns
         -------
-        float or ndarray
+        float or numpy.ndarray
             The magnitude of the lattice vector *xyz*.
         """
         # this is a few percent faster than sqrt(dot(u, u)).
@@ -515,7 +515,7 @@ class Lattice(object):
 
         Returns
         -------
-        float or ndarray
+        float or numpy.ndarray
             The magnitude of the reciprocal vector *hkl*.
         """
         hklcartn = numpy.dot(hkl, self.recbase.T)
@@ -528,7 +528,7 @@ class Lattice(object):
         ----------
         u : array_like
             A vector or an Nx3 matrix of fractional coordinates.
-        v : ndarray
+        v : numpy.ndarray
             A vector or an Nx3 matrix of fractional coordinates.
 
         Note
@@ -537,7 +537,7 @@ class Lattice(object):
 
         Returns
         -------
-        float or ndarray
+        float or numpy.ndarray
             The distance between lattice points *u* and *v*.
         """
         duv = numpy.asarray(u) - v
@@ -617,12 +617,12 @@ def _isotropicunit(recnormbase):
 
     Parameters
     ----------
-    recnormbase : ndarray
+    recnormbase : numpy.ndarray
         The inverse of normalized base vectors of some lattice.
 
     Returns
     -------
-    ndarray
+    numpy.ndarray
         The 3x3 matrix of displacement parameters corresponding to
         a unit isotropic displacements.
     """

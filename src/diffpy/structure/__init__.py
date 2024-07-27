@@ -13,15 +13,22 @@
 #
 ##############################################################################
 
-"""classes related to structure of materials
+"""
+Classes related to the structure of materials.
+
 Classes:
     Atom
+
     Lattice
+
     Structure
+
     PDFFitStructure
 Exceptions:
     StructureFormatError
+
     LatticeError
+
     SymmetryError
 """
 
@@ -51,13 +58,13 @@ def loadStructure(filename, fmt="auto", **kw):
 
     filename : str
         Path to the file to be loaded.
-    fmt : str, optional
-        Format of the structure file such as 'cif' or 'xyz'.  Must be
+    fmt : str, Optional
+        Format of the structure file such as 'cif' or 'xyz'. Must be
         one of the formats listed by the `parsers.inputFormats` function.
         When 'auto', all supported formats are tried in a sequence.
-    kw : misc, optional
+    kw : Optional
         Extra keyword arguments that are passed to `parsers.getParser`
-        function.  These configure the dedicated Parser object that
+        function. These configure the dedicated Parser object that
         is used to read content in filename.
 
     Returns
