@@ -25,23 +25,9 @@ NOTE: this module must be only imported from `diffpy.Structure`.
 """
 
 
+import importlib.abc
 import sys
 from warnings import warn
-
-import six
-
-if six.PY2:
-    import importlib
-
-    class mock_importlib_abc(object):
-        MetaPathFinder = object
-        Loader = object
-
-    importlib.abc = mock_importlib_abc
-    sys.modules.setdefault("importlib.abc", mock_importlib_abc)
-    del mock_importlib_abc
-
-import importlib.abc
 
 WMSG = "Module {!r} is deprecated.  Use {!r} instead."
 
@@ -62,15 +48,6 @@ class FindRenamedStructureModule(importlib.abc.MetaPathFinder):
             spec.name = fullname
             spec.loader = MapRenamedStructureModule()
         return spec
-
-    if six.PY2:
-
-        def find_module(self, fullname, path):
-            # only handle submodules of diffpy.Structure
-            loader = None
-            if fullname.startswith(self.prefix):
-                loader = MapRenamedStructureModule()
-            return loader
 
 
 # end of class FindRenamedStructureModule
@@ -94,15 +71,6 @@ class MapRenamedStructureModule(importlib.abc.Loader):
 
     def exec_module(self, module):
         return
-
-    if six.PY2:
-        from collections import namedtuple
-
-        ModuleSpec = namedtuple("ModuleSpec", "name")
-
-        def load_module(self, fullname):
-            spec = self.ModuleSpec(fullname)
-            return self.create_module(spec)
 
 
 # end of class MapRenamedStructureModule

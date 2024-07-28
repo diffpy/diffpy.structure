@@ -19,7 +19,6 @@
 import unittest
 
 import numpy
-import six
 
 from diffpy.structure import Structure
 from diffpy.structure.parsers import getParser
@@ -148,7 +147,7 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual("C1", c1.label)
         # filename with unicode encoding
         hasbs = "\\" in self.graphiteciffile
-        uciffile = six.u(self.graphiteciffile.replace("\\", "/"))
+        uciffile = self.graphiteciffile.replace("\\", "/")
         if hasbs:  # pragma: no cover
             uciffile = uciffile.replace("/", "\\")
         ugraphite = P_cif().parseFile(uciffile)

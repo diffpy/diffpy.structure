@@ -17,9 +17,7 @@
 """
 
 import copy
-
-import six
-from six.moves import zip_longest
+from itertools import zip_longest
 
 from diffpy.structure.mmlibspacegroups import (
     mmLibSpaceGroupList,
@@ -664,7 +662,7 @@ def GetSpaceGroup(sgid):
         return _sg_lookup_table[sgid]
     # Try different versions of sgid, first make sure it is a string
     emsg = "Unknown space group identifier %r" % sgid
-    if not isinstance(sgid, six.string_types):
+    if not isinstance(sgid, str):
         raise ValueError(emsg)
     sgbare = sgid.strip()
     # short_name case adjusted
