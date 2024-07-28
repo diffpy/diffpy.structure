@@ -18,12 +18,12 @@
 https://www.iucr.org/resources/cif
 """
 
+import io
 import re
 import sys
 from contextlib import contextmanager
 
 import numpy
-import six
 
 from diffpy.structure import Atom, Lattice, Structure
 from diffpy.structure.parsers import StructureParser
@@ -297,7 +297,7 @@ class P_cif(StructureParser):
         """
         self.ciffile = None
         self.filename = ""
-        fp = six.StringIO(s)
+        fp = io.StringIO(s)
         rv = self._parseCifDataSource(fp)
         return rv
 
@@ -363,7 +363,7 @@ class P_cif(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err).strip()
             e = StructureFormatError(emsg)
-            six.reraise(StructureFormatError, e, exc_traceback)
+            raise e.with_traceback(exc_traceback)
         return self.stru
 
     def _parseCifBlock(self, blockname):
@@ -412,7 +412,7 @@ class P_cif(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err)
             e = StructureFormatError(emsg)
-            six.reraise(StructureFormatError, e, exc_traceback)
+            raise e.with_traceback(exc_traceback)
         self.stru.lattice = Lattice(*latpars)
         return
 

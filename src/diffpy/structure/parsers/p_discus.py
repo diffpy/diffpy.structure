@@ -19,8 +19,6 @@
 import sys
 from functools import reduce
 
-import six
-
 from diffpy.structure import Lattice, PDFFitStructure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
@@ -100,7 +98,7 @@ class P_discus(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: file is not in DISCUS format" % self.nl
             e = StructureFormatError(emsg)
-            six.reraise(StructureFormatError, e, exc_traceback)
+            raise e.with_traceback(exc_traceback)
         return self.stru
 
     def toLines(self, stru):

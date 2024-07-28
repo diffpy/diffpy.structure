@@ -19,7 +19,6 @@ import re
 import sys
 
 import numpy
-import six
 
 from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
@@ -260,7 +259,7 @@ class P_xcfg(StructureParser):
             emsg = "%d: file is not in XCFG format" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
             e = StructureFormatError(emsg)
-            six.reraise(StructureFormatError, e, exc_traceback)
+            raise e.with_traceback(exc_traceback)
         return stru
 
     def toLines(self, stru):

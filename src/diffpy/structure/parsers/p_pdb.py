@@ -24,7 +24,6 @@ References
 import sys
 
 import numpy
-import six
 from numpy import pi
 
 from diffpy.structure import Structure
@@ -225,7 +224,7 @@ class P_pdb(StructureParser):
             emsg = "%d: invalid PDB record" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
             e = StructureFormatError(emsg)
-            six.reraise(StructureFormatError, e, exc_traceback)
+            raise e.with_traceback(exc_traceback)
         return stru
 
     def titleLines(self, stru):

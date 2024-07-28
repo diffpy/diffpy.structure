@@ -66,7 +66,7 @@ by citing the following paper in your publication:
 Requirements
 ------------------------------------------------------------------------
 
-The diffpy.structure package requires Python 3.7 or later or 2.7 and
+The diffpy.structure package requires Python 3.7 or later and
 the following software:
 
 * ``setuptools`` - software distribution tools for Python

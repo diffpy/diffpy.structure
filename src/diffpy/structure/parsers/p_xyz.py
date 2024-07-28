@@ -21,8 +21,6 @@ remaining lines contain element, x, y, z
 
 import sys
 
-import six
-
 from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
@@ -66,7 +64,7 @@ class P_xyz(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: invalid XYZ format, missing number of atoms" % (start + 1)
             e = StructureFormatError(emsg)
-            six.reraise(StructureFormatError, e, exc_traceback)
+            raise e.with_traceback(exc_traceback)
         # find the last valid record
         stop = len(lines)
         while stop > start and len(linefields[stop - 1]) == 0:
@@ -97,7 +95,7 @@ class P_xyz(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: invalid number format" % p_nl
             e = StructureFormatError(emsg)
-            six.reraise(StructureFormatError, e, exc_traceback)
+            raise e.with_traceback(exc_traceback)
         # finally check if all the atoms have been read
         if p_natoms is not None and len(stru) != p_natoms:
             emsg = "expected %d atoms, read %d" % (p_natoms, len(stru))

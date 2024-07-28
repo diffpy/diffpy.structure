@@ -16,13 +16,9 @@
 """Small shared functions.
 """
 
-import numpy
-import six
+from collections.abc import Iterable as _Iterable
 
-if six.PY2:
-    from collections import Iterable as _Iterable
-else:
-    from collections.abc import Iterable as _Iterable
+import numpy
 
 
 def isiterable(obj):
