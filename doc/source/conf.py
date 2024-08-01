@@ -48,6 +48,8 @@ extensions = [
     "m2r",
 ]
 
+autodoc_member_order = "groupwise"
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
@@ -121,6 +123,7 @@ nitpicky = True
 nitpick_ignore = [
     ("py:class", "array_like"),
     ("py:class", "Parser"),
+    ("py:class", "CifFile"),
 ]
 
 # -- Options for HTML output ----------------------------------------------

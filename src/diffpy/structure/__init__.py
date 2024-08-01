@@ -14,22 +14,25 @@
 ##############################################################################
 
 """
-Classes related to the structure of materials.
+Crystal structure container and parsers for structure formats.
 
-Classes:
-    Atom
+Classes related to the structure of materials:
+    * Atom
+    * Lattice
+    * Structure
+    * PDFFitStructure
 
-    Lattice
+Other classes:
+    * SpaceGroup
+    * SymOp
+    * ExpandAsymmetricUnit
+    * GeneratorSite
+    * SymmetryConstraints
 
-    Structure
-
-    PDFFitStructure
 Exceptions:
-    StructureFormatError
-
-    LatticeError
-
-    SymmetryError
+    * StructureFormatError
+    * LatticeError
+    * SymmetryError
 """
 
 # Interface definitions ------------------------------------------------------
@@ -44,14 +47,11 @@ from diffpy.structure.structureerrors import LatticeError, StructureFormatError,
 # package version
 from diffpy.structure.version import __version__
 
-"""Crystal structure container and parsers for structure formats."""
-
 # top level routines
 
 
 def loadStructure(filename, fmt="auto", **kw):
-    """
-    Load new structure object from the specified file.
+    """Load new structure object from the specified file.
 
     Parameters
     ----------

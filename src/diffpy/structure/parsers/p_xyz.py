@@ -14,9 +14,10 @@
 ##############################################################################
 
 """Parser for XYZ file format, where
-first line gives number of atoms
-second one has optional title
-remaining lines contain element, x, y, z
+
+    * First line gives number of atoms.
+    * Second line has optional title.
+    * Remaining lines contain element, `x, y, z`.
 """
 
 import sys
@@ -27,7 +28,13 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 
 class P_xyz(StructureParser):
-    """Parser for standard XYZ structure format."""
+    """Parser for standard XYZ structure format.
+
+    Attributes
+    ----------
+    format : str
+        Format name, default "xyz".
+    """
 
     def __init__(self):
         StructureParser.__init__(self)
@@ -37,7 +44,20 @@ class P_xyz(StructureParser):
     def parseLines(self, lines):
         """Parse list of lines in XYZ format.
 
-        Return Structure object or raise StructureFormatError.
+        Parameters
+        ----------
+        lines : list of str
+            List of lines in XYZ format.
+
+        Returns
+        -------
+        Structure
+            Parsed structure instance.
+
+        Raises
+        ------
+        StructureFormatError
+            Invalid XYZ format.
         """
         linefields = [line.split() for line in lines]
         # prepare output structure
@@ -105,7 +125,15 @@ class P_xyz(StructureParser):
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in XYZ format.
 
-        Return list of strings.
+        Parameters
+        ----------
+        stru : Structure
+            Structure to be converted.
+
+        Returns
+        -------
+        list of str
+            List of lines in XYZ format.
         """
         lines = []
         lines.append(str(len(stru)))
@@ -123,4 +151,11 @@ class P_xyz(StructureParser):
 
 
 def getParser():
+    """Return new `parser` object for XYZ format.
+
+    Returns
+    -------
+    P_xcfg
+        Instance of `P_xyz`.
+    """
     return P_xyz()

@@ -13,12 +13,13 @@
 #
 ##############################################################################
 
-"""
-Support import of old camel-case module names with DeprecationWarning.
+"""Support import of old camel-case module names with `DeprecationWarning`.
 
 The imported camel-case modules are aliases for the current module
-instances.  Their `__name__` attributes are thus all in lower-case.
+instances. Their `__name__` attributes are thus all in lower-case.
 
+Warning
+-------
 This module is deprecated and will be removed in the future.
 """
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Copyright 2002 by PyMMLib Development Group, http://pymmlib.sourceforge.net/
 # This code is part of the PyMMLib distribution and governed by
-# its license.  Please see the LICENSE_pymmlib file that should have been
+# its license. Please see the LICENSE_pymmlib file that should have been
 # included as part of this package.
 """Symmetry operations as functions on vectors or arrays.
 """
@@ -110,8 +110,7 @@ Tr_34_14_34 = numpy.array([3.0 / 4.0, 1.0 / 4.0, 3.0 / 4.0], float)
 
 
 class SymOp(object):
-    """
-    The transformation of coordinates to a symmetry-related position.
+    """The transformation of coordinates to a symmetry-related position.
 
     The SymOp operation involves rotation and translation in cell coordinates.
 
@@ -127,7 +126,7 @@ class SymOp(object):
     R : numpy.ndarray
         The 3x3 matrix of rotation pertaining to unit cell coordinates.
         This may be identity, simple rotation, improper rotation, mirror
-        or inversion.  The determinant of *R* is either +1 or -1.
+        or inversion. The determinant of *R* is either +1 or -1.
     t : numpy.ndarray
         The translation of cell coordinates applied after rotation *R*.
     """
@@ -160,7 +159,7 @@ class SymOp(object):
         return numpy.dot(self.R, vec) + self.t
 
     def __eq__(self, symop):
-        """Implement the ``(self == symop)`` test of equality.
+        """Implement the ``self == symop`` test of equality.
 
         Return ``True`` when *self* and *symop* difference is within
         tiny round-off errors.
@@ -211,9 +210,9 @@ class SpaceGroup(object):
     Attributes
     ----------
     number : int
-        A unique space group number.  This may be incremented by
+        A unique space group number. This may be incremented by
         several thousands to facilitate unique values for multiple
-        settings of the same space group.  Use ``number % 1000``
+        settings of the same space group. Use ``number % 1000``
         to get the standard space group number from International
         Tables.
     num_sym_equiv : int
@@ -225,7 +224,7 @@ class SpaceGroup(object):
     point_group_name : str
         The point group to which this space group belongs to.
     crystal_system : str
-        The crystal system of this space group.  The possible values are
+        The crystal system of this space group. The possible values are
         ``"TRICLINIC", "MONOCLINIC", "ORTHORHOMBIC", "TETRAGONAL",
         "TRIGONAL" "HEXAGONAL", "CUBIC"``.
     pdb_name : str
@@ -271,7 +270,7 @@ class SpaceGroup(object):
 
         Yields
         ------
-        `SymOp`
+        SymOp
             Generate all symmetry operations for this space group.
         """
         return iter(self.symop_list)

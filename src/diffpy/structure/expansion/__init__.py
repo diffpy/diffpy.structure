@@ -13,11 +13,10 @@
 #
 ##############################################################################
 
-"""Methods and classes for manipulating Structure instances.
+"""Methods and classes for manipulating `Structure` instances.
 
 Package content:
-
-supercell   -- create a supercell from an existing Structure.
+    * supercell -- create a supercell from an existing `Structure`.
 """
 
 # Import below whatever should be available at package namespace.

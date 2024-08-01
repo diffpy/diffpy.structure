@@ -13,22 +13,22 @@
 #
 ##############################################################################
 
-"""Conversion plugins for various structure formats
+"""Conversion plugins for various structure formats.
 
-The recognized structure formats are defined by subclassing StructureParser,
-by convention these classes are named P_<format>.  The parser classes should
-to override the parseLines() and toLines() methods of StructureParser.
-Any structure parser needs to be registered in parser_index module.
+The recognized structure formats are defined by subclassing `StructureParser`,
+by convention these classes are named `P_<format>.py`. The parser classes should
+to override the `parseLines()` and `toLines()` methods of `StructureParser`.
+Any structure parser needs to be registered in `parser_index` module.
 
 For normal usage it should be sufficient to use the routines provided
 in this module.
 
 Content:
-    StructureParser -- base class for a concrete Parser
-    parser_index    -- dictionary of known structure formats
-    getParser       -- factory for Parser at given format
-    inputFormats    -- list of available input formats
-    outputFormats   -- list of available output formats
+    * StructureParser: base class for a concrete Parser
+    * parser_index: dictionary of known structure formats
+    * getParser: factory for Parser at given format
+    * inputFormats: list of available input formats
+    * outputFormats: list of available output formats
 """
 
 from diffpy.structure.parsers.parser_index_mod import parser_index
@@ -42,9 +42,22 @@ assert StructureParser
 def getParser(format, **kw):
     """Return Parser instance for a given structure format.
 
-    kw   -- keyword arguments passed to the Parser init function.
+    Parameters
+    ----------
+    format : str
+        String with the format name, see `parser_index_mod`.
+    **kw : dict
+        Keyword arguments passed to the Parser init function.
 
-    Raises StructureFormatError exception when format is not defined.
+    Returns
+    -------
+    Parser
+        Parser instance for the given format.
+
+    Raises
+    ------
+    StructureFormatError
+        When the format is not defined.
     """
     if format not in parser_index:
         emsg = "no parser for '%s' format" % format
@@ -57,14 +70,14 @@ def getParser(format, **kw):
 
 
 def inputFormats():
-    """Return list of implemented input structure formats"""
+    """Return list of implemented input structure formats."""
     input_formats = [fmt for fmt, prop in parser_index.items() if prop["has_input"]]
     input_formats.sort()
     return input_formats
 
 
 def outputFormats():
-    """return list of implemented output structure formats"""
+    """Return list of implemented output structure formats."""
     output_formats = [fmt for fmt, prop in parser_index.items() if prop["has_output"]]
     output_formats.sort()
     return output_formats

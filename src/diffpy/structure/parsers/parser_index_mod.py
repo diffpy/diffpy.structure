@@ -14,8 +14,30 @@
 ##############################################################################
 
 """Index of recognized structure formats, their IO capabilities and
-associated modules where they are defined.  Plugins for new structure
-formats need to be added to the parser_index dictionary in this module.
+associated modules where they are defined.
+
+Attributes
+----------
+parser_index : dict
+    Dictionary of recognized structure formats. The keys are format names
+    and the values are dictionaries with the following keys:
+
+    module : str
+        Name of the module that defines the parser class.
+    file_extension : str
+        File extension for the format, including the leading dot.
+    file_pattern : str
+        File pattern for the format, using '|' as separator for multiple
+        patterns.
+    has_input : bool
+        ``True`` if the parser can read the format.
+    has_output : bool
+        ``True`` if the parser can write the format.
+
+Note
+----
+Plugins for new structure formats need to be added to the parser_index
+dictionary in this module.
 """
 
 parser_index = {

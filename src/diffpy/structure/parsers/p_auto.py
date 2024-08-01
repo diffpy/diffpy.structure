@@ -13,9 +13,9 @@
 #
 ##############################################################################
 
-"""Parser for automatic file format detection
+"""Parser for automatic file format detection.
 
-This Parser does not provide the the toLines() method.
+This Parser does not provide the the `toLines()` method.
 """
 
 import os
@@ -26,8 +26,23 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 class P_auto(StructureParser):
     """Parser with automatic detection of structure format.
-    When successful, it sets its format attribute to detected
-    structure format.
+
+    This parser attempts to automatically detect the format of a given
+    structure file and parse it accordingly. When successful, it sets
+    its `format` attribute to the detected structure format.
+
+    Parameters
+    ----------
+    **kw : dict
+        Keyword arguments for the structure parser.
+
+    Attributes
+    ----------
+    format : str
+        Detected structure format. Initially set to "auto" and updated
+        after successful detection of the structure format.
+    pkw : dict
+        Keyword arguments passed to the parser.
     """
 
     def __init__(self, **kw):
@@ -39,7 +54,7 @@ class P_auto(StructureParser):
     # parseLines helpers
     def _getOrderedFormats(self):
         """Build a list of relevance ordered structure formats.
-        This only works when self.filename has a known extension.
+        This only works when `self.filename` has a known extension.
         """
         from diffpy.structure.parsers import inputFormats
 
@@ -62,41 +77,97 @@ class P_auto(StructureParser):
         return ofmts
 
     def parseLines(self, lines):
-        """Detect format and create Structure instance from a list of lines.
+        """Detect format and create `Structure` instance from a list of lines.
+
         Set format attribute to the detected file format.
 
-        Return Structure object or raise StructureFormatError exception.
+        Parameters
+        ----------
+        lines : list
+            List of lines with structure data.
+
+        Returns
+        -------
+        Structure
+            `Structure` object.
+
+        Raises
+        ------
+        StructureFormatError
         """
         return self._wrapParseMethod("parseLines", lines)
 
     def parse(self, s):
-        """Detect format and create Structure instance from a string.
+        """Detect format and create `Structure` instance from a string.
+
         Set format attribute to the detected file format.
 
-        Return Structure object or raise StructureFormatError exception.
+        Parameters
+        ----------
+        s : str
+            String with structure data.
+
+        Returns
+        -------
+        Structure
+            `Structure` object.
+
+        Raises
+        ------
+        StructureFormatError
         """
         return self._wrapParseMethod("parse", s)
 
     def parseFile(self, filename):
         """Detect format and create Structure instance from an existing file.
+
         Set format attribute to the detected file format.
 
-        filename  -- path to structure file
+        Parameters
+        ----------
+        filename : str
+            Path to structure file.
 
-        Return Structure object.
-        Raise StructureFormatError or IOError.
+        Returns
+        -------
+        Structure
+            `Structure` object.
+
+        Raises
+        ------
+        StructureFormatError
+            If the structure format is unknown or invalid.
+        IOError
+            If the file cannot be read.
         """
         self.filename = filename
         return self._wrapParseMethod("parseFile", filename)
 
     def _wrapParseMethod(self, method, *args, **kwargs):
-        """A helper evaluator method.  Try the specified parse method with
+        """A helper evaluator method that try the specified parse method with
         each registered structure parser and return the first successful
-        resul.  Structure parsers that match structure file extension are
+        resul.
+
+        Structure parsers that match structure file extension are
         tried first.
 
-        Set format attribute to the detected file format.
-        Return Structure instance, or raise StructureFormatError.
+        Parameters
+        ----------
+        method : str
+            Name of the parse method to call.
+        *args : tuple
+            Positional arguments for the parse method.
+        **kwargs : dict
+            Keyword arguments for the parse method.
+
+        Returns
+        -------
+        Structure
+            `Structure` object.
+
+        Raises
+        ------
+        StructureFormatError
         """
         from diffpy.structure.parsers import getParser
 
@@ -131,4 +202,16 @@ class P_auto(StructureParser):
 
 
 def getParser(**kw):
+    """Return a new instance of the automatic parser.
+
+    Parameters
+    ----------
+    **kw : dict
+        Keyword arguments for the structure parser
+
+    Returns
+    -------
+    P_auto
+        Instance of `P_auto`.
+    """
     return P_auto(**kw)

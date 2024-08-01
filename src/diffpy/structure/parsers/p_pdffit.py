@@ -29,7 +29,14 @@ from diffpy.structure.structureerrors import StructureFormatError
 class P_pdffit(StructureParser):
     """Parser for PDFfit structure format.
 
-    stru -- Structure instance used for cif input or output
+    Attributes
+    ----------
+    format : str
+        Format name, default "pdffit".
+    ignored_lines : list
+        List of lines ignored during parsing.
+    stru : PDFFitStructure
+        Structure instance used for cif input or output.
     """
 
     def __init__(self):
@@ -42,7 +49,20 @@ class P_pdffit(StructureParser):
     def parseLines(self, lines):
         """Parse list of lines in PDFfit format.
 
-        Return Structure object or raise StructureFormatError.
+        Parameters
+        ----------
+        lines : list of str
+            List of lines in PDB format.
+
+        Returns
+        -------
+        Structure
+            Parsed structure instance.
+
+        Raises
+        ------
+        StructureFormatError
+            File not in PDFfit format.
         """
         p_nl = 0
         try:
@@ -161,9 +181,17 @@ class P_pdffit(StructureParser):
         return stru
 
     def toLines(self, stru):
-        """Convert Structure stru to a list of lines in PDFfit format.
+        """Convert `Structure` stru to a list of lines in PDFfit format.
 
-        Return list of strings.
+        Parameters
+        ----------
+        stru : Structure
+            Structure to be converted.
+
+        Returns
+        -------
+        list of str
+            List of lines in PDFfit format.
         """
         # build the stru_pdffit dictionary initialized from the defaults
         # in PDFFitStructure
@@ -220,12 +248,17 @@ class P_pdffit(StructureParser):
     # Protected methods ------------------------------------------------------
 
     def _parse_shape(self, line):
-        """Process shape line from PDFfit file and update self.stru
+        """Process shape line from PDFfit file and update self.stru.
 
-        line -- line containing data for particle shape correction
+        Parameters
+        ----------
+        line : str
+            Line containing data for particle shape correction.
 
-        No return value.
-        Raise StructureFormatError for invalid record.
+        Raises
+        ------
+        StructureFormatError
+            Invalid type of particle shape correction.
         """
         line_nocommas = line.replace(",", " ")
         words = line_nocommas.split()
@@ -247,4 +280,11 @@ class P_pdffit(StructureParser):
 
 
 def getParser():
+    """Return new `parser` object for PDFfit format.
+
+    Returns
+    -------
+    P_pdffit
+        Instance of `P_pdffit`.
+    """
     return P_pdffit()
