@@ -13,7 +13,7 @@
 #
 ##############################################################################
 
-"""This module contains functions for simple structure manipulation.
+"""This module contains functions for simple `Structure` manipulation.
 """
 
 import numpy
@@ -23,31 +23,31 @@ from diffpy.structure import Atom, Structure
 
 def supercell(S, mno):
     """
-    Perform supercell expansion for a structure.
+    Perform supercell expansion for a `Structure`.
 
-    New lattice parameters are multiplied and fractional coordinates
-    divided by corresponding multiplier.  New atoms are grouped with
+    New `lattice` parameters are multiplied and fractional coordinates
+    divided by corresponding multiplier. New `Atoms` are grouped with
     their source in the original cell.
 
     Parameters
     ----------
-    S :
-        An instance of Structure from diffpy.structure.
-    mno :
+    S : Structure
+        An instance of `Structure` from `diffpy.structure`.
+    mno : array_like
         Sequence of 3 integers for cell multipliers along
-        the a, b and c axes.
+        the `a`, `b` and `c` axes.
 
     Returns
     -------
     Structure
-        A new structure instance representing the expanded supercell.
+        A new `Structure` instance representing the expanded supercell.
 
     Raises
     ------
     TypeError
-        S is not a Structure instance.
+        `S` is not a `Structure` instance.
     ValueError
-        Invalid mno argument.
+        Invalid `mno` argument.
     """
     # check arguments
     if len(mno) != 3:

@@ -14,18 +14,18 @@
 ##############################################################################
 
 """
-anyeye view structure file in atomeye
+Anyeye view structure file in atomeye.
 
-Usage: anyeye [options] strufile
+Usage: ``anyeye [options] strufile``
 
-Anyeye understands more structure formats than atomeye. It converts strufile
-to a temporary XCFG file which is opened in atomeye. Supported file formats:
-  inputFormats
+Anyeye understands more `Structure` formats than atomeye. It converts `strufile`
+to a temporary XCFG file which is opened in atomeye. See supported file formats:
+``inputFormats``
 
 Options:
   -f, --formula
-      Override chemical formula in strufile. The formula defines
-      elements in the same order as in strufile, e.g., Na4Cl4.
+      Override chemical formula in `strufile`. The formula defines
+      elements in the same order as in `strufile`, e.g., ``Na4Cl4``.
 
   -w, --watch
       Watch input file for changes.
@@ -36,7 +36,7 @@ Options:
 
   --formats=FORMATS
       Comma-separated list of file formats that are understood
-      by the VIEWER, by default "xcfg,pdb". Files of other
+      by the VIEWER, by default ``"xcfg,pdb"``. Files of other
       formats will be converted to the first listed format.
 
   -h, --help
@@ -65,7 +65,7 @@ pd = {
 
 
 def usage(style=None):
-    """show usage info, for style=="brief" show only first 2 lines"""
+    """Show usage info, for ``style=="brief"`` show only first 2 lines."""
     import os.path
 
     myname = os.path.basename(sys.argv[0])
@@ -91,7 +91,17 @@ def version():
 def loadStructureFile(filename, format="auto"):
     """Load structure from specified file.
 
-    Return a tuple of (Structure, fileformat).
+    Parameters
+    ----------
+    filename : str
+        Path to the structure file.
+    format : str, Optional
+        File format, by default "auto".
+
+    Returns
+    -------
+    tuple
+        A tuple of (Structure, fileformat).
     """
     from diffpy.structure import Structure
 
@@ -165,7 +175,7 @@ def cleanUp(pd):
 
 
 def parseFormula(formula):
-    """parse chemical formula and return a list of elements"""
+    """Parse chemical formula and return a list of elements"""
     # remove all blanks
     formula = re.sub(r"\s", "", formula)
     if not re.match("^[A-Z]", formula):

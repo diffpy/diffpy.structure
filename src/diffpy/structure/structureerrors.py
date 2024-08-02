@@ -18,7 +18,7 @@
 
 
 class StructureFormatError(Exception):
-    """Exception for failed IO from Structure file"""
+    """Exception for failed IO from Structure file."""
 
     pass
 

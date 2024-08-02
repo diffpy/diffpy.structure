@@ -15,8 +15,9 @@
 
 """Basic parser for PDB structure format.
 
-References
-
+Note
+----
+References:
     https://www.wwpdb.org/documentation/file-format-content/format23/v2.3.html
     https://www.wwpdb.org/documentation/file-format-content/format30/index.html
 """
@@ -33,13 +34,14 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 class P_pdb(StructureParser):
     """Simple parser for PDB format.
-    The parser understands following PDB records: TITLE, CRYST1, SCALE1,
-    SCALE2, SCALE3, ATOM, SIGATM, ANISOU, SIGUIJ, TER, HETATM, END
 
-    Static data members:
+    The parser understands following PDB records: `TITLE, CRYST1, SCALE1,
+    SCALE2, SCALE3, ATOM, SIGATM, ANISOU, SIGUIJ, TER, HETATM, END`.
 
-    orderOfRecords -- order of PDB record labels
-    validRecords   -- dictionary of valid PDB records
+    Attributes
+    ----------
+    format : str
+        Format name, default "pdb".
     """
 
     # Static data members
@@ -100,7 +102,10 @@ class P_pdb(StructureParser):
         "MASTER",
         "END",
     ]
+    """list: Ordered list of PDB record labels."""
+
     validRecords = dict.fromkeys(orderOfRecords)
+    """dict: Dictionary of PDB record labels."""
 
     def __init__(self):
         StructureParser.__init__(self)
@@ -110,7 +115,20 @@ class P_pdb(StructureParser):
     def parseLines(self, lines):
         """Parse list of lines in PDB format.
 
-        Return Structure instance or raise StructureFormatError.
+        Parameters
+        ----------
+        lines : list of str
+            List of lines in PDB format.
+
+        Returns
+        -------
+        Structure
+            Parsed structure instance.
+
+        Raises
+        ------
+        StructureFormatError
+            Invalid PDB record.
         """
         try:
             stru = Structure()
@@ -228,7 +246,7 @@ class P_pdb(StructureParser):
         return stru
 
     def titleLines(self, stru):
-        """build lines corresponding to TITLE record"""
+        """Build lines corresponding to `TITLE` record."""
         lines = []
         title = stru.title
         while title != "":
@@ -247,7 +265,7 @@ class P_pdb(StructureParser):
         return lines
 
     def cryst1Lines(self, stru):
-        """build lines corresponding to CRYST1 record"""
+        """Build lines corresponding to `CRYST1` record."""
         lines = []
         latpar = (
             stru.lattice.a,
@@ -263,8 +281,8 @@ class P_pdb(StructureParser):
         return lines
 
     def atomLines(self, stru, idx):
-        """build ATOM records and possibly SIGATM, ANISOU or SIGUIJ records
-        for structure stru atom number aidx
+        """Build `ATOM` records and possibly `SIGATM`, `ANISOU` or `SIGUIJ` records
+        for `structure` stru `atom` number aidx.
         """
         lines = []
         a = stru[idx]
@@ -340,9 +358,17 @@ class P_pdb(StructureParser):
         return lines
 
     def toLines(self, stru):
-        """Convert Structure stru to a list of lines in PDFFit format.
+        """Convert `Structure` stru to a list of lines in PDB format.
 
-        Return list of strings.
+        Parameters
+        ----------
+        stru : Structure
+            Structure to be converted.
+
+        Returns
+        -------
+        list of str
+            List of lines in PDB format.
         """
         lines = []
         lines.extend(self.titleLines(stru))
@@ -369,4 +395,11 @@ class P_pdb(StructureParser):
 
 
 def getParser():
+    """Return new `parser` object for PDB format.
+
+    Returns
+    -------
+    P_pdb
+        Instance of `P_pdb`.
+    """
     return P_pdb()

@@ -17,11 +17,15 @@
 Support import of old camel-case module names with DeprecationWarning.
 
 The imported camel-case modules are aliases for the current module
-instances.  Their `__name__` attributes are thus all in lower-case.
+instances. Their `__name__` attributes are thus all in lower-case.
 
+Note
+----
+this module must be only imported from `diffpy.Structure`.
+
+Warning
+-------
 This module is deprecated and will be removed in the future.
-
-NOTE: this module must be only imported from `diffpy.Structure`.
 """
 
 
@@ -29,7 +33,7 @@ import importlib.abc
 import sys
 from warnings import warn
 
-WMSG = "Module {!r} is deprecated.  Use {!r} instead."
+WMSG = "Module {!r} is deprecated. Use {!r} instead."
 
 # ----------------------------------------------------------------------------
 
@@ -56,9 +60,7 @@ class FindRenamedStructureModule(importlib.abc.MetaPathFinder):
 
 
 class MapRenamedStructureModule(importlib.abc.Loader):
-    """
-    Loader for old camel-case module names.
-
+    """Loader for old camel-case module names.
     Import the current module and alias it under the old name.
     """
 

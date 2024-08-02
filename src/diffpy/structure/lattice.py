@@ -13,11 +13,13 @@
 #
 ##############################################################################
 
-"""class Lattice stores properties and provides simple operations in lattice
+"""Class Lattice stores properties and provides simple operations in lattice
 coordinate system.
 
-Module variables:
-    cartesian   -- constant instance of Lattice, default Cartesian system
+Attributes
+----------
+cartesian : Lattice
+    Constant instance of Lattice, default Cartesian system.
 """
 
 import math
@@ -34,8 +36,19 @@ _EXACT_COSD = {0.0: +1.0, 60.0: +0.5, 90.0: 0.0, 120.0: -0.5, 180.0: -1.0, 240.0
 
 
 def cosd(x):
-    """Return the cosine of x (measured in degrees).
+    """Return the cosine of *x* (measured in degrees).
+
     Avoid round-off errors for exact cosine values.
+
+    Parameters
+    ----------
+    x : float
+        The angle in degrees.
+
+    Returns
+    -------
+    float
+        The cosine of the angle *x*.
     """
     rv = _EXACT_COSD.get(x % 360.0)
     if rv is None:
@@ -44,8 +57,19 @@ def cosd(x):
 
 
 def sind(x):
-    """Return the sine of x (measured in degrees).
+    """Return the sine of *x* (measured in degrees).
+
     Avoid round-off errors for exact sine values.
+
+    Parameters
+    ----------
+    x : float
+        The angle in degrees.
+
+    Returns
+    -------
+    float
+        The sine of the angle *x*.
     """
     return cosd(90.0 - x)
 
@@ -54,14 +78,13 @@ def sind(x):
 
 
 class Lattice(object):
-    """
-    General coordinate system and associated operations.
+    """General coordinate system and associated operations.
 
     Parameters
     ----------
     a : float or Lattice, Optional
-        The cell length *a*.  When present, other cell parameters
-        must be also specified.  When of the *Lattice* type, create
+        The cell length *a*. When present, other cell parameters
+        must be also specified. When of the *Lattice* type, create
         a duplicate Lattice.
     b : float
         The cell length *b*.
@@ -77,7 +100,7 @@ class Lattice(object):
         The 3x3 rotation matrix of the base vectors with respect
         to their standard setting.
     base : array_like, Optional
-        The 3x3 array of row base vectors.  This must be the
+        The 3x3 array of row base vectors. This must be the
         only argument when present.
 
     Attributes
@@ -100,32 +123,32 @@ class Lattice(object):
         The inverse of the `normbase` matrix.
     isotropicunit : numpy.ndarray
         The 3x3 tensor for a unit isotropic displacement parameters in this
-        coordinate system.  This is an identity matrix when this Lattice
+        coordinate system. This is an identity matrix when this Lattice
         is orthonormal.
 
     Note
     ----
-    The array attributes are read-only.  They get updated by changing
+    The array attributes are read-only. They get updated by changing
     some lattice parameters or by calling the `setLatPar()` or
     `setLatBase()` methods.
 
     Examples
     --------
-    Create a Cartesian coordinate system::
+    Create a Cartesian coordinate system:
 
     >>> Lattice()
 
-    Create coordinate system with the cell lengths ``a``, ``b``, ``c``
-    and cell angles ``alpha``, ``beta``, ``gamma`` in degrees::
+    Create coordinate system with the cell lengths `a`, `b`, `c`
+    and cell angles `alpha`, `beta`, `gamma` in degrees:
 
     >>> Lattice(a, b, c, alpha, beta, gamma)
 
-    Create a duplicate of an existing Lattice ``lat``::
+    Create a duplicate of an existing Lattice `lat`:
 
     >>> Lattice(lat)
 
     Create coordinate system with the base vectors given by rows
-    of the ``abc`` matrix::
+    of the `abc` matrix:
 
     >>> Lattice(base=abc)
     """
@@ -169,7 +192,7 @@ class Lattice(object):
 
     @property
     def unitvolume(self):
-        """The unit cell volume when a = b = c = 1."""
+        """The unit cell volume when `a = b = c = 1`."""
         # Recalculate lattice cosines to ensure this is right
         # even if ca, cb, cg data were not yet updated.
         ca = cosd(self.alpha)
@@ -355,7 +378,7 @@ class Lattice(object):
         """Set new base vectors for this lattice.
 
         This updates the cell lengths and cell angles according to the
-        new base.  The `stdbase`, `baserot`, and `metrics` attributes
+        new base. The `stdbase`, `baserot`, and `metrics` attributes
         are also updated.
 
         Parameters
@@ -403,7 +426,7 @@ class Lattice(object):
         self.stdbase = numpy.array(
             [[1.0 / ar, -cgr / sgr / ar, cb * a], [0.0, b * sa, b * ca], [0.0, 0.0, c]], dtype=float
         )
-        # calculate unit cell rotation matrix,  base = stdbase @ baserot
+        # calculate unit cell rotation matrix, base = stdbase @ baserot
         self.baserot = numpy.dot(numalg.inv(self.stdbase), self.base)
         self.recbase = numalg.inv(self.base)
         # bases normalized to unit reciprocal vectors
@@ -418,16 +441,17 @@ class Lattice(object):
         return
 
     def abcABG(self):
-        """
+        """Return the cell parameters in the standard setting.
         Returns
         -------
+        tuple :
             A tuple of ``(a, b, c, alpha, beta, gamma)``.
         """
         rv = (self.a, self.b, self.c, self.alpha, self.beta, self.gamma)
         return rv
 
     def reciprocal(self):
-        """
+        """Return the reciprocal lattice of the current lattice.
         Returns
         -------
         Lattice

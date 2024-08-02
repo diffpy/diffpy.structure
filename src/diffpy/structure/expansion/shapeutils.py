@@ -17,11 +17,19 @@
 
 
 def findCenter(S):
-    """Find the approximate center atom of a structure.
+    """Find the approximate center `Atom` of a `Structure`.
 
-    The center of the structure is the atom closest to (0.5, 0.5, 0.5)
+    The center of the `Structure` is the `Atom` closest to ``(0.5, 0.5, 0.5)``.
 
-    Returns the index of the atom.
+    Parameters
+    ----------
+    S : Structure
+        A `Structure` instance.
+
+    Returns
+    -------
+    int
+        The index of the center `Atom`.
     """
     best = -1
     bestd = len(S)

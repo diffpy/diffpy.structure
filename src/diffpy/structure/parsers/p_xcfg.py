@@ -13,7 +13,13 @@
 #
 ##############################################################################
 
-"""Parser for extended CFG format used by atomeye"""
+"""Parser for extended CFG format used by atomeye.
+
+Attributes
+----------
+AtomicMass : dict
+    Dictionary of atomic masses for elements.
+"""
 
 import re
 import sys
@@ -150,11 +156,16 @@ AtomicMass = {
 class P_xcfg(StructureParser):
     """Parser for AtomEye extended CFG format.
 
-    cluster_boundary -- width of boundary around corners of non-periodic
-                        cluster to avoid PBC effects in atomeye
+    Attributes
+    ----------
+    format : str
+        Format name, default "xcfg".
     """
 
     cluster_boundary = 2
+    """int: Width of boundary around corners of non-periodic
+    cluster to avoid PBC effects in atomeye.
+    """
 
     def __init__(self):
         StructureParser.__init__(self)
@@ -162,9 +173,22 @@ class P_xcfg(StructureParser):
         return
 
     def parseLines(self, lines):
-        """Parse list of lines in PDB format.
+        """Parse list of lines in XCFG format.
 
-        Return Structure object or raise StructureFormatError.
+        Parameters
+        ----------
+        lines : list of str
+            List of lines in XCFG format.
+
+        Returns
+        -------
+        Structure
+            Parsed structure instance.
+
+        Raises
+        ------
+        StructureFormatError
+            Invalid XCFG format.
         """
         xcfg_Number_of_particles = None
         xcfg_A = None
@@ -265,7 +289,20 @@ class P_xcfg(StructureParser):
     def toLines(self, stru):
         """Convert Structure stru to a list of lines in XCFG atomeye format.
 
-        Return list of strings.
+        Parameters
+        ----------
+        stru : Structure
+            Structure to be converted.
+
+        Returns
+        -------
+        list of str
+            List of lines in XCFG format.
+
+        Raises
+        ------
+        StructureFormatError
+            Cannot convert empty structure to XCFG format.
         """
         if len(stru) == 0:
             emsg = "cannot convert empty structure to XCFG format"
@@ -373,6 +410,13 @@ class P_xcfg(StructureParser):
 
 
 def getParser():
+    """Return new `parser` object for XCFG format.
+
+    Returns
+    -------
+    P_xcfg
+        Instance of `P_xcfg`.
+    """
     return P_xcfg()
 
 
@@ -380,13 +424,12 @@ def getParser():
 
 
 def _assign_auxiliaries(a, fields, auxiliaries, no_velocity):
-    """\
-    Assing auxiliary properties for Atom object when reading CFG format.
+    """Assing auxiliary properties for `Atom` object when reading CFG format.
 
     Parameters
     ----------
     a : Atom
-        The Atom instance for which the auxiliary properties need to be set.
+        The `Atom` instance for which the auxiliary properties need to be set.
     fields : list
         Floating point values for the current row of the processed CFG file.
     auxiliaries : dict
@@ -395,8 +438,6 @@ def _assign_auxiliaries(a, fields, auxiliaries, no_velocity):
     no_velocity : bool
         When `False` set atom velocity `a.v` to `fields[3:6]`.
         Use `fields[3:6]` for auxiliary values otherwise.
-
-    No return value.
     """
     if not no_velocity:
         a.v = numpy.asarray(fields[3:6], dtype=float)
