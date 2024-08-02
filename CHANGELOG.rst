@@ -4,6 +4,29 @@ Release Notes
 
 .. current developments
 
+Version 3.2.1 - 2024-8-2
+--------------------------
+**Added:**
+
+**Changed:**
+
+- All docstrings style to numpydoc.
+
+**Deprecated:**
+
+- The `diffpy.structure.applications` module. Use
+  `diffpy.structure.apps` instead.
+
+**Removed:**
+
+- All `six` compatibility code. The package is now going to 
+  Python > 3.10.
+
+**Fixed:**
+
+**Security:**
+
+
 Version 3.2.0 - 2024-7-2
 --------------------------
 **Added:**
