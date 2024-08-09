@@ -26,27 +26,42 @@ from diffpy.structure.expansion.shapeutils import findCenter
 def makeSphere(S, radius):
     """Create a spherical nanoparticle.
 
-    Arguments
-    S       --  A Structure instance
-    radius  --  primary equatorial radius (along x-axis)
+    Parameters
+    ----------
+    S : Structure
+        A `Structure` instance.
+    radius : float
+        Primary equatorial radius (along x-axis).
 
-    Returns a new structure instance
+    Returns
+    -------
+    Structure
+        A new `Structure` instance.
     """
     return makeEllipsoid(S, radius)
 
 
 def makeEllipsoid(S, a, b=None, c=None):
-    """Cut a structure out of another one.
+    """
+    Cut a `Structure` out of another one.
 
-    Arguments
-    S       --  A Structure instance
-    a       --  primary equatorial radius (along x-axis)
-    b       --  secondary equatorial radius (along y-axis). If b is None
-                (default) then it is set equal to a
-    c       --  polar radius (along z-axis). If c is None (default), then it is
-                set equal to a.
+    Parameters
+    ----------
+    S : Structure
+        A `Structure` instance.
+    a : float
+        Primary equatorial radius (along x-axis).
+    b : float, Optional
+        Secondary equatorial radius (along y-axis). If `b` is ``None``
+        (default), then it is set equal to `a`.
+    c : float, Optional
+        Polar radius (along z-axis). If `c` is ``None`` (default), then it is
+        set equal to `a`.
 
-    Returns a new structure instance
+    Returns
+    -------
+    Structure :
+        A new `Structure` instance.
     """
     if b is None:
         b = a

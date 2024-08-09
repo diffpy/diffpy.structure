@@ -16,7 +16,6 @@ Subpackages
 
     diffpy.structure.parsers
     diffpy.structure.expansion
-    diffpy.structure.applications
     diffpy.structure.apps
 
 Submodules

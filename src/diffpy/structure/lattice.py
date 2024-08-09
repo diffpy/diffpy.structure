@@ -13,11 +13,13 @@
 #
 ##############################################################################
 
-"""class Lattice stores properties and provides simple operations in lattice
+"""Class Lattice stores properties and provides simple operations in lattice
 coordinate system.
 
-Module variables:
-    cartesian   -- constant instance of Lattice, default Cartesian system
+Attributes
+----------
+cartesian : Lattice
+    Constant instance of Lattice, default Cartesian system.
 """
 
 import math
@@ -34,8 +36,19 @@ _EXACT_COSD = {0.0: +1.0, 60.0: +0.5, 90.0: 0.0, 120.0: -0.5, 180.0: -1.0, 240.0
 
 
 def cosd(x):
-    """Return the cosine of x (measured in degrees).
+    """Return the cosine of *x* (measured in degrees).
+
     Avoid round-off errors for exact cosine values.
+
+    Parameters
+    ----------
+    x : float
+        The angle in degrees.
+
+    Returns
+    -------
+    float
+        The cosine of the angle *x*.
     """
     rv = _EXACT_COSD.get(x % 360.0)
     if rv is None:
@@ -44,8 +57,19 @@ def cosd(x):
 
 
 def sind(x):
-    """Return the sine of x (measured in degrees).
+    """Return the sine of *x* (measured in degrees).
+
     Avoid round-off errors for exact sine values.
+
+    Parameters
+    ----------
+    x : float
+        The angle in degrees.
+
+    Returns
+    -------
+    float
+        The sine of the angle *x*.
     """
     return cosd(90.0 - x)
 
@@ -54,14 +78,13 @@ def sind(x):
 
 
 class Lattice(object):
-    """
-    General coordinate system and associated operations.
+    """General coordinate system and associated operations.
 
     Parameters
     ----------
-    a : float or Lattice, optional
-        The cell length *a*.  When present, other cell parameters
-        must be also specified.  When of the *Lattice* type, create
+    a : float or Lattice, Optional
+        The cell length *a*. When present, other cell parameters
+        must be also specified. When of the *Lattice* type, create
         a duplicate Lattice.
     b : float
         The cell length *b*.
@@ -73,59 +96,59 @@ class Lattice(object):
         The angle between the *b* and *c* axes in degrees.
     gamma : float
         The angle between the *a* and *b* axes in degrees.
-    baserot : array_like, optional
+    baserot : array_like, Optional
         The 3x3 rotation matrix of the base vectors with respect
         to their standard setting.
-    base : array_like, optional
-        The 3x3 array of row base vectors.  This must be the
+    base : array_like, Optional
+        The 3x3 array of row base vectors. This must be the
         only argument when present.
 
     Attributes
     ----------
-    metrics : ndarray
+    metrics : numpy.ndarray
         The metrics tensor.
-    base : ndarray
+    base : numpy.ndarray
         The 3x3 matrix of row base vectors in Cartesian coordinates,
         which may be rotated, i.e., ``base = stdbase @ baserot``.
-    stdbase : ndarray
+    stdbase : numpy.ndarray
         The 3x3 matrix of row base vectors in standard orientation.
-    baserot : ndarray
+    baserot : numpy.ndarray
         The rotation matrix for the `base`.
-    recbase : ndarray
+    recbase : numpy.ndarray
         The inverse of the `base` matrix, where the columns give
         reciprocal vectors in Cartesian coordinates.
-    normbase : ndarray
+    normbase : numpy.ndarray
         The `base` vectors scaled by magnitudes of reciprocal cell lengths.
-    recnormbase : ndarray
+    recnormbase : numpy.ndarray
         The inverse of the `normbase` matrix.
-    isotropicunit : ndarray
+    isotropicunit : numpy.ndarray
         The 3x3 tensor for a unit isotropic displacement parameters in this
-        coordinate system.  This is an identity matrix when this Lattice
+        coordinate system. This is an identity matrix when this Lattice
         is orthonormal.
 
     Note
     ----
-    The array attributes are read-only.  They get updated by changing
+    The array attributes are read-only. They get updated by changing
     some lattice parameters or by calling the `setLatPar()` or
     `setLatBase()` methods.
 
     Examples
     --------
-    Create a Cartesian coordinate system::
+    Create a Cartesian coordinate system:
 
     >>> Lattice()
 
-    Create coordinate system with the cell lengths ``a``, ``b``, ``c``
-    and cell angles ``alpha``, ``beta``, ``gamma`` in degrees::
+    Create coordinate system with the cell lengths `a`, `b`, `c`
+    and cell angles `alpha`, `beta`, `gamma` in degrees:
 
     >>> Lattice(a, b, c, alpha, beta, gamma)
 
-    Create a duplicate of an existing Lattice ``lat``::
+    Create a duplicate of an existing Lattice `lat`:
 
     >>> Lattice(lat)
 
     Create coordinate system with the base vectors given by rows
-    of the ``abc`` matrix::
+    of the `abc` matrix:
 
     >>> Lattice(base=abc)
     """
@@ -169,7 +192,7 @@ class Lattice(object):
 
     @property
     def unitvolume(self):
-        """The unit cell volume when a = b = c = 1."""
+        """The unit cell volume when `a = b = c = 1`."""
         # Recalculate lattice cosines to ensure this is right
         # even if ca, cb, cg data were not yet updated.
         ca = cosd(self.alpha)
@@ -212,7 +235,7 @@ class Lattice(object):
 
     sar = property(lambda self: self._sar, doc="The sine of the reciprocal angle *alpha*.")
 
-    sbr = property(lambda self: self._sbr, doc="flot: Sine of the reciprocal angle *beta*.")
+    sbr = property(lambda self: self._sbr, doc="The sine of the reciprocal angle *beta*.")
 
     sgr = property(lambda self: self._sgr, doc="The sine of the reciprocal angle *gamma*.")
 
@@ -272,19 +295,19 @@ class Lattice(object):
 
         Parameters
         ----------
-        a : float, optional
+        a : float, Optional
             The new value of the cell length *a*.
-        b : float, optional
+        b : float, Optional
             The new value of the cell length *b*.
-        c : float, optional
+        c : float, Optional
             The new value of the cell length *c*.
-        alpha : float, optional
+        alpha : float, Optional
             The new value of the cell angle *alpha* in degrees.
-        beta : float, optional
+        beta : float, Optional
             The new value of the cell angle *beta* in degrees.
-        gamma : float, optional
+        gamma : float, Optional
             The new value of the cell angle *gamma* in degrees.
-        baserot : array_like, optional
+        baserot : array_like, Optional
             The new 3x3 rotation matrix of the base vectors with respect
             to their standard setting in Cartesian coordinates.
 
@@ -355,7 +378,7 @@ class Lattice(object):
         """Set new base vectors for this lattice.
 
         This updates the cell lengths and cell angles according to the
-        new base.  The `stdbase`, `baserot`, and `metrics` attributes
+        new base. The `stdbase`, `baserot`, and `metrics` attributes
         are also updated.
 
         Parameters
@@ -403,7 +426,7 @@ class Lattice(object):
         self.stdbase = numpy.array(
             [[1.0 / ar, -cgr / sgr / ar, cb * a], [0.0, b * sa, b * ca], [0.0, 0.0, c]], dtype=float
         )
-        # calculate unit cell rotation matrix,  base = stdbase @ baserot
+        # calculate unit cell rotation matrix, base = stdbase @ baserot
         self.baserot = numpy.dot(numalg.inv(self.stdbase), self.base)
         self.recbase = numalg.inv(self.base)
         # bases normalized to unit reciprocal vectors
@@ -418,16 +441,17 @@ class Lattice(object):
         return
 
     def abcABG(self):
-        """
+        """Return the cell parameters in the standard setting.
         Returns
         -------
+        tuple :
             A tuple of ``(a, b, c, alpha, beta, gamma)``.
         """
         rv = (self.a, self.b, self.c, self.alpha, self.beta, self.gamma)
         return rv
 
     def reciprocal(self):
-        """
+        """Return the reciprocal lattice of the current lattice.
         Returns
         -------
         Lattice
@@ -447,7 +471,7 @@ class Lattice(object):
 
         Returns
         -------
-        rc : ndarray
+        rc : numpy.ndarray
             Cartesian coordinates of the *u* vector.
         """
         rc = numpy.dot(u, self.base)
@@ -464,7 +488,7 @@ class Lattice(object):
 
         Returns
         -------
-        u : ndarray
+        u : numpy.ndarray
             Fractional coordinates of the Cartesian vector *rc*.
         """
         u = numpy.dot(rc, self.recbase)
@@ -483,7 +507,7 @@ class Lattice(object):
 
         Returns
         -------
-        float or ndarray
+        float or numpy.ndarray
             The dot product of lattice vectors *u*, *v*.
         """
         dp = (u * numpy.dot(v, self.metrics)).sum(axis=-1)
@@ -499,7 +523,7 @@ class Lattice(object):
 
         Returns
         -------
-        float or ndarray
+        float or numpy.ndarray
             The magnitude of the lattice vector *xyz*.
         """
         # this is a few percent faster than sqrt(dot(u, u)).
@@ -515,7 +539,7 @@ class Lattice(object):
 
         Returns
         -------
-        float or ndarray
+        float or numpy.ndarray
             The magnitude of the reciprocal vector *hkl*.
         """
         hklcartn = numpy.dot(hkl, self.recbase.T)
@@ -528,7 +552,7 @@ class Lattice(object):
         ----------
         u : array_like
             A vector or an Nx3 matrix of fractional coordinates.
-        v : ndarray
+        v : numpy.ndarray
             A vector or an Nx3 matrix of fractional coordinates.
 
         Note
@@ -537,7 +561,7 @@ class Lattice(object):
 
         Returns
         -------
-        float or ndarray
+        float or numpy.ndarray
             The distance between lattice points *u* and *v*.
         """
         duv = numpy.asarray(u) - v
@@ -617,12 +641,12 @@ def _isotropicunit(recnormbase):
 
     Parameters
     ----------
-    recnormbase : ndarray
+    recnormbase : numpy.ndarray
         The inverse of normalized base vectors of some lattice.
 
     Returns
     -------
-    ndarray
+    numpy.ndarray
         The 3x3 matrix of displacement parameters corresponding to
         a unit isotropic displacements.
     """

@@ -13,22 +13,26 @@
 #
 ##############################################################################
 
-"""transtru   translate structure file to different format
-Usage: transtru INFMT..OUTFMT strufile
+"""Translate structure file to different format.
 
-translates structure file strufile from INFMT to OUTFMT format and prints it
-to the screen.  Use "-" as strufile to read from standard input.  To save the
+Usage: ``transtru INFMT..OUTFMT strufile``
+
+Translates structure file strufile from `INFMT` to `OUTFMT` format and prints it
+to the screen. Use "-" as `strufile` to read from standard input. To save the
 translated file, use
 
-    transtru INFMT..OUTFMT strufile > strufile.out
+    ``transtru INFMT..OUTFMT strufile > strufile.out``
 
 Supported input and output structure formats are
-  INFMT:   inputFormats
-  OUTFMT:  outputFormats
+    * `INFMT`: ``inputFormats``
+    * `OUTFMT`: ``outputFormats``
 
 Options:
-  -h, --help      display this message
-  -V, --version   show script version
+  -h, --help
+    Display this message.
+
+  -V, --version
+    Show script version.
 """
 
 from __future__ import print_function
@@ -40,7 +44,7 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 
 def usage(style=None):
-    """show usage info, for style=="brief" show only first 2 lines"""
+    """Show usage info, for ``style=="brief"`` show only first 2 lines."""
     import os.path
 
     myname = os.path.basename(sys.argv[0])

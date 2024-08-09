@@ -13,16 +13,26 @@
 #
 ##############################################################################
 
-"""classes related to structure of materials
-Classes:
-    Atom
-    Lattice
-    Structure
-    PDFFitStructure
+"""
+Crystal structure container and parsers for structure formats.
+
+Classes related to the structure of materials:
+    * Atom
+    * Lattice
+    * Structure
+    * PDFFitStructure
+
+Other classes:
+    * SpaceGroup
+    * SymOp
+    * ExpandAsymmetricUnit
+    * GeneratorSite
+    * SymmetryConstraints
+
 Exceptions:
-    StructureFormatError
-    LatticeError
-    SymmetryError
+    * StructureFormatError
+    * LatticeError
+    * SymmetryError
 """
 
 # Interface definitions ------------------------------------------------------
@@ -37,27 +47,24 @@ from diffpy.structure.structureerrors import LatticeError, StructureFormatError,
 # package version
 from diffpy.structure.version import __version__
 
-"""Crystal structure container and parsers for structure formats."""
-
 # top level routines
 
 
 def loadStructure(filename, fmt="auto", **kw):
-    """
-    Load new structure object from the specified file.
+    """Load new structure object from the specified file.
 
     Parameters
     ----------
 
     filename : str
         Path to the file to be loaded.
-    fmt : str, optional
-        Format of the structure file such as 'cif' or 'xyz'.  Must be
+    fmt : str, Optional
+        Format of the structure file such as 'cif' or 'xyz'. Must be
         one of the formats listed by the `parsers.inputFormats` function.
         When 'auto', all supported formats are tried in a sequence.
-    kw : misc, optional
+    kw : Optional
         Extra keyword arguments that are passed to `parsers.getParser`
-        function.  These configure the dedicated Parser object that
+        function. These configure the dedicated Parser object that
         is used to read content in filename.
 
     Returns

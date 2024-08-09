@@ -16,23 +16,19 @@
 """Small shared functions.
 """
 
-import numpy
-import six
+from collections.abc import Iterable as _Iterable
 
-if six.PY2:
-    from collections import Iterable as _Iterable
-else:
-    from collections.abc import Iterable as _Iterable
+import numpy
 
 
 def isiterable(obj):
-    """True if argument is iterable."""
+    """``True`` if argument is iterable."""
     rv = isinstance(obj, _Iterable)
     return rv
 
 
 def isfloat(s):
-    """True if argument can be converted to float"""
+    """``True`` if argument can be converted to float."""
     try:
         float(s)
         return True
@@ -43,12 +39,30 @@ def isfloat(s):
 
 def atomBareSymbol(smbl):
     """Remove atom type string stripped of isotope and ion charge symbols.
-    This removes blank and leading [0-9-] or trailing [1-9][+-] characters.
 
-    smbl -- atom type string such as "Cl-", "Ca2+" or "12-C".
+    This function removes any blank, isotope numbers (0-9), leading hyphens (-), and ion charge
+    symbols (1-9)(+-) from the given atom type string, returning only the bare element symbol.
 
-    Return bare element symbol.
+    Parameters
+    ----------
+    smbl : str
+        Atom type string that may include isotope numbers, ion charges, or hyphens.
+
+    Returns
+    -------
+    str
+        The bare element symbol.
+
+    Examples
+    --------
+    >>> atomBareSymbol("Cl-")
+    'Cl'
+    >>> atomBareSymbol("Ca2+")
+    'Ca'
+    >>> atomBareSymbol("12-C")
+    'C'
     """
+
     rv = smbl.strip().lstrip("0123456789-").rstrip("123456789+-")
     return rv
 
@@ -60,15 +74,15 @@ def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
     """Create property wrapper that maps the specified atom attribute.
 
     The returned property object provides convenient access to atom
-    attributes from the owner Structure class.
+    attributes from the owner `Structure` class.
 
     Parameters
     ----------
     attrname : str
-        The string name of the Atom class attribute to be mapped.
+        The string name of the `Atom` class attribute to be mapped.
     doc : str
         The docstring for the property wrapper.
-    toarray : callable, optional
+    toarray : callable, Optional
         Factory function that converts list of attributes to `numpy.ndarray`.
         Use `numpy.char.array` for string attributes.
 

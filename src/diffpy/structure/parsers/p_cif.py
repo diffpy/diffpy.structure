@@ -13,17 +13,26 @@
 #
 ##############################################################################
 
-"""Parser for basic CIF file format
+"""Parser for basic CIF file format.
 
-http://www.iucr.org/iucr-top/cif/home.html
+Attributes
+----------
+rx_float : re.Pattern
+    Constant regular expression for `leading_float()`.
+symvec : dict
+    Helper dictionary for `getSymOp()`.
+
+Note
+----
+References: https://www.iucr.org/resources/cif
 """
 
+import io
 import re
 import sys
 from contextlib import contextmanager
 
 import numpy
-import six
 
 from diffpy.structure import Atom, Lattice, Structure
 from diffpy.structure.parsers import StructureParser
@@ -34,32 +43,50 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 class P_cif(StructureParser):
     """Simple parser for CIF structure format.
+
     Reads Structure from the first block containing _atom_site_label key.
-    Following blocks, if any are ignored.
+    Following blocks, if any, are ignored.
 
-    Data members:
+    Parameters
+    ----------
+    eps : float, Optional
+        Fractional coordinates cutoff for duplicate positions.
+        When ``None`` use the default for `ExpandAsymmetricUnit`: ``1.0e-5``.
 
-    format      -- structure format name
-    ciffile     -- instance of CifFile from PyCifRW
-    stru        -- Structure instance used for cif input or output
-
-    Data members used for input only:
-
-    spacegroup  -- instance of SpaceGroup used for symmetry expansion
-    eps         -- resolution in fractional coordinates for non-equal
-                   positions.  Use for expansion of asymmetric unit.
-    eau         -- instance of ExpandAsymmetricUnit from SymmetryUtilities
-    asymmetric_unit -- list of atom instances for the original asymmetric
-                   unit in the CIF file
-    labelindex  -- dictionary mapping unique atom label to index of atom
-                   in self.asymmetric_unit
-    anisotropy  -- dictionary mapping unique atom label to displacement
-                   anisotropy resolved at that site
-    cif_sgname  -- space group name obtained by looking up the value of
-                   _space_group_name_Hall, _symmetry_space_group_name_Hall,
-                   _space_group_name_H-M_alt, _symmetry_space_group_name_H-M
-                   items.  None when neither is defined.
+    Attributes
+    ----------
+    format : str
+        Structure format name.
+    ciffile : CifFile
+        Instance of `CifFile` from `PyCifRW`.
+    stru : Structure
+        `Structure` instance used for CIF input or output.
+    spacegroup : SpaceGroup
+        Instance of `SpaceGroup` used for symmetry expansion.
+    eps : float
+        Resolution in fractional coordinates for non-equal positions.
+        Used for expansion of asymmetric unit.
+    eau : ExpandAsymmetricUnit
+        Instance of `ExpandAsymmetricUnit` from `SymmetryUtilities`.
+    asymmetric_unit : list
+        List of `Atom` instances for the original asymmetric unit in the CIF file.
+    labelindex : dict
+        Dictionary mapping unique atom label to index of `Atom` in `self.asymmetric_unit`.
+    anisotropy : dict
+        Dictionary mapping unique atom label to displacement anisotropy resolved at that site.
+    cif_sgname : str or None
+        Space group name obtained by looking up the value of
+        `_space_group_name_Hall`,
+        `_symmetry_space_group_name_Hall`,
+        `_space_group_name_H-M_alt`,
+        `_symmetry_space_group_name_H-M`
+        items. ``None`` when neither is defined.
     """
+
+    # static data and methods ------------------------------------------------
+
+    # dictionary set of class methods for translating CIF values
+    # to Atom attributes
 
     # static data and methods ------------------------------------------------
 
@@ -102,6 +129,7 @@ class P_cif(StructureParser):
     del k
 
     BtoU = 1.0 / (8 * numpy.pi**2)
+    """float: Conversion factor from B values to U values."""
 
     def _tr_ignore(a, value):
         return
@@ -239,12 +267,17 @@ class P_cif(StructureParser):
     _tr_atom_site_aniso_B_23 = staticmethod(_tr_atom_site_aniso_B_23)
 
     def _get_atom_setters(cifloop):
-        """Find translators of CifLoop items to data in Atom instance.
-        Static method.
+        """Static method for finding translators of CifLoop items to data in `Atom` instance.
 
-        cifloop -- instance of CifLoop
+        Parameters
+        ----------
+        cifloop : CifLoop
+            Instance of `CifLoop`.
 
-        Return a list of setter functions in the order of cifloop.keys().
+        Returns
+        -------
+        list
+            List of setter functions in the order of `cifloop.keys()`.
         """
         rv = []
         for p in cifloop.keys():
@@ -259,11 +292,6 @@ class P_cif(StructureParser):
     # normal methods ---------------------------------------------------------
 
     def __init__(self, eps=None):
-        """Initialize the parser for CIF structure files.
-
-        eps  -- fractional coordinates cutoff for duplicate positions.
-                When None use the default for ExpandAsymmetricUnit.
-        """
         StructureParser.__init__(self)
         self.format = "cif"
         self.ciffile = None
@@ -278,22 +306,46 @@ class P_cif(StructureParser):
         pass
 
     def parse(self, s):
-        """Create Structure instance from a string in CIF format.
+        """Create `Structure` instance from a string in CIF format.
 
-        Return Structure instance or raise StructureFormatError.
+        Parameters
+        ----------
+        s : str
+            A string in CIF format.
+
+        Returns
+        -------
+        Structure
+            `Structure` instance.
+
+        Raises
+        ------
+        StructureFormatError
+            When the data do not constitute a valid CIF format.
         """
         self.ciffile = None
         self.filename = ""
-        fp = six.StringIO(s)
+        fp = io.StringIO(s)
         rv = self._parseCifDataSource(fp)
         return rv
 
     def parseLines(self, lines):
         """Parse list of lines in CIF format.
 
-        lines -- list of strings stripped of line terminator
+        Parameters
+        ----------
+        lines : list
+            List of strings stripped of line terminator.
 
-        Return Structure instance or raise StructureFormatError.
+        Returns
+        -------
+        Structure
+            `Structure` instance.
+
+        Raises
+        ------
+        StructureFormatError
+            When the data do not constitute a valid CIF format.
         """
         s = "\n".join(lines) + "\n"
         return self.parse(s)
@@ -301,10 +353,22 @@ class P_cif(StructureParser):
     def parseFile(self, filename):
         """Create Structure from an existing CIF file.
 
-        filename  -- path to structure file
+        Parameters
+        ----------
+        filename : str
+            Path to structure file.
 
-        Return Structure object.
-        Raise StructureFormatError or IOError.
+        Returns
+        -------
+        Structure
+            `Structure` instance.
+
+        Raises
+        ------
+        StructureFormatError
+            When the data do not constitute a valid CIF format.
+        IOError
+            When the file cannot be opened.
         """
         self.ciffile = None
         self.filename = filename
@@ -313,20 +377,18 @@ class P_cif(StructureParser):
         return rv
 
     def _parseCifDataSource(self, datasource):
-        """\
-        Open and process CIF data from the specified `datasource`.
-
+        """Open and process CIF data from the specified `datasource`.
 
         Parameters
         ----------
         datasource : str or a file-like object
-            This is used as an argument to the CifFile class.  The CifFile
+            This is used as an argument to the `CifFile` class. The `CifFile`
             instance is stored in `ciffile` attribute of this Parser.
 
         Returns
         -------
         Structure
-            The Structure object loaded from the specified data source.
+            The `Structure` object loaded from the specified data source.
 
         Raises
         ------
@@ -350,16 +412,17 @@ class P_cif(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err).strip()
             e = StructureFormatError(emsg)
-            six.reraise(StructureFormatError, e, exc_traceback)
+            raise e.with_traceback(exc_traceback)
         return self.stru
 
     def _parseCifBlock(self, blockname):
-        """Translate CIF file block, skip blocks without _atom_site_label.
-        Updates data members stru, eau.
+        """Translate CIF file block, skip blocks without `_atom_site_label`.
+        Updates data members `stru`, `eau`.
 
-        blockname  -- name of top level block in self.ciffile
-
-        No return value.
+        Parameters
+        ----------
+        blockname : str
+            Name of top level block in `self.ciffile`.
         """
         block = self.ciffile[blockname]
         if "_atom_site_label" not in block:
@@ -376,12 +439,14 @@ class P_cif(StructureParser):
         return
 
     def _parse_lattice(self, block):
-        """Obtain lattice parameters from a CifBlock.
-        This method updates self.stru.lattice.
+        """Obtain `lattice` parameters from a `CifBlock`.
 
-        block -- instance of CifBlock
+        This method updates `self.stru.lattic`e.
 
-        No return value.
+        Parameters
+        ----------
+        block : CifBlock
+            Instance of CifBlock.
         """
         if "_cell_length_a" not in block:
             return
@@ -399,18 +464,20 @@ class P_cif(StructureParser):
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = str(err)
             e = StructureFormatError(emsg)
-            six.reraise(StructureFormatError, e, exc_traceback)
+            raise e.with_traceback(exc_traceback)
         self.stru.lattice = Lattice(*latpars)
         return
 
     def _parse_atom_site_label(self, block):
-        """Obtain atoms in asymmetric unit from a CifBlock.
-        This method inserts Atom instances to self.stru and
-        updates labelindex dictionary.
+        """Obtain atoms in asymmetric unit from a `CifBlock`.
 
-        block -- instance of CifBlock
+        This method inserts `Atom` instances to `self.stru` and
+        updates `labelindex` dictionary.
 
-        No return value.
+        Parameters
+        ----------
+        block : CifBlock
+            Instance of `CifBlock`.
         """
         # process _atom_site_label
         atom_site_loop = block.GetLoop("_atom_site_label")
@@ -438,13 +505,15 @@ class P_cif(StructureParser):
         return
 
     def _parse_atom_site_aniso_label(self, block):
-        """Obtain value of anisotropic thermal displacements from a CifBlock.
-        This method updates U members of Atom instances in self.stru.
-        The labelindex dictionary has to be defined beforehand.
+        """Obtain value of anisotropic thermal displacements from a `CifBlock`.
 
-        block -- instance of CifBlock
+        This method updates `U` members of `Atom` instances in `self.stru`.
+        The `labelindex` dictionary has to be defined beforehand.
 
-        No return value.
+        Parameters
+        ----------
+        block : CifBlock
+            Instance of `CifBlock`.
         """
         if "_atom_site_aniso_label" not in block:
             return
@@ -469,14 +538,16 @@ class P_cif(StructureParser):
         return
 
     def _parse_space_group_symop_operation_xyz(self, block):
-        """Process symmetry operations from a CifBlock.  The method
-        updates spacegroup and eau data according to symmetry
-        operations defined in _space_group_symop_operation_xyz or
-        _symmetry_equiv_pos_as_xyz items in CifBlock.
+        """Process symmetry operations from a CifBlock.
 
-        block -- instance of CifBlock
+        The method updates `spacegroup` and `eau` data according to symmetry
+        operations defined in `_space_group_symop_operation_xyz` or
+        `_symmetry_equiv_pos_as_xyz` items in `CifBlock`.
 
-        No return value.
+        Parameters
+        ----------
+        block : CifBlock
+            Instance of `CifBlock`.
         """
         from diffpy.structure.spacegroups import FindSpaceGroup, GetSpaceGroup, IsSpaceGroupIdentifier, SpaceGroup
 
@@ -528,9 +599,9 @@ class P_cif(StructureParser):
         return
 
     def _expandAsymmetricUnit(self, block):
-        """Perform symmetry expansion of self.stru using self.spacegroup.
+        """Perform symmetry expansion of `self.stru` using `self.spacegroup`.
 
-        This method updates data in stru and eau.
+        This method updates data in `stru` and `eau`.
 
         Parameters
         ----------
@@ -568,9 +639,17 @@ class P_cif(StructureParser):
     # conversion to CIF ------------------------------------------------------
 
     def toLines(self, stru):
-        """Convert Structure stru to a list of lines in basic CIF format.
+        """Convert `Structure` to a list of lines in basic CIF format.
 
-        Return list of strings.
+        Parameters
+        ----------
+        stru : Structure
+            The structure to be converted.
+
+        Returns
+        -------
+        list
+            List of lines in basic CIF format.
         """
         import time
 
@@ -692,7 +771,7 @@ def leading_float(s, d=0.0):
     ----------
     s : str
         The string to be scanned for floating point value.
-    d : float, optional
+    d : float, Optional
         The default value when `s` is "." or "?", which in CIF
         format stands for inapplicable and unknown, respectively.
 
@@ -733,11 +812,17 @@ symvec["+z"] = symvec["z"]
 
 
 def getSymOp(s):
-    """Create SpaceGroups.SymOp instance from a string.
+    """Create `SpaceGroups.SymOp` instance from a string.
 
-    s   -- formula for equivalent coordinates, for example 'x,1/2-y,1/2+z'
+    Parameters
+    ----------
+    s : str
+        Formula for equivalent coordinates, for example ``'x,1/2-y,1/2+z'``.
 
-    Return instance of SymOp.
+    Returns
+    -------
+    SymOp
+        Instance of `SymOp`.
     """
     from diffpy.structure.spacegroups import SymOp
 
@@ -757,10 +842,18 @@ def getSymOp(s):
 
 
 def getParser(eps=None):
-    """Return new parser object for CIF structure format.
+    """Return new `parser` object for CIF format.
 
-    eps  -- fractional coordinates cutoff for duplicate positions.
-            When None use the default for ExpandAsymmetricUnit.
+    Parameters
+    ----------
+    eps : float, Optional
+        fractional coordinates cutoff for duplicate positions.
+        When ``None`` use the default for `ExpandAsymmetricUnit`: ``1.0e-5``.
+
+    Returns
+    -------
+    P_cif
+        Instance of `P_cif`.
     """
     return P_cif(eps=eps)
 
@@ -770,9 +863,7 @@ def getParser(eps=None):
 
 @contextmanager
 def _suppressCifParserOutput():
-    """\
-    Context manager which suppresses diagnostic messages from CIF parser.
-    """
+    """Context manager which suppresses diagnostic messages from CIF parser."""
     from CifFile import yapps3_compiled_rt
 
     print_error = yapps3_compiled_rt.print_error

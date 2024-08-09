@@ -48,6 +48,8 @@ extensions = [
     "m2r",
 ]
 
+autodoc_member_order = "groupwise"
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
@@ -117,6 +119,12 @@ modindex_common_prefix = ["diffpy.structure"]
 
 # Display all warnings for missing links.
 nitpicky = True
+
+nitpick_ignore = [
+    ("py:class", "array_like"),
+    ("py:class", "Parser"),
+    ("py:class", "CifFile"),
+]
 
 # -- Options for HTML output ----------------------------------------------
 
@@ -289,3 +297,7 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 # intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+}

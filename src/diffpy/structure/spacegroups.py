@@ -14,12 +14,15 @@
 ##############################################################################
 
 """Space group classes and definitions from mmLib and sgtbx.
+
+Attributes
+----------
+SpaceGroupList : list
+    List of all spacegroup definitions.
 """
 
 import copy
-
-import six
-from six.moves import zip_longest
+from itertools import zip_longest
 
 from diffpy.structure.mmlibspacegroups import (
     mmLibSpaceGroupList,
@@ -645,18 +648,27 @@ from diffpy.structure.spacegroupmod import (
 # Import SpaceGroup objects --------------------------------------------------
 
 
-# all spacegroup definitions
 SpaceGroupList = mmLibSpaceGroupList + sgtbxSpaceGroupList
 
 
 def GetSpaceGroup(sgid):
     """Returns the SpaceGroup instance for the given identifier.
 
-    sgid -- space group symbol, either short_name or pdb_name,
-            whatever it means in mmlib.  Can be also an integer.
+    Parameters
+    ----------
+    sgid : str, int
+        space group symbol, either `short_name` or `pdb_name`,
+        whatever it means in mmlib. Can be also an integer.
 
-    Return space group instance.
-    Raise ValueError when not found.
+    Returns
+    -------
+    SpaceGroup
+        The SpaceGroup object for the given identifier.
+
+    Raises
+    ------
+    ValueError
+        When the identifier is not found.
     """
     if not _sg_lookup_table:
         _buildSGLookupTable()
@@ -664,7 +676,7 @@ def GetSpaceGroup(sgid):
         return _sg_lookup_table[sgid]
     # Try different versions of sgid, first make sure it is a string
     emsg = "Unknown space group identifier %r" % sgid
-    if not isinstance(sgid, six.string_types):
+    if not isinstance(sgid, str):
         raise ValueError(emsg)
     sgbare = sgid.strip()
     # short_name case adjusted
@@ -681,9 +693,11 @@ def GetSpaceGroup(sgid):
 
 
 def IsSpaceGroupIdentifier(sgid):
-    """Check if identifier can be used as an argument to GetSpaceGroup.
+    """Check if identifier can be used as an argument to `GetSpaceGroup`.
 
-    Return bool.
+    Returns
+    -------
+    bool
     """
     try:
         GetSpaceGroup(sgid)
@@ -700,15 +714,15 @@ def FindSpaceGroup(symops, shuffle=False):
     ----------
     symops : list
         The list of `SymOp` objects for which to find SpaceGroup.
-    shuffle : bool, optional
+    shuffle : bool, Optional
         Flag for allowing different order of symops in the returned
-        SpaceGroup.  The default is ``False``.
+        SpaceGroup. The default is ``False``.
 
     Returns
     -------
     SpaceGroup
         The SpaceGroup object with equivalent list of symmetry
-        operations.  Return predefined SpaceGroup instance when
+        operations. Return predefined SpaceGroup instance when
         symmetry operations have the same order or when the
         `shuffle` flag is set.
 
@@ -753,10 +767,8 @@ def _hashSymOpList(symops):
 
 
 def _buildSGLookupTable():
-    """Rebuild space group lookup table from the SpaceGroupList data.
-
-    This routine updates the global _sg_lookup_table dictionary.
-    No return value.
+    """Rebuild space group lookup table from the `SpaceGroupList` data.
+    This routine updates the global `_sg_lookup_table` dictionary.
     """
     _sg_lookup_table.clear()
     for sg in SpaceGroupList:
@@ -797,7 +809,7 @@ _sg_lookup_table = {}
 
 
 def _getSGHashLookupTable():
-    """Return lookup table of symop hashes to standard SpaceGroup objects."""
+    """Return lookup table of symop hashes to standard `SpaceGroup` objects."""
     if _sg_hash_lookup_table:
         return _sg_hash_lookup_table
     for sg in SpaceGroupList:

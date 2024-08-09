@@ -13,14 +13,13 @@
 #
 ##############################################################################
 
-"""Parser for raw XYZ file format.  Raw XYZ is a 3 or 4 column text
-file with cartesian coordinates of atoms and an optional first column
-for atom types.
+"""Parser for raw XYZ file format.
+
+Raw XYZ is a 3 or 4 column text file with cartesian coordinates
+of atoms and an optional first column for atom types.
 """
 
 import sys
-
-import six
 
 from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
@@ -29,7 +28,13 @@ from diffpy.structure.utils import isfloat
 
 
 class P_rawxyz(StructureParser):
-    """Parser --> StructureParser subclass for RAWXYZ format"""
+    """Parser --> StructureParser subclass for RAWXYZ format.
+
+    Attributes
+    ----------
+    format : str
+        Format name, default "rawxyz".
+    """
 
     def __init__(self):
         StructureParser.__init__(self)
@@ -39,7 +44,20 @@ class P_rawxyz(StructureParser):
     def parseLines(self, lines):
         """Parse list of lines in RAWXYZ format.
 
-        Return Structure object or raise StructureFormatError.
+        Parameters
+        ----------
+        lines : list of str
+            List of lines in RAWXYZ format.
+
+        Returns
+        -------
+        Structure
+            Parsed structure instance.
+
+        Raises
+        ------
+        StructureFormatError
+            Invalid RAWXYZ format.
         """
         linefields = [line.split() for line in lines]
         # prepare output structure
@@ -91,13 +109,21 @@ class P_rawxyz(StructureParser):
             emsg = "%d: invalid number" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
             e = StructureFormatError(emsg)
-            six.reraise(StructureFormatError, e, exc_traceback)
+            raise e.with_traceback(exc_traceback)
         return stru
 
     def toLines(self, stru):
-        """Convert Structure stru to a list of lines in XYZ format.
+        """Convert Structure stru to a list of lines in RAWXYZ format.
 
-        Return list of strings.
+        Parameters
+        ----------
+        stru : Structure
+            Structure to be converted.
+
+        Returns
+        -------
+        list of str
+            List of lines in RAWXYZ format.
         """
         lines = []
         for a in stru:
@@ -113,4 +139,11 @@ class P_rawxyz(StructureParser):
 
 
 def getParser():
+    """Return new `parser` object for RAWXYZ format.
+
+    Returns
+    -------
+    P_rawxyz
+        Instance of `P_rawxyz`.
+    """
     return P_rawxyz()

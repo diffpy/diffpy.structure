@@ -13,7 +13,7 @@
 #
 ##############################################################################
 
-"""definition of PDFFitStructure class derived from Structure
+"""Definition of PDFFitStructure class derived from Structure
 """
 
 
@@ -23,13 +23,20 @@ from diffpy.structure.structure import Structure
 
 
 class PDFFitStructure(Structure):
-    """PDFFitStructure --> Structure with extra pdffit member
+    """PDFFitStructure --> Structure with extra pdffit member.
 
-    Data members:
-        pdffit -- dictionary for storing following extra parameters from
-                  PDFFit structure files:
-                      'scale', 'delta1', 'delta2', 'sratio',
-                      'rcut', 'spcgr', 'dcell', 'ncell'
+    Parameters
+    ----------
+    *args, **kwargs :
+        See `Structure` class constructor.
+
+    Attributes
+    ----------
+    pdffit : dict
+        Dictionary for storing following extra parameters from
+        PDFFit structure files:
+            `'scale', 'delta1', 'delta2', 'sratio',
+            'rcut', 'spcgr', 'dcell', 'ncell'`
     """
 
     def __init__(self, *args, **kwargs):
@@ -49,11 +56,23 @@ class PDFFitStructure(Structure):
         return
 
     def read(self, filename, format="auto"):
-        """Same as Structure.read, but update spcgr value in
-        self.pdffit when parser can get spacegroup.
+        """Same as `Structure.read`, but update `spcgr` value in
+        `self.pdffit` when parser can get spacegroup.
 
-        Return instance of StructureParser used to load the data.
-        See Structure.read() for more info.
+        See `Structure.read()` for more info.
+
+        Parameters
+        ----------
+        filename : str
+            File to be loaded.
+        format : str, Optional
+            All structure formats are defined in parsers submodule,
+            when ``format == 'auto'`` all parsers are tried one by one.
+
+        Return
+        ------
+        StructureParser
+            Instance of StructureParser used to load the data.
         """
         p = Structure.read(self, filename, format)
         sg = getattr(p, "spacegroup", None)
@@ -62,11 +81,23 @@ class PDFFitStructure(Structure):
         return p
 
     def readStr(self, s, format="auto"):
-        """Same as Structure.readStr, but update spcgr value in
-        self.pdffit when parser can get spacegroup.
+        """Same as `Structure.readStr`, but update `spcgr` value in
+        `self.pdffit` when parser can get spacegroup.
 
-        Return instance of StructureParser used to load the data.
-        See Structure.readStr() for more info.
+        See `Structure.readStr()` for more info.
+
+        Parameters
+        ----------
+        s : str
+            String with structure definition.
+        format : str, Optional
+            All structure formats are defined in parsers submodule. When ``format == 'auto'``,
+            all parsers are tried one by one.
+
+        Return
+        ------
+        StructureParser
+            Instance of `StructureParser` used to load the data.
         """
         p = Structure.readStr(self, s, format)
         sg = getattr(p, "spacegroup", None)
