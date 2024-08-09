@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Release Notes &mdash; diffpy.structure 3.1.0 documentation</title>
+  <title>Release Notes &mdash; diffpy.structure 3.2.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -15,7 +15,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=0ffc2956"></script>
+        <script src="_static/documentation_options.js?v=7e2bcb0f"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
             diffpy.structure
           </a>
               <div class="version">
-                3.1.0
+                3.2.0rc0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -79,8 +79,29 @@
              
   <section id="release-notes">
 <span id="index-0"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Link to this heading"></a></h1>
+<section id="rc0">
+<h2>3.2.0rc0<a class="headerlink" href="#rc0" title="Link to this heading"></a></h2>
+<p><strong>Changed:</strong></p>
+<ul class="simple">
+<li><p>Removed support for Python 2</p></li>
+<li><p>This version only supporting Python 3.10, 3.11, 3.12</p></li>
+<li><p>All docstrings style updated to numpydoc</p></li>
+</ul>
+<p><strong>Deprecated:</strong></p>
+<ul class="simple">
+<li><p>Deprecated the <cite>diffpy.structure.applications</cite> module. Use
+<cite>diffpy.structure.apps</cite> instead</p></li>
+</ul>
+<p><strong>Removed:</strong></p>
+<ul class="simple">
+<li><p>Removed all <cite>six</cite> compatibility code</p></li>
+</ul>
+<p><strong>Fixed:</strong></p>
+<ul class="simple">
+<li><p>Repo structure modified to the new diffpy standard</p></li>
+</ul>
 <section id="version-3-1-0-2022-12-04">
-<h2>Version 3.1.0 - 2022-12-04<a class="headerlink" href="#version-3-1-0-2022-12-04" title="Link to this heading"></a></h2>
+<h3>Version 3.1.0 - 2022-12-04<a class="headerlink" href="#version-3-1-0-2022-12-04" title="Link to this heading"></a></h3>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p>Compatibility with Python 3.10, 3.9, 3.8</p></li>
@@ -94,7 +115,7 @@
 <p><strong>Fixed</strong></p>
 </section>
 <section id="version-3-0-2-2022-10-12">
-<h2>Version 3.0.2 - 2022-10-12<a class="headerlink" href="#version-3-0-2-2022-10-12" title="Link to this heading"></a></h2>
+<h3>Version 3.0.2 - 2022-10-12<a class="headerlink" href="#version-3-0-2-2022-10-12" title="Link to this heading"></a></h3>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p>A string representation of <cite>SpaceGroup</cite> with key information.</p></li>
@@ -111,7 +132,7 @@
 </ul>
 </section>
 <section id="version-3-0-1-2019-06-27">
-<h2>Version 3.0.1 - 2019-06-27<a class="headerlink" href="#version-3-0-1-2019-06-27" title="Link to this heading"></a></h2>
+<h3>Version 3.0.1 - 2019-06-27<a class="headerlink" href="#version-3-0-1-2019-06-27" title="Link to this heading"></a></h3>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p>Function <cite>FindSpaceGroup</cite> for space group lookup from its list
@@ -140,7 +161,7 @@ ownership in a <cite>Structure</cite> after pickling and unpickling.</p></li>
 </ul>
 </section>
 <section id="version-3-0-0-2019-03-11">
-<h2>Version 3.0.0 - 2019-03-11<a class="headerlink" href="#version-3-0-0-2019-03-11" title="Link to this heading"></a></h2>
+<h3>Version 3.0.0 - 2019-03-11<a class="headerlink" href="#version-3-0-0-2019-03-11" title="Link to this heading"></a></h3>
 <p>Notable differences from version 1.3.5.</p>
 <p><strong>Added</strong></p>
 <ul class="simple">
@@ -180,6 +201,7 @@ to <cite>__git_commit__</cite>.</p></li>
 <li><p>Open files within the <cite>with</cite> context so they get closed when done.</p></li>
 <li><p>Invalid escape sequences in string values.</p></li>
 </ul>
+</section>
 </section>
 </section>
 
