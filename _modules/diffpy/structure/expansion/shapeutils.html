@@ -97,11 +97,19 @@
 <div class="viewcode-block" id="findCenter">
 <a class="viewcode-back" href="../../../../diffpy.structure.expansion.html#diffpy.structure.expansion.shapeutils.findCenter">[docs]</a>
 <span class="k">def</span> <span class="nf">findCenter</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the approximate center atom of a structure.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the approximate center `Atom` of a `Structure`.</span>
 
-<span class="sd">    The center of the structure is the atom closest to (0.5, 0.5, 0.5)</span>
+<span class="sd">    The center of the `Structure` is the `Atom` closest to ``(0.5, 0.5, 0.5)``.</span>
 
-<span class="sd">    Returns the index of the atom.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    S : Structure</span>
+<span class="sd">        A `Structure` instance.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        The index of the center `Atom`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">best</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="n">bestd</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>

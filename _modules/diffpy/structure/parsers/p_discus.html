@@ -98,8 +98,6 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 
-<span class="kn">import</span> <span class="nn">six</span>
-
 <span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Lattice</span><span class="p">,</span> <span class="n">PDFFitStructure</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">StructureParser</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.structureerrors</span> <span class="kn">import</span> <span class="n">StructureFormatError</span>
@@ -108,8 +106,27 @@
 <div class="viewcode-block" id="P_discus">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_discus.P_discus">[docs]</a>
 <span class="k">class</span> <span class="nc">P_discus</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for DISCUS structure format.  The parser chokes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for DISCUS structure format. The parser chokes</span>
 <span class="sd">    on molecule and generator records.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        File format name, default &quot;discus&quot;.</span>
+<span class="sd">    nl : int</span>
+<span class="sd">        Line number of the current line being parsed.</span>
+<span class="sd">    lines : list of str</span>
+<span class="sd">        List of lines from the input file.</span>
+<span class="sd">    line : str</span>
+<span class="sd">        Current line being parsed.</span>
+<span class="sd">    stru : PDFFitStructure</span>
+<span class="sd">        Structure being parsed.</span>
+<span class="sd">    ignored_lines : list of str</span>
+<span class="sd">        List of lines that were ignored during parsing.</span>
+<span class="sd">    cell_read : bool</span>
+<span class="sd">        ``True`` if cell record processed.</span>
+<span class="sd">    ncell_read : bool</span>
+<span class="sd">        ``True`` if ncell record processed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -130,7 +147,20 @@
     <span class="k">def</span> <span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse list of lines in DISCUS format.</span>
 
-<span class="sd">        Return PDFFitStructure instance or raise StructureFormatError.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lines : list of str</span>
+<span class="sd">            List of lines from the input file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        PDFFitStructure</span>
+<span class="sd">            Parsed `PDFFitStructure` instance.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            If the file is not in DISCUS format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="n">lines</span>
         <span class="n">ilines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linesIterator</span><span class="p">()</span>
@@ -183,15 +213,24 @@
             <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
             <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: file is not in DISCUS format&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">nl</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
-            <span class="n">six</span><span class="o">.</span><span class="n">reraise</span><span class="p">(</span><span class="n">StructureFormatError</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stru</span></div>
 
 
 <div class="viewcode-block" id="P_discus.toLines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_discus.P_discus.toLines">[docs]</a>
     <span class="k">def</span> <span class="nf">toLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Structure stru to a list of lines in DISCUS format.</span>
-<span class="sd">        Return list of strings.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert `Structure` stru to a list of lines in DISCUS format.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stru : Structure</span>
+<span class="sd">            Structure to be converted.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of str</span>
+<span class="sd">            List of lines in DISCUS format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stru</span> <span class="o">=</span> <span class="n">stru</span>
         <span class="c1"># if necessary, convert self.stru to PDFFitStructure</span>
@@ -223,7 +262,7 @@
 
 
     <span class="k">def</span> <span class="nf">_linesIterator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterator over self.lines, which increments self.nl&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterator over `self.lines`, which increments `self.nl`&quot;&quot;&quot;</span>
         <span class="c1"># ignore trailing empty lines</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">)</span>
         <span class="k">while</span> <span class="n">stop</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span><span class="p">[</span><span class="n">stop</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
@@ -274,7 +313,18 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_parse_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process the shape record from DISCUS structure file.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process the shape record from DISCUS structure file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        words : list of str</span>
+<span class="sd">            List of words in the line.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            Invalid type of particle shape correction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># strip away any commas</span>
         <span class="n">linefixed</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
         <span class="n">wordsfixed</span> <span class="o">=</span> <span class="n">linefixed</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -300,15 +350,34 @@
 
     <span class="k">def</span> <span class="nf">_parse_unknown_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Process unknown record in DISCUS structure file.</span>
-<span class="sd">        Silently ignores the line and adds it to self.ignored_lines</span>
-<span class="sd">        Raises StructureFormatError.</span>
+
+<span class="sd">        Silently ignores the line and adds it to `self.ignored_lines`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        words : list of str</span>
+<span class="sd">            List of words in the line.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            Unkown record.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_parse_not_implemented</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Process the unimplemented records from DISCUS structure file.</span>
-<span class="sd">        Raises NotImplementedError.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        words : list of str</span>
+<span class="sd">            List of words in the line.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">            If the record is not implemented.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: reading of DISCUS record </span><span class="si">%r</span><span class="s2"> is not implemented.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nl</span><span class="p">,</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span></div>
@@ -323,6 +392,13 @@
 <div class="viewcode-block" id="getParser">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_discus.getParser">[docs]</a>
 <span class="k">def</span> <span class="nf">getParser</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return new `parser` object for DISCUS format.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    P_discus</span>
+<span class="sd">        Instance of `P_discus`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">P_discus</span><span class="p">()</span></div>
 
 </pre></div>

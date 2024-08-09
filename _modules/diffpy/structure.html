@@ -90,16 +90,26 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 
-<span class="sd">&quot;&quot;&quot;classes related to structure of materials</span>
-<span class="sd">Classes:</span>
-<span class="sd">    Atom</span>
-<span class="sd">    Lattice</span>
-<span class="sd">    Structure</span>
-<span class="sd">    PDFFitStructure</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Crystal structure container and parsers for structure formats.</span>
+
+<span class="sd">Classes related to the structure of materials:</span>
+<span class="sd">    * Atom</span>
+<span class="sd">    * Lattice</span>
+<span class="sd">    * Structure</span>
+<span class="sd">    * PDFFitStructure</span>
+
+<span class="sd">Other classes:</span>
+<span class="sd">    * SpaceGroup</span>
+<span class="sd">    * SymOp</span>
+<span class="sd">    * ExpandAsymmetricUnit</span>
+<span class="sd">    * GeneratorSite</span>
+<span class="sd">    * SymmetryConstraints</span>
+
 <span class="sd">Exceptions:</span>
-<span class="sd">    StructureFormatError</span>
-<span class="sd">    LatticeError</span>
-<span class="sd">    SymmetryError</span>
+<span class="sd">    * StructureFormatError</span>
+<span class="sd">    * LatticeError</span>
+<span class="sd">    * SymmetryError</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># Interface definitions ------------------------------------------------------</span>
@@ -114,29 +124,26 @@
 <span class="c1"># package version</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.version</span> <span class="kn">import</span> <span class="n">__version__</span>
 
-<span class="sd">&quot;&quot;&quot;Crystal structure container and parsers for structure formats.&quot;&quot;&quot;</span>
-
 <span class="c1"># top level routines</span>
 
 
 <div class="viewcode-block" id="loadStructure">
 <a class="viewcode-back" href="../../api/diffpy.structure.html#diffpy.structure.loadStructure">[docs]</a>
 <span class="k">def</span> <span class="nf">loadStructure</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load new structure object from the specified file.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load new structure object from the specified file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 
 <span class="sd">    filename : str</span>
 <span class="sd">        Path to the file to be loaded.</span>
-<span class="sd">    fmt : str, optional</span>
-<span class="sd">        Format of the structure file such as &#39;cif&#39; or &#39;xyz&#39;.  Must be</span>
+<span class="sd">    fmt : str, Optional</span>
+<span class="sd">        Format of the structure file such as &#39;cif&#39; or &#39;xyz&#39;. Must be</span>
 <span class="sd">        one of the formats listed by the `parsers.inputFormats` function.</span>
 <span class="sd">        When &#39;auto&#39;, all supported formats are tried in a sequence.</span>
-<span class="sd">    kw : misc, optional</span>
+<span class="sd">    kw : Optional</span>
 <span class="sd">        Extra keyword arguments that are passed to `parsers.getParser`</span>
-<span class="sd">        function.  These configure the dedicated Parser object that</span>
+<span class="sd">        function. These configure the dedicated Parser object that</span>
 <span class="sd">        is used to read content in filename.</span>
 
 <span class="sd">    Returns</span>

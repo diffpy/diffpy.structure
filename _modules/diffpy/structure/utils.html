@@ -94,19 +94,15 @@
 <span class="sd">&quot;&quot;&quot;Small shared functions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span> <span class="k">as</span> <span class="n">_Iterable</span>
 
-<span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Iterable</span> <span class="k">as</span> <span class="n">_Iterable</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span> <span class="k">as</span> <span class="n">_Iterable</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
 
 
 <div class="viewcode-block" id="isiterable">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.utils.isiterable">[docs]</a>
 <span class="k">def</span> <span class="nf">isiterable</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;True if argument is iterable.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;``True`` if argument is iterable.&quot;&quot;&quot;</span>
     <span class="n">rv</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">_Iterable</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rv</span></div>
 
@@ -115,7 +111,7 @@
 <div class="viewcode-block" id="isfloat">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.utils.isfloat">[docs]</a>
 <span class="k">def</span> <span class="nf">isfloat</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;True if argument can be converted to float&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;``True`` if argument can be converted to float.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
@@ -129,12 +125,30 @@
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.utils.atomBareSymbol">[docs]</a>
 <span class="k">def</span> <span class="nf">atomBareSymbol</span><span class="p">(</span><span class="n">smbl</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove atom type string stripped of isotope and ion charge symbols.</span>
-<span class="sd">    This removes blank and leading [0-9-] or trailing [1-9][+-] characters.</span>
 
-<span class="sd">    smbl -- atom type string such as &quot;Cl-&quot;, &quot;Ca2+&quot; or &quot;12-C&quot;.</span>
+<span class="sd">    This function removes any blank, isotope numbers (0-9), leading hyphens (-), and ion charge</span>
+<span class="sd">    symbols (1-9)(+-) from the given atom type string, returning only the bare element symbol.</span>
 
-<span class="sd">    Return bare element symbol.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    smbl : str</span>
+<span class="sd">        Atom type string that may include isotope numbers, ion charges, or hyphens.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The bare element symbol.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; atomBareSymbol(&quot;Cl-&quot;)</span>
+<span class="sd">    &#39;Cl&#39;</span>
+<span class="sd">    &gt;&gt;&gt; atomBareSymbol(&quot;Ca2+&quot;)</span>
+<span class="sd">    &#39;Ca&#39;</span>
+<span class="sd">    &gt;&gt;&gt; atomBareSymbol(&quot;12-C&quot;)</span>
+<span class="sd">    &#39;C&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">rv</span> <span class="o">=</span> <span class="n">smbl</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;0123456789-&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;123456789+-&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rv</span></div>
 
@@ -147,15 +161,15 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create property wrapper that maps the specified atom attribute.</span>
 
 <span class="sd">    The returned property object provides convenient access to atom</span>
-<span class="sd">    attributes from the owner Structure class.</span>
+<span class="sd">    attributes from the owner `Structure` class.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    attrname : str</span>
-<span class="sd">        The string name of the Atom class attribute to be mapped.</span>
+<span class="sd">        The string name of the `Atom` class attribute to be mapped.</span>
 <span class="sd">    doc : str</span>
 <span class="sd">        The docstring for the property wrapper.</span>
-<span class="sd">    toarray : callable, optional</span>
+<span class="sd">    toarray : callable, Optional</span>
 <span class="sd">        Factory function that converts list of attributes to `numpy.ndarray`.</span>
 <span class="sd">        Use `numpy.char.array` for string attributes.</span>
 

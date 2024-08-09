@@ -79,7 +79,7 @@
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># Copyright 2002 by PyMMLib Development Group, http://pymmlib.sourceforge.net/</span>
 <span class="c1"># This code is part of the PyMMLib distribution and governed by</span>
-<span class="c1"># its license.  Please see the LICENSE_pymmlib file that should have been</span>
+<span class="c1"># its license. Please see the LICENSE_pymmlib file that should have been</span>
 <span class="c1"># included as part of this package.</span>
 <span class="sd">&quot;&quot;&quot;Symmetry operations as functions on vectors or arrays.</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -190,25 +190,24 @@
 <div class="viewcode-block" id="SymOp">
 <a class="viewcode-back" href="../../../mod_spacegroup.html#diffpy.structure.spacegroupmod.SymOp">[docs]</a>
 <span class="k">class</span> <span class="nc">SymOp</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The transformation of coordinates to a symmetry-related position.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The transformation of coordinates to a symmetry-related position.</span>
 
 <span class="sd">    The SymOp operation involves rotation and translation in cell coordinates.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    R : ndarray</span>
+<span class="sd">    R : numpy.ndarray</span>
 <span class="sd">        The 3x3 matrix of rotation for this symmetry operation.</span>
-<span class="sd">    t : ndarray</span>
+<span class="sd">    t : numpy.ndarray</span>
 <span class="sd">        The vector of translation in this symmetry operation.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    R : ndarray</span>
+<span class="sd">    R : numpy.ndarray</span>
 <span class="sd">        The 3x3 matrix of rotation pertaining to unit cell coordinates.</span>
 <span class="sd">        This may be identity, simple rotation, improper rotation, mirror</span>
-<span class="sd">        or inversion.  The determinant of *R* is either +1 or -1.</span>
-<span class="sd">    t : ndarray</span>
+<span class="sd">        or inversion. The determinant of *R* is either +1 or -1.</span>
+<span class="sd">    t : numpy.ndarray</span>
 <span class="sd">        The translation of cell coordinates applied after rotation *R*.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -231,12 +230,12 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        vec : ndarray</span>
+<span class="sd">        vec : numpy.ndarray</span>
 <span class="sd">            The initial position in fractional cell coordinates.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ndarray</span>
+<span class="sd">        numpy.ndarray</span>
 <span class="sd">            The transformed position after this symmetry operation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">vec</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span></div>
@@ -245,7 +244,7 @@
 <div class="viewcode-block" id="SymOp.__eq__">
 <a class="viewcode-back" href="../../../mod_spacegroup.html#diffpy.structure.spacegroupmod.SymOp.__eq__">[docs]</a>
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symop</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Implement the ``(self == symop)`` test of equality.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Implement the ``self == symop`` test of equality.</span>
 
 <span class="sd">        Return ``True`` when *self* and *symop* difference is within</span>
 <span class="sd">        tiny round-off errors.</span>
@@ -303,9 +302,9 @@
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    number : int</span>
-<span class="sd">        A unique space group number.  This may be incremented by</span>
+<span class="sd">        A unique space group number. This may be incremented by</span>
 <span class="sd">        several thousands to facilitate unique values for multiple</span>
-<span class="sd">        settings of the same space group.  Use ``number % 1000``</span>
+<span class="sd">        settings of the same space group. Use ``number % 1000``</span>
 <span class="sd">        to get the standard space group number from International</span>
 <span class="sd">        Tables.</span>
 <span class="sd">    num_sym_equiv : int</span>
@@ -317,7 +316,7 @@
 <span class="sd">    point_group_name : str</span>
 <span class="sd">        The point group to which this space group belongs to.</span>
 <span class="sd">    crystal_system : str</span>
-<span class="sd">        The crystal system of this space group.  The possible values are</span>
+<span class="sd">        The crystal system of this space group. The possible values are</span>
 <span class="sd">        ``&quot;TRICLINIC&quot;, &quot;MONOCLINIC&quot;, &quot;ORTHORHOMBIC&quot;, &quot;TETRAGONAL&quot;,</span>
 <span class="sd">        &quot;TRIGONAL&quot; &quot;HEXAGONAL&quot;, &quot;CUBIC&quot;``.</span>
 <span class="sd">    pdb_name : str</span>
@@ -365,7 +364,7 @@
 
 <span class="sd">        Yields</span>
 <span class="sd">        ------</span>
-<span class="sd">        `SymOp`</span>
+<span class="sd">        SymOp</span>
 <span class="sd">            Generate all symmetry operations for this space group.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symop_list</span><span class="p">)</span></div>
@@ -412,12 +411,12 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        vec : ndarray</span>
+<span class="sd">        vec : numpy.ndarray</span>
 <span class="sd">            The initial position in fractional coordinates.</span>
 
 <span class="sd">        Yields</span>
 <span class="sd">        ------</span>
-<span class="sd">        ndarray</span>
+<span class="sd">        numpy.ndarray</span>
 <span class="sd">            The symmetry equivalent positions in fractional coordinates.</span>
 <span class="sd">            The positions may be duplicate or outside of the ``0 &lt;= x &lt; 1``</span>
 <span class="sd">            unit cell bounds.</span>

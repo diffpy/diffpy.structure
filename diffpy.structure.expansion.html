@@ -86,29 +86,45 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.structure.expansion.makeellipsoid.makeEllipsoid">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.expansion.makeellipsoid.</span></span><span class="sig-name descname"><span class="pre">makeEllipsoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/expansion/makeellipsoid.html#makeEllipsoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.expansion.makeellipsoid.makeEllipsoid" title="Link to this definition"></a></dt>
-<dd><p>Cut a structure out of another one.</p>
-<p>Arguments
-S       –  A Structure instance
-a       –  primary equatorial radius (along x-axis)
-b       –  secondary equatorial radius (along y-axis). If b is None</p>
-<blockquote>
-<div><p>(default) then it is set equal to a</p>
-</div></blockquote>
-<dl class="simple">
-<dt>c       –  polar radius (along z-axis). If c is None (default), then it is</dt><dd><p>set equal to a.</p>
+<dd><p>Cut a <cite>Structure</cite> out of another one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>S</strong> (<a class="reference internal" href="api/diffpy.structure.html#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure"><em>Structure</em></a>) – A <cite>Structure</cite> instance.</p></li>
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Primary equatorial radius (along x-axis).</p></li>
+<li><p><strong>b</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>Optional</em>) – Secondary equatorial radius (along y-axis). If <cite>b</cite> is <code class="docutils literal notranslate"><span class="pre">None</span></code>
+(default), then it is set equal to <cite>a</cite>.</p></li>
+<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>Optional</em>) – Polar radius (along z-axis). If <cite>c</cite> is <code class="docutils literal notranslate"><span class="pre">None</span></code> (default), then it is
+set equal to <cite>a</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new <cite>Structure</cite> instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api/diffpy.structure.html#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure">Structure</a></p>
 </dd>
 </dl>
-<p>Returns a new structure instance</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.structure.expansion.makeellipsoid.makeSphere">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.expansion.makeellipsoid.</span></span><span class="sig-name descname"><span class="pre">makeSphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/expansion/makeellipsoid.html#makeSphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.expansion.makeellipsoid.makeSphere" title="Link to this definition"></a></dt>
 <dd><p>Create a spherical nanoparticle.</p>
-<p>Arguments
-S       –  A Structure instance
-radius  –  primary equatorial radius (along x-axis)</p>
-<p>Returns a new structure instance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>S</strong> (<a class="reference internal" href="api/diffpy.structure.html#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure"><em>Structure</em></a>) – A <cite>Structure</cite> instance.</p></li>
+<li><p><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Primary equatorial radius (along x-axis).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new <cite>Structure</cite> instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api/diffpy.structure.html#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure">Structure</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -118,38 +134,65 @@ radius  –  primary equatorial radius (along x-axis)</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.structure.expansion.shapeutils.findCenter">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.expansion.shapeutils.</span></span><span class="sig-name descname"><span class="pre">findCenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/expansion/shapeutils.html#findCenter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.expansion.shapeutils.findCenter" title="Link to this definition"></a></dt>
-<dd><p>Find the approximate center atom of a structure.</p>
-<p>The center of the structure is the atom closest to (0.5, 0.5, 0.5)</p>
-<p>Returns the index of the atom.</p>
+<dd><p>Find the approximate center <cite>Atom</cite> of a <cite>Structure</cite>.</p>
+<p>The center of the <cite>Structure</cite> is the <cite>Atom</cite> closest to <code class="docutils literal notranslate"><span class="pre">(0.5,</span> <span class="pre">0.5,</span> <span class="pre">0.5)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>S</strong> (<a class="reference internal" href="api/diffpy.structure.html#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure"><em>Structure</em></a>) – A <cite>Structure</cite> instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The index of the center <cite>Atom</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
 <section id="module-diffpy.structure.expansion.supercell_mod">
 <span id="diffpy-structure-expansion-supercell-mod-module"></span><h2>diffpy.structure.expansion.supercell_mod module<a class="headerlink" href="#module-diffpy.structure.expansion.supercell_mod" title="Link to this heading"></a></h2>
-<p>This module contains functions for simple structure manipulation.</p>
+<p>This module contains functions for simple <cite>Structure</cite> manipulation.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.structure.expansion.supercell_mod.supercell">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.expansion.supercell_mod.</span></span><span class="sig-name descname"><span class="pre">supercell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mno</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/expansion/supercell_mod.html#supercell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.expansion.supercell_mod.supercell" title="Link to this definition"></a></dt>
-<dd><p>Perform supercell expansion for a structure.</p>
-<p>New lattice parameters are multiplied and fractional coordinates
-divided by corresponding multiplier.  New atoms are grouped with
+<dd><p>Perform supercell expansion for a <cite>Structure</cite>.</p>
+<p>New <cite>lattice</cite> parameters are multiplied and fractional coordinates
+divided by corresponding multiplier. New <cite>Atoms</cite> are grouped with
 their source in the original cell.</p>
-<p>S   – an instance of Structure from diffpy.structure.
-mno – sequence of 3 integers for cell multipliers along</p>
-<blockquote>
-<div><p>the a, b and c axes.</p>
-</div></blockquote>
-<p>Return a new expanded structure instance.
-Raise TypeError when S is not Structure instance.
-Raise ValueError for invalid mno argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>S</strong> (<a class="reference internal" href="api/diffpy.structure.html#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure"><em>Structure</em></a>) – An instance of <cite>Structure</cite> from <cite>diffpy.structure</cite>.</p></li>
+<li><p><strong>mno</strong> (<em>array_like</em>) – Sequence of 3 integers for cell multipliers along
+the <cite>a</cite>, <cite>b</cite> and <cite>c</cite> axes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new <cite>Structure</cite> instance representing the expanded supercell.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="api/diffpy.structure.html#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure">Structure</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – <cite>S</cite> is not a <cite>Structure</cite> instance.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – Invalid <cite>mno</cite> argument.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
 <section id="module-diffpy.structure.expansion">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-diffpy.structure.expansion" title="Link to this heading"></a></h2>
-<p>Methods and classes for manipulating Structure instances.</p>
-<p>Package content:</p>
-<p>supercell   – create a supercell from an existing Structure.</p>
+<p>Methods and classes for manipulating <cite>Structure</cite> instances.</p>
+<dl class="simple">
+<dt>Package content:</dt><dd><ul class="simple">
+<li><p>supercell – create a supercell from an existing <cite>Structure</cite>.</p></li>
+</ul>
+</dd>
+</dl>
 </section>
 </section>
 

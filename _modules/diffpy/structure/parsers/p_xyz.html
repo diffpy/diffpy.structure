@@ -93,14 +93,13 @@
 <span class="c1">##############################################################################</span>
 
 <span class="sd">&quot;&quot;&quot;Parser for XYZ file format, where</span>
-<span class="sd">first line gives number of atoms</span>
-<span class="sd">second one has optional title</span>
-<span class="sd">remaining lines contain element, x, y, z</span>
+
+<span class="sd">    * First line gives number of atoms.</span>
+<span class="sd">    * Second line has optional title.</span>
+<span class="sd">    * Remaining lines contain element, `x, y, z`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Structure</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">StructureParser</span>
@@ -110,7 +109,13 @@
 <div class="viewcode-block" id="P_xyz">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_xyz.P_xyz">[docs]</a>
 <span class="k">class</span> <span class="nc">P_xyz</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for standard XYZ structure format.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for standard XYZ structure format.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        Format name, default &quot;xyz&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">StructureParser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -122,7 +127,20 @@
     <span class="k">def</span> <span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse list of lines in XYZ format.</span>
 
-<span class="sd">        Return Structure object or raise StructureFormatError.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lines : list of str</span>
+<span class="sd">            List of lines in XYZ format.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            Parsed structure instance.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            Invalid XYZ format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">linefields</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
         <span class="c1"># prepare output structure</span>
@@ -149,7 +167,7 @@
             <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
             <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: invalid XYZ format, missing number of atoms&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
-            <span class="n">six</span><span class="o">.</span><span class="n">reraise</span><span class="p">(</span><span class="n">StructureFormatError</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)</span>
         <span class="c1"># find the last valid record</span>
         <span class="n">stop</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
         <span class="k">while</span> <span class="n">stop</span> <span class="o">&gt;</span> <span class="n">start</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">linefields</span><span class="p">[</span><span class="n">stop</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -180,7 +198,7 @@
             <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
             <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: invalid number format&quot;</span> <span class="o">%</span> <span class="n">p_nl</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
-            <span class="n">six</span><span class="o">.</span><span class="n">reraise</span><span class="p">(</span><span class="n">StructureFormatError</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)</span>
         <span class="c1"># finally check if all the atoms have been read</span>
         <span class="k">if</span> <span class="n">p_natoms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">)</span> <span class="o">!=</span> <span class="n">p_natoms</span><span class="p">:</span>
             <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;expected </span><span class="si">%d</span><span class="s2"> atoms, read </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">p_natoms</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">))</span>
@@ -193,7 +211,15 @@
     <span class="k">def</span> <span class="nf">toLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Structure stru to a list of lines in XYZ format.</span>
 
-<span class="sd">        Return list of strings.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stru : Structure</span>
+<span class="sd">            Structure to be converted.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of str</span>
+<span class="sd">            List of lines in XYZ format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">)))</span>
@@ -215,6 +241,13 @@
 <div class="viewcode-block" id="getParser">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_xyz.getParser">[docs]</a>
 <span class="k">def</span> <span class="nf">getParser</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return new `parser` object for XYZ format.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    P_xcfg</span>
+<span class="sd">        Instance of `P_xyz`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">P_xyz</span><span class="p">()</span></div>
 
 </pre></div>

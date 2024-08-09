@@ -93,6 +93,16 @@
 
 <span class="sd">&quot;&quot;&quot;Symmetry utility functions such as expansion of asymmetric unit,</span>
 <span class="sd">and generation of positional constraints.</span>
+
+<span class="sd">Attributes</span>
+<span class="sd">----------</span>
+<span class="sd">epsilon : float</span>
+<span class="sd">    Default tolerance for equality of 2 positions, also</span>
+<span class="sd">    used for identification of special positions.</span>
+
+<span class="sd">stdUsymbols : list</span>
+<span class="sd">    Standard symbols denoting elements of anisotropic thermal</span>
+<span class="sd">    displacement tensor.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
@@ -104,12 +114,8 @@
 
 <span class="c1"># Constants ------------------------------------------------------------------</span>
 
-<span class="c1"># Default tolerance for equality of 2 positions, also</span>
-<span class="c1"># used for identification of special positions.</span>
 <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0e-5</span>
 
-<span class="c1"># Standard symbols denoting elements of anisotropic thermal</span>
-<span class="c1"># displacement tensor.</span>
 <span class="n">stdUsymbols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;U11&quot;</span><span class="p">,</span> <span class="s2">&quot;U22&quot;</span><span class="p">,</span> <span class="s2">&quot;U33&quot;</span><span class="p">,</span> <span class="s2">&quot;U12&quot;</span><span class="p">,</span> <span class="s2">&quot;U13&quot;</span><span class="p">,</span> <span class="s2">&quot;U23&quot;</span><span class="p">]</span>
 
 <span class="c1"># ----------------------------------------------------------------------------</span>
@@ -120,10 +126,23 @@
 <span class="k">def</span> <span class="nf">isSpaceGroupLatPar</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if space group allows passed lattice parameters.</span>
 
-<span class="sd">    spacegroup -- instance of SpaceGroup</span>
-<span class="sd">    a, b, c, alpha, beta, gamma -- lattice parameters</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spacegroup : SpaceGroup</span>
+<span class="sd">        Instance of `SpaceGroup`.</span>
+<span class="sd">    a, b, c, alpha, beta, gamma : float</span>
+<span class="sd">        `Lattice` parameters.</span>
 
-<span class="sd">    Return bool.</span>
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    bool</span>
+<span class="sd">        ``True`` when lattice parameters are allowed by space group.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    Crystal system rules:</span>
+
+<span class="sd">    Benjamin, W. A., Introduction to crystallography, New York (1969), p.60.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># crystal system rules</span>
@@ -176,12 +195,17 @@
 <div class="viewcode-block" id="isconstantFormula">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.isconstantFormula">[docs]</a>
 <span class="k">def</span> <span class="nf">isconstantFormula</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if formula string is constant.  True when argument</span>
-<span class="sd">    is a floating point number or a fraction of float with integer.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if formula string is constant.</span>
 
-<span class="sd">    s   -- formula string</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s : str</span>
+<span class="sd">        Formula string.</span>
 
-<span class="sd">    Return bool.</span>
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    bool</span>
+<span class="sd">        ``True`` when argument is a floating point number or a fraction of float with integer.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">_rx_constant_formula</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
     <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
@@ -193,22 +217,26 @@
 
 <span class="k">class</span> <span class="nc">_Position2Tuple</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create callable object that converts fractional coordinates to</span>
-<span class="sd">    a tuple of integers with given precision.  For presision close to zero</span>
+<span class="sd">    a tuple of integers with given precision. For presision close to zero</span>
 <span class="sd">    it will return a tuples of double.</span>
 
-<span class="sd">    Note: Helper class intended for local use only.</span>
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    Helper class intended for local use only.</span>
 
-<span class="sd">    Data members:</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eps : float</span>
+<span class="sd">        Cutoff for equivalent coordinates.</span>
 
-<span class="sd">    eps -- cutoff for equivalent coordinates.  When two coordiantes map to the</span>
-<span class="sd">           same tuple, they are closer than eps.</span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eps : float</span>
+<span class="sd">        Cutoff for equivalent coordinates. When two coordiantes map to the</span>
+<span class="sd">        same tuple, they are closer than `eps`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize _Position2Tuple</span>
-
-<span class="sd">        eps -- cutoff for equivalent coordinates</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
         <span class="c1"># ensure self.eps has exact machine representation</span>
@@ -222,9 +250,15 @@
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert array of fractional coordinates to a tuple.</span>
 
-<span class="sd">        xyz -- fractional coordinates</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        xyz : Iterable</span>
+<span class="sd">            Fractional coordinates.</span>
 
-<span class="sd">        Return a tuple of 3 numbers.</span>
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            Tuple of 3 float when `eps` is zero, otherwise tuple of 3 int.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># no conversion case</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
@@ -243,9 +277,16 @@
 <span class="k">def</span> <span class="nf">positionDifference</span><span class="p">(</span><span class="n">xyz0</span><span class="p">,</span> <span class="n">xyz1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Smallest difference between two coordinates in periodic lattice.</span>
 
-<span class="sd">    xyz0, xyz1  -- fractional coordinates</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xyz0, xyz1 : array_like</span>
+<span class="sd">        Fractional coordinates.</span>
 
-<span class="sd">    Return dxyz, a numpy.array dxyz with 0 &lt;= dxyz &lt;= 0.5.</span>
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    dxyz : numpy.ndarray</span>
+<span class="sd">        Smallest difference between two coordinates in periodic lattice</span>
+<span class="sd">        with ``0 &lt;= dxyz &lt;= 0.5``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dxyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xyz0</span><span class="p">)</span> <span class="o">-</span> <span class="n">xyz1</span>
     <span class="c1"># map differences to [0,0.5]</span>
@@ -261,10 +302,17 @@
 <span class="k">def</span> <span class="nf">nearestSiteIndex</span><span class="p">(</span><span class="n">sites</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Index of the nearest site to a specified position.</span>
 
-<span class="sd">    sites -- list of coordinates or a 2-dimensional numpy.array</span>
-<span class="sd">    xyz   -- single position</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sites : array_like</span>
+<span class="sd">        List of coordinates.</span>
+<span class="sd">    xyz : array_like</span>
+<span class="sd">        Single position.</span>
 
-<span class="sd">    Return integer.</span>
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    int</span>
+<span class="sd">        Index of the nearest site.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># we use box distance to be consistent with _Position2Tuple conversion</span>
     <span class="n">dbox</span> <span class="o">=</span> <span class="n">positionDifference</span><span class="p">(</span><span class="n">sites</span><span class="p">,</span> <span class="n">xyz</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -278,10 +326,17 @@
 <span class="k">def</span> <span class="nf">equalPositions</span><span class="p">(</span><span class="n">xyz0</span><span class="p">,</span> <span class="n">xyz1</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Equality of two coordinates with optional tolerance.</span>
 
-<span class="sd">    xyz0, xyz1 -- fractional coordinates</span>
-<span class="sd">    eps        -- tolerance for equality of coordinates</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xyz0, xyz1 : array_like</span>
+<span class="sd">        Fractional coordinates.</span>
+<span class="sd">    eps : float</span>
+<span class="sd">        Tolerance for equality of coordinates.</span>
 
-<span class="sd">    Return bool.</span>
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    bool</span>
+<span class="sd">        ``True`` when two coordinates are closer than `eps`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># we use box distance to be consistent with _Position2Tuple conversion</span>
     <span class="n">dxyz</span> <span class="o">=</span> <span class="n">positionDifference</span><span class="p">(</span><span class="n">xyz0</span><span class="p">,</span> <span class="n">xyz1</span><span class="p">)</span>
@@ -294,13 +349,22 @@
 <span class="k">def</span> <span class="nf">expandPosition</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Obtain unique equivalent positions and corresponding operations.</span>
 
-<span class="sd">    spacegroup -- instance of SpaceGroup</span>
-<span class="sd">    xyz        -- position to be expanded</span>
-<span class="sd">    sgoffset   -- offset of space group origin [0, 0, 0]</span>
-<span class="sd">    eps        -- cutoff for equal positions</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spacegroup : SpaceGroup</span>
+<span class="sd">        Instance of SpaceGroup.</span>
+<span class="sd">    xyz : list</span>
+<span class="sd">        Position to be expanded.</span>
+<span class="sd">    sgoffset : list, Optional</span>
+<span class="sd">        Offset of space group origin ``[0, 0, 0]``. Default is ``[0, 0, 0]``.</span>
+<span class="sd">    eps : float, Optional</span>
+<span class="sd">        Cutoff for equal positions, default is ``1.0e-5``.</span>
 
-<span class="sd">    Return a tuple with (list of unique equivalent positions, nested</span>
-<span class="sd">    list of SpaceGroups.SymOp instances, site multiplicity).</span>
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        A tuple with ``(list of unique equivalent positions, nested</span>
+<span class="sd">        list of `SpaceGroups.SymOp` instances, site multiplicity)``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sgoffset</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">sgoffset</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -355,10 +419,20 @@
 <span class="k">def</span> <span class="nf">_findInvariants</span><span class="p">(</span><span class="n">symops</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find a list of symmetry operations which contains identity.</span>
 
-<span class="sd">    symops  -- nested list of SymOp instances</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    symops : list of SymOp</span>
+<span class="sd">        Nested list of `SymOp` instances.</span>
 
-<span class="sd">    Return the list-item in symops which contains identity.</span>
-<span class="sd">    Raise ValueError when identity was not found.</span>
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    list</span>
+<span class="sd">        List-item in symops which contains identity.</span>
+
+<span class="sd">    Raise</span>
+<span class="sd">    -----</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        When identity is not found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">invrnts</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">R0</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
@@ -384,23 +458,53 @@
 <span class="k">class</span> <span class="nc">GeneratorSite</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Storage of data related to a generator positions.</span>
 
-<span class="sd">    Data members:</span>
-<span class="sd">        xyz          -- fractional coordinates of generator site</span>
-<span class="sd">        Uij          -- anisotropic thermal displacement at generator site</span>
-<span class="sd">        sgoffset     -- offset of space group origin [0, 0, 0]</span>
-<span class="sd">        eps          -- cutoff for equal positions</span>
-<span class="sd">        eqxyz        -- list of equivalent positions</span>
-<span class="sd">        eqUij        -- list of displacement matrices at equivalent positions</span>
-<span class="sd">        symops       -- nested list of operations per each eqxyz</span>
-<span class="sd">        multiplicity -- generator site multiplicity</span>
-<span class="sd">        Uisotropy    -- bool flag for isotropic thermal factors</span>
-<span class="sd">        invariants   -- list of invariant operations for generator site</span>
-<span class="sd">        null_space   -- null space of all possible differences of invariant</span>
-<span class="sd">                        rotational matrices, this is a base of symmetry</span>
-<span class="sd">                        allowed shifts.</span>
-<span class="sd">        Uspace       -- 3D array of independent components of U matrices.</span>
-<span class="sd">        pparameters  -- list of (xyz symbol, value) pairs</span>
-<span class="sd">        Uparameters  -- list of (U symbol, value) pairs</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spacegroup : SpaceGroup</span>
+<span class="sd">        Instance of `SpaceGroup`.</span>
+<span class="sd">    xyz : array_like</span>
+<span class="sd">        Generating site. When `xyz` is close to special</span>
+<span class="sd">        position `self.xyz` will be adjusted.</span>
+<span class="sd">    Uij : array_like, Optional</span>
+<span class="sd">        Thermal factors at generator site. Yields `self.Uij`</span>
+<span class="sd">        after adjusting to spacegroup symmetry. Default is zeros.</span>
+<span class="sd">    sgoffset : list, Optional</span>
+<span class="sd">        Offset of space group origin ``[0, 0, 0]``. Default is ``[0, 0, 0]``.</span>
+<span class="sd">    eps : float, Optional</span>
+<span class="sd">        Cutoff for equal positions. Default is ``1.0e-5``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xyz : numpy.ndarray</span>
+<span class="sd">        Fractional coordinates of generator site.</span>
+<span class="sd">    Uij : numpy.ndarray</span>
+<span class="sd">        Anisotropic thermal displacement at generator site.</span>
+<span class="sd">    sgoffset : numpy.ndarray</span>
+<span class="sd">        Offset of space group origin ``[0, 0, 0]``.</span>
+<span class="sd">    eps : float</span>
+<span class="sd">        Cutoff for equal positions.</span>
+<span class="sd">    eqxyz : list</span>
+<span class="sd">        List of equivalent positions.</span>
+<span class="sd">    eqUij : list</span>
+<span class="sd">        List of displacement matrices at equivalent positions.</span>
+<span class="sd">    symops : list</span>
+<span class="sd">        Nested list of operations per each `eqxyz`.</span>
+<span class="sd">    multiplicity : int</span>
+<span class="sd">        Generator site multiplicity.</span>
+<span class="sd">    Uisotropy : bool</span>
+<span class="sd">        Bool flag for isotropic thermal factors.</span>
+<span class="sd">    invariants : list</span>
+<span class="sd">        List of invariant operations for generator site.</span>
+<span class="sd">    null_space : numpy.ndarray</span>
+<span class="sd">        Null space of all possible differences of invariant</span>
+<span class="sd">        rotational matrices, this is a base of symmetry</span>
+<span class="sd">        allowed shifts.</span>
+<span class="sd">    Uspace : numpy.ndarray</span>
+<span class="sd">        3D array of independent components of U matrices.</span>
+<span class="sd">    pparameters : list</span>
+<span class="sd">        List of ``(xyz symbol, value)`` pairs.</span>
+<span class="sd">    Uparameters : list</span>
+<span class="sd">        List of ``(U symbol, value)`` pairs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">Ucomponents</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
@@ -414,19 +518,12 @@
         <span class="p">],</span>
         <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
     <span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;numpy.ndarray: 6x3x3 array of independent components of U matrices.&quot;&quot;&quot;</span>
+
     <span class="n">idx2Usymbol</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;U11&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;U12&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;U13&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;U12&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;U22&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;U23&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;U13&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;U23&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;U33&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;dict: Mapping of index to standard U symbol.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">Uij</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GeneratorSite.</span>
-
-<span class="sd">        spacegroup -- instance of SpaceGroup</span>
-<span class="sd">        xyz        -- generating site.  When xyz is close to special</span>
-<span class="sd">                      position self.xyz will be adjusted.</span>
-<span class="sd">        Uij        -- thermal factors at generator site.  Yields self.Uij</span>
-<span class="sd">                      after adjusting to spacegroup symmetry.</span>
-<span class="sd">        sgoffset   -- offset of space group origin [0, 0, 0]</span>
-<span class="sd">        eps        -- cutoff for equal positions</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
         <span class="c1"># just declare the members</span>
@@ -474,10 +571,19 @@
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.signedRatStr">[docs]</a>
     <span class="k">def</span> <span class="nf">signedRatStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert floating point number to signed rational representation.</span>
-<span class="sd">        Possible fractional are multiples of 1/3, 1/6, 1/7, 1/9, if these</span>
-<span class="sd">        are not close, return &quot;%+g&quot; format.</span>
 
-<span class="sd">        Return string.</span>
+<span class="sd">        Possible fractional are multiples of 1/3, 1/6, 1/7, 1/9, if these</span>
+<span class="sd">        are not close, return `%+g` format.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : float</span>
+<span class="sd">            Floating point number.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        str</span>
+<span class="sd">            Signed rational representation of `x`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:.8g}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
@@ -492,8 +598,8 @@
 
 
     <span class="k">def</span> <span class="nf">_findNullSpace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate self.null_space from self.invariants.</span>
-<span class="sd">        Try to represent self.null_space using small integers.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate `self.null_space` from `self.invariants`.</span>
+<span class="sd">        Try to represent `self.null_space` using small integers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">R0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">R</span>
         <span class="n">Rdiff</span> <span class="o">=</span> <span class="p">[(</span><span class="n">symop</span><span class="o">.</span><span class="n">R</span> <span class="o">-</span> <span class="n">R0</span><span class="p">)</span> <span class="k">for</span> <span class="n">symop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">]</span>
@@ -523,7 +629,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_findPosParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find pparameters and their values for expressing self.xyz.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find pparameters and their values for expressing `self.xyz`.&quot;&quot;&quot;</span>
         <span class="n">usedsymbol</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># parameter values depend on offset of self.xyz</span>
         <span class="n">txyz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span>
@@ -566,7 +672,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_findUParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find Uparameters and their values for expressing self.Uij.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find Uparameters and their values for expressing `self.Uij`.&quot;&quot;&quot;</span>
         <span class="c1"># permute indices as     00 11 22 01 02 12 10 20 21</span>
         <span class="n">diagorder</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
         <span class="n">Uijflat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uij</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
@@ -581,7 +687,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_findeqUij</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjust self.Uij and self.eqUij to be consistent with spacegroup&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjust `self.Uij` and `self.eqUij` to be consistent with spacegroup.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Uij</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Uparameters</span><span class="p">)):</span>
             <span class="n">Usp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uspace</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -598,15 +704,22 @@
 <div class="viewcode-block" id="GeneratorSite.positionFormula">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.positionFormula">[docs]</a>
     <span class="k">def</span> <span class="nf">positionFormula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">)):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Formula of equivalent position with respect to generator site</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Formula of equivalent position with respect to generator site.</span>
 
-<span class="sd">        pos        -- fractional coordinates of possibly equivalent site</span>
-<span class="sd">        xyzsymbols -- symbols for parametrized coordinates</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pos : array_like</span>
+<span class="sd">            Fractional coordinates of possibly equivalent site.</span>
+<span class="sd">        xyzsymbols : tuple, Optional</span>
+<span class="sd">            Symbols for parametrized coordinates.</span>
 
-<span class="sd">        Return position formulas in a dictionary with keys equal (&quot;x&quot;, &quot;y&quot;, &quot;z&quot;)</span>
-<span class="sd">        or an empty dictionary when pos is not equivalent to generator.</span>
-<span class="sd">        Formulas are formatted as &quot;[[-][%g*]{x|y|z}] [{+|-}%g]&quot;, for example</span>
-<span class="sd">        &quot;-x&quot;, &quot;z +0.5&quot;, &quot;0.25&quot;.</span>
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Position formulas in a dictionary with keys equal ``(&quot;x&quot;, &quot;y&quot;, &quot;z&quot;)``</span>
+<span class="sd">            or an empty dictionary when pos is not equivalent to generator.</span>
+<span class="sd">            Formulas are formatted as ``[[-][%g*]{x|y|z}] [{+|-}%g]``, for example</span>
+<span class="sd">            ``-x``, ``z +0.5``, ``0.25``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># find pos in eqxyz</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">nearestSiteIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eqxyz</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
@@ -644,12 +757,20 @@
     <span class="k">def</span> <span class="nf">UFormula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="n">stdUsymbols</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formulas with custom parameter symbols.</span>
 
-<span class="sd">        pos        -- fractional coordinates of possibly equivalent site</span>
-<span class="sd">        Usymbols   -- 6 symbols for possible U matrix parameters</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pos : array_like</span>
+<span class="sd">            Fractional coordinates of possibly equivalent site.</span>
+<span class="sd">        Usymbols : list, Optional</span>
+<span class="sd">            6 symbols for possible U matrix parameters, default is</span>
+<span class="sd">            ``[&quot;U11&quot;, &quot;U22&quot;, &quot;U33&quot;, &quot;U12&quot;, &quot;U13&quot;, &quot;U23&quot;]``.</span>
 
-<span class="sd">        Return U element formulas in a dictionary where keys are from</span>
-<span class="sd">        (&#39;U11&#39;,&#39;U22&#39;,&#39;U33&#39;,&#39;U12&#39;,&#39;U13&#39;,&#39;U23&#39;) or empty dictionary when</span>
-<span class="sd">        pos is not equivalent to generator.</span>
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        Uformula : dict</span>
+<span class="sd">            U element formulas in a dictionary where keys are from</span>
+<span class="sd">            ``(&#39;U11&#39;,&#39;U22&#39;,&#39;U33&#39;,&#39;U12&#39;,&#39;U13&#39;,&#39;U23&#39;)`` or empty dictionary when</span>
+<span class="sd">            pos is not equivalent to generator.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># find pos in eqxyz</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">nearestSiteIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eqxyz</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
@@ -682,11 +803,17 @@
 <div class="viewcode-block" id="GeneratorSite.eqIndex">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.eqIndex">[docs]</a>
     <span class="k">def</span> <span class="nf">eqIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Index of the nearest generator equivalent site</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Index of the nearest generator equivalent site.</span>
 
-<span class="sd">        pos -- fractional coordinates</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pos : array_like</span>
+<span class="sd">            Fractional coordinates.</span>
 
-<span class="sd">        Return integer.</span>
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        int</span>
+<span class="sd">            Index of the nearest generator equivalent site.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">nearestSiteIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eqxyz</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span></div>
 </div>
@@ -701,34 +828,48 @@
 <div class="viewcode-block" id="ExpandAsymmetricUnit">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.ExpandAsymmetricUnit">[docs]</a>
 <span class="k">class</span> <span class="nc">ExpandAsymmetricUnit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Expand asymmetric unit and anisotropic thermal displacement</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Expand asymmetric unit and anisotropic thermal displacement.</span>
 
-<span class="sd">    Data members:</span>
-<span class="sd">        spacegroup  -- instance of SpaceGroup</span>
-<span class="sd">        corepos     -- list of positions in asymmetric unit,</span>
-<span class="sd">                       it may contain duplicates</span>
-<span class="sd">        coreUijs    -- thermal factors for corepos (defaults to zeros)</span>
-<span class="sd">        sgoffset    -- optional offset of space group origin [0, 0, 0]</span>
-<span class="sd">        eps         -- cutoff for equivalent positions</span>
-<span class="sd">    Calculated data members:</span>
-<span class="sd">        multiplicity -- multiplicity of each site in corepos</span>
-<span class="sd">        Uisotropy   -- bool flags for isotropic sites in corepos</span>
-<span class="sd">        expandedpos -- list of equivalent positions per each site in corepos</span>
-<span class="sd">        expandedUijs -- list of thermal factors per each site in corepos</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spacegroup : SpaceGroup</span>
+<span class="sd">        Instance of `SpaceGroup`.</span>
+<span class="sd">    corepos : array_like</span>
+<span class="sd">        List of positions in asymmetric unit,</span>
+<span class="sd">        it may contain duplicates.</span>
+<span class="sd">    coreUijs : numpy.ndarray, Optional</span>
+<span class="sd">        Thermal factors for `corepos`.</span>
+<span class="sd">    sgoffset : list, Optional</span>
+<span class="sd">        Offset of space group origin ``[0, 0, 0]``. Default is ``[0, 0, 0]``.</span>
+<span class="sd">    eps : float, Optional</span>
+<span class="sd">        Cutoff for duplicate positions. Default is ``1.0e-5``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spacegroup : SpaceGroup</span>
+<span class="sd">        Instance of `SpaceGroup`.</span>
+<span class="sd">    corepos : array_like</span>
+<span class="sd">        List of positions in asymmetric unit,</span>
+<span class="sd">        it may contain duplicates.</span>
+<span class="sd">    coreUijs : numpy.ndarray</span>
+<span class="sd">        Thermal factors for `corepos`. Defaults to zeros.</span>
+<span class="sd">    sgoffset : numpy.ndarray</span>
+<span class="sd">        Offset of space group origin ``[0, 0, 0]``. Default to zeros.</span>
+<span class="sd">    eps : float</span>
+<span class="sd">        Cutoff for equivalent positions. Default is ``1.0e-5``.</span>
+<span class="sd">    multiplicity : list</span>
+<span class="sd">        Multiplicity of each site in `corepos`.</span>
+<span class="sd">    Uisotropy : list</span>
+<span class="sd">        Bool flags for isotropic sites in `corepos`.</span>
+<span class="sd">    expandedpos : list</span>
+<span class="sd">        List of equivalent positions per each site in `corepos`.</span>
+<span class="sd">    expandedUijs : list</span>
+<span class="sd">        List of thermal factors per each site in `corepos`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># By design Atom instances are not accepted as arguments to keep</span>
     <span class="c1"># number of required imports low.</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">corepos</span><span class="p">,</span> <span class="n">coreUijs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize and calculate instance of ExpandAsymmetricUnit</span>
-
-<span class="sd">        spacegroup   -- instance of SpaceGroup</span>
-<span class="sd">        corepos      -- list of positions in asymmetric unit,</span>
-<span class="sd">                        it may contain duplicates</span>
-<span class="sd">        coreUijs     -- thermal factors for corepos (defaults to zeros)</span>
-<span class="sd">        sgoffset     -- offset of space group origin [0, 0, 0]</span>
-<span class="sd">        eps          -- cutoff for duplicate positions</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
         <span class="c1"># declare data members</span>
@@ -760,7 +901,7 @@
 <span class="c1"># End of class ExpandAsymmetricUnit</span>
 
 
-<span class="c1"># Helper function for SymmetryConstraints class.  It may be useful</span>
+<span class="c1"># Helper function for SymmetryConstraints class. It may be useful</span>
 <span class="c1"># elsewhere therefore its name does not start with underscore.</span>
 
 
@@ -769,10 +910,16 @@
 <span class="k">def</span> <span class="nf">pruneFormulaDictionary</span><span class="p">(</span><span class="n">eqdict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove constant items from formula dictionary.</span>
 
-<span class="sd">    eqdict -- formula dictionary which maps standard variable symbols</span>
-<span class="sd">              (&quot;x&quot;, &quot;U11&quot;) to string formulas (&quot;0&quot;, &quot;-x3&quot;, &quot;z7 +0.5&quot;)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eqdict : dict</span>
+<span class="sd">        Formula dictionary which maps standard variable symbols</span>
+<span class="sd">        ``(&quot;x&quot;, &quot;U11&quot;)`` to string formulas ``(&quot;0&quot;, &quot;-x3&quot;, &quot;z7 +0.5&quot;)``.</span>
 
-<span class="sd">    Return pruned formula dictionary.</span>
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Pruned formula dictionary.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pruned</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">smb</span><span class="p">,</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">eqdict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -785,41 +932,58 @@
 <div class="viewcode-block" id="SymmetryConstraints">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints">[docs]</a>
 <span class="k">class</span> <span class="nc">SymmetryConstraints</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate symmetry constraints for specified positions</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate symmetry constraints for specified positions.</span>
 
-<span class="sd">    Data members:</span>
-<span class="sd">        spacegroup -- instance of SpaceGroup</span>
-<span class="sd">        positions  -- all positions to be constrained</span>
-<span class="sd">        Uijs       -- thermal factors for all positions (defaults to zeros)</span>
-<span class="sd">        sgoffset   -- optional offset of space group origin [0, 0, 0]</span>
-<span class="sd">        eps        -- cutoff for equivalent positions</span>
-<span class="sd">    Calculated data members:</span>
-<span class="sd">        corepos    -- list of of positions in the asymmetric unit</span>
-<span class="sd">        coremap    -- dictionary mapping indices of asymmetric core positions</span>
-<span class="sd">                      to indices of all symmetry related positions</span>
-<span class="sd">        poseqns    -- list of coordinate formula dictionaries per each site.</span>
-<span class="sd">                      Formula dictionary keys are from (&quot;x&quot;, &quot;y&quot;, &quot;z&quot;) and</span>
-<span class="sd">                      the values are formatted as [[-]{x|y|z}%i] [{+|-}%g],</span>
-<span class="sd">                      for example: &quot;x0&quot;, &quot;-x3&quot;, &quot;z7 +0.5&quot;, &quot;0.25&quot;.</span>
-<span class="sd">        pospars    -- list of (xyz symbol, value) pairs</span>
-<span class="sd">        Ueqns      -- list of anisotropic atomic displacement formula</span>
-<span class="sd">                      dictionaries per each position.  Formula dictionary</span>
-<span class="sd">                      keys are from (&#39;U11&#39;,&#39;U22&#39;,&#39;U33&#39;,&#39;U12&#39;,&#39;U13&#39;,&#39;U23&#39;)</span>
-<span class="sd">                      and the values are formatted as {[%g*][Uij%i]|0},</span>
-<span class="sd">                      for example: &quot;U110&quot;, &quot;0.5*U2213&quot;, &quot;0&quot;</span>
-<span class="sd">        Upars      -- list of (U symbol, value) pairs</span>
-<span class="sd">        Uisotropy  -- list of bool flags for isotropic thermal displacements</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spacegroup : SpaceGroup</span>
+<span class="sd">        Instance of `SpaceGroup`.</span>
+<span class="sd">    positions : array_like</span>
+<span class="sd">        List of all positions to be constrained.</span>
+<span class="sd">    Uijs : array_like, Optional</span>
+<span class="sd">        List of U matrices for all constrained positions.</span>
+<span class="sd">    sgoffset : list, Optional</span>
+<span class="sd">        Offset of space group origin ``[0, 0, 0]``. Default is ``[0, 0, 0]``.</span>
+<span class="sd">    eps : float, Optional</span>
+<span class="sd">        Cutoff for duplicate positions. Default is ``1.0e-5``.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spacegroup : SpaceGroup</span>
+<span class="sd">        Instance of `SpaceGroup`.</span>
+<span class="sd">    positions : numpy.ndarray</span>
+<span class="sd">        All positions to be constrained.</span>
+<span class="sd">    Uijs : numpy.ndarray</span>
+<span class="sd">        Thermal factors for all positions. Defaults to zeros.</span>
+<span class="sd">    sgoffset : numpy.ndarray</span>
+<span class="sd">        Optional offset of space group origin ``[0, 0, 0]``.</span>
+<span class="sd">    eps : float</span>
+<span class="sd">        Cutoff for equivalent positions. Default is ``1.0e-5``.</span>
+<span class="sd">    corepos : list</span>
+<span class="sd">        List of of positions in the asymmetric unit.</span>
+<span class="sd">    coremap : dict</span>
+<span class="sd">        Dictionary mapping indices of asymmetric core positions</span>
+<span class="sd">        to indices of all symmetry related positions.</span>
+<span class="sd">    poseqns : list</span>
+<span class="sd">        List of coordinate formula dictionaries per each site.</span>
+<span class="sd">        Formula dictionary keys are from ``(&quot;x&quot;, &quot;y&quot;, &quot;z&quot;)`` and</span>
+<span class="sd">        the values are formatted as ``[[-]{x|y|z}%i] [{+|-}%g]``,</span>
+<span class="sd">        for example: ``x0``, ``-x3``, ``z7 +0.5``, ``0.25``.</span>
+<span class="sd">    pospars : list</span>
+<span class="sd">        List of ``(xyz symbol, value)`` pairs.</span>
+<span class="sd">    Ueqns : list</span>
+<span class="sd">        List of anisotropic atomic displacement formula</span>
+<span class="sd">        dictionaries per each position. Formula dictionary</span>
+<span class="sd">        keys are from ``(&#39;U11&#39;,&#39;U22&#39;,&#39;U33&#39;,&#39;U12&#39;,&#39;U13&#39;,&#39;U23&#39;)``</span>
+<span class="sd">        and the values are formatted as ``{[%g*][Uij%i]|0}``,</span>
+<span class="sd">        for example: ``U110``, ``0.5*U2213``, ``0``.</span>
+<span class="sd">    Upars : list</span>
+<span class="sd">        List of ``(U symbol, value)`` pairs.</span>
+<span class="sd">    Uisotropy : list</span>
+<span class="sd">        List of bool flags for isotropic thermal displacements.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">Uijs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize and calculate SymmetryConstraints.</span>
-
-<span class="sd">        spacegroup -- instance of SpaceGroup</span>
-<span class="sd">        positions  -- list of all positions to be constrained</span>
-<span class="sd">        Uijs       -- list of U matrices for all constrained positions</span>
-<span class="sd">        sgoffset   -- optional offset of space group origin [0, 0, 0]</span>
-<span class="sd">        eps        -- cutoff for equivalent positions</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
         <span class="c1"># fill in data members</span>
@@ -860,7 +1024,7 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_findConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find constraints for positions and anisotropic displacements Uij&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find constraints for positions and anisotropic displacements `Uij`.&quot;&quot;&quot;</span>
         <span class="n">numpos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
         <span class="c1"># canonical xyzsymbols and Usymbols</span>
         <span class="n">xyzsymbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">smbl</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numpos</span><span class="p">)</span> <span class="k">for</span> <span class="n">smbl</span> <span class="ow">in</span> <span class="s2">&quot;xyz&quot;</span><span class="p">]</span>
@@ -926,11 +1090,17 @@
     <span class="k">def</span> <span class="nf">positionFormulas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of position formulas with custom parameter symbols.</span>
 
-<span class="sd">        xyzsymbols -- list of custom symbols used in formula strings</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        xyzsymbols : list, Optional</span>
+<span class="sd">            List of custom symbols used in formula strings.</span>
 
-<span class="sd">        Return list of coordinate formulas dictionaries.  Formulas dictionary</span>
-<span class="sd">        keys are from (&quot;x&quot;, &quot;y&quot;, &quot;z&quot;) and the values are formatted as</span>
-<span class="sd">        [[-]{symbol}] [{+|-}%g], for example: &quot;x0&quot;, &quot;-sym&quot;, &quot;@7 +0.5&quot;, &quot;0.25&quot;.</span>
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        list</span>
+<span class="sd">            List of coordinate formulas dictionaries. Formulas dictionary</span>
+<span class="sd">            keys are from ``(&quot;x&quot;, &quot;y&quot;, &quot;z&quot;)`` and the values are formatted as</span>
+<span class="sd">            ``[[-]{symbol}] [{+|-}%g]``, for example: ``x0``, ``-sym``, ``@7 +0.5``, ``0.25``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">xyzsymbols</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">poseqns</span><span class="p">)</span>
@@ -958,11 +1128,20 @@
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.positionFormulasPruned">[docs]</a>
     <span class="k">def</span> <span class="nf">positionFormulasPruned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of position formula dictionaries with constant items removed.</span>
-<span class="sd">        See also positionFormulas().</span>
 
-<span class="sd">        xyzsymbols -- list of custom symbols used in formula strings</span>
+<span class="sd">        See also</span>
+<span class="sd">        --------</span>
+<span class="sd">        positionFormulas()</span>
 
-<span class="sd">        Return list of coordinate formula dictionaries.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        xyzsymbols : list, Optional</span>
+<span class="sd">            List of custom symbols used in formula strings.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        list</span>
+<span class="sd">            List of coordinate formula dictionaries.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="p">[</span><span class="n">pruneFormulaDictionary</span><span class="p">(</span><span class="n">eqns</span><span class="p">)</span> <span class="k">for</span> <span class="n">eqns</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">positionFormulas</span><span class="p">(</span><span class="n">xyzsymbols</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">rv</span></div>
@@ -987,12 +1166,18 @@
     <span class="k">def</span> <span class="nf">UFormulas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formulas with custom parameter symbols.</span>
 
-<span class="sd">        Usymbols -- list of custom symbols used in formula strings</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Usymbols : list, Optional</span>
+<span class="sd">            List of custom symbols used in formula strings.</span>
 
-<span class="sd">        Return list of atom displacement formula dictionaries per each site.</span>
-<span class="sd">        Formula dictionary keys are from (&#39;U11&#39;,&#39;U22&#39;,&#39;U33&#39;,&#39;U12&#39;,&#39;U13&#39;,&#39;U23&#39;)</span>
-<span class="sd">        and the values are formatted as {[%g*][Usymbol]|0}, for example:</span>
-<span class="sd">        &quot;U11&quot;, &quot;0.5*@37&quot;, &quot;0&quot;.</span>
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        list</span>
+<span class="sd">            List of atom displacement formula dictionaries per each site.</span>
+<span class="sd">            Formula dictionary keys are from ``(&#39;U11&#39;,&#39;U22&#39;,&#39;U33&#39;,&#39;U12&#39;,&#39;U13&#39;,&#39;U23&#39;)``</span>
+<span class="sd">            and the values are formatted as ``{[%g*][Usymbol]|0}``, for example:</span>
+<span class="sd">            ``U11``, ``0.5*@37``, ``0``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">Usymbols</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ueqns</span><span class="p">)</span>
@@ -1020,12 +1205,22 @@
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulasPruned">[docs]</a>
     <span class="k">def</span> <span class="nf">UFormulasPruned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formula dictionaries with constant items</span>
-<span class="sd">        removed.  See also UFormulas().</span>
+<span class="sd">        removed.</span>
 
-<span class="sd">        Usymbols -- list of custom symbols used in formula strings</span>
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        UFormulas()</span>
 
-<span class="sd">        Return list of atom displacement formulas in tuples of</span>
-<span class="sd">        (U11, U22, U33, U12, U13, U23).</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Usymbols : list, Optional</span>
+<span class="sd">            List of custom symbols used in formula strings.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        list</span>
+<span class="sd">            List of atom displacement formulas in tuples of</span>
+<span class="sd">            ``(U11, U22, U33, U12, U13, U23)``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="p">[</span><span class="n">pruneFormulaDictionary</span><span class="p">(</span><span class="n">eqns</span><span class="p">)</span> <span class="k">for</span> <span class="n">eqns</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">UFormulas</span><span class="p">(</span><span class="n">Usymbols</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">rv</span></div>

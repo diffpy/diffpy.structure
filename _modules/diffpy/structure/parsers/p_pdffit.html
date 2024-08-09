@@ -99,7 +99,6 @@
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Lattice</span><span class="p">,</span> <span class="n">PDFFitStructure</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">StructureParser</span>
@@ -111,7 +110,14 @@
 <span class="k">class</span> <span class="nc">P_pdffit</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser for PDFfit structure format.</span>
 
-<span class="sd">    stru -- Structure instance used for cif input or output</span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        Format name, default &quot;pdffit&quot;.</span>
+<span class="sd">    ignored_lines : list</span>
+<span class="sd">        List of lines ignored during parsing.</span>
+<span class="sd">    stru : PDFFitStructure</span>
+<span class="sd">        Structure instance used for cif input or output.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -126,7 +132,20 @@
     <span class="k">def</span> <span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse list of lines in PDFfit format.</span>
 
-<span class="sd">        Return Structure object or raise StructureFormatError.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lines : list of str</span>
+<span class="sd">            List of lines in PDB format.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            Parsed structure instance.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            File not in PDFfit format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">p_nl</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">try</span><span class="p">:</span>
@@ -241,16 +260,24 @@
             <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: file is not in PDFfit format&quot;</span> <span class="o">%</span> <span class="n">p_nl</span>
             <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
-            <span class="n">six</span><span class="o">.</span><span class="n">reraise</span><span class="p">(</span><span class="n">StructureFormatError</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stru</span></div>
 
 
 <div class="viewcode-block" id="P_pdffit.toLines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdffit.P_pdffit.toLines">[docs]</a>
     <span class="k">def</span> <span class="nf">toLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Structure stru to a list of lines in PDFfit format.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert `Structure` stru to a list of lines in PDFfit format.</span>
 
-<span class="sd">        Return list of strings.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stru : Structure</span>
+<span class="sd">            Structure to be converted.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of str</span>
+<span class="sd">            List of lines in PDFfit format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># build the stru_pdffit dictionary initialized from the defaults</span>
         <span class="c1"># in PDFFitStructure</span>
@@ -308,12 +335,17 @@
     <span class="c1"># Protected methods ------------------------------------------------------</span>
 
     <span class="k">def</span> <span class="nf">_parse_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process shape line from PDFfit file and update self.stru</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process shape line from PDFfit file and update self.stru.</span>
 
-<span class="sd">        line -- line containing data for particle shape correction</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        line : str</span>
+<span class="sd">            Line containing data for particle shape correction.</span>
 
-<span class="sd">        No return value.</span>
-<span class="sd">        Raise StructureFormatError for invalid record.</span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            Invalid type of particle shape correction.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">line_nocommas</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
         <span class="n">words</span> <span class="o">=</span> <span class="n">line_nocommas</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -338,6 +370,13 @@
 <div class="viewcode-block" id="getParser">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdffit.getParser">[docs]</a>
 <span class="k">def</span> <span class="nf">getParser</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return new `parser` object for PDFfit format.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    P_pdffit</span>
+<span class="sd">        Instance of `P_pdffit`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">P_pdffit</span><span class="p">()</span></div>
 
 </pre></div>

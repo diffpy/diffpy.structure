@@ -92,12 +92,15 @@
 <span class="c1">##############################################################################</span>
 
 <span class="sd">&quot;&quot;&quot;Space group classes and definitions from mmLib and sgtbx.</span>
+
+<span class="sd">Attributes</span>
+<span class="sd">----------</span>
+<span class="sd">SpaceGroupList : list</span>
+<span class="sd">    List of all spacegroup definitions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">copy</span>
-
-<span class="kn">import</span> <span class="nn">six</span>
-<span class="kn">from</span> <span class="nn">six.moves</span> <span class="kn">import</span> <span class="n">zip_longest</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">zip_longest</span>
 
 <span class="kn">from</span> <span class="nn">diffpy.structure.mmlibspacegroups</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">mmLibSpaceGroupList</span><span class="p">,</span>
@@ -723,7 +726,6 @@
 <span class="c1"># Import SpaceGroup objects --------------------------------------------------</span>
 
 
-<span class="c1"># all spacegroup definitions</span>
 <span class="n">SpaceGroupList</span> <span class="o">=</span> <span class="n">mmLibSpaceGroupList</span> <span class="o">+</span> <span class="n">sgtbxSpaceGroupList</span>
 
 
@@ -732,11 +734,21 @@
 <span class="k">def</span> <span class="nf">GetSpaceGroup</span><span class="p">(</span><span class="n">sgid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the SpaceGroup instance for the given identifier.</span>
 
-<span class="sd">    sgid -- space group symbol, either short_name or pdb_name,</span>
-<span class="sd">            whatever it means in mmlib.  Can be also an integer.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sgid : str, int</span>
+<span class="sd">        space group symbol, either `short_name` or `pdb_name`,</span>
+<span class="sd">        whatever it means in mmlib. Can be also an integer.</span>
 
-<span class="sd">    Return space group instance.</span>
-<span class="sd">    Raise ValueError when not found.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    SpaceGroup</span>
+<span class="sd">        The SpaceGroup object for the given identifier.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        When the identifier is not found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">_sg_lookup_table</span><span class="p">:</span>
         <span class="n">_buildSGLookupTable</span><span class="p">()</span>
@@ -744,7 +756,7 @@
         <span class="k">return</span> <span class="n">_sg_lookup_table</span><span class="p">[</span><span class="n">sgid</span><span class="p">]</span>
     <span class="c1"># Try different versions of sgid, first make sure it is a string</span>
     <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Unknown space group identifier </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sgid</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sgid</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sgid</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
     <span class="n">sgbare</span> <span class="o">=</span> <span class="n">sgid</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="c1"># short_name case adjusted</span>
@@ -764,9 +776,11 @@
 <div class="viewcode-block" id="IsSpaceGroupIdentifier">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.spacegroups.IsSpaceGroupIdentifier">[docs]</a>
 <span class="k">def</span> <span class="nf">IsSpaceGroupIdentifier</span><span class="p">(</span><span class="n">sgid</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if identifier can be used as an argument to GetSpaceGroup.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if identifier can be used as an argument to `GetSpaceGroup`.</span>
 
-<span class="sd">    Return bool.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">GetSpaceGroup</span><span class="p">(</span><span class="n">sgid</span><span class="p">)</span>
@@ -786,15 +800,15 @@
 <span class="sd">    ----------</span>
 <span class="sd">    symops : list</span>
 <span class="sd">        The list of `SymOp` objects for which to find SpaceGroup.</span>
-<span class="sd">    shuffle : bool, optional</span>
+<span class="sd">    shuffle : bool, Optional</span>
 <span class="sd">        Flag for allowing different order of symops in the returned</span>
-<span class="sd">        SpaceGroup.  The default is ``False``.</span>
+<span class="sd">        SpaceGroup. The default is ``False``.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    SpaceGroup</span>
 <span class="sd">        The SpaceGroup object with equivalent list of symmetry</span>
-<span class="sd">        operations.  Return predefined SpaceGroup instance when</span>
+<span class="sd">        operations. Return predefined SpaceGroup instance when</span>
 <span class="sd">        symmetry operations have the same order or when the</span>
 <span class="sd">        `shuffle` flag is set.</span>
 
@@ -840,10 +854,8 @@
 
 
 <span class="k">def</span> <span class="nf">_buildSGLookupTable</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rebuild space group lookup table from the SpaceGroupList data.</span>
-
-<span class="sd">    This routine updates the global _sg_lookup_table dictionary.</span>
-<span class="sd">    No return value.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rebuild space group lookup table from the `SpaceGroupList` data.</span>
+<span class="sd">    This routine updates the global `_sg_lookup_table` dictionary.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_sg_lookup_table</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">SpaceGroupList</span><span class="p">:</span>
@@ -884,7 +896,7 @@
 
 
 <span class="k">def</span> <span class="nf">_getSGHashLookupTable</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return lookup table of symop hashes to standard SpaceGroup objects.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return lookup table of symop hashes to standard `SpaceGroup` objects.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">_sg_hash_lookup_table</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_sg_hash_lookup_table</span>
     <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">SpaceGroupList</span><span class="p">:</span>

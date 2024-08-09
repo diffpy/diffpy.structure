@@ -92,17 +92,26 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 
-<span class="sd">&quot;&quot;&quot;Parser for basic CIF file format</span>
+<span class="sd">&quot;&quot;&quot;Parser for basic CIF file format.</span>
 
-<span class="sd">http://www.iucr.org/iucr-top/cif/home.html</span>
+<span class="sd">Attributes</span>
+<span class="sd">----------</span>
+<span class="sd">rx_float : re.Pattern</span>
+<span class="sd">    Constant regular expression for `leading_float()`.</span>
+<span class="sd">symvec : dict</span>
+<span class="sd">    Helper dictionary for `getSymOp()`.</span>
+
+<span class="sd">Note</span>
+<span class="sd">----</span>
+<span class="sd">References: https://www.iucr.org/resources/cif</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Atom</span><span class="p">,</span> <span class="n">Lattice</span><span class="p">,</span> <span class="n">Structure</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">StructureParser</span>
@@ -115,32 +124,50 @@
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.P_cif">[docs]</a>
 <span class="k">class</span> <span class="nc">P_cif</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple parser for CIF structure format.</span>
+
 <span class="sd">    Reads Structure from the first block containing _atom_site_label key.</span>
-<span class="sd">    Following blocks, if any are ignored.</span>
+<span class="sd">    Following blocks, if any, are ignored.</span>
 
-<span class="sd">    Data members:</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eps : float, Optional</span>
+<span class="sd">        Fractional coordinates cutoff for duplicate positions.</span>
+<span class="sd">        When ``None`` use the default for `ExpandAsymmetricUnit`: ``1.0e-5``.</span>
 
-<span class="sd">    format      -- structure format name</span>
-<span class="sd">    ciffile     -- instance of CifFile from PyCifRW</span>
-<span class="sd">    stru        -- Structure instance used for cif input or output</span>
-
-<span class="sd">    Data members used for input only:</span>
-
-<span class="sd">    spacegroup  -- instance of SpaceGroup used for symmetry expansion</span>
-<span class="sd">    eps         -- resolution in fractional coordinates for non-equal</span>
-<span class="sd">                   positions.  Use for expansion of asymmetric unit.</span>
-<span class="sd">    eau         -- instance of ExpandAsymmetricUnit from SymmetryUtilities</span>
-<span class="sd">    asymmetric_unit -- list of atom instances for the original asymmetric</span>
-<span class="sd">                   unit in the CIF file</span>
-<span class="sd">    labelindex  -- dictionary mapping unique atom label to index of atom</span>
-<span class="sd">                   in self.asymmetric_unit</span>
-<span class="sd">    anisotropy  -- dictionary mapping unique atom label to displacement</span>
-<span class="sd">                   anisotropy resolved at that site</span>
-<span class="sd">    cif_sgname  -- space group name obtained by looking up the value of</span>
-<span class="sd">                   _space_group_name_Hall, _symmetry_space_group_name_Hall,</span>
-<span class="sd">                   _space_group_name_H-M_alt, _symmetry_space_group_name_H-M</span>
-<span class="sd">                   items.  None when neither is defined.</span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        Structure format name.</span>
+<span class="sd">    ciffile : CifFile</span>
+<span class="sd">        Instance of `CifFile` from `PyCifRW`.</span>
+<span class="sd">    stru : Structure</span>
+<span class="sd">        `Structure` instance used for CIF input or output.</span>
+<span class="sd">    spacegroup : SpaceGroup</span>
+<span class="sd">        Instance of `SpaceGroup` used for symmetry expansion.</span>
+<span class="sd">    eps : float</span>
+<span class="sd">        Resolution in fractional coordinates for non-equal positions.</span>
+<span class="sd">        Used for expansion of asymmetric unit.</span>
+<span class="sd">    eau : ExpandAsymmetricUnit</span>
+<span class="sd">        Instance of `ExpandAsymmetricUnit` from `SymmetryUtilities`.</span>
+<span class="sd">    asymmetric_unit : list</span>
+<span class="sd">        List of `Atom` instances for the original asymmetric unit in the CIF file.</span>
+<span class="sd">    labelindex : dict</span>
+<span class="sd">        Dictionary mapping unique atom label to index of `Atom` in `self.asymmetric_unit`.</span>
+<span class="sd">    anisotropy : dict</span>
+<span class="sd">        Dictionary mapping unique atom label to displacement anisotropy resolved at that site.</span>
+<span class="sd">    cif_sgname : str or None</span>
+<span class="sd">        Space group name obtained by looking up the value of</span>
+<span class="sd">        `_space_group_name_Hall`,</span>
+<span class="sd">        `_symmetry_space_group_name_Hall`,</span>
+<span class="sd">        `_space_group_name_H-M_alt`,</span>
+<span class="sd">        `_symmetry_space_group_name_H-M`</span>
+<span class="sd">        items. ``None`` when neither is defined.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># static data and methods ------------------------------------------------</span>
+
+    <span class="c1"># dictionary set of class methods for translating CIF values</span>
+    <span class="c1"># to Atom attributes</span>
 
     <span class="c1"># static data and methods ------------------------------------------------</span>
 
@@ -183,6 +210,7 @@
     <span class="k">del</span> <span class="n">k</span>
 
     <span class="n">BtoU</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;float: Conversion factor from B values to U values.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">_tr_ignore</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span>
@@ -320,12 +348,17 @@
     <span class="n">_tr_atom_site_aniso_B_23</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_B_23</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_atom_setters</span><span class="p">(</span><span class="n">cifloop</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find translators of CifLoop items to data in Atom instance.</span>
-<span class="sd">        Static method.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Static method for finding translators of CifLoop items to data in `Atom` instance.</span>
 
-<span class="sd">        cifloop -- instance of CifLoop</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cifloop : CifLoop</span>
+<span class="sd">            Instance of `CifLoop`.</span>
 
-<span class="sd">        Return a list of setter functions in the order of cifloop.keys().</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list</span>
+<span class="sd">            List of setter functions in the order of `cifloop.keys()`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">cifloop</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -340,11 +373,6 @@
     <span class="c1"># normal methods ---------------------------------------------------------</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parser for CIF structure files.</span>
-
-<span class="sd">        eps  -- fractional coordinates cutoff for duplicate positions.</span>
-<span class="sd">                When None use the default for ExpandAsymmetricUnit.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">StructureParser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s2">&quot;cif&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ciffile</span> <span class="o">=</span> <span class="kc">None</span>
@@ -361,13 +389,26 @@
 <div class="viewcode-block" id="P_cif.parse">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.P_cif.parse">[docs]</a>
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create Structure instance from a string in CIF format.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create `Structure` instance from a string in CIF format.</span>
 
-<span class="sd">        Return Structure instance or raise StructureFormatError.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : str</span>
+<span class="sd">            A string in CIF format.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            `Structure` instance.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            When the data do not constitute a valid CIF format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ciffile</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="n">fp</span> <span class="o">=</span> <span class="n">six</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parseCifDataSource</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rv</span></div>
 
@@ -377,9 +418,20 @@
     <span class="k">def</span> <span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse list of lines in CIF format.</span>
 
-<span class="sd">        lines -- list of strings stripped of line terminator</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lines : list</span>
+<span class="sd">            List of strings stripped of line terminator.</span>
 
-<span class="sd">        Return Structure instance or raise StructureFormatError.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            `Structure` instance.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            When the data do not constitute a valid CIF format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
@@ -390,10 +442,22 @@
     <span class="k">def</span> <span class="nf">parseFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create Structure from an existing CIF file.</span>
 
-<span class="sd">        filename  -- path to structure file</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Path to structure file.</span>
 
-<span class="sd">        Return Structure object.</span>
-<span class="sd">        Raise StructureFormatError or IOError.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            `Structure` instance.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            When the data do not constitute a valid CIF format.</span>
+<span class="sd">        IOError</span>
+<span class="sd">            When the file cannot be opened.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ciffile</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
@@ -403,20 +467,18 @@
 
 
     <span class="k">def</span> <span class="nf">_parseCifDataSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datasource</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;\</span>
-<span class="sd">        Open and process CIF data from the specified `datasource`.</span>
-
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open and process CIF data from the specified `datasource`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        datasource : str or a file-like object</span>
-<span class="sd">            This is used as an argument to the CifFile class.  The CifFile</span>
+<span class="sd">            This is used as an argument to the `CifFile` class. The `CifFile`</span>
 <span class="sd">            instance is stored in `ciffile` attribute of this Parser.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Structure</span>
-<span class="sd">            The Structure object loaded from the specified data source.</span>
+<span class="sd">            The `Structure` object loaded from the specified data source.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -440,16 +502,17 @@
             <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
             <span class="n">emsg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
-            <span class="n">six</span><span class="o">.</span><span class="n">reraise</span><span class="p">(</span><span class="n">StructureFormatError</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stru</span>
 
     <span class="k">def</span> <span class="nf">_parseCifBlock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockname</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Translate CIF file block, skip blocks without _atom_site_label.</span>
-<span class="sd">        Updates data members stru, eau.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Translate CIF file block, skip blocks without `_atom_site_label`.</span>
+<span class="sd">        Updates data members `stru`, `eau`.</span>
 
-<span class="sd">        blockname  -- name of top level block in self.ciffile</span>
-
-<span class="sd">        No return value.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        blockname : str</span>
+<span class="sd">            Name of top level block in `self.ciffile`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ciffile</span><span class="p">[</span><span class="n">blockname</span><span class="p">]</span>
         <span class="k">if</span> <span class="s2">&quot;_atom_site_label&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">block</span><span class="p">:</span>
@@ -466,12 +529,14 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_parse_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain lattice parameters from a CifBlock.</span>
-<span class="sd">        This method updates self.stru.lattice.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain `lattice` parameters from a `CifBlock`.</span>
 
-<span class="sd">        block -- instance of CifBlock</span>
+<span class="sd">        This method updates `self.stru.lattic`e.</span>
 
-<span class="sd">        No return value.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        block : CifBlock</span>
+<span class="sd">            Instance of CifBlock.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;_cell_length_a&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">block</span><span class="p">:</span>
             <span class="k">return</span>
@@ -489,18 +554,20 @@
             <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
             <span class="n">emsg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
-            <span class="n">six</span><span class="o">.</span><span class="n">reraise</span><span class="p">(</span><span class="n">StructureFormatError</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stru</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">Lattice</span><span class="p">(</span><span class="o">*</span><span class="n">latpars</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_parse_atom_site_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain atoms in asymmetric unit from a CifBlock.</span>
-<span class="sd">        This method inserts Atom instances to self.stru and</span>
-<span class="sd">        updates labelindex dictionary.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain atoms in asymmetric unit from a `CifBlock`.</span>
 
-<span class="sd">        block -- instance of CifBlock</span>
+<span class="sd">        This method inserts `Atom` instances to `self.stru` and</span>
+<span class="sd">        updates `labelindex` dictionary.</span>
 
-<span class="sd">        No return value.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        block : CifBlock</span>
+<span class="sd">            Instance of `CifBlock`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process _atom_site_label</span>
         <span class="n">atom_site_loop</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">GetLoop</span><span class="p">(</span><span class="s2">&quot;_atom_site_label&quot;</span><span class="p">)</span>
@@ -528,13 +595,15 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_parse_atom_site_aniso_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain value of anisotropic thermal displacements from a CifBlock.</span>
-<span class="sd">        This method updates U members of Atom instances in self.stru.</span>
-<span class="sd">        The labelindex dictionary has to be defined beforehand.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain value of anisotropic thermal displacements from a `CifBlock`.</span>
 
-<span class="sd">        block -- instance of CifBlock</span>
+<span class="sd">        This method updates `U` members of `Atom` instances in `self.stru`.</span>
+<span class="sd">        The `labelindex` dictionary has to be defined beforehand.</span>
 
-<span class="sd">        No return value.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        block : CifBlock</span>
+<span class="sd">            Instance of `CifBlock`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s2">&quot;_atom_site_aniso_label&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">block</span><span class="p">:</span>
             <span class="k">return</span>
@@ -559,14 +628,16 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_parse_space_group_symop_operation_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process symmetry operations from a CifBlock.  The method</span>
-<span class="sd">        updates spacegroup and eau data according to symmetry</span>
-<span class="sd">        operations defined in _space_group_symop_operation_xyz or</span>
-<span class="sd">        _symmetry_equiv_pos_as_xyz items in CifBlock.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process symmetry operations from a CifBlock.</span>
 
-<span class="sd">        block -- instance of CifBlock</span>
+<span class="sd">        The method updates `spacegroup` and `eau` data according to symmetry</span>
+<span class="sd">        operations defined in `_space_group_symop_operation_xyz` or</span>
+<span class="sd">        `_symmetry_equiv_pos_as_xyz` items in `CifBlock`.</span>
 
-<span class="sd">        No return value.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        block : CifBlock</span>
+<span class="sd">            Instance of `CifBlock`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">diffpy.structure.spacegroups</span> <span class="kn">import</span> <span class="n">FindSpaceGroup</span><span class="p">,</span> <span class="n">GetSpaceGroup</span><span class="p">,</span> <span class="n">IsSpaceGroupIdentifier</span><span class="p">,</span> <span class="n">SpaceGroup</span>
 
@@ -618,9 +689,9 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="nf">_expandAsymmetricUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform symmetry expansion of self.stru using self.spacegroup.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform symmetry expansion of `self.stru` using `self.spacegroup`.</span>
 
-<span class="sd">        This method updates data in stru and eau.</span>
+<span class="sd">        This method updates data in `stru` and `eau`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -660,9 +731,17 @@
 <div class="viewcode-block" id="P_cif.toLines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.P_cif.toLines">[docs]</a>
     <span class="k">def</span> <span class="nf">toLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Structure stru to a list of lines in basic CIF format.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert `Structure` to a list of lines in basic CIF format.</span>
 
-<span class="sd">        Return list of strings.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stru : Structure</span>
+<span class="sd">            The structure to be converted.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list</span>
+<span class="sd">            List of lines in basic CIF format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">time</span>
 
@@ -788,7 +867,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    s : str</span>
 <span class="sd">        The string to be scanned for floating point value.</span>
-<span class="sd">    d : float, optional</span>
+<span class="sd">    d : float, Optional</span>
 <span class="sd">        The default value when `s` is &quot;.&quot; or &quot;?&quot;, which in CIF</span>
 <span class="sd">        format stands for inapplicable and unknown, respectively.</span>
 
@@ -832,11 +911,17 @@
 <div class="viewcode-block" id="getSymOp">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.getSymOp">[docs]</a>
 <span class="k">def</span> <span class="nf">getSymOp</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create SpaceGroups.SymOp instance from a string.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create `SpaceGroups.SymOp` instance from a string.</span>
 
-<span class="sd">    s   -- formula for equivalent coordinates, for example &#39;x,1/2-y,1/2+z&#39;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s : str</span>
+<span class="sd">        Formula for equivalent coordinates, for example ``&#39;x,1/2-y,1/2+z&#39;``.</span>
 
-<span class="sd">    Return instance of SymOp.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    SymOp</span>
+<span class="sd">        Instance of `SymOp`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">diffpy.structure.spacegroups</span> <span class="kn">import</span> <span class="n">SymOp</span>
 
@@ -859,10 +944,18 @@
 <div class="viewcode-block" id="getParser">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.getParser">[docs]</a>
 <span class="k">def</span> <span class="nf">getParser</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return new parser object for CIF structure format.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return new `parser` object for CIF format.</span>
 
-<span class="sd">    eps  -- fractional coordinates cutoff for duplicate positions.</span>
-<span class="sd">            When None use the default for ExpandAsymmetricUnit.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eps : float, Optional</span>
+<span class="sd">        fractional coordinates cutoff for duplicate positions.</span>
+<span class="sd">        When ``None`` use the default for `ExpandAsymmetricUnit`: ``1.0e-5``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    P_cif</span>
+<span class="sd">        Instance of `P_cif`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">P_cif</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">)</span></div>
 
@@ -873,9 +966,7 @@
 
 <span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">_suppressCifParserOutput</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;\</span>
-<span class="sd">    Context manager which suppresses diagnostic messages from CIF parser.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager which suppresses diagnostic messages from CIF parser.&quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">CifFile</span> <span class="kn">import</span> <span class="n">yapps3_compiled_rt</span>
 
     <span class="n">print_error</span> <span class="o">=</span> <span class="n">yapps3_compiled_rt</span><span class="o">.</span><span class="n">print_error</span>

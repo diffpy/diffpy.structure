@@ -94,16 +94,16 @@
 
 <span class="sd">&quot;&quot;&quot;Basic parser for PDB structure format.</span>
 
-<span class="sd">References</span>
-
-<span class="sd">    http://www.wwpdb.org/documentation/format23/v2.3.html</span>
-<span class="sd">    http://www.wwpdb.org/documentation/format30/index.html</span>
+<span class="sd">Note</span>
+<span class="sd">----</span>
+<span class="sd">References:</span>
+<span class="sd">    https://www.wwpdb.org/documentation/file-format-content/format23/v2.3.html</span>
+<span class="sd">    https://www.wwpdb.org/documentation/file-format-content/format30/index.html</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">six</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">pi</span>
 
 <span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Structure</span>
@@ -115,13 +115,14 @@
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdb.P_pdb">[docs]</a>
 <span class="k">class</span> <span class="nc">P_pdb</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple parser for PDB format.</span>
-<span class="sd">    The parser understands following PDB records: TITLE, CRYST1, SCALE1,</span>
-<span class="sd">    SCALE2, SCALE3, ATOM, SIGATM, ANISOU, SIGUIJ, TER, HETATM, END</span>
 
-<span class="sd">    Static data members:</span>
+<span class="sd">    The parser understands following PDB records: `TITLE, CRYST1, SCALE1,</span>
+<span class="sd">    SCALE2, SCALE3, ATOM, SIGATM, ANISOU, SIGUIJ, TER, HETATM, END`.</span>
 
-<span class="sd">    orderOfRecords -- order of PDB record labels</span>
-<span class="sd">    validRecords   -- dictionary of valid PDB records</span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        Format name, default &quot;pdb&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Static data members</span>
@@ -182,7 +183,10 @@
         <span class="s2">&quot;MASTER&quot;</span><span class="p">,</span>
         <span class="s2">&quot;END&quot;</span><span class="p">,</span>
     <span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;list: Ordered list of PDB record labels.&quot;&quot;&quot;</span>
+
     <span class="n">validRecords</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">orderOfRecords</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;dict: Dictionary of PDB record labels.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">StructureParser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -194,7 +198,20 @@
     <span class="k">def</span> <span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse list of lines in PDB format.</span>
 
-<span class="sd">        Return Structure instance or raise StructureFormatError.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lines : list of str</span>
+<span class="sd">            List of lines in PDB format.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            Parsed structure instance.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            Invalid PDB record.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">stru</span> <span class="o">=</span> <span class="n">Structure</span><span class="p">()</span>
@@ -308,14 +325,14 @@
             <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">: invalid PDB record&quot;</span> <span class="o">%</span> <span class="n">p_nl</span>
             <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
-            <span class="n">six</span><span class="o">.</span><span class="n">reraise</span><span class="p">(</span><span class="n">StructureFormatError</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stru</span></div>
 
 
 <div class="viewcode-block" id="P_pdb.titleLines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdb.P_pdb.titleLines">[docs]</a>
     <span class="k">def</span> <span class="nf">titleLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;build lines corresponding to TITLE record&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build lines corresponding to `TITLE` record.&quot;&quot;&quot;</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">title</span> <span class="o">=</span> <span class="n">stru</span><span class="o">.</span><span class="n">title</span>
         <span class="k">while</span> <span class="n">title</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
@@ -337,7 +354,7 @@
 <div class="viewcode-block" id="P_pdb.cryst1Lines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdb.P_pdb.cryst1Lines">[docs]</a>
     <span class="k">def</span> <span class="nf">cryst1Lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;build lines corresponding to CRYST1 record&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build lines corresponding to `CRYST1` record.&quot;&quot;&quot;</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">latpar</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">stru</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">a</span><span class="p">,</span>
@@ -356,8 +373,8 @@
 <div class="viewcode-block" id="P_pdb.atomLines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdb.P_pdb.atomLines">[docs]</a>
     <span class="k">def</span> <span class="nf">atomLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;build ATOM records and possibly SIGATM, ANISOU or SIGUIJ records</span>
-<span class="sd">        for structure stru atom number aidx</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build `ATOM` records and possibly `SIGATM`, `ANISOU` or `SIGUIJ` records</span>
+<span class="sd">        for `structure` stru `atom` number aidx.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">stru</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
@@ -436,9 +453,17 @@
 <div class="viewcode-block" id="P_pdb.toLines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdb.P_pdb.toLines">[docs]</a>
     <span class="k">def</span> <span class="nf">toLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Structure stru to a list of lines in PDFFit format.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert `Structure` stru to a list of lines in PDB format.</span>
 
-<span class="sd">        Return list of strings.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stru : Structure</span>
+<span class="sd">            Structure to be converted.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of str</span>
+<span class="sd">            List of lines in PDB format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">titleLines</span><span class="p">(</span><span class="n">stru</span><span class="p">))</span>
@@ -469,6 +494,13 @@
 <div class="viewcode-block" id="getParser">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_pdb.getParser">[docs]</a>
 <span class="k">def</span> <span class="nf">getParser</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return new `parser` object for PDB format.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    P_pdb</span>
+<span class="sd">        Instance of `P_pdb`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">P_pdb</span><span class="p">()</span></div>
 
 </pre></div>

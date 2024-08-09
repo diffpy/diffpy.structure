@@ -106,11 +106,17 @@
 <span class="k">def</span> <span class="nf">makeSphere</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a spherical nanoparticle.</span>
 
-<span class="sd">    Arguments</span>
-<span class="sd">    S       --  A Structure instance</span>
-<span class="sd">    radius  --  primary equatorial radius (along x-axis)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    S : Structure</span>
+<span class="sd">        A `Structure` instance.</span>
+<span class="sd">    radius : float</span>
+<span class="sd">        Primary equatorial radius (along x-axis).</span>
 
-<span class="sd">    Returns a new structure instance</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Structure</span>
+<span class="sd">        A new `Structure` instance.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">makeEllipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span></div>
 
@@ -119,17 +125,26 @@
 <div class="viewcode-block" id="makeEllipsoid">
 <a class="viewcode-back" href="../../../../diffpy.structure.expansion.html#diffpy.structure.expansion.makeellipsoid.makeEllipsoid">[docs]</a>
 <span class="k">def</span> <span class="nf">makeEllipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cut a structure out of another one.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cut a `Structure` out of another one.</span>
 
-<span class="sd">    Arguments</span>
-<span class="sd">    S       --  A Structure instance</span>
-<span class="sd">    a       --  primary equatorial radius (along x-axis)</span>
-<span class="sd">    b       --  secondary equatorial radius (along y-axis). If b is None</span>
-<span class="sd">                (default) then it is set equal to a</span>
-<span class="sd">    c       --  polar radius (along z-axis). If c is None (default), then it is</span>
-<span class="sd">                set equal to a.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    S : Structure</span>
+<span class="sd">        A `Structure` instance.</span>
+<span class="sd">    a : float</span>
+<span class="sd">        Primary equatorial radius (along x-axis).</span>
+<span class="sd">    b : float, Optional</span>
+<span class="sd">        Secondary equatorial radius (along y-axis). If `b` is ``None``</span>
+<span class="sd">        (default), then it is set equal to `a`.</span>
+<span class="sd">    c : float, Optional</span>
+<span class="sd">        Polar radius (along z-axis). If `c` is ``None`` (default), then it is</span>
+<span class="sd">        set equal to `a`.</span>
 
-<span class="sd">    Returns a new structure instance</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Structure :</span>
+<span class="sd">        A new `Structure` instance.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>

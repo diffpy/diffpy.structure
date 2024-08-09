@@ -101,9 +101,12 @@
 <span class="k">class</span> <span class="nc">StructureParser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all structure parsers.</span>
 
-<span class="sd">    Data members:</span>
-<span class="sd">        format   -- format of particular parser</span>
-<span class="sd">        filename -- path to structure file that is read or written</span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        Format name of particular parser.</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Path to structure file that is read or written.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -117,6 +120,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create Structure instance from a list of lines.</span>
 
 <span class="sd">        Return Structure object or raise StructureFormatError exception.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
 <span class="sd">        This method has to be overloaded in derived class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;parseLines not defined for &#39;</span><span class="si">%s</span><span class="s2">&#39; format&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
@@ -127,9 +133,12 @@
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.structureparser.StructureParser.toLines">[docs]</a>
     <span class="k">def</span> <span class="nf">toLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Structure stru to a list of lines.</span>
-<span class="sd">        This method has to be overloaded in derived class.</span>
 
 <span class="sd">        Return list of strings.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        This method has to be overloaded in derived class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;toLines not defined for &#39;</span><span class="si">%s</span><span class="s2">&#39; format&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">)</span></div>
 
@@ -137,10 +146,7 @@
 <div class="viewcode-block" id="StructureParser.parse">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.structureparser.StructureParser.parse">[docs]</a>
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create Structure instance from a string.</span>
-
-<span class="sd">        Return Structure object or raise StructureFormatError exception.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create `Structure` instance from a string.&quot;&quot;&quot;</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">stru</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseLines</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stru</span></div>
@@ -149,7 +155,7 @@
 <div class="viewcode-block" id="StructureParser.tostring">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.structureparser.StructureParser.tostring">[docs]</a>
     <span class="k">def</span> <span class="nf">tostring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Structure instance to a string.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert `Structure` instance to a string.&quot;&quot;&quot;</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">toLines</span><span class="p">(</span><span class="n">stru</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="n">s</span></div>
@@ -158,13 +164,7 @@
 <div class="viewcode-block" id="StructureParser.parseFile">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.structureparser.StructureParser.parseFile">[docs]</a>
     <span class="k">def</span> <span class="nf">parseFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create Structure instance from an existing file.</span>
-
-<span class="sd">        filename  -- path to structure file</span>
-
-<span class="sd">        Return Structure object.</span>
-<span class="sd">        Raise StructureFormatError or IOError.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create Structure instance from an existing file.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>

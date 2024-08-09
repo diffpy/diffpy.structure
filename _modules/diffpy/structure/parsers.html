@@ -91,22 +91,22 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 
-<span class="sd">&quot;&quot;&quot;Conversion plugins for various structure formats</span>
+<span class="sd">&quot;&quot;&quot;Conversion plugins for various structure formats.</span>
 
-<span class="sd">The recognized structure formats are defined by subclassing StructureParser,</span>
-<span class="sd">by convention these classes are named P_&lt;format&gt;.  The parser classes should</span>
-<span class="sd">to override the parseLines() and toLines() methods of StructureParser.</span>
-<span class="sd">Any structure parser needs to be registered in parser_index module.</span>
+<span class="sd">The recognized structure formats are defined by subclassing `StructureParser`,</span>
+<span class="sd">by convention these classes are named `P_&lt;format&gt;.py`. The parser classes should</span>
+<span class="sd">to override the `parseLines()` and `toLines()` methods of `StructureParser`.</span>
+<span class="sd">Any structure parser needs to be registered in `parser_index` module.</span>
 
 <span class="sd">For normal usage it should be sufficient to use the routines provided</span>
 <span class="sd">in this module.</span>
 
 <span class="sd">Content:</span>
-<span class="sd">    StructureParser -- base class for a concrete Parser</span>
-<span class="sd">    parser_index    -- dictionary of known structure formats</span>
-<span class="sd">    getParser       -- factory for Parser at given format</span>
-<span class="sd">    inputFormats    -- list of available input formats</span>
-<span class="sd">    outputFormats   -- list of available output formats</span>
+<span class="sd">    * StructureParser: base class for a concrete Parser</span>
+<span class="sd">    * parser_index: dictionary of known structure formats</span>
+<span class="sd">    * getParser: factory for Parser at given format</span>
+<span class="sd">    * inputFormats: list of available input formats</span>
+<span class="sd">    * outputFormats: list of available output formats</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">diffpy.structure.parsers.parser_index_mod</span> <span class="kn">import</span> <span class="n">parser_index</span>
@@ -122,9 +122,22 @@
 <span class="k">def</span> <span class="nf">getParser</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return Parser instance for a given structure format.</span>
 
-<span class="sd">    kw   -- keyword arguments passed to the Parser init function.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        String with the format name, see `parser_index_mod`.</span>
+<span class="sd">    **kw : dict</span>
+<span class="sd">        Keyword arguments passed to the Parser init function.</span>
 
-<span class="sd">    Raises StructureFormatError exception when format is not defined.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Parser</span>
+<span class="sd">        Parser instance for the given format.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    StructureFormatError</span>
+<span class="sd">        When the format is not defined.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parser_index</span><span class="p">:</span>
         <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;no parser for &#39;</span><span class="si">%s</span><span class="s2">&#39; format&quot;</span> <span class="o">%</span> <span class="nb">format</span>
@@ -140,7 +153,7 @@
 <div class="viewcode-block" id="inputFormats">
 <a class="viewcode-back" href="../../../diffpy.structure.parsers.html#diffpy.structure.parsers.inputFormats">[docs]</a>
 <span class="k">def</span> <span class="nf">inputFormats</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return list of implemented input structure formats&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return list of implemented input structure formats.&quot;&quot;&quot;</span>
     <span class="n">input_formats</span> <span class="o">=</span> <span class="p">[</span><span class="n">fmt</span> <span class="k">for</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">parser_index</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">prop</span><span class="p">[</span><span class="s2">&quot;has_input&quot;</span><span class="p">]]</span>
     <span class="n">input_formats</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">input_formats</span></div>
@@ -150,7 +163,7 @@
 <div class="viewcode-block" id="outputFormats">
 <a class="viewcode-back" href="../../../diffpy.structure.parsers.html#diffpy.structure.parsers.outputFormats">[docs]</a>
 <span class="k">def</span> <span class="nf">outputFormats</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;return list of implemented output structure formats&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return list of implemented output structure formats.&quot;&quot;&quot;</span>
     <span class="n">output_formats</span> <span class="o">=</span> <span class="p">[</span><span class="n">fmt</span> <span class="k">for</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">parser_index</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">prop</span><span class="p">[</span><span class="s2">&quot;has_output&quot;</span><span class="p">]]</span>
     <span class="n">output_formats</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">output_formats</span></div>

@@ -91,7 +91,7 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 
-<span class="sd">&quot;&quot;&quot;definition of PDFFitStructure class derived from Structure</span>
+<span class="sd">&quot;&quot;&quot;Definition of PDFFitStructure class derived from Structure</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
@@ -103,13 +103,20 @@
 <div class="viewcode-block" id="PDFFitStructure">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.pdffitstructure.PDFFitStructure">[docs]</a>
 <span class="k">class</span> <span class="nc">PDFFitStructure</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;PDFFitStructure --&gt; Structure with extra pdffit member</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;PDFFitStructure --&gt; Structure with extra pdffit member.</span>
 
-<span class="sd">    Data members:</span>
-<span class="sd">        pdffit -- dictionary for storing following extra parameters from</span>
-<span class="sd">                  PDFFit structure files:</span>
-<span class="sd">                      &#39;scale&#39;, &#39;delta1&#39;, &#39;delta2&#39;, &#39;sratio&#39;,</span>
-<span class="sd">                      &#39;rcut&#39;, &#39;spcgr&#39;, &#39;dcell&#39;, &#39;ncell&#39;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    *args, **kwargs :</span>
+<span class="sd">        See `Structure` class constructor.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pdffit : dict</span>
+<span class="sd">        Dictionary for storing following extra parameters from</span>
+<span class="sd">        PDFFit structure files:</span>
+<span class="sd">            `&#39;scale&#39;, &#39;delta1&#39;, &#39;delta2&#39;, &#39;sratio&#39;,</span>
+<span class="sd">            &#39;rcut&#39;, &#39;spcgr&#39;, &#39;dcell&#39;, &#39;ncell&#39;`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -131,11 +138,23 @@
 <div class="viewcode-block" id="PDFFitStructure.read">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.pdffitstructure.PDFFitStructure.read">[docs]</a>
     <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Same as Structure.read, but update spcgr value in</span>
-<span class="sd">        self.pdffit when parser can get spacegroup.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Same as `Structure.read`, but update `spcgr` value in</span>
+<span class="sd">        `self.pdffit` when parser can get spacegroup.</span>
 
-<span class="sd">        Return instance of StructureParser used to load the data.</span>
-<span class="sd">        See Structure.read() for more info.</span>
+<span class="sd">        See `Structure.read()` for more info.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            File to be loaded.</span>
+<span class="sd">        format : str, Optional</span>
+<span class="sd">            All structure formats are defined in parsers submodule,</span>
+<span class="sd">            when ``format == &#39;auto&#39;`` all parsers are tried one by one.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureParser</span>
+<span class="sd">            Instance of StructureParser used to load the data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">Structure</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
         <span class="n">sg</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;spacegroup&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -147,11 +166,23 @@
 <div class="viewcode-block" id="PDFFitStructure.readStr">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.pdffitstructure.PDFFitStructure.readStr">[docs]</a>
     <span class="k">def</span> <span class="nf">readStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Same as Structure.readStr, but update spcgr value in</span>
-<span class="sd">        self.pdffit when parser can get spacegroup.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Same as `Structure.readStr`, but update `spcgr` value in</span>
+<span class="sd">        `self.pdffit` when parser can get spacegroup.</span>
 
-<span class="sd">        Return instance of StructureParser used to load the data.</span>
-<span class="sd">        See Structure.readStr() for more info.</span>
+<span class="sd">        See `Structure.readStr()` for more info.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : str</span>
+<span class="sd">            String with structure definition.</span>
+<span class="sd">        format : str, Optional</span>
+<span class="sd">            All structure formats are defined in parsers submodule. When ``format == &#39;auto&#39;``,</span>
+<span class="sd">            all parsers are tried one by one.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureParser</span>
+<span class="sd">            Instance of `StructureParser` used to load the data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">Structure</span><span class="o">.</span><span class="n">readStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
         <span class="n">sg</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;spacegroup&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>

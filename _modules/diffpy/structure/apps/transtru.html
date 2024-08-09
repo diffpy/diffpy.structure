@@ -91,22 +91,26 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 
-<span class="sd">&quot;&quot;&quot;transtru   translate structure file to different format</span>
-<span class="sd">Usage: transtru INFMT..OUTFMT strufile</span>
+<span class="sd">&quot;&quot;&quot;Translate structure file to different format.</span>
 
-<span class="sd">translates structure file strufile from INFMT to OUTFMT format and prints it</span>
-<span class="sd">to the screen.  Use &quot;-&quot; as strufile to read from standard input.  To save the</span>
+<span class="sd">Usage: ``transtru INFMT..OUTFMT strufile``</span>
+
+<span class="sd">Translates structure file strufile from `INFMT` to `OUTFMT` format and prints it</span>
+<span class="sd">to the screen. Use &quot;-&quot; as `strufile` to read from standard input. To save the</span>
 <span class="sd">translated file, use</span>
 
-<span class="sd">    transtru INFMT..OUTFMT strufile &gt; strufile.out</span>
+<span class="sd">    ``transtru INFMT..OUTFMT strufile &gt; strufile.out``</span>
 
 <span class="sd">Supported input and output structure formats are</span>
-<span class="sd">  INFMT:   inputFormats</span>
-<span class="sd">  OUTFMT:  outputFormats</span>
+<span class="sd">    * `INFMT`: ``inputFormats``</span>
+<span class="sd">    * `OUTFMT`: ``outputFormats``</span>
 
 <span class="sd">Options:</span>
-<span class="sd">  -h, --help      display this message</span>
-<span class="sd">  -V, --version   show script version</span>
+<span class="sd">  -h, --help</span>
+<span class="sd">    Display this message.</span>
+
+<span class="sd">  -V, --version</span>
+<span class="sd">    Show script version.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
@@ -120,7 +124,7 @@
 <div class="viewcode-block" id="usage">
 <a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.transtru.usage">[docs]</a>
 <span class="k">def</span> <span class="nf">usage</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;show usage info, for style==&quot;brief&quot; show only first 2 lines&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show usage info, for ``style==&quot;brief&quot;`` show only first 2 lines.&quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">os.path</span>
 
     <span class="n">myname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>

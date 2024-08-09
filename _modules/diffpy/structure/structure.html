@@ -91,14 +91,13 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 
-<span class="sd">&quot;&quot;&quot;This module defines class Structure.</span>
+<span class="sd">&quot;&quot;&quot;This module defines class `Structure`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">codecs</span>
 <span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">copymod</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">from</span> <span class="nn">diffpy.structure.atom</span> <span class="kn">import</span> <span class="n">Atom</span>
 <span class="kn">from</span> <span class="nn">diffpy.structure.lattice</span> <span class="kn">import</span> <span class="n">Lattice</span>
@@ -110,45 +109,65 @@
 <div class="viewcode-block" id="Structure">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure">[docs]</a>
 <span class="k">class</span> <span class="nc">Structure</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Structure --&gt; group of atoms</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Define group of atoms in a specified lattice. Structure --&gt; group of atoms.</span>
 
-<span class="sd">    Structure class is inherited from Python list.  It contains</span>
-<span class="sd">    a list of Atom instances.  Structure overloads setitem and setslice</span>
-<span class="sd">    methods so that the lattice attribute of atoms get set to lattice.</span>
+<span class="sd">    `Structure` class is inherited from Python `list`. It contains</span>
+<span class="sd">    a list of `Atom` instances. `Structure` overloads `setitem` and `setslice`</span>
+<span class="sd">    methods so that the `lattice` attribute of atoms get set to `lattice`.</span>
 
-<span class="sd">    Data members:</span>
-<span class="sd">        title   -- structure description</span>
-<span class="sd">        lattice -- coordinate system (instance of Lattice)</span>
-<span class="sd">        pdffit  -- None or a dictionary of PDFFit-related metadata</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    atoms : list of Atom or Structure, Optional</span>
+<span class="sd">        List of `Atom` instances to be included in this `Structure`.</span>
+<span class="sd">        When `atoms` argument is an existing `Structure` instance,</span>
+<span class="sd">        the new structure is its copy.</span>
+<span class="sd">    lattice : Lattice, Optional</span>
+<span class="sd">        Instance of `Lattice` defining coordinate systems, property.</span>
+<span class="sd">    title : str, Optional</span>
+<span class="sd">        String description of the structure.</span>
+<span class="sd">    filename : str, Optional</span>
+<span class="sd">        Name of a file to load the structure from.</span>
+<span class="sd">    format : str, Optional</span>
+<span class="sd">        `Structure` format of the loaded `filename`. By default</span>
+<span class="sd">        all structure formats are tried one by one. Ignored when</span>
+<span class="sd">        `filename` has not been specified.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    Cannot use `filename` and `atoms` arguments together. Overrides `atoms` argument</span>
+<span class="sd">    when `filename` is specified.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    title : str</span>
+<span class="sd">        String description of the structure.</span>
+<span class="sd">    lattice : Lattice</span>
+<span class="sd">        Instance of `Lattice` defining coordinate systems.</span>
+<span class="sd">    pdffit : None or dict</span>
+<span class="sd">        Dictionary of PDFFit-related metadata.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    ``Structure(stru)`` create a copy of `Structure` instance stru.</span>
+
+<span class="sd">    &gt;&gt;&gt; stru = Structure()</span>
+<span class="sd">    &gt;&gt;&gt; copystru = Structure(stru)</span>
+
+<span class="sd">    `Structure` is inherited from a list it can use list expansions.</span>
+
+<span class="sd">    &gt;&gt;&gt; oxygen_atoms = [a for a in stru if a.element == &quot;O&quot; ]</span>
+<span class="sd">    &gt;&gt;&gt; oxygen_stru = Structure(oxygen_atoms, lattice=stru.lattice)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># default values for instance attributes</span>
-
     <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: default values for `title`.&quot;&quot;&quot;</span>
+
     <span class="n">_lattice</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">pdffit</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;None: default values for `pdffit`.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lattice</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;define group of atoms in a specified lattice.</span>
-
-<span class="sd">        atoms    -- list of Atom instances to be included in this Structure.</span>
-<span class="sd">                    When atoms argument is an existing Structure instance,</span>
-<span class="sd">                    the new Structure is its copy.</span>
-<span class="sd">        lattice  -- instance of Lattice defining coordinate systems, property.</span>
-<span class="sd">        title    -- string description of the structure</span>
-<span class="sd">        filename -- optional, name of a file to load the structure from.</span>
-<span class="sd">                    Overrides atoms argument when specified.</span>
-<span class="sd">        format   -- optional structure format of the loaded filename.  By default</span>
-<span class="sd">                    all structure formats are tried one by one.  Ignored when</span>
-<span class="sd">                    filename has not been specified.</span>
-
-<span class="sd">        Structure(stru)     create a copy of Structure instance stru.</span>
-
-<span class="sd">        Because Structure is inherited from a list it can use list expansions,</span>
-<span class="sd">        for example:</span>
-<span class="sd">            oxygen_atoms = [ for a in stru if a.element == &quot;O&quot; ]</span>
-<span class="sd">            oxygen_stru = Structure(oxygen_atoms, lattice=stru.lattice)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># if filename is specified load it and return</span>
         <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="n">atoms</span><span class="p">,</span> <span class="n">lattice</span><span class="p">,</span> <span class="n">title</span><span class="p">)):</span>
@@ -175,18 +194,23 @@
 <div class="viewcode-block" id="Structure.copy">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.copy">[docs]</a>
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a copy of this Structure object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a copy of this `Structure` object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">copymod</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
     <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a deep copy of this instance.</span>
 
-<span class="sd">        target   -- optional target instance for copying, useful for</span>
-<span class="sd">                    copying a derived class.  Defaults to new instance</span>
-<span class="sd">                    of the same type as self.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        target :</span>
+<span class="sd">            Optional target instance for copying, useful for</span>
+<span class="sd">            copying a derived class. Defaults to new instance</span>
+<span class="sd">            of the same type as self.</span>
 
-<span class="sd">        Return a duplicate instance of this object.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A duplicate instance of this object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">Structure</span><span class="p">()</span>
@@ -201,7 +225,7 @@
         <span class="k">return</span> <span class="n">target</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;simple string representation&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Simple string representation.&quot;&quot;&quot;</span>
         <span class="n">s_lattice</span> <span class="o">=</span> <span class="s2">&quot;lattice=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span>
         <span class="n">s_atoms</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">s_lattice</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">s_atoms</span>
@@ -209,11 +233,12 @@
 <div class="viewcode-block" id="Structure.addNewAtom">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.addNewAtom">[docs]</a>
     <span class="k">def</span> <span class="nf">addNewAtom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add new Atom instance to the end of this Structure.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add new `Atom` instance to the end of this `Structure`.</span>
 
-<span class="sd">        All arguments are forwarded to Atom constructor.</span>
-
-<span class="sd">        No return value.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        *args, **kwargs :</span>
+<span class="sd">            See `Atom` class constructor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;lattice&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">Atom</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -224,7 +249,7 @@
 <div class="viewcode-block" id="Structure.getLastAtom">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.getLastAtom">[docs]</a>
     <span class="k">def</span> <span class="nf">getLastAtom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return Reference to the last Atom in this structure.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return Reference to the last `Atom` in this structure.&quot;&quot;&quot;</span>
         <span class="n">last_atom</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">last_atom</span></div>
 
@@ -232,11 +257,10 @@
 <div class="viewcode-block" id="Structure.assignUniqueLabels">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.assignUniqueLabels">[docs]</a>
     <span class="k">def</span> <span class="nf">assignUniqueLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a unique label string for each atom in this structure.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a unique label string for each `Atom` in this structure.</span>
+
 <span class="sd">        The label strings are formatted as &quot;%(baresymbol)s%(index)i&quot;,</span>
 <span class="sd">        where baresymbol is the element right-stripped of &quot;[0-9][+-]&quot;.</span>
-
-<span class="sd">        No return value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">elnum</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># support duplicate atom instances</span>
@@ -254,14 +278,24 @@
 <div class="viewcode-block" id="Structure.distance">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.distance">[docs]</a>
     <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aid0</span><span class="p">,</span> <span class="n">aid1</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Distance between 2 atoms, no periodic boundary conditions.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate distance between 2 `Atoms`, no periodic boundary conditions.</span>
 
-<span class="sd">        aid0 -- zero based index of the first atom or a string label</span>
-<span class="sd">                such as &quot;Na1&quot;</span>
-<span class="sd">        aid1 -- zero based index or string label of the second atom.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        aid0 : int or str</span>
+<span class="sd">            Zero based index of the first `Atom` or a string label.</span>
+<span class="sd">        aid1 : int or str</span>
+<span class="sd">            Zero based index or string label of the second atom.</span>
 
-<span class="sd">        Return float.</span>
-<span class="sd">        Raise IndexError for invalid arguments.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Distance between the two `Atoms` in Angstroms.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If any of the `Atom` indices or labels are invalid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># lookup by labels</span>
         <span class="n">a0</span><span class="p">,</span> <span class="n">a1</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">aid0</span><span class="p">,</span> <span class="n">aid1</span><span class="p">]</span>
@@ -271,16 +305,27 @@
 <div class="viewcode-block" id="Structure.angle">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.angle">[docs]</a>
     <span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aid0</span><span class="p">,</span> <span class="n">aid1</span><span class="p">,</span> <span class="n">aid2</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The bond angle at the second of three atoms in degrees.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The bond angle at the second of three `Atoms` in degrees.</span>
 
-<span class="sd">        aid0 -- zero based index of the first atom or a string label</span>
-<span class="sd">                such as &quot;Na1&quot;</span>
-<span class="sd">        aid1 -- index or string label for the second atom,</span>
-<span class="sd">                where the angle is formed</span>
-<span class="sd">        aid2 -- index or string label for the third atom</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        aid0 : int or str</span>
+<span class="sd">            Zero based index of the first `Atom` or a string label.</span>
+<span class="sd">        aid1 : int or str</span>
+<span class="sd">            Index or string label for the second atom, where the angle is formed.</span>
+<span class="sd">        aid2 : int or str</span>
+<span class="sd">            Index or string label for the third atom.</span>
 
-<span class="sd">        Return float.</span>
-<span class="sd">        Raise IndexError for invalid arguments.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The bond angle in degrees.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If any of the arguments are invalid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">a0</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">aid0</span><span class="p">,</span> <span class="n">aid1</span><span class="p">,</span> <span class="n">aid2</span><span class="p">]</span>
         <span class="n">u10</span> <span class="o">=</span> <span class="n">a0</span><span class="o">.</span><span class="n">xyz</span> <span class="o">-</span> <span class="n">a1</span><span class="o">.</span><span class="n">xyz</span>
@@ -291,12 +336,21 @@
 <div class="viewcode-block" id="Structure.placeInLattice">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.placeInLattice">[docs]</a>
     <span class="k">def</span> <span class="nf">placeInLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_lattice</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;place structure into new_lattice coordinate system</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;place structure into `new_lattice` coordinate system.</span>
 
-<span class="sd">        sets lattice to new_lattice and recalculate fractional coordinates</span>
-<span class="sd">        of all atoms so their absolute positions remain the same</span>
+<span class="sd">        Sets `lattice` to `new_lattice` and recalculate fractional coordinates</span>
+<span class="sd">        of all `Atoms` so their absolute positions remain the same.</span>
 
-<span class="sd">        return self</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        new_lattice : Lattice</span>
+<span class="sd">            New `lattice` to place the structure into.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            Reference to this `Structure` object. The `lattice` attribute</span>
+<span class="sd">            is updated to `new_lattice`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Tx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">base</span><span class="p">,</span> <span class="n">new_lattice</span><span class="o">.</span><span class="n">recbase</span><span class="p">)</span>
         <span class="n">Tu</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">normbase</span><span class="p">,</span> <span class="n">new_lattice</span><span class="o">.</span><span class="n">recnormbase</span><span class="p">)</span>
@@ -313,12 +367,19 @@
     <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load structure from a file, any original data become lost.</span>
 
-<span class="sd">        filename -- file to be loaded</span>
-<span class="sd">        format   -- all structure formats are defined in parsers submodule,</span>
-<span class="sd">                    when format == &#39;auto&#39; all parsers are tried one by one</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            File to be loaded.</span>
+<span class="sd">        format : str, Optional</span>
+<span class="sd">            All structure formats are defined in parsers submodule,</span>
+<span class="sd">            when ``format == &#39;auto&#39;`` all parsers are tried one by one.</span>
 
-<span class="sd">        Return instance of data Parser used to process file.  This</span>
-<span class="sd">        can be inspected for information related to particular format.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Parser</span>
+<span class="sd">            Return instance of data Parser used to process input string. This</span>
+<span class="sd">            can be inspected for information related to particular format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">diffpy.structure</span>
         <span class="kn">import</span> <span class="nn">diffpy.structure.parsers</span>
@@ -344,14 +405,21 @@
 <div class="viewcode-block" id="Structure.readStr">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.readStr">[docs]</a>
     <span class="k">def</span> <span class="nf">readStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load structure from a string, any original data become lost.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read structure from a string.</span>
 
-<span class="sd">        s        -- string with structure definition</span>
-<span class="sd">        format   -- all structure formats are defined in parsers submodule,</span>
-<span class="sd">                    when format == &#39;auto&#39; all parsers are tried one by one</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : str</span>
+<span class="sd">            String with structure definition.</span>
+<span class="sd">        format : str, Optional</span>
+<span class="sd">            All structure formats are defined in parsers submodule. When ``format == &#39;auto&#39;``,</span>
+<span class="sd">            all parsers are tried one by one.</span>
 
-<span class="sd">        Return instance of data Parser used to process input string.  This</span>
-<span class="sd">        can be inspected for information related to particular format.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Parser</span>
+<span class="sd">            Return instance of data Parser used to process input string. This</span>
+<span class="sd">            can be inspected for information related to particular format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">getParser</span>
 
@@ -369,12 +437,20 @@
 <div class="viewcode-block" id="Structure.write">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.write">[docs]</a>
     <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save structure to file in the specified format</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save structure to file in the specified format.</span>
 
-<span class="sd">        No return value.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            File to save the structure to.</span>
+<span class="sd">        format : str</span>
+<span class="sd">            `Structure` format to use for saving.</span>
 
-<span class="sd">        Note: available structure formats can be obtained by:</span>
-<span class="sd">            from parsers import formats</span>
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        Available structure formats can be obtained by:</span>
+
+<span class="sd">            ``from parsers import formats``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">getParser</span>
 
@@ -389,10 +465,13 @@
 <div class="viewcode-block" id="Structure.writeStr">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.writeStr">[docs]</a>
     <span class="k">def</span> <span class="nf">writeStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;return string representation of the structure in specified format</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;return string representation of the structure in specified format.</span>
 
-<span class="sd">        Note: available structure formats can be obtained by:</span>
-<span class="sd">            from parsers import formats</span>
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        Available structure formats can be obtained by:</span>
+
+<span class="sd">            ``from parsers import formats``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">getParser</span>
 
@@ -404,7 +483,7 @@
 <div class="viewcode-block" id="Structure.tolist">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.tolist">[docs]</a>
     <span class="k">def</span> <span class="nf">tolist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return atoms in this Structure as a standard Python list.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return `Atoms` in this `Structure` as a standard Python list.&quot;&quot;&quot;</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">rv</span></div>
 
@@ -414,13 +493,14 @@
 <div class="viewcode-block" id="Structure.append">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.append">[docs]</a>
     <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append atom to a structure and update its lattice attribute.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append `Atom` to a structure and update its `lattice` attribute.</span>
 
-<span class="sd">        a    -- instance of Atom</span>
-<span class="sd">        copy -- flag for appending a copy of a.</span>
-<span class="sd">                When False, append a and update a.lattice.</span>
-
-<span class="sd">        No return value.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        a : Atom</span>
+<span class="sd">            Instance of `Atom` to be appended.</span>
+<span class="sd">        copy : bool, Optional</span>
+<span class="sd">            Flag for appending a copy of `a`. When ``False``, append `a` and update `a.lattice`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">adup</span> <span class="o">=</span> <span class="n">copy</span> <span class="ow">and</span> <span class="n">Atom</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">or</span> <span class="n">a</span>
         <span class="n">adup</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span>
@@ -431,14 +511,16 @@
 <div class="viewcode-block" id="Structure.insert">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.insert">[docs]</a>
     <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert atom a before position idx in this Structure.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert `Atom` a before position idx in this `Structure`.</span>
 
-<span class="sd">        idx  -- position in atom list</span>
-<span class="sd">        a    -- instance of Atom</span>
-<span class="sd">        copy -- flag for inserting a copy of a.</span>
-<span class="sd">                When False, append a and update a.lattice.</span>
-
-<span class="sd">        No return value.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        idx : int</span>
+<span class="sd">            Position in `Atom` list.</span>
+<span class="sd">        a : Atom</span>
+<span class="sd">            Instance of `Atom` to be inserted.</span>
+<span class="sd">        copy : bool, Optional</span>
+<span class="sd">            Flag for inserting a copy of `a`. When ``False``, append `a` and update `a.lattice`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">adup</span> <span class="o">=</span> <span class="n">copy</span> <span class="ow">and</span> <span class="n">copymod</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">or</span> <span class="n">a</span>
         <span class="n">adup</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span>
@@ -449,17 +531,17 @@
 <div class="viewcode-block" id="Structure.extend">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.extend">[docs]</a>
     <span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extend Structure with an iterable of atoms.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extend `Structure` with an iterable of `atoms`.</span>
 
-<span class="sd">        Update the `lattice` attribute of all added atoms.</span>
+<span class="sd">        Update the `lattice` attribute of all added `atoms`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        atoms : iterable</span>
-<span class="sd">            The `Atom` objects to be appended to this Structure.</span>
-<span class="sd">        copy : bool, optional</span>
-<span class="sd">            Flag for adding copies of Atom objects.</span>
-<span class="sd">            Make copies when `True`, append `atoms` unchanged when ``False``.</span>
+<span class="sd">        atoms : Iterable</span>
+<span class="sd">            The `Atom` objects to be appended to this `Structure`.</span>
+<span class="sd">        copy : bool, Optional</span>
+<span class="sd">            Flag for adding copies of `Atom` objects.</span>
+<span class="sd">            Make copies when ``True``, append `atoms` unchanged when ``False``.</span>
 <span class="sd">            The default behavior is to make copies when `atoms` are of</span>
 <span class="sd">            `Structure` type or if new atoms introduce repeated objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -490,25 +572,44 @@
 
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get one or more atoms in this structure.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get one or more `Atoms` in this structure.</span>
 
-<span class="sd">        idx  -- atom identifier, which can be integer, string or iterable.</span>
-<span class="sd">                When integer use standard list lookup.  For iterables use</span>
-<span class="sd">                numpy lookup, this supports integer or boolean flag arrays.</span>
-<span class="sd">                For string or string-containing iterables lookup the atoms</span>
-<span class="sd">                by string label.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        idx : int ot str ot Iterable</span>
+<span class="sd">            `Atom` identifier. When integer use standard list lookup.</span>
+<span class="sd">            For iterables use numpy lookup, this supports integer or</span>
+<span class="sd">            boolean flag arrays. For string or string-containing iterables</span>
+<span class="sd">            lookup the `Atoms` by string label.</span>
 
-<span class="sd">        Return an Atom instance for integer or string index or a substructure</span>
-<span class="sd">        in all other cases.  Raise IndexError for invalid index or for</span>
-<span class="sd">        non-unique atom label.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Atom or Structure</span>
+<span class="sd">            An `Atom` instance for integer or string index or a substructure</span>
+<span class="sd">            in all other cases.</span>
 
-<span class="sd">        Examples:</span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If the index is invalid or the `Atom` label is not unique.</span>
 
-<span class="sd">        stru[0]  --&gt;  first atom in the Structure</span>
-<span class="sd">        stru[stru.element == &#39;Na&#39;]  --&gt;  substructure of all Na atoms</span>
-<span class="sd">        stru[&#39;Na3&#39;]  --&gt;  atom with a unique label &#39;Na3&#39;</span>
-<span class="sd">        stru[&#39;Na3&#39;, 2, &#39;Cl2&#39;]  --&gt;  substructure of three atoms, lookup by</span>
-<span class="sd">            label is more efficient when done for several atoms at once.</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        First `Atom` in the `Structure`:</span>
+
+<span class="sd">        &gt;&gt;&gt; stru[0]</span>
+
+<span class="sd">        Substructure of all ``&#39;Na&#39;`` `Atoms`:</span>
+
+<span class="sd">        &gt;&gt;&gt; stru[stru.element == &#39;Na&#39;]</span>
+
+<span class="sd">        `Atom` with a unique label ``&#39;Na3&#39;``:</span>
+<span class="sd">        &gt;&gt;&gt; stru[&#39;Na3&#39;]</span>
+
+<span class="sd">        Substructure of three `Atoms`, lookup by label is more efficient</span>
+<span class="sd">        when done for several `Atoms` at once.</span>
+
+<span class="sd">        &gt;&gt;&gt; stru[&#39;Na3&#39;, 2, &#39;Cl2&#39;]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__emptySharedStructure</span><span class="p">()</span>
@@ -521,10 +622,8 @@
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="c1"># check if there is any string label that should be resolved</span>
-        <span class="n">scalarstringlabel</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">)</span>
-        <span class="n">hasstringlabel</span> <span class="o">=</span> <span class="n">scalarstringlabel</span> <span class="ow">or</span> <span class="p">(</span>
-            <span class="n">isiterable</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">)</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">scalarstringlabel</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="n">hasstringlabel</span> <span class="o">=</span> <span class="n">scalarstringlabel</span> <span class="ow">or</span> <span class="p">(</span><span class="n">isiterable</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">))</span>
         <span class="c1"># if not, use numpy indexing to resolve idx</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">hasstringlabel</span><span class="p">:</span>
             <span class="n">idx1</span> <span class="o">=</span> <span class="n">idx</span>
@@ -565,14 +664,18 @@
         <span class="k">return</span> <span class="n">rv</span>
 
     <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign self[idx] atom to value.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign `self[idx]` `Atom` to value.</span>
 
-<span class="sd">        idx  -- index of atom in this Structure or a slice</span>
-<span class="sd">        value -- instance of Atom or an iterable.</span>
-<span class="sd">        copy -- flag for making a copy of the value.  When False, update</span>
-<span class="sd">                the `lattice` attribute of Atom objects present in value.</span>
-
-<span class="sd">        No return value.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        idx : int or slice</span>
+<span class="sd">            Index of `Atom` in this `Structure` or a slice.</span>
+<span class="sd">        value : Atom or Iterable</span>
+<span class="sd">            Instance of `Atom` or an iterable.</span>
+<span class="sd">        copy : bool, Optional</span>
+<span class="sd">            Flag for making a copy of the value. When ``False``, update</span>
+<span class="sd">            the `lattice` attribute of `Atom` objects present in value.</span>
+<span class="sd">            Default is ``True``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># handle slice assignment</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
@@ -594,32 +697,50 @@
         <span class="k">return</span>
 
     <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new Structure object with appended atoms from other.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new `Structure` object with appended `Atoms` from other.</span>
 
-<span class="sd">        other    -- sequence of Atom instances</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : sequence of Atom</span>
+<span class="sd">            Sequence of `Atom` instances.</span>
 
-<span class="sd">        Return new Structure with a copy of Atom instances.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            New `Structure` with a copy of `Atom` instances.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="n">copymod</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">rv</span> <span class="o">+=</span> <span class="n">other</span>
         <span class="k">return</span> <span class="n">rv</span>
 
     <span class="k">def</span> <span class="fm">__iadd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extend this Structure with atoms from other.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extend this `Structure` with `Atoms` from other.</span>
 
-<span class="sd">        other    -- sequence of Atom instances</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : sequence of Atom</span>
+<span class="sd">            Sequence of `Atom` instances.</span>
 
-<span class="sd">        Return self.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            Reference to this `Structure` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new Structure that has atoms from the other removed.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new `Structure` that has `Atoms` from the other removed.</span>
 
-<span class="sd">        other    -- sequence of Atom instances</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : sequence of Atom</span>
+<span class="sd">            Sequence of `Atom` instances.</span>
 
-<span class="sd">        Return new Structure with a copy of Atom instances.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            New `Structure` with a copy of `Atom` instances.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">otherset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="n">keepindices</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">otherset</span><span class="p">]</span>
@@ -627,23 +748,35 @@
         <span class="k">return</span> <span class="n">rv</span>
 
     <span class="k">def</span> <span class="fm">__isub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove other atoms if present in this structure.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove other `Atoms` if present in this structure.</span>
 
-<span class="sd">        other    -- sequence of Atom instances</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : sequence of Atom</span>
+<span class="sd">            Sequence of `Atom` instances.</span>
 
-<span class="sd">        Return self.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            Reference to this `Structure` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">otherset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="bp">self</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">a</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">otherset</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new Structure with n-times concatenated atoms from self.</span>
-<span class="sd">        Atoms and lattice in the new structure are all copies.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new `Structure` with n-times concatenated `Atoms` from self.</span>
+<span class="sd">        `Atoms` and `lattice` in the new structure are all copies.</span>
 
-<span class="sd">        n    -- integer multiple</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n : int</span>
+<span class="sd">            Integer multiple.</span>
 
-<span class="sd">        Return new Structure.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            New `Structure` with n-times concatenated `Atoms`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="n">copymod</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">[:</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">rv</span> <span class="o">+=</span> <span class="n">n</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -653,13 +786,19 @@
     <span class="fm">__rmul__</span> <span class="o">=</span> <span class="fm">__mul__</span>
 
     <span class="k">def</span> <span class="fm">__imul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Concatenate this Structure to n-times more atoms.</span>
-<span class="sd">        For positive multiple the current Atom objects remain at the</span>
-<span class="sd">        beginning of this Structure.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Concatenate this `Structure` to n-times more `Atoms`.</span>
+<span class="sd">        For positive multiple the current `Atom` objects remain at the</span>
+<span class="sd">        beginning of this `Structure`.</span>
 
-<span class="sd">        n    -- integer multiple</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n : int</span>
+<span class="sd">            Integer multiple.</span>
 
-<span class="sd">        Return self.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            Reference to this `Structure` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -680,7 +819,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span>
 
-    <span class="n">lattice</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_lattice</span><span class="p">,</span> <span class="n">_set_lattice</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Coordinate system for this Structure.&quot;</span><span class="p">)</span>
+    <span class="n">lattice</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_lattice</span><span class="p">,</span> <span class="n">_set_lattice</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Coordinate system for this `Structure`.&quot;</span><span class="p">)</span>
 
     <span class="c1"># composition</span>
 
@@ -696,171 +835,158 @@
 
     <span class="n">element</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;element&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Character array of atom types.  Assignment updates</span>
-<span class="sd">        the element attribute of the respective atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Character array of `Atom` types. Assignment updates</span>
+<span class="sd">        the element attribute of the respective `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
         <span class="n">toarray</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">xyz</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;xyz&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of fractional coordinates of all atoms.</span>
-<span class="sd">        Assignment updates xyz attribute of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of fractional coordinates of all `Atoms`.</span>
+<span class="sd">        Assignment updates `xyz` attribute of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">x</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;x&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of all fractional coordinates x.</span>
-<span class="sd">        Assignment updates xyz attribute of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of all fractional coordinates `x`.</span>
+<span class="sd">        Assignment updates `xyz` attribute of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">y</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;y&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of all fractional coordinates y.</span>
-<span class="sd">        Assignment updates xyz attribute of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of all fractional coordinates `y`.</span>
+<span class="sd">        Assignment updates `xyz` attribute of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">z</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;z&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of all fractional coordinates z.</span>
-<span class="sd">        Assignment updates xyz attribute of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of all fractional coordinates `z`.</span>
+<span class="sd">        Assignment updates `xyz` attribute of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">label</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;label&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Character array of atom names.  Assignment updates</span>
-<span class="sd">        the label attribute of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Character array of `Atom` names. Assignment updates</span>
+<span class="sd">        the label attribute of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
         <span class="n">toarray</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">occupancy</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;occupancy&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of atom occupancies.  Assignment updates the</span>
-<span class="sd">        occupancy attribute of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `Atom` occupancies. Assignment updates the</span>
+<span class="sd">        occupancy attribute of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">xyz_cartn</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;xyz_cartn&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of absolute Cartesian coordinates of all atoms.</span>
-<span class="sd">        Assignment updates the xyz attribute of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of absolute Cartesian coordinates of all `Atoms`.</span>
+<span class="sd">        Assignment updates the `xyz` attribute of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">anisotropy</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;anisotropy&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Boolean array for anisotropic thermal displacement flags.</span>
-<span class="sd">        Assignment updates the anisotropy attribute of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="sd">        Assignment updates the anisotropy attribute of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">U</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;U&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of anisotropic thermal displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">Uisoequiv</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;Uisoequiv&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of isotropic thermal displacement or equivalent values.</span>
-<span class="sd">        Assignment updates the U attribute of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="sd">        Assignment updates the U attribute of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">U11</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;U11&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of U11 elements of the anisotropic displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `U11` elements of the anisotropic displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">U22</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;U22&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of U22 elements of the anisotropic displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `U22` elements of the anisotropic displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">U33</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;U33&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of U33 elements of the anisotropic displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `U33` elements of the anisotropic displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">U12</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;U12&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of U12 elements of the anisotropic displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `U12` elements of the anisotropic displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">U13</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;U13&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of U13 elements of the anisotropic displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `U13` elements of the anisotropic displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">U23</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;U23&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of U23 elements of the anisotropic displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `U23` elements of the anisotropic displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">Bisoequiv</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;Bisoequiv&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of Debye-Waller isotropic thermal displacement or equivalent</span>
-<span class="sd">        values.  Assignment updates the U attribute of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="sd">        values. Assignment updates the U attribute of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">B11</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;B11&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of B11 elements of the Debye-Waller displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `B11` elements of the Debye-Waller displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">B22</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;B22&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of B22 elements of the Debye-Waller displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `B22` elements of the Debye-Waller displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">B33</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;B33&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of B33 elements of the Debye-Waller displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `B33` elements of the Debye-Waller displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">B12</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;B12&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of B12 elements of the Debye-Waller displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `B12` elements of the Debye-Waller displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">B13</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;B13&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of B13 elements of the Debye-Waller displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `B13` elements of the Debye-Waller displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">B23</span> <span class="o">=</span> <span class="n">_linkAtomAttribute</span><span class="p">(</span>
         <span class="s2">&quot;B23&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of B23 elements of the Debye-Waller displacement tensors.</span>
-<span class="sd">        Assignment updates the U and anisotropy attributes of all atoms.&quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Array of `B23` elements of the Debye-Waller displacement tensors.</span>
+<span class="sd">        Assignment updates the U and anisotropy attributes of all `Atoms`.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># Private Methods --------------------------------------------------------</span>
 
     <span class="k">def</span> <span class="nf">__emptySharedStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return empty Structure with standard attributes same as in self.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return empty `Structure` with standard attributes same as in self.&quot;&quot;&quot;</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="n">Structure</span><span class="p">()</span>
         <span class="n">rv</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">rv</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
 
-    <span class="c1"># Python 2 Compatibility -------------------------------------------------</span>
-
-    <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span><span class="p">:</span>
-
-        <span class="k">def</span> <span class="nf">__getslice__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">))</span>
-
-        <span class="k">def</span> <span class="nf">__setslice__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">),</span> <span class="n">sequence</span><span class="p">)</span>
-            <span class="k">return</span></div>
-
-
-    <span class="c1"># ------------------------------------------------------------------------</span>
 
 
 <span class="c1"># End of class Structure</span>

@@ -91,7 +91,7 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 
-<span class="sd">&quot;&quot;&quot;This module contains functions for simple structure manipulation.</span>
+<span class="sd">&quot;&quot;&quot;This module contains functions for simple `Structure` manipulation.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span>
@@ -102,19 +102,32 @@
 <div class="viewcode-block" id="supercell">
 <a class="viewcode-back" href="../../../../diffpy.structure.expansion.html#diffpy.structure.expansion.supercell_mod.supercell">[docs]</a>
 <span class="k">def</span> <span class="nf">supercell</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">mno</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform supercell expansion for a structure.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform supercell expansion for a `Structure`.</span>
 
-<span class="sd">    New lattice parameters are multiplied and fractional coordinates</span>
-<span class="sd">    divided by corresponding multiplier.  New atoms are grouped with</span>
+<span class="sd">    New `lattice` parameters are multiplied and fractional coordinates</span>
+<span class="sd">    divided by corresponding multiplier. New `Atoms` are grouped with</span>
 <span class="sd">    their source in the original cell.</span>
 
-<span class="sd">    S   -- an instance of Structure from diffpy.structure.</span>
-<span class="sd">    mno -- sequence of 3 integers for cell multipliers along</span>
-<span class="sd">           the a, b and c axes.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    S : Structure</span>
+<span class="sd">        An instance of `Structure` from `diffpy.structure`.</span>
+<span class="sd">    mno : array_like</span>
+<span class="sd">        Sequence of 3 integers for cell multipliers along</span>
+<span class="sd">        the `a`, `b` and `c` axes.</span>
 
-<span class="sd">    Return a new expanded structure instance.</span>
-<span class="sd">    Raise TypeError when S is not Structure instance.</span>
-<span class="sd">    Raise ValueError for invalid mno argument.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Structure</span>
+<span class="sd">        A new `Structure` instance representing the expanded supercell.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        `S` is not a `Structure` instance.</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        Invalid `mno` argument.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># check arguments</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mno</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>

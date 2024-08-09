@@ -92,9 +92,9 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 
-<span class="sd">&quot;&quot;&quot;Parser for automatic file format detection</span>
+<span class="sd">&quot;&quot;&quot;Parser for automatic file format detection.</span>
 
-<span class="sd">This Parser does not provide the the toLines() method.</span>
+<span class="sd">This Parser does not provide the the `toLines()` method.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -107,8 +107,23 @@
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_auto.P_auto">[docs]</a>
 <span class="k">class</span> <span class="nc">P_auto</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser with automatic detection of structure format.</span>
-<span class="sd">    When successful, it sets its format attribute to detected</span>
-<span class="sd">    structure format.</span>
+
+<span class="sd">    This parser attempts to automatically detect the format of a given</span>
+<span class="sd">    structure file and parse it accordingly. When successful, it sets</span>
+<span class="sd">    its `format` attribute to the detected structure format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    **kw : dict</span>
+<span class="sd">        Keyword arguments for the structure parser.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        Detected structure format. Initially set to &quot;auto&quot; and updated</span>
+<span class="sd">        after successful detection of the structure format.</span>
+<span class="sd">    pkw : dict</span>
+<span class="sd">        Keyword arguments passed to the parser.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
@@ -120,7 +135,7 @@
     <span class="c1"># parseLines helpers</span>
     <span class="k">def</span> <span class="nf">_getOrderedFormats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a list of relevance ordered structure formats.</span>
-<span class="sd">        This only works when self.filename has a known extension.</span>
+<span class="sd">        This only works when `self.filename` has a known extension.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">inputFormats</span>
 
@@ -145,10 +160,23 @@
 <div class="viewcode-block" id="P_auto.parseLines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_auto.P_auto.parseLines">[docs]</a>
     <span class="k">def</span> <span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect format and create Structure instance from a list of lines.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect format and create `Structure` instance from a list of lines.</span>
+
 <span class="sd">        Set format attribute to the detected file format.</span>
 
-<span class="sd">        Return Structure object or raise StructureFormatError exception.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lines : list</span>
+<span class="sd">            List of lines with structure data.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            `Structure` object.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapParseMethod</span><span class="p">(</span><span class="s2">&quot;parseLines&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span></div>
 
@@ -156,10 +184,23 @@
 <div class="viewcode-block" id="P_auto.parse">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_auto.P_auto.parse">[docs]</a>
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect format and create Structure instance from a string.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect format and create `Structure` instance from a string.</span>
+
 <span class="sd">        Set format attribute to the detected file format.</span>
 
-<span class="sd">        Return Structure object or raise StructureFormatError exception.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : str</span>
+<span class="sd">            String with structure data.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            `Structure` object.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapParseMethod</span><span class="p">(</span><span class="s2">&quot;parse&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
 
@@ -168,25 +209,55 @@
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_auto.P_auto.parseFile">[docs]</a>
     <span class="k">def</span> <span class="nf">parseFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect format and create Structure instance from an existing file.</span>
+
 <span class="sd">        Set format attribute to the detected file format.</span>
 
-<span class="sd">        filename  -- path to structure file</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Path to structure file.</span>
 
-<span class="sd">        Return Structure object.</span>
-<span class="sd">        Raise StructureFormatError or IOError.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            `Structure` object.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
+<span class="sd">            If the structure format is unknown or invalid.</span>
+<span class="sd">        IOError</span>
+<span class="sd">            If the file cannot be read.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapParseMethod</span><span class="p">(</span><span class="s2">&quot;parseFile&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span></div>
 
 
     <span class="k">def</span> <span class="nf">_wrapParseMethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A helper evaluator method.  Try the specified parse method with</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A helper evaluator method that try the specified parse method with</span>
 <span class="sd">        each registered structure parser and return the first successful</span>
-<span class="sd">        resul.  Structure parsers that match structure file extension are</span>
+<span class="sd">        resul.</span>
+
+<span class="sd">        Structure parsers that match structure file extension are</span>
 <span class="sd">        tried first.</span>
 
-<span class="sd">        Set format attribute to the detected file format.</span>
-<span class="sd">        Return Structure instance, or raise StructureFormatError.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        method : str</span>
+<span class="sd">            Name of the parse method to call.</span>
+<span class="sd">        *args : tuple</span>
+<span class="sd">            Positional arguments for the parse method.</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Keyword arguments for the parse method.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Structure</span>
+<span class="sd">            `Structure` object.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        StructureFormatError</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">getParser</span>
 
@@ -224,6 +295,18 @@
 <div class="viewcode-block" id="getParser">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_auto.getParser">[docs]</a>
 <span class="k">def</span> <span class="nf">getParser</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a new instance of the automatic parser.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    **kw : dict</span>
+<span class="sd">        Keyword arguments for the structure parser</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    P_auto</span>
+<span class="sd">        Instance of `P_auto`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">P_auto</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span></div>
 
 </pre></div>
