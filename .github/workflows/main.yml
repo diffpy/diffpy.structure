@@ -45,15 +45,14 @@ jobs:
           conda install --file requirements/run.txt
           conda install --file requirements/test.txt
           pip install -e .
-          
+
       - name: Validate diffpy.structure
         shell: bash -l {0}
         run: |
           conda activate test
           coverage run -m diffpy.structure.tests.run
           coverage report -m
-          codecov
-          
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         env:
