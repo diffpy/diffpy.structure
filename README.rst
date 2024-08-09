@@ -63,28 +63,6 @@ by citing the following paper in your publication:
    <http://dx.doi.org/10.1107/S2053273315014473>`__,
    *Acta Crystallogr. A* **71**, 562-568 (2015).
 
-Requirements
-------------------------------------------------------------------------
-
-The diffpy.structure package requires Python 3.7 or later and
-the following software:
-
-* ``setuptools`` - software distribution tools for Python
-* ``NumPy`` - numerical mathematics and fast array operations for Python
-
-We recommend to use `Anaconda Python <https://www.anaconda.com/download>`_
-as it allows to install all software dependencies together with
-diffpy.structure.  For other Python distributions it is necessary to
-install the required software separately.  As an example on Ubuntu
-Linux the required software can be installed with ::
-
-   sudo aptitude install python3-setuptools python3-numpy
-
-diffpy.structure also uses the
-`PyCifRW <https://bitbucket.org/jamesrhester/pycifrw>`_
-library, which is automatically deployed during the
-installation process.
-
 Installation
 ------------
 
