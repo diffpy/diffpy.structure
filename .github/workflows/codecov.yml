@@ -1,6 +1,9 @@
-name: Build and Deploy Documentation
+name: Gather coverage report and upload to codecov
 
 on:
+  push:
+    branches:
+      - main
   release:
     types:
       - prereleased
@@ -21,7 +24,7 @@ jobs:
       - name: Initialize miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: build
+          activate-environment: test
           auto-update-conda: true
           environment-file: environment.yml
           auto-activate-base: false
@@ -31,19 +34,20 @@ jobs:
           conda config --set always_yes yes
           --set changeps1 no
 
-      - name: Install diffpy.structure and build requirements
+      - name: Install diffpy.structure and requirements
         run: |
-          conda install --file requirements/build.txt
           conda install --file requirements/run.txt
-          conda install --file requirements/docs.txt
+          conda install --file requirements/test.txt
           python -m pip install -r requirements/pip.txt
           python -m pip install . --no-deps
 
-      - name: build documents
-        run: make -C doc html
+      - name: Validate diffpy.structure
+        run: |
+          coverage run -m pytest -vv -s
+          coverage report -m
+          codecov
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./doc/build/html
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
