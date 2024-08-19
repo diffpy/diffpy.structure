@@ -7,11 +7,6 @@ Release Notes
 3.2.0
 =====
 
-
-
-3.2.0rc0
-========
-
 **Changed:**
 
 * Removed support for Python 2
