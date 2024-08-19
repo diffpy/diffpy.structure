@@ -15,7 +15,7 @@ defaults:
     shell: bash -l {0}
 
 jobs:
-  docs:
+  coverage:
     runs-on: ubuntu-latest
     steps:
       - name: Check out diffpy.structure
