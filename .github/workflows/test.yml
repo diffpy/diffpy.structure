@@ -1,4 +1,4 @@
-name: Validate using pytest
+name: Test
 
 on:
   push:
