@@ -4,7 +4,7 @@
 
 .. |title| replace:: diffpy.structure documentation
 
-diffpy.structure - Crystal structure container and parsers for structure formats..
+diffpy.structure - Crystal structure container and parsers for structure formats.
 
 | Software version |release|.
 | Last updated |today|.
