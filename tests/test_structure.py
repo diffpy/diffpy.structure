@@ -107,17 +107,17 @@ class TestStructure(unittest.TestCase):
         self.assertFalse(sameatoms)
         return
 
-    def test___str__(self):
-        """check Structure.__str__()"""
-        return
+    # def test___str__(self):
+    #     """check Structure.__str__()"""
+    #     return
 
-    def test_addNewAtom(self):
-        """check Structure.addNewAtom()"""
-        return
+    # def test_addNewAtom(self):
+    #     """check Structure.addNewAtom()"""
+    #     return
 
-    def test_getLastAtom(self):
-        """check Structure.getLastAtom()"""
-        return
+    # def test_getLastAtom(self):
+    #     """check Structure.getLastAtom()"""
+    #     return
 
     def test_assignUniqueLabels(self):
         """check Structure.assignUniqueLabels()"""
@@ -157,21 +157,21 @@ class TestStructure(unittest.TestCase):
         a1 = stru[1]
         self.assertTrue(numpy.allclose(a1.xyz, [2.0, 0.0, 2.0]))
 
-    def test_read(self):
-        """check Structure.read()"""
-        return
+    # def test_read(self):
+    #     """check Structure.read()"""
+    #     return
 
-    def test_readStr(self):
-        """check Structure.readStr()"""
-        return
+    # def test_readStr(self):
+    #     """check Structure.readStr()"""
+    #     return
 
-    def test_write(self):
-        """check Structure.write()"""
-        return
+    # def test_write(self):
+    #     """check Structure.write()"""
+    #     return
 
-    def test_writeStr(self):
-        """check Structure.writeStr()"""
-        return
+    # def test_writeStr(self):
+    #     """check Structure.writeStr()"""
+    #     return
 
     def test_aslist(self):
         """check Structure.tolist()"""
