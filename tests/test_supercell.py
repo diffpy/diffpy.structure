@@ -16,17 +16,20 @@
 """Unit tests for supercell.py
 """
 
-
 import unittest
+
+import pytest
 
 from diffpy.structure import Structure
 from diffpy.structure.expansion import supercell
-from diffpy.structure.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------
 
 
 class TestSuperCell(unittest.TestCase):
+    @pytest.fixture(autouse=True)
+    def prepare_fixture(self, datafile):
+        self.datafile = datafile
 
     stru_cdse = None
     stru_ni = None
@@ -34,10 +37,10 @@ class TestSuperCell(unittest.TestCase):
     def setUp(self):
         # load test structures once
         if TestSuperCell.stru_cdse is None:
-            cdsefile = datafile("CdSe_bulk.stru")
+            cdsefile = self.datafile("CdSe_bulk.stru")
             TestSuperCell.stru_cdse = Structure(filename=cdsefile)
         if TestSuperCell.stru_ni is None:
-            nifile = datafile("Ni.stru")
+            nifile = self.datafile("Ni.stru")
             TestSuperCell.stru_ni = Structure(filename=nifile)
         # bring them to the instance
         self.stru_cdse = TestSuperCell.stru_cdse
