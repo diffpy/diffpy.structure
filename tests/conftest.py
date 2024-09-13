@@ -1,5 +1,4 @@
 import json
-from importlib import resources
 from pathlib import Path
 
 import pytest
@@ -20,15 +19,11 @@ def user_filesystem(tmp_path):
     yield tmp_path
 
 
-def get_datafile(filename):
-    return str(resources.files(__package__).joinpath("testdata/" + filename))
-
-
 @pytest.fixture
 def datafile():
     """Fixture to dynamically load any test file."""
 
     def _load(filename):
-        return get_datafile(filename)
+        return "tests/testdata/" + filename
 
     return _load
