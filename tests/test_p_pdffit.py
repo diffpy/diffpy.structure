@@ -20,16 +20,20 @@ import re
 import unittest
 
 import numpy
+import pytest
 
 from diffpy.structure import Structure
 from diffpy.structure.structureerrors import StructureFormatError
-from diffpy.structure.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------
 
 
 class TestP_pdffit(unittest.TestCase):
     """test Parser for PDFFit file format"""
+
+    @pytest.fixture(autouse=True)
+    def prepare_fixture(self, datafile):
+        self.datafile = datafile
 
     def setUp(self):
         self.stru = Structure()
@@ -39,7 +43,7 @@ class TestP_pdffit(unittest.TestCase):
     def test_read_pdffit_ZnSb(self):
         """check reading of ZnSb pdffit structure file"""
         stru = self.stru
-        stru.read(datafile("ZnSb_RT_Q28X_VM_20_fxiso.rstr"), self.format)
+        stru.read(self.datafile("ZnSb_RT_Q28X_VM_20_fxiso.rstr"), self.format)
         f_title = "Cell structure file of Zn4Sb3 #167 interstitial"
         self.assertEqual(stru.title, f_title)
         self.assertAlmostEqual(stru.pdffit["scale"], 0.826145)
@@ -84,7 +88,7 @@ class TestP_pdffit(unittest.TestCase):
     def test_read_pdffit_Ni(self):
         """check reading of Ni pdffit structure file"""
         stru = self.stru
-        stru.read(datafile("Ni.stru"), self.format)
+        stru.read(self.datafile("Ni.stru"), self.format)
         f_title = "structure Ni  FCC"
         self.assertEqual(stru.title, f_title)
         self.assertEqual(stru.pdffit["spcgr"], "Fm-3m")
@@ -117,7 +121,7 @@ class TestP_pdffit(unittest.TestCase):
     def test_read_pdffit_Ni_prim123(self):
         """check reading of Ni_prim supercell 1x2x3"""
         stru = self.stru
-        stru.read(datafile("Ni_prim123.stru"), self.format)
+        stru.read(self.datafile("Ni_prim123.stru"), self.format)
         s_lat = [
             stru.lattice.a,
             stru.lattice.b,
@@ -148,15 +152,15 @@ class TestP_pdffit(unittest.TestCase):
     def test_read_pdffit_bad(self):
         """check exceptions when reading invalid pdffit file"""
         stru = self.stru
-        self.assertRaises(StructureFormatError, stru.read, datafile("Ni-bad.stru"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, datafile("bucky.xyz"), self.format)
+        self.assertRaises(StructureFormatError, stru.read, self.datafile("Ni-bad.stru"), self.format)
+        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky.xyz"), self.format)
         return
 
     def test_writeStr_pdffit(self):
         """check writing of normal xyz file"""
         stru = self.stru
-        stru.read(datafile("Ni.stru"), self.format)
-        with open(datafile("Ni.stru")) as fp:
+        stru.read(self.datafile("Ni.stru"), self.format)
+        with open(self.datafile("Ni.stru")) as fp:
             f_s = fp.read()
         f_s = re.sub("[ \t]+", " ", f_s)
         f_s = re.sub("[ \t]+\n", "\n", f_s)
@@ -167,7 +171,7 @@ class TestP_pdffit(unittest.TestCase):
 
     def test_huge_occupancy(self):
         """check structure with huge occupancy can be read."""
-        self.stru.read(datafile("Ni.stru"), self.format)
+        self.stru.read(self.datafile("Ni.stru"), self.format)
         self.stru[0].occupancy = 16e16
         s_s = self.stru.writeStr(self.format)
         stru1 = Structure()
@@ -179,7 +183,7 @@ class TestP_pdffit(unittest.TestCase):
         """check skipping of ignored lines in the header"""
         r1 = "ignored record 1"
         r2 = "ignored record 2"
-        with open(datafile("Ni.stru")) as fp:
+        with open(self.datafile("Ni.stru")) as fp:
             ni_lines = fp.readlines()
         ni_lines.insert(2, r1 + "\n")
         ni_lines.insert(4, r2 + "\n")
@@ -194,7 +198,7 @@ class TestP_pdffit(unittest.TestCase):
     def test_spdiameter_parsing(self):
         """check parsing of spdiameter record from a file."""
         stru = self.stru
-        stru.read(datafile("Ni.stru"), self.format)
+        stru.read(self.datafile("Ni.stru"), self.format)
         self.assertEqual(0, stru.pdffit["spdiameter"])
         snoshape = stru.writeStr(format=self.format)
         self.assertTrue(not re.search("(?m)^shape", snoshape))
@@ -205,7 +209,7 @@ class TestP_pdffit(unittest.TestCase):
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit["spdiameter"])
-        with open(datafile("Ni.stru")) as fp:
+        with open(self.datafile("Ni.stru")) as fp:
             ni_lines = fp.readlines()
         ni_lines.insert(3, "shape invalid, 7\n")
         sbad = "".join(ni_lines)
@@ -215,7 +219,7 @@ class TestP_pdffit(unittest.TestCase):
     def test_stepcut_parsing(self):
         """check parsing of stepcut record from a file."""
         stru = self.stru
-        stru.read(datafile("Ni.stru"), self.format)
+        stru.read(self.datafile("Ni.stru"), self.format)
         self.assertEqual(0, stru.pdffit["stepcut"])
         snoshape = stru.writeStr(format=self.format)
         self.assertTrue(not re.search("(?m)^shape", snoshape))
@@ -226,7 +230,7 @@ class TestP_pdffit(unittest.TestCase):
         stru13 = Structure()
         stru13.readStr(s13)
         self.assertEqual(13, stru13.pdffit["stepcut"])
-        with open(datafile("Ni.stru")) as fp:
+        with open(self.datafile("Ni.stru")) as fp:
             ni_lines = fp.readlines()
         ni_lines.insert(3, "shape invalid, 7\n")
         sbad = "".join(ni_lines)

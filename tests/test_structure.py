@@ -22,14 +22,9 @@ import pickle
 import unittest
 
 import numpy
+import pytest
 
 from diffpy.structure import Atom, Lattice, Structure
-from diffpy.structure.tests.testutils import datafile
-
-# useful variables
-cdsefile = datafile("CdSe_bulk.stru")
-teifile = datafile("TeI.cif")
-pbtefile = datafile("PbTe.cif")
 
 # ----------------------------------------------------------------------------
 
@@ -37,16 +32,24 @@ pbtefile = datafile("PbTe.cif")
 class TestStructure(unittest.TestCase):
     """test methods of Structure class"""
 
+    @pytest.fixture(autouse=True)
+    def prepare_fixture(self, datafile):
+        self.cdsefile = datafile("CdSe_bulk.stru")
+        self.teifile = datafile("TeI.cif")
+        self.pbtefile = datafile("PbTe.cif")
+
     _loaded_structures = {}
 
     def setUp(self):
         self.stru = Structure([Atom("C", [0, 0, 0]), Atom("C", [1, 1, 1])], lattice=Lattice(1, 1, 1, 90, 90, 120))
+        # useful variables
+
         if not self._loaded_structures:
             self._loaded_structures.update(
                 [
-                    ("cdse", Structure(filename=cdsefile)),
-                    ("tei", Structure(filename=teifile)),
-                    ("pbte", Structure(filename=pbtefile)),
+                    ("cdse", Structure(filename=self.cdsefile)),
+                    ("tei", Structure(filename=self.teifile)),
+                    ("pbte", Structure(filename=self.pbtefile)),
                 ]
             )
         self.__dict__.update(self._loaded_structures)
@@ -56,9 +59,9 @@ class TestStructure(unittest.TestCase):
     def test___init__(self):
         """check Structure.__init__()"""
         atoms = [Atom("C", [0, 0, 0]), Atom("C", [0.5, 0.5, 0.5])]
-        self.assertRaises(ValueError, Structure, atoms, filename=teifile)
-        self.assertRaises(ValueError, Structure, lattice=Lattice(), filename=teifile)
-        self.assertRaises(ValueError, Structure, title="test", filename=teifile)
+        self.assertRaises(ValueError, Structure, atoms, filename=self.teifile)
+        self.assertRaises(ValueError, Structure, lattice=Lattice(), filename=self.teifile)
+        self.assertRaises(ValueError, Structure, title="test", filename=self.teifile)
         stru1 = Structure(title="my title")
         self.assertEqual("my title", stru1.title)
         stru2a = Structure(atoms)
@@ -95,7 +98,7 @@ class TestStructure(unittest.TestCase):
 
     def test___copy__(self):
         """check Structure.__copy__()"""
-        cdse = Structure(filename=cdsefile)
+        cdse = Structure(filename=self.cdsefile)
         cdse_str = cdse.writeStr("pdffit")
         cdse2 = copy.copy(cdse)
         self.assertEqual(cdse_str, cdse2.writeStr("pdffit"))
@@ -104,20 +107,17 @@ class TestStructure(unittest.TestCase):
         self.assertFalse(sameatoms)
         return
 
-    #   def test___str__(self):
-    #       """check Structure.__str__()
-    #       """
-    #       return
-    #
-    #   def test_addNewAtom(self):
-    #       """check Structure.addNewAtom()
-    #       """
-    #       return
-    #
-    #   def test_getLastAtom(self):
-    #       """check Structure.getLastAtom()
-    #       """
-    #       return
+    # def test___str__(self):
+    #     """check Structure.__str__()"""
+    #     return
+
+    # def test_addNewAtom(self):
+    #     """check Structure.addNewAtom()"""
+    #     return
+
+    # def test_getLastAtom(self):
+    #     """check Structure.getLastAtom()"""
+    #     return
 
     def test_assignUniqueLabels(self):
         """check Structure.assignUniqueLabels()"""
@@ -141,7 +141,7 @@ class TestStructure(unittest.TestCase):
 
     def test_angle(self):
         """check Structure.angle()"""
-        cdse = Structure(filename=cdsefile)
+        cdse = Structure(filename=self.cdsefile)
         cdse.assignUniqueLabels()
         self.assertEqual(109, round(cdse.angle(0, 2, 1)))
         self.assertEqual(109, round(cdse.angle("Cd1", "Se1", "Cd2")))
@@ -157,25 +157,21 @@ class TestStructure(unittest.TestCase):
         a1 = stru[1]
         self.assertTrue(numpy.allclose(a1.xyz, [2.0, 0.0, 2.0]))
 
-    #   def test_read(self):
-    #       """check Structure.read()
-    #       """
-    #       return
-    #
-    #   def test_readStr(self):
-    #       """check Structure.readStr()
-    #       """
-    #       return
-    #
-    #   def test_write(self):
-    #       """check Structure.write()
-    #       """
-    #       return
-    #
-    #   def test_writeStr(self):
-    #       """check Structure.writeStr()
-    #       """
-    #       return
+    # def test_read(self):
+    #     """check Structure.read()"""
+    #     return
+
+    # def test_readStr(self):
+    #     """check Structure.readStr()"""
+    #     return
+
+    # def test_write(self):
+    #     """check Structure.write()"""
+    #     return
+
+    # def test_writeStr(self):
+    #     """check Structure.writeStr()"""
+    #     return
 
     def test_aslist(self):
         """check Structure.tolist()"""
@@ -215,7 +211,7 @@ class TestStructure(unittest.TestCase):
     def test_extend(self):
         """check Structure.extend()"""
         stru = self.stru
-        cdse = Structure(filename=cdsefile)
+        cdse = Structure(filename=self.cdsefile)
         lst = stru.tolist()
         stru.extend(cdse)
         self.assertEqual(6, len(stru))
@@ -289,7 +285,7 @@ class TestStructure(unittest.TestCase):
     def test___add__(self):
         """check Structure.__add__()"""
         stru = self.stru
-        cdse = Structure(filename=cdsefile)
+        cdse = Structure(filename=self.cdsefile)
         total = stru + cdse
         self.assertEqual(6, len(total))
         ta0 = total[0]
@@ -307,7 +303,7 @@ class TestStructure(unittest.TestCase):
         stru = self.stru
         lat0 = stru.lattice
         lst = stru.tolist()
-        cdse = Structure(filename=cdsefile)
+        cdse = Structure(filename=self.cdsefile)
         stru += cdse
         self.assertEqual(6, len(stru))
         self.assertEqual(lst, stru[:2].tolist())
@@ -321,7 +317,7 @@ class TestStructure(unittest.TestCase):
 
     def test___sub__(self):
         """check Structure.__sub__()"""
-        cdse = Structure(filename=cdsefile)
+        cdse = Structure(filename=self.cdsefile)
         cadmiums = cdse - cdse[2:]
         self.assertEqual(2, len(cadmiums))
         self.assertEqual("Cd", cadmiums[0].element)
@@ -334,7 +330,7 @@ class TestStructure(unittest.TestCase):
 
     def test___isub__(self):
         """check Structure.__isub__()"""
-        cdse = Structure(filename=cdsefile)
+        cdse = Structure(filename=self.cdsefile)
         lat = cdse.lattice
         lst = cdse.tolist()
         cdse -= cdse[2:]
@@ -348,7 +344,7 @@ class TestStructure(unittest.TestCase):
 
     def test___mul__(self):
         """check Structure.__mul__()"""
-        cdse = Structure(filename=cdsefile)
+        cdse = Structure(filename=self.cdsefile)
         self.assertEqual(12, len(set(3 * cdse)))
         self.assertEqual(12, len(set(cdse * 3)))
         cdsex3 = 3 * cdse
@@ -361,7 +357,7 @@ class TestStructure(unittest.TestCase):
 
     def test___imul__(self):
         """check Structure.__imul__()"""
-        cdse = Structure(filename=cdsefile)
+        cdse = Structure(filename=self.cdsefile)
         lat = cdse.lattice
         els = cdse.element
         xyz = cdse.xyz
@@ -466,7 +462,7 @@ class TestStructure(unittest.TestCase):
 
     def test_label(self):
         """check Structure.label"""
-        cdse = Structure(filename=cdsefile)
+        cdse = Structure(filename=self.cdsefile)
         self.assertEqual(4 * [""], cdse.label.tolist())
         cdse.assignUniqueLabels()
         self.assertEqual("Cd1 Cd2 Se1 Se2".split(), cdse.label.tolist())

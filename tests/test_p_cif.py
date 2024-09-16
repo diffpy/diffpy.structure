@@ -19,12 +19,12 @@
 import unittest
 
 import numpy
+import pytest
 
 from diffpy.structure import Structure
 from diffpy.structure.parsers import getParser
 from diffpy.structure.parsers.p_cif import P_cif, getSymOp, leading_float
 from diffpy.structure.structureerrors import StructureFormatError
-from diffpy.structure.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------
 
@@ -65,14 +65,16 @@ class TestRoutines(unittest.TestCase):
 
 
 class TestP_cif(unittest.TestCase):
-
-    pbteciffile = datafile("PbTe.cif")
-    badciffile = datafile("LiCl-bad.cif")
-    graphiteciffile = datafile("graphite.cif")
-    cdsebulkpdffitfile = datafile("CdSe_bulk.stru")
-    teiciffile = datafile("TeI.cif")
-    refciffile = datafile("Ni_ref.cif")
-    places = 6
+    @pytest.fixture(autouse=True)
+    def prepare_fixture(self, datafile):
+        self.datafile = datafile
+        self.pbteciffile = datafile("PbTe.cif")
+        self.badciffile = datafile("LiCl-bad.cif")
+        self.graphiteciffile = datafile("graphite.cif")
+        self.cdsebulkpdffitfile = datafile("CdSe_bulk.stru")
+        self.teiciffile = datafile("TeI.cif")
+        self.refciffile = datafile("Ni_ref.cif")
+        self.places = 6
 
     def setUp(self):
         self.ptest = P_cif()
@@ -240,7 +242,7 @@ class TestP_cif(unittest.TestCase):
 
     def test_unknown_occupancy(self):
         "test CIF file with unknown occupancy data"
-        stru = self.ptest.parseFile(datafile("TeI-unkocc.cif"))
+        stru = self.ptest.parseFile(self.datafile("TeI-unkocc.cif"))
         self.assertTrue(numpy.array_equal(16 * [1], stru.occupancy))
         return
 
@@ -268,7 +270,7 @@ class TestP_cif(unittest.TestCase):
     def test_nosites_cif(self):
         """Test reading of CIF file with no valid sites."""
         ptest = self.ptest
-        stru = ptest.parseFile(datafile("nosites.cif"))
+        stru = ptest.parseFile(self.datafile("nosites.cif"))
         self.assertEqual(0, len(stru))
         self.assertEqual(10.413, stru.lattice.a)
         self.assertEqual(10.413, stru.lattice.b)
@@ -278,14 +280,14 @@ class TestP_cif(unittest.TestCase):
     def test_badspacegroup_cif(self):
         """Test reading of CIF file with unrecognized space group."""
         ptest = self.ptest
-        filename = datafile("badspacegroup.cif")
+        filename = self.datafile("badspacegroup.cif")
         self.assertRaises(StructureFormatError, ptest.parseFile, filename)
         return
 
     def test_custom_spacegroup_cif(self):
         """Test parsing of nonstandard symops-defined space group."""
         pfile = self.pfile
-        filename = datafile("customsg.cif")
+        filename = self.datafile("customsg.cif")
         pfile.parseFile(filename)
         sg = pfile.spacegroup
         self.assertEqual("CIF data", sg.short_name)
@@ -363,7 +365,7 @@ class TestP_cif(unittest.TestCase):
     def test_curly_brace(self):
         "verify loading of a CIF file with unquoted curly brace"
         ptest = self.ptest
-        stru = ptest.parseFile(datafile("curlybrackets.cif"))
+        stru = ptest.parseFile(self.datafile("curlybrackets.cif"))
         self.assertEqual(20, len(stru))
         return
 
