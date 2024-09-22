@@ -92,7 +92,7 @@ def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
     from operator import setitem
 
     _all = slice(None)
-    
+
     def fget(self):
         va = toarray([getattr(a, attrname) for a in self])
         return va
