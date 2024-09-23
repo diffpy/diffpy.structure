@@ -1,14 +1,12 @@
-include AUTHORS.rst
-include LICENSE
-include README.rst
-include requirements.txt
+graft src
+graft tests
+graft requirements
 
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]
+include AUTHORS.rst LICENSE*.rst README.rst
 
-recursive-include docs *.rst conf.py Makefile make.bat
-
-include diffpy.structure/version.py
-
-# If including data files in the package, add them like:
-# include path/to/data_file
+# Exclude all bytecode files and __pycache__ directories
+global-exclude *.py[cod]  # Exclude all .pyc, .pyo, and .pyd files.
+global-exclude .DS_Store  # Exclude Mac filesystem artifacts.
+global-exclude __pycache__  # Exclude Python cache directories.
+global-exclude .git*  # Exclude git files and directories.
+global-exclude .idea  # Exclude PyCharm project settings.
