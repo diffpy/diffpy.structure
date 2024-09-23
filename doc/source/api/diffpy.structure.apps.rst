@@ -26,3 +26,4 @@ diffpy.structure.apps.anyeye module
     :members:
     :undoc-members:
     :show-inheritance:
+
