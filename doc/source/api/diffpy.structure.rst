@@ -116,4 +116,3 @@ diffpy.structure.sgtbxspacegroups module
     :members:
     :undoc-members:
     :show-inheritance:
-

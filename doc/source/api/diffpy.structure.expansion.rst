@@ -34,4 +34,3 @@ diffpy.structure.expansion.supercell_mod module
     :members:
     :undoc-members:
     :show-inheritance:
-
