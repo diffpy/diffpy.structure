@@ -127,6 +127,15 @@ Improvements and fixes are always appreciated.
 
 Before contribuing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.structure/blob/main/CODE_OF_CONDUCT.rst>`_.
 
+Acknowledgement
+---------------
+
+Space group codes in *spacegroupmod.py* and *mmlibspacegroups.py*
+originate from the `pymmlib project <http://pymmlib.sourceforge.net>`_.
+
+Less common settings of space groups were generating using the
+`Computational Crystallography Toolbox <http://cctbx.sourceforge.net>`_.
+
 Contact
 -------
 
