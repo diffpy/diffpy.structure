@@ -536,7 +536,7 @@ class _AtomCartesianCoordinates(numpy.ndarray):
         self._atom.xyz[:] = self._atom.lattice.fractional(self)
         return
 
-    def __array_wrap__(self, out_arr, context=None):
+    def __array_wrap__(self, out_arr, context=None, return_scalar=None):
         """Ensure math operations on this type yield standard numpy array."""
         return out_arr.view(numpy.ndarray)
 

@@ -711,8 +711,9 @@ class Structure(list):
     element = _linkAtomAttribute(
         "element",
         """Character array of `Atom` types. Assignment updates
-        the element attribute of the respective `Atoms`.""",
-        toarray=numpy.char.array,
+        the element attribute of the respective `Atoms`.
+        Set the maximum length of the element string to 5 characters.""",
+        toarray=lambda items: numpy.char.array(items, itemsize=5),
     )
 
     xyz = _linkAtomAttribute(
@@ -742,8 +743,9 @@ class Structure(list):
     label = _linkAtomAttribute(
         "label",
         """Character array of `Atom` names. Assignment updates
-        the label attribute of all `Atoms`.""",
-        toarray=numpy.char.array,
+        the label attribute of all `Atoms`.
+        Set the maximum length of the label string to 5 characters.""",
+        toarray=lambda items: numpy.char.array(items, itemsize=5),
     )
 
     occupancy = _linkAtomAttribute(
