@@ -1,6 +1,7 @@
 Authors
 =======
 
+Billinge Group and community contributors,
 Pavol Juhas,
 Christopher L. Farrow,
 Xiaohao Yang,
