@@ -1,5 +1,5 @@
 .. code-block:: text
-        
+
                         The Artistic License 2.0
 
                 Copyright (c) 2000-2006, The Perl Foundation.

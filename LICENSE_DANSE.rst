@@ -9,13 +9,13 @@ Copyright 2006-2007, Board of Trustees of Michigan State University,
 Copyright 2008-2012, The Trustees of Columbia University in the
 City of New York.  (Copyright holder indicated in each source file).
 
-Copyright (c) 2024, The Trustees of Columbia University in the City of New York. 
+Copyright (c) 2024, The Trustees of Columbia University in the City of New York.
 All rights reserved.
 
 For more information please visit the project web-page:
 
     http://www.diffpy.org/
-    
+
 or email Prof. Simon Billinge at sb2896@columbia.edu
 
 Redistribution and use in source and binary forms, with or without
