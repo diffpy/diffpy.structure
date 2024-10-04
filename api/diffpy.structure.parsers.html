@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.parsers package &mdash; diffpy.structure 3.2.2rc0 documentation</title>
+  <title>diffpy.structure.parsers package &mdash; diffpy.structure 3.2.2rc1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
@@ -15,7 +15,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=9d815fbd"></script>
+        <script src="../_static/documentation_options.js?v=34c12bdb"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
             diffpy.structure
           </a>
               <div class="version">
-                3.2.2rc0
+                3.2.2rc1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -109,8 +109,8 @@ in this module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – String with the format name, see <cite>parser_index_mod</cite>.</p></li>
-<li><p><strong>**kw</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – Keyword arguments passed to the Parser init function.</p></li>
+<li><p><strong>format</strong> (<em>str</em>) – String with the format name, see <cite>parser_index_mod</cite>.</p></li>
+<li><p><strong>**kw</strong> (<em>dict</em>) – Keyword arguments passed to the Parser init function.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -155,7 +155,7 @@ of atoms and an optional first column for atom types.</p>
 <dd><p>Format name, default “rawxyz”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -166,7 +166,7 @@ of atoms and an optional first column for atom types.</p>
 <dd><p>Parse list of lines in RAWXYZ format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – List of lines in RAWXYZ format.</p>
+<dd class="field-odd"><p><strong>lines</strong> (<em>list</em><em> of </em><em>str</em>) – List of lines in RAWXYZ format.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Parsed structure instance.</p>
@@ -192,7 +192,7 @@ of atoms and an optional first column for atom types.</p>
 <dd class="field-even"><p>List of lines in RAWXYZ format.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>list of str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -220,7 +220,7 @@ of atoms and an optional first column for atom types.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.structureparser.StructureParser">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.parsers.structureparser.</span></span><span class="sig-name descname"><span class="pre">StructureParser</span></span><a class="reference internal" href="../_modules/diffpy/structure/parsers/structureparser.html#StructureParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.parsers.structureparser.StructureParser" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base class for all structure parsers.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.structureparser.StructureParser.format">
@@ -228,7 +228,7 @@ of atoms and an optional first column for atom types.</p>
 <dd><p>Format name of particular parser.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,7 +239,7 @@ of atoms and an optional first column for atom types.</p>
 <dd><p>Path to structure file that is read or written.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -296,7 +296,7 @@ of atoms and an optional first column for atom types.</p>
 <dd><p>Constant regular expression for <cite>leading_float()</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/re.html#re.Pattern" title="(in Python v3.12)">re.Pattern</a></p>
+<dd class="field-odd"><p>re.Pattern</p>
 </dd>
 </dl>
 </dd></dl>
@@ -307,7 +307,7 @@ of atoms and an optional first column for atom types.</p>
 <dd><p>Helper dictionary for <cite>getSymOp()</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -325,7 +325,7 @@ of atoms and an optional first column for atom types.</p>
 Following blocks, if any, are ignored.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>Optional</em>) – Fractional coordinates cutoff for duplicate positions.
+<dd class="field-odd"><p><strong>eps</strong> (<em>float</em><em>, </em><em>Optional</em>) – Fractional coordinates cutoff for duplicate positions.
 When <code class="docutils literal notranslate"><span class="pre">None</span></code> use the default for <cite>ExpandAsymmetricUnit</cite>: <code class="docutils literal notranslate"><span class="pre">1.0e-5</span></code>.</p>
 </dd>
 </dl>
@@ -335,7 +335,7 @@ When <code class="docutils literal notranslate"><span class="pre">None</span></c
 <dd><p>Structure format name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -380,7 +380,7 @@ When <code class="docutils literal notranslate"><span class="pre">None</span></c
 Used for expansion of asymmetric unit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -402,7 +402,7 @@ Used for expansion of asymmetric unit.</p>
 <dd><p>List of <cite>Atom</cite> instances for the original asymmetric unit in the CIF file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -413,7 +413,7 @@ Used for expansion of asymmetric unit.</p>
 <dd><p>Dictionary mapping unique atom label to index of <cite>Atom</cite> in <cite>self.asymmetric_unit</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -424,7 +424,7 @@ Used for expansion of asymmetric unit.</p>
 <dd><p>Dictionary mapping unique atom label to displacement anisotropy resolved at that site.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -440,7 +440,18 @@ Used for expansion of asymmetric unit.</p>
 items. <code class="docutils literal notranslate"><span class="pre">None</span></code> when neither is defined.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a> or None</p>
+<dd class="field-odd"><p>str or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.BtoU">
+<span class="sig-name descname"><span class="pre">BtoU</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.012665147955292222</span></em><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.BtoU" title="Link to this definition"></a></dt>
+<dd><p>Conversion factor from B values to U values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -451,7 +462,7 @@ items. <code class="docutils literal notranslate"><span class="pre">None</span><
 <dd><p>Create <cite>Structure</cite> instance from a string in CIF format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – A string in CIF format.</p>
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – A string in CIF format.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><cite>Structure</cite> instance.</p>
@@ -471,7 +482,7 @@ items. <code class="docutils literal notranslate"><span class="pre">None</span><
 <dd><p>Create Structure from an existing CIF file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Path to structure file.</p>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Path to structure file.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><cite>Structure</cite> instance.</p>
@@ -482,7 +493,7 @@ items. <code class="docutils literal notranslate"><span class="pre">None</span><
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference internal" href="diffpy.structure.html#diffpy.structure.structureerrors.StructureFormatError" title="diffpy.structure.structureerrors.StructureFormatError"><strong>StructureFormatError</strong></a> – When the data do not constitute a valid CIF format.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.12)"><strong>IOError</strong></a> – When the file cannot be opened.</p></li>
+<li><p><strong>IOError</strong> – When the file cannot be opened.</p></li>
 </ul>
 </dd>
 </dl>
@@ -494,7 +505,7 @@ items. <code class="docutils literal notranslate"><span class="pre">None</span><
 <dd><p>Parse list of lines in CIF format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – List of strings stripped of line terminator.</p>
+<dd class="field-odd"><p><strong>lines</strong> (<em>list</em>) – List of strings stripped of line terminator.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><cite>Structure</cite> instance.</p>
@@ -520,18 +531,7 @@ items. <code class="docutils literal notranslate"><span class="pre">None</span><
 <dd class="field-even"><p>List of lines in basic CIF format.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.BtoU">
-<span class="sig-name descname"><span class="pre">BtoU</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.012665147955292222</span></em><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.BtoU" title="Link to this definition"></a></dt>
-<dd><p>Conversion factor from B values to U values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -544,7 +544,7 @@ items. <code class="docutils literal notranslate"><span class="pre">None</span><
 <dd><p>Return new <cite>parser</cite> object for CIF format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>Optional</em>) – fractional coordinates cutoff for duplicate positions.
+<dd class="field-odd"><p><strong>eps</strong> (<em>float</em><em>, </em><em>Optional</em>) – fractional coordinates cutoff for duplicate positions.
 When <code class="docutils literal notranslate"><span class="pre">None</span></code> use the default for <cite>ExpandAsymmetricUnit</cite>: <code class="docutils literal notranslate"><span class="pre">1.0e-5</span></code>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -562,7 +562,7 @@ When <code class="docutils literal notranslate"><span class="pre">None</span></c
 <dd><p>Create <cite>SpaceGroups.SymOp</cite> instance from a string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Formula for equivalent coordinates, for example <code class="docutils literal notranslate"><span class="pre">'x,1/2-y,1/2+z'</span></code>.</p>
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – Formula for equivalent coordinates, for example <code class="docutils literal notranslate"><span class="pre">'x,1/2-y,1/2+z'</span></code>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Instance of <cite>SymOp</cite>.</p>
@@ -581,8 +581,8 @@ When <code class="docutils literal notranslate"><span class="pre">None</span></c
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The string to be scanned for floating point value.</p></li>
-<li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>Optional</em>) – The default value when <cite>s</cite> is “.” or “?”, which in CIF
+<li><p><strong>s</strong> (<em>str</em>) – The string to be scanned for floating point value.</p></li>
+<li><p><strong>d</strong> (<em>float</em><em>, </em><em>Optional</em>) – The default value when <cite>s</cite> is “.” or “?”, which in CIF
 format stands for inapplicable and unknown, respectively.</p></li>
 </ul>
 </dd>
@@ -590,10 +590,10 @@ format stands for inapplicable and unknown, respectively.</p></li>
 <dd class="field-even"><p>The extracted floating point value.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – When string does not start with a float.</p>
+<dd class="field-even"><p><strong>ValueError</strong> – When string does not start with a float.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -613,7 +613,7 @@ structure file and parse it accordingly. When successful, it sets
 its <cite>format</cite> attribute to the detected structure format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>**kw</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – Keyword arguments for the structure parser.</p>
+<dd class="field-odd"><p><strong>**kw</strong> (<em>dict</em>) – Keyword arguments for the structure parser.</p>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -623,7 +623,7 @@ its <cite>format</cite> attribute to the detected structure format.</p>
 after successful detection of the structure format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -634,7 +634,7 @@ after successful detection of the structure format.</p>
 <dd><p>Keyword arguments passed to the parser.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -646,7 +646,7 @@ after successful detection of the structure format.</p>
 <p>Set format attribute to the detected file format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – String with structure data.</p>
+<dd class="field-odd"><p><strong>s</strong> (<em>str</em>) – String with structure data.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><cite>Structure</cite> object.</p>
@@ -667,7 +667,7 @@ after successful detection of the structure format.</p>
 <p>Set format attribute to the detected file format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Path to structure file.</p>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Path to structure file.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><cite>Structure</cite> object.</p>
@@ -678,7 +678,7 @@ after successful detection of the structure format.</p>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference internal" href="diffpy.structure.html#diffpy.structure.structureerrors.StructureFormatError" title="diffpy.structure.structureerrors.StructureFormatError"><strong>StructureFormatError</strong></a> – If the structure format is unknown or invalid.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.12)"><strong>IOError</strong></a> – If the file cannot be read.</p></li>
+<li><p><strong>IOError</strong> – If the file cannot be read.</p></li>
 </ul>
 </dd>
 </dl>
@@ -691,7 +691,7 @@ after successful detection of the structure format.</p>
 <p>Set format attribute to the detected file format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – List of lines with structure data.</p>
+<dd class="field-odd"><p><strong>lines</strong> (<em>list</em>) – List of lines with structure data.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><cite>Structure</cite> object.</p>
@@ -713,7 +713,7 @@ after successful detection of the structure format.</p>
 <dd><p>Return a new instance of the automatic parser.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>**kw</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – Keyword arguments for the structure parser</p>
+<dd class="field-odd"><p><strong>**kw</strong> (<em>dict</em>) – Keyword arguments for the structure parser</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Instance of <cite>P_auto</cite>.</p>
@@ -739,7 +739,7 @@ after successful detection of the structure format.</p>
 <dd><p>Format name, default “pdffit”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -750,7 +750,7 @@ after successful detection of the structure format.</p>
 <dd><p>List of lines ignored during parsing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -772,7 +772,7 @@ after successful detection of the structure format.</p>
 <dd><p>Parse list of lines in PDFfit format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – List of lines in PDB format.</p>
+<dd class="field-odd"><p><strong>lines</strong> (<em>list</em><em> of </em><em>str</em>) – List of lines in PDB format.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Parsed structure instance.</p>
@@ -798,7 +798,7 @@ after successful detection of the structure format.</p>
 <dd class="field-even"><p>List of lines in PDFfit format.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>list of str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -829,7 +829,7 @@ after successful detection of the structure format.</p>
 <dd><p>Dictionary of atomic masses for elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -845,7 +845,19 @@ after successful detection of the structure format.</p>
 <dd><p>Format name, default “xcfg”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.parsers.p_xcfg.P_xcfg.cluster_boundary">
+<span class="sig-name descname"><span class="pre">cluster_boundary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.P_xcfg.cluster_boundary" title="Link to this definition"></a></dt>
+<dd><p>Width of boundary around corners of non-periodic
+cluster to avoid PBC effects in atomeye.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -856,7 +868,7 @@ after successful detection of the structure format.</p>
 <dd><p>Parse list of lines in XCFG format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – List of lines in XCFG format.</p>
+<dd class="field-odd"><p><strong>lines</strong> (<em>list</em><em> of </em><em>str</em>) – List of lines in XCFG format.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Parsed structure instance.</p>
@@ -882,22 +894,10 @@ after successful detection of the structure format.</p>
 <dd class="field-even"><p>List of lines in XCFG format.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>list of str</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="diffpy.structure.html#diffpy.structure.structureerrors.StructureFormatError" title="diffpy.structure.structureerrors.StructureFormatError"><strong>StructureFormatError</strong></a> – Cannot convert empty structure to XCFG format.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.structure.parsers.p_xcfg.P_xcfg.cluster_boundary">
-<span class="sig-name descname"><span class="pre">cluster_boundary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.P_xcfg.cluster_boundary" title="Link to this definition"></a></dt>
-<dd><p>Width of boundary around corners of non-periodic
-cluster to avoid PBC effects in atomeye.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -943,7 +943,7 @@ patterns.</p>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -978,7 +978,7 @@ SCALE2, SCALE3, ATOM, SIGATM, ANISOU, SIGUIJ, TER, HETATM, END</cite>.</p>
 <dd><p>Format name, default “pdb”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -996,13 +996,24 @@ for <cite>structure</cite> stru <cite>atom</cite> number aidx.</p>
 <dd><p>Build lines corresponding to <cite>CRYST1</cite> record.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdb.P_pdb.orderOfRecords">
+<span class="sig-name descname"><span class="pre">orderOfRecords</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['HEADER',</span> <span class="pre">'OBSLTE',</span> <span class="pre">'TITLE',</span> <span class="pre">'CAVEAT',</span> <span class="pre">'COMPND',</span> <span class="pre">'SOURCE',</span> <span class="pre">'KEYWDS',</span> <span class="pre">'EXPDTA',</span> <span class="pre">'AUTHOR',</span> <span class="pre">'REVDAT',</span> <span class="pre">'SPRSDE',</span> <span class="pre">'JRNL',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'DBREF',</span> <span class="pre">'SEQADV',</span> <span class="pre">'SEQRES',</span> <span class="pre">'MODRES',</span> <span class="pre">'HET',</span> <span class="pre">'HETNAM',</span> <span class="pre">'HETSYN',</span> <span class="pre">'FORMUL',</span> <span class="pre">'HELIX',</span> <span class="pre">'SHEET',</span> <span class="pre">'TURN',</span> <span class="pre">'SSBOND',</span> <span class="pre">'LINK',</span> <span class="pre">'HYDBND',</span> <span class="pre">'SLTBRG',</span> <span class="pre">'CISPEP',</span> <span class="pre">'SITE',</span> <span class="pre">'CRYST1',</span> <span class="pre">'ORIGX1',</span> <span class="pre">'ORIGX2',</span> <span class="pre">'ORIGX3',</span> <span class="pre">'SCALE1',</span> <span class="pre">'SCALE2',</span> <span class="pre">'SCALE3',</span> <span class="pre">'MTRIX1',</span> <span class="pre">'MTRIX2',</span> <span class="pre">'MTRIX3',</span> <span class="pre">'TVECT',</span> <span class="pre">'MODEL',</span> <span class="pre">'ATOM',</span> <span class="pre">'SIGATM',</span> <span class="pre">'ANISOU',</span> <span class="pre">'SIGUIJ',</span> <span class="pre">'TER',</span> <span class="pre">'HETATM',</span> <span class="pre">'ENDMDL',</span> <span class="pre">'CONECT',</span> <span class="pre">'MASTER',</span> <span class="pre">'END']</span></em><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.orderOfRecords" title="Link to this definition"></a></dt>
+<dd><p>Ordered list of PDB record labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdb.P_pdb.parseLines">
 <span class="sig-name descname"><span class="pre">parseLines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/parsers/p_pdb.html#P_pdb.parseLines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.parseLines" title="Link to this definition"></a></dt>
 <dd><p>Parse list of lines in PDB format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – List of lines in PDB format.</p>
+<dd class="field-odd"><p><strong>lines</strong> (<em>list</em><em> of </em><em>str</em>) – List of lines in PDB format.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Parsed structure instance.</p>
@@ -1034,18 +1045,7 @@ for <cite>structure</cite> stru <cite>atom</cite> number aidx.</p>
 <dd class="field-even"><p>List of lines in PDB format.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdb.P_pdb.orderOfRecords">
-<span class="sig-name descname"><span class="pre">orderOfRecords</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['HEADER',</span> <span class="pre">'OBSLTE',</span> <span class="pre">'TITLE',</span> <span class="pre">'CAVEAT',</span> <span class="pre">'COMPND',</span> <span class="pre">'SOURCE',</span> <span class="pre">'KEYWDS',</span> <span class="pre">'EXPDTA',</span> <span class="pre">'AUTHOR',</span> <span class="pre">'REVDAT',</span> <span class="pre">'SPRSDE',</span> <span class="pre">'JRNL',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'DBREF',</span> <span class="pre">'SEQADV',</span> <span class="pre">'SEQRES',</span> <span class="pre">'MODRES',</span> <span class="pre">'HET',</span> <span class="pre">'HETNAM',</span> <span class="pre">'HETSYN',</span> <span class="pre">'FORMUL',</span> <span class="pre">'HELIX',</span> <span class="pre">'SHEET',</span> <span class="pre">'TURN',</span> <span class="pre">'SSBOND',</span> <span class="pre">'LINK',</span> <span class="pre">'HYDBND',</span> <span class="pre">'SLTBRG',</span> <span class="pre">'CISPEP',</span> <span class="pre">'SITE',</span> <span class="pre">'CRYST1',</span> <span class="pre">'ORIGX1',</span> <span class="pre">'ORIGX2',</span> <span class="pre">'ORIGX3',</span> <span class="pre">'SCALE1',</span> <span class="pre">'SCALE2',</span> <span class="pre">'SCALE3',</span> <span class="pre">'MTRIX1',</span> <span class="pre">'MTRIX2',</span> <span class="pre">'MTRIX3',</span> <span class="pre">'TVECT',</span> <span class="pre">'MODEL',</span> <span class="pre">'ATOM',</span> <span class="pre">'SIGATM',</span> <span class="pre">'ANISOU',</span> <span class="pre">'SIGUIJ',</span> <span class="pre">'TER',</span> <span class="pre">'HETATM',</span> <span class="pre">'ENDMDL',</span> <span class="pre">'CONECT',</span> <span class="pre">'MASTER',</span> <span class="pre">'END']</span></em><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.orderOfRecords" title="Link to this definition"></a></dt>
-<dd><p>Ordered list of PDB record labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+<dd class="field-odd"><p>list of str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1056,7 +1056,7 @@ for <cite>structure</cite> stru <cite>atom</cite> number aidx.</p>
 <dd><p>Dictionary of PDB record labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1093,7 +1093,7 @@ on molecule and generator records.</p>
 <dd><p>File format name, default “discus”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1104,7 +1104,7 @@ on molecule and generator records.</p>
 <dd><p>Line number of the current line being parsed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1115,7 +1115,7 @@ on molecule and generator records.</p>
 <dd><p>List of lines from the input file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>list of str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1126,7 +1126,7 @@ on molecule and generator records.</p>
 <dd><p>Current line being parsed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1148,7 +1148,7 @@ on molecule and generator records.</p>
 <dd><p>List of lines that were ignored during parsing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>list of str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1159,7 +1159,7 @@ on molecule and generator records.</p>
 <dd><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if cell record processed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1170,7 +1170,7 @@ on molecule and generator records.</p>
 <dd><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if ncell record processed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1181,7 +1181,7 @@ on molecule and generator records.</p>
 <dd><p>Parse list of lines in DISCUS format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – List of lines from the input file.</p>
+<dd class="field-odd"><p><strong>lines</strong> (<em>list</em><em> of </em><em>str</em>) – List of lines from the input file.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Parsed <cite>PDFFitStructure</cite> instance.</p>
@@ -1207,7 +1207,7 @@ on molecule and generator records.</p>
 <dd class="field-even"><p>List of lines in DISCUS format.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>list of str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1248,7 +1248,7 @@ on molecule and generator records.</p>
 <dd><p>Format name, default “xyz”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1259,7 +1259,7 @@ on molecule and generator records.</p>
 <dd><p>Parse list of lines in XYZ format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – List of lines in XYZ format.</p>
+<dd class="field-odd"><p><strong>lines</strong> (<em>list</em><em> of </em><em>str</em>) – List of lines in XYZ format.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Parsed structure instance.</p>
@@ -1285,7 +1285,7 @@ on molecule and generator records.</p>
 <dd class="field-even"><p>List of lines in XYZ format.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>list of str</p>
 </dd>
 </dl>
 </dd></dl>

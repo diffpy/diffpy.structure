@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.expansion package &mdash; diffpy.structure 3.2.2rc0 documentation</title>
+  <title>diffpy.structure.expansion package &mdash; diffpy.structure 3.2.2rc1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -15,7 +15,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9d815fbd"></script>
+        <script src="_static/documentation_options.js?v=34c12bdb"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -35,7 +35,7 @@
             diffpy.structure
           </a>
               <div class="version">
-                3.2.2rc0
+                3.2.2rc1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -91,10 +91,10 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>S</strong> (<a class="reference internal" href="api/diffpy.structure.html#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure"><em>Structure</em></a>) – A <cite>Structure</cite> instance.</p></li>
-<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Primary equatorial radius (along x-axis).</p></li>
-<li><p><strong>b</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>Optional</em>) – Secondary equatorial radius (along y-axis). If <cite>b</cite> is <code class="docutils literal notranslate"><span class="pre">None</span></code>
+<li><p><strong>a</strong> (<em>float</em>) – Primary equatorial radius (along x-axis).</p></li>
+<li><p><strong>b</strong> (<em>float</em><em>, </em><em>Optional</em>) – Secondary equatorial radius (along y-axis). If <cite>b</cite> is <code class="docutils literal notranslate"><span class="pre">None</span></code>
 (default), then it is set equal to <cite>a</cite>.</p></li>
-<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>Optional</em>) – Polar radius (along z-axis). If <cite>c</cite> is <code class="docutils literal notranslate"><span class="pre">None</span></code> (default), then it is
+<li><p><strong>c</strong> (<em>float</em><em>, </em><em>Optional</em>) – Polar radius (along z-axis). If <cite>c</cite> is <code class="docutils literal notranslate"><span class="pre">None</span></code> (default), then it is
 set equal to <cite>a</cite>.</p></li>
 </ul>
 </dd>
@@ -115,7 +115,7 @@ set equal to <cite>a</cite>.</p></li>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>S</strong> (<a class="reference internal" href="api/diffpy.structure.html#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure"><em>Structure</em></a>) – A <cite>Structure</cite> instance.</p></li>
-<li><p><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Primary equatorial radius (along x-axis).</p></li>
+<li><p><strong>radius</strong> (<em>float</em>) – Primary equatorial radius (along x-axis).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -144,7 +144,7 @@ set equal to <cite>a</cite>.</p></li>
 <dd class="field-even"><p>The index of the center <cite>Atom</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -176,8 +176,8 @@ the <cite>a</cite>, <cite>b</cite> and <cite>c</cite> axes.</p></li>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – <cite>S</cite> is not a <cite>Structure</cite> instance.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – Invalid <cite>mno</cite> argument.</p></li>
+<li><p><strong>TypeError</strong> – <cite>S</cite> is not a <cite>Structure</cite> instance.</p></li>
+<li><p><strong>ValueError</strong> – Invalid <cite>mno</cite> argument.</p></li>
 </ul>
 </dd>
 </dl>

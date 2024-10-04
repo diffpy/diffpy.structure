@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.atom &mdash; diffpy.structure 3.2.2rc0 documentation</title>
+  <title>diffpy.structure.atom &mdash; diffpy.structure 3.2.2rc1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -15,7 +15,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9d815fbd"></script>
+        <script src="_static/documentation_options.js?v=34c12bdb"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -35,7 +35,7 @@
             diffpy.structure
           </a>
               <div class="version">
-                3.2.2rc0
+                3.2.2rc1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -81,7 +81,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.atom.</span></span><span class="sig-name descname"><span class="pre">Atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anisotropy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Uisoequiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Storage of structure information relevant for a single atom.</p>
 <p>This class manages atom information such as element symbol, position
 in fractional and Cartesian coordinates, atomic displacement parameters
@@ -89,21 +89,21 @@ and so forth.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>atype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> or </em><a class="reference internal" href="#diffpy.structure.atom.Atom" title="diffpy.structure.atom.Atom"><em>Atom</em></a><em>, </em><em>Optional</em>) – The string atom type to be set as the <cite>element</cite> attribute.
+<li><p><strong>atype</strong> (<em>str</em><em> or </em><a class="reference internal" href="#diffpy.structure.atom.Atom" title="diffpy.structure.atom.Atom"><em>Atom</em></a><em>, </em><em>Optional</em>) – The string atom type to be set as the <cite>element</cite> attribute.
 By default an empty string. When of the <cite>Atom</cite> type, create
 a copy of <cite>atype</cite> and adjust it per other arguments.</p></li>
-<li><p><strong>xyz</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><em>numpy.ndarray</em></a><em>, </em><em>Optional</em>) – Fractional coordinates within the associated <cite>lattice</cite>.
+<li><p><strong>xyz</strong> (<em>numpy.ndarray</em><em>, </em><em>Optional</em>) – Fractional coordinates within the associated <cite>lattice</cite>.
 By default <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>.</p></li>
-<li><p><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>Optional</em>) – A unique string <cite>label</cite> for referring to this <cite>Atom</cite>.
+<li><p><strong>label</strong> (<em>str</em><em>, </em><em>Optional</em>) – A unique string <cite>label</cite> for referring to this <cite>Atom</cite>.
 By default an empty string.</p></li>
-<li><p><strong>occupancy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>Optional</em>) – The initial <cite>occupancy</cite> of this atom, by default <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
-<li><p><strong>anisotropy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>Optional</em>) – The flag for anisotropic thermal displacements parameters.
+<li><p><strong>occupancy</strong> (<em>float</em><em>, </em><em>Optional</em>) – The initial <cite>occupancy</cite> of this atom, by default <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><strong>anisotropy</strong> (<em>bool</em><em>, </em><em>Optional</em>) – The flag for anisotropic thermal displacements parameters.
 This overrides <cite>anisotropy</cite> implied by presence of the
 <em>U</em> or <em>Uisoequiv</em> arguments. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>
 when not set in any other way.</p></li>
-<li><p><strong>U</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><em>numpy.ndarray</em></a><em>, </em><em>Optional</em>) – The 3x3 matrix of anisotropic thermal displacement parameters.
+<li><p><strong>U</strong> (<em>numpy.ndarray</em><em>, </em><em>Optional</em>) – The 3x3 matrix of anisotropic thermal displacement parameters.
 When present <cite>anisotropy</cite> defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
-<li><p><strong>Uisoequiv</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>Optional</em>) – The isotropic atomic displacement parameter. The <cite>anisotropy</cite>
+<li><p><strong>Uisoequiv</strong> (<em>float</em><em>, </em><em>Optional</em>) – The isotropic atomic displacement parameter. The <cite>anisotropy</cite>
 defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code> when present. Only one of the <em>U</em> and
 <em>Uisoequiv</em> arguments may be provided at the same time. Assume
 zero atomic displacements when <em>U</em> and <em>Uisoequiv</em> are unset.</p></li>
@@ -118,7 +118,7 @@ Use the absolute Cartesian system when <code class="docutils literal notranslate
 <dd><p>The string type of the atom. An element or ion symbol.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -129,7 +129,7 @@ Use the absolute Cartesian system when <code class="docutils literal notranslate
 <dd><p>The fractional coordinates in the associated <cite>lattice</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -142,7 +142,7 @@ The <em>label</em> can be used to reference this atom when contained in
 a <cite>Structure</cite> object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -153,7 +153,7 @@ a <cite>Structure</cite> object.</p>
 <dd><p>The fractional occupancy of this atom.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -175,40 +175,6 @@ Use the absolute Cartesian coordinates when <code class="docutils literal notran
 <p class="admonition-title">Note</p>
 <p>Cannot use both U and Uisoequiv arguments at the same time.</p>
 </div>
-<dl class="py method">
-<dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msdCart">
-<span class="sig-name descname"><span class="pre">msdCart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom.msdCart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom.msdCart" title="Link to this definition"></a></dt>
-<dd><p>Calculate mean square displacement along the Cartesian vector.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>vc</strong> (<em>array_like</em>) – Vector in Cartesian coordinates.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The mean square displacement along <em>vc</em>.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msdLat">
-<span class="sig-name descname"><span class="pre">msdLat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom.msdLat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom.msdLat" title="Link to this definition"></a></dt>
-<dd><p>Calculate mean square displacement along the lattice vector.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>vl</strong> (<em>array_like</em>) – The vector in lattice coordinates.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The mean square displacement along <em>vl</em>.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B11">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B11</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B11" title="Link to this definition"></a></dt>
@@ -217,7 +183,7 @@ Use the absolute Cartesian coordinates when <code class="docutils literal notran
 is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire tensor <cite>U</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -231,7 +197,7 @@ value updates <cite>U</cite> in a symmetric way. Assignment has no effect
 when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -245,7 +211,7 @@ value updates <cite>U</cite> in a symmetric way. Assignment has no effect
 when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -258,7 +224,7 @@ when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span
 is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire tensor <cite>U</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -272,7 +238,7 @@ value updates <cite>U</cite> in a symmetric way. Assignment has no effect
 when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -285,7 +251,7 @@ when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span
 is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire tensor <cite>U</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -299,7 +265,7 @@ rescales <cite>U</cite> tensor to yield equivalent direction-average of
 Debye-Waller displacements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -321,7 +287,7 @@ undefined behavior. Use the <cite>U11</cite>, <cite>U22</cite>, …, or <cite>B1
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -334,7 +300,7 @@ undefined behavior. Use the <cite>U11</cite>, <cite>U22</cite>, …, or <cite>B1
 tensor <em>U</em>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -347,7 +313,7 @@ tensor <em>U</em>.</p>
 has no effect when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -360,7 +326,7 @@ has no effect when <cite>anisotropy</cite> is <code class="docutils literal notr
 has no effect when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -373,7 +339,7 @@ has no effect when <cite>anisotropy</cite> is <code class="docutils literal notr
 tensor <em>U</em>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -386,7 +352,7 @@ tensor <em>U</em>.</p>
 has no effect when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -399,7 +365,7 @@ has no effect when <cite>anisotropy</cite> is <code class="docutils literal notr
 tensor <em>U</em>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -412,7 +378,7 @@ tensor <em>U</em>.</p>
 direction-averaged displacements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -426,7 +392,7 @@ must be isotropic and only its diagonal elements are taken into
 account.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -437,7 +403,7 @@ account.</p>
 <dd><p>Default values of <cite>element</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -448,7 +414,7 @@ account.</p>
 <dd><p>Default values of <cite>label</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -464,13 +430,47 @@ account.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msdCart">
+<span class="sig-name descname"><span class="pre">msdCart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom.msdCart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom.msdCart" title="Link to this definition"></a></dt>
+<dd><p>Calculate mean square displacement along the Cartesian vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vc</strong> (<em>array_like</em>) – Vector in Cartesian coordinates.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mean square displacement along <em>vc</em>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msdLat">
+<span class="sig-name descname"><span class="pre">msdLat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom.msdLat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom.msdLat" title="Link to this definition"></a></dt>
+<dd><p>Calculate mean square displacement along the lattice vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vl</strong> (<em>array_like</em>) – The vector in lattice coordinates.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mean square displacement along <em>vl</em>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id3">
 <span class="sig-name descname"><span class="pre">occupancy</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
 <dd><p>Default values of <cite>occupancy</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -481,7 +481,7 @@ account.</p>
 <dd><p>fractional coordinate <em>x</em>, same as <code class="docutils literal notranslate"><span class="pre">xyz[0]</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -495,7 +495,7 @@ current <cite>lattice</cite> setup. Assignment to <em>xyz_cartn</em> or
 its components is applied on fractional coordinates <cite>xyz</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)">numpy.ndarray</a></p>
+<dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -506,7 +506,7 @@ its components is applied on fractional coordinates <cite>xyz</cite>.</p>
 <dd><p>fractional coordinate <em>y</em>, same as <code class="docutils literal notranslate"><span class="pre">xyz[1]</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -517,7 +517,7 @@ its components is applied on fractional coordinates <cite>xyz</cite>.</p>
 <dd><p>fractional coordinate <em>z</em>, same as <code class="docutils literal notranslate"><span class="pre">xyz[2]</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
