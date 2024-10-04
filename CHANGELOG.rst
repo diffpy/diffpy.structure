@@ -4,6 +4,23 @@ Release Notes
 
 .. current developments
 
+3.2.2
+=====
+
+**Added:**
+
+* Unit test for version.py
+* support for numpy >=2.0
+
+**Fixed:**
+
+* tests folder at the root of the repo
+* Add pip dependencies under pip.txt and conda dependencies under conda.txt
+* element/label itemsize to 5 in _linkAtomAttribute to support numpy >=2.0
+* Recookiecut package to the group standard
+
+
+
 3.2.1
 =====
 
