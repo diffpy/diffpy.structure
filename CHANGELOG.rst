@@ -4,6 +4,22 @@ Release Notes
 
 .. current developments
 
+3.2.3
+=====
+
+**Added:**
+
+* Use GitHub Actions to build, release, upload to PyPI
+* Added issue template for PyPI/GitHub release
+* Include GitHub Issues templates for bug report and feature request
+
+**Fixed:**
+
+* Add getting started section and re-arrange install success check instructions
+* Added termial script for transtru app in pyproject.toml
+* Changed requires-python to align with classifiers
+
+
 3.2.2
 =====
 
