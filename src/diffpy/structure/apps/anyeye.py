@@ -265,7 +265,7 @@ def main():
         spawnargs = (pd["viewer"], pd["viewer"], pd["tmpfile"], env)
         # load strufile in atomeye
         if pd["watch"]:
-            signal.signal(signal.SIGCLD, signalHandler)
+            signal.signal(signal.SIGCHLD, signalHandler)
             os.spawnlpe(os.P_NOWAIT, *spawnargs)
             watchStructureFile(pd)
         else:
