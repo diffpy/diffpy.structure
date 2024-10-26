@@ -4,6 +4,18 @@ Release Notes
 
 .. current developments
 
+3.3.0
+=====
+
+**Added:**
+
+* Support for Python 3.13
+
+**Deprecated:**
+
+* Support for Python 3.10
+
+
 3.2.3
 =====
 
