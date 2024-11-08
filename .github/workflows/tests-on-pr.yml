@@ -14,3 +14,5 @@ jobs:
       project: diffpy.structure
       c_extension: false
       headless: false
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
