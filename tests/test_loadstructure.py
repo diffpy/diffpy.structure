@@ -59,6 +59,17 @@ class TestLoadStructure(unittest.TestCase):
         self.assertRaises(TypeError, loadStructure, f, eps=1e-10)
         return
 
+    def test_cif_pathlib(self):
+        """check loading CIF file using pathlib.Path input"""
+        from pathlib import Path
+
+        f = self.datafile("PbTe.cif")
+        f_path = Path(f)  # Convert to Path object
+        stru = loadStructure(f_path)
+        self.assertTrue(isinstance(stru, Structure))
+        self.assertFalse(isinstance(stru, PDFFitStructure))
+        return
+
 
 # End of class TestLoadStructure
 
