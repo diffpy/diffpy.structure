@@ -37,7 +37,8 @@ Exceptions:
 
 # Interface definitions ------------------------------------------------------
 
-import os 
+import os
+
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
 from diffpy.structure.parsers import getParser

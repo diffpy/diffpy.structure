@@ -62,6 +62,7 @@ class TestLoadStructure(unittest.TestCase):
     def test_cif_pathlib(self):
         """check loading CIF file using pathlib.Path input"""
         from pathlib import Path
+
         f = self.datafile("PbTe.cif")
         f_path = Path(f)  # Convert to Path object
         stru = loadStructure(f_path)
