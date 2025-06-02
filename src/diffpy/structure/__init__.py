@@ -37,6 +37,7 @@ Exceptions:
 
 # Interface definitions ------------------------------------------------------
 
+import os 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
 from diffpy.structure.parsers import getParser
@@ -55,8 +56,7 @@ def loadStructure(filename, fmt="auto", **kw):
 
     Parameters
     ----------
-
-    filename : str
+    filename : str or pathlib.Path
         Path to the file to be loaded.
     fmt : str, Optional
         Format of the structure file such as 'cif' or 'xyz'. Must be
@@ -74,7 +74,7 @@ def loadStructure(filename, fmt="auto", **kw):
         Return a more specific PDFFitStructure type for 'pdffit'
         and 'discus' formats.
     """
-
+    filename = os.fspath(filename)  # This handles str, Path, and os.PathLike
     p = getParser(fmt, **kw)
     rv = p.parseFile(filename)
     return rv
