@@ -18,12 +18,7 @@
 
 import unittest
 
-from diffpy.structure.spacegroups import (
-    FindSpaceGroup,
-    GetSpaceGroup,
-    SpaceGroupList,
-    _hashSymOpList,
-)
+from diffpy.structure.spacegroups import FindSpaceGroup, GetSpaceGroup, SpaceGroupList, _hashSymOpList
 
 # ----------------------------------------------------------------------------
 

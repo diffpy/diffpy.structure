@@ -550,12 +550,7 @@ class P_cif(StructureParser):
         block : CifBlock
             Instance of `CifBlock`.
         """
-        from diffpy.structure.spacegroups import (
-            FindSpaceGroup,
-            GetSpaceGroup,
-            IsSpaceGroupIdentifier,
-            SpaceGroup,
-        )
+        from diffpy.structure.spacegroups import FindSpaceGroup, GetSpaceGroup, IsSpaceGroupIdentifier, SpaceGroup
 
         self.asymmetric_unit = list(self.stru)
         sym_synonyms = (

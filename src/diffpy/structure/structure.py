@@ -22,11 +22,7 @@ import numpy
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
-from diffpy.structure.utils import (
-    _linkAtomAttribute,
-    atomBareSymbol,
-    isiterable,
-)
+from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol, isiterable
 
 # ----------------------------------------------------------------------------
 
