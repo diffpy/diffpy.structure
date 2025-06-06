@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Parser for PDFfit structure format
-"""
+"""Parser for PDFfit structure format"""
 
 import sys
 from functools import reduce
@@ -169,7 +168,9 @@ class P_pdffit(StructureParser):
                 emsg = "expected %d atoms, read %d" % (p_natoms, len(stru))
                 raise StructureFormatError(emsg)
             if stru.pdffit["ncell"][:3] != [1, 1, 1]:
-                superlatpars = [latpars[i] * stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
+                superlatpars = [
+                    latpars[i] * stru.pdffit["ncell"][i] for i in range(3)
+                ] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
                 stru.placeInLattice(superlattice)
                 stru.pdffit["ncell"] = [1, 1, 1, p_natoms]
@@ -210,7 +211,12 @@ class P_pdffit(StructureParser):
         lines.append("scale  %9.6f" % stru_pdffit["scale"])
         lines.append(
             "sharp  %9.6f, %9.6f, %9.6f, %9.6f"
-            % (stru_pdffit["delta2"], stru_pdffit["delta1"], stru_pdffit["sratio"], stru_pdffit["rcut"])
+            % (
+                stru_pdffit["delta2"],
+                stru_pdffit["delta1"],
+                stru_pdffit["sratio"],
+                stru_pdffit["rcut"],
+            )
         )
         lines.append("spcgr   " + stru_pdffit["spcgr"])
         if stru_pdffit.get("spdiameter", 0.0) > 0.0:
@@ -224,15 +230,27 @@ class P_pdffit(StructureParser):
             "cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f"
             % (lat.a, lat.b, lat.c, lat.alpha, lat.beta, lat.gamma)
         )
-        lines.append("dcell  %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % tuple(stru_pdffit["dcell"]))
+        lines.append(
+            "dcell  %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f"
+            % tuple(stru_pdffit["dcell"])
+        )
         lines.append("ncell  %9i, %9i, %9i, %9i" % (1, 1, 1, len(stru)))
         lines.append("atoms")
         for a in stru:
             ad = a.__dict__
             lines.append(
-                "%-4s %17.8f %17.8f %17.8f %12.4f" % (a.element.upper(), a.xyz[0], a.xyz[1], a.xyz[2], a.occupancy)
+                "%-4s %17.8f %17.8f %17.8f %12.4f"
+                % (
+                    a.element.upper(),
+                    a.xyz[0],
+                    a.xyz[1],
+                    a.xyz[2],
+                    a.occupancy,
+                )
             )
-            sigmas = numpy.concatenate((ad.get("sigxyz", d_sigxyz), [ad.get("sigo", d_sigo)]))
+            sigmas = numpy.concatenate(
+                (ad.get("sigxyz", d_sigxyz), [ad.get("sigo", d_sigo)])
+            )
             lines.append("    %18.8f %17.8f %17.8f %12.4f" % tuple(sigmas))
             sigU = ad.get("sigU", d_sigU)
             Uii = (a.U[0][0], a.U[1][1], a.U[2][2])

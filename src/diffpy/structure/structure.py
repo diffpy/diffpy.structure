@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""This module defines class `Structure`.
-"""
+"""This module defines class `Structure`."""
 
 import codecs
 import copy as copymod
@@ -23,7 +22,11 @@ import numpy
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
-from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol, isiterable
+from diffpy.structure.utils import (
+    _linkAtomAttribute,
+    atomBareSymbol,
+    isiterable,
+)
 
 # ----------------------------------------------------------------------------
 
@@ -87,7 +90,9 @@ class Structure(list):
     pdffit = None
     """None: default values for `pdffit`."""
 
-    def __init__(self, atoms=None, lattice=None, title=None, filename=None, format=None):
+    def __init__(
+        self, atoms=None, lattice=None, title=None, filename=None, format=None
+    ):
         # if filename is specified load it and return
         if filename is not None:
             if any((atoms, lattice, title)):
@@ -498,7 +503,9 @@ class Structure(list):
             pass
         # check if there is any string label that should be resolved
         scalarstringlabel = isinstance(idx, str)
-        hasstringlabel = scalarstringlabel or (isiterable(idx) and any(isinstance(ii, str) for ii in idx))
+        hasstringlabel = scalarstringlabel or (
+            isiterable(idx) and any(isinstance(ii, str) for ii in idx)
+        )
         # if not, use numpy indexing to resolve idx
         if not hasstringlabel:
             idx1 = idx
@@ -694,7 +701,11 @@ class Structure(list):
         self._lattice = value
         return
 
-    lattice = property(_get_lattice, _set_lattice, doc="Coordinate system for this `Structure`.")
+    lattice = property(
+        _get_lattice,
+        _set_lattice,
+        doc="Coordinate system for this `Structure`.",
+    )
 
     # composition
 
@@ -704,7 +715,10 @@ class Structure(list):
             rv[a.element] = rv.get(a.element, 0.0) + a.occupancy
         return rv
 
-    composition = property(_get_composition, doc="Dictionary of chemical symbols and their total occupancies.")
+    composition = property(
+        _get_composition,
+        doc="Dictionary of chemical symbols and their total occupancies.",
+    )
 
     # linked atom attributes
 

@@ -218,7 +218,10 @@ class P_xcfg(StructureParser):
                     continue
                 elif xcfg_Number_of_particles is None:
                     if line.find("Number of particles =") != 0:
-                        emsg = ("%d: first line must " + "contain 'Number of particles ='") % p_nl
+                        emsg = (
+                            "%d: first line must "
+                            + "contain 'Number of particles ='"
+                        ) % p_nl
                         raise StructureFormatError(emsg)
                     xcfg_Number_of_particles = int(line[21:].split(None, 1)[0])
                     p_natoms = xcfg_Number_of_particles
@@ -248,10 +251,15 @@ class P_xcfg(StructureParser):
                     p_auxiliary[i] = "aux%d" % i
             sorted_aux_keys = sorted(p_auxiliary.keys())
             if p_auxnum != 0:
-                stru.xcfg = {"auxiliaries": [p_auxiliary[k] for k in sorted_aux_keys]}
+                stru.xcfg = {
+                    "auxiliaries": [p_auxiliary[k] for k in sorted_aux_keys]
+                }
             ecnt = len(p_auxiliary) + (3 if xcfg_NO_VELOCITY else 6)
             if ecnt != xcfg_entry_count:
-                emsg = ("%d: auxiliary fields are " "not consistent with entry_count") % p_nl
+                emsg = (
+                    "%d: auxiliary fields are "
+                    "not consistent with entry_count"
+                ) % p_nl
                 raise StructureFormatError(emsg)
             # define proper lattice
             stru.lattice.setLatBase(xcfg_H0)
@@ -272,7 +280,12 @@ class P_xcfg(StructureParser):
                     xyz = [xcfg_A * xi for xi in fields[:3]]
                     stru.addNewAtom(p_element, xyz=xyz)
                     a = stru[-1]
-                    _assign_auxiliaries(a, fields, auxiliaries=p_auxiliary, no_velocity=xcfg_NO_VELOCITY)
+                    _assign_auxiliaries(
+                        a,
+                        fields,
+                        auxiliaries=p_auxiliary,
+                        no_velocity=xcfg_NO_VELOCITY,
+                    )
                 else:
                     emsg = "%d: invalid record" % p_nl
                     raise StructureFormatError(emsg)
@@ -319,19 +332,28 @@ class P_xcfg(StructureParser):
         # range of CFG coordinates must be less than 1
         p_A = numpy.ceil(max_range_xyz + 1.0e-13)
         # atomeye draws rubbish when boxsize is less than 3.5
-        hi_ucvect = max([numpy.sqrt(numpy.dot(v, v)) for v in stru.lattice.base])
+        hi_ucvect = max(
+            [numpy.sqrt(numpy.dot(v, v)) for v in stru.lattice.base]
+        )
         if hi_ucvect * p_A < 3.5:
             p_A = numpy.ceil(3.5 / hi_ucvect)
         lines.append("A = %.8g Angstrom" % p_A)
         # how much do we need to shift the coordinates?
         p_dxyz = numpy.zeros(3, dtype=float)
         for i in range(3):
-            if lo_xyz[i] / p_A < 0.0 or hi_xyz[i] / p_A >= 1.0 or (lo_xyz[i] == hi_xyz[i] and lo_xyz[i] == 0.0):
+            if (
+                lo_xyz[i] / p_A < 0.0
+                or hi_xyz[i] / p_A >= 1.0
+                or (lo_xyz[i] == hi_xyz[i] and lo_xyz[i] == 0.0)
+            ):
                 p_dxyz[i] = 0.5 - (hi_xyz[i] + lo_xyz[i]) / 2.0 / p_A
         # H0 tensor
         for i in range(3):
             for j in range(3):
-                lines.append("H0(%i,%i) = %.8g A" % (i + 1, j + 1, stru.lattice.base[i, j]))
+                lines.append(
+                    "H0(%i,%i) = %.8g A"
+                    % (i + 1, j + 1, stru.lattice.base[i, j])
+                )
         # get out for empty structure
         if len(stru) == 0:
             return lines
@@ -343,7 +365,9 @@ class P_xcfg(StructureParser):
         # if stru came from xcfg file, it would store original auxiliaries in
         # xcfg dictionary
         try:
-            p_auxiliaries = [(aux, "a." + aux) for aux in stru.xcfg["auxiliaries"]]
+            p_auxiliaries = [
+                (aux, "a." + aux) for aux in stru.xcfg["auxiliaries"]
+            ]
         except AttributeError:
             p_auxiliaries = []
         # add occupancy if any atom has nonunit occupancy
@@ -367,7 +391,9 @@ class P_xcfg(StructureParser):
         elif p_allUiso:
             p_auxiliaries.append(("Uiso", "uflat[0]"))
         else:
-            p_auxiliaries.extend([("U11", "uflat[0]"), ("U22", "uflat[4]"), ("U33", "uflat[8]")])
+            p_auxiliaries.extend(
+                [("U11", "uflat[0]"), ("U22", "uflat[4]"), ("U33", "uflat[8]")]
+            )
             # check if there are off-diagonal elements
             allU = numpy.array([a.U for a in stru])
             if numpy.any(allU[:, 0, 1] != 0.0):

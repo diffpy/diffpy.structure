@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.structure.parsers.p_cif module
-"""
+"""Unit tests for diffpy.structure.parsers.p_cif module"""
 
 import unittest
 
@@ -95,7 +94,9 @@ class TestP_cif(unittest.TestCase):
         stru = ptest.parse(sgood)
         self.assertEqual(str(stru_check), str(stru))
         self.assertEqual(str(stru_check.lattice), str(stru.lattice))
-        self.assertEqual(pfile.spacegroup.short_name, ptest.spacegroup.short_name)
+        self.assertEqual(
+            pfile.spacegroup.short_name, ptest.spacegroup.short_name
+        )
         ptestb = P_cif()
         self.assertRaises(StructureFormatError, ptestb.parse, sbad)
         return
@@ -111,7 +112,9 @@ class TestP_cif(unittest.TestCase):
         stru = ptest.parseLines(goodlines)
         self.assertEqual(str(stru_check), str(stru))
         self.assertEqual(str(stru_check.lattice), str(stru.lattice))
-        self.assertEqual(pfile.spacegroup.short_name, ptest.spacegroup.short_name)
+        self.assertEqual(
+            pfile.spacegroup.short_name, ptest.spacegroup.short_name
+        )
         ptest2 = P_cif()
         self.assertRaises(StructureFormatError, ptest2.parseLines, badlines)
         return
@@ -137,7 +140,9 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(0.0225566, a0.Uisoequiv)
         # badciffile
         pfile2 = P_cif()
-        self.assertRaises(StructureFormatError, pfile2.parseFile, self.badciffile)
+        self.assertRaises(
+            StructureFormatError, pfile2.parseFile, self.badciffile
+        )
         # graphite
         pgraphite = P_cif()
         graphite = pgraphite.parseFile(self.graphiteciffile)
@@ -298,7 +303,11 @@ class TestP_cif(unittest.TestCase):
         "verify site isotropy due to site symmetry."
         # remove the _atom_site_thermal_displace_type field
         with open(self.pbteciffile) as fp:
-            lines = [line.replace(" Uiso ", " ") for line in fp if "_atom_site_thermal_displace_type" not in line]
+            lines = [
+                line.replace(" Uiso ", " ")
+                for line in fp
+                if "_atom_site_thermal_displace_type" not in line
+            ]
         ciftxt = "".join(lines)
         ptest = self.ptest
         stru = ptest.parse(ciftxt)
@@ -345,7 +354,11 @@ class TestP_cif(unittest.TestCase):
     def test_adp_aniso_label(self):
         "verify ADP type setting from _atom_site_aniso_label loop"
         with open(self.teiciffile) as fp:
-            lines = [line.replace(" Uani ", " ") for line in fp if "_atom_site_adp_type" not in line]
+            lines = [
+                line.replace(" Uani ", " ")
+                for line in fp
+                if "_atom_site_adp_type" not in line
+            ]
         ciftxt = "".join(lines)
         stru = self.ptest.parse(ciftxt)
         self.assertTrue(all(stru.anisotropy))

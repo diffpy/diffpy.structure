@@ -15,9 +15,9 @@
 
 """Parser for XYZ file format, where
 
-    * First line gives number of atoms.
-    * Second line has optional title.
-    * Remaining lines contain element, `x, y, z`.
+* First line gives number of atoms.
+* Second line has optional title.
+* Remaining lines contain element, `x, y, z`.
 """
 
 import sys
@@ -78,11 +78,15 @@ class P_xyz(StructureParser):
                 stru.title = lines[start + 1].strip()
                 start += 2
             else:
-                emsg = "%d: invalid XYZ format, missing number of atoms" % (start + 1)
+                emsg = "%d: invalid XYZ format, missing number of atoms" % (
+                    start + 1
+                )
                 raise StructureFormatError(emsg)
         except (IndexError, ValueError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            emsg = "%d: invalid XYZ format, missing number of atoms" % (start + 1)
+            emsg = "%d: invalid XYZ format, missing number of atoms" % (
+                start + 1
+            )
             e = StructureFormatError(emsg)
             raise e.with_traceback(exc_traceback)
         # find the last valid record
@@ -105,7 +109,10 @@ class P_xyz(StructureParser):
                 if fields == []:
                     continue
                 elif len(fields) != nfields:
-                    emsg = ("%d: all lines must have " + "the same number of columns") % p_nl
+                    emsg = (
+                        "%d: all lines must have "
+                        + "the same number of columns"
+                    ) % p_nl
                     raise StructureFormatError(emsg)
                 element = fields[0]
                 element = element[0].upper() + element[1:].lower()

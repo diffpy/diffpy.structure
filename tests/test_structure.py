@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for Structure class.
-"""
+"""Unit tests for Structure class."""
 
 
 import copy
@@ -41,7 +40,10 @@ class TestStructure(unittest.TestCase):
     _loaded_structures = {}
 
     def setUp(self):
-        self.stru = Structure([Atom("C", [0, 0, 0]), Atom("C", [1, 1, 1])], lattice=Lattice(1, 1, 1, 90, 90, 120))
+        self.stru = Structure(
+            [Atom("C", [0, 0, 0]), Atom("C", [1, 1, 1])],
+            lattice=Lattice(1, 1, 1, 90, 90, 120),
+        )
         # useful variables
 
         if not self._loaded_structures:
@@ -60,8 +62,12 @@ class TestStructure(unittest.TestCase):
         """check Structure.__init__()"""
         atoms = [Atom("C", [0, 0, 0]), Atom("C", [0.5, 0.5, 0.5])]
         self.assertRaises(ValueError, Structure, atoms, filename=self.teifile)
-        self.assertRaises(ValueError, Structure, lattice=Lattice(), filename=self.teifile)
-        self.assertRaises(ValueError, Structure, title="test", filename=self.teifile)
+        self.assertRaises(
+            ValueError, Structure, lattice=Lattice(), filename=self.teifile
+        )
+        self.assertRaises(
+            ValueError, Structure, title="test", filename=self.teifile
+        )
         stru1 = Structure(title="my title")
         self.assertEqual("my title", stru1.title)
         stru2a = Structure(atoms)
@@ -134,8 +140,12 @@ class TestStructure(unittest.TestCase):
         self.stru.assignUniqueLabels()
         self.assertRaises(IndexError, self.stru.distance, 333, "C1")
         self.assertRaises(IndexError, self.stru.distance, "C", "C1")
-        self.assertAlmostEqual(sqrt(2.0), self.stru.distance(0, 1), self.places)
-        self.assertAlmostEqual(sqrt(2.0), self.stru.distance("C1", "C2"), self.places)
+        self.assertAlmostEqual(
+            sqrt(2.0), self.stru.distance(0, 1), self.places
+        )
+        self.assertAlmostEqual(
+            sqrt(2.0), self.stru.distance("C1", "C2"), self.places
+        )
         self.assertEqual(0, self.stru.distance(0, "C1"))
         return
 
@@ -239,7 +249,9 @@ class TestStructure(unittest.TestCase):
         cdse[0].label = "Hohenzollern"
         self.assertRaises(IndexError, cdse.__getitem__, "Cd1")
         self.assertTrue(cdse[0] is cdse["Hohenzollern"])
-        self.assertEqual([cdse[0], cdse[3], cdse[1]], cdse["Hohenzollern", 3:0:-2].tolist())
+        self.assertEqual(
+            [cdse[0], cdse[3], cdse[1]], cdse["Hohenzollern", 3:0:-2].tolist()
+        )
         stru.label = ["A", "B"]
         self.assertTrue(stru[0] is stru["A"])
         self.assertTrue(stru[1] is stru["B"])
@@ -349,8 +361,14 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(12, len(set(cdse * 3)))
         cdsex3 = 3 * cdse
         self.assertEqual(12, len(cdsex3))
-        self.assertEqual(3 * "Cd Cd Se Se".split(), [a.element for a in cdsex3])
-        self.assertTrue(numpy.array_equal(3 * [a.xyz for a in cdse], [a.xyz for a in cdsex3]))
+        self.assertEqual(
+            3 * "Cd Cd Se Se".split(), [a.element for a in cdsex3]
+        )
+        self.assertTrue(
+            numpy.array_equal(
+                3 * [a.xyz for a in cdse], [a.xyz for a in cdsex3]
+            )
+        )
         self.assertFalse(set(cdse).intersection(cdsex3))
         self.assertFalse(cdse.lattice is cdsex3.lattice)
         return
@@ -484,7 +502,9 @@ class TestStructure(unittest.TestCase):
         """check Structure.xyz_cartn"""
         pbte = copy.copy(self.pbte)
         self.assertEqual((8, 3), pbte.xyz_cartn.shape)
-        self.assertTrue(numpy.allclose(6.461 / 2.0 * numpy.ones(3), pbte.xyz_cartn[0]))
+        self.assertTrue(
+            numpy.allclose(6.461 / 2.0 * numpy.ones(3), pbte.xyz_cartn[0])
+        )
         pbte.xyz_cartn += numpy.array([0.1, 0.2, 0.3]) * 6.461
         self.assertTrue(numpy.allclose([0.6, 0.7, 0.8], pbte[0].xyz))
         self.assertTrue(numpy.allclose([0.6, 0.7, 0.3], pbte[7].xyz))
@@ -502,7 +522,9 @@ class TestStructure(unittest.TestCase):
         self.assertAlmostEqual(0.019227, tei[0].U22, 6)
         self.assertAlmostEqual(0.019227, tei[0].U33, 6)
         self.assertAlmostEqual(0.0, tei[0].U12, 6)
-        self.assertAlmostEqual(0.019227 * -numpy.cos(numpy.radians(128.09)), tei[0].U13, 6)
+        self.assertAlmostEqual(
+            0.019227 * -numpy.cos(numpy.radians(128.09)), tei[0].U13, 6
+        )
         self.assertAlmostEqual(0.0, tei[0].U23, 6)
         self.assertAlmostEqual(0.019227, tei[0].Uisoequiv, 6)
         return

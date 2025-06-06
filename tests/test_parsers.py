@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for structure.parsers module.
-"""
+"""Unit tests for structure.parsers module."""
 
 import os
 import re
@@ -65,10 +64,30 @@ class TestP_xyz(unittest.TestCase):
     def test_read_xyz_bad(self):
         """check exceptions when reading invalid xyz file"""
         stru = self.stru
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky-bad1.xyz"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky-bad2.xyz"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky-plain.xyz"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("hexagon-raw.xy"), self.format)
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("bucky-bad1.xyz"),
+            self.format,
+        )
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("bucky-bad2.xyz"),
+            self.format,
+        )
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("bucky-plain.xyz"),
+            self.format,
+        )
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("hexagon-raw.xy"),
+            self.format,
+        )
         return
 
     def test_writeStr_xyz(self):
@@ -128,7 +147,12 @@ class TestP_rawxyz(unittest.TestCase):
     def test_read_plainxyz_bad(self):
         """check exceptions when reading invalid plain xyz file"""
         stru = self.stru
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky-plain-bad.xyz"), self.format)
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("bucky-plain-bad.xyz"),
+            self.format,
+        )
         return
 
     def test_read_rawxyz(self):
@@ -146,8 +170,18 @@ class TestP_rawxyz(unittest.TestCase):
     def test_read_rawxyz_bad(self):
         """check exceptions when reading unsupported xy file"""
         stru = self.stru
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("hexagon-raw-bad.xyz"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("hexagon-raw.xy"), self.format)
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("hexagon-raw-bad.xyz"),
+            self.format,
+        )
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("hexagon-raw.xy"),
+            self.format,
+        )
         return
 
     def test_writeStr_rawxyz(self):

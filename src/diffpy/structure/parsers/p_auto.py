@@ -188,7 +188,10 @@ class P_auto(StructureParser):
                 pass
         if stru is None:
             emsg = "\n".join(
-                ["Unknown or invalid structure format.", "Errors per each tested structure format:"]
+                [
+                    "Unknown or invalid structure format.",
+                    "Errors per each tested structure format:",
+                ]
                 + parsers_emsgs
             )
             raise StructureFormatError(emsg)

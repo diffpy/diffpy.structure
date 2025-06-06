@@ -71,7 +71,11 @@ def usage(style=None):
     myname = os.path.basename(sys.argv[0])
     msg = __doc__.replace("anyeye", myname)
     if style == "brief":
-        msg = msg.split("\n")[1] + "\n" + "Try `%s --help' for more information." % myname
+        msg = (
+            msg.split("\n")[1]
+            + "\n"
+            + "Try `%s --help' for more information." % myname
+        )
     else:
         from diffpy.structure.parsers import inputFormats
 
@@ -139,7 +143,10 @@ def convertStructureFile(pd):
     if pd["formula"]:
         formula = pd["formula"]
         if len(formula) != len(stru):
-            emsg = "Formula has %i atoms while structure %i" % (len(formula), len(stru))
+            emsg = "Formula has %i atoms while structure %i" % (
+                len(formula),
+                len(stru),
+            )
             raise RuntimeError(emsg)
         for a, el in zip(stru, formula):
             a.element = el
@@ -218,7 +225,9 @@ def main():
     pd["watch"] = False
     try:
         opts, args = getopt.getopt(
-            sys.argv[1:], "f:whV", ["formula=", "watch", "viewer=", "formats=", "help", "version"]
+            sys.argv[1:],
+            "f:whV",
+            ["formula=", "watch", "viewer=", "formats=", "help", "version"],
         )
     except getopt.GetoptError as errmsg:
         print(errmsg, file=sys.stderr)

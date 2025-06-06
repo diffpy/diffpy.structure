@@ -3,8 +3,7 @@
 # This code is part of the PyMMLib distribution and governed by
 # its license.Please see the LICENSE_pymmlib file that should have been
 # included as part of this package.
-"""Space groups defined as a part of the pymmlib.
-"""
+"""Space groups defined as a part of the pymmlib."""
 
 from diffpy.structure.spacegroupmod import (
     Rot_mX_mXY_mZ,
@@ -3270,7 +3269,11 @@ sg143 = SpaceGroup(
     point_group_name="PG3",
     crystal_system="TRIGONAL",
     pdb_name="P 3",
-    symop_list=[SymOp(Rot_X_Y_Z, Tr_0_0_0), SymOp(Rot_mY_XmY_Z, Tr_0_0_0), SymOp(Rot_mXY_mX_Z, Tr_0_0_0)],
+    symop_list=[
+        SymOp(Rot_X_Y_Z, Tr_0_0_0),
+        SymOp(Rot_mY_XmY_Z, Tr_0_0_0),
+        SymOp(Rot_mXY_mX_Z, Tr_0_0_0),
+    ],
 )
 
 sg144 = SpaceGroup(
@@ -3281,7 +3284,11 @@ sg144 = SpaceGroup(
     point_group_name="PG3",
     crystal_system="TRIGONAL",
     pdb_name="P 31",
-    symop_list=[SymOp(Rot_X_Y_Z, Tr_0_0_0), SymOp(Rot_mY_XmY_Z, Tr_0_0_13), SymOp(Rot_mXY_mX_Z, Tr_0_0_23)],
+    symop_list=[
+        SymOp(Rot_X_Y_Z, Tr_0_0_0),
+        SymOp(Rot_mY_XmY_Z, Tr_0_0_13),
+        SymOp(Rot_mXY_mX_Z, Tr_0_0_23),
+    ],
 )
 
 sg145 = SpaceGroup(
@@ -3292,7 +3299,11 @@ sg145 = SpaceGroup(
     point_group_name="PG3",
     crystal_system="TRIGONAL",
     pdb_name="P 32",
-    symop_list=[SymOp(Rot_X_Y_Z, Tr_0_0_0), SymOp(Rot_mY_XmY_Z, Tr_0_0_23), SymOp(Rot_mXY_mX_Z, Tr_0_0_13)],
+    symop_list=[
+        SymOp(Rot_X_Y_Z, Tr_0_0_0),
+        SymOp(Rot_mY_XmY_Z, Tr_0_0_23),
+        SymOp(Rot_mXY_mX_Z, Tr_0_0_13),
+    ],
 )
 
 sg146 = SpaceGroup(
@@ -3324,7 +3335,11 @@ sg1146 = SpaceGroup(
     point_group_name="PG3",
     crystal_system="TRIGONAL",
     pdb_name="R 3",
-    symop_list=[SymOp(Rot_X_Y_Z, Tr_0_0_0), SymOp(Rot_Z_X_Y, Tr_0_0_0), SymOp(Rot_Y_Z_X, Tr_0_0_0)],
+    symop_list=[
+        SymOp(Rot_X_Y_Z, Tr_0_0_0),
+        SymOp(Rot_Z_X_Y, Tr_0_0_0),
+        SymOp(Rot_Y_Z_X, Tr_0_0_0),
+    ],
 )
 
 sg147 = SpaceGroup(

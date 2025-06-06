@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Exceptions used in Structure package.
-"""
+"""Exceptions used in Structure package."""
 
 
 class StructureFormatError(Exception):

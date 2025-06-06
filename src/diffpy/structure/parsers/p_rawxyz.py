@@ -81,7 +81,9 @@ class P_rawxyz(StructureParser):
         floatfields = [isfloat(f) for f in linefields[start]]
         nfields = len(linefields[start])
         if nfields not in (3, 4):
-            emsg = "%d: invalid RAWXYZ format, expected 3 or 4 columns" % (start + 1)
+            emsg = "%d: invalid RAWXYZ format, expected 3 or 4 columns" % (
+                start + 1
+            )
             raise StructureFormatError(emsg)
         if floatfields[:3] == [True, True, True]:
             el_idx, x_idx = (None, 0)
@@ -98,7 +100,10 @@ class P_rawxyz(StructureParser):
                 if fields == []:
                     continue
                 elif len(fields) != nfields:
-                    emsg = ("%d: all lines must have " + "the same number of columns") % p_nl
+                    emsg = (
+                        "%d: all lines must have "
+                        + "the same number of columns"
+                    ) % p_nl
                     raise StructureFormatError(emsg)
                 element = el_idx is not None and fields[el_idx] or ""
                 xyz = [float(f) for f in fields[x_idx : x_idx + 3]]

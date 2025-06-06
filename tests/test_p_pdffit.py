@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.structure.parsers.p_pdffit module
-"""
+"""Unit tests for diffpy.structure.parsers.p_pdffit module"""
 
 import re
 import unittest
@@ -143,7 +142,10 @@ class TestP_pdffit(unittest.TestCase):
         s_o = a5.occupancy
         f_o = 1.0
         self.assertAlmostEqual(s_o, f_o)
-        s_U = [a5.U[ij[0], ij[1]] for ij in [(0, 0), (1, 1), (2, 2), (0, 1), (0, 2), (1, 2)]]
+        s_U = [
+            a5.U[ij[0], ij[1]]
+            for ij in [(0, 0), (1, 1), (2, 2), (0, 1), (0, 2), (1, 2)]
+        ]
         f_U = 3 * [0.00126651] + 3 * [-0.00042217]
         for i in range(len(s_U)):
             self.assertAlmostEqual(s_U[i], f_U[i])
@@ -152,8 +154,18 @@ class TestP_pdffit(unittest.TestCase):
     def test_read_pdffit_bad(self):
         """check exceptions when reading invalid pdffit file"""
         stru = self.stru
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("Ni-bad.stru"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky.xyz"), self.format)
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("Ni-bad.stru"),
+            self.format,
+        )
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("bucky.xyz"),
+            self.format,
+        )
         return
 
     def test_writeStr_pdffit(self):
@@ -192,7 +204,9 @@ class TestP_pdffit(unittest.TestCase):
         self.assertEqual([r1, r2], p.ignored_lines)
         ni_lines.insert(-3, r1 + "\n")
         s_s2 = "".join(ni_lines)
-        self.assertRaises(StructureFormatError, self.stru.readStr, s_s2, self.format)
+        self.assertRaises(
+            StructureFormatError, self.stru.readStr, s_s2, self.format
+        )
         return
 
     def test_spdiameter_parsing(self):
@@ -213,7 +227,9 @@ class TestP_pdffit(unittest.TestCase):
             ni_lines = fp.readlines()
         ni_lines.insert(3, "shape invalid, 7\n")
         sbad = "".join(ni_lines)
-        self.assertRaises(StructureFormatError, self.stru.readStr, sbad, format=self.format)
+        self.assertRaises(
+            StructureFormatError, self.stru.readStr, sbad, format=self.format
+        )
         return
 
     def test_stepcut_parsing(self):
@@ -234,7 +250,9 @@ class TestP_pdffit(unittest.TestCase):
             ni_lines = fp.readlines()
         ni_lines.insert(3, "shape invalid, 7\n")
         sbad = "".join(ni_lines)
-        self.assertRaises(StructureFormatError, self.stru.readStr, sbad, format=self.format)
+        self.assertRaises(
+            StructureFormatError, self.stru.readStr, sbad, format=self.format
+        )
         return
 
 

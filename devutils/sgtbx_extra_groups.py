@@ -16,7 +16,12 @@ import re
 import numpy
 from cctbx import sgtbx
 
-from diffpy.structure.spacegroups import IsSpaceGroupIdentifier, SpaceGroup, SymOp, mmLibSpaceGroupList
+from diffpy.structure.spacegroups import (
+    IsSpaceGroupIdentifier,
+    SpaceGroup,
+    SymOp,
+    mmLibSpaceGroupList,
+)
 
 
 def tupleToSGArray(tpl):

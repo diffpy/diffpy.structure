@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""This module contains functions for simple `Structure` manipulation.
-"""
+"""This module contains functions for simple `Structure` manipulation."""
 
 import numpy
 
@@ -69,7 +68,12 @@ def supercell(S, mno):
         return newS
 
     # back to business
-    ijklist = [(i, j, k) for i in range(mno[0]) for j in range(mno[1]) for k in range(mno[2])]
+    ijklist = [
+        (i, j, k)
+        for i in range(mno[0])
+        for j in range(mno[1])
+        for k in range(mno[2])
+    ]
     # numpy.floor returns float array
     mnofloats = numpy.array(mno, dtype=float)
 
@@ -84,7 +88,9 @@ def supercell(S, mno):
     newS.__setitem__(slice(None), newAtoms, copy=False)
 
     # take care of lattice parameters
-    newS.lattice.setLatPar(a=mno[0] * S.lattice.a, b=mno[1] * S.lattice.b, c=mno[2] * S.lattice.c)
+    newS.lattice.setLatPar(
+        a=mno[0] * S.lattice.a, b=mno[1] * S.lattice.b, c=mno[2] * S.lattice.c
+    )
     return newS
 
 

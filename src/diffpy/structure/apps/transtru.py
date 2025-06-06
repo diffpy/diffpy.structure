@@ -50,7 +50,11 @@ def usage(style=None):
     myname = os.path.basename(sys.argv[0])
     msg = __doc__.replace("transtru", myname)
     if style == "brief":
-        msg = msg.split("\n")[1] + "\n" + "Try `%s --help' for more information." % myname
+        msg = (
+            msg.split("\n")[1]
+            + "\n"
+            + "Try `%s --help' for more information." % myname
+        )
     else:
         from diffpy.structure.parsers import inputFormats, outputFormats
 
@@ -99,7 +103,10 @@ def main():
             print("'%s' is not valid output format" % outfmt, file=sys.stderr)
             sys.exit(2)
     except ValueError:
-        print("invalid format specification '%s' does not contain .." % args[0], file=sys.stderr)
+        print(
+            "invalid format specification '%s' does not contain .." % args[0],
+            file=sys.stderr,
+        )
         sys.exit(2)
     # ready to do some real work
     try:

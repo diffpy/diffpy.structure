@@ -1,5 +1,4 @@
-"""Unit tests for __version__.py
-"""
+"""Unit tests for __version__.py"""
 
 import diffpy.structure
 

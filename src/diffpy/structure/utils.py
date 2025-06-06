@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Small shared functions.
-"""
+"""Small shared functions."""
 
 from collections.abc import Iterable as _Iterable
 

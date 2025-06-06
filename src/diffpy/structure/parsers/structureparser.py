@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Definition of StructureParser, a base class for specific parsers.
-"""
+"""Definition of StructureParser, a base class for specific parsers."""
 
 
 class StructureParser(object):
@@ -42,7 +41,9 @@ class StructureParser(object):
         ----
         This method has to be overloaded in derived class.
         """
-        raise NotImplementedError("parseLines not defined for '%s' format" % self.format)
+        raise NotImplementedError(
+            "parseLines not defined for '%s' format" % self.format
+        )
         return
 
     def toLines(self, stru):
@@ -54,7 +55,9 @@ class StructureParser(object):
         ----
         This method has to be overloaded in derived class.
         """
-        raise NotImplementedError("toLines not defined for '%s' format" % self.format)
+        raise NotImplementedError(
+            "toLines not defined for '%s' format" % self.format
+        )
 
     def parse(self, s):
         """Create `Structure` instance from a string."""

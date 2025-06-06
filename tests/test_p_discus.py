@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.structure.parsers.p_discus module
-"""
+"""Unit tests for diffpy.structure.parsers.p_discus module"""
 
 import re
 import unittest
@@ -81,7 +80,9 @@ class TestP_discus(unittest.TestCase):
         ]
         for ft in badfiles:
             ff = self.datafile(ft)
-            self.assertRaises(StructureFormatError, self.stru.read, ff, format=self.format)
+            self.assertRaises(
+                StructureFormatError, self.stru.read, ff, format=self.format
+            )
         return
 
     def test_ignored_lines(self):
@@ -97,7 +98,9 @@ class TestP_discus(unittest.TestCase):
         self.assertEqual([r1.rstrip(), r2.rstrip()], p.ignored_lines)
         ni_lines.append(r1)
         s_s2 = "".join(ni_lines)
-        self.assertRaises(StructureFormatError, self.stru.readStr, s_s2, self.format)
+        self.assertRaises(
+            StructureFormatError, self.stru.readStr, s_s2, self.format
+        )
         return
 
     def test_spdiameter_parsing(self):
@@ -118,7 +121,9 @@ class TestP_discus(unittest.TestCase):
             ni_lines = fp.readlines()
         ni_lines.insert(3, "shape invalid, 7\n")
         sbad = "".join(ni_lines)
-        self.assertRaises(StructureFormatError, self.stru.readStr, sbad, format=self.format)
+        self.assertRaises(
+            StructureFormatError, self.stru.readStr, sbad, format=self.format
+        )
         return
 
     def test_stepcut_parsing(self):
@@ -139,7 +144,9 @@ class TestP_discus(unittest.TestCase):
             ni_lines = fp.readlines()
         ni_lines.insert(3, "shape invalid, 7\n")
         sbad = "".join(ni_lines)
-        self.assertRaises(StructureFormatError, self.stru.readStr, sbad, format=self.format)
+        self.assertRaises(
+            StructureFormatError, self.stru.readStr, sbad, format=self.format
+        )
         return
 
 
