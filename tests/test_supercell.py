@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for supercell.py
-"""
+"""Unit tests for supercell.py"""
 
 import unittest
 

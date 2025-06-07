@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for Lattice class.
-"""
+"""Unit tests for Lattice class."""
 
 import unittest
 

@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.structure.parsers.p_cif module
-"""
+"""Unit tests for diffpy.structure.parsers.p_cif module"""
 
 import unittest
 

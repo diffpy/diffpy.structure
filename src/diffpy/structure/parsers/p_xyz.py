@@ -15,9 +15,9 @@
 
 """Parser for XYZ file format, where
 
-    * First line gives number of atoms.
-    * Second line has optional title.
-    * Remaining lines contain element, `x, y, z`.
+* First line gives number of atoms.
+* Second line has optional title.
+* Remaining lines contain element, `x, y, z`.
 """
 
 import sys

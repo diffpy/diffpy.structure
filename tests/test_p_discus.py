@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.structure.parsers.p_discus module
-"""
+"""Unit tests for diffpy.structure.parsers.p_discus module"""
 
 import re
 import unittest

@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""This module defines class `Structure`.
-"""
+"""This module defines class `Structure`."""
 
 import codecs
 import copy as copymod

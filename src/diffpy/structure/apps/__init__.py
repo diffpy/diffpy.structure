@@ -13,5 +13,4 @@
 #
 ##############################################################################
 
-"""Script applications that use the `diffpy.structure` package.
-"""
+"""Script applications that use the `diffpy.structure` package."""

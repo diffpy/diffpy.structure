@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""This module contains functions for simple `Structure` manipulation.
-"""
+"""This module contains functions for simple `Structure` manipulation."""
 
 import numpy
 

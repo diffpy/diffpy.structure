@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for SymmetryUtilities.py
-"""
+"""Unit tests for SymmetryUtilities.py"""
 
 import re
 import sys

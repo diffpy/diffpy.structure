@@ -3,8 +3,7 @@
 # This code is part of the PyMMLib distribution and governed by
 # its license. Please see the LICENSE_pymmlib file that should have been
 # included as part of this package.
-"""Symmetry operations as functions on vectors or arrays.
-"""
+"""Symmetry operations as functions on vectors or arrays."""
 
 import numpy
 

@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Parser for DISCUS structure format
-"""
+"""Parser for DISCUS structure format"""
 
 import sys
 from functools import reduce
