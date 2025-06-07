@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-"""Unit tests for the loadStructure factory.
-"""
+"""Unit tests for the loadStructure factory."""
 
 import unittest
 

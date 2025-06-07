@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.structure.parsers.p_pdffit module
-"""
+"""Unit tests for diffpy.structure.parsers.p_pdffit module"""
 
 import re
 import unittest

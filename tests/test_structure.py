@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for Structure class.
-"""
+"""Unit tests for Structure class."""
 
 
 import copy

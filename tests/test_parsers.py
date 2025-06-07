@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for structure.parsers module.
-"""
+"""Unit tests for structure.parsers module."""
 
 import os
 import re

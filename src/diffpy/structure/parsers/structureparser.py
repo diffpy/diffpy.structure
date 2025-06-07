@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Definition of StructureParser, a base class for specific parsers.
-"""
+"""Definition of StructureParser, a base class for specific parsers."""
 
 
 class StructureParser(object):

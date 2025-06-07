@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-"""Unit tests for diffpy.structure.spacegroups
-"""
+"""Unit tests for diffpy.structure.spacegroups"""
 
 
 import unittest
