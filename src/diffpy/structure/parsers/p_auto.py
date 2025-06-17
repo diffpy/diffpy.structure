@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Parser for automatic file format detection.
 
 This Parser does not provide the the `toLines()` method.
@@ -54,6 +53,7 @@ class P_auto(StructureParser):
     # parseLines helpers
     def _getOrderedFormats(self):
         """Build a list of relevance ordered structure formats.
+
         This only works when `self.filename` has a known extension.
         """
         from diffpy.structure.parsers import inputFormats
@@ -146,7 +146,7 @@ class P_auto(StructureParser):
     def _wrapParseMethod(self, method, *args, **kwargs):
         """A helper evaluator method that try the specified parse method with
         each registered structure parser and return the first successful
-        resul.
+        result.
 
         Structure parsers that match structure file extension are
         tried first.
@@ -188,7 +188,10 @@ class P_auto(StructureParser):
                 pass
         if stru is None:
             emsg = "\n".join(
-                ["Unknown or invalid structure format.", "Errors per each tested structure format:"]
+                [
+                    "Unknown or invalid structure format.",
+                    "Errors per each tested structure format:",
+                ]
                 + parsers_emsgs
             )
             raise StructureFormatError(emsg)

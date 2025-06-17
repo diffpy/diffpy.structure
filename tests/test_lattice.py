@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Unit tests for Lattice class."""
 
 import unittest
@@ -26,7 +25,7 @@ from diffpy.structure import Lattice, LatticeError
 
 
 class TestLattice(unittest.TestCase):
-    """test methods of Lattice class"""
+    """Test methods of Lattice class."""
 
     def setUp(self):
         self.lattice = Lattice()
@@ -36,7 +35,12 @@ class TestLattice(unittest.TestCase):
     def test___init__(self):
         """Check Lattice.__init__ processing of arguments."""
         self.assertRaises(ValueError, Lattice, self.lattice, c=4)
-        self.assertRaises(ValueError, Lattice, base=self.lattice.base, baserot=self.lattice.baserot)
+        self.assertRaises(
+            ValueError,
+            Lattice,
+            base=self.lattice.base,
+            baserot=self.lattice.baserot,
+        )
         self.assertRaises(ValueError, Lattice, 1, 2, 3)
         self.assertRaises(ValueError, Lattice, 1, 2, 3, 80, 90)
         L0 = self.lattice
@@ -52,7 +56,7 @@ class TestLattice(unittest.TestCase):
         return
 
     def test_setLatPar(self):
-        """check calculation of standard unit cell vectors"""
+        """Check calculation of standard unit cell vectors."""
         from math import cos, radians, sqrt
 
         from numpy import dot
@@ -68,13 +72,19 @@ class TestLattice(unittest.TestCase):
         self.assertAlmostEqual(1.0, norm(base[0]), self.places)
         self.assertAlmostEqual(2.0, norm(base[1]), self.places)
         self.assertAlmostEqual(3.0, norm(base[2]), self.places)
-        self.assertAlmostEqual(cosd(80.0), dot(base[1], base[2]) / (2 * 3), self.places)
-        self.assertAlmostEqual(cosd(100.0), dot(base[0], base[2]) / (1 * 3), self.places)
-        self.assertAlmostEqual(cosd(120.0), dot(base[0], base[1]) / (1 * 2), self.places)
+        self.assertAlmostEqual(
+            cosd(80.0), dot(base[1], base[2]) / (2 * 3), self.places
+        )
+        self.assertAlmostEqual(
+            cosd(100.0), dot(base[0], base[2]) / (1 * 3), self.places
+        )
+        self.assertAlmostEqual(
+            cosd(120.0), dot(base[0], base[1]) / (1 * 2), self.places
+        )
         return
 
     def test_latpar_properties(self):
-        """check assignment to a, b, c, alpha, beta, gamma."""
+        """Check assignment to a, b, c, alpha, beta, gamma."""
         lat = self.lattice
         lat.a = 2
         lat.b = 4
@@ -135,7 +145,7 @@ class TestLattice(unittest.TestCase):
         return
 
     def test_setLatBase(self):
-        """check calculation of unit cell rotation"""
+        """Check calculation of unit cell rotation."""
         base = numpy.array([[1.0, 1.0, 0.0], [0.0, 1.0, 1.0], [1.0, 0.0, 1.0]])
         self.lattice.setLatBase(base)
         self.assertAlmostEqual(self.lattice.a, numpy.sqrt(2.0), self.places)
@@ -155,12 +165,20 @@ class TestLattice(unittest.TestCase):
         self.assertTrue(numpy.allclose(base[1], self.lattice.base[1]))
         self.assertTrue(numpy.allclose(base[2], self.lattice.base[2]))
         # try base checking
-        self.assertRaises(LatticeError, self.lattice.setLatBase, [[1, 0, 0], [1, 0, 0], [0, 0, 1]])
-        self.assertRaises(LatticeError, self.lattice.setLatBase, [[1, 0, 0], [0, 0, 1], [0, 1, 0]])
+        self.assertRaises(
+            LatticeError,
+            self.lattice.setLatBase,
+            [[1, 0, 0], [1, 0, 0], [0, 0, 1]],
+        )
+        self.assertRaises(
+            LatticeError,
+            self.lattice.setLatBase,
+            [[1, 0, 0], [0, 0, 1], [0, 1, 0]],
+        )
         return
 
     def test_reciprocal(self):
-        """check calculation of reciprocal lattice."""
+        """Check calculation of reciprocal lattice."""
         r1 = self.lattice.reciprocal()
         self.assertEqual((1, 1, 1, 90, 90, 90), r1.abcABG())
         L2 = Lattice(2, 4, 8, 90, 90, 90)
@@ -171,7 +189,7 @@ class TestLattice(unittest.TestCase):
         return
 
     def test_dot(self):
-        """check dot product of lattice vectors."""
+        """Check dot product of lattice vectors."""
         L = self.lattice
         L.setLatPar(gamma=120)
         self.assertAlmostEqual(-0.5, L.dot([1, 0, 0], [0, 1, 0]), self.places)
@@ -183,7 +201,7 @@ class TestLattice(unittest.TestCase):
         return
 
     def test_norm(self):
-        """check norm of a lattice vector."""
+        """Check norm of a lattice vector."""
         self.assertEqual(1, self.lattice.norm([1, 0, 0]))
         u = numpy.array([[3, 4, 0], [1, 1, 1]])
         self.assertTrue(numpy.allclose([5, 3**0.5], self.lattice.norm(u)))
@@ -192,7 +210,7 @@ class TestLattice(unittest.TestCase):
         return
 
     def test_rnorm(self):
-        """check norm of a reciprocal vector."""
+        """Check norm of a reciprocal vector."""
         L = self.lattice
         L.setLatPar(1, 1.5, 2.3, 80, 95, 115)
         r = L.reciprocal()
@@ -203,7 +221,7 @@ class TestLattice(unittest.TestCase):
         return
 
     def test_dist(self):
-        """check dist function for distance between lattice points."""
+        """Check dist function for distance between lattice points."""
         L = self.lattice
         L.setLatPar(1, 1.5, 2.3, 80, 95, 115)
         u = [0.1, 0.3, 0.7]
@@ -219,7 +237,7 @@ class TestLattice(unittest.TestCase):
         return
 
     def test_angle(self):
-        """check angle calculation between lattice vectors."""
+        """Check angle calculation between lattice vectors."""
         from math import acos, degrees
 
         L = self.lattice
@@ -228,7 +246,9 @@ class TestLattice(unittest.TestCase):
         v = [0.3, 0.7, 0.7]
         uc = L.cartesian(u)
         vc = L.cartesian(v)
-        a0 = degrees(acos(numpy.dot(uc, vc) / (numalg.norm(uc) * numalg.norm(vc))))
+        a0 = degrees(
+            acos(numpy.dot(uc, vc) / (numalg.norm(uc) * numalg.norm(vc)))
+        )
         self.assertAlmostEqual(a0, L.angle(u, v), self.places)
         self.assertAlmostEqual(a0, L.angle(v, u), self.places)
         u5 = numpy.tile(u, (5, 1))
@@ -239,7 +259,7 @@ class TestLattice(unittest.TestCase):
         return
 
     def test_repr(self):
-        """check string representation of this lattice"""
+        """Check string representation of this lattice."""
         r = repr(self.lattice)
         self.assertEqual(r, "Lattice()")
         self.lattice.setLatPar(1, 2, 3, 10, 20, 30)

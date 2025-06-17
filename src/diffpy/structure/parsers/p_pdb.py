@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Basic parser for PDB structure format.
 
 Note
@@ -176,7 +175,10 @@ class P_pdb(StructureParser):
                     abcABGscale = numpy.array(stru.lattice.abcABG())
                     reldiff = numpy.fabs(1.0 - abcABGscale / abcABGcryst)
                     if not numpy.all(reldiff < 1.0e-4):
-                        emsg = "%d: " % p_nl + "SCALE and CRYST1 are not consistent."
+                        emsg = (
+                            "%d: " % p_nl
+                            + "SCALE and CRYST1 are not consistent."
+                        )
                         raise StructureFormatError(emsg)
                     if numpy.any(scaleU != 0.0):
                         emsg = "Origin offset not yet implemented."
@@ -281,9 +283,8 @@ class P_pdb(StructureParser):
         return lines
 
     def atomLines(self, stru, idx):
-        """Build `ATOM` records and possibly `SIGATM`, `ANISOU` or `SIGUIJ` records
-        for `structure` stru `atom` number aidx.
-        """
+        """Build `ATOM` records and possibly `SIGATM`, `ANISOU` or `SIGUIJ`
+        records for `structure` stru `atom` number aidx."""
         lines = []
         a = stru[idx]
         ad = a.__dict__
@@ -325,7 +326,19 @@ class P_pdb(StructureParser):
         isotropic = numpy.all(a.U == a.U[0, 0] * numpy.identity(3))
         if not isotropic:
             mid = " %7i%7i%7i%7i%7i%7i  " % tuple(
-                numpy.around(1e4 * numpy.array([a.U[0, 0], a.U[1, 1], a.U[2, 2], a.U[0, 1], a.U[0, 2], a.U[1, 2]]))
+                numpy.around(
+                    1e4
+                    * numpy.array(
+                        [
+                            a.U[0, 0],
+                            a.U[1, 1],
+                            a.U[2, 2],
+                            a.U[0, 1],
+                            a.U[0, 2],
+                            a.U[1, 2],
+                        ]
+                    )
+                )
             )
             line = "ANISOU" + atomline[6:27] + mid + atomline[72:80]
             lines.append(line)
@@ -339,9 +352,9 @@ class P_pdb(StructureParser):
         sigB = [8 * pi**2 * numpy.average([sigU[i, i] for i in range(3)])]
         sigmas = numpy.concatenate((sigxyz, sigo, sigB))
         # no need to print sigmas if they all round to zero
-        hassigmas = numpy.any(numpy.fabs(sigmas) >= numpy.array(3 * [5e-4] + 2 * [5e-3])) or numpy.any(
-            numpy.fabs(sigU) > 5.0e-5
-        )
+        hassigmas = numpy.any(
+            numpy.fabs(sigmas) >= numpy.array(3 * [5e-4] + 2 * [5e-3])
+        ) or numpy.any(numpy.fabs(sigU) > 5.0e-5)
         if hassigmas:
             mid = "   %8.3f%8.3f%8.3f%6.2f%6.2f      " % tuple(sigmas)
             line = "SIGATM" + atomline[6:27] + mid + atomline[72:80]
@@ -350,7 +363,17 @@ class P_pdb(StructureParser):
             if not numpy.all(sigU == sigU[0, 0] * numpy.identity(3)):
                 mid = " %7i%7i%7i%7i%7i%7i  " % tuple(
                     numpy.around(
-                        1e4 * numpy.array([sigU[0, 0], sigU[1, 1], sigU[2, 2], sigU[0, 1], sigU[0, 2], sigU[1, 2]])
+                        1e4
+                        * numpy.array(
+                            [
+                                sigU[0, 0],
+                                sigU[1, 1],
+                                sigU[2, 2],
+                                sigU[0, 1],
+                                sigU[0, 2],
+                                sigU[1, 2],
+                            ]
+                        )
                     )
                 )
                 line = "SIGUIJ" + atomline[6:27] + mid + atomline[72:80]
@@ -383,7 +406,14 @@ class P_pdb(StructureParser):
             + "%(resSeq)4i"  # 23-26
             + "%(iCode)c"  # 27
             + "%(blank)53s"  # 28-80
-        ) % {"serial": len(stru) + 1, "resName": "", "chainID": " ", "resSeq": 1, "iCode": " ", "blank": " "}
+        ) % {
+            "serial": len(stru) + 1,
+            "resName": "",
+            "chainID": " ",
+            "resSeq": 1,
+            "iCode": " ",
+            "blank": " ",
+        }
         lines.append(line)
         lines.append("%-80s" % "END")
         return lines

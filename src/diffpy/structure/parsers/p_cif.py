@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Parser for basic CIF file format.
 
 Attributes
@@ -69,11 +68,14 @@ class P_cif(StructureParser):
     eau : ExpandAsymmetricUnit
         Instance of `ExpandAsymmetricUnit` from `SymmetryUtilities`.
     asymmetric_unit : list
-        List of `Atom` instances for the original asymmetric unit in the CIF file.
+        List of `Atom` instances for the original asymmetric unit in the CIF
+        file.
     labelindex : dict
-        Dictionary mapping unique atom label to index of `Atom` in `self.asymmetric_unit`.
+        Dictionary mapping unique atom label to index of `Atom` in
+        `self.asymmetric_unit`.
     anisotropy : dict
-        Dictionary mapping unique atom label to displacement anisotropy resolved at that site.
+        Dictionary mapping unique atom label to displacement anisotropy
+        resolved at that site.
     cif_sgname : str or None
         Space group name obtained by looking up the value of
         `_space_group_name_Hall`,
@@ -267,7 +269,8 @@ class P_cif(StructureParser):
     _tr_atom_site_aniso_B_23 = staticmethod(_tr_atom_site_aniso_B_23)
 
     def _get_atom_setters(cifloop):
-        """Static method for finding translators of CifLoop items to data in `Atom` instance.
+        """Static method for finding translators of CifLoop items to data in
+        `Atom` instance.
 
         Parameters
         ----------
@@ -482,7 +485,8 @@ class P_cif(StructureParser):
         # process _atom_site_label
         atom_site_loop = block.GetLoop("_atom_site_label")
         does_adp_type = (
-            "_atom_site_adp_type" in atom_site_loop or "_atom_site_thermal_displace_type" in atom_site_loop
+            "_atom_site_adp_type" in atom_site_loop
+            or "_atom_site_thermal_displace_type" in atom_site_loop
         )
         # get a list of setters for atom_site values
         prop_setters = P_cif._get_atom_setters(atom_site_loop)
@@ -549,10 +553,18 @@ class P_cif(StructureParser):
         block : CifBlock
             Instance of `CifBlock`.
         """
-        from diffpy.structure.spacegroups import FindSpaceGroup, GetSpaceGroup, IsSpaceGroupIdentifier, SpaceGroup
+        from diffpy.structure.spacegroups import (
+            FindSpaceGroup,
+            GetSpaceGroup,
+            IsSpaceGroupIdentifier,
+            SpaceGroup,
+        )
 
         self.asymmetric_unit = list(self.stru)
-        sym_synonyms = ("_space_group_symop_operation_xyz", "_symmetry_equiv_pos_as_xyz")
+        sym_synonyms = (
+            "_space_group_symop_operation_xyz",
+            "_symmetry_equiv_pos_as_xyz",
+        )
         sym_loop_name = [n for n in sym_synonyms if n in block]
         # recover explicit list of symmetry operations
         symop_list = []
@@ -564,14 +576,20 @@ class P_cif(StructureParser):
                 opcif = getSymOp(eqxyz)
                 symop_list.append(opcif)
         # determine space group number
-        sg_nameHall = block.get("_space_group_name_Hall", "") or block.get("_symmetry_space_group_name_Hall", "")
+        sg_nameHall = block.get("_space_group_name_Hall", "") or block.get(
+            "_symmetry_space_group_name_Hall", ""
+        )
         sg_nameHM = (
             block.get("_space_group_name_H-M_alt", "")
             or block.get("_space_group_name_H-M_ref", "")
             or block.get("_symmetry_space_group_name_H-M", "")
         )
         self.cif_sgname = sg_nameHall or sg_nameHM or None
-        sgid = block.get("_space_group_IT_number", "") or block.get("_symmetry_Int_Tables_number", "") or sg_nameHM
+        sgid = (
+            block.get("_space_group_IT_number", "")
+            or block.get("_symmetry_Int_Tables_number", "")
+            or sg_nameHM
+        )
         self.spacegroup = None
         # try to reuse existing space group from symmetry operations
         if symop_list:
@@ -587,10 +605,14 @@ class P_cif(StructureParser):
         if symop_list and self.spacegroup is None:
             new_short_name = "CIF " + (sg_nameHall or "data")
             new_crystal_system = (
-                block.get("_space_group_crystal_system") or block.get("_symmetry_cell_setting") or "TRICLINIC"
+                block.get("_space_group_crystal_system")
+                or block.get("_symmetry_cell_setting")
+                or "TRICLINIC"
             ).upper()
             self.spacegroup = SpaceGroup(
-                short_name=new_short_name, crystal_system=new_crystal_system, symop_list=symop_list
+                short_name=new_short_name,
+                crystal_system=new_crystal_system,
+                symop_list=symop_list,
             )
         if self.spacegroup is None:
             emsg = "CIF file has unknown space group identifier {!r}."
@@ -612,7 +634,9 @@ class P_cif(StructureParser):
 
         corepos = [a.xyz for a in self.stru]
         coreUijs = [a.U for a in self.stru]
-        self.eau = ExpandAsymmetricUnit(self.spacegroup, corepos, coreUijs, eps=self.eps)
+        self.eau = ExpandAsymmetricUnit(
+            self.spacegroup, corepos, coreUijs, eps=self.eps
+        )
         # setup anisotropy according to symmetry requirements
         # unless it was already explicitly set
         for ca, uisotropy in zip(self.stru, self.eau.Uisotropy):
@@ -691,7 +715,9 @@ class P_cif(StructureParser):
         a_site_label = []
         a_adp_type = []
         for a in stru:
-            cnt = element_count[a.element] = element_count.get(a.element, 0) + 1
+            cnt = element_count[a.element] = (
+                element_count.get(a.element, 0) + 1
+            )
             a_site_label.append("%s%i" % (a.element, cnt))
             if numpy.all(a.U == a.U[0, 0] * numpy.identity(3)):
                 a_adp_type.append("Uiso")

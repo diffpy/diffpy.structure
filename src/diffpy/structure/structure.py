@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """This module defines class `Structure`."""
 
 import codecs
@@ -22,13 +21,18 @@ import numpy
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
-from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol, isiterable
+from diffpy.structure.utils import (
+    _linkAtomAttribute,
+    atomBareSymbol,
+    isiterable,
+)
 
 # ----------------------------------------------------------------------------
 
 
 class Structure(list):
-    """Define group of atoms in a specified lattice. Structure --> group of atoms.
+    """Define group of atoms in a specified lattice. Structure --> group of
+    atoms.
 
     `Structure` class is inherited from Python `list`. It contains
     a list of `Atom` instances. `Structure` overloads `setitem` and `setslice`
@@ -53,8 +57,8 @@ class Structure(list):
 
     Note
     ----
-    Cannot use `filename` and `atoms` arguments together. Overrides `atoms` argument
-    when `filename` is specified.
+    Cannot use `filename` and `atoms` arguments together. Overrides `atoms`
+    argument when `filename` is specified.
 
     Attributes
     ----------
@@ -86,7 +90,9 @@ class Structure(list):
     pdffit = None
     """None: default values for `pdffit`."""
 
-    def __init__(self, atoms=None, lattice=None, title=None, filename=None, format=None):
+    def __init__(
+        self, atoms=None, lattice=None, title=None, filename=None, format=None
+    ):
         # if filename is specified load it and return
         if filename is not None:
             if any((atoms, lattice, title)):
@@ -183,7 +189,8 @@ class Structure(list):
         return
 
     def distance(self, aid0, aid1):
-        """Calculate distance between 2 `Atoms`, no periodic boundary conditions.
+        """Calculate distance between 2 `Atoms`, no periodic boundary
+        conditions.
 
         Parameters
         ----------
@@ -207,15 +214,15 @@ class Structure(list):
         return self.lattice.dist(a0.xyz, a1.xyz)
 
     def angle(self, aid0, aid1, aid2):
-        """
-        The bond angle at the second of three `Atoms` in degrees.
+        """The bond angle at the second of three `Atoms` in degrees.
 
         Parameters
         ----------
         aid0 : int or str
             Zero based index of the first `Atom` or a string label.
         aid1 : int or str
-            Index or string label for the second atom, where the angle is formed.
+            Index or string label for the second atom, where the angle is
+            formed.
         aid2 : int or str
             Index or string label for the third atom.
 
@@ -235,7 +242,7 @@ class Structure(list):
         return self.lattice.angle(u10, u12)
 
     def placeInLattice(self, new_lattice):
-        """place structure into `new_lattice` coordinate system.
+        """Place structure into `new_lattice` coordinate system.
 
         Sets `lattice` to `new_lattice` and recalculate fractional coordinates
         of all `Atoms` so their absolute positions remain the same.
@@ -305,8 +312,8 @@ class Structure(list):
         s : str
             String with structure definition.
         format : str, Optional
-            All structure formats are defined in parsers submodule. When ``format == 'auto'``,
-            all parsers are tried one by one.
+            All structure formats are defined in parsers submodule. When
+            ``format == 'auto'``, all parsers are tried one by one.
 
         Returns
         -------
@@ -352,7 +359,7 @@ class Structure(list):
         return
 
     def writeStr(self, format):
-        """return string representation of the structure in specified format.
+        """Return string representation of the structure in specified format.
 
         Note
         ----
@@ -381,7 +388,8 @@ class Structure(list):
         a : Atom
             Instance of `Atom` to be appended.
         copy : bool, Optional
-            Flag for appending a copy of `a`. When ``False``, append `a` and update `a.lattice`.
+            Flag for appending a copy of `a`. When ``False``, append `a` and
+            update `a.lattice`.
         """
         adup = copy and Atom(a) or a
         adup.lattice = self.lattice
@@ -398,7 +406,8 @@ class Structure(list):
         a : Atom
             Instance of `Atom` to be inserted.
         copy : bool, Optional
-            Flag for inserting a copy of `a`. When ``False``, append `a` and update `a.lattice`.
+            Flag for inserting a copy of `a`. When ``False``, append `a`
+            and update `a.lattice`.
         """
         adup = copy and copymod.copy(a) or a
         adup.lattice = self.lattice
@@ -450,7 +459,7 @@ class Structure(list):
 
         Parameters
         ----------
-        idx : int ot str ot Iterable
+        idx : int or str or Iterable
             `Atom` identifier. When integer use standard list lookup.
             For iterables use numpy lookup, this supports integer or
             boolean flag arrays. For string or string-containing iterables
@@ -497,7 +506,9 @@ class Structure(list):
             pass
         # check if there is any string label that should be resolved
         scalarstringlabel = isinstance(idx, str)
-        hasstringlabel = scalarstringlabel or (isiterable(idx) and any(isinstance(ii, str) for ii in idx))
+        hasstringlabel = scalarstringlabel or (
+            isiterable(idx) and any(isinstance(ii, str) for ii in idx)
+        )
         # if not, use numpy indexing to resolve idx
         if not hasstringlabel:
             idx1 = idx
@@ -563,7 +574,7 @@ class Structure(list):
                 keep = set(super(Structure, self).__getitem__(idx))
                 v1 = (a if a in keep else Atom(a) for a in value)
             vfinal = filter(_fixlat, v1)
-        # handle scalar assingment
+        # handle scalar assignment
         else:
             vfinal = Atom(value) if copy else value
             vfinal.lattice = self.lattice
@@ -660,9 +671,9 @@ class Structure(list):
     __rmul__ = __mul__
 
     def __imul__(self, n):
-        """Concatenate this `Structure` to n-times more `Atoms`.
-        For positive multiple the current `Atom` objects remain at the
-        beginning of this `Structure`.
+        """Concatenate this `Structure` to n-times more `Atoms`. For positive
+        multiple the current `Atom` objects remain at the beginning of this
+        `Structure`.
 
         Parameters
         ----------
@@ -693,7 +704,11 @@ class Structure(list):
         self._lattice = value
         return
 
-    lattice = property(_get_lattice, _set_lattice, doc="Coordinate system for this `Structure`.")
+    lattice = property(
+        _get_lattice,
+        _set_lattice,
+        doc="Coordinate system for this `Structure`.",
+    )
 
     # composition
 
@@ -703,7 +718,10 @@ class Structure(list):
             rv[a.element] = rv.get(a.element, 0.0) + a.occupancy
         return rv
 
-    composition = property(_get_composition, doc="Dictionary of chemical symbols and their total occupancies.")
+    composition = property(
+        _get_composition,
+        doc="Dictionary of chemical symbols and their total occupancies.",
+    )
 
     # linked atom attributes
 
@@ -858,7 +876,8 @@ class Structure(list):
     # Private Methods --------------------------------------------------------
 
     def __emptySharedStructure(self):
-        """Return empty `Structure` with standard attributes same as in self."""
+        """Return empty `Structure` with standard attributes same as in
+        self."""
         rv = Structure()
         rv.__dict__.update([(k, getattr(self, k)) for k in rv.__dict__])
         return rv

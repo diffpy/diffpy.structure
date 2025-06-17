@@ -12,13 +12,13 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Conversion plugins for various structure formats.
 
 The recognized structure formats are defined by subclassing `StructureParser`,
-by convention these classes are named `P_<format>.py`. The parser classes should
-to override the `parseLines()` and `toLines()` methods of `StructureParser`.
-Any structure parser needs to be registered in `parser_index` module.
+by convention these classes are named `P_<format>.py`. The parser classes
+should to override the `parseLines()` and `toLines()` methods of
+`StructureParser`. Any structure parser needs to be registered in
+`parser_index` module.
 
 For normal usage it should be sufficient to use the routines provided
 in this module.
@@ -71,13 +71,17 @@ def getParser(format, **kw):
 
 def inputFormats():
     """Return list of implemented input structure formats."""
-    input_formats = [fmt for fmt, prop in parser_index.items() if prop["has_input"]]
+    input_formats = [
+        fmt for fmt, prop in parser_index.items() if prop["has_input"]
+    ]
     input_formats.sort()
     return input_formats
 
 
 def outputFormats():
     """Return list of implemented output structure formats."""
-    output_formats = [fmt for fmt, prop in parser_index.items() if prop["has_output"]]
+    output_formats = [
+        fmt for fmt, prop in parser_index.items() if prop["has_output"]
+    ]
     output_formats.sort()
     return output_formats

@@ -12,10 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Provide class Atom for managing properties of an atom in structure model.
-"""
+"""Provide class Atom for managing properties of an atom in structure model."""
 
 import numpy
 
@@ -170,7 +167,9 @@ class Atom(object):
         lat = self.lattice or cartesian_lattice
         vln = numpy.array(vl, dtype=float) / lat.norm(vl)
         G = lat.metrics
-        rhs = numpy.array([G[0] * lat.ar, G[1] * lat.br, G[2] * lat.cr], dtype=float)
+        rhs = numpy.array(
+            [G[0] * lat.ar, G[1] * lat.br, G[2] * lat.cr], dtype=float
+        )
         rhs = numpy.dot(rhs, vln)
         msd = numpy.dot(rhs, numpy.dot(self.U, rhs))
         return msd
@@ -202,7 +201,13 @@ class Atom(object):
     def __repr__(self):
         """String representation of this Atom."""
         xyz = self.xyz
-        s = "%-4s %8.6f %8.6f %8.6f %6.4f" % (self.element, xyz[0], xyz[1], xyz[2], self.occupancy)
+        s = "%-4s %8.6f %8.6f %8.6f %6.4f" % (
+            self.element,
+            xyz[0],
+            xyz[1],
+            xyz[2],
+            self.occupancy,
+        )
         return s
 
     def __copy__(self, target=None):
@@ -354,13 +359,19 @@ class Atom(object):
         """
 
     U11 = property(
-        lambda self: self._get_Uij(0, 0), lambda self, value: self._set_Uij(0, 0, value), doc=_doc_uii.format(0)
+        lambda self: self._get_Uij(0, 0),
+        lambda self, value: self._set_Uij(0, 0, value),
+        doc=_doc_uii.format(0),
     )
     U22 = property(
-        lambda self: self._get_Uij(1, 1), lambda self, value: self._set_Uij(1, 1, value), doc=_doc_uii.format(1)
+        lambda self: self._get_Uij(1, 1),
+        lambda self, value: self._set_Uij(1, 1, value),
+        doc=_doc_uii.format(1),
     )
     U33 = property(
-        lambda self: self._get_Uij(2, 2), lambda self, value: self._set_Uij(2, 2, value), doc=_doc_uii.format(2)
+        lambda self: self._get_Uij(2, 2),
+        lambda self, value: self._set_Uij(2, 2, value),
+        doc=_doc_uii.format(2),
     )
 
     _doc_uij = """
@@ -371,13 +382,19 @@ class Atom(object):
         """
 
     U12 = property(
-        lambda self: self._get_Uij(0, 1), lambda self, value: self._set_Uij(0, 1, value), doc=_doc_uij.format(0, 1)
+        lambda self: self._get_Uij(0, 1),
+        lambda self, value: self._set_Uij(0, 1, value),
+        doc=_doc_uij.format(0, 1),
     )
     U13 = property(
-        lambda self: self._get_Uij(0, 2), lambda self, value: self._set_Uij(0, 2, value), doc=_doc_uij.format(0, 2)
+        lambda self: self._get_Uij(0, 2),
+        lambda self, value: self._set_Uij(0, 2, value),
+        doc=_doc_uij.format(0, 2),
     )
     U23 = property(
-        lambda self: self._get_Uij(1, 2), lambda self, value: self._set_Uij(1, 2, value), doc=_doc_uij.format(1, 2)
+        lambda self: self._get_Uij(1, 2),
+        lambda self, value: self._set_Uij(1, 2, value),
+        doc=_doc_uij.format(1, 2),
     )
 
     # clean local variables
@@ -481,7 +498,8 @@ class Atom(object):
 
     @property
     def Bisoequiv(self):
-        """float : The Debye-Waller isotropic displacement or an equivalent value.
+        """float : The Debye-Waller isotropic displacement or an equivalent
+        value.
 
         This equals ``8 * pi**2 * Uisoequiv``. Setting a new value
         rescales `U` tensor to yield equivalent direction-average of

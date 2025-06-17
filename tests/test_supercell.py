@@ -12,8 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for supercell.py"""
+"""Unit tests for supercell.py."""
 
 import unittest
 
@@ -50,14 +49,14 @@ class TestSuperCell(unittest.TestCase):
         return
 
     def test_exceptions(self):
-        """check argument checking of supercell."""
+        """Check argument checking of supercell."""
         self.assertRaises(ValueError, supercell, self.stru_ni, (0, 1, 1))
         self.assertRaises(ValueError, supercell, self.stru_ni, (0, 1))
         self.assertRaises(TypeError, supercell, list(self.stru_ni), (1, 1, 1))
         return
 
     def test_ni_supercell(self):
-        """check supercell expansion for Ni."""
+        """Check supercell expansion for Ni."""
         ni_123 = supercell(self.stru_ni, (1, 2, 3))
         self.assertEqual(6 * len(self.stru_ni), len(ni_123))
         a, b, c = self.stru_ni.lattice.abcABG()[:3]
@@ -73,7 +72,7 @@ class TestSuperCell(unittest.TestCase):
         return
 
     def test_cdse_supercell(self):
-        """check supercell expansion for CdSe."""
+        """Check supercell expansion for CdSe."""
         cdse_222 = supercell(self.stru_cdse, (2, 2, 2))
         # new atoms should be grouped together
         elems = sum([8 * [a.element] for a in self.stru_cdse], [])

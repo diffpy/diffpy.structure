@@ -12,9 +12,8 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Index of recognized structure formats, their IO capabilities and
-associated modules where they are defined.
+"""Index of recognized structure formats, their IO capabilities and associated
+modules where they are defined.
 
 Attributes
 ----------

@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Class Lattice stores properties and provides simple operations in lattice
 coordinate system.
 
@@ -32,7 +31,16 @@ from diffpy.structure.structureerrors import LatticeError
 # Helper Functions -----------------------------------------------------------
 
 # exact values of cosd
-_EXACT_COSD = {0.0: +1.0, 60.0: +0.5, 90.0: 0.0, 120.0: -0.5, 180.0: -1.0, 240.0: -0.5, 270.0: 0.0, 300.0: +0.5}
+_EXACT_COSD = {
+    0.0: +1.0,
+    60.0: +0.5,
+    90.0: 0.0,
+    120.0: -0.5,
+    180.0: -1.0,
+    240.0: -0.5,
+    270.0: 0.0,
+    300.0: +0.5,
+}
 
 
 def cosd(x):
@@ -159,15 +167,21 @@ class Lattice(object):
     # properties -------------------------------------------------------------
 
     a = property(
-        lambda self: self._a, lambda self, value: self.setLatPar(a=value), doc="The unit cell length *a*."
+        lambda self: self._a,
+        lambda self, value: self.setLatPar(a=value),
+        doc="The unit cell length *a*.",
     )
 
     b = property(
-        lambda self: self._b, lambda self, value: self.setLatPar(b=value), doc="The unit cell length *b*."
+        lambda self: self._b,
+        lambda self, value: self.setLatPar(b=value),
+        doc="The unit cell length *b*.",
     )
 
     c = property(
-        lambda self: self._c, lambda self, value: self.setLatPar(c=value), doc="The unit cell length *c*."
+        lambda self: self._c,
+        lambda self, value: self.setLatPar(c=value),
+        doc="The unit cell length *c*.",
     )
 
     alpha = property(
@@ -201,47 +215,105 @@ class Lattice(object):
         rv = math.sqrt(1.0 + 2.0 * ca * cb * cg - ca * ca - cb * cb - cg * cg)
         return rv
 
-    volume = property(lambda self: self.a * self.b * self.c * self.unitvolume, doc="The unit cell volume.")
+    volume = property(
+        lambda self: self.a * self.b * self.c * self.unitvolume,
+        doc="The unit cell volume.",
+    )
 
-    ar = property(lambda self: self._ar, doc="The cell length *a* of the reciprocal lattice.")
+    ar = property(
+        lambda self: self._ar,
+        doc="The cell length *a* of the reciprocal lattice.",
+    )
 
-    br = property(lambda self: self._br, doc="The cell length *b* of the reciprocal lattice.")
+    br = property(
+        lambda self: self._br,
+        doc="The cell length *b* of the reciprocal lattice.",
+    )
 
-    cr = property(lambda self: self._cr, doc="The cell length *c* of the reciprocal lattice.")
+    cr = property(
+        lambda self: self._cr,
+        doc="The cell length *c* of the reciprocal lattice.",
+    )
 
-    alphar = property(lambda self: self._alphar, doc="The reciprocal cell angle *alpha* in degrees.")
+    alphar = property(
+        lambda self: self._alphar,
+        doc="The reciprocal cell angle *alpha* in degrees.",
+    )
 
-    betar = property(lambda self: self._betar, doc="The reciprocal cell angle *beta* in degrees")
+    betar = property(
+        lambda self: self._betar,
+        doc="The reciprocal cell angle *beta* in degrees",
+    )
 
-    gammar = property(lambda self: self._gammar, doc="The reciprocal cell angle *gamma* in degrees")
+    gammar = property(
+        lambda self: self._gammar,
+        doc="The reciprocal cell angle *gamma* in degrees",
+    )
 
-    ca = property(lambda self: self._ca, doc="The cosine of the cell angle *alpha*.")
+    ca = property(
+        lambda self: self._ca, doc="The cosine of the cell angle *alpha*."
+    )
 
-    cb = property(lambda self: self._cb, doc="The cosine of the cell angle *beta*.")
+    cb = property(
+        lambda self: self._cb, doc="The cosine of the cell angle *beta*."
+    )
 
-    cg = property(lambda self: self._cg, doc="The cosine of the cell angle *gamma*.")
+    cg = property(
+        lambda self: self._cg, doc="The cosine of the cell angle *gamma*."
+    )
 
-    sa = property(lambda self: self._sa, doc="The sine of the cell angle *alpha*.")
+    sa = property(
+        lambda self: self._sa, doc="The sine of the cell angle *alpha*."
+    )
 
-    sb = property(lambda self: self._sb, doc="The sine of the cell angle *beta*.")
+    sb = property(
+        lambda self: self._sb, doc="The sine of the cell angle *beta*."
+    )
 
-    sg = property(lambda self: self._sg, doc="The sine of the cell angle *gamma*.")
+    sg = property(
+        lambda self: self._sg, doc="The sine of the cell angle *gamma*."
+    )
 
-    car = property(lambda self: self._car, doc="The cosine of the reciprocal angle *alpha*.")
+    car = property(
+        lambda self: self._car,
+        doc="The cosine of the reciprocal angle *alpha*.",
+    )
 
-    cbr = property(lambda self: self._cbr, doc="The cosine of the reciprocal angle *beta*.")
+    cbr = property(
+        lambda self: self._cbr,
+        doc="The cosine of the reciprocal angle *beta*.",
+    )
 
-    cgr = property(lambda self: self._cgr, doc="The cosine of the reciprocal angle *gamma*.")
+    cgr = property(
+        lambda self: self._cgr,
+        doc="The cosine of the reciprocal angle *gamma*.",
+    )
 
-    sar = property(lambda self: self._sar, doc="The sine of the reciprocal angle *alpha*.")
+    sar = property(
+        lambda self: self._sar, doc="The sine of the reciprocal angle *alpha*."
+    )
 
-    sbr = property(lambda self: self._sbr, doc="The sine of the reciprocal angle *beta*.")
+    sbr = property(
+        lambda self: self._sbr, doc="The sine of the reciprocal angle *beta*."
+    )
 
-    sgr = property(lambda self: self._sgr, doc="The sine of the reciprocal angle *gamma*.")
+    sgr = property(
+        lambda self: self._sgr, doc="The sine of the reciprocal angle *gamma*."
+    )
 
     # done with properties ---------------------------------------------------
 
-    def __init__(self, a=None, b=None, c=None, alpha=None, beta=None, gamma=None, baserot=None, base=None):
+    def __init__(
+        self,
+        a=None,
+        b=None,
+        c=None,
+        alpha=None,
+        beta=None,
+        gamma=None,
+        baserot=None,
+        base=None,
+    ):
         # build a set of provided argument names for later use.
         apairs = (
             ("a", a),
@@ -288,7 +360,16 @@ class Lattice(object):
             self.setLatPar(a, b, c, alpha, beta, gamma, baserot=baserot)
         return
 
-    def setLatPar(self, a=None, b=None, c=None, alpha=None, beta=None, gamma=None, baserot=None):
+    def setLatPar(
+        self,
+        a=None,
+        b=None,
+        c=None,
+        alpha=None,
+        beta=None,
+        gamma=None,
+        baserot=None,
+    ):
         """Set one or more lattice parameters.
 
         This updates all attributes that depend on the lattice parameters.
@@ -362,7 +443,11 @@ class Lattice(object):
         )
         # standard Cartesian coordinates of lattice vectors
         self.stdbase = numpy.array(
-            [[1.0 / ar, -cgr / sgr / ar, cb * self.a], [0.0, self.b * sa, self.b * ca], [0.0, 0.0, self.c]],
+            [
+                [1.0 / ar, -cgr / sgr / ar, cb * self.a],
+                [0.0, self.b * sa, self.b * ca],
+                [0.0, 0.0, self.c],
+            ],
             dtype=float,
         )
         # Cartesian coordinates of lattice vectors
@@ -424,7 +509,12 @@ class Lattice(object):
         self._gammar = math.degrees(math.acos(cgr))
         # standard orientation of lattice vectors
         self.stdbase = numpy.array(
-            [[1.0 / ar, -cgr / sgr / ar, cb * a], [0.0, b * sa, b * ca], [0.0, 0.0, c]], dtype=float
+            [
+                [1.0 / ar, -cgr / sgr / ar, cb * a],
+                [0.0, b * sa, b * ca],
+                [0.0, 0.0, c],
+            ],
+            dtype=float,
         )
         # calculate unit cell rotation matrix, base = stdbase @ baserot
         self.baserot = numpy.dot(numalg.inv(self.stdbase), self.base)
@@ -435,13 +525,18 @@ class Lattice(object):
         self.isotropicunit = _isotropicunit(self.recnormbase)
         # update metrics tensor
         self.metrics = numpy.array(
-            [[a * a, a * b * cg, a * c * cb], [b * a * cg, b * b, b * c * ca], [c * a * cb, c * b * ca, c * c]],
+            [
+                [a * a, a * b * cg, a * c * cb],
+                [b * a * cg, b * b, b * c * ca],
+                [c * a * cb, c * b * ca, c * c],
+            ],
             dtype=float,
         )
         return
 
     def abcABG(self):
         """Return the cell parameters in the standard setting.
+
         Returns
         -------
         tuple :
@@ -452,6 +547,7 @@ class Lattice(object):
 
     def reciprocal(self):
         """Return the reciprocal lattice of the current lattice.
+
         Returns
         -------
         Lattice
@@ -627,7 +723,10 @@ class Lattice(object):
         elif numpy.fabs(latpardiff).max() < self._epsilon:
             s = "Lattice()"
         else:
-            s = "Lattice(a=%g, b=%g, c=%g, alpha=%g, beta=%g, gamma=%g)" % self.abcABG()
+            s = (
+                "Lattice(a=%g, b=%g, c=%g, alpha=%g, beta=%g, gamma=%g)"
+                % self.abcABG()
+            )
         return s
 
 

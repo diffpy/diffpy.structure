@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Unit tests for structure.parsers module."""
 
 import os
@@ -30,7 +29,7 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 
 class TestP_xyz(unittest.TestCase):
-    """test Parser for xyz file format"""
+    """Test Parser for xyz file format."""
 
     @pytest.fixture(autouse=True)
     def prepare_fixture(self, datafile):
@@ -53,7 +52,7 @@ class TestP_xyz(unittest.TestCase):
         return self.tmpnames[-1]
 
     def test_read_xyz(self):
-        """check reading of normal xyz file"""
+        """Check reading of normal xyz file."""
         stru = self.stru
         stru.read(self.datafile("bucky.xyz"), self.format)
         s_els = [a.element for a in stru]
@@ -62,16 +61,36 @@ class TestP_xyz(unittest.TestCase):
         return
 
     def test_read_xyz_bad(self):
-        """check exceptions when reading invalid xyz file"""
+        """Check exceptions when reading invalid xyz file."""
         stru = self.stru
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky-bad1.xyz"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky-bad2.xyz"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky-plain.xyz"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("hexagon-raw.xy"), self.format)
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("bucky-bad1.xyz"),
+            self.format,
+        )
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("bucky-bad2.xyz"),
+            self.format,
+        )
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("bucky-plain.xyz"),
+            self.format,
+        )
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("hexagon-raw.xy"),
+            self.format,
+        )
         return
 
     def test_writeStr_xyz(self):
-        """check string representation of normal xyz file"""
+        """Check string representation of normal xyz file."""
         stru = self.stru
         stru.title = "test of writeStr"
         stru.lattice = Lattice(1.0, 2.0, 3.0, 90.0, 90.0, 90.0)
@@ -83,7 +102,7 @@ class TestP_xyz(unittest.TestCase):
         return
 
     def test_write_xyz(self):
-        """check writing of normal xyz file"""
+        """Check writing of normal xyz file."""
         stru = self.stru
         stru.title = "test of writeStr"
         stru.lattice = Lattice(1.0, 2.0, 3.0, 90.0, 90.0, 90.0)
@@ -104,7 +123,7 @@ class TestP_xyz(unittest.TestCase):
 
 
 class TestP_rawxyz(unittest.TestCase):
-    """test Parser for rawxyz file format"""
+    """Test Parser for rawxyz file format."""
 
     @pytest.fixture(autouse=True)
     def prepare_fixture(self, datafile):
@@ -116,7 +135,7 @@ class TestP_rawxyz(unittest.TestCase):
         return
 
     def test_read_plainxyz(self):
-        """check reading of a plain xyz file"""
+        """Check reading of a plain xyz file."""
         stru = self.stru
         stru.read(self.datafile("bucky-plain.xyz"), self.format)
         s_els = [a.element for a in stru]
@@ -125,13 +144,18 @@ class TestP_rawxyz(unittest.TestCase):
         return
 
     def test_read_plainxyz_bad(self):
-        """check exceptions when reading invalid plain xyz file"""
+        """Check exceptions when reading invalid plain xyz file."""
         stru = self.stru
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky-plain-bad.xyz"), self.format)
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("bucky-plain-bad.xyz"),
+            self.format,
+        )
         return
 
     def test_read_rawxyz(self):
-        """check reading of raw xyz file"""
+        """Check reading of raw xyz file."""
         stru = self.stru
         stru.read(self.datafile("bucky-raw.xyz"), self.format)
         s_els = [a.element for a in stru]
@@ -143,14 +167,24 @@ class TestP_rawxyz(unittest.TestCase):
         return
 
     def test_read_rawxyz_bad(self):
-        """check exceptions when reading unsupported xy file"""
+        """Check exceptions when reading unsupported xy file."""
         stru = self.stru
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("hexagon-raw-bad.xyz"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("hexagon-raw.xy"), self.format)
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("hexagon-raw-bad.xyz"),
+            self.format,
+        )
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("hexagon-raw.xy"),
+            self.format,
+        )
         return
 
     def test_writeStr_rawxyz(self):
-        """check writing of normal xyz file"""
+        """Check writing of normal xyz file."""
         stru = self.stru
         stru.title = "test of writeStr"
         stru.lattice = Lattice(1.0, 2.0, 3.0, 90.0, 90.0, 90.0)
@@ -173,7 +207,7 @@ class TestP_rawxyz(unittest.TestCase):
 
 
 class TestP_pdb(unittest.TestCase):
-    """test Parser for PDB file format"""
+    """Test Parser for PDB file format."""
 
     @pytest.fixture(autouse=True)
     def prepare_fixture(self, datafile):
@@ -185,7 +219,7 @@ class TestP_pdb(unittest.TestCase):
         self.places = 3
 
     def test_read_pdb_arginine(self):
-        """check reading of arginine PDB file"""
+        """Check reading of arginine PDB file."""
         stru = self.stru
         stru.read(self.datafile("arginine.pdb"), self.format)
         f_els = [
@@ -233,7 +267,7 @@ class TestP_pdb(unittest.TestCase):
         self.assertTrue(numpy.allclose(a0.xyz, [0.735, 2.219, 1.389]))
 
     def test_rwStr_pdb_CdSe(self):
-        """check conversion to PDB file format"""
+        """Check conversion to PDB file format."""
         stru = self.stru
         stru.read(self.datafile("CdSe_bulk.stru"), "pdffit")
         s = stru.writeStr(self.format)
@@ -274,7 +308,7 @@ class TestP_pdb(unittest.TestCase):
 
 
 class TestP_xcfg(unittest.TestCase):
-    """test Parser for XCFG file format"""
+    """Test Parser for XCFG file format."""
 
     @pytest.fixture(autouse=True)
     def prepare_fixture(self, datafile):
@@ -286,7 +320,7 @@ class TestP_xcfg(unittest.TestCase):
         self.places = 6
 
     def test_read_xcfg(self):
-        """check reading of BubbleRaft XCFG file"""
+        """Check reading of BubbleRaft XCFG file."""
         stru = self.stru
         stru.read(self.datafile("BubbleRaftShort.xcfg"), self.format)
         f_els = 500 * ["Ar"]
@@ -306,7 +340,7 @@ class TestP_xcfg(unittest.TestCase):
         return
 
     def test_rwStr_xcfg_CdSe(self):
-        """check conversion to XCFG file format"""
+        """Check conversion to XCFG file format."""
         stru = self.stru
         stru.read(self.datafile("CdSe_bulk.stru"), "pdffit")
         s = stru.writeStr(self.format)

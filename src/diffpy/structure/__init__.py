@@ -12,9 +12,7 @@
 # See LICENSE.rst for license information.
 #
 ##############################################################################
-
-"""
-Crystal structure container and parsers for structure formats.
+"""Crystal structure container and parsers for structure formats.
 
 Classes related to the structure of materials:
     * Atom
@@ -42,7 +40,11 @@ from diffpy.structure.lattice import Lattice
 from diffpy.structure.parsers import getParser
 from diffpy.structure.pdffitstructure import PDFFitStructure
 from diffpy.structure.structure import Structure
-from diffpy.structure.structureerrors import LatticeError, StructureFormatError, SymmetryError
+from diffpy.structure.structureerrors import (
+    LatticeError,
+    StructureFormatError,
+    SymmetryError,
+)
 
 # package version
 from diffpy.structure.version import __version__

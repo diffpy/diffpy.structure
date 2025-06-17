@@ -12,8 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Definition of PDFFitStructure class derived from Structure"""
+"""Definition of PDFFitStructure class derived from Structure."""
 
 
 from diffpy.structure.structure import Structure
@@ -55,8 +54,8 @@ class PDFFitStructure(Structure):
         return
 
     def read(self, filename, format="auto"):
-        """Same as `Structure.read`, but update `spcgr` value in
-        `self.pdffit` when parser can get spacegroup.
+        """Same as `Structure.read`, but update `spcgr` value in `self.pdffit`
+        when parser can get spacegroup.
 
         See `Structure.read()` for more info.
 
@@ -90,11 +89,11 @@ class PDFFitStructure(Structure):
         s : str
             String with structure definition.
         format : str, Optional
-            All structure formats are defined in parsers submodule. When ``format == 'auto'``,
-            all parsers are tried one by one.
+            All structure formats are defined in parsers submodule. When
+            ``format == 'auto'``, all parsers are tried one by one.
 
-        Return
-        ------
+        Returns
+        -------
         StructureParser
             Instance of `StructureParser` used to load the data.
         """

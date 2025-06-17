@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
-"""Quick and extremely dirty script for generating code for SpaceGroup that
-are defined in cctbx, but not in mmLib.  It was used to generate module
+"""Quick and extremely dirty script for generating code for SpaceGroup that are
+defined in cctbx, but not in mmLib.  It was used to generate module
 sgtbxspacegroups.
 
-This is a utility script that should not be included with code distribution.
+This is a utility script that should not be included with code
+distribution.
 
 Not to be included with code distributions.
 """
@@ -16,7 +17,12 @@ import re
 import numpy
 from cctbx import sgtbx
 
-from diffpy.structure.spacegroups import IsSpaceGroupIdentifier, SpaceGroup, SymOp, mmLibSpaceGroupList
+from diffpy.structure.spacegroups import (
+    IsSpaceGroupIdentifier,
+    SpaceGroup,
+    SymOp,
+    mmLibSpaceGroupList,
+)
 
 
 def tupleToSGArray(tpl):

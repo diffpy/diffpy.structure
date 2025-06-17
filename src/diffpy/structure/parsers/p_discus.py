@@ -12,8 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Parser for DISCUS structure format"""
+"""Parser for DISCUS structure format."""
 
 import sys
 from functools import reduce
@@ -24,8 +23,8 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 
 class P_discus(StructureParser):
-    """Parser for DISCUS structure format. The parser chokes
-    on molecule and generator records.
+    """Parser for DISCUS structure format. The parser chokes on molecule and
+    generator records.
 
     Attributes
     ----------
@@ -116,12 +115,17 @@ class P_discus(StructureParser):
             exp_natoms = reduce(lambda x, y: x * y, self.stru.pdffit["ncell"])
             # only check if ncell record exists
             if self.ncell_read and exp_natoms != len(self.stru):
-                emsg = "Expected %d atoms, read %d." % (exp_natoms, len(self.stru))
+                emsg = "Expected %d atoms, read %d." % (
+                    exp_natoms,
+                    len(self.stru),
+                )
                 raise StructureFormatError(emsg)
             # take care of superlattice
             if self.stru.pdffit["ncell"][:3] != [1, 1, 1]:
                 latpars = list(self.stru.lattice.abcABG())
-                superlatpars = [latpars[i] * self.stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
+                superlatpars = [
+                    latpars[i] * self.stru.pdffit["ncell"][i] for i in range(3)
+                ] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
                 self.stru.placeInLattice(superlattice)
                 self.stru.pdffit["ncell"] = [1, 1, 1, exp_natoms]
@@ -164,12 +168,22 @@ class P_discus(StructureParser):
         if stru_pdffit.get("stepcut", 0.0) > 0.0:
             line = "shape   stepcut, %g" % stru_pdffit["stepcut"]
             lines.append(line)
-        lines.append("cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % self.stru.lattice.abcABG())
+        lines.append(
+            "cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f"
+            % self.stru.lattice.abcABG()
+        )
         lines.append("ncell  %9i, %9i, %9i, %9i" % (1, 1, 1, len(self.stru)))
         lines.append("atoms")
         for a in self.stru:
             lines.append(
-                "%-4s %17.8f %17.8f %17.8f %12.4f" % (a.element.upper(), a.xyz[0], a.xyz[1], a.xyz[2], a.Bisoequiv)
+                "%-4s %17.8f %17.8f %17.8f %12.4f"
+                % (
+                    a.element.upper(),
+                    a.xyz[0],
+                    a.xyz[1],
+                    a.xyz[2],
+                    a.Bisoequiv,
+                )
             )
         return lines
 
@@ -194,7 +208,9 @@ class P_discus(StructureParser):
         try:
             self.stru.lattice.setLatPar(*latpars)
         except ZeroDivisionError:
-            emsg = "%d: Invalid lattice parameters - zero cell volume" % self.nl
+            emsg = (
+                "%d: Invalid lattice parameters - zero cell volume" % self.nl
+            )
             raise StructureFormatError(emsg)
         self.cell_read = True
         return
@@ -273,7 +289,7 @@ class P_discus(StructureParser):
         Raises
         ------
         StructureFormatError
-            Unkown record.
+            Unknown record.
         """
         self.ignored_lines.append(self.line)
         return
@@ -291,7 +307,10 @@ class P_discus(StructureParser):
         NotImplementedError
             If the record is not implemented.
         """
-        emsg = "%d: reading of DISCUS record %r is not implemented." % (self.nl, words[0])
+        emsg = "%d: reading of DISCUS record %r is not implemented." % (
+            self.nl,
+            words[0],
+        )
         raise NotImplementedError(emsg)
 
 

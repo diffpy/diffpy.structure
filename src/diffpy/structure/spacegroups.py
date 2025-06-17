@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Space group classes and definitions from mmLib and sgtbx.
 
 Attributes
@@ -768,6 +767,7 @@ def _hashSymOpList(symops):
 
 def _buildSGLookupTable():
     """Rebuild space group lookup table from the `SpaceGroupList` data.
+
     This routine updates the global `_sg_lookup_table` dictionary.
     """
     _sg_lookup_table.clear()

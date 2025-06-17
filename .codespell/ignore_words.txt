@@ -9,3 +9,11 @@ socio-economic
 
 ;; Frobenius norm used in np.linalg.norm
 fro
+
+DISCUS
+discus
+CONECT
+Discus
+Te
+Nd
+BU
