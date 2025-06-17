@@ -55,7 +55,7 @@ namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 dependencies = {file = ["requirements/pip.txt"]}
 
 [tool.black]
-line-length = 115
+line-length = 79
 include = '\.pyi?$'
 exclude = '''
 /(

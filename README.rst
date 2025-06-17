@@ -8,7 +8,7 @@
         :target: https://diffpy.github.io/diffpy.structure
         :height: 100px
 
-|PyPi| |Forge| |PythonVersion| |PR|
+|PyPI| |Forge| |PythonVersion| |PR|
 
 |CI| |Codecov| |Black| |Tracking|
 
@@ -26,7 +26,7 @@
 
 .. |PR| image:: https://img.shields.io/badge/PR-Welcome-29ab47ff
 
-.. |PyPi| image:: https://img.shields.io/pypi/v/diffpy.structure
+.. |PyPI| image:: https://img.shields.io/pypi/v/diffpy.structure
         :target: https://pypi.org/project/diffpy.structure/
 
 .. |PythonVersion| image:: https://img.shields.io/pypi/pyversions/diffpy.structure
@@ -35,34 +35,18 @@
 .. |Tracking| image:: https://img.shields.io/badge/issue_tracking-github-blue
         :target: https://github.com/diffpy/diffpy.structure/issues
 
-Crystal structure container and parsers for structure formats.
+Crystal structure container and parsers for structure formats
 
-The diffpy.structure package provides objects for storing atomic
-coordinates, displacement parameters and other crystal structure data.
-diffpy.structure supports import and export of structure data in several
-structure formats such as CIF, PDB, and xyz.  It provides conversion
-between fractional and absolute Cartesian coordinates, functions for
-symmetry expansion of atom sites in the asymmetric unit and generation
-of symmetry constraints for atom positions and displacement parameters.
-diffpy.structure includes definitions of all space groups in over 500
-symmetry settings.
-
+* LONGER DESCRIPTION HERE
 
 For more information about the diffpy.structure library, please consult our `online documentation <https://diffpy.github.io/diffpy.structure>`_.
 
 Citation
 --------
 
-If you use this program for a scientific research that leads
-to publication, we ask that you acknowledge use of the program
-by citing the following paper in your publication:
+If you use diffpy.structure in a scientific publication, we would like you to cite this package as
 
-   P. Juhás, C. L. Farrow, X. Yang, K. R. Knox and S. J. L. Billinge,
-   `Complex modeling: a strategy and software program for combining
-   multiple information sources to solve ill posed structure and
-   nanostructure inverse problems
-   <http://dx.doi.org/10.1107/S2053273315014473>`__,
-   *Acta Crystallogr. A* **71**, 562-568 (2015).
+        diffpy.structure Package, https://github.com/diffpy/diffpy.structure
 
 Installation
 ------------
@@ -107,9 +91,7 @@ You may consult our `online documentation <https://diffpy.github.io/diffpy.struc
 Support and Contribute
 ----------------------
 
-`Diffpy user group <https://groups.google.com/g/diffpy-users>`_ is the discussion forum for general questions and discussions about the use of diffpy.structure. Please join the diffpy.structure users community by joining the Google group. The diffpy.structure project welcomes your expertise and enthusiasm!
-
-If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.structure/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.structure/pulls>`_. You can also post it to the `Diffpy user group <https://groups.google.com/g/diffpy-users>`_.
+If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.structure/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.structure/pulls>`_.
 
 Feel free to fork the project and contribute. To install diffpy.structure
 in a development mode, with its sources being directly used by Python
@@ -132,18 +114,14 @@ trying to commit again.
 
 Improvements and fixes are always appreciated.
 
-Before contribuing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.structure/blob/main/CODE-OF-CONDUCT.rst>`_.
-
-Acknowledgement
----------------
-
-Space group codes in *spacegroupmod.py* and *mmlibspacegroups.py*
-originate from the `pymmlib project <http://pymmlib.sourceforge.net>`_.
-
-Less common settings of space groups were generating using the
-`Computational Crystallography Toolbox <http://cctbx.sourceforge.net>`_.
+Before contributing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.structure/blob/main/CODE_OF_CONDUCT.rst>`_.
 
 Contact
 -------
 
-For more information on diffpy.structure please visit the project `web-page <https://diffpy.github.io/>`_ or email Prof. Simon Billinge at sb2896@columbia.edu.
+For more information on diffpy.structure please visit the project `web-page <https://diffpy.github.io/>`_ or email Simon Billinge at sb2896@columbia.edu.
+
+Acknowledgements
+----------------
+
+``diffpy.structure`` is built and maintained with `scikit-package <https://scikit-package.github.io/scikit-package/>`_.
