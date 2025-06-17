@@ -1,6 +1,6 @@
 """Unit tests for __version__.py."""
 
-import diffpy.structure  # noqa
+import diffpy.structure
 
 
 def test_package_version():
