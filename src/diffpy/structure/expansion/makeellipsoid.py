@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Make a spheroid nanoparticle from a template structure."""
 
 from math import ceil
@@ -42,8 +41,7 @@ def makeSphere(S, radius):
 
 
 def makeEllipsoid(S, a, b=None, c=None):
-    """
-    Cut a `Structure` out of another one.
+    """Cut a `Structure` out of another one.
 
     Parameters
     ----------

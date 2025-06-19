@@ -12,8 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Parser for XYZ file format, where
+"""Parser for XYZ file format, where.
 
 * First line gives number of atoms.
 * Second line has optional title.

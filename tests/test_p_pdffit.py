@@ -12,8 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for diffpy.structure.parsers.p_pdffit module"""
+"""Unit tests for diffpy.structure.parsers.p_pdffit module."""
 
 import re
 import unittest
@@ -28,7 +27,7 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 
 class TestP_pdffit(unittest.TestCase):
-    """test Parser for PDFFit file format"""
+    """Test Parser for PDFFit file format."""
 
     @pytest.fixture(autouse=True)
     def prepare_fixture(self, datafile):
@@ -40,7 +39,7 @@ class TestP_pdffit(unittest.TestCase):
         self.places = 8
 
     def test_read_pdffit_ZnSb(self):
-        """check reading of ZnSb pdffit structure file"""
+        """Check reading of ZnSb pdffit structure file."""
         stru = self.stru
         stru.read(self.datafile("ZnSb_RT_Q28X_VM_20_fxiso.rstr"), self.format)
         f_title = "Cell structure file of Zn4Sb3 #167 interstitial"
@@ -85,7 +84,7 @@ class TestP_pdffit(unittest.TestCase):
         self.assertAlmostEqual(s_sigo, f_sigo)
 
     def test_read_pdffit_Ni(self):
-        """check reading of Ni pdffit structure file"""
+        """Check reading of Ni pdffit structure file."""
         stru = self.stru
         stru.read(self.datafile("Ni.stru"), self.format)
         f_title = "structure Ni  FCC"
@@ -118,7 +117,7 @@ class TestP_pdffit(unittest.TestCase):
         self.assertAlmostEqual(s_o, f_o)
 
     def test_read_pdffit_Ni_prim123(self):
-        """check reading of Ni_prim supercell 1x2x3"""
+        """Check reading of Ni_prim supercell 1x2x3."""
         stru = self.stru
         stru.read(self.datafile("Ni_prim123.stru"), self.format)
         s_lat = [
@@ -149,14 +148,14 @@ class TestP_pdffit(unittest.TestCase):
         return
 
     def test_read_pdffit_bad(self):
-        """check exceptions when reading invalid pdffit file"""
+        """Check exceptions when reading invalid pdffit file."""
         stru = self.stru
         self.assertRaises(StructureFormatError, stru.read, self.datafile("Ni-bad.stru"), self.format)
         self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky.xyz"), self.format)
         return
 
     def test_writeStr_pdffit(self):
-        """check writing of normal xyz file"""
+        """Check writing of normal xyz file."""
         stru = self.stru
         stru.read(self.datafile("Ni.stru"), self.format)
         with open(self.datafile("Ni.stru")) as fp:
@@ -169,7 +168,7 @@ class TestP_pdffit(unittest.TestCase):
         return
 
     def test_huge_occupancy(self):
-        """check structure with huge occupancy can be read."""
+        """Check structure with huge occupancy can be read."""
         self.stru.read(self.datafile("Ni.stru"), self.format)
         self.stru[0].occupancy = 16e16
         s_s = self.stru.writeStr(self.format)
@@ -179,7 +178,7 @@ class TestP_pdffit(unittest.TestCase):
         return
 
     def test_ignored_lines(self):
-        """check skipping of ignored lines in the header"""
+        """Check skipping of ignored lines in the header."""
         r1 = "ignored record 1"
         r2 = "ignored record 2"
         with open(self.datafile("Ni.stru")) as fp:
@@ -195,7 +194,7 @@ class TestP_pdffit(unittest.TestCase):
         return
 
     def test_spdiameter_parsing(self):
-        """check parsing of spdiameter record from a file."""
+        """Check parsing of spdiameter record from a file."""
         stru = self.stru
         stru.read(self.datafile("Ni.stru"), self.format)
         self.assertEqual(0, stru.pdffit["spdiameter"])
@@ -216,7 +215,7 @@ class TestP_pdffit(unittest.TestCase):
         return
 
     def test_stepcut_parsing(self):
-        """check parsing of stepcut record from a file."""
+        """Check parsing of stepcut record from a file."""
         stru = self.stru
         stru.read(self.datafile("Ni.stru"), self.format)
         self.assertEqual(0, stru.pdffit["stepcut"])

@@ -12,11 +12,10 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Parser for raw XYZ file format.
 
-Raw XYZ is a 3 or 4 column text file with cartesian coordinates
-of atoms and an optional first column for atom types.
+Raw XYZ is a 3 or 4 column text file with cartesian coordinates of atoms
+and an optional first column for atom types.
 """
 
 import sys

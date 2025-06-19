@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Parser for basic CIF file format.
 
 Attributes
@@ -267,7 +266,8 @@ class P_cif(StructureParser):
     _tr_atom_site_aniso_B_23 = staticmethod(_tr_atom_site_aniso_B_23)
 
     def _get_atom_setters(cifloop):
-        """Static method for finding translators of CifLoop items to data in `Atom` instance.
+        """Static method for finding translators of CifLoop items to
+        data in `Atom` instance.
 
         Parameters
         ----------
@@ -416,8 +416,8 @@ class P_cif(StructureParser):
         return self.stru
 
     def _parseCifBlock(self, blockname):
-        """Translate CIF file block, skip blocks without `_atom_site_label`.
-        Updates data members `stru`, `eau`.
+        """Translate CIF file block, skip blocks without
+        `_atom_site_label`. Updates data members `stru`, `eau`.
 
         Parameters
         ----------
@@ -505,7 +505,8 @@ class P_cif(StructureParser):
         return
 
     def _parse_atom_site_aniso_label(self, block):
-        """Obtain value of anisotropic thermal displacements from a `CifBlock`.
+        """Obtain value of anisotropic thermal displacements from a
+        `CifBlock`.
 
         This method updates `U` members of `Atom` instances in `self.stru`.
         The `labelindex` dictionary has to be defined beforehand.
@@ -599,7 +600,8 @@ class P_cif(StructureParser):
         return
 
     def _expandAsymmetricUnit(self, block):
-        """Perform symmetry expansion of `self.stru` using `self.spacegroup`.
+        """Perform symmetry expansion of `self.stru` using
+        `self.spacegroup`.
 
         This method updates data in `stru` and `eau`.
 
@@ -763,7 +765,8 @@ rx_float = re.compile(r"[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?")
 
 
 def leading_float(s, d=0.0):
-    """Extract the first float from a string and ignore trailing characters.
+    """Extract the first float from a string and ignore trailing
+    characters.
 
     Useful for extracting values from "value(std)" syntax.
 
@@ -863,7 +866,8 @@ def getParser(eps=None):
 
 @contextmanager
 def _suppressCifParserOutput():
-    """Context manager which suppresses diagnostic messages from CIF parser."""
+    """Context manager which suppresses diagnostic messages from CIF
+    parser."""
     from CifFile import yapps3_compiled_rt
 
     print_error = yapps3_compiled_rt.print_error

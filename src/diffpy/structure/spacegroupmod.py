@@ -7,7 +7,7 @@
 
 import numpy
 
-# 64 unique rotation matricies
+# 64 unique rotation matrices
 Rot_Z_mY_X = numpy.array([[0.0, 0.0, 1.0], [0.0, -1.0, 0.0], [1.0, 0.0, 0.0]], float)
 Rot_Y_mX_mZ = numpy.array([[0.0, 1.0, 0.0], [-1.0, 0.0, 0.0], [0.0, 0.0, -1.0]], float)
 Rot_XmY_X_mZ = numpy.array([[1.0, -1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, -1.0]], float)
@@ -143,7 +143,8 @@ class SymOp(object):
         return x
 
     def __call__(self, vec):
-        """Return symmetry-related position for the specified coordinates.
+        """Return symmetry-related position for the specified
+        coordinates.
 
         Parameters
         ----------
@@ -301,7 +302,8 @@ class SpaceGroup(object):
         return False
 
     def iter_equivalent_positions(self, vec):
-        """Generate symmetry equivalent positions for the specified position.
+        """Generate symmetry equivalent positions for the specified
+        position.
 
         The initial position must be in fractional coordinates and so
         are the symmetry equivalent positions yielded by iteration.

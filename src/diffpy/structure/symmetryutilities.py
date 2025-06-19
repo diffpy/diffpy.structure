@@ -12,9 +12,8 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Symmetry utility functions such as expansion of asymmetric unit,
-and generation of positional constraints.
+"""Symmetry utility functions such as expansion of asymmetric unit, and
+generation of positional constraints.
 
 Attributes
 ----------
@@ -132,8 +131,8 @@ def isconstantFormula(s):
 
 
 class _Position2Tuple(object):
-    """Create callable object that converts fractional coordinates to
-    a tuple of integers with given precision. For presision close to zero
+    """Create callable object that converts fractional coordinates to a
+    tuple of integers with given precision. For presision close to zero
     it will return a tuples of double.
 
     Note
@@ -148,7 +147,7 @@ class _Position2Tuple(object):
     Attributes
     ----------
     eps : float
-        Cutoff for equivalent coordinates. When two coordiantes map to the
+        Cutoff for equivalent coordinates. When two coordinates map to the
         same tuple, they are closer than `eps`.
     """
 
@@ -417,7 +416,8 @@ class GeneratorSite(object):
         ],
         dtype=float,
     )
-    """numpy.ndarray: 6x3x3 array of independent components of U matrices."""
+    """numpy.ndarray: 6x3x3 array of independent components of U
+    matrices."""
 
     idx2Usymbol = {0: "U11", 1: "U12", 2: "U13", 3: "U12", 4: "U22", 5: "U23", 6: "U13", 7: "U23", 8: "U33"}
     """dict: Mapping of index to standard U symbol."""
@@ -467,7 +467,8 @@ class GeneratorSite(object):
         return
 
     def signedRatStr(self, x):
-        """Convert floating point number to signed rational representation.
+        """Convert floating point number to signed rational
+        representation.
 
         Possible fractional are multiples of 1/3, 1/6, 1/7, 1/9, if these
         are not close, return `%+g` format.
@@ -495,6 +496,7 @@ class GeneratorSite(object):
 
     def _findNullSpace(self):
         """Calculate `self.null_space` from `self.invariants`.
+
         Try to represent `self.null_space` using small integers.
         """
         R0 = self.invariants[0].R
@@ -525,7 +527,8 @@ class GeneratorSite(object):
         return
 
     def _findPosParameters(self):
-        """Find pparameters and their values for expressing `self.xyz`."""
+        """Find pparameters and their values for expressing
+        `self.xyz`."""
         usedsymbol = {}
         # parameter values depend on offset of self.xyz
         txyz = self.xyz
@@ -542,8 +545,7 @@ class GeneratorSite(object):
 
     def _findUSpace(self):
         """Find independent U components with respect to invariant
-        rotations.
-        """
+        rotations."""
         n = len(self.invariants)
         R6zall = numpy.tile(-numpy.identity(6, dtype=float), (n, 1))
         R6zall_iter = numpy.split(R6zall, n, axis=0)
@@ -568,7 +570,8 @@ class GeneratorSite(object):
         return
 
     def _findUParameters(self):
-        """Find Uparameters and their values for expressing `self.Uij`."""
+        """Find Uparameters and their values for expressing
+        `self.Uij`."""
         # permute indices as     00 11 22 01 02 12 10 20 21
         diagorder = numpy.array((0, 4, 8, 1, 2, 5, 3, 6, 7))
         Uijflat = self.Uij.flatten()
@@ -583,7 +586,8 @@ class GeneratorSite(object):
         return
 
     def _findeqUij(self):
-        """Adjust `self.Uij` and `self.eqUij` to be consistent with spacegroup."""
+        """Adjust `self.Uij` and `self.eqUij` to be consistent with
+        spacegroup."""
         self.Uij = numpy.zeros((3, 3), dtype=float)
         for i in range(len(self.Uparameters)):
             Usp = self.Uspace[i]
@@ -598,7 +602,8 @@ class GeneratorSite(object):
         return
 
     def positionFormula(self, pos, xyzsymbols=("x", "y", "z")):
-        """Formula of equivalent position with respect to generator site.
+        """Formula of equivalent position with respect to generator
+        site.
 
         Parameters
         ----------
@@ -646,7 +651,8 @@ class GeneratorSite(object):
         return dict(zip(("x", "y", "z"), xyzformula))
 
     def UFormula(self, pos, Usymbols=stdUsymbols):
-        """List of atom displacement formulas with custom parameter symbols.
+        """List of atom displacement formulas with custom parameter
+        symbols.
 
         Parameters
         ----------
@@ -902,7 +908,8 @@ class SymmetryConstraints(object):
         return
 
     def _findConstraints(self):
-        """Find constraints for positions and anisotropic displacements `Uij`."""
+        """Find constraints for positions and anisotropic displacements
+        `Uij`."""
         numpos = len(self.positions)
         # canonical xyzsymbols and Usymbols
         xyzsymbols = [smbl + str(i) for i in range(numpos) for smbl in "xyz"]
@@ -994,7 +1001,8 @@ class SymmetryConstraints(object):
         return rv
 
     def positionFormulasPruned(self, xyzsymbols=None):
-        """List of position formula dictionaries with constant items removed.
+        """List of position formula dictionaries with constant items
+        removed.
 
         See also
         --------
@@ -1014,7 +1022,8 @@ class SymmetryConstraints(object):
         return rv
 
     def UparSymbols(self):
-        """Return list of standard atom displacement parameter symbols."""
+        """Return list of standard atom displacement parameter
+        symbols."""
         return [n for n, v in self.Upars]
 
     def UparValues(self):
@@ -1022,7 +1031,8 @@ class SymmetryConstraints(object):
         return [v for n, v in self.Upars]
 
     def UFormulas(self, Usymbols=None):
-        """List of atom displacement formulas with custom parameter symbols.
+        """List of atom displacement formulas with custom parameter
+        symbols.
 
         Parameters
         ----------
@@ -1059,8 +1069,8 @@ class SymmetryConstraints(object):
         return rv
 
     def UFormulasPruned(self, Usymbols=None):
-        """List of atom displacement formula dictionaries with constant items
-        removed.
+        """List of atom displacement formula dictionaries with constant
+        items removed.
 
         See Also
         --------

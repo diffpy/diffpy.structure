@@ -1,0 +1,12 @@
+name: Deploy Documentation on Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  docs:
+    uses: scikit-package/release-scripts/.github/workflows/_publish-docs-on-release.yml@v0
+    with:
+      project: diffpy.structure
+      c_extension: false
+      headless: false

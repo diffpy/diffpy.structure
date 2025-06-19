@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """This module defines class `Structure`."""
 
 import codecs
@@ -28,7 +27,8 @@ from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol, isiterabl
 
 
 class Structure(list):
-    """Define group of atoms in a specified lattice. Structure --> group of atoms.
+    """Define group of atoms in a specified lattice. Structure --> group
+    of atoms.
 
     `Structure` class is inherited from Python `list`. It contains
     a list of `Atom` instances. `Structure` overloads `setitem` and `setslice`
@@ -183,7 +183,8 @@ class Structure(list):
         return
 
     def distance(self, aid0, aid1):
-        """Calculate distance between 2 `Atoms`, no periodic boundary conditions.
+        """Calculate distance between 2 `Atoms`, no periodic boundary
+        conditions.
 
         Parameters
         ----------
@@ -207,8 +208,7 @@ class Structure(list):
         return self.lattice.dist(a0.xyz, a1.xyz)
 
     def angle(self, aid0, aid1, aid2):
-        """
-        The bond angle at the second of three `Atoms` in degrees.
+        """The bond angle at the second of three `Atoms` in degrees.
 
         Parameters
         ----------
@@ -235,7 +235,7 @@ class Structure(list):
         return self.lattice.angle(u10, u12)
 
     def placeInLattice(self, new_lattice):
-        """place structure into `new_lattice` coordinate system.
+        """Place structure into `new_lattice` coordinate system.
 
         Sets `lattice` to `new_lattice` and recalculate fractional coordinates
         of all `Atoms` so their absolute positions remain the same.
@@ -352,7 +352,8 @@ class Structure(list):
         return
 
     def writeStr(self, format):
-        """return string representation of the structure in specified format.
+        """Return string representation of the structure in specified
+        format.
 
         Note
         ----
@@ -367,14 +368,16 @@ class Structure(list):
         return s
 
     def tolist(self):
-        """Return `Atoms` in this `Structure` as a standard Python list."""
+        """Return `Atoms` in this `Structure` as a standard Python
+        list."""
         rv = [a for a in self]
         return rv
 
     # Overloaded list Methods and Operators ----------------------------------
 
     def append(self, a, copy=True):
-        """Append `Atom` to a structure and update its `lattice` attribute.
+        """Append `Atom` to a structure and update its `lattice`
+        attribute.
 
         Parameters
         ----------
@@ -450,7 +453,7 @@ class Structure(list):
 
         Parameters
         ----------
-        idx : int ot str ot Iterable
+        idx : int or str or Iterable
             `Atom` identifier. When integer use standard list lookup.
             For iterables use numpy lookup, this supports integer or
             boolean flag arrays. For string or string-containing iterables
@@ -563,7 +566,7 @@ class Structure(list):
                 keep = set(super(Structure, self).__getitem__(idx))
                 v1 = (a if a in keep else Atom(a) for a in value)
             vfinal = filter(_fixlat, v1)
-        # handle scalar assingment
+        # handle scalar assignment
         else:
             vfinal = Atom(value) if copy else value
             vfinal.lattice = self.lattice
@@ -571,7 +574,8 @@ class Structure(list):
         return
 
     def __add__(self, other):
-        """Return new `Structure` object with appended `Atoms` from other.
+        """Return new `Structure` object with appended `Atoms` from
+        other.
 
         Parameters
         ----------
@@ -604,7 +608,8 @@ class Structure(list):
         return self
 
     def __sub__(self, other):
-        """Return new `Structure` that has `Atoms` from the other removed.
+        """Return new `Structure` that has `Atoms` from the other
+        removed.
 
         Parameters
         ----------
@@ -639,8 +644,8 @@ class Structure(list):
         return self
 
     def __mul__(self, n):
-        """Return new `Structure` with n-times concatenated `Atoms` from self.
-        `Atoms` and `lattice` in the new structure are all copies.
+        """Return new `Structure` with n-times concatenated `Atoms` from
+        self. `Atoms` and `lattice` in the new structure are all copies.
 
         Parameters
         ----------
@@ -660,8 +665,8 @@ class Structure(list):
     __rmul__ = __mul__
 
     def __imul__(self, n):
-        """Concatenate this `Structure` to n-times more `Atoms`.
-        For positive multiple the current `Atom` objects remain at the
+        """Concatenate this `Structure` to n-times more `Atoms`. For
+        positive multiple the current `Atom` objects remain at the
         beginning of this `Structure`.
 
         Parameters
@@ -858,7 +863,8 @@ class Structure(list):
     # Private Methods --------------------------------------------------------
 
     def __emptySharedStructure(self):
-        """Return empty `Structure` with standard attributes same as in self."""
+        """Return empty `Structure` with standard attributes same as in
+        self."""
         rv = Structure()
         rv.__dict__.update([(k, getattr(self, k)) for k in rv.__dict__])
         return rv

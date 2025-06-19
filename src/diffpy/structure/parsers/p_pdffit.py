@@ -12,8 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Parser for PDFfit structure format"""
+"""Parser for PDFfit structure format."""
 
 import sys
 from functools import reduce

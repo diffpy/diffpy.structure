@@ -29,6 +29,7 @@ Pavol Juhás, Christopher L. Farrow, Xiaohao Yang, Simon J.L. Billinge.
 For a detailed list of contributors see
 https://github.com/diffpy/diffpy.structure/graphs/contributors.
 
+===============
 Acknowledgments
 ===============
 
@@ -38,9 +39,11 @@ Less common settings of space groups were generating using the
 Computational Crystallography Toolbox,
 http://cctbx.sourceforge.net.
 
+``diffpy.structure`` is built and maintained with `scikit-package <https://scikit-package.github.io/scikit-package/>`_.
 
 .. index:: citation, reference
 
+=========
 Reference
 =========
 

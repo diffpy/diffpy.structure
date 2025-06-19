@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Parser for automatic file format detection.
 
 This Parser does not provide the the `toLines()` method.
@@ -54,6 +53,7 @@ class P_auto(StructureParser):
     # parseLines helpers
     def _getOrderedFormats(self):
         """Build a list of relevance ordered structure formats.
+
         This only works when `self.filename` has a known extension.
         """
         from diffpy.structure.parsers import inputFormats
@@ -77,7 +77,8 @@ class P_auto(StructureParser):
         return ofmts
 
     def parseLines(self, lines):
-        """Detect format and create `Structure` instance from a list of lines.
+        """Detect format and create `Structure` instance from a list of
+        lines.
 
         Set format attribute to the detected file format.
 
@@ -119,7 +120,8 @@ class P_auto(StructureParser):
         return self._wrapParseMethod("parse", s)
 
     def parseFile(self, filename):
-        """Detect format and create Structure instance from an existing file.
+        """Detect format and create Structure instance from an existing
+        file.
 
         Set format attribute to the detected file format.
 
@@ -144,9 +146,9 @@ class P_auto(StructureParser):
         return self._wrapParseMethod("parseFile", filename)
 
     def _wrapParseMethod(self, method, *args, **kwargs):
-        """A helper evaluator method that try the specified parse method with
-        each registered structure parser and return the first successful
-        resul.
+        """A helper evaluator method that try the specified parse method
+        with each registered structure parser and return the first
+        successful result.
 
         Structure parsers that match structure file extension are
         tried first.

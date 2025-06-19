@@ -12,9 +12,8 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Class Lattice stores properties and provides simple operations in lattice
-coordinate system.
+"""Class Lattice stores properties and provides simple operations in
+lattice coordinate system.
 
 Attributes
 ----------
@@ -442,6 +441,7 @@ class Lattice(object):
 
     def abcABG(self):
         """Return the cell parameters in the standard setting.
+
         Returns
         -------
         tuple :
@@ -452,6 +452,7 @@ class Lattice(object):
 
     def reciprocal(self):
         """Return the reciprocal lattice of the current lattice.
+
         Returns
         -------
         Lattice

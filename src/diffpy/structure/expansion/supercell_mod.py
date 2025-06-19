@@ -12,8 +12,8 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""This module contains functions for simple `Structure` manipulation."""
+"""This module contains functions for simple `Structure`
+manipulation."""
 
 import numpy
 
@@ -21,8 +21,7 @@ from diffpy.structure import Atom, Structure
 
 
 def supercell(S, mno):
-    """
-    Perform supercell expansion for a `Structure`.
+    """Perform supercell expansion for a `Structure`.
 
     New `lattice` parameters are multiplied and fractional coordinates
     divided by corresponding multiplier. New `Atoms` are grouped with
