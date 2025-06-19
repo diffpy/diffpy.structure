@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Unit tests for the Atom class.
-"""
+"""Unit tests for the Atom class."""
 
 
 import unittest
@@ -31,7 +28,7 @@ from diffpy.structure.lattice import Lattice
 class TestAtom(unittest.TestCase):
 
     def test___init__(self):
-        """check Atom.__init__()"""
+        """Check Atom.__init__()"""
         a = Atom()
         self.assertEqual("", a.element)
         self.assertTrue((a.xyz == 0).all())
@@ -78,7 +75,7 @@ class TestAtom(unittest.TestCase):
     #       return
 
     def test_xyz_cartn(self):
-        """check Atom.xyz_cartn property"""
+        """Check Atom.xyz_cartn property."""
         hexagonal = Lattice(1, 1, 1, 90, 90, 120)
         a0 = Atom("C", [0, 0, 0], lattice=hexagonal)
         a1 = Atom("C", [1, 1, 1], lattice=hexagonal)

@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Definition of StructureParser, a base class for specific parsers."""
 
 

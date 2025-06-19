@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Translate structure file to different format.
 
 Usage: ``transtru INFMT..OUTFMT strufile``
@@ -44,7 +43,8 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 
 def usage(style=None):
-    """Show usage info, for ``style=="brief"`` show only first 2 lines."""
+    """Show usage info, for ``style=="brief"`` show only first 2
+    lines."""
     import os.path
 
     myname = os.path.basename(sys.argv[0])

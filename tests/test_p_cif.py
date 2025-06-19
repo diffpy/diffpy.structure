@@ -12,8 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for diffpy.structure.parsers.p_cif module"""
+"""Unit tests for diffpy.structure.parsers.p_cif module."""
 
 import unittest
 
@@ -37,14 +36,14 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_leading_float(self):
-        """check leading_float()"""
+        """Check leading_float()"""
         self.assertEqual(0.37, leading_float("0.37(3)"))
         self.assertEqual(0.37, leading_float("0.37ab\ncd"))
         self.assertRaises(ValueError, leading_float, "q1")
         return
 
     def test_getSymOp(self):
-        """check getSymOp()"""
+        """Check getSymOp()"""
         from diffpy.structure.spacegroups import Rot_X_mY_Z, SymOp, Tr_0_12_12
 
         op = getSymOp("x,1/2-y,1/2+z")
@@ -84,7 +83,7 @@ class TestP_cif(unittest.TestCase):
         return
 
     def test_parse(self):
-        """check P_cif.parse()"""
+        """Check P_cif.parse()"""
         with open(self.pbteciffile) as fp1:
             sgood = fp1.read()
         with open(self.badciffile) as fp2:
@@ -100,7 +99,7 @@ class TestP_cif(unittest.TestCase):
         return
 
     def test_parseLines(self):
-        """check P_cif.parseLines()"""
+        """Check P_cif.parseLines()"""
         with open(self.pbteciffile) as fp1:
             goodlines = fp1.readlines()
         with open(self.badciffile) as fp2:
@@ -116,7 +115,7 @@ class TestP_cif(unittest.TestCase):
         return
 
     def test_parseFile(self):
-        """check P_cif.parseFile()"""
+        """Check P_cif.parseFile()"""
         # pbteciffile
         stru = self.pfile.parseFile(self.pbteciffile)
         self.assertEqual(8, len(stru))
@@ -199,7 +198,7 @@ class TestP_cif(unittest.TestCase):
     #       return
 
     def test_write_and_read(self):
-        """high-level check of P_cif.tostring()"""
+        """High-level check of P_cif.tostring()"""
         # high-level check
         stru_check = Structure()
         stru_check.read(self.cdsebulkpdffitfile)
@@ -369,7 +368,8 @@ class TestP_cif(unittest.TestCase):
         return
 
     def test_getParser(self):
-        """Test passing of eps keyword argument by getParser function."""
+        """Test passing of eps keyword argument by getParser
+        function."""
         pcif = getParser("cif", eps=1e-6)
         grph = pcif.parseFile(self.graphiteciffile)
         self.assertEqual(8, len(grph))

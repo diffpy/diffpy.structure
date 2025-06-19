@@ -12,8 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for diffpy.structure.spacegroups"""
+"""Unit tests for diffpy.structure.spacegroups."""
 
 
 import unittest

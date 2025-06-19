@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Methods and classes for manipulating `Structure` instances.
 
 Package content:

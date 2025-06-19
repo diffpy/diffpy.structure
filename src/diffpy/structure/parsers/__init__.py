@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Conversion plugins for various structure formats.
 
 The recognized structure formats are defined by subclassing `StructureParser`,

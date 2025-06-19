@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Utilities for making shapes."""
 
 

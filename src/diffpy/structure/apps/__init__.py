@@ -12,5 +12,4 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Script applications that use the `diffpy.structure` package."""

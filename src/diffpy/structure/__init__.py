@@ -12,9 +12,7 @@
 # See LICENSE.rst for license information.
 #
 ##############################################################################
-
-"""
-Crystal structure container and parsers for structure formats.
+"""Crystal structure container and parsers for structure formats.
 
 Classes related to the structure of materials:
     * Atom

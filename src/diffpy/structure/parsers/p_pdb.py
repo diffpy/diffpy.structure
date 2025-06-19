@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Basic parser for PDB structure format.
 
 Note
@@ -281,9 +280,8 @@ class P_pdb(StructureParser):
         return lines
 
     def atomLines(self, stru, idx):
-        """Build `ATOM` records and possibly `SIGATM`, `ANISOU` or `SIGUIJ` records
-        for `structure` stru `atom` number aidx.
-        """
+        """Build `ATOM` records and possibly `SIGATM`, `ANISOU` or
+        `SIGUIJ` records for `structure` stru `atom` number aidx."""
         lines = []
         a = stru[idx]
         ad = a.__dict__

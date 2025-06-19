@@ -143,7 +143,8 @@ class SymOp(object):
         return x
 
     def __call__(self, vec):
-        """Return symmetry-related position for the specified coordinates.
+        """Return symmetry-related position for the specified
+        coordinates.
 
         Parameters
         ----------
@@ -301,7 +302,8 @@ class SpaceGroup(object):
         return False
 
     def iter_equivalent_positions(self, vec):
-        """Generate symmetry equivalent positions for the specified position.
+        """Generate symmetry equivalent positions for the specified
+        position.
 
         The initial position must be in fractional coordinates and so
         are the symmetry equivalent positions yielded by iteration.
