@@ -147,7 +147,7 @@ class _Position2Tuple(object):
     Attributes
     ----------
     eps : float
-        Cutoff for equivalent coordinates. When two coordiantes map to the
+        Cutoff for equivalent coordinates. When two coordinates map to the
         same tuple, they are closer than `eps`.
     """
 

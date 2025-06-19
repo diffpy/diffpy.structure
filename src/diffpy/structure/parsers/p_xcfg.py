@@ -424,7 +424,7 @@ def getParser():
 
 
 def _assign_auxiliaries(a, fields, auxiliaries, no_velocity):
-    """Assing auxiliary properties for `Atom` object when reading CFG
+    """Assign auxiliary properties for `Atom` object when reading CFG
     format.
 
     Parameters

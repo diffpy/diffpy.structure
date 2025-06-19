@@ -7,7 +7,7 @@
 
 import numpy
 
-# 64 unique rotation matricies
+# 64 unique rotation matrices
 Rot_Z_mY_X = numpy.array([[0.0, 0.0, 1.0], [0.0, -1.0, 0.0], [1.0, 0.0, 0.0]], float)
 Rot_Y_mX_mZ = numpy.array([[0.0, 1.0, 0.0], [-1.0, 0.0, 0.0], [0.0, 0.0, -1.0]], float)
 Rot_XmY_X_mZ = numpy.array([[1.0, -1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, -1.0]], float)

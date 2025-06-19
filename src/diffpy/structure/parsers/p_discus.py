@@ -272,7 +272,7 @@ class P_discus(StructureParser):
         Raises
         ------
         StructureFormatError
-            Unkown record.
+            Unknown record.
         """
         self.ignored_lines.append(self.line)
         return

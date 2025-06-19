@@ -453,7 +453,7 @@ class Structure(list):
 
         Parameters
         ----------
-        idx : int ot str ot Iterable
+        idx : int or str or Iterable
             `Atom` identifier. When integer use standard list lookup.
             For iterables use numpy lookup, this supports integer or
             boolean flag arrays. For string or string-containing iterables
@@ -566,7 +566,7 @@ class Structure(list):
                 keep = set(super(Structure, self).__getitem__(idx))
                 v1 = (a if a in keep else Atom(a) for a in value)
             vfinal = filter(_fixlat, v1)
-        # handle scalar assingment
+        # handle scalar assignment
         else:
             vfinal = Atom(value) if copy else value
             vfinal.lattice = self.lattice
