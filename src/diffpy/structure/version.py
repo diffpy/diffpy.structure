@@ -1,18 +1,17 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# (c) 2024 The Trustees of Columbia University in the City of New York.
+# (c) 2024-2025 The Trustees of Columbia University in the City of New York.
 # All rights reserved.
 #
-# File coded by: Billinge Group members and community contributors.
+# File coded by: Chris Farrow, Pavol Juhas,  Simon Billinge, Billinge Group members.
 #
 # See GitHub contributions for a more detailed list of contributors.
-# https://github.com/diffpy/diffpy.structure/graphs/contributors
+# https://github.com/diffpy/diffpy.structure/graphs/contributors  # noqa: E501
 #
 # See LICENSE.rst for license information.
 #
 ##############################################################################
-
 """Definition of __version__."""
 
 #  We do not use the other three variables, but can be added back if needed.
