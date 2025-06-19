@@ -6,13 +6,13 @@ build-backend = "setuptools.build_meta"
 name = "diffpy.structure"
 dynamic=['version', 'dependencies']
 authors = [
-  { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
+  { name="Simon Billinge", email="sb2896@columbia.edu" },
 ]
 maintainers = [
-  { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
+  { name="Simon Billinge", email="sb2896@columbia.edu" },
 ]
 description = "Crystal structure container and parsers for structure formats."
-keywords = ['diffpy', 'crystal structure data storage CIF PDB']
+keywords = ['diffpy', 'crystal structure data storage', 'CIF', 'PDB']
 readme = "README.rst"
 requires-python = ">=3.11, <3.14"
 classifiers = [
@@ -32,12 +32,12 @@ classifiers = [
         'Topic :: Scientific/Engineering :: Chemistry',
 ]
 
+[project.scripts]
+transtru = "diffpy.structure.apps.transtru:main"
+
 [project.urls]
 Homepage = "https://github.com/diffpy/diffpy.structure/"
 Issues = "https://github.com/diffpy/diffpy.structure/issues/"
-
-[project.scripts]
-transtru = "diffpy.structure.apps.transtru:main"
 
 [tool.setuptools-git-versioning]
 enabled = true
@@ -53,6 +53,16 @@ namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements/pip.txt"]}
+
+[tool.codespell]
+exclude-file = ".codespell/ignore_lines.txt"
+ignore-words = ".codespell/ignore_words.txt"
+skip = "*.cif,*.dat"
+
+[tool.docformatter]
+recursive = true
+wrap-summaries = 72
+wrap-descriptions = 72
 
 [tool.black]
 line-length = 115
