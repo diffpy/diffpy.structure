@@ -10,6 +10,7 @@ __pycache__/
 .Python
 env/
 build/
+_build/
 develop-eggs/
 dist/
 downloads/
@@ -90,10 +91,3 @@ target/
 
 # Ipython Notebook
 .ipynb_checkpoints
-
-# version information
-setup.cfg
-/src/diffpy/*/version.cfg
-
-# Rever
-rever/

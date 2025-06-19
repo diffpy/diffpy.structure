@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
-"""Quick and extremely dirty script for generating code for SpaceGroup that
-are defined in cctbx, but not in mmLib.  It was used to generate module
-sgtbxspacegroups.
+"""Quick and extremely dirty script for generating code for SpaceGroup
+that are defined in cctbx, but not in mmLib.  It was used to generate
+module sgtbxspacegroups.
 
-This is a utility script that should not be included with code distribution.
+This is a utility script that should not be included with code
+distribution.
 
 Not to be included with code distributions.
 """
@@ -40,7 +41,8 @@ _rtarrays = {}
 
 
 def mmSpaceGroupFromSymbol(symbol):
-    """Construct SpaceGroup instance from a string symbol using sgtbx data."""
+    """Construct SpaceGroup instance from a string symbol using sgtbx
+    data."""
     sginfo = sgtbx.space_group_info(symbol)
     symop_list = []
     symop_list = getSymOpList(sginfo.group())

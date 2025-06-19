@@ -8,7 +8,7 @@
         :target: https://diffpy.github.io/diffpy.structure
         :height: 100px
 
-|PyPi| |Forge| |PythonVersion| |PR|
+|PyPI| |Forge| |PythonVersion| |PR|
 
 |CI| |Codecov| |Black| |Tracking|
 
@@ -26,7 +26,7 @@
 
 .. |PR| image:: https://img.shields.io/badge/PR-Welcome-29ab47ff
 
-.. |PyPi| image:: https://img.shields.io/pypi/v/diffpy.structure
+.. |PyPI| image:: https://img.shields.io/pypi/v/diffpy.structure
         :target: https://pypi.org/project/diffpy.structure/
 
 .. |PythonVersion| image:: https://img.shields.io/pypi/pyversions/diffpy.structure
@@ -132,7 +132,7 @@ trying to commit again.
 
 Improvements and fixes are always appreciated.
 
-Before contribuing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.structure/blob/main/CODE-OF-CONDUCT.rst>`_.
+Before contributing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.structure/blob/main/CODE-OF-CONDUCT.rst>`_.
 
 Acknowledgement
 ---------------
@@ -142,6 +142,8 @@ originate from the `pymmlib project <http://pymmlib.sourceforge.net>`_.
 
 Less common settings of space groups were generating using the
 `Computational Crystallography Toolbox <http://cctbx.sourceforge.net>`_.
+
+``diffpy.structure`` is built and maintained with `scikit-package <https://scikit-package.github.io/scikit-package/>`_.
 
 Contact
 -------

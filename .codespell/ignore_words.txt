@@ -4,8 +4,21 @@
 ;; abbreviation for "materials" often used in a journal title
 mater
 
-;; alternative use of socioeconomic
-socio-economic
-
 ;; Frobenius norm used in np.linalg.norm
 fro
+
+;; "discus" is the name of a software package
+discus
+DISCUS
+
+;; chemical elements
+Te
+Nd
+
+;; /src/diffpy/structure/parsers/p_pdb.py:100
+;; pdb identifier
+CONECT
+
+;; /src/diffpy/structure/parsers/p_xcfg.py:452
+;; used in a function
+BU

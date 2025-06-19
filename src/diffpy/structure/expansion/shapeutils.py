@@ -32,7 +32,7 @@ def findCenter(S):
     """
     best = -1
     bestd = len(S)
-    center = [0.5, 0.5, 0.5]  # the cannonical center
+    center = [0.5, 0.5, 0.5]  # the canonical center
 
     for i in range(len(S)):
         d = S.lattice.dist(S[i].xyz, center)

@@ -148,7 +148,7 @@ class P_auto(StructureParser):
     def _wrapParseMethod(self, method, *args, **kwargs):
         """A helper evaluator method that try the specified parse method
         with each registered structure parser and return the first
-        successful resul.
+        successful result.
 
         Structure parsers that match structure file extension are
         tried first.
