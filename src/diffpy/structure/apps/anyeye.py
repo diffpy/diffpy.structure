@@ -12,9 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Anyeye view structure file in atomeye.
+"""Anyeye view structure file in atomeye.
 
 Usage: ``anyeye [options] strufile``
 
@@ -65,7 +63,8 @@ pd = {
 
 
 def usage(style=None):
-    """Show usage info, for ``style=="brief"`` show only first 2 lines."""
+    """Show usage info, for ``style=="brief"`` show only first 2
+    lines."""
     import os.path
 
     myname = os.path.basename(sys.argv[0])
@@ -175,7 +174,7 @@ def cleanUp(pd):
 
 
 def parseFormula(formula):
-    """Parse chemical formula and return a list of elements"""
+    """Parse chemical formula and return a list of elements."""
     # remove all blanks
     formula = re.sub(r"\s", "", formula)
     if not re.match("^[A-Z]", formula):

@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Space group classes and definitions from mmLib and sgtbx.
 
 Attributes
@@ -693,7 +692,8 @@ def GetSpaceGroup(sgid):
 
 
 def IsSpaceGroupIdentifier(sgid):
-    """Check if identifier can be used as an argument to `GetSpaceGroup`.
+    """Check if identifier can be used as an argument to
+    `GetSpaceGroup`.
 
     Returns
     -------
@@ -768,6 +768,7 @@ def _hashSymOpList(symops):
 
 def _buildSGLookupTable():
     """Rebuild space group lookup table from the `SpaceGroupList` data.
+
     This routine updates the global `_sg_lookup_table` dictionary.
     """
     _sg_lookup_table.clear()
@@ -809,7 +810,8 @@ _sg_lookup_table = {}
 
 
 def _getSGHashLookupTable():
-    """Return lookup table of symop hashes to standard `SpaceGroup` objects."""
+    """Return lookup table of symop hashes to standard `SpaceGroup`
+    objects."""
     if _sg_hash_lookup_table:
         return _sg_hash_lookup_table
     for sg in SpaceGroupList:

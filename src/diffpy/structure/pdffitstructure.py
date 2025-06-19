@@ -12,8 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Definition of PDFFitStructure class derived from Structure"""
+"""Definition of PDFFitStructure class derived from Structure."""
 
 
 from diffpy.structure.structure import Structure

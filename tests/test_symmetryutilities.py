@@ -12,8 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for SymmetryUtilities.py"""
+"""Unit tests for SymmetryUtilities.py."""
 
 import re
 import sys
@@ -45,7 +44,7 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_isSpaceGroupLatPar(self):
-        """check isSpaceGroupLatPar()"""
+        """Check isSpaceGroupLatPar()"""
         triclinic = GetSpaceGroup("P1")
         monoclinic = GetSpaceGroup("P2")
         orthorhombic = GetSpaceGroup("P222")
@@ -69,13 +68,13 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_sgtbx_spacegroup_aliases(self):
-        """check GetSpaceGroup for non-standard aliases from sgtbx."""
+        """Check GetSpaceGroup for non-standard aliases from sgtbx."""
         self.assertIs(GetSpaceGroup("Fm3m"), GetSpaceGroup(225))
         self.assertIs(GetSpaceGroup("Ia3d"), GetSpaceGroup("I a -3 d"))
         return
 
     def test_expandPosition(self):
-        """check expandPosition()"""
+        """Check expandPosition()"""
         # ok again Ni example
         fcc = GetSpaceGroup(225)
         pos, pops, pmult = expandPosition(fcc, [0, 0, 0])
@@ -86,14 +85,14 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_pruneFormulaDictionary(self):
-        """check pruneFormulaDictionary()"""
+        """Check pruneFormulaDictionary()"""
         fmdict = {"x": "3*y-0.17", "y": "0", "z": "0.13"}
         pruned = pruneFormulaDictionary(fmdict)
         self.assertEqual({"x": "3*y-0.17"}, pruned)
         return
 
     def test_isconstantFormula(self):
-        """check isconstantFormula()"""
+        """Check isconstantFormula()"""
         self.assertFalse(isconstantFormula("x-y+z"))
         self.assertTrue(isconstantFormula("6.023e23"))
         self.assertTrue(isconstantFormula("22/7"))
@@ -119,14 +118,14 @@ class Test_Position2Tuple(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check _Position2Tuple.__init__()"""
+        """Check _Position2Tuple.__init__()"""
         self.assertNotEqual(0.0, self.pos2tuple.eps)
         self.pos2tuple = _Position2Tuple(1.0 / sys.maxsize / 2)
         self.assertEqual(0.0, self.pos2tuple.eps)
         return
 
     def test___call__(self):
-        """check _Position2Tuple.__call__()"""
+        """Check _Position2Tuple.__call__()"""
         pos2tuple = self.pos2tuple
         positions = numpy.zeros((100, 3), dtype=float)
         positions[:, 0] = numpy.arange(100) / 100.0 * pos2tuple.eps + 0.1
@@ -202,7 +201,7 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check GeneratorSite.__init__()"""
+        """Check GeneratorSite.__init__()"""
         # check multiplicities
         self.assertEqual(2, self.g117c.multiplicity)
         self.assertEqual(4, self.g117h.multiplicity)
@@ -230,7 +229,7 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
     def test_positionFormula(self):
-        """check GeneratorSite.positionFormula()"""
+        """Check GeneratorSite.positionFormula()"""
         # 117c
         self.assertEqual([], self.g117c.pparameters)
         self.assertEqual([("x", self.x)], self.g117h.pparameters)
@@ -265,7 +264,7 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
     def test_UFormula(self):
-        """check GeneratorSite.UFormula()"""
+        """Check GeneratorSite.UFormula()"""
         # Ref: Willis and Pryor, Thermal Vibrations in Crystallography,
         # Cambridge University Press 1975, p. 104-110
         smbl = ("A", "B", "C", "D", "E", "F")
@@ -315,7 +314,8 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
     def test_UFormula_g186c_eqxyz(self):
-        """Check rotated U formulas at the symmetry positions of c-site in 186."""
+        """Check rotated U formulas at the symmetry positions of c-site
+        in 186."""
         sg186 = GetSpaceGroup(186)
         crules = [
             {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "E", "U23": "-E"},
@@ -354,7 +354,7 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
     def test__findUParameters(self):
-        """check GeneratorSite._findUParameters()"""
+        """Check GeneratorSite._findUParameters()"""
         # by default all Uparameters equal zero, this would fail for NaNs
         for gen in TestGeneratorSite.generators.values():
             for usym, uval in gen.Uparameters:
@@ -371,7 +371,7 @@ class TestGeneratorSite(unittest.TestCase):
         return
 
     def test_eqIndex(self):
-        """check GeneratorSite.eqIndex()"""
+        """Check GeneratorSite.eqIndex()"""
         self.assertEqual(13, self.g227oc.eqIndex(self.g227oc.eqxyz[13]))
         return
 
@@ -390,7 +390,7 @@ class TestSymmetryConstraints(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check SymmetryConstraints.__init__()"""
+        """Check SymmetryConstraints.__init__()"""
         sg225 = GetSpaceGroup(225)
         # initialize from nested lists and arrays from ExpandAsymmetricUnit
         eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
@@ -430,7 +430,7 @@ class TestSymmetryConstraints(unittest.TestCase):
         return
 
     def test_Uisotropy(self):
-        """check isotropy value for ADP-s at specified sites."""
+        """Check isotropy value for ADP-s at specified sites."""
         sg225 = GetSpaceGroup(225)
         corepos = [[0, 0, 0], [0.1, 0.13, 0.17]]
         eau = ExpandAsymmetricUnit(sg225, corepos)
@@ -465,7 +465,7 @@ class TestSymmetryConstraints(unittest.TestCase):
     #       return
     #
     def test_UparSymbols(self):
-        """check SymmetryConstraints.UparSymbols()"""
+        """Check SymmetryConstraints.UparSymbols()"""
         sg1 = GetSpaceGroup(1)
         sg225 = GetSpaceGroup(225)
         pos = [[0, 0, 0]]
@@ -477,7 +477,7 @@ class TestSymmetryConstraints(unittest.TestCase):
         return
 
     def test_UparValues(self):
-        """check SymmetryConstraints.UparValues()"""
+        """Check SymmetryConstraints.UparValues()"""
         places = 12
         sg1 = GetSpaceGroup(1)
         sg225 = GetSpaceGroup(225)

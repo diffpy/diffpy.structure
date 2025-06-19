@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Unit tests for Structure class."""
 
 
@@ -29,7 +28,7 @@ from diffpy.structure import Atom, Lattice, Structure
 
 
 class TestStructure(unittest.TestCase):
-    """test methods of Structure class"""
+    """Test methods of Structure class."""
 
     @pytest.fixture(autouse=True)
     def prepare_fixture(self, datafile):
@@ -56,7 +55,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check Structure.__init__()"""
+        """Check Structure.__init__()"""
         atoms = [Atom("C", [0, 0, 0]), Atom("C", [0.5, 0.5, 0.5])]
         self.assertRaises(ValueError, Structure, atoms, filename=self.teifile)
         self.assertRaises(ValueError, Structure, lattice=Lattice(), filename=self.teifile)
@@ -72,7 +71,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_copy(self):
-        """check Structure.copy()"""
+        """Check Structure.copy()"""
 
         class MyDerivedStructure(Structure):
             def __copy__(self):
@@ -96,7 +95,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___copy__(self):
-        """check Structure.__copy__()"""
+        """Check Structure.__copy__()"""
         cdse = Structure(filename=self.cdsefile)
         cdse_str = cdse.writeStr("pdffit")
         cdse2 = copy.copy(cdse)
@@ -119,7 +118,7 @@ class TestStructure(unittest.TestCase):
     #     return
 
     def test_assignUniqueLabels(self):
-        """check Structure.assignUniqueLabels()"""
+        """Check Structure.assignUniqueLabels()"""
         self.assertEqual("", "".join([a.label for a in self.stru]))
         self.stru.assignUniqueLabels()
         self.assertEqual("C1", self.stru[0].label)
@@ -127,7 +126,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_distance(self):
-        """check Structure.distance()"""
+        """Check Structure.distance()"""
         from math import sqrt
 
         self.stru.assignUniqueLabels()
@@ -139,7 +138,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_angle(self):
-        """check Structure.angle()"""
+        """Check Structure.angle()"""
         cdse = Structure(filename=self.cdsefile)
         cdse.assignUniqueLabels()
         self.assertEqual(109, round(cdse.angle(0, 2, 1)))
@@ -147,7 +146,8 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_placeInLattice(self):
-        """check Structure.placeInLattice() -- conversion of coordinates"""
+        """Check Structure.placeInLattice() -- conversion of
+        coordinates."""
         stru = self.stru
         new_lattice = Lattice(0.5, 0.5, 0.5, 90, 90, 60)
         stru.placeInLattice(new_lattice)
@@ -173,14 +173,14 @@ class TestStructure(unittest.TestCase):
     #     return
 
     def test_aslist(self):
-        """check Structure.tolist()"""
+        """Check Structure.tolist()"""
         lst = self.stru.tolist()
         self.assertEqual(tuple(lst), tuple(self.stru))
         self.assertEqual(list, type(lst))
         return
 
     def test_append(self):
-        """check Structure.append()"""
+        """Check Structure.append()"""
         a = Atom("Si", (0.1, 0.2, 0.3))
         lat = self.stru.lattice
         self.stru.append(a)
@@ -194,7 +194,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_insert(self):
-        """check Structure.insert()"""
+        """Check Structure.insert()"""
         a = Atom("Si", (0.1, 0.2, 0.3))
         lat = self.stru.lattice
         self.stru.insert(1, a)
@@ -208,7 +208,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_extend(self):
-        """check Structure.extend()"""
+        """Check Structure.extend()"""
         stru = self.stru
         cdse = Structure(filename=self.cdsefile)
         lst = stru.tolist()
@@ -220,7 +220,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___getitem__(self):
-        """check Structure.__getitem__()"""
+        """Check Structure.__getitem__()"""
         stru = self.stru
         self.assertTrue(stru[0] is stru.tolist()[0])
         intidx = list(range(len(stru)))[::-1]
@@ -247,14 +247,14 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___getitem__slice(self):
-        """check Structure.__getitem__() with a slice argument"""
+        """Check Structure.__getitem__() with a slice argument."""
         stru = self.stru
         self.assertEqual([stru[0]], stru[:1].tolist())
         self.assertEqual([stru[1], stru[0]], stru[::-1].tolist())
         return
 
     def test___setitem__(self):
-        """check Structure.__setitem__()"""
+        """Check Structure.__setitem__()"""
         a = Atom("Si", (0.1, 0.2, 0.3))
         lat = self.stru.lattice
         self.stru[1] = a
@@ -268,7 +268,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___setitem__slice(self):
-        """check Structure.__setitem__() with a slice argument"""
+        """Check Structure.__setitem__() with a slice argument."""
         a = Atom("Si", (0.1, 0.2, 0.3))
         lat = self.stru.lattice
         self.stru[:] = [a]
@@ -282,7 +282,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___add__(self):
-        """check Structure.__add__()"""
+        """Check Structure.__add__()"""
         stru = self.stru
         cdse = Structure(filename=self.cdsefile)
         total = stru + cdse
@@ -298,7 +298,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___iadd__(self):
-        """check Structure.__iadd__()"""
+        """Check Structure.__iadd__()"""
         stru = self.stru
         lat0 = stru.lattice
         lst = stru.tolist()
@@ -315,7 +315,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___sub__(self):
-        """check Structure.__sub__()"""
+        """Check Structure.__sub__()"""
         cdse = Structure(filename=self.cdsefile)
         cadmiums = cdse - cdse[2:]
         self.assertEqual(2, len(cadmiums))
@@ -328,7 +328,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___isub__(self):
-        """check Structure.__isub__()"""
+        """Check Structure.__isub__()"""
         cdse = Structure(filename=self.cdsefile)
         lat = cdse.lattice
         lst = cdse.tolist()
@@ -342,7 +342,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___mul__(self):
-        """check Structure.__mul__()"""
+        """Check Structure.__mul__()"""
         cdse = Structure(filename=self.cdsefile)
         self.assertEqual(12, len(set(3 * cdse)))
         self.assertEqual(12, len(set(cdse * 3)))
@@ -355,7 +355,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test___imul__(self):
-        """check Structure.__imul__()"""
+        """Check Structure.__imul__()"""
         cdse = Structure(filename=self.cdsefile)
         lat = cdse.lattice
         els = cdse.element
@@ -373,7 +373,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test__get_lattice(self):
-        """check Structure._get_lattice()"""
+        """Check Structure._get_lattice()"""
         lat = Lattice()
         stru = Structure()
         self.assertEqual((1, 1, 1, 90, 90, 90), stru.lattice.abcABG())
@@ -382,14 +382,14 @@ class TestStructure(unittest.TestCase):
         return
 
     def test__set_lattice(self):
-        """check Structure._set_lattice()"""
+        """Check Structure._set_lattice()"""
         lat = Lattice()
         self.stru.lattice = lat
         self.assertEqual(2 * [lat], [a.lattice for a in self.stru])
         return
 
     def test_composition(self):
-        """check Structure.composition property"""
+        """Check Structure.composition property."""
         stru = self.stru
         self.assertEqual({"C": 2}, stru.composition)
         stru *= 2
@@ -399,7 +399,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_element(self):
-        """check Structure.element"""
+        """Check Structure.element."""
         stru = self.stru
         cdse = self.cdse
         self.assertEqual("Cd Cd Se Se".split(), cdse.element.tolist())
@@ -409,7 +409,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_xyz(self):
-        """check Structure.xyz"""
+        """Check Structure.xyz."""
         stru = self.stru
         self.assertEqual((2, 3), stru.xyz.shape)
         self.assertTrue(numpy.array_equal([1, 1, 1], stru.xyz[1]))
@@ -427,7 +427,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_x(self):
-        """check Structure.x"""
+        """Check Structure.x."""
         cdse = self.cdse
         self.assertEqual((4,), cdse.x.shape)
         self.assertAlmostEqual(0.6666, cdse.x[3], 5)
@@ -438,7 +438,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_y(self):
-        """check Structure.y"""
+        """Check Structure.y."""
         cdse = self.cdse
         self.assertEqual((4,), cdse.y.shape)
         self.assertAlmostEqual(0.3333, cdse.y[3], 5)
@@ -449,7 +449,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_z(self):
-        """check Structure.z"""
+        """Check Structure.z."""
         cdse = self.cdse
         self.assertEqual((4,), cdse.z.shape)
         self.assertAlmostEqual(0.87667, cdse.z[3], 5)
@@ -460,7 +460,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_label(self):
-        """check Structure.label"""
+        """Check Structure.label."""
         cdse = Structure(filename=self.cdsefile)
         self.assertEqual(4 * [""], cdse.label.tolist())
         cdse.assignUniqueLabels()
@@ -470,7 +470,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_occupancy(self):
-        """check Structure.occupancy"""
+        """Check Structure.occupancy."""
         cdse = self.cdse
         self.assertTrue(numpy.array_equal(numpy.ones(4), cdse.occupancy))
         self.stru.occupancy *= 0.5
@@ -480,7 +480,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_xyz_cartn(self):
-        """check Structure.xyz_cartn"""
+        """Check Structure.xyz_cartn."""
         pbte = copy.copy(self.pbte)
         self.assertEqual((8, 3), pbte.xyz_cartn.shape)
         self.assertTrue(numpy.allclose(6.461 / 2.0 * numpy.ones(3), pbte.xyz_cartn[0]))
@@ -490,7 +490,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_anisotropy(self):
-        """check Structure.anisotropy"""
+        """Check Structure.anisotropy."""
         self.assertEqual((2,), self.stru.anisotropy.shape)
         self.assertFalse(numpy.any(self.stru.anisotropy))
         tei = copy.copy(self.tei)
@@ -507,7 +507,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_U(self):
-        """check Structure.U"""
+        """Check Structure.U."""
         stru = self.stru
         self.assertEqual((2, 3, 3), stru.U.shape)
         self.assertFalse(numpy.any(stru.anisotropy))
@@ -529,7 +529,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_Uisoequiv(self):
-        """check Structure.Uisoequiv"""
+        """Check Structure.Uisoequiv."""
         tei = copy.copy(self.tei)
         self.assertEqual((16,), tei.Uisoequiv.shape)
         self.assertAlmostEqual(0.019227, tei.Uisoequiv[0], 6)
@@ -542,7 +542,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_Uij(self):
-        """check Structure.Uij"""
+        """Check Structure.Uij."""
         stru = self.stru
         stru[1].anisotropy = True
         stru[1].U = [[1.1, 0.12, 0.13], [0.12, 2.2, 0.23], [0.13, 0.23, 3.3]]
@@ -557,7 +557,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_Bisoequiv(self):
-        """check Structure.Bisoequiv"""
+        """Check Structure.Bisoequiv."""
         utob = 8 * numpy.pi**2
         tei = copy.copy(self.tei)
         self.assertEqual((16,), tei.Bisoequiv.shape)
@@ -571,7 +571,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_Bij(self):
-        """check Structure.Bij"""
+        """Check Structure.Bij."""
         stru = self.stru
         stru[1].anisotropy = True
         stru[1].U = [[1.1, 0.12, 0.13], [0.12, 2.2, 0.23], [0.13, 0.23, 3.3]]

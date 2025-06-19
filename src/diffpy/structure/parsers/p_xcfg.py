@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Parser for extended CFG format used by atomeye.
 
 Attributes
@@ -287,7 +286,8 @@ class P_xcfg(StructureParser):
         return stru
 
     def toLines(self, stru):
-        """Convert Structure stru to a list of lines in XCFG atomeye format.
+        """Convert Structure stru to a list of lines in XCFG atomeye
+        format.
 
         Parameters
         ----------
@@ -424,7 +424,8 @@ def getParser():
 
 
 def _assign_auxiliaries(a, fields, auxiliaries, no_velocity):
-    """Assing auxiliary properties for `Atom` object when reading CFG format.
+    """Assing auxiliary properties for `Atom` object when reading CFG
+    format.
 
     Parameters
     ----------

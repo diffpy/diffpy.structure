@@ -12,10 +12,8 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Provide class Atom for managing properties of an atom in structure model.
-"""
+"""Provide class Atom for managing properties of an atom in structure
+model."""
 
 import numpy
 
@@ -176,7 +174,8 @@ class Atom(object):
         return msd
 
     def msdCart(self, vc):
-        """Calculate mean square displacement along the Cartesian vector.
+        """Calculate mean square displacement along the Cartesian
+        vector.
 
         Parameters
         ----------
@@ -252,7 +251,8 @@ class Atom(object):
 
     @property
     def xyz_cartn(self):
-        """numpy.ndarray: Atom position in absolute Cartesian coordinates.
+        """numpy.ndarray: Atom position in absolute Cartesian
+        coordinates.
 
         This is computed from fractional coordinates `xyz` and the
         current `lattice` setup. Assignment to *xyz_cartn* or
@@ -301,7 +301,8 @@ class Atom(object):
 
     @property
     def U(self):
-        """numpy.ndarray : The 3x3 matrix of anisotropic atomic displacements.
+        """numpy.ndarray : The 3x3 matrix of anisotropic atomic
+        displacements.
 
         For isotropic displacements (when `anisotropy` is ``False``)
         assignment to *U* uses only the first ``Unew[0, 0]`` element
@@ -537,7 +538,8 @@ class _AtomCartesianCoordinates(numpy.ndarray):
         return
 
     def __array_wrap__(self, out_arr, context=None, return_scalar=None):
-        """Ensure math operations on this type yield standard numpy array."""
+        """Ensure math operations on this type yield standard numpy
+        array."""
         return out_arr.view(numpy.ndarray)
 
 

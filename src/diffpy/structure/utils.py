@@ -12,7 +12,6 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
 """Small shared functions."""
 
 from collections.abc import Iterable as _Iterable
@@ -37,7 +36,8 @@ def isfloat(s):
 
 
 def atomBareSymbol(smbl):
-    """Remove atom type string stripped of isotope and ion charge symbols.
+    """Remove atom type string stripped of isotope and ion charge
+    symbols.
 
     This function removes any blank, isotope numbers (0-9), leading hyphens (-), and ion charge
     symbols (1-9)(+-) from the given atom type string, returning only the bare element symbol.

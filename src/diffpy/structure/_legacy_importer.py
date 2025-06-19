@@ -12,9 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Support import of old camel-case module names with DeprecationWarning.
+"""Support import of old camel-case module names with
+DeprecationWarning.
 
 The imported camel-case modules are aliases for the current module
 instances. Their `__name__` attributes are thus all in lower-case.
@@ -61,6 +60,7 @@ class FindRenamedStructureModule(importlib.abc.MetaPathFinder):
 
 class MapRenamedStructureModule(importlib.abc.Loader):
     """Loader for old camel-case module names.
+
     Import the current module and alias it under the old name.
     """
 

@@ -12,8 +12,7 @@
 # See LICENSE_DANSE.txt for license information.
 #
 ##############################################################################
-
-"""Parser for DISCUS structure format"""
+"""Parser for DISCUS structure format."""
 
 import sys
 from functools import reduce
@@ -24,8 +23,8 @@ from diffpy.structure.structureerrors import StructureFormatError
 
 
 class P_discus(StructureParser):
-    """Parser for DISCUS structure format. The parser chokes
-    on molecule and generator records.
+    """Parser for DISCUS structure format. The parser chokes on molecule
+    and generator records.
 
     Attributes
     ----------
