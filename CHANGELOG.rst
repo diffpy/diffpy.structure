@@ -1,5 +1,5 @@
 =============
-Release Notes
+Release notes
 =============
 
 .. current developments
@@ -28,7 +28,7 @@ Release Notes
 **Fixed:**
 
 * Add getting started section and re-arrange install success check instructions
-* Added termial script for transtru app in pyproject.toml
+* Added terminal script for transtru app in pyproject.toml
 * Changed requires-python to align with classifiers
 
 
