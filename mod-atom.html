@@ -6,16 +6,19 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.atom &mdash; diffpy.structure 3.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.structure.atom &mdash; diffpy.structure 3.3.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=c66389de"></script>
+      <script src="_static/documentation_options.js?v=f28ebe10"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=cca77546"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -42,7 +45,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/diffpy.structure.html">Package API</a></li>
 </ul>
 
@@ -62,7 +65,7 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">diffpy.structure.atom</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/mod_atom.rst.txt" rel="nofollow"> View page source</a>
+              <a href="https://github.com/diffpy/diffpy.structure/blob/main/doc/source/mod-atom.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -72,10 +75,11 @@
              
   <section id="module-diffpy.structure.atom">
 <span id="diffpy-structure-atom"></span><h1>diffpy.structure.atom<a class="headerlink" href="#module-diffpy.structure.atom" title="Link to this heading"></a></h1>
-<p>Provide class Atom for managing properties of an atom in structure model.</p>
+<p>Provide class Atom for managing properties of an atom in structure
+model.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.atom.</span></span><span class="sig-name descname"><span class="pre">Atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anisotropy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Uisoequiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.atom.</span></span><span class="sig-name descname"><span class="pre">Atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anisotropy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Uisoequiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Storage of structure information relevant for a single atom.</p>
 <p>This class manages atom information such as element symbol, position
@@ -102,7 +106,7 @@ When present <cite>anisotropy</cite> defaults to <code class="docutils literal n
 defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code> when present. Only one of the <em>U</em> and
 <em>Uisoequiv</em> arguments may be provided at the same time. Assume
 zero atomic displacements when <em>U</em> and <em>Uisoequiv</em> are unset.</p></li>
-<li><p><strong>lattice</strong> (<a class="reference internal" href="mod_lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice"><em>Lattice</em></a><em>, </em><em>Optional</em>) – Coordinate system for the fractional coordinates <cite>xyz</cite>.
+<li><p><strong>lattice</strong> (<a class="reference internal" href="mod-lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice"><em>Lattice</em></a><em>, </em><em>Optional</em>) – Coordinate system for the fractional coordinates <cite>xyz</cite>.
 Use the absolute Cartesian system when <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 </ul>
 </dd>
@@ -161,7 +165,7 @@ the tensor of atomic displacement parameters <cite>U</cite>.
 Use the absolute Cartesian coordinates when <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="mod_lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="mod-lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -172,7 +176,7 @@ Use the absolute Cartesian coordinates when <code class="docutils literal notran
 </div>
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B11">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B11</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B11" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B11</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B11" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B11</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U11</span></code>. When <cite>anisotropy</cite>
 is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire tensor <cite>U</cite>.</p>
@@ -185,7 +189,7 @@ is <code class="docutils literal notranslate"><span class="pre">False</span></co
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B12">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B12</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B12" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B12</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B12" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B12</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U12</span></code>. Setting a new
 value updates <cite>U</cite> in a symmetric way. Assignment has no effect
@@ -199,7 +203,7 @@ when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B13">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B13</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B13" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B13</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B13" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B13</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U13</span></code>. Setting a new
 value updates <cite>U</cite> in a symmetric way. Assignment has no effect
@@ -213,7 +217,7 @@ when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B22">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B22</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B22" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B22</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B22" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B22</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U22</span></code>. When <cite>anisotropy</cite>
 is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire tensor <cite>U</cite>.</p>
@@ -226,7 +230,7 @@ is <code class="docutils literal notranslate"><span class="pre">False</span></co
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B23">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B23</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B23" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B23</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B23" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B23</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U23</span></code>. Setting a new
 value updates <cite>U</cite> in a symmetric way. Assignment has no effect
@@ -240,7 +244,7 @@ when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B33">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B33</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B33" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B33</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B33" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B33</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U33</span></code>. When <cite>anisotropy</cite>
 is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire tensor <cite>U</cite>.</p>
@@ -253,7 +257,7 @@ is <code class="docutils literal notranslate"><span class="pre">False</span></co
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.Bisoequiv">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Bisoequiv</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.Bisoequiv" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Bisoequiv</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.Bisoequiv" title="Link to this definition"></a></dt>
 <dd><p>The Debye-Waller isotropic displacement or an equivalent value.</p>
 <p>This equals <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">Uisoequiv</span></code>. Setting a new value
 rescales <cite>U</cite> tensor to yield equivalent direction-average of
@@ -267,8 +271,9 @@ Debye-Waller displacements.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U" title="Link to this definition"></a></dt>
-<dd><p>The 3x3 matrix of anisotropic atomic displacements.</p>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U" title="Link to this definition"></a></dt>
+<dd><p>The 3x3 matrix of anisotropic atomic
+displacements.</p>
 <p>For isotropic displacements (when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>)
 assignment to <em>U</em> uses only the first <code class="docutils literal notranslate"><span class="pre">Unew[0,</span> <span class="pre">0]</span></code> element
 and the remaining components of <em>U</em> are adjusted to obtain
@@ -289,7 +294,7 @@ undefined behavior. Use the <cite>U11</cite>, <cite>U22</cite>, …, or <cite>B1
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U11">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U11</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U11" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U11</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U11" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[0,</span> <span class="pre">0]</span></code> component of the displacement tensor <cite>U</cite>.</p>
 <p>When <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire
 tensor <em>U</em>.</p>
@@ -302,7 +307,7 @@ tensor <em>U</em>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U12">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U12</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U12" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U12</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U12" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[0,</span> <span class="pre">1]</span></code> element of the displacement tensor <cite>U</cite>.</p>
 <p>Sets <code class="docutils literal notranslate"><span class="pre">U[1,</span> <span class="pre">0]</span></code> together with <code class="docutils literal notranslate"><span class="pre">U[0,</span> <span class="pre">1]</span></code>. Assignment
 has no effect when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
@@ -315,7 +320,7 @@ has no effect when <cite>anisotropy</cite> is <code class="docutils literal notr
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U13">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U13</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U13" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U13</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U13" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[0,</span> <span class="pre">2]</span></code> element of the displacement tensor <cite>U</cite>.</p>
 <p>Sets <code class="docutils literal notranslate"><span class="pre">U[2,</span> <span class="pre">0]</span></code> together with <code class="docutils literal notranslate"><span class="pre">U[0,</span> <span class="pre">2]</span></code>. Assignment
 has no effect when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
@@ -328,7 +333,7 @@ has no effect when <cite>anisotropy</cite> is <code class="docutils literal notr
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U22">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U22</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U22" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U22</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U22" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[1,</span> <span class="pre">1]</span></code> component of the displacement tensor <cite>U</cite>.</p>
 <p>When <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire
 tensor <em>U</em>.</p>
@@ -341,7 +346,7 @@ tensor <em>U</em>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U23">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U23</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U23" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U23</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U23" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[1,</span> <span class="pre">2]</span></code> element of the displacement tensor <cite>U</cite>.</p>
 <p>Sets <code class="docutils literal notranslate"><span class="pre">U[2,</span> <span class="pre">1]</span></code> together with <code class="docutils literal notranslate"><span class="pre">U[1,</span> <span class="pre">2]</span></code>. Assignment
 has no effect when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
@@ -354,7 +359,7 @@ has no effect when <cite>anisotropy</cite> is <code class="docutils literal notr
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U33">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U33</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U33" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U33</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U33" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[2,</span> <span class="pre">2]</span></code> component of the displacement tensor <cite>U</cite>.</p>
 <p>When <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire
 tensor <em>U</em>.</p>
@@ -367,7 +372,7 @@ tensor <em>U</em>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.Uisoequiv">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Uisoequiv</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.Uisoequiv" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Uisoequiv</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.Uisoequiv" title="Link to this definition"></a></dt>
 <dd><p>The isotropic displacement parameter or an equivalent value.</p>
 <p>Setting a new value rescales tensor <cite>U</cite> so it yields equivalent
 direction-averaged displacements.</p>
@@ -380,7 +385,7 @@ direction-averaged displacements.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.anisotropy">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">anisotropy</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.anisotropy" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">anisotropy</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.anisotropy" title="Link to this definition"></a></dt>
 <dd><p>Flag for allowing anisotropic displacement parameters.</p>
 <p>When <code class="docutils literal notranslate"><span class="pre">False</span></code> the tensor of thermal displacement parameters <cite>U</cite>
 must be isotropic and only its diagonal elements are taken into
@@ -428,7 +433,8 @@ account.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msdCart">
 <span class="sig-name descname"><span class="pre">msdCart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom.msdCart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom.msdCart" title="Link to this definition"></a></dt>
-<dd><p>Calculate mean square displacement along the Cartesian vector.</p>
+<dd><p>Calculate mean square displacement along the Cartesian
+vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vc</strong> (<em>array_like</em>) – Vector in Cartesian coordinates.</p>
@@ -472,7 +478,7 @@ account.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.x">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.x" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.x" title="Link to this definition"></a></dt>
 <dd><p>fractional coordinate <em>x</em>, same as <code class="docutils literal notranslate"><span class="pre">xyz[0]</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -483,8 +489,9 @@ account.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.xyz_cartn">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xyz_cartn</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.xyz_cartn" title="Link to this definition"></a></dt>
-<dd><p>Atom position in absolute Cartesian coordinates.</p>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xyz_cartn</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.xyz_cartn" title="Link to this definition"></a></dt>
+<dd><p>Atom position in absolute Cartesian
+coordinates.</p>
 <p>This is computed from fractional coordinates <cite>xyz</cite> and the
 current <cite>lattice</cite> setup. Assignment to <em>xyz_cartn</em> or
 its components is applied on fractional coordinates <cite>xyz</cite>.</p>
@@ -497,7 +504,7 @@ its components is applied on fractional coordinates <cite>xyz</cite>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.y">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.y" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.y" title="Link to this definition"></a></dt>
 <dd><p>fractional coordinate <em>y</em>, same as <code class="docutils literal notranslate"><span class="pre">xyz[1]</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -508,7 +515,7 @@ its components is applied on fractional coordinates <cite>xyz</cite>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.z">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.z" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.z" title="Link to this definition"></a></dt>
 <dd><p>fractional coordinate <em>z</em>, same as <code class="docutils literal notranslate"><span class="pre">xyz[2]</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -529,7 +536,7 @@ its components is applied on fractional coordinates <cite>xyz</cite>.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

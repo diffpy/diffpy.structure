@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.lattice &mdash; diffpy.structure 3.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.structure.lattice &mdash; diffpy.structure 3.3.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=c66389de"></script>
+      <script src="../../../_static/documentation_options.js?v=f28ebe10"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -41,7 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.structure.html">Package API</a></li>
 </ul>
 
@@ -85,9 +88,8 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-
-<span class="sd">&quot;&quot;&quot;Class Lattice stores properties and provides simple operations in lattice</span>
-<span class="sd">coordinate system.</span>
+<span class="sd">&quot;&quot;&quot;Class Lattice stores properties and provides simple operations in</span>
+<span class="sd">lattice coordinate system.</span>
 
 <span class="sd">Attributes</span>
 <span class="sd">----------</span>
@@ -95,12 +97,12 @@
 <span class="sd">    Constant instance of Lattice, default Cartesian system.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">numpy.linalg</span> <span class="k">as</span> <span class="nn">numalg</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy.linalg</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">numalg</span>
 
-<span class="kn">from</span> <span class="nn">diffpy.structure.structureerrors</span> <span class="kn">import</span> <span class="n">LatticeError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.structureerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">LatticeError</span>
 
 <span class="c1"># Helper Functions -----------------------------------------------------------</span>
 
@@ -109,8 +111,8 @@
 
 
 <div class="viewcode-block" id="cosd">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.cosd">[docs]</a>
-<span class="k">def</span> <span class="nf">cosd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.cosd">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cosd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the cosine of *x* (measured in degrees).</span>
 
 <span class="sd">    Avoid round-off errors for exact cosine values.</span>
@@ -133,8 +135,8 @@
 
 
 <div class="viewcode-block" id="sind">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.sind">[docs]</a>
-<span class="k">def</span> <span class="nf">sind</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.sind">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sind</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the sine of *x* (measured in degrees).</span>
 
 <span class="sd">    Avoid round-off errors for exact sine values.</span>
@@ -157,8 +159,8 @@
 
 
 <div class="viewcode-block" id="Lattice">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice">[docs]</a>
-<span class="k">class</span> <span class="nc">Lattice</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Lattice</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;General coordinate system and associated operations.</span>
 
 <span class="sd">    Parameters</span>
@@ -272,7 +274,7 @@
     <span class="c1"># read-only derived properties</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">unitvolume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unitvolume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The unit cell volume when `a = b = c = 1`.&quot;&quot;&quot;</span>
         <span class="c1"># Recalculate lattice cosines to ensure this is right</span>
         <span class="c1"># even if ca, cb, cg data were not yet updated.</span>
@@ -322,7 +324,7 @@
 
     <span class="c1"># done with properties ---------------------------------------------------</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">baserot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">baserot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># build a set of provided argument names for later use.</span>
         <span class="n">apairs</span> <span class="o">=</span> <span class="p">(</span>
             <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">),</span>
@@ -370,8 +372,8 @@
         <span class="k">return</span>
 
 <div class="viewcode-block" id="Lattice.setLatPar">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.setLatPar">[docs]</a>
-    <span class="k">def</span> <span class="nf">setLatPar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">baserot</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.setLatPar">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setLatPar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">baserot</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set one or more lattice parameters.</span>
 
 <span class="sd">        This updates all attributes that depend on the lattice parameters.</span>
@@ -459,8 +461,8 @@
 
 
 <div class="viewcode-block" id="Lattice.setLatBase">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.setLatBase">[docs]</a>
-    <span class="k">def</span> <span class="nf">setLatBase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.setLatBase">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setLatBase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set new base vectors for this lattice.</span>
 
 <span class="sd">        This updates the cell lengths and cell angles according to the</span>
@@ -528,9 +530,10 @@
 
 
 <div class="viewcode-block" id="Lattice.abcABG">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.abcABG">[docs]</a>
-    <span class="k">def</span> <span class="nf">abcABG</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.abcABG">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">abcABG</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the cell parameters in the standard setting.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        tuple :</span>
@@ -541,9 +544,10 @@
 
 
 <div class="viewcode-block" id="Lattice.reciprocal">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.reciprocal">[docs]</a>
-    <span class="k">def</span> <span class="nf">reciprocal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.reciprocal">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reciprocal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the reciprocal lattice of the current lattice.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Lattice</span>
@@ -554,8 +558,8 @@
 
 
 <div class="viewcode-block" id="Lattice.cartesian">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.cartesian">[docs]</a>
-    <span class="k">def</span> <span class="nf">cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.cartesian">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Transform lattice vector to Cartesian coordinates.</span>
 
 <span class="sd">        Parameters</span>
@@ -574,8 +578,8 @@
 
 
 <div class="viewcode-block" id="Lattice.fractional">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.fractional">[docs]</a>
-    <span class="k">def</span> <span class="nf">fractional</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rc</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.fractional">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fractional</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rc</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Transform Cartesian vector to fractional lattice coordinates.</span>
 
 <span class="sd">        Parameters</span>
@@ -594,8 +598,8 @@
 
 
 <div class="viewcode-block" id="Lattice.dot">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.dot">[docs]</a>
-    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.dot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate dot product of 2 lattice vectors.</span>
 
 <span class="sd">        Parameters</span>
@@ -616,8 +620,8 @@
 
 
 <div class="viewcode-block" id="Lattice.norm">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.norm">[docs]</a>
-    <span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.norm">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate norm of a lattice vector.</span>
 
 <span class="sd">        Parameters</span>
@@ -635,8 +639,8 @@
 
 
 <div class="viewcode-block" id="Lattice.rnorm">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.rnorm">[docs]</a>
-    <span class="k">def</span> <span class="nf">rnorm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hkl</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.rnorm">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hkl</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate norm of a reciprocal vector.</span>
 
 <span class="sd">        Parameters</span>
@@ -654,8 +658,8 @@
 
 
 <div class="viewcode-block" id="Lattice.dist">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.dist">[docs]</a>
-    <span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.dist">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate distance between 2 points in lattice coordinates.</span>
 
 <span class="sd">        Parameters</span>
@@ -679,8 +683,8 @@
 
 
 <div class="viewcode-block" id="Lattice.angle">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.angle">[docs]</a>
-    <span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.angle">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate angle between 2 lattice vectors in degrees.</span>
 
 <span class="sd">        Parameters</span>
@@ -708,8 +712,8 @@
 
 
 <div class="viewcode-block" id="Lattice.isanisotropic">
-<a class="viewcode-back" href="../../../mod_lattice.html#diffpy.structure.lattice.Lattice.isanisotropic">[docs]</a>
-    <span class="k">def</span> <span class="nf">isanisotropic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">umx</span><span class="p">):</span>
+<a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.isanisotropic">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">isanisotropic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">umx</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;True if displacement parameter matrix is anisotropic.</span>
 
 <span class="sd">        This checks if the specified matrix of anisotropic displacement</span>
@@ -733,7 +737,7 @@
         <span class="k">return</span> <span class="n">rv</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;String representation of this lattice.&quot;&quot;&quot;</span>
         <span class="n">I3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="n">rotbaseI3diff</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baserot</span> <span class="o">-</span> <span class="n">I3</span><span class="p">),</span> <span class="mi">9</span><span class="p">))</span>
@@ -754,7 +758,7 @@
 <span class="c1"># Local Helpers --------------------------------------------------------------</span>
 
 
-<span class="k">def</span> <span class="nf">_isotropicunit</span><span class="p">(</span><span class="n">recnormbase</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_isotropicunit</span><span class="p">(</span><span class="n">recnormbase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate tensor of unit isotropic displacement parameters.</span>
 
 <span class="sd">    Parameters</span>
@@ -788,7 +792,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

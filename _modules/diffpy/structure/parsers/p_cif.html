@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.parsers.p_cif &mdash; diffpy.structure 3.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.structure.parsers.p_cif &mdash; diffpy.structure 3.3.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=c66389de"></script>
+      <script src="../../../../_static/documentation_options.js?v=f28ebe10"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -41,7 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.structure.html">Package API</a></li>
 </ul>
 
@@ -86,7 +89,6 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-
 <span class="sd">&quot;&quot;&quot;Parser for basic CIF file format.</span>
 
 <span class="sd">Attributes</span>
@@ -101,23 +103,23 @@
 <span class="sd">References: https://www.iucr.org/resources/cif</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">io</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
-<span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Atom</span><span class="p">,</span> <span class="n">Lattice</span><span class="p">,</span> <span class="n">Structure</span>
-<span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">StructureParser</span>
-<span class="kn">from</span> <span class="nn">diffpy.structure.structureerrors</span> <span class="kn">import</span> <span class="n">StructureFormatError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Atom</span><span class="p">,</span> <span class="n">Lattice</span><span class="p">,</span> <span class="n">Structure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">StructureParser</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.structureerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">StructureFormatError</span>
 
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
 
 <div class="viewcode-block" id="P_cif">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.P_cif">[docs]</a>
-<span class="k">class</span> <span class="nc">P_cif</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">P_cif</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple parser for CIF structure format.</span>
 
 <span class="sd">    Reads Structure from the first block containing _atom_site_label key.</span>
@@ -207,12 +209,12 @@
     <span class="n">BtoU</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;float: Conversion factor from B values to U values.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_tr_ignore</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_ignore</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span>
 
     <span class="n">_tr_ignore</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_ignore</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_label</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_label</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="c1"># set element when not specified by _atom_site_type_symbol</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">a</span><span class="o">.</span><span class="n">element</span><span class="p">:</span>
@@ -223,7 +225,7 @@
     <span class="c1"># 3 regexp groups for nucleon number, atom symbol, and oxidation state</span>
     <span class="n">_psymb</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(\d+-)?([a-zA-Z]+)(\d[+-])?&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_type_symbol</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_type_symbol</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">rx</span> <span class="o">=</span> <span class="n">P_cif</span><span class="o">.</span><span class="n">_psymb</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="n">smbl</span> <span class="o">=</span> <span class="n">rx</span> <span class="ow">and</span> <span class="n">rx</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">value</span>
         <span class="n">smbl</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">smbl</span><span class="p">)</span>
@@ -231,119 +233,120 @@
 
     <span class="n">_tr_atom_site_type_symbol</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_type_symbol</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_fract_x</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_fract_x</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_fract_x</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_fract_x</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_fract_y</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_fract_y</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_fract_y</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_fract_y</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_fract_z</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_fract_z</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_fract_z</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_fract_z</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_cartn_x</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_cartn_x</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">xyz_cartn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_cartn_x</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_cartn_x</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_cartn_y</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_cartn_y</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">xyz_cartn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_cartn_y</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_cartn_y</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_cartn_z</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_cartn_z</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">xyz_cartn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_cartn_z</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_cartn_z</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_U_iso_or_equiv</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_U_iso_or_equiv</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">Uisoequiv</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_U_iso_or_equiv</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_U_iso_or_equiv</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_B_iso_or_equiv</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_B_iso_or_equiv</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">Uisoequiv</span> <span class="o">=</span> <span class="n">P_cif</span><span class="o">.</span><span class="n">BtoU</span> <span class="o">*</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_B_iso_or_equiv</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_B_iso_or_equiv</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_adp_type</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_adp_type</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Uiso&quot;</span><span class="p">,</span> <span class="s2">&quot;Biso&quot;</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_adp_type</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_adp_type</span><span class="p">)</span>
     <span class="n">_tr_atom_site_thermal_displace_type</span> <span class="o">=</span> <span class="n">_tr_atom_site_adp_type</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_occupancy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_occupancy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">occupancy</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_occupancy</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_occupancy</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_U_11</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_U_11</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U11</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_U_11</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_U_11</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_U_22</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_U_22</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U22</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_U_22</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_U_22</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_U_33</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_U_33</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U33</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_U_33</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_U_33</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_U_12</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_U_12</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U12</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_U_12</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_U_12</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_U_13</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_U_13</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U13</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_U_13</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_U_13</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_U_23</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_U_23</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U23</span> <span class="o">=</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_U_23</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_U_23</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_B_11</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_B_11</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U11</span> <span class="o">=</span> <span class="n">P_cif</span><span class="o">.</span><span class="n">BtoU</span> <span class="o">*</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_B_11</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_B_11</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_B_22</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_B_22</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U22</span> <span class="o">=</span> <span class="n">P_cif</span><span class="o">.</span><span class="n">BtoU</span> <span class="o">*</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_B_22</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_B_22</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_B_33</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_B_33</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U33</span> <span class="o">=</span> <span class="n">P_cif</span><span class="o">.</span><span class="n">BtoU</span> <span class="o">*</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_B_33</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_B_33</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_B_12</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_B_12</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U12</span> <span class="o">=</span> <span class="n">P_cif</span><span class="o">.</span><span class="n">BtoU</span> <span class="o">*</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_B_12</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_B_12</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_B_13</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_B_13</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U13</span> <span class="o">=</span> <span class="n">P_cif</span><span class="o">.</span><span class="n">BtoU</span> <span class="o">*</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_B_13</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_B_13</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_tr_atom_site_aniso_B_23</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tr_atom_site_aniso_B_23</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="o">.</span><span class="n">U23</span> <span class="o">=</span> <span class="n">P_cif</span><span class="o">.</span><span class="n">BtoU</span> <span class="o">*</span> <span class="n">leading_float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">_tr_atom_site_aniso_B_23</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_tr_atom_site_aniso_B_23</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_atom_setters</span><span class="p">(</span><span class="n">cifloop</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Static method for finding translators of CifLoop items to data in `Atom` instance.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_atom_setters</span><span class="p">(</span><span class="n">cifloop</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Static method for finding translators of CifLoop items to</span>
+<span class="sd">        data in `Atom` instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -367,7 +370,7 @@
 
     <span class="c1"># normal methods ---------------------------------------------------------</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">StructureParser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s2">&quot;cif&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ciffile</span> <span class="o">=</span> <span class="kc">None</span>
@@ -383,7 +386,7 @@
 
 <div class="viewcode-block" id="P_cif.parse">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.P_cif.parse">[docs]</a>
-    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create `Structure` instance from a string in CIF format.</span>
 
 <span class="sd">        Parameters</span>
@@ -410,7 +413,7 @@
 
 <div class="viewcode-block" id="P_cif.parseLines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.P_cif.parseLines">[docs]</a>
-    <span class="k">def</span> <span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse list of lines in CIF format.</span>
 
 <span class="sd">        Parameters</span>
@@ -434,7 +437,7 @@
 
 <div class="viewcode-block" id="P_cif.parseFile">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.P_cif.parseFile">[docs]</a>
-    <span class="k">def</span> <span class="nf">parseFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parseFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create Structure from an existing CIF file.</span>
 
 <span class="sd">        Parameters</span>
@@ -461,7 +464,7 @@
         <span class="k">return</span> <span class="n">rv</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_parseCifDataSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datasource</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parseCifDataSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datasource</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open and process CIF data from the specified `datasource`.</span>
 
 <span class="sd">        Parameters</span>
@@ -480,7 +483,7 @@
 <span class="sd">        StructureFormatError</span>
 <span class="sd">            When the data do not constitute a valid CIF format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">CifFile</span> <span class="kn">import</span> <span class="n">CifFile</span><span class="p">,</span> <span class="n">StarError</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">CifFile</span><span class="w"> </span><span class="kn">import</span> <span class="n">CifFile</span><span class="p">,</span> <span class="n">StarError</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">stru</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
@@ -500,9 +503,9 @@
             <span class="k">raise</span> <span class="n">e</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stru</span>
 
-    <span class="k">def</span> <span class="nf">_parseCifBlock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockname</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Translate CIF file block, skip blocks without `_atom_site_label`.</span>
-<span class="sd">        Updates data members `stru`, `eau`.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parseCifBlock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blockname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Translate CIF file block, skip blocks without</span>
+<span class="sd">        `_atom_site_label`. Updates data members `stru`, `eau`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -523,7 +526,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_parse_space_group_symop_operation_xyz</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_parse_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain `lattice` parameters from a `CifBlock`.</span>
 
 <span class="sd">        This method updates `self.stru.lattic`e.</span>
@@ -553,7 +556,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">stru</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">Lattice</span><span class="p">(</span><span class="o">*</span><span class="n">latpars</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_parse_atom_site_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_atom_site_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain atoms in asymmetric unit from a `CifBlock`.</span>
 
 <span class="sd">        This method inserts `Atom` instances to `self.stru` and</span>
@@ -589,8 +592,9 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">[</span><span class="n">curlabel</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">anisotropy</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_parse_atom_site_aniso_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain value of anisotropic thermal displacements from a `CifBlock`.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_atom_site_aniso_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain value of anisotropic thermal displacements from a</span>
+<span class="sd">        `CifBlock`.</span>
 
 <span class="sd">        This method updates `U` members of `Atom` instances in `self.stru`.</span>
 <span class="sd">        The `labelindex` dictionary has to be defined beforehand.</span>
@@ -622,7 +626,7 @@
                 <span class="n">fset</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_parse_space_group_symop_operation_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_space_group_symop_operation_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Process symmetry operations from a CifBlock.</span>
 
 <span class="sd">        The method updates `spacegroup` and `eau` data according to symmetry</span>
@@ -634,7 +638,7 @@
 <span class="sd">        block : CifBlock</span>
 <span class="sd">            Instance of `CifBlock`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">diffpy.structure.spacegroups</span> <span class="kn">import</span> <span class="n">FindSpaceGroup</span><span class="p">,</span> <span class="n">GetSpaceGroup</span><span class="p">,</span> <span class="n">IsSpaceGroupIdentifier</span><span class="p">,</span> <span class="n">SpaceGroup</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.spacegroups</span><span class="w"> </span><span class="kn">import</span> <span class="n">FindSpaceGroup</span><span class="p">,</span> <span class="n">GetSpaceGroup</span><span class="p">,</span> <span class="n">IsSpaceGroupIdentifier</span><span class="p">,</span> <span class="n">SpaceGroup</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">asymmetric_unit</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stru</span><span class="p">)</span>
         <span class="n">sym_synonyms</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;_space_group_symop_operation_xyz&quot;</span><span class="p">,</span> <span class="s2">&quot;_symmetry_equiv_pos_as_xyz&quot;</span><span class="p">)</span>
@@ -683,8 +687,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_expandAsymmetricUnit</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_expandAsymmetricUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform symmetry expansion of `self.stru` using `self.spacegroup`.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_expandAsymmetricUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform symmetry expansion of `self.stru` using</span>
+<span class="sd">        `self.spacegroup`.</span>
 
 <span class="sd">        This method updates data in `stru` and `eau`.</span>
 
@@ -693,7 +698,7 @@
 <span class="sd">        block : CifBlock</span>
 <span class="sd">            The top-level block containing crystal structure data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">diffpy.structure.symmetryutilities</span> <span class="kn">import</span> <span class="n">ExpandAsymmetricUnit</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.symmetryutilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExpandAsymmetricUnit</span>
 
         <span class="n">corepos</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">xyz</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stru</span><span class="p">]</span>
         <span class="n">coreUijs</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">U</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stru</span><span class="p">]</span>
@@ -725,7 +730,7 @@
 
 <div class="viewcode-block" id="P_cif.toLines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.P_cif.toLines">[docs]</a>
-    <span class="k">def</span> <span class="nf">toLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">toLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert `Structure` to a list of lines in basic CIF format.</span>
 
 <span class="sd">        Parameters</span>
@@ -738,7 +743,7 @@
 <span class="sd">        list</span>
 <span class="sd">            List of lines in basic CIF format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">time</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># may be replaced with filtered Structure.title</span>
@@ -853,8 +858,9 @@
 
 <div class="viewcode-block" id="leading_float">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.leading_float">[docs]</a>
-<span class="k">def</span> <span class="nf">leading_float</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the first float from a string and ignore trailing characters.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">leading_float</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the first float from a string and ignore trailing</span>
+<span class="sd">    characters.</span>
 
 <span class="sd">    Useful for extracting values from &quot;value(std)&quot; syntax.</span>
 
@@ -905,7 +911,7 @@
 
 <div class="viewcode-block" id="getSymOp">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.getSymOp">[docs]</a>
-<span class="k">def</span> <span class="nf">getSymOp</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">getSymOp</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create `SpaceGroups.SymOp` instance from a string.</span>
 
 <span class="sd">    Parameters</span>
@@ -918,7 +924,7 @@
 <span class="sd">    SymOp</span>
 <span class="sd">        Instance of `SymOp`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">diffpy.structure.spacegroups</span> <span class="kn">import</span> <span class="n">SymOp</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.spacegroups</span><span class="w"> </span><span class="kn">import</span> <span class="n">SymOp</span>
 
     <span class="n">snoblanks</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">eqlist</span> <span class="o">=</span> <span class="n">snoblanks</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
@@ -938,7 +944,7 @@
 
 <div class="viewcode-block" id="getParser">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_cif.getParser">[docs]</a>
-<span class="k">def</span> <span class="nf">getParser</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">getParser</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return new `parser` object for CIF format.</span>
 
 <span class="sd">    Parameters</span>
@@ -960,9 +966,10 @@
 
 
 <span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">_suppressCifParserOutput</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager which suppresses diagnostic messages from CIF parser.&quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">CifFile</span> <span class="kn">import</span> <span class="n">yapps3_compiled_rt</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_suppressCifParserOutput</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager which suppresses diagnostic messages from CIF</span>
+<span class="sd">    parser.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">CifFile</span><span class="w"> </span><span class="kn">import</span> <span class="n">yapps3_compiled_rt</span>
 
     <span class="n">print_error</span> <span class="o">=</span> <span class="n">yapps3_compiled_rt</span><span class="o">.</span><span class="n">print_error</span>
     <span class="c1"># replace the print_error function with no-operation</span>
@@ -981,7 +988,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

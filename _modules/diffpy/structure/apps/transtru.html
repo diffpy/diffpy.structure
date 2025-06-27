@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.apps.transtru &mdash; diffpy.structure 3.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.structure.apps.transtru &mdash; diffpy.structure 3.3.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=c66389de"></script>
+      <script src="../../../../_static/documentation_options.js?v=f28ebe10"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -41,7 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.structure.html">Package API</a></li>
 </ul>
 
@@ -85,7 +88,6 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-
 <span class="sd">&quot;&quot;&quot;Translate structure file to different format.</span>
 
 <span class="sd">Usage: ``transtru INFMT..OUTFMT strufile``</span>
@@ -108,26 +110,27 @@
 <span class="sd">    Show script version.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_function</span>
 
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
-<span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Structure</span>
-<span class="kn">from</span> <span class="nn">diffpy.structure.structureerrors</span> <span class="kn">import</span> <span class="n">StructureFormatError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Structure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.structureerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">StructureFormatError</span>
 
 
 <div class="viewcode-block" id="usage">
 <a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.transtru.usage">[docs]</a>
-<span class="k">def</span> <span class="nf">usage</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show usage info, for ``style==&quot;brief&quot;`` show only first 2 lines.&quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">os.path</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">usage</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show usage info, for ``style==&quot;brief&quot;`` show only first 2</span>
+<span class="sd">    lines.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 
     <span class="n">myname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;transtru&quot;</span><span class="p">,</span> <span class="n">myname</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;brief&quot;</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Try `</span><span class="si">%s</span><span class="s2"> --help&#39; for more information.&quot;</span> <span class="o">%</span> <span class="n">myname</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">inputFormats</span><span class="p">,</span> <span class="n">outputFormats</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">inputFormats</span><span class="p">,</span> <span class="n">outputFormats</span>
 
         <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;inputFormats&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputFormats</span><span class="p">()))</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;outputFormats&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outputFormats</span><span class="p">()))</span>
@@ -138,8 +141,8 @@
 
 <div class="viewcode-block" id="version">
 <a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.transtru.version">[docs]</a>
-<span class="k">def</span> <span class="nf">version</span><span class="p">():</span>
-    <span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">__version__</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">version</span><span class="p">():</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;diffpy.structure&quot;</span><span class="p">,</span> <span class="n">__version__</span><span class="p">)</span>
     <span class="k">return</span></div>
@@ -148,8 +151,8 @@
 
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.transtru.main">[docs]</a>
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="kn">import</span> <span class="nn">getopt</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">getopt</span>
 
     <span class="c1"># default parameters</span>
     <span class="k">try</span><span class="p">:</span>
@@ -169,7 +172,7 @@
         <span class="n">usage</span><span class="p">(</span><span class="s2">&quot;brief&quot;</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
     <span class="c1"># process arguments</span>
-    <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">inputFormats</span><span class="p">,</span> <span class="n">outputFormats</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">inputFormats</span><span class="p">,</span> <span class="n">outputFormats</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">infmt</span><span class="p">,</span> <span class="n">outfmt</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -215,7 +218,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

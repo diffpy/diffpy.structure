@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.structure &mdash; diffpy.structure 3.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.structure.structure &mdash; diffpy.structure 3.3.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=c66389de"></script>
+      <script src="../../../_static/documentation_options.js?v=f28ebe10"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -41,7 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.structure.html">Package API</a></li>
 </ul>
 
@@ -85,26 +88,25 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
+<span class="sd">&quot;&quot;&quot;This module defines class `Structure`.&quot;&quot;&quot;</span>
 
-<span class="sd">&quot;&quot;&quot;This module defines class `Structure`.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">codecs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">copymod</span>
 
-<span class="kn">import</span> <span class="nn">codecs</span>
-<span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">copymod</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span>
-
-<span class="kn">from</span> <span class="nn">diffpy.structure.atom</span> <span class="kn">import</span> <span class="n">Atom</span>
-<span class="kn">from</span> <span class="nn">diffpy.structure.lattice</span> <span class="kn">import</span> <span class="n">Lattice</span>
-<span class="kn">from</span> <span class="nn">diffpy.structure.utils</span> <span class="kn">import</span> <span class="n">_linkAtomAttribute</span><span class="p">,</span> <span class="n">atomBareSymbol</span><span class="p">,</span> <span class="n">isiterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.atom</span><span class="w"> </span><span class="kn">import</span> <span class="n">Atom</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lattice</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">_linkAtomAttribute</span><span class="p">,</span> <span class="n">atomBareSymbol</span><span class="p">,</span> <span class="n">isiterable</span>
 
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
 
 <div class="viewcode-block" id="Structure">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure">[docs]</a>
-<span class="k">class</span> <span class="nc">Structure</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Define group of atoms in a specified lattice. Structure --&gt; group of atoms.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Structure</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Define group of atoms in a specified lattice. Structure --&gt; group</span>
+<span class="sd">    of atoms.</span>
 
 <span class="sd">    `Structure` class is inherited from Python `list`. It contains</span>
 <span class="sd">    a list of `Atom` instances. `Structure` overloads `setitem` and `setslice`</span>
@@ -162,7 +164,7 @@
     <span class="n">pdffit</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;None: default values for `pdffit`.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lattice</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lattice</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># if filename is specified load it and return</span>
         <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="n">atoms</span><span class="p">,</span> <span class="n">lattice</span><span class="p">,</span> <span class="n">title</span><span class="p">)):</span>
@@ -188,12 +190,12 @@
 
 <div class="viewcode-block" id="Structure.copy">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.copy">[docs]</a>
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a copy of this `Structure` object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">copymod</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a deep copy of this instance.</span>
 
 <span class="sd">        Parameters</span>
@@ -219,7 +221,7 @@
         <span class="n">target</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="k">return</span> <span class="n">target</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Simple string representation.&quot;&quot;&quot;</span>
         <span class="n">s_lattice</span> <span class="o">=</span> <span class="s2">&quot;lattice=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span>
         <span class="n">s_atoms</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">])</span>
@@ -227,7 +229,7 @@
 
 <div class="viewcode-block" id="Structure.addNewAtom">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.addNewAtom">[docs]</a>
-    <span class="k">def</span> <span class="nf">addNewAtom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addNewAtom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add new `Atom` instance to the end of this `Structure`.</span>
 
 <span class="sd">        Parameters</span>
@@ -243,7 +245,7 @@
 
 <div class="viewcode-block" id="Structure.getLastAtom">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.getLastAtom">[docs]</a>
-    <span class="k">def</span> <span class="nf">getLastAtom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getLastAtom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return Reference to the last `Atom` in this structure.&quot;&quot;&quot;</span>
         <span class="n">last_atom</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">last_atom</span></div>
@@ -251,7 +253,7 @@
 
 <div class="viewcode-block" id="Structure.assignUniqueLabels">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.assignUniqueLabels">[docs]</a>
-    <span class="k">def</span> <span class="nf">assignUniqueLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">assignUniqueLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a unique label string for each `Atom` in this structure.</span>
 
 <span class="sd">        The label strings are formatted as &quot;%(baresymbol)s%(index)i&quot;,</span>
@@ -272,8 +274,9 @@
 
 <div class="viewcode-block" id="Structure.distance">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.distance">[docs]</a>
-    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aid0</span><span class="p">,</span> <span class="n">aid1</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate distance between 2 `Atoms`, no periodic boundary conditions.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aid0</span><span class="p">,</span> <span class="n">aid1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate distance between 2 `Atoms`, no periodic boundary</span>
+<span class="sd">        conditions.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -299,9 +302,8 @@
 
 <div class="viewcode-block" id="Structure.angle">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.angle">[docs]</a>
-    <span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aid0</span><span class="p">,</span> <span class="n">aid1</span><span class="p">,</span> <span class="n">aid2</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The bond angle at the second of three `Atoms` in degrees.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aid0</span><span class="p">,</span> <span class="n">aid1</span><span class="p">,</span> <span class="n">aid2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The bond angle at the second of three `Atoms` in degrees.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -330,8 +332,8 @@
 
 <div class="viewcode-block" id="Structure.placeInLattice">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.placeInLattice">[docs]</a>
-    <span class="k">def</span> <span class="nf">placeInLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_lattice</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;place structure into `new_lattice` coordinate system.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">placeInLattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_lattice</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Place structure into `new_lattice` coordinate system.</span>
 
 <span class="sd">        Sets `lattice` to `new_lattice` and recalculate fractional coordinates</span>
 <span class="sd">        of all `Atoms` so their absolute positions remain the same.</span>
@@ -359,7 +361,7 @@
 
 <div class="viewcode-block" id="Structure.read">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.read">[docs]</a>
-    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load structure from a file, any original data become lost.</span>
 
 <span class="sd">        Parameters</span>
@@ -376,8 +378,8 @@
 <span class="sd">            Return instance of data Parser used to process input string. This</span>
 <span class="sd">            can be inspected for information related to particular format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">diffpy.structure</span>
-        <span class="kn">import</span> <span class="nn">diffpy.structure.parsers</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.structure</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span>
 
         <span class="n">getParser</span> <span class="o">=</span> <span class="n">diffpy</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">parsers</span><span class="o">.</span><span class="n">getParser</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">getParser</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
@@ -389,7 +391,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_structure</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
             <span class="bp">self</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">new_structure</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">os.path</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 
             <span class="n">tailname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
             <span class="n">tailbase</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">tailname</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -399,7 +401,7 @@
 
 <div class="viewcode-block" id="Structure.readStr">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.readStr">[docs]</a>
-    <span class="k">def</span> <span class="nf">readStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">readStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Read structure from a string.</span>
 
 <span class="sd">        Parameters</span>
@@ -416,7 +418,7 @@
 <span class="sd">            Return instance of data Parser used to process input string. This</span>
 <span class="sd">            can be inspected for information related to particular format.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">getParser</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">getParser</span>
 
         <span class="n">p</span> <span class="o">=</span> <span class="n">getParser</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
         <span class="n">new_structure</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
@@ -431,7 +433,7 @@
 
 <div class="viewcode-block" id="Structure.write">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.write">[docs]</a>
-    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save structure to file in the specified format.</span>
 
 <span class="sd">        Parameters</span>
@@ -447,7 +449,7 @@
 
 <span class="sd">            ``from parsers import formats``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">getParser</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">getParser</span>
 
         <span class="n">p</span> <span class="o">=</span> <span class="n">getParser</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
         <span class="n">p</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
@@ -459,8 +461,9 @@
 
 <div class="viewcode-block" id="Structure.writeStr">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.writeStr">[docs]</a>
-    <span class="k">def</span> <span class="nf">writeStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;return string representation of the structure in specified format.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">writeStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return string representation of the structure in specified</span>
+<span class="sd">        format.</span>
 
 <span class="sd">        Note</span>
 <span class="sd">        ----</span>
@@ -468,7 +471,7 @@
 
 <span class="sd">            ``from parsers import formats``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">getParser</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">getParser</span>
 
         <span class="n">p</span> <span class="o">=</span> <span class="n">getParser</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -477,8 +480,9 @@
 
 <div class="viewcode-block" id="Structure.tolist">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.tolist">[docs]</a>
-    <span class="k">def</span> <span class="nf">tolist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return `Atoms` in this `Structure` as a standard Python list.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tolist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return `Atoms` in this `Structure` as a standard Python</span>
+<span class="sd">        list.&quot;&quot;&quot;</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">rv</span></div>
 
@@ -487,8 +491,9 @@
 
 <div class="viewcode-block" id="Structure.append">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.append">[docs]</a>
-    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append `Atom` to a structure and update its `lattice` attribute.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append `Atom` to a structure and update its `lattice`</span>
+<span class="sd">        attribute.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -505,7 +510,7 @@
 
 <div class="viewcode-block" id="Structure.insert">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.insert">[docs]</a>
-    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert `Atom` a before position idx in this `Structure`.</span>
 
 <span class="sd">        Parameters</span>
@@ -525,7 +530,7 @@
 
 <div class="viewcode-block" id="Structure.extend">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure.Structure.extend">[docs]</a>
-    <span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extend `Structure` with an iterable of `atoms`.</span>
 
 <span class="sd">        Update the `lattice` attribute of all added `atoms`.</span>
@@ -547,10 +552,10 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">memo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">)</span>
 
-                <span class="k">def</span> <span class="nf">nextatom</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+                <span class="k">def</span><span class="w"> </span><span class="nf">nextatom</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">a</span> <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">memo</span> <span class="k">else</span> <span class="n">copymod</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
-                <span class="k">def</span> <span class="nf">mark</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+                <span class="k">def</span><span class="w"> </span><span class="nf">mark</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
                     <span class="k">return</span> <span class="p">(</span><span class="n">memo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="n">a</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
                 <span class="n">newatoms</span> <span class="o">=</span> <span class="p">(</span><span class="n">mark</span><span class="p">(</span><span class="n">nextatom</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">atoms</span><span class="p">)</span>
@@ -559,19 +564,19 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">newatoms</span> <span class="o">=</span> <span class="n">atoms</span>
 
-        <span class="k">def</span> <span class="nf">setlat</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">setlat</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">(</span><span class="nb">setattr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s2">&quot;lattice&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">),</span> <span class="n">a</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="nb">super</span><span class="p">(</span><span class="n">Structure</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">setlat</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">newatoms</span><span class="p">)</span>
         <span class="k">return</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get one or more `Atoms` in this structure.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        idx : int ot str ot Iterable</span>
+<span class="sd">        idx : int or str or Iterable</span>
 <span class="sd">            `Atom` identifier. When integer use standard list lookup.</span>
 <span class="sd">            For iterables use numpy lookup, this supports integer or</span>
 <span class="sd">            boolean flag arrays. For string or string-containing iterables</span>
@@ -636,7 +641,7 @@
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="n">labeltoindex</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">duplicate</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">label</span> <span class="ow">in</span> <span class="n">labeltoindex</span> <span class="k">else</span> <span class="n">i</span>
 
-        <span class="k">def</span> <span class="nf">_resolveindex</span><span class="p">(</span><span class="n">aid</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_resolveindex</span><span class="p">(</span><span class="n">aid</span><span class="p">):</span>
             <span class="n">aid1</span> <span class="o">=</span> <span class="n">aid</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">aid</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
                 <span class="n">aid1</span> <span class="o">=</span> <span class="n">labeltoindex</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">aid</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -658,7 +663,7 @@
         <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">rv</span>
 
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Assign `self[idx]` `Atom` to value.</span>
 
 <span class="sd">        Parameters</span>
@@ -675,7 +680,7 @@
         <span class="c1"># handle slice assignment</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
 
-            <span class="k">def</span> <span class="nf">_fixlat</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">_fixlat</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
                 <span class="n">a</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span>
                 <span class="k">return</span> <span class="n">a</span>
 
@@ -684,15 +689,16 @@
                 <span class="n">keep</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">Structure</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
                 <span class="n">v1</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">keep</span> <span class="k">else</span> <span class="n">Atom</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span>
             <span class="n">vfinal</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">_fixlat</span><span class="p">,</span> <span class="n">v1</span><span class="p">)</span>
-        <span class="c1"># handle scalar assingment</span>
+        <span class="c1"># handle scalar assignment</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">vfinal</span> <span class="o">=</span> <span class="n">Atom</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="n">copy</span> <span class="k">else</span> <span class="n">value</span>
             <span class="n">vfinal</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Structure</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">vfinal</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new `Structure` object with appended `Atoms` from other.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new `Structure` object with appended `Atoms` from</span>
+<span class="sd">        other.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -708,7 +714,7 @@
         <span class="n">rv</span> <span class="o">+=</span> <span class="n">other</span>
         <span class="k">return</span> <span class="n">rv</span>
 
-    <span class="k">def</span> <span class="fm">__iadd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iadd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extend this `Structure` with `Atoms` from other.</span>
 
 <span class="sd">        Parameters</span>
@@ -724,8 +730,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new `Structure` that has `Atoms` from the other removed.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new `Structure` that has `Atoms` from the other</span>
+<span class="sd">        removed.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -742,7 +749,7 @@
         <span class="n">rv</span> <span class="o">=</span> <span class="n">copymod</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">keepindices</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">rv</span>
 
-    <span class="k">def</span> <span class="fm">__isub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__isub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove other `Atoms` if present in this structure.</span>
 
 <span class="sd">        Parameters</span>
@@ -759,9 +766,9 @@
         <span class="bp">self</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">a</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">otherset</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new `Structure` with n-times concatenated `Atoms` from self.</span>
-<span class="sd">        `Atoms` and `lattice` in the new structure are all copies.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return new `Structure` with n-times concatenated `Atoms` from</span>
+<span class="sd">        self. `Atoms` and `lattice` in the new structure are all copies.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -780,9 +787,9 @@
     <span class="c1"># right-side multiplication is the same as left-side</span>
     <span class="fm">__rmul__</span> <span class="o">=</span> <span class="fm">__mul__</span>
 
-    <span class="k">def</span> <span class="fm">__imul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Concatenate this `Structure` to n-times more `Atoms`.</span>
-<span class="sd">        For positive multiple the current `Atom` objects remain at the</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__imul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Concatenate this `Structure` to n-times more `Atoms`. For</span>
+<span class="sd">        positive multiple the current `Atom` objects remain at the</span>
 <span class="sd">        beginning of this `Structure`.</span>
 
 <span class="sd">        Parameters</span>
@@ -805,10 +812,10 @@
 
     <span class="c1"># lattice</span>
 
-    <span class="k">def</span> <span class="nf">_get_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span>
 
-    <span class="k">def</span> <span class="nf">_set_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_lattice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="n">a</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span> <span class="o">=</span> <span class="n">value</span>
@@ -818,7 +825,7 @@
 
     <span class="c1"># composition</span>
 
-    <span class="k">def</span> <span class="nf">_get_composition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_composition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="n">rv</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">element</span><span class="p">]</span> <span class="o">=</span> <span class="n">rv</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">element</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span><span class="o">.</span><span class="n">occupancy</span>
@@ -978,8 +985,9 @@
 
     <span class="c1"># Private Methods --------------------------------------------------------</span>
 
-    <span class="k">def</span> <span class="nf">__emptySharedStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return empty `Structure` with standard attributes same as in self.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__emptySharedStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return empty `Structure` with standard attributes same as in</span>
+<span class="sd">        self.&quot;&quot;&quot;</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="n">Structure</span><span class="p">()</span>
         <span class="n">rv</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">rv</span></div>
@@ -996,7 +1004,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

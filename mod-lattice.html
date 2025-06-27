@@ -6,16 +6,19 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.lattice &mdash; diffpy.structure 3.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.structure.lattice &mdash; diffpy.structure 3.3.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=c66389de"></script>
+      <script src="_static/documentation_options.js?v=f28ebe10"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=cca77546"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -42,7 +45,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/diffpy.structure.html">Package API</a></li>
 </ul>
 
@@ -62,7 +65,7 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">diffpy.structure.lattice</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/mod_lattice.rst.txt" rel="nofollow"> View page source</a>
+              <a href="https://github.com/diffpy/diffpy.structure/blob/main/doc/source/mod-lattice.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -72,8 +75,8 @@
              
   <section id="module-diffpy.structure.lattice">
 <span id="diffpy-structure-lattice"></span><h1>diffpy.structure.lattice<a class="headerlink" href="#module-diffpy.structure.lattice" title="Link to this heading"></a></h1>
-<p>Class Lattice stores properties and provides simple operations in lattice
-coordinate system.</p>
+<p>Class Lattice stores properties and provides simple operations in
+lattice coordinate system.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.cartesian">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.lattice.</span></span><span class="sig-name descname"><span class="pre">cartesian</span></span><a class="headerlink" href="#diffpy.structure.lattice.cartesian" title="Link to this definition"></a></dt>
@@ -87,7 +90,7 @@ coordinate system.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.lattice.</span></span><span class="sig-name descname"><span class="pre">Lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baserot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/lattice.html#Lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.lattice.Lattice" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.lattice.</span></span><span class="sig-name descname"><span class="pre">Lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baserot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/lattice.html#Lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.lattice.Lattice" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>General coordinate system and associated operations.</p>
 <dl class="field-list simple">
@@ -227,27 +230,33 @@ of the <cite>abc</cite> matrix:</p>
 </div>
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.a">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">a</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.a" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">a</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.a" title="Link to this definition"></a></dt>
 <dd><p>The unit cell length <em>a</em>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.abcABG">
 <span class="sig-name descname"><span class="pre">abcABG</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/lattice.html#Lattice.abcABG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.lattice.Lattice.abcABG" title="Link to this definition"></a></dt>
-<dd><p>Return the cell parameters in the standard setting.
-:returns: A tuple of <code class="docutils literal notranslate"><span class="pre">(a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">alpha,</span> <span class="pre">beta,</span> <span class="pre">gamma)</span></code>.
-:rtype: tuple</p>
+<dd><p>Return the cell parameters in the standard setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tuple of <code class="docutils literal notranslate"><span class="pre">(a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">alpha,</span> <span class="pre">beta,</span> <span class="pre">gamma)</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.alpha">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.alpha" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.alpha" title="Link to this definition"></a></dt>
 <dd><p>The cell angle <em>alpha</em> in degrees.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.alphar">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alphar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.alphar" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alphar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.alphar" title="Link to this definition"></a></dt>
 <dd><p>The reciprocal cell angle <em>alpha</em> in degrees.</p>
 </dd></dl>
 
@@ -273,49 +282,49 @@ of the <cite>abc</cite> matrix:</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.ar">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.ar" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.ar" title="Link to this definition"></a></dt>
 <dd><p>The cell length <em>a</em> of the reciprocal lattice.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.b">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">b</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.b" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">b</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.b" title="Link to this definition"></a></dt>
 <dd><p>The unit cell length <em>b</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.beta">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.beta" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.beta" title="Link to this definition"></a></dt>
 <dd><p>The cell angle <em>beta</em> in degrees.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.betar">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">betar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.betar" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">betar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.betar" title="Link to this definition"></a></dt>
 <dd><p>The reciprocal cell angle <em>beta</em> in degrees</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.br">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">br</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.br" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">br</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.br" title="Link to this definition"></a></dt>
 <dd><p>The cell length <em>b</em> of the reciprocal lattice.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.c">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">c</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.c" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">c</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.c" title="Link to this definition"></a></dt>
 <dd><p>The unit cell length <em>c</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.ca">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ca</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.ca" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ca</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.ca" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the cell angle <em>alpha</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.car">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">car</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.car" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">car</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.car" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the reciprocal angle <em>alpha</em>.</p>
 </dd></dl>
 
@@ -339,31 +348,31 @@ of lattice vectors.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.cb">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cb</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cb" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cb</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cb" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the cell angle <em>beta</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.cbr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cbr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cbr" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cbr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cbr" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the reciprocal angle <em>beta</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.cg">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cg</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cg" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cg</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cg" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the cell angle <em>gamma</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.cgr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cgr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cgr" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cgr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cgr" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the reciprocal angle <em>gamma</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.cr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cr" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cr" title="Link to this definition"></a></dt>
 <dd><p>The cell length <em>c</em> of the reciprocal lattice.</p>
 </dd></dl>
 
@@ -434,13 +443,13 @@ Cartesian vectors.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.gamma">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gamma</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.gamma" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gamma</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.gamma" title="Link to this definition"></a></dt>
 <dd><p>The cell angle <em>gamma</em> in degrees.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.gammar">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gammar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.gammar" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gammar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.gammar" title="Link to this definition"></a></dt>
 <dd><p>The reciprocal cell angle <em>gamma</em> in degrees</p>
 </dd></dl>
 
@@ -484,9 +493,15 @@ by more than a small round-off error.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.reciprocal">
 <span class="sig-name descname"><span class="pre">reciprocal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/lattice.html#Lattice.reciprocal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.lattice.Lattice.reciprocal" title="Link to this definition"></a></dt>
-<dd><p>Return the reciprocal lattice of the current lattice.
-:returns: The reciprocal lattice of the current lattice.
-:rtype: Lattice</p>
+<dd><p>Return the reciprocal lattice of the current lattice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The reciprocal lattice of the current lattice.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -508,25 +523,25 @@ by more than a small round-off error.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sa">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sa</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sa" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sa</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sa" title="Link to this definition"></a></dt>
 <dd><p>The sine of the cell angle <em>alpha</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sar">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sar" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sar" title="Link to this definition"></a></dt>
 <dd><p>The sine of the reciprocal angle <em>alpha</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sb">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sb</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sb" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sb</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sb" title="Link to this definition"></a></dt>
 <dd><p>The sine of the cell angle <em>beta</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sbr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sbr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sbr" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sbr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sbr" title="Link to this definition"></a></dt>
 <dd><p>The sine of the reciprocal angle <em>beta</em>.</p>
 </dd></dl>
 
@@ -573,25 +588,25 @@ values.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sg">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sg</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sg" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sg</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sg" title="Link to this definition"></a></dt>
 <dd><p>The sine of the cell angle <em>gamma</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sgr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sgr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sgr" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sgr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sgr" title="Link to this definition"></a></dt>
 <dd><p>The sine of the reciprocal angle <em>gamma</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.unitvolume">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unitvolume</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.unitvolume" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unitvolume</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.unitvolume" title="Link to this definition"></a></dt>
 <dd><p>The unit cell volume when <cite>a = b = c = 1</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.volume">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.volume" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.volume" title="Link to this definition"></a></dt>
 <dd><p>The unit cell volume.</p>
 </dd></dl>
 
@@ -643,7 +658,7 @@ values.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

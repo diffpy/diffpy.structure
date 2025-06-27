@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.expansion.shapeutils &mdash; diffpy.structure 3.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.structure.expansion.shapeutils &mdash; diffpy.structure 3.3.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=c66389de"></script>
+      <script src="../../../../_static/documentation_options.js?v=f28ebe10"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -41,7 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.structure.html">Package API</a></li>
 </ul>
 
@@ -85,13 +88,12 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-
 <span class="sd">&quot;&quot;&quot;Utilities for making shapes.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="findCenter">
 <a class="viewcode-back" href="../../../../diffpy.structure.expansion.html#diffpy.structure.expansion.shapeutils.findCenter">[docs]</a>
-<span class="k">def</span> <span class="nf">findCenter</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">findCenter</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the approximate center `Atom` of a `Structure`.</span>
 
 <span class="sd">    The center of the `Structure` is the `Atom` closest to ``(0.5, 0.5, 0.5)``.</span>
@@ -108,7 +110,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">best</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="n">bestd</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>  <span class="c1"># the cannonical center</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>  <span class="c1"># the canonical center</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)):</span>
         <span class="n">d</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">xyz</span><span class="p">,</span> <span class="n">center</span><span class="p">)</span>
@@ -127,7 +129,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.symmetryutilities &mdash; diffpy.structure 3.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.structure.symmetryutilities &mdash; diffpy.structure 3.3.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=c66389de"></script>
+      <script src="../../../_static/documentation_options.js?v=f28ebe10"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -41,7 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.structure.html">Package API</a></li>
 </ul>
 
@@ -85,9 +88,8 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-
-<span class="sd">&quot;&quot;&quot;Symmetry utility functions such as expansion of asymmetric unit,</span>
-<span class="sd">and generation of positional constraints.</span>
+<span class="sd">&quot;&quot;&quot;Symmetry utility functions such as expansion of asymmetric unit, and</span>
+<span class="sd">generation of positional constraints.</span>
 
 <span class="sd">Attributes</span>
 <span class="sd">----------</span>
@@ -100,12 +102,12 @@
 <span class="sd">    displacement tensor.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
-<span class="kn">from</span> <span class="nn">diffpy.structure.structureerrors</span> <span class="kn">import</span> <span class="n">SymmetryError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.structureerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">SymmetryError</span>
 
 <span class="c1"># Constants ------------------------------------------------------------------</span>
 
@@ -118,7 +120,7 @@
 
 <div class="viewcode-block" id="isSpaceGroupLatPar">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.isSpaceGroupLatPar">[docs]</a>
-<span class="k">def</span> <span class="nf">isSpaceGroupLatPar</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">isSpaceGroupLatPar</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if space group allows passed lattice parameters.</span>
 
 <span class="sd">    Parameters</span>
@@ -143,27 +145,27 @@
     <span class="c1"># crystal system rules</span>
     <span class="c1"># ref: Benjamin, W. A., Introduction to crystallography,</span>
     <span class="c1"># New York (1969), p.60</span>
-    <span class="k">def</span> <span class="nf">check_triclinic</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_triclinic</span><span class="p">():</span>
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">check_monoclinic</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_monoclinic</span><span class="p">():</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">==</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">90</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="mi">90</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rv</span>
 
-    <span class="k">def</span> <span class="nf">check_orthorhombic</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_orthorhombic</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">90</span>
 
-    <span class="k">def</span> <span class="nf">check_tetragonal</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_tetragonal</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">90</span>
 
-    <span class="k">def</span> <span class="nf">check_trigonal</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_trigonal</span><span class="p">():</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="o">==</span> <span class="n">c</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="n">gamma</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="mi">90</span> <span class="ow">and</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">120</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rv</span>
 
-    <span class="k">def</span> <span class="nf">check_hexagonal</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_hexagonal</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="mi">90</span> <span class="ow">and</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">120</span>
 
-    <span class="k">def</span> <span class="nf">check_cubic</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_cubic</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="o">==</span> <span class="n">c</span> <span class="ow">and</span> <span class="n">alpha</span> <span class="o">==</span> <span class="n">beta</span> <span class="o">==</span> <span class="n">gamma</span> <span class="o">==</span> <span class="mi">90</span>
 
     <span class="n">crystal_system_rules</span> <span class="o">=</span> <span class="p">{</span>
@@ -189,7 +191,7 @@
 
 <div class="viewcode-block" id="isconstantFormula">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.isconstantFormula">[docs]</a>
-<span class="k">def</span> <span class="nf">isconstantFormula</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">isconstantFormula</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if formula string is constant.</span>
 
 <span class="sd">    Parameters</span>
@@ -210,9 +212,9 @@
 <span class="c1"># Helper class intended for this module only:</span>
 
 
-<span class="k">class</span> <span class="nc">_Position2Tuple</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create callable object that converts fractional coordinates to</span>
-<span class="sd">    a tuple of integers with given precision. For presision close to zero</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_Position2Tuple</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create callable object that converts fractional coordinates to a</span>
+<span class="sd">    tuple of integers with given precision. For presision close to zero</span>
 <span class="sd">    it will return a tuples of double.</span>
 
 <span class="sd">    Note</span>
@@ -227,11 +229,11 @@
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    eps : float</span>
-<span class="sd">        Cutoff for equivalent coordinates. When two coordiantes map to the</span>
+<span class="sd">        Cutoff for equivalent coordinates. When two coordinates map to the</span>
 <span class="sd">        same tuple, they are closer than `eps`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
         <span class="c1"># ensure self.eps has exact machine representation</span>
@@ -242,7 +244,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert array of fractional coordinates to a tuple.</span>
 
 <span class="sd">        Parameters</span>
@@ -269,7 +271,7 @@
 
 <div class="viewcode-block" id="positionDifference">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.positionDifference">[docs]</a>
-<span class="k">def</span> <span class="nf">positionDifference</span><span class="p">(</span><span class="n">xyz0</span><span class="p">,</span> <span class="n">xyz1</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">positionDifference</span><span class="p">(</span><span class="n">xyz0</span><span class="p">,</span> <span class="n">xyz1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Smallest difference between two coordinates in periodic lattice.</span>
 
 <span class="sd">    Parameters</span>
@@ -294,7 +296,7 @@
 
 <div class="viewcode-block" id="nearestSiteIndex">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.nearestSiteIndex">[docs]</a>
-<span class="k">def</span> <span class="nf">nearestSiteIndex</span><span class="p">(</span><span class="n">sites</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">nearestSiteIndex</span><span class="p">(</span><span class="n">sites</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Index of the nearest site to a specified position.</span>
 
 <span class="sd">    Parameters</span>
@@ -318,7 +320,7 @@
 
 <div class="viewcode-block" id="equalPositions">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.equalPositions">[docs]</a>
-<span class="k">def</span> <span class="nf">equalPositions</span><span class="p">(</span><span class="n">xyz0</span><span class="p">,</span> <span class="n">xyz1</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">equalPositions</span><span class="p">(</span><span class="n">xyz0</span><span class="p">,</span> <span class="n">xyz1</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Equality of two coordinates with optional tolerance.</span>
 
 <span class="sd">    Parameters</span>
@@ -341,7 +343,7 @@
 
 <div class="viewcode-block" id="expandPosition">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.expandPosition">[docs]</a>
-<span class="k">def</span> <span class="nf">expandPosition</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">expandPosition</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Obtain unique equivalent positions and corresponding operations.</span>
 
 <span class="sd">    Parameters</span>
@@ -397,9 +399,9 @@
 
 <div class="viewcode-block" id="nullSpace">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.nullSpace">[docs]</a>
-<span class="k">def</span> <span class="nf">nullSpace</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">nullSpace</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Null space of matrix A.&quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">linalg</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">linalg</span>
 
     <span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
     <span class="c1"># s may have smaller dimension than v</span>
@@ -411,7 +413,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_findInvariants</span><span class="p">(</span><span class="n">symops</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_findInvariants</span><span class="p">(</span><span class="n">symops</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find a list of symmetry operations which contains identity.</span>
 
 <span class="sd">    Parameters</span>
@@ -450,7 +452,7 @@
 
 <div class="viewcode-block" id="GeneratorSite">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite">[docs]</a>
-<span class="k">class</span> <span class="nc">GeneratorSite</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GeneratorSite</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Storage of data related to a generator positions.</span>
 
 <span class="sd">    Parameters</span>
@@ -513,12 +515,13 @@
         <span class="p">],</span>
         <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
     <span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;numpy.ndarray: 6x3x3 array of independent components of U matrices.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;numpy.ndarray: 6x3x3 array of independent components of U</span>
+<span class="sd">    matrices.&quot;&quot;&quot;</span>
 
     <span class="n">idx2Usymbol</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;U11&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;U12&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;U13&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;U12&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;U22&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;U23&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;U13&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;U23&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;U33&quot;</span><span class="p">}</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;dict: Mapping of index to standard U symbol.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">Uij</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">Uij</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
         <span class="c1"># just declare the members</span>
@@ -564,8 +567,9 @@
 
 <div class="viewcode-block" id="GeneratorSite.signedRatStr">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.signedRatStr">[docs]</a>
-    <span class="k">def</span> <span class="nf">signedRatStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert floating point number to signed rational representation.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">signedRatStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert floating point number to signed rational</span>
+<span class="sd">        representation.</span>
 
 <span class="sd">        Possible fractional are multiples of 1/3, 1/6, 1/7, 1/9, if these</span>
 <span class="sd">        are not close, return `%+g` format.</span>
@@ -592,8 +596,9 @@
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%+.0f</span><span class="s2">/</span><span class="si">%.0f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nom</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">den</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_findNullSpace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_findNullSpace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate `self.null_space` from `self.invariants`.</span>
+
 <span class="sd">        Try to represent `self.null_space` using small integers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">R0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">R</span>
@@ -623,8 +628,9 @@
             <span class="n">row</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sgrow</span> <span class="o">*</span> <span class="n">abrow</span><span class="p">)</span> <span class="o">/</span> <span class="n">sgrow</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">/</span> <span class="n">abrow</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_findPosParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find pparameters and their values for expressing `self.xyz`.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_findPosParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find pparameters and their values for expressing</span>
+<span class="sd">        `self.xyz`.&quot;&quot;&quot;</span>
         <span class="n">usedsymbol</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># parameter values depend on offset of self.xyz</span>
         <span class="n">txyz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span>
@@ -639,10 +645,9 @@
             <span class="n">usedsymbol</span><span class="p">[</span><span class="n">vname</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_findUSpace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_findUSpace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Find independent U components with respect to invariant</span>
-<span class="sd">        rotations.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        rotations.&quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">)</span>
         <span class="n">R6zall</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="o">-</span><span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">R6zall_iter</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">R6zall</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -666,8 +671,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">Uisotropy</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Uspace</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_findUParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find Uparameters and their values for expressing `self.Uij`.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_findUParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find Uparameters and their values for expressing</span>
+<span class="sd">        `self.Uij`.&quot;&quot;&quot;</span>
         <span class="c1"># permute indices as     00 11 22 01 02 12 10 20 21</span>
         <span class="n">diagorder</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
         <span class="n">Uijflat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uij</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
@@ -681,8 +687,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">Uparameters</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">vname</span><span class="p">,</span> <span class="n">varvalue</span><span class="p">))</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_findeqUij</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjust `self.Uij` and `self.eqUij` to be consistent with spacegroup.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_findeqUij</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjust `self.Uij` and `self.eqUij` to be consistent with</span>
+<span class="sd">        spacegroup.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Uij</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Uparameters</span><span class="p">)):</span>
             <span class="n">Usp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uspace</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -698,8 +705,9 @@
 
 <div class="viewcode-block" id="GeneratorSite.positionFormula">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.positionFormula">[docs]</a>
-    <span class="k">def</span> <span class="nf">positionFormula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">)):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Formula of equivalent position with respect to generator site.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">positionFormula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">)):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Formula of equivalent position with respect to generator</span>
+<span class="sd">        site.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -749,8 +757,9 @@
 
 <div class="viewcode-block" id="GeneratorSite.UFormula">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.UFormula">[docs]</a>
-    <span class="k">def</span> <span class="nf">UFormula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="n">stdUsymbols</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formulas with custom parameter symbols.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">UFormula</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="n">stdUsymbols</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formulas with custom parameter</span>
+<span class="sd">        symbols.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -797,7 +806,7 @@
 
 <div class="viewcode-block" id="GeneratorSite.eqIndex">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.GeneratorSite.eqIndex">[docs]</a>
-    <span class="k">def</span> <span class="nf">eqIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eqIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Index of the nearest generator equivalent site.</span>
 
 <span class="sd">        Parameters</span>
@@ -822,7 +831,7 @@
 
 <div class="viewcode-block" id="ExpandAsymmetricUnit">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.ExpandAsymmetricUnit">[docs]</a>
-<span class="k">class</span> <span class="nc">ExpandAsymmetricUnit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExpandAsymmetricUnit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Expand asymmetric unit and anisotropic thermal displacement.</span>
 
 <span class="sd">    Parameters</span>
@@ -864,7 +873,7 @@
 
     <span class="c1"># By design Atom instances are not accepted as arguments to keep</span>
     <span class="c1"># number of required imports low.</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">corepos</span><span class="p">,</span> <span class="n">coreUijs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">corepos</span><span class="p">,</span> <span class="n">coreUijs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
         <span class="c1"># declare data members</span>
@@ -902,7 +911,7 @@
 
 <div class="viewcode-block" id="pruneFormulaDictionary">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.pruneFormulaDictionary">[docs]</a>
-<span class="k">def</span> <span class="nf">pruneFormulaDictionary</span><span class="p">(</span><span class="n">eqdict</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pruneFormulaDictionary</span><span class="p">(</span><span class="n">eqdict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove constant items from formula dictionary.</span>
 
 <span class="sd">    Parameters</span>
@@ -926,7 +935,7 @@
 
 <div class="viewcode-block" id="SymmetryConstraints">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints">[docs]</a>
-<span class="k">class</span> <span class="nc">SymmetryConstraints</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SymmetryConstraints</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate symmetry constraints for specified positions.</span>
 
 <span class="sd">    Parameters</span>
@@ -978,7 +987,7 @@
 <span class="sd">        List of bool flags for isotropic thermal displacements.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">Uijs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">Uijs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">eps</span> <span class="o">=</span> <span class="n">epsilon</span>
         <span class="c1"># fill in data members</span>
@@ -1018,8 +1027,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_findConstraints</span><span class="p">()</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_findConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find constraints for positions and anisotropic displacements `Uij`.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_findConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find constraints for positions and anisotropic displacements</span>
+<span class="sd">        `Uij`.&quot;&quot;&quot;</span>
         <span class="n">numpos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
         <span class="c1"># canonical xyzsymbols and Usymbols</span>
         <span class="n">xyzsymbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">smbl</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numpos</span><span class="p">)</span> <span class="k">for</span> <span class="n">smbl</span> <span class="ow">in</span> <span class="s2">&quot;xyz&quot;</span><span class="p">]</span>
@@ -1068,21 +1078,21 @@
 
 <div class="viewcode-block" id="SymmetryConstraints.posparSymbols">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.posparSymbols">[docs]</a>
-    <span class="k">def</span> <span class="nf">posparSymbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">posparSymbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of standard position parameter symbols.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pospars</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="SymmetryConstraints.posparValues">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.posparValues">[docs]</a>
-    <span class="k">def</span> <span class="nf">posparValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">posparValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of position parameters values.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pospars</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="SymmetryConstraints.positionFormulas">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.positionFormulas">[docs]</a>
-    <span class="k">def</span> <span class="nf">positionFormulas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">positionFormulas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;List of position formulas with custom parameter symbols.</span>
 
 <span class="sd">        Parameters</span>
@@ -1106,7 +1116,7 @@
         <span class="c1"># build translation dictionary</span>
         <span class="n">trsmbl</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">posparSymbols</span><span class="p">(),</span> <span class="n">xyzsymbols</span><span class="p">))</span>
 
-        <span class="k">def</span> <span class="nf">translatesymbol</span><span class="p">(</span><span class="n">matchobj</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">translatesymbol</span><span class="p">(</span><span class="n">matchobj</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">trsmbl</span><span class="p">[</span><span class="n">matchobj</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
 
         <span class="n">pat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\b[xyz]\d+&quot;</span><span class="p">)</span>
@@ -1121,8 +1131,9 @@
 
 <div class="viewcode-block" id="SymmetryConstraints.positionFormulasPruned">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.positionFormulasPruned">[docs]</a>
-    <span class="k">def</span> <span class="nf">positionFormulasPruned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of position formula dictionaries with constant items removed.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">positionFormulasPruned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyzsymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of position formula dictionaries with constant items</span>
+<span class="sd">        removed.</span>
 
 <span class="sd">        See also</span>
 <span class="sd">        --------</span>
@@ -1144,22 +1155,24 @@
 
 <div class="viewcode-block" id="SymmetryConstraints.UparSymbols">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.UparSymbols">[docs]</a>
-    <span class="k">def</span> <span class="nf">UparSymbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of standard atom displacement parameter symbols.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">UparSymbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of standard atom displacement parameter</span>
+<span class="sd">        symbols.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Upars</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="SymmetryConstraints.UparValues">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.UparValues">[docs]</a>
-    <span class="k">def</span> <span class="nf">UparValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">UparValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of atom displacement parameters values.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Upars</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="SymmetryConstraints.UFormulas">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulas">[docs]</a>
-    <span class="k">def</span> <span class="nf">UFormulas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formulas with custom parameter symbols.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">UFormulas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formulas with custom parameter</span>
+<span class="sd">        symbols.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1183,7 +1196,7 @@
         <span class="c1"># build translation dictionary</span>
         <span class="n">trsmbl</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">UparSymbols</span><span class="p">(),</span> <span class="n">Usymbols</span><span class="p">))</span>
 
-        <span class="k">def</span> <span class="nf">translatesymbol</span><span class="p">(</span><span class="n">matchobj</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">translatesymbol</span><span class="p">(</span><span class="n">matchobj</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">trsmbl</span><span class="p">[</span><span class="n">matchobj</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
 
         <span class="n">pat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\bU\d\d\d+&quot;</span><span class="p">)</span>
@@ -1198,9 +1211,9 @@
 
 <div class="viewcode-block" id="SymmetryConstraints.UFormulasPruned">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulasPruned">[docs]</a>
-    <span class="k">def</span> <span class="nf">UFormulasPruned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formula dictionaries with constant items</span>
-<span class="sd">        removed.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">UFormulasPruned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Usymbols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of atom displacement formula dictionaries with constant</span>
+<span class="sd">        items removed.</span>
 
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
@@ -1229,7 +1242,7 @@
 
 <span class="c1"># basic demonstration</span>
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">diffpy.structure.spacegroups</span> <span class="kn">import</span> <span class="n">sg100</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.spacegroups</span><span class="w"> </span><span class="kn">import</span> <span class="n">sg100</span>
 
     <span class="n">site</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.625</span><span class="p">,</span> <span class="mf">0.13</span><span class="p">]</span>
     <span class="n">Uij</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
@@ -1249,7 +1262,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.spacegroups &mdash; diffpy.structure 3.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.structure.spacegroups &mdash; diffpy.structure 3.3.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=c66389de"></script>
+      <script src="../../../_static/documentation_options.js?v=f28ebe10"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -41,7 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.structure.html">Package API</a></li>
 </ul>
 
@@ -85,7 +88,6 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-
 <span class="sd">&quot;&quot;&quot;Space group classes and definitions from mmLib and sgtbx.</span>
 
 <span class="sd">Attributes</span>
@@ -94,10 +96,10 @@
 <span class="sd">    List of all spacegroup definitions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">zip_longest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">zip_longest</span>
 
-<span class="kn">from</span> <span class="nn">diffpy.structure.mmlibspacegroups</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.mmlibspacegroups</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">mmLibSpaceGroupList</span><span class="p">,</span>
     <span class="n">sg1</span><span class="p">,</span>
     <span class="n">sg2</span><span class="p">,</span>
@@ -365,7 +367,7 @@
     <span class="n">sg3005</span><span class="p">,</span>
     <span class="n">sg3018</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">diffpy.structure.sgtbxspacegroups</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.sgtbxspacegroups</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">sg1025</span><span class="p">,</span>
     <span class="n">sg1026</span><span class="p">,</span>
     <span class="n">sg1027</span><span class="p">,</span>
@@ -617,7 +619,7 @@
     <span class="n">sg17015</span><span class="p">,</span>
     <span class="n">sgtbxSpaceGroupList</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">diffpy.structure.spacegroupmod</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.spacegroupmod</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Rot_mX_mXY_mZ</span><span class="p">,</span>
     <span class="n">Rot_mX_mXY_Z</span><span class="p">,</span>
     <span class="n">Rot_mX_mY_mZ</span><span class="p">,</span>
@@ -726,7 +728,7 @@
 
 <div class="viewcode-block" id="GetSpaceGroup">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.spacegroups.GetSpaceGroup">[docs]</a>
-<span class="k">def</span> <span class="nf">GetSpaceGroup</span><span class="p">(</span><span class="n">sgid</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">GetSpaceGroup</span><span class="p">(</span><span class="n">sgid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the SpaceGroup instance for the given identifier.</span>
 
 <span class="sd">    Parameters</span>
@@ -770,8 +772,9 @@
 
 <div class="viewcode-block" id="IsSpaceGroupIdentifier">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.spacegroups.IsSpaceGroupIdentifier">[docs]</a>
-<span class="k">def</span> <span class="nf">IsSpaceGroupIdentifier</span><span class="p">(</span><span class="n">sgid</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if identifier can be used as an argument to `GetSpaceGroup`.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">IsSpaceGroupIdentifier</span><span class="p">(</span><span class="n">sgid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if identifier can be used as an argument to</span>
+<span class="sd">    `GetSpaceGroup`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -788,7 +791,7 @@
 
 <div class="viewcode-block" id="FindSpaceGroup">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.spacegroups.FindSpaceGroup">[docs]</a>
-<span class="k">def</span> <span class="nf">FindSpaceGroup</span><span class="p">(</span><span class="n">symops</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">FindSpaceGroup</span><span class="p">(</span><span class="n">symops</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Lookup SpaceGroup from a given list of symmetry operations.</span>
 
 <span class="sd">    Parameters</span>
@@ -828,7 +831,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_hashSymOpList</span><span class="p">(</span><span class="n">symops</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_hashSymOpList</span><span class="p">(</span><span class="n">symops</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return hash value for a sequence of `SymOp` objects.</span>
 
 <span class="sd">    The symops are sorted so the results is independent of symops order.</span>
@@ -848,8 +851,9 @@
     <span class="k">return</span> <span class="n">rv</span>
 
 
-<span class="k">def</span> <span class="nf">_buildSGLookupTable</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_buildSGLookupTable</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Rebuild space group lookup table from the `SpaceGroupList` data.</span>
+
 <span class="sd">    This routine updates the global `_sg_lookup_table` dictionary.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_sg_lookup_table</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -890,8 +894,9 @@
 <span class="n">_sg_lookup_table</span> <span class="o">=</span> <span class="p">{}</span>
 
 
-<span class="k">def</span> <span class="nf">_getSGHashLookupTable</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return lookup table of symop hashes to standard `SpaceGroup` objects.&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_getSGHashLookupTable</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return lookup table of symop hashes to standard `SpaceGroup`</span>
+<span class="sd">    objects.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">_sg_hash_lookup_table</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_sg_hash_lookup_table</span>
     <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">SpaceGroupList</span><span class="p">:</span>
@@ -1530,7 +1535,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -6,21 +6,24 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure package &mdash; diffpy.structure 3.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.structure package &mdash; diffpy.structure 3.3.1rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=c66389de"></script>
+      <script src="../_static/documentation_options.js?v=f28ebe10"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=cca77546"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="diffpy.structure.parsers package" href="diffpy.structure.parsers.html" />
-    <link rel="prev" title="Release Notes" href="../release.html" /> 
+    <link rel="prev" title="Release notes" href="../release.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,7 +47,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release.html">Release notes</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Package API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="diffpy.structure.parsers.html">diffpy.structure.parsers package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffpy.structure.expansion.html">diffpy.structure.expansion package</a></li>
@@ -69,7 +72,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">diffpy.structure package</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/api/diffpy.structure.rst.txt" rel="nofollow"> View page source</a>
+              <a href="https://github.com/diffpy/diffpy.structure/blob/main/doc/source/api/diffpy.structure.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -175,7 +178,7 @@ symmetry operations have the same order or when the
 <cite>shuffle</cite> flag is set.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup">SpaceGroup</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup">SpaceGroup</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – When <cite>symops</cite> do not match any known SpaceGroup.</p>
@@ -196,7 +199,7 @@ whatever it means in mmlib. Can be also an integer.</p>
 <dd class="field-even"><p>The SpaceGroup object for the given identifier.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup">SpaceGroup</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup">SpaceGroup</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – When the identifier is not found.</p>
@@ -207,7 +210,8 @@ whatever it means in mmlib. Can be also an integer.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.structure.spacegroups.IsSpaceGroupIdentifier">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.spacegroups.</span></span><span class="sig-name descname"><span class="pre">IsSpaceGroupIdentifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sgid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/spacegroups.html#IsSpaceGroupIdentifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroups.IsSpaceGroupIdentifier" title="Link to this definition"></a></dt>
-<dd><p>Check if identifier can be used as an argument to <cite>GetSpaceGroup</cite>.</p>
+<dd><p>Check if identifier can be used as an argument to
+<cite>GetSpaceGroup</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
@@ -218,7 +222,8 @@ whatever it means in mmlib. Can be also an integer.</p>
 </section>
 <section id="module-diffpy.structure._legacy_importer">
 <span id="diffpy-structure-legacy-importer-module"></span><h3>diffpy.structure._legacy_importer module<a class="headerlink" href="#module-diffpy.structure._legacy_importer" title="Link to this heading"></a></h3>
-<p>Support import of old camel-case module names with DeprecationWarning.</p>
+<p>Support import of old camel-case module names with
+DeprecationWarning.</p>
 <p>The imported camel-case modules are aliases for the current module
 instances. Their <cite>__name__</cite> attributes are thus all in lower-case.</p>
 <div class="admonition note">
@@ -231,7 +236,7 @@ instances. Their <cite>__name__</cite> attributes are thus all in lower-case.</p
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure._legacy_importer.FindRenamedStructureModule">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure._legacy_importer.</span></span><span class="sig-name descname"><span class="pre">FindRenamedStructureModule</span></span><a class="reference internal" href="../_modules/diffpy/structure/_legacy_importer.html#FindRenamedStructureModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure._legacy_importer.FindRenamedStructureModule" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure._legacy_importer.</span></span><span class="sig-name descname"><span class="pre">FindRenamedStructureModule</span></span><a class="reference internal" href="../_modules/diffpy/structure/_legacy_importer.html#FindRenamedStructureModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure._legacy_importer.FindRenamedStructureModule" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MetaPathFinder</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure._legacy_importer.FindRenamedStructureModule.find_spec">
@@ -247,10 +252,10 @@ instances. Their <cite>__name__</cite> attributes are thus all in lower-case.</p
 
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure._legacy_importer.MapRenamedStructureModule">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure._legacy_importer.</span></span><span class="sig-name descname"><span class="pre">MapRenamedStructureModule</span></span><a class="reference internal" href="../_modules/diffpy/structure/_legacy_importer.html#MapRenamedStructureModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure._legacy_importer.MapRenamedStructureModule" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure._legacy_importer.</span></span><span class="sig-name descname"><span class="pre">MapRenamedStructureModule</span></span><a class="reference internal" href="../_modules/diffpy/structure/_legacy_importer.html#MapRenamedStructureModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure._legacy_importer.MapRenamedStructureModule" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></p>
-<p>Loader for old camel-case module names.
-Import the current module and alias it under the old name.</p>
+<p>Loader for old camel-case module names.</p>
+<p>Import the current module and alias it under the old name.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure._legacy_importer.MapRenamedStructureModule.create_module">
 <span class="sig-name descname"><span class="pre">create_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/_legacy_importer.html#MapRenamedStructureModule.create_module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure._legacy_importer.MapRenamedStructureModule.create_module" title="Link to this definition"></a></dt>
@@ -273,21 +278,21 @@ that the spec should create the new module.</p>
 <p>Exceptions used in Structure package.</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="diffpy.structure.structureerrors.LatticeError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.structureerrors.</span></span><span class="sig-name descname"><span class="pre">LatticeError</span></span><a class="reference internal" href="../_modules/diffpy/structure/structureerrors.html#LatticeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structureerrors.LatticeError" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.structureerrors.</span></span><span class="sig-name descname"><span class="pre">LatticeError</span></span><a class="reference internal" href="../_modules/diffpy/structure/structureerrors.html#LatticeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structureerrors.LatticeError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Exception for impossible lattice parameters.</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="diffpy.structure.structureerrors.StructureFormatError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.structureerrors.</span></span><span class="sig-name descname"><span class="pre">StructureFormatError</span></span><a class="reference internal" href="../_modules/diffpy/structure/structureerrors.html#StructureFormatError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structureerrors.StructureFormatError" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.structureerrors.</span></span><span class="sig-name descname"><span class="pre">StructureFormatError</span></span><a class="reference internal" href="../_modules/diffpy/structure/structureerrors.html#StructureFormatError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structureerrors.StructureFormatError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Exception for failed IO from Structure file.</p>
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="diffpy.structure.structureerrors.SymmetryError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.structureerrors.</span></span><span class="sig-name descname"><span class="pre">SymmetryError</span></span><a class="reference internal" href="../_modules/diffpy/structure/structureerrors.html#SymmetryError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structureerrors.SymmetryError" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.structureerrors.</span></span><span class="sig-name descname"><span class="pre">SymmetryError</span></span><a class="reference internal" href="../_modules/diffpy/structure/structureerrors.html#SymmetryError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structureerrors.SymmetryError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Exception raised for invalid symmetry operations.</p>
 </dd></dl>
@@ -298,7 +303,7 @@ that the spec should create the new module.</p>
 <p>Symmetry operations as functions on vectors or arrays.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.spacegroupmod.</span></span><span class="sig-name descname"><span class="pre">SpaceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sym_equiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_primitive_sym_equiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_group_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crystal_system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdb_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symop_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/spacegroupmod.html#SpaceGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.spacegroupmod.</span></span><span class="sig-name descname"><span class="pre">SpaceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sym_equiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_primitive_sym_equiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">short_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_group_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crystal_system</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdb_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symop_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/spacegroupmod.html#SpaceGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Definition and basic operations for a specific space group.</p>
 <p>Provide standard names and all symmetry operations contained in
@@ -313,7 +318,7 @@ one space group.</p>
 <li><p><strong>point_group_name</strong> (<em>str</em>) – The point group of this space group.</p></li>
 <li><p><strong>crystal_system</strong> (<em>str</em>) – The crystal system of this space group.</p></li>
 <li><p><strong>pdb_name</strong> (<em>str</em>) – The full Hermann-Mauguin symbol of the space group.</p></li>
-<li><p><strong>symop_list</strong> (<em>list</em><em> of </em><a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SymOp" title="diffpy.structure.spacegroupmod.SymOp"><em>SymOp</em></a>) – The symmetry operations contained in this space group.</p></li>
+<li><p><strong>symop_list</strong> (<em>list</em><em> of </em><a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SymOp" title="diffpy.structure.spacegroupmod.SymOp"><em>SymOp</em></a>) – The symmetry operations contained in this space group.</p></li>
 </ul>
 </dd>
 </dl>
@@ -407,7 +412,7 @@ Tables.</p>
 in this space group.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list of <a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SymOp" title="diffpy.structure.spacegroupmod.SymOp">SymOp</a></p>
+<dd class="field-odd"><p>list of <a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SymOp" title="diffpy.structure.spacegroupmod.SymOp">SymOp</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -434,7 +439,8 @@ Return <code class="docutils literal notranslate"><span class="pre">False</span>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SpaceGroup.iter_equivalent_positions">
 <span class="sig-name descname"><span class="pre">iter_equivalent_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/spacegroupmod.html#SpaceGroup.iter_equivalent_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SpaceGroup.iter_equivalent_positions" title="Link to this definition"></a></dt>
-<dd><p>Generate symmetry equivalent positions for the specified position.</p>
+<dd><p>Generate symmetry equivalent positions for the specified
+position.</p>
 <p>The initial position must be in fractional coordinates and so
 are the symmetry equivalent positions yielded by iteration.
 This generates <cite>num_sym_equiv</cite> positions regardless of initial
@@ -466,7 +472,7 @@ unit cell bounds.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.spacegroupmod.SymOp">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.spacegroupmod.</span></span><span class="sig-name descname"><span class="pre">SymOp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/spacegroupmod.html#SymOp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.spacegroupmod.</span></span><span class="sig-name descname"><span class="pre">SymOp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/spacegroupmod.html#SymOp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.spacegroupmod.SymOp" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The transformation of coordinates to a symmetry-related position.</p>
 <p>The SymOp operation involves rotation and translation in cell coordinates.</p>
@@ -526,7 +532,8 @@ Return <code class="docutils literal notranslate"><span class="pre">False</span>
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.structure.utils.atomBareSymbol">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.utils.</span></span><span class="sig-name descname"><span class="pre">atomBareSymbol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smbl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/utils.html#atomBareSymbol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.utils.atomBareSymbol" title="Link to this definition"></a></dt>
-<dd><p>Remove atom type string stripped of isotope and ion charge symbols.</p>
+<dd><p>Remove atom type string stripped of isotope and ion charge
+symbols.</p>
 <p>This function removes any blank, isotope numbers (0-9), leading hyphens (-), and ion charge
 symbols (1-9)(+-) from the given atom type string, returning only the bare element symbol.</p>
 <dl class="field-list simple">
@@ -566,28 +573,28 @@ symbols (1-9)(+-) from the given atom type string, returning only the bare eleme
 </section>
 <section id="module-diffpy.structure.lattice">
 <span id="diffpy-structure-lattice-module"></span><h3>diffpy.structure.lattice module<a class="headerlink" href="#module-diffpy.structure.lattice" title="Link to this heading"></a></h3>
-<p>Class Lattice stores properties and provides simple operations in lattice
-coordinate system.</p>
+<p>Class Lattice stores properties and provides simple operations in
+lattice coordinate system.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.cartesian">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.lattice.</span></span><span class="sig-name descname"><span class="pre">cartesian</span></span><a class="headerlink" href="#diffpy.structure.lattice.cartesian" title="Link to this definition"></a></dt>
 <dd><p>Constant instance of Lattice, default Cartesian system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../mod_lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../mod-lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.lattice.</span></span><span class="sig-name descname"><span class="pre">Lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baserot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/lattice.html#Lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.lattice.Lattice" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.lattice.</span></span><span class="sig-name descname"><span class="pre">Lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baserot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/lattice.html#Lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.lattice.Lattice" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>General coordinate system and associated operations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<em>float</em><em> or </em><a class="reference internal" href="../mod_lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice"><em>Lattice</em></a><em>, </em><em>Optional</em>) – The cell length <em>a</em>. When present, other cell parameters
+<li><p><strong>a</strong> (<em>float</em><em> or </em><a class="reference internal" href="../mod-lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice"><em>Lattice</em></a><em>, </em><em>Optional</em>) – The cell length <em>a</em>. When present, other cell parameters
 must be also specified. When of the <em>Lattice</em> type, create
 a duplicate Lattice.</p></li>
 <li><p><strong>b</strong> (<em>float</em>) – The cell length <em>b</em>.</p></li>
@@ -721,27 +728,33 @@ of the <cite>abc</cite> matrix:</p>
 </div>
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.a">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">a</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.a" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">a</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.a" title="Link to this definition"></a></dt>
 <dd><p>The unit cell length <em>a</em>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.abcABG">
 <span class="sig-name descname"><span class="pre">abcABG</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/lattice.html#Lattice.abcABG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.lattice.Lattice.abcABG" title="Link to this definition"></a></dt>
-<dd><p>Return the cell parameters in the standard setting.
-:returns: A tuple of <code class="docutils literal notranslate"><span class="pre">(a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">alpha,</span> <span class="pre">beta,</span> <span class="pre">gamma)</span></code>.
-:rtype: tuple</p>
+<dd><p>Return the cell parameters in the standard setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tuple of <code class="docutils literal notranslate"><span class="pre">(a,</span> <span class="pre">b,</span> <span class="pre">c,</span> <span class="pre">alpha,</span> <span class="pre">beta,</span> <span class="pre">gamma)</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.alpha">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.alpha" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alpha</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.alpha" title="Link to this definition"></a></dt>
 <dd><p>The cell angle <em>alpha</em> in degrees.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.alphar">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alphar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.alphar" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alphar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.alphar" title="Link to this definition"></a></dt>
 <dd><p>The reciprocal cell angle <em>alpha</em> in degrees.</p>
 </dd></dl>
 
@@ -767,49 +780,49 @@ of the <cite>abc</cite> matrix:</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.ar">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.ar" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.ar" title="Link to this definition"></a></dt>
 <dd><p>The cell length <em>a</em> of the reciprocal lattice.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.b">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">b</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.b" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">b</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.b" title="Link to this definition"></a></dt>
 <dd><p>The unit cell length <em>b</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.beta">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.beta" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">beta</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.beta" title="Link to this definition"></a></dt>
 <dd><p>The cell angle <em>beta</em> in degrees.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.betar">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">betar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.betar" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">betar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.betar" title="Link to this definition"></a></dt>
 <dd><p>The reciprocal cell angle <em>beta</em> in degrees</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.br">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">br</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.br" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">br</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.br" title="Link to this definition"></a></dt>
 <dd><p>The cell length <em>b</em> of the reciprocal lattice.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.c">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">c</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.c" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">c</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.c" title="Link to this definition"></a></dt>
 <dd><p>The unit cell length <em>c</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.ca">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ca</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.ca" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ca</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.ca" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the cell angle <em>alpha</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.car">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">car</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.car" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">car</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.car" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the reciprocal angle <em>alpha</em>.</p>
 </dd></dl>
 
@@ -833,31 +846,31 @@ of lattice vectors.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.cb">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cb</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cb" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cb</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cb" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the cell angle <em>beta</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.cbr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cbr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cbr" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cbr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cbr" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the reciprocal angle <em>beta</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.cg">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cg</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cg" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cg</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cg" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the cell angle <em>gamma</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.cgr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cgr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cgr" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cgr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cgr" title="Link to this definition"></a></dt>
 <dd><p>The cosine of the reciprocal angle <em>gamma</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.cr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cr" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.cr" title="Link to this definition"></a></dt>
 <dd><p>The cell length <em>c</em> of the reciprocal lattice.</p>
 </dd></dl>
 
@@ -928,13 +941,13 @@ Cartesian vectors.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.gamma">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gamma</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.gamma" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gamma</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.gamma" title="Link to this definition"></a></dt>
 <dd><p>The cell angle <em>gamma</em> in degrees.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.gammar">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gammar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.gammar" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gammar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.gammar" title="Link to this definition"></a></dt>
 <dd><p>The reciprocal cell angle <em>gamma</em> in degrees</p>
 </dd></dl>
 
@@ -978,9 +991,15 @@ by more than a small round-off error.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.reciprocal">
 <span class="sig-name descname"><span class="pre">reciprocal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/lattice.html#Lattice.reciprocal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.lattice.Lattice.reciprocal" title="Link to this definition"></a></dt>
-<dd><p>Return the reciprocal lattice of the current lattice.
-:returns: The reciprocal lattice of the current lattice.
-:rtype: Lattice</p>
+<dd><p>Return the reciprocal lattice of the current lattice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The reciprocal lattice of the current lattice.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="../mod-lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1002,25 +1021,25 @@ by more than a small round-off error.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sa">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sa</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sa" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sa</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sa" title="Link to this definition"></a></dt>
 <dd><p>The sine of the cell angle <em>alpha</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sar">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sar" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sar</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sar" title="Link to this definition"></a></dt>
 <dd><p>The sine of the reciprocal angle <em>alpha</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sb">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sb</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sb" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sb</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sb" title="Link to this definition"></a></dt>
 <dd><p>The sine of the cell angle <em>beta</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sbr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sbr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sbr" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sbr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sbr" title="Link to this definition"></a></dt>
 <dd><p>The sine of the reciprocal angle <em>beta</em>.</p>
 </dd></dl>
 
@@ -1067,25 +1086,25 @@ values.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sg">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sg</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sg" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sg</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sg" title="Link to this definition"></a></dt>
 <dd><p>The sine of the cell angle <em>gamma</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.sgr">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sgr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sgr" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sgr</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.sgr" title="Link to this definition"></a></dt>
 <dd><p>The sine of the reciprocal angle <em>gamma</em>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.unitvolume">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unitvolume</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.unitvolume" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unitvolume</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.unitvolume" title="Link to this definition"></a></dt>
 <dd><p>The unit cell volume when <cite>a = b = c = 1</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.Lattice.volume">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.volume" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#diffpy.structure.lattice.Lattice.volume" title="Link to this definition"></a></dt>
 <dd><p>The unit cell volume.</p>
 </dd></dl>
 
@@ -1133,19 +1152,20 @@ values.</p>
 <p>This module defines class <cite>Structure</cite>.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.structure.</span></span><span class="sig-name descname"><span class="pre">Structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/structure.html#Structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structure.Structure" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.structure.</span></span><span class="sig-name descname"><span class="pre">Structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/structure.html#Structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structure.Structure" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></p>
-<p>Define group of atoms in a specified lattice. Structure –&gt; group of atoms.</p>
+<p>Define group of atoms in a specified lattice. Structure –&gt; group
+of atoms.</p>
 <p><cite>Structure</cite> class is inherited from Python <cite>list</cite>. It contains
 a list of <cite>Atom</cite> instances. <cite>Structure</cite> overloads <cite>setitem</cite> and <cite>setslice</cite>
 methods so that the <cite>lattice</cite> attribute of atoms get set to <cite>lattice</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>atoms</strong> (<em>list</em><em> of </em><a class="reference internal" href="../mod_atom.html#diffpy.structure.atom.Atom" title="diffpy.structure.atom.Atom"><em>Atom</em></a><em> or </em><a class="reference internal" href="#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure"><em>Structure</em></a><em>, </em><em>Optional</em>) – List of <cite>Atom</cite> instances to be included in this <cite>Structure</cite>.
+<li><p><strong>atoms</strong> (<em>list</em><em> of </em><a class="reference internal" href="../mod-atom.html#diffpy.structure.atom.Atom" title="diffpy.structure.atom.Atom"><em>Atom</em></a><em> or </em><a class="reference internal" href="#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure"><em>Structure</em></a><em>, </em><em>Optional</em>) – List of <cite>Atom</cite> instances to be included in this <cite>Structure</cite>.
 When <cite>atoms</cite> argument is an existing <cite>Structure</cite> instance,
 the new structure is its copy.</p></li>
-<li><p><strong>lattice</strong> (<a class="reference internal" href="../mod_lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice"><em>Lattice</em></a><em>, </em><em>Optional</em>) – Instance of <cite>Lattice</cite> defining coordinate systems, property.</p></li>
+<li><p><strong>lattice</strong> (<a class="reference internal" href="../mod-lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice"><em>Lattice</em></a><em>, </em><em>Optional</em>) – Instance of <cite>Lattice</cite> defining coordinate systems, property.</p></li>
 <li><p><strong>title</strong> (<em>str</em><em>, </em><em>Optional</em>) – String description of the structure.</p></li>
 <li><p><strong>filename</strong> (<em>str</em><em>, </em><em>Optional</em>) – Name of a file to load the structure from.</p></li>
 <li><p><strong>format</strong> (<em>str</em><em>, </em><em>Optional</em>) – <cite>Structure</cite> format of the loaded <cite>filename</cite>. By default
@@ -1176,7 +1196,7 @@ when <cite>filename</cite> is specified.</p>
 <dd><p>Instance of <cite>Lattice</cite> defining coordinate systems.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../mod_lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../mod-lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1205,105 +1225,105 @@ when <cite>filename</cite> is specified.</p>
 </div>
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.B11">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B11</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B11" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B11</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B11" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>B11</cite> elements of the Debye-Waller displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.B12">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B12</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B12" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B12</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B12" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>B12</cite> elements of the Debye-Waller displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.B13">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B13</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B13" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B13</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B13" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>B13</cite> elements of the Debye-Waller displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.B22">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B22</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B22" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B22</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B22" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>B22</cite> elements of the Debye-Waller displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.B23">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B23</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B23" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B23</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B23" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>B23</cite> elements of the Debye-Waller displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.B33">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B33</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B33" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B33</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.B33" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>B33</cite> elements of the Debye-Waller displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.Bisoequiv">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Bisoequiv</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.Bisoequiv" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Bisoequiv</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.Bisoequiv" title="Link to this definition"></a></dt>
 <dd><p>Array of Debye-Waller isotropic thermal displacement or equivalent
 values. Assignment updates the U attribute of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.U">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U" title="Link to this definition"></a></dt>
 <dd><p>Array of anisotropic thermal displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.U11">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U11</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U11" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U11</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U11" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>U11</cite> elements of the anisotropic displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.U12">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U12</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U12" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U12</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U12" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>U12</cite> elements of the anisotropic displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.U13">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U13</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U13" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U13</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U13" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>U13</cite> elements of the anisotropic displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.U22">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U22</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U22" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U22</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U22" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>U22</cite> elements of the anisotropic displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.U23">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U23</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U23" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U23</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U23" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>U23</cite> elements of the anisotropic displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.U33">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U33</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U33" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U33</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.U33" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>U33</cite> elements of the anisotropic displacement tensors.
 Assignment updates the U and anisotropy attributes of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.Uisoequiv">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Uisoequiv</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.Uisoequiv" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Uisoequiv</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.Uisoequiv" title="Link to this definition"></a></dt>
 <dd><p>Array of isotropic thermal displacement or equivalent values.
 Assignment updates the U attribute of all <cite>Atoms</cite>.</p>
 </dd></dl>
@@ -1348,7 +1368,7 @@ Assignment updates the U attribute of all <cite>Atoms</cite>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.anisotropy">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">anisotropy</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.anisotropy" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">anisotropy</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.anisotropy" title="Link to this definition"></a></dt>
 <dd><p>Boolean array for anisotropic thermal displacement flags.
 Assignment updates the anisotropy attribute of all <cite>Atoms</cite>.</p>
 </dd></dl>
@@ -1356,11 +1376,12 @@ Assignment updates the anisotropy attribute of all <cite>Atoms</cite>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.append">
 <span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/structure.html#Structure.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structure.Structure.append" title="Link to this definition"></a></dt>
-<dd><p>Append <cite>Atom</cite> to a structure and update its <cite>lattice</cite> attribute.</p>
+<dd><p>Append <cite>Atom</cite> to a structure and update its <cite>lattice</cite>
+attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<a class="reference internal" href="../mod_atom.html#diffpy.structure.atom.Atom" title="diffpy.structure.atom.Atom"><em>Atom</em></a>) – Instance of <cite>Atom</cite> to be appended.</p></li>
+<li><p><strong>a</strong> (<a class="reference internal" href="../mod-atom.html#diffpy.structure.atom.Atom" title="diffpy.structure.atom.Atom"><em>Atom</em></a>) – Instance of <cite>Atom</cite> to be appended.</p></li>
 <li><p><strong>copy</strong> (<em>bool</em><em>, </em><em>Optional</em>) – Flag for appending a copy of <cite>a</cite>. When <code class="docutils literal notranslate"><span class="pre">False</span></code>, append <cite>a</cite> and update <cite>a.lattice</cite>.</p></li>
 </ul>
 </dd>
@@ -1377,7 +1398,7 @@ where baresymbol is the element right-stripped of “[0-9][+-]”.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.composition">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">composition</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.composition" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">composition</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.composition" title="Link to this definition"></a></dt>
 <dd><p>Dictionary of chemical symbols and their total occupancies.</p>
 </dd></dl>
 
@@ -1390,7 +1411,8 @@ where baresymbol is the element right-stripped of “[0-9][+-]”.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.distance">
 <span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aid0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aid1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/structure.html#Structure.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structure.Structure.distance" title="Link to this definition"></a></dt>
-<dd><p>Calculate distance between 2 <cite>Atoms</cite>, no periodic boundary conditions.</p>
+<dd><p>Calculate distance between 2 <cite>Atoms</cite>, no periodic boundary
+conditions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1412,7 +1434,7 @@ where baresymbol is the element right-stripped of “[0-9][+-]”.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.element">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">element</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.element" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">element</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.element" title="Link to this definition"></a></dt>
 <dd><p>Character array of <cite>Atom</cite> types. Assignment updates
 the element attribute of the respective <cite>Atoms</cite>.
 Set the maximum length of the element string to 5 characters.</p>
@@ -1450,7 +1472,7 @@ The default behavior is to make copies when <cite>atoms</cite> are of
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>idx</strong> (<em>int</em>) – Position in <cite>Atom</cite> list.</p></li>
-<li><p><strong>a</strong> (<a class="reference internal" href="../mod_atom.html#diffpy.structure.atom.Atom" title="diffpy.structure.atom.Atom"><em>Atom</em></a>) – Instance of <cite>Atom</cite> to be inserted.</p></li>
+<li><p><strong>a</strong> (<a class="reference internal" href="../mod-atom.html#diffpy.structure.atom.Atom" title="diffpy.structure.atom.Atom"><em>Atom</em></a>) – Instance of <cite>Atom</cite> to be inserted.</p></li>
 <li><p><strong>copy</strong> (<em>bool</em><em>, </em><em>Optional</em>) – Flag for inserting a copy of <cite>a</cite>. When <code class="docutils literal notranslate"><span class="pre">False</span></code>, append <cite>a</cite> and update <cite>a.lattice</cite>.</p></li>
 </ul>
 </dd>
@@ -1459,7 +1481,7 @@ The default behavior is to make copies when <cite>atoms</cite> are of
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.label">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">label</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.label" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">label</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.label" title="Link to this definition"></a></dt>
 <dd><p>Character array of <cite>Atom</cite> names. Assignment updates
 the label attribute of all <cite>Atoms</cite>.
 Set the maximum length of the label string to 5 characters.</p>
@@ -1467,13 +1489,13 @@ Set the maximum length of the label string to 5 characters.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="id0">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lattice</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lattice</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd><p>Coordinate system for this <cite>Structure</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.occupancy">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">occupancy</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.occupancy" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">occupancy</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.occupancy" title="Link to this definition"></a></dt>
 <dd><p>Array of <cite>Atom</cite> occupancies. Assignment updates the
 occupancy attribute of all <cite>Atoms</cite>.</p>
 </dd></dl>
@@ -1492,12 +1514,12 @@ occupancy attribute of all <cite>Atoms</cite>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.placeInLattice">
 <span class="sig-name descname"><span class="pre">placeInLattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_lattice</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/structure.html#Structure.placeInLattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structure.Structure.placeInLattice" title="Link to this definition"></a></dt>
-<dd><p>place structure into <cite>new_lattice</cite> coordinate system.</p>
+<dd><p>Place structure into <cite>new_lattice</cite> coordinate system.</p>
 <p>Sets <cite>lattice</cite> to <cite>new_lattice</cite> and recalculate fractional coordinates
 of all <cite>Atoms</cite> so their absolute positions remain the same.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>new_lattice</strong> (<a class="reference internal" href="../mod_lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice"><em>Lattice</em></a>) – New <cite>lattice</cite> to place the structure into.</p>
+<dd class="field-odd"><p><strong>new_lattice</strong> (<a class="reference internal" href="../mod-lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice"><em>Lattice</em></a>) – New <cite>lattice</cite> to place the structure into.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Reference to this <cite>Structure</cite> object. The <cite>lattice</cite> attribute
@@ -1567,7 +1589,8 @@ can be inspected for information related to particular format.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.tolist">
 <span class="sig-name descname"><span class="pre">tolist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/structure.html#Structure.tolist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structure.Structure.tolist" title="Link to this definition"></a></dt>
-<dd><p>Return <cite>Atoms</cite> in this <cite>Structure</cite> as a standard Python list.</p>
+<dd><p>Return <cite>Atoms</cite> in this <cite>Structure</cite> as a standard Python
+list.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1594,7 +1617,8 @@ can be inspected for information related to particular format.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.writeStr">
 <span class="sig-name descname"><span class="pre">writeStr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/structure.html#Structure.writeStr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.structure.Structure.writeStr" title="Link to this definition"></a></dt>
-<dd><p>return string representation of the structure in specified format.</p>
+<dd><p>Return string representation of the structure in specified
+format.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Available structure formats can be obtained by:</p>
@@ -1606,35 +1630,35 @@ can be inspected for information related to particular format.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.x">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.x" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.x" title="Link to this definition"></a></dt>
 <dd><p>Array of all fractional coordinates <cite>x</cite>.
 Assignment updates <cite>xyz</cite> attribute of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.xyz">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xyz</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.xyz" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xyz</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.xyz" title="Link to this definition"></a></dt>
 <dd><p>Array of fractional coordinates of all <cite>Atoms</cite>.
 Assignment updates <cite>xyz</cite> attribute of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.xyz_cartn">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xyz_cartn</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.xyz_cartn" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xyz_cartn</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.xyz_cartn" title="Link to this definition"></a></dt>
 <dd><p>Array of absolute Cartesian coordinates of all <cite>Atoms</cite>.
 Assignment updates the <cite>xyz</cite> attribute of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.y">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.y" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.y" title="Link to this definition"></a></dt>
 <dd><p>Array of all fractional coordinates <cite>y</cite>.
 Assignment updates <cite>xyz</cite> attribute of all <cite>Atoms</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.structure.Structure.z">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.z" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#diffpy.structure.structure.Structure.z" title="Link to this definition"></a></dt>
 <dd><p>Array of all fractional coordinates <cite>z</cite>.
 Assignment updates <cite>xyz</cite> attribute of all <cite>Atoms</cite>.</p>
 </dd></dl>
@@ -1648,8 +1672,8 @@ Assignment updates <cite>xyz</cite> attribute of all <cite>Atoms</cite>.</p>
 </section>
 <section id="module-diffpy.structure.symmetryutilities">
 <span id="diffpy-structure-symmetryutilities-module"></span><h3>diffpy.structure.symmetryutilities module<a class="headerlink" href="#module-diffpy.structure.symmetryutilities" title="Link to this heading"></a></h3>
-<p>Symmetry utility functions such as expansion of asymmetric unit,
-and generation of positional constraints.</p>
+<p>Symmetry utility functions such as expansion of asymmetric unit, and
+generation of positional constraints.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.epsilon">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.symmetryutilities.</span></span><span class="sig-name descname"><span class="pre">epsilon</span></span><a class="headerlink" href="#diffpy.structure.symmetryutilities.epsilon" title="Link to this definition"></a></dt>
@@ -1676,13 +1700,13 @@ displacement tensor.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.ExpandAsymmetricUnit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.symmetryutilities.</span></span><span class="sig-name descname"><span class="pre">ExpandAsymmetricUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spacegroup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corepos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coreUijs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sgoffset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#ExpandAsymmetricUnit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.ExpandAsymmetricUnit" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.symmetryutilities.</span></span><span class="sig-name descname"><span class="pre">ExpandAsymmetricUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spacegroup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corepos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coreUijs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sgoffset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#ExpandAsymmetricUnit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.ExpandAsymmetricUnit" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Expand asymmetric unit and anisotropic thermal displacement.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spacegroup</strong> (<a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup"><em>SpaceGroup</em></a>) – Instance of <cite>SpaceGroup</cite>.</p></li>
+<li><p><strong>spacegroup</strong> (<a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup"><em>SpaceGroup</em></a>) – Instance of <cite>SpaceGroup</cite>.</p></li>
 <li><p><strong>corepos</strong> (<em>array_like</em>) – List of positions in asymmetric unit,
 it may contain duplicates.</p></li>
 <li><p><strong>coreUijs</strong> (<em>numpy.ndarray</em><em>, </em><em>Optional</em>) – Thermal factors for <cite>corepos</cite>.</p></li>
@@ -1697,7 +1721,7 @@ it may contain duplicates.</p></li>
 <dd><p>Instance of <cite>SpaceGroup</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup">SpaceGroup</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup">SpaceGroup</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1795,13 +1819,13 @@ it may contain duplicates.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.GeneratorSite">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.symmetryutilities.</span></span><span class="sig-name descname"><span class="pre">GeneratorSite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spacegroup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Uij</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([[0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span> <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span> <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.]])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sgoffset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#GeneratorSite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.GeneratorSite" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.symmetryutilities.</span></span><span class="sig-name descname"><span class="pre">GeneratorSite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spacegroup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Uij</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([[0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span> <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span> <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.]])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sgoffset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#GeneratorSite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.GeneratorSite" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Storage of data related to a generator positions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spacegroup</strong> (<a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup"><em>SpaceGroup</em></a>) – Instance of <cite>SpaceGroup</cite>.</p></li>
+<li><p><strong>spacegroup</strong> (<a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup"><em>SpaceGroup</em></a>) – Instance of <cite>SpaceGroup</cite>.</p></li>
 <li><p><strong>xyz</strong> (<em>array_like</em>) – Generating site. When <cite>xyz</cite> is close to special
 position <cite>self.xyz</cite> will be adjusted.</p></li>
 <li><p><strong>Uij</strong> (<em>array_like</em><em>, </em><em>Optional</em>) – Thermal factors at generator site. Yields <cite>self.Uij</cite>
@@ -1970,7 +1994,8 @@ allowed shifts.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.GeneratorSite.UFormula">
 <span class="sig-name descname"><span class="pre">UFormula</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Usymbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['U11',</span> <span class="pre">'U22',</span> <span class="pre">'U33',</span> <span class="pre">'U12',</span> <span class="pre">'U13',</span> <span class="pre">'U23']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#GeneratorSite.UFormula"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.GeneratorSite.UFormula" title="Link to this definition"></a></dt>
-<dd><p>List of atom displacement formulas with custom parameter symbols.</p>
+<dd><p>List of atom displacement formulas with custom parameter
+symbols.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1993,7 +2018,8 @@ pos is not equivalent to generator.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.GeneratorSite.Ucomponents">
 <span class="sig-name descname"><span class="pre">Ucomponents</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([[[1.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.]],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[[0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">1.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.]],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[[0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">1.]],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[[0.,</span> <span class="pre">1.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[1.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.]],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[[0.,</span> <span class="pre">0.,</span> <span class="pre">1.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[1.,</span> <span class="pre">0.,</span> <span class="pre">0.]],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[[0.,</span> <span class="pre">0.,</span> <span class="pre">0.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">0.,</span> <span class="pre">1.],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.,</span> <span class="pre">1.,</span> <span class="pre">0.]]])</span></em><a class="headerlink" href="#diffpy.structure.symmetryutilities.GeneratorSite.Ucomponents" title="Link to this definition"></a></dt>
-<dd><p>6x3x3 array of independent components of U matrices.</p>
+<dd><p>6x3x3 array of independent components of U
+matrices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
@@ -2032,7 +2058,8 @@ pos is not equivalent to generator.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.GeneratorSite.positionFormula">
 <span class="sig-name descname"><span class="pre">positionFormula</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyzsymbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('x',</span> <span class="pre">'y',</span> <span class="pre">'z')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#GeneratorSite.positionFormula"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.GeneratorSite.positionFormula" title="Link to this definition"></a></dt>
-<dd><p>Formula of equivalent position with respect to generator site.</p>
+<dd><p>Formula of equivalent position with respect to generator
+site.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2055,7 +2082,8 @@ Formulas are formatted as <code class="docutils literal notranslate"><span class
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.GeneratorSite.signedRatStr">
 <span class="sig-name descname"><span class="pre">signedRatStr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#GeneratorSite.signedRatStr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.GeneratorSite.signedRatStr" title="Link to this definition"></a></dt>
-<dd><p>Convert floating point number to signed rational representation.</p>
+<dd><p>Convert floating point number to signed rational
+representation.</p>
 <p>Possible fractional are multiples of 1/3, 1/6, 1/7, 1/9, if these
 are not close, return <cite>%+g</cite> format.</p>
 <dl class="field-list simple">
@@ -2075,13 +2103,13 @@ are not close, return <cite>%+g</cite> format.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.SymmetryConstraints">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.symmetryutilities.</span></span><span class="sig-name descname"><span class="pre">SymmetryConstraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spacegroup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Uijs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sgoffset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#SymmetryConstraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.SymmetryConstraints" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.symmetryutilities.</span></span><span class="sig-name descname"><span class="pre">SymmetryConstraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spacegroup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Uijs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sgoffset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#SymmetryConstraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.SymmetryConstraints" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Generate symmetry constraints for specified positions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spacegroup</strong> (<a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup"><em>SpaceGroup</em></a>) – Instance of <cite>SpaceGroup</cite>.</p></li>
+<li><p><strong>spacegroup</strong> (<a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup"><em>SpaceGroup</em></a>) – Instance of <cite>SpaceGroup</cite>.</p></li>
 <li><p><strong>positions</strong> (<em>array_like</em>) – List of all positions to be constrained.</p></li>
 <li><p><strong>Uijs</strong> (<em>array_like</em><em>, </em><em>Optional</em>) – List of U matrices for all constrained positions.</p></li>
 <li><p><strong>sgoffset</strong> (<em>list</em><em>, </em><em>Optional</em>) – Offset of space group origin <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>. Default is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>.</p></li>
@@ -2095,7 +2123,7 @@ are not close, return <cite>%+g</cite> format.</p>
 <dd><p>Instance of <cite>SpaceGroup</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup">SpaceGroup</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup">SpaceGroup</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2232,7 +2260,8 @@ for example: <code class="docutils literal notranslate"><span class="pre">U110</
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulas">
 <span class="sig-name descname"><span class="pre">UFormulas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Usymbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#SymmetryConstraints.UFormulas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulas" title="Link to this definition"></a></dt>
-<dd><p>List of atom displacement formulas with custom parameter symbols.</p>
+<dd><p>List of atom displacement formulas with custom parameter
+symbols.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>Usymbols</strong> (<em>list</em><em>, </em><em>Optional</em>) – List of custom symbols used in formula strings.</p>
@@ -2252,8 +2281,8 @@ and the values are formatted as <code class="docutils literal notranslate"><span
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulasPruned">
 <span class="sig-name descname"><span class="pre">UFormulasPruned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Usymbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#SymmetryConstraints.UFormulasPruned"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulasPruned" title="Link to this definition"></a></dt>
-<dd><p>List of atom displacement formula dictionaries with constant items
-removed.</p>
+<dd><p>List of atom displacement formula dictionaries with constant
+items removed.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulas" title="diffpy.structure.symmetryutilities.SymmetryConstraints.UFormulas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UFormulas</span></code></a></p>
@@ -2275,7 +2304,8 @@ removed.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.SymmetryConstraints.UparSymbols">
 <span class="sig-name descname"><span class="pre">UparSymbols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#SymmetryConstraints.UparSymbols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.SymmetryConstraints.UparSymbols" title="Link to this definition"></a></dt>
-<dd><p>Return list of standard atom displacement parameter symbols.</p>
+<dd><p>Return list of standard atom displacement parameter
+symbols.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2306,7 +2336,8 @@ keys are from <code class="docutils literal notranslate"><span class="pre">(&quo
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.symmetryutilities.SymmetryConstraints.positionFormulasPruned">
 <span class="sig-name descname"><span class="pre">positionFormulasPruned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xyzsymbols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/symmetryutilities.html#SymmetryConstraints.positionFormulasPruned"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.symmetryutilities.SymmetryConstraints.positionFormulasPruned" title="Link to this definition"></a></dt>
-<dd><p>List of position formula dictionaries with constant items removed.</p>
+<dd><p>List of position formula dictionaries with constant items
+removed.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#diffpy.structure.symmetryutilities.SymmetryConstraints.positionFormulas" title="diffpy.structure.symmetryutilities.SymmetryConstraints.positionFormulas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">positionFormulas</span></code></a></p>
@@ -2366,7 +2397,7 @@ keys are from <code class="docutils literal notranslate"><span class="pre">(&quo
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spacegroup</strong> (<a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup"><em>SpaceGroup</em></a>) – Instance of SpaceGroup.</p></li>
+<li><p><strong>spacegroup</strong> (<a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup"><em>SpaceGroup</em></a>) – Instance of SpaceGroup.</p></li>
 <li><p><strong>xyz</strong> (<em>list</em>) – Position to be expanded.</p></li>
 <li><p><strong>sgoffset</strong> (<em>list</em><em>, </em><em>Optional</em>) – Offset of space group origin <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>. Default is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>.</p></li>
 <li><p><strong>eps</strong> (<em>float</em><em>, </em><em>Optional</em>) – Cutoff for equal positions, default is <code class="docutils literal notranslate"><span class="pre">1.0e-5</span></code>.</p></li>
@@ -2389,7 +2420,7 @@ keys are from <code class="docutils literal notranslate"><span class="pre">(&quo
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spacegroup</strong> (<a class="reference internal" href="../mod_spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup"><em>SpaceGroup</em></a>) – Instance of <cite>SpaceGroup</cite>.</p></li>
+<li><p><strong>spacegroup</strong> (<a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup"><em>SpaceGroup</em></a>) – Instance of <cite>SpaceGroup</cite>.</p></li>
 <li><p><strong>a</strong> (<em>float</em>) – <cite>Lattice</cite> parameters.</p></li>
 <li><p><strong>b</strong> (<em>float</em>) – <cite>Lattice</cite> parameters.</p></li>
 <li><p><strong>c</strong> (<em>float</em>) – <cite>Lattice</cite> parameters.</p></li>
@@ -2497,10 +2528,11 @@ with <code class="docutils literal notranslate"><span class="pre">0</span> <span
 </section>
 <section id="module-diffpy.structure.atom">
 <span id="diffpy-structure-atom-module"></span><h3>diffpy.structure.atom module<a class="headerlink" href="#module-diffpy.structure.atom" title="Link to this heading"></a></h3>
-<p>Provide class Atom for managing properties of an atom in structure model.</p>
+<p>Provide class Atom for managing properties of an atom in structure
+model.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.atom.</span></span><span class="sig-name descname"><span class="pre">Atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anisotropy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Uisoequiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/atom.html#Atom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.atom.</span></span><span class="sig-name descname"><span class="pre">Atom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anisotropy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Uisoequiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/atom.html#Atom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Storage of structure information relevant for a single atom.</p>
 <p>This class manages atom information such as element symbol, position
@@ -2509,7 +2541,7 @@ and so forth.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>atype</strong> (<em>str</em><em> or </em><a class="reference internal" href="../mod_atom.html#diffpy.structure.atom.Atom" title="diffpy.structure.atom.Atom"><em>Atom</em></a><em>, </em><em>Optional</em>) – The string atom type to be set as the <cite>element</cite> attribute.
+<li><p><strong>atype</strong> (<em>str</em><em> or </em><a class="reference internal" href="../mod-atom.html#diffpy.structure.atom.Atom" title="diffpy.structure.atom.Atom"><em>Atom</em></a><em>, </em><em>Optional</em>) – The string atom type to be set as the <cite>element</cite> attribute.
 By default an empty string. When of the <cite>Atom</cite> type, create
 a copy of <cite>atype</cite> and adjust it per other arguments.</p></li>
 <li><p><strong>xyz</strong> (<em>numpy.ndarray</em><em>, </em><em>Optional</em>) – Fractional coordinates within the associated <cite>lattice</cite>.
@@ -2527,7 +2559,7 @@ When present <cite>anisotropy</cite> defaults to <code class="docutils literal n
 defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code> when present. Only one of the <em>U</em> and
 <em>Uisoequiv</em> arguments may be provided at the same time. Assume
 zero atomic displacements when <em>U</em> and <em>Uisoequiv</em> are unset.</p></li>
-<li><p><strong>lattice</strong> (<a class="reference internal" href="../mod_lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice"><em>Lattice</em></a><em>, </em><em>Optional</em>) – Coordinate system for the fractional coordinates <cite>xyz</cite>.
+<li><p><strong>lattice</strong> (<a class="reference internal" href="../mod-lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice"><em>Lattice</em></a><em>, </em><em>Optional</em>) – Coordinate system for the fractional coordinates <cite>xyz</cite>.
 Use the absolute Cartesian system when <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 </ul>
 </dd>
@@ -2586,7 +2618,7 @@ the tensor of atomic displacement parameters <cite>U</cite>.
 Use the absolute Cartesian coordinates when <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../mod_lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="../mod-lattice.html#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2597,7 +2629,7 @@ Use the absolute Cartesian coordinates when <code class="docutils literal notran
 </div>
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B11">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B11</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B11" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B11</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B11" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B11</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U11</span></code>. When <cite>anisotropy</cite>
 is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire tensor <cite>U</cite>.</p>
@@ -2610,7 +2642,7 @@ is <code class="docutils literal notranslate"><span class="pre">False</span></co
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B12">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B12</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B12" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B12</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B12" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B12</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U12</span></code>. Setting a new
 value updates <cite>U</cite> in a symmetric way. Assignment has no effect
@@ -2624,7 +2656,7 @@ when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B13">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B13</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B13" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B13</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B13" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B13</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U13</span></code>. Setting a new
 value updates <cite>U</cite> in a symmetric way. Assignment has no effect
@@ -2638,7 +2670,7 @@ when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B22">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B22</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B22" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B22</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B22" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B22</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U22</span></code>. When <cite>anisotropy</cite>
 is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire tensor <cite>U</cite>.</p>
@@ -2651,7 +2683,7 @@ is <code class="docutils literal notranslate"><span class="pre">False</span></co
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B23">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B23</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B23" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B23</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B23" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B23</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U23</span></code>. Setting a new
 value updates <cite>U</cite> in a symmetric way. Assignment has no effect
@@ -2665,7 +2697,7 @@ when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.B33">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B33</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B33" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">B33</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.B33" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">B33</span></code> element of the Debye-Waller matrix.</p>
 <p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">U33</span></code>. When <cite>anisotropy</cite>
 is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire tensor <cite>U</cite>.</p>
@@ -2678,7 +2710,7 @@ is <code class="docutils literal notranslate"><span class="pre">False</span></co
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.Bisoequiv">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Bisoequiv</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.Bisoequiv" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Bisoequiv</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.Bisoequiv" title="Link to this definition"></a></dt>
 <dd><p>The Debye-Waller isotropic displacement or an equivalent value.</p>
 <p>This equals <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">pi**2</span> <span class="pre">*</span> <span class="pre">Uisoequiv</span></code>. Setting a new value
 rescales <cite>U</cite> tensor to yield equivalent direction-average of
@@ -2692,8 +2724,9 @@ Debye-Waller displacements.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U" title="Link to this definition"></a></dt>
-<dd><p>The 3x3 matrix of anisotropic atomic displacements.</p>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U" title="Link to this definition"></a></dt>
+<dd><p>The 3x3 matrix of anisotropic atomic
+displacements.</p>
 <p>For isotropic displacements (when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>)
 assignment to <em>U</em> uses only the first <code class="docutils literal notranslate"><span class="pre">Unew[0,</span> <span class="pre">0]</span></code> element
 and the remaining components of <em>U</em> are adjusted to obtain
@@ -2714,7 +2747,7 @@ undefined behavior. Use the <cite>U11</cite>, <cite>U22</cite>, …, or <cite>B1
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U11">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U11</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U11" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U11</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U11" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[0,</span> <span class="pre">0]</span></code> component of the displacement tensor <cite>U</cite>.</p>
 <p>When <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire
 tensor <em>U</em>.</p>
@@ -2727,7 +2760,7 @@ tensor <em>U</em>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U12">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U12</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U12" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U12</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U12" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[0,</span> <span class="pre">1]</span></code> element of the displacement tensor <cite>U</cite>.</p>
 <p>Sets <code class="docutils literal notranslate"><span class="pre">U[1,</span> <span class="pre">0]</span></code> together with <code class="docutils literal notranslate"><span class="pre">U[0,</span> <span class="pre">1]</span></code>. Assignment
 has no effect when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
@@ -2740,7 +2773,7 @@ has no effect when <cite>anisotropy</cite> is <code class="docutils literal notr
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U13">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U13</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U13" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U13</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U13" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[0,</span> <span class="pre">2]</span></code> element of the displacement tensor <cite>U</cite>.</p>
 <p>Sets <code class="docutils literal notranslate"><span class="pre">U[2,</span> <span class="pre">0]</span></code> together with <code class="docutils literal notranslate"><span class="pre">U[0,</span> <span class="pre">2]</span></code>. Assignment
 has no effect when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
@@ -2753,7 +2786,7 @@ has no effect when <cite>anisotropy</cite> is <code class="docutils literal notr
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U22">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U22</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U22" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U22</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U22" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[1,</span> <span class="pre">1]</span></code> component of the displacement tensor <cite>U</cite>.</p>
 <p>When <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire
 tensor <em>U</em>.</p>
@@ -2766,7 +2799,7 @@ tensor <em>U</em>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U23">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U23</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U23" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U23</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U23" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[1,</span> <span class="pre">2]</span></code> element of the displacement tensor <cite>U</cite>.</p>
 <p>Sets <code class="docutils literal notranslate"><span class="pre">U[2,</span> <span class="pre">1]</span></code> together with <code class="docutils literal notranslate"><span class="pre">U[1,</span> <span class="pre">2]</span></code>. Assignment
 has no effect when <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
@@ -2779,7 +2812,7 @@ has no effect when <cite>anisotropy</cite> is <code class="docutils literal notr
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.U33">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U33</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U33" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">U33</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.U33" title="Link to this definition"></a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">U[2,</span> <span class="pre">2]</span></code> component of the displacement tensor <cite>U</cite>.</p>
 <p>When <cite>anisotropy</cite> is <code class="docutils literal notranslate"><span class="pre">False</span></code> setting a new value updates entire
 tensor <em>U</em>.</p>
@@ -2792,7 +2825,7 @@ tensor <em>U</em>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.Uisoequiv">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Uisoequiv</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.Uisoequiv" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Uisoequiv</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.Uisoequiv" title="Link to this definition"></a></dt>
 <dd><p>The isotropic displacement parameter or an equivalent value.</p>
 <p>Setting a new value rescales tensor <cite>U</cite> so it yields equivalent
 direction-averaged displacements.</p>
@@ -2805,7 +2838,7 @@ direction-averaged displacements.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.anisotropy">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">anisotropy</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.anisotropy" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">anisotropy</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.anisotropy" title="Link to this definition"></a></dt>
 <dd><p>Flag for allowing anisotropic displacement parameters.</p>
 <p>When <code class="docutils literal notranslate"><span class="pre">False</span></code> the tensor of thermal displacement parameters <cite>U</cite>
 must be isotropic and only its diagonal elements are taken into
@@ -2853,7 +2886,8 @@ account.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msdCart">
 <span class="sig-name descname"><span class="pre">msdCart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/atom.html#Atom.msdCart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom.msdCart" title="Link to this definition"></a></dt>
-<dd><p>Calculate mean square displacement along the Cartesian vector.</p>
+<dd><p>Calculate mean square displacement along the Cartesian
+vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vc</strong> (<em>array_like</em>) – Vector in Cartesian coordinates.</p>
@@ -2897,7 +2931,7 @@ account.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.x">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.x" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.x" title="Link to this definition"></a></dt>
 <dd><p>fractional coordinate <em>x</em>, same as <code class="docutils literal notranslate"><span class="pre">xyz[0]</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -2908,8 +2942,9 @@ account.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.xyz_cartn">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xyz_cartn</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.xyz_cartn" title="Link to this definition"></a></dt>
-<dd><p>Atom position in absolute Cartesian coordinates.</p>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xyz_cartn</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.xyz_cartn" title="Link to this definition"></a></dt>
+<dd><p>Atom position in absolute Cartesian
+coordinates.</p>
 <p>This is computed from fractional coordinates <cite>xyz</cite> and the
 current <cite>lattice</cite> setup. Assignment to <em>xyz_cartn</em> or
 its components is applied on fractional coordinates <cite>xyz</cite>.</p>
@@ -2922,7 +2957,7 @@ its components is applied on fractional coordinates <cite>xyz</cite>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.y">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.y" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.y" title="Link to this definition"></a></dt>
 <dd><p>fractional coordinate <em>y</em>, same as <code class="docutils literal notranslate"><span class="pre">xyz[1]</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -2933,7 +2968,7 @@ its components is applied on fractional coordinates <cite>xyz</cite>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.z">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.z" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#diffpy.structure.atom.Atom.z" title="Link to this definition"></a></dt>
 <dd><p>fractional coordinate <em>z</em>, same as <code class="docutils literal notranslate"><span class="pre">xyz[2]</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -2947,10 +2982,10 @@ its components is applied on fractional coordinates <cite>xyz</cite>.</p>
 </section>
 <section id="module-diffpy.structure.pdffitstructure">
 <span id="diffpy-structure-pdffitstructure-module"></span><h3>diffpy.structure.pdffitstructure module<a class="headerlink" href="#module-diffpy.structure.pdffitstructure" title="Link to this heading"></a></h3>
-<p>Definition of PDFFitStructure class derived from Structure</p>
+<p>Definition of PDFFitStructure class derived from Structure.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.pdffitstructure.PDFFitStructure">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.pdffitstructure.</span></span><span class="sig-name descname"><span class="pre">PDFFitStructure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/pdffitstructure.html#PDFFitStructure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.pdffitstructure.PDFFitStructure" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.structure.pdffitstructure.</span></span><span class="sig-name descname"><span class="pre">PDFFitStructure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/pdffitstructure.html#PDFFitStructure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.pdffitstructure.PDFFitStructure" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></a></p>
 <p>PDFFitStructure –&gt; Structure with extra pdffit member.</p>
 <dl class="field-list simple">
@@ -3028,8 +3063,9 @@ all parsers are tried one by one.</p></li>
 </section>
 <section id="module-diffpy.structure.sgtbxspacegroups">
 <span id="diffpy-structure-sgtbxspacegroups-module"></span><h3>diffpy.structure.sgtbxspacegroups module<a class="headerlink" href="#module-diffpy.structure.sgtbxspacegroups" title="Link to this heading"></a></h3>
-<p>Extra space group representations generated using <cite>sgtbx</cite> module from <cite>cctbx</cite>.
-Import of this module extends the <cite>SpaceGroupList</cite> in the <cite>SpaceGroups</cite> module.</p>
+<p>Extra space group representations generated using <cite>sgtbx</cite> module from
+<cite>cctbx</cite>. Import of this module extends the <cite>SpaceGroupList</cite> in the
+<cite>SpaceGroups</cite> module.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.sgtbxspacegroups.sgtbxSpaceGroupList">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.sgtbxspacegroups.</span></span><span class="sig-name descname"><span class="pre">sgtbxSpaceGroupList</span></span><a class="headerlink" href="#diffpy.structure.sgtbxspacegroups.sgtbxSpaceGroupList" title="Link to this definition"></a></dt>
@@ -3049,14 +3085,14 @@ Import of this module extends the <cite>SpaceGroupList</cite> in the <cite>Space
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../release.html" class="btn btn-neutral float-left" title="Release Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../release.html" class="btn btn-neutral float-left" title="Release notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="diffpy.structure.parsers.html" class="btn btn-neutral float-right" title="diffpy.structure.parsers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
