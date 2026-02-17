@@ -115,7 +115,10 @@ class P_discus(StructureParser):
             exp_natoms = reduce(lambda x, y: x * y, self.stru.pdffit["ncell"])
             # only check if ncell record exists
             if self.ncell_read and exp_natoms != len(self.stru):
-                emsg = "Expected %d atoms, read %d." % (exp_natoms, len(self.stru))
+                emsg = "Expected %d atoms, read %d." % (
+                    exp_natoms,
+                    len(self.stru),
+                )
                 raise StructureFormatError(emsg)
             # take care of superlattice
             if self.stru.pdffit["ncell"][:3] != [1, 1, 1]:
@@ -168,7 +171,14 @@ class P_discus(StructureParser):
         lines.append("atoms")
         for a in self.stru:
             lines.append(
-                "%-4s %17.8f %17.8f %17.8f %12.4f" % (a.element.upper(), a.xyz[0], a.xyz[1], a.xyz[2], a.Bisoequiv)
+                "%-4s %17.8f %17.8f %17.8f %12.4f"
+                % (
+                    a.element.upper(),
+                    a.xyz[0],
+                    a.xyz[1],
+                    a.xyz[2],
+                    a.Bisoequiv,
+                )
             )
         return lines
 
@@ -290,7 +300,10 @@ class P_discus(StructureParser):
         NotImplementedError
             If the record is not implemented.
         """
-        emsg = "%d: reading of DISCUS record %r is not implemented." % (self.nl, words[0])
+        emsg = "%d: reading of DISCUS record %r is not implemented." % (
+            self.nl,
+            words[0],
+        )
         raise NotImplementedError(emsg)
 
 

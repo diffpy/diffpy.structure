@@ -268,14 +268,70 @@ class TestGeneratorSite(unittest.TestCase):
         # Ref: Willis and Pryor, Thermal Vibrations in Crystallography,
         # Cambridge University Press 1975, p. 104-110
         smbl = ("A", "B", "C", "D", "E", "F")
-        norule = {"U11": "A", "U22": "B", "U33": "C", "U12": "D", "U13": "E", "U23": "F"}
-        rule05 = {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "0", "U23": "0"}
-        rule06 = {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "E", "U23": "E"}
-        rule07 = {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "E", "U23": "-E"}
-        rule15 = {"U11": "A", "U22": "B", "U33": "C", "U12": "0.5*B", "U13": "0.5*F", "U23": "F"}
-        rule16 = {"U11": "A", "U22": "A", "U33": "C", "U12": "0.5*A", "U13": "0", "U23": "0"}
-        rule17 = {"U11": "A", "U22": "A", "U33": "A", "U12": "0", "U13": "0", "U23": "0"}
-        rule18 = {"U11": "A", "U22": "A", "U33": "A", "U12": "D", "U13": "D", "U23": "D"}
+        norule = {
+            "U11": "A",
+            "U22": "B",
+            "U33": "C",
+            "U12": "D",
+            "U13": "E",
+            "U23": "F",
+        }
+        rule05 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "C",
+            "U12": "D",
+            "U13": "0",
+            "U23": "0",
+        }
+        rule06 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "C",
+            "U12": "D",
+            "U13": "E",
+            "U23": "E",
+        }
+        rule07 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "C",
+            "U12": "D",
+            "U13": "E",
+            "U23": "-E",
+        }
+        rule15 = {
+            "U11": "A",
+            "U22": "B",
+            "U33": "C",
+            "U12": "0.5*B",
+            "U13": "0.5*F",
+            "U23": "F",
+        }
+        rule16 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "C",
+            "U12": "0.5*A",
+            "U13": "0",
+            "U23": "0",
+        }
+        rule17 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "A",
+            "U12": "0",
+            "U13": "0",
+            "U23": "0",
+        }
+        rule18 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "A",
+            "U12": "D",
+            "U13": "D",
+            "U23": "D",
+        }
         ufm = self.g117c.UFormula(self.g117c.xyz, smbl)
         self.assertEqual(rule05, ufm)
         ufm = self.g117h.UFormula(self.g117h.xyz, smbl)
@@ -318,12 +374,54 @@ class TestGeneratorSite(unittest.TestCase):
         in 186."""
         sg186 = GetSpaceGroup(186)
         crules = [
-            {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "E", "U23": "-E"},
-            {"U11": "A", "U22": "2*A-2*D", "U33": "C", "U12": "A-D", "U13": "E", "U23": "2*E"},
-            {"U11": "2*A-2*D", "U22": "A", "U33": "C", "U12": "A-D", "U13": "-2*E", "U23": "-E"},
-            {"U11": "A", "U22": "A", "U33": "C", "U12": "D", "U13": "-E", "U23": "E"},
-            {"U11": "A", "U22": "2*A-2*D", "U33": "C", "U12": "A-D", "U13": "-E", "U23": "-2*E"},
-            {"U11": "2*A-2*D", "U22": "A", "U33": "C", "U12": "A-D", "U13": "2*E", "U23": "E"},
+            {
+                "U11": "A",
+                "U22": "A",
+                "U33": "C",
+                "U12": "D",
+                "U13": "E",
+                "U23": "-E",
+            },
+            {
+                "U11": "A",
+                "U22": "2*A-2*D",
+                "U33": "C",
+                "U12": "A-D",
+                "U13": "E",
+                "U23": "2*E",
+            },
+            {
+                "U11": "2*A-2*D",
+                "U22": "A",
+                "U33": "C",
+                "U12": "A-D",
+                "U13": "-2*E",
+                "U23": "-E",
+            },
+            {
+                "U11": "A",
+                "U22": "A",
+                "U33": "C",
+                "U12": "D",
+                "U13": "-E",
+                "U23": "E",
+            },
+            {
+                "U11": "A",
+                "U22": "2*A-2*D",
+                "U33": "C",
+                "U12": "A-D",
+                "U13": "-E",
+                "U23": "-2*E",
+            },
+            {
+                "U11": "2*A-2*D",
+                "U22": "A",
+                "U33": "C",
+                "U12": "A-D",
+                "U13": "2*E",
+                "U23": "E",
+            },
         ]
         self.assertEqual(6, len(self.g186c.eqxyz))
         gc = self.g186c
@@ -340,7 +438,14 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual(2.0, upd["U330"])
         self.assertEqual(1.0, upd["U120"])
         self.assertEqual(0.0, upd["U130"])
-        uisod = {"U11": 2.0, "U22": 2.0, "U33": 2.0, "U12": 1.0, "U13": 0.0, "U23": 0.0}
+        uisod = {
+            "U11": 2.0,
+            "U22": 2.0,
+            "U33": 2.0,
+            "U12": 1.0,
+            "U13": 0.0,
+            "U23": 0.0,
+        }
         for ufms in symcon.UFormulas():
             for n, fm in ufms.items():
                 self.assertEqual(uisod[n], eval(fm, upd))

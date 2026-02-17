@@ -323,7 +323,19 @@ class P_pdb(StructureParser):
         isotropic = numpy.all(a.U == a.U[0, 0] * numpy.identity(3))
         if not isotropic:
             mid = " %7i%7i%7i%7i%7i%7i  " % tuple(
-                numpy.around(1e4 * numpy.array([a.U[0, 0], a.U[1, 1], a.U[2, 2], a.U[0, 1], a.U[0, 2], a.U[1, 2]]))
+                numpy.around(
+                    1e4
+                    * numpy.array(
+                        [
+                            a.U[0, 0],
+                            a.U[1, 1],
+                            a.U[2, 2],
+                            a.U[0, 1],
+                            a.U[0, 2],
+                            a.U[1, 2],
+                        ]
+                    )
+                )
             )
             line = "ANISOU" + atomline[6:27] + mid + atomline[72:80]
             lines.append(line)
@@ -348,7 +360,17 @@ class P_pdb(StructureParser):
             if not numpy.all(sigU == sigU[0, 0] * numpy.identity(3)):
                 mid = " %7i%7i%7i%7i%7i%7i  " % tuple(
                     numpy.around(
-                        1e4 * numpy.array([sigU[0, 0], sigU[1, 1], sigU[2, 2], sigU[0, 1], sigU[0, 2], sigU[1, 2]])
+                        1e4
+                        * numpy.array(
+                            [
+                                sigU[0, 0],
+                                sigU[1, 1],
+                                sigU[2, 2],
+                                sigU[0, 1],
+                                sigU[0, 2],
+                                sigU[1, 2],
+                            ]
+                        )
                     )
                 )
                 line = "SIGUIJ" + atomline[6:27] + mid + atomline[72:80]
@@ -381,7 +403,14 @@ class P_pdb(StructureParser):
             + "%(resSeq)4i"  # 23-26
             + "%(iCode)c"  # 27
             + "%(blank)53s"  # 28-80
-        ) % {"serial": len(stru) + 1, "resName": "", "chainID": " ", "resSeq": 1, "iCode": " ", "blank": " "}
+        ) % {
+            "serial": len(stru) + 1,
+            "resName": "",
+            "chainID": " ",
+            "resSeq": 1,
+            "iCode": " ",
+            "blank": " ",
+        }
         lines.append(line)
         lines.append("%-80s" % "END")
         return lines

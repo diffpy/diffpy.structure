@@ -80,7 +80,11 @@ class MapRenamedStructureModule(importlib.abc.Loader):
 # ----------------------------------------------------------------------------
 
 # show deprecation warning for diffpy.Structure
-warn(WMSG.format("diffpy.Structure", "diffpy.structure"), DeprecationWarning, stacklevel=2)
+warn(
+    WMSG.format("diffpy.Structure", "diffpy.structure"),
+    DeprecationWarning,
+    stacklevel=2,
+)
 
 # install meta path finder for diffpy.Structure submodules
 sys.meta_path.append(FindRenamedStructureModule())

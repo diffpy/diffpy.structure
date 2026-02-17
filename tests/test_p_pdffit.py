@@ -150,8 +150,18 @@ class TestP_pdffit(unittest.TestCase):
     def test_read_pdffit_bad(self):
         """Check exceptions when reading invalid pdffit file."""
         stru = self.stru
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("Ni-bad.stru"), self.format)
-        self.assertRaises(StructureFormatError, stru.read, self.datafile("bucky.xyz"), self.format)
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("Ni-bad.stru"),
+            self.format,
+        )
+        self.assertRaises(
+            StructureFormatError,
+            stru.read,
+            self.datafile("bucky.xyz"),
+            self.format,
+        )
         return
 
     def test_writeStr_pdffit(self):

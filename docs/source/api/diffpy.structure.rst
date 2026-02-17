@@ -1,7 +1,9 @@
 :tocdepth: -1
 
-diffpy.structure package
-========================
+|title|
+=======
+
+.. |title| replace:: diffpy.structure package
 
 .. automodule:: diffpy.structure
     :members:

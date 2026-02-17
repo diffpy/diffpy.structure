@@ -137,9 +137,24 @@ class SymOp(object):
 
     def __str__(self):
         """Printable representation of this SymOp object."""
-        x = "[%6.3f %6.3f %6.3f %6.3f]\n" % (self.R[0, 0], self.R[0, 1], self.R[0, 2], self.t[0])
-        x += "[%6.3f %6.3f %6.3f %6.3f]\n" % (self.R[1, 0], self.R[1, 1], self.R[1, 2], self.t[1])
-        x += "[%6.3f %6.3f %6.3f %6.3f]\n" % (self.R[2, 0], self.R[2, 1], self.R[2, 2], self.t[2])
+        x = "[%6.3f %6.3f %6.3f %6.3f]\n" % (
+            self.R[0, 0],
+            self.R[0, 1],
+            self.R[0, 2],
+            self.t[0],
+        )
+        x += "[%6.3f %6.3f %6.3f %6.3f]\n" % (
+            self.R[1, 0],
+            self.R[1, 1],
+            self.R[1, 2],
+            self.t[1],
+        )
+        x += "[%6.3f %6.3f %6.3f %6.3f]\n" % (
+            self.R[2, 0],
+            self.R[2, 1],
+            self.R[2, 2],
+            self.t[2],
+        )
         return x
 
     def __call__(self, vec):

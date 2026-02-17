@@ -99,7 +99,10 @@ def main():
             print("'%s' is not valid output format" % outfmt, file=sys.stderr)
             sys.exit(2)
     except ValueError:
-        print("invalid format specification '%s' does not contain .." % args[0], file=sys.stderr)
+        print(
+            "invalid format specification '%s' does not contain .." % args[0],
+            file=sys.stderr,
+        )
         sys.exit(2)
     # ready to do some real work
     try:

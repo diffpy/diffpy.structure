@@ -25,6 +25,7 @@
         :target: https://anaconda.org/conda-forge/diffpy.structure
 
 .. |PR| image:: https://img.shields.io/badge/PR-Welcome-29ab47ff
+        :target: https://github.com/diffpy/diffpy.structure/pulls
 
 .. |PyPI| image:: https://img.shields.io/pypi/v/diffpy.structure
         :target: https://pypi.org/project/diffpy.structure/
@@ -99,6 +100,19 @@ and run the following ::
 
         pip install .
 
+This package also provides command-line utilities. To check the software has been installed correctly, type ::
+
+        diffpy.structure --version
+
+You can also type the following command to verify the installation. ::
+
+        python -c "import diffpy.structure; print(diffpy.structure.__version__)"
+
+
+To view the basic usage and available commands, type ::
+
+        diffpy.structure -h
+
 Getting Started
 ---------------
 
@@ -134,8 +148,15 @@ Improvements and fixes are always appreciated.
 
 Before contributing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.structure/blob/main/CODE-OF-CONDUCT.rst>`_.
 
-Acknowledgement
----------------
+Contact
+-------
+
+For more information on diffpy.structure please visit the project `web-page <https://diffpy.github.io/>`_ or email the maintainer``Simon Billinge(sbillinge@ucsb.edu)``.
+
+Acknowledgements
+----------------
+
+``diffpy.structure`` is built and maintained with `scikit-package <https://scikit-package.github.io/scikit-package/>`_.
 
 Space group codes in *spacegroupmod.py* and *mmlibspacegroups.py*
 originate from the `pymmlib project <http://pymmlib.sourceforge.net>`_.
@@ -144,8 +165,3 @@ Less common settings of space groups were generating using the
 `Computational Crystallography Toolbox <http://cctbx.sourceforge.net>`_.
 
 ``diffpy.structure`` is built and maintained with `scikit-package <https://scikit-package.github.io/scikit-package/>`_.
-
-Contact
--------
-
-For more information on diffpy.structure please visit the project `web-page <https://diffpy.github.io/>`_ or email Prof. Simon Billinge at sb2896@columbia.edu.

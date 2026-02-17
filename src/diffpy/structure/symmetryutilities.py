@@ -419,10 +419,27 @@ class GeneratorSite(object):
     """numpy.ndarray: 6x3x3 array of independent components of U
     matrices."""
 
-    idx2Usymbol = {0: "U11", 1: "U12", 2: "U13", 3: "U12", 4: "U22", 5: "U23", 6: "U13", 7: "U23", 8: "U33"}
+    idx2Usymbol = {
+        0: "U11",
+        1: "U12",
+        2: "U13",
+        3: "U12",
+        4: "U22",
+        5: "U23",
+        6: "U13",
+        7: "U23",
+        8: "U33",
+    }
     """dict: Mapping of index to standard U symbol."""
 
-    def __init__(self, spacegroup, xyz, Uij=numpy.zeros((3, 3)), sgoffset=[0, 0, 0], eps=None):
+    def __init__(
+        self,
+        spacegroup,
+        xyz,
+        Uij=numpy.zeros((3, 3)),
+        sgoffset=[0, 0, 0],
+        eps=None,
+    ):
         if eps is None:
             eps = epsilon
         # just declare the members
@@ -549,7 +566,14 @@ class GeneratorSite(object):
         n = len(self.invariants)
         R6zall = numpy.tile(-numpy.identity(6, dtype=float), (n, 1))
         R6zall_iter = numpy.split(R6zall, n, axis=0)
-        i6kl = ((0, (0, 0)), (1, (1, 1)), (2, (2, 2)), (3, (0, 1)), (4, (0, 2)), (5, (1, 2)))
+        i6kl = (
+            (0, (0, 0)),
+            (1, (1, 1)),
+            (2, (2, 2)),
+            (3, (0, 1)),
+            (4, (0, 2)),
+            (5, (1, 2)),
+        )
         for op, R6z in zip(self.invariants, R6zall_iter):
             R = op.R
             for j, Ucj in enumerate(self.Ucomponents):
@@ -640,7 +664,10 @@ class GeneratorSite(object):
             for i in range(3):
                 if abs(nvec[i]) < epsilon:
                     continue
-                xyzformula[i] += "%s*%s " % (self.signedRatStr(nvec[i]), name2sym[vname])
+                xyzformula[i] += "%s*%s " % (
+                    self.signedRatStr(nvec[i]),
+                    name2sym[vname],
+                )
         # add constant offset teqpos to all formulas
         for i in range(3):
             if xyzformula[i] and abs(teqpos[i]) < epsilon:

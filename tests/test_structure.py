@@ -39,7 +39,10 @@ class TestStructure(unittest.TestCase):
     _loaded_structures = {}
 
     def setUp(self):
-        self.stru = Structure([Atom("C", [0, 0, 0]), Atom("C", [1, 1, 1])], lattice=Lattice(1, 1, 1, 90, 90, 120))
+        self.stru = Structure(
+            [Atom("C", [0, 0, 0]), Atom("C", [1, 1, 1])],
+            lattice=Lattice(1, 1, 1, 90, 90, 120),
+        )
         # useful variables
 
         if not self._loaded_structures:

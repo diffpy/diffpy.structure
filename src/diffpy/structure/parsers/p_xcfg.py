@@ -271,7 +271,12 @@ class P_xcfg(StructureParser):
                     xyz = [xcfg_A * xi for xi in fields[:3]]
                     stru.addNewAtom(p_element, xyz=xyz)
                     a = stru[-1]
-                    _assign_auxiliaries(a, fields, auxiliaries=p_auxiliary, no_velocity=xcfg_NO_VELOCITY)
+                    _assign_auxiliaries(
+                        a,
+                        fields,
+                        auxiliaries=p_auxiliary,
+                        no_velocity=xcfg_NO_VELOCITY,
+                    )
                 else:
                     emsg = "%d: invalid record" % p_nl
                     raise StructureFormatError(emsg)
