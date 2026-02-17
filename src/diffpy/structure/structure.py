@@ -14,7 +14,6 @@
 ##############################################################################
 """This module defines class `Structure`."""
 
-import codecs
 import copy as copymod
 
 import numpy
@@ -347,7 +346,7 @@ class Structure(list):
         p = getParser(format)
         p.filename = filename
         s = p.tostring(self)
-        with codecs.open(filename, "w", encoding="UTF-8") as fp:
+        with open(filename, "w", encoding="utf-8", newline="") as fp:
             fp.write(s)
         return
 
