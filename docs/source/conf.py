@@ -32,7 +32,7 @@ sys.path.insert(0, str(Path("../..").resolve()))
 sys.path.insert(0, str(Path("../../src").resolve()))
 
 # abbreviations
-ab_authors = "Chris Farrow, Pavol Juhas,  Simon Billinge, Billinge Group members"
+ab_authors = "Chris Farrow, Pavol Juhas, Simon Billinge, Billinge Group members"
 
 # -- General configuration ------------------------------------------------
 
@@ -50,7 +50,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx_rtd_theme",
     "sphinx_copybutton",
-    "m2r",
+    "m2r2",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -222,7 +222,7 @@ html_theme_options = {
 
 # Output file base name for HTML help builder.
 basename = "diffpy.structure".replace(" ", "").replace(".", "")
-htmlhelp_basename = basename + "docs"
+htmlhelp_basename = basename + "doc"
 
 
 # -- Options for LaTeX output ---------------------------------------------

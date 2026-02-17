@@ -35,7 +35,12 @@ class TestLattice(unittest.TestCase):
     def test___init__(self):
         """Check Lattice.__init__ processing of arguments."""
         self.assertRaises(ValueError, Lattice, self.lattice, c=4)
-        self.assertRaises(ValueError, Lattice, base=self.lattice.base, baserot=self.lattice.baserot)
+        self.assertRaises(
+            ValueError,
+            Lattice,
+            base=self.lattice.base,
+            baserot=self.lattice.baserot,
+        )
         self.assertRaises(ValueError, Lattice, 1, 2, 3)
         self.assertRaises(ValueError, Lattice, 1, 2, 3, 80, 90)
         L0 = self.lattice
@@ -154,8 +159,16 @@ class TestLattice(unittest.TestCase):
         self.assertTrue(numpy.allclose(base[1], self.lattice.base[1]))
         self.assertTrue(numpy.allclose(base[2], self.lattice.base[2]))
         # try base checking
-        self.assertRaises(LatticeError, self.lattice.setLatBase, [[1, 0, 0], [1, 0, 0], [0, 0, 1]])
-        self.assertRaises(LatticeError, self.lattice.setLatBase, [[1, 0, 0], [0, 0, 1], [0, 1, 0]])
+        self.assertRaises(
+            LatticeError,
+            self.lattice.setLatBase,
+            [[1, 0, 0], [1, 0, 0], [0, 0, 1]],
+        )
+        self.assertRaises(
+            LatticeError,
+            self.lattice.setLatBase,
+            [[1, 0, 0], [0, 0, 1], [0, 1, 0]],
+        )
         return
 
     def test_reciprocal(self):

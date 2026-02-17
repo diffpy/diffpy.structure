@@ -698,7 +698,11 @@ class Structure(list):
         self._lattice = value
         return
 
-    lattice = property(_get_lattice, _set_lattice, doc="Coordinate system for this `Structure`.")
+    lattice = property(
+        _get_lattice,
+        _set_lattice,
+        doc="Coordinate system for this `Structure`.",
+    )
 
     # composition
 
@@ -708,7 +712,10 @@ class Structure(list):
             rv[a.element] = rv.get(a.element, 0.0) + a.occupancy
         return rv
 
-    composition = property(_get_composition, doc="Dictionary of chemical symbols and their total occupancies.")
+    composition = property(
+        _get_composition,
+        doc="Dictionary of chemical symbols and their total occupancies.",
+    )
 
     # linked atom attributes
 

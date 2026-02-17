@@ -1,0 +1,20 @@
+{
+  "author_names": "Simon Billinge, Sangjoon Bob Lee",
+  "author_emails": "sbillinge@ucsb.edu, sl5400@columbia.edu",
+  "maintainer_names": "Simon Billinge, Sangjoon Bob Lee",
+  "maintainer_emails": "sbillinge@ucsb.edu, sl5400@columbia.edu",
+  "maintainer_github_usernames": "sbillinge, bobleesj",
+  "contributors": "Chris Farrow, Pavol Juhas, Simon Billinge, Billinge Group members",
+  "license_holders": "The Trustees of Columbia University in the City of New York",
+  "project_name": "diffpy.structure",
+  "github_username_or_orgname": "diffpy",
+  "github_repo_name": "diffpy.structure",
+  "conda_pypi_package_dist_name": "diffpy.structure",
+  "package_dir_name": "diffpy.structure",
+  "project_short_description": "Crystal structure container and parsers for structure formats.",
+  "project_keywords": "diffpy, crystal structure data storage, CIF, PDB",
+  "minimum_supported_python_version": "3.12",
+  "maximum_supported_python_version": "3.14",
+  "project_needs_c_code_compiled": "No",
+  "project_has_gui_tests": "No"
+}

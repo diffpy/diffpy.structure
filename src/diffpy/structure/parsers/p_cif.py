@@ -554,7 +554,10 @@ class P_cif(StructureParser):
         from diffpy.structure.spacegroups import FindSpaceGroup, GetSpaceGroup, IsSpaceGroupIdentifier, SpaceGroup
 
         self.asymmetric_unit = list(self.stru)
-        sym_synonyms = ("_space_group_symop_operation_xyz", "_symmetry_equiv_pos_as_xyz")
+        sym_synonyms = (
+            "_space_group_symop_operation_xyz",
+            "_symmetry_equiv_pos_as_xyz",
+        )
         sym_loop_name = [n for n in sym_synonyms if n in block]
         # recover explicit list of symmetry operations
         symop_list = []
@@ -592,7 +595,9 @@ class P_cif(StructureParser):
                 block.get("_space_group_crystal_system") or block.get("_symmetry_cell_setting") or "TRICLINIC"
             ).upper()
             self.spacegroup = SpaceGroup(
-                short_name=new_short_name, crystal_system=new_crystal_system, symop_list=symop_list
+                short_name=new_short_name,
+                crystal_system=new_crystal_system,
+                symop_list=symop_list,
             )
         if self.spacegroup is None:
             emsg = "CIF file has unknown space group identifier {!r}."

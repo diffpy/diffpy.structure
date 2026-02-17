@@ -208,7 +208,12 @@ class P_pdffit(StructureParser):
         lines.append("scale  %9.6f" % stru_pdffit["scale"])
         lines.append(
             "sharp  %9.6f, %9.6f, %9.6f, %9.6f"
-            % (stru_pdffit["delta2"], stru_pdffit["delta1"], stru_pdffit["sratio"], stru_pdffit["rcut"])
+            % (
+                stru_pdffit["delta2"],
+                stru_pdffit["delta1"],
+                stru_pdffit["sratio"],
+                stru_pdffit["rcut"],
+            )
         )
         lines.append("spcgr   " + stru_pdffit["spcgr"])
         if stru_pdffit.get("spdiameter", 0.0) > 0.0:
@@ -228,7 +233,14 @@ class P_pdffit(StructureParser):
         for a in stru:
             ad = a.__dict__
             lines.append(
-                "%-4s %17.8f %17.8f %17.8f %12.4f" % (a.element.upper(), a.xyz[0], a.xyz[1], a.xyz[2], a.occupancy)
+                "%-4s %17.8f %17.8f %17.8f %12.4f"
+                % (
+                    a.element.upper(),
+                    a.xyz[0],
+                    a.xyz[1],
+                    a.xyz[2],
+                    a.occupancy,
+                )
             )
             sigmas = numpy.concatenate((ad.get("sigxyz", d_sigxyz), [ad.get("sigo", d_sigo)]))
             lines.append("    %18.8f %17.8f %17.8f %12.4f" % tuple(sigmas))

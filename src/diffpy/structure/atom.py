@@ -201,7 +201,13 @@ class Atom(object):
     def __repr__(self):
         """String representation of this Atom."""
         xyz = self.xyz
-        s = "%-4s %8.6f %8.6f %8.6f %6.4f" % (self.element, xyz[0], xyz[1], xyz[2], self.occupancy)
+        s = "%-4s %8.6f %8.6f %8.6f %6.4f" % (
+            self.element,
+            xyz[0],
+            xyz[1],
+            xyz[2],
+            self.occupancy,
+        )
         return s
 
     def __copy__(self, target=None):
@@ -355,13 +361,19 @@ class Atom(object):
         """
 
     U11 = property(
-        lambda self: self._get_Uij(0, 0), lambda self, value: self._set_Uij(0, 0, value), doc=_doc_uii.format(0)
+        lambda self: self._get_Uij(0, 0),
+        lambda self, value: self._set_Uij(0, 0, value),
+        doc=_doc_uii.format(0),
     )
     U22 = property(
-        lambda self: self._get_Uij(1, 1), lambda self, value: self._set_Uij(1, 1, value), doc=_doc_uii.format(1)
+        lambda self: self._get_Uij(1, 1),
+        lambda self, value: self._set_Uij(1, 1, value),
+        doc=_doc_uii.format(1),
     )
     U33 = property(
-        lambda self: self._get_Uij(2, 2), lambda self, value: self._set_Uij(2, 2, value), doc=_doc_uii.format(2)
+        lambda self: self._get_Uij(2, 2),
+        lambda self, value: self._set_Uij(2, 2, value),
+        doc=_doc_uii.format(2),
     )
 
     _doc_uij = """
@@ -372,13 +384,19 @@ class Atom(object):
         """
 
     U12 = property(
-        lambda self: self._get_Uij(0, 1), lambda self, value: self._set_Uij(0, 1, value), doc=_doc_uij.format(0, 1)
+        lambda self: self._get_Uij(0, 1),
+        lambda self, value: self._set_Uij(0, 1, value),
+        doc=_doc_uij.format(0, 1),
     )
     U13 = property(
-        lambda self: self._get_Uij(0, 2), lambda self, value: self._set_Uij(0, 2, value), doc=_doc_uij.format(0, 2)
+        lambda self: self._get_Uij(0, 2),
+        lambda self, value: self._set_Uij(0, 2, value),
+        doc=_doc_uij.format(0, 2),
     )
     U23 = property(
-        lambda self: self._get_Uij(1, 2), lambda self, value: self._set_Uij(1, 2, value), doc=_doc_uij.format(1, 2)
+        lambda self: self._get_Uij(1, 2),
+        lambda self, value: self._set_Uij(1, 2, value),
+        doc=_doc_uij.format(1, 2),
     )
 
     # clean local variables
