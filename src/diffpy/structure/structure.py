@@ -25,14 +25,8 @@ from diffpy.utils._deprecator import build_deprecation_message, deprecated
 # ----------------------------------------------------------------------------
 
 base = "diffpy.structure.Structure"
-removal_version = "3.8.0"
+removal_version = "4.0.0"
 
-addNewAtom_deprecation_msg = build_deprecation_message(
-    base,
-    "addNewAtom",
-    "add_new_atom",
-    removal_version,
-)
 getLastAtom_deprecation_msg = build_deprecation_message(
     base,
     "getLastAtom",
@@ -208,17 +202,6 @@ class Structure(list):
         self.append(a, copy=False)
         return
 
-    @deprecated(addNewAtom_deprecation_msg)
-    def addNewAtom(self, *args, **kwargs):
-        """This function has been deprecated and will be removed in
-        version 3.8.0.
-
-        Please use diffpy.structure.Structure.add_new_atom instead.
-        """
-        kwargs["lattice"] = self.lattice
-        a = Atom(*args, **kwargs)
-        self.append(a, copy=False)
-        return
 
     def get_last_atom(self):
         """Return Reference to the last `Atom` in this structure."""
@@ -228,7 +211,7 @@ class Structure(list):
     @deprecated(getLastAtom_deprecation_msg)
     def getLastAtom(self):
         """This function has been deprecated and will be removed in
-        version 3.8.0.
+        version 4.0.0.
 
         Please use diffpy.structure.Structure.get_last_atom instead.
         """
@@ -256,7 +239,7 @@ class Structure(list):
     @deprecated(assignUniqueLabels_deprecation_msg)
     def assignUniqueLabels(self):
         """This function has been deprecated and will be removed in
-        version 3.8.0.
+        version 4.0.0.
 
         Please use diffpy.structure.Structure.assgin_unique_labels
         instead.
@@ -354,7 +337,7 @@ class Structure(list):
     @deprecated(placeInLattice_deprecation_msg)
     def placeInLattice(self, new_lattice):
         """This function has been deprecated and will be removed in
-        version 3.8.0.
+        version 4.0.0.
 
         Please use diffpy.structure.Structure.place_in_lattice instead.
         """
@@ -436,7 +419,7 @@ class Structure(list):
     @deprecated(readStr_deprecation_msg)
     def readStr(self, s, format="auto"):
         """This function has been deprecated and will be removed in
-        version 3.8.0.
+        version 4.0.0.
 
         Please use diffpy.structure.Structure.read_str instead.
         """
@@ -496,7 +479,7 @@ class Structure(list):
     @deprecated(writeStr_deprecation_msg)
     def writeStr(self, format):
         """This function has been deprecated and will be removed in
-        version 3.8.0.
+        version 4.0.0.
 
         Please use diffpy.structure.Structure.write_str instead.
         """

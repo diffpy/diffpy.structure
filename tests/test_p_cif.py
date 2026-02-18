@@ -197,6 +197,33 @@ class TestP_cif(unittest.TestCase):
     #       """
     #       return
 
+    def test_Write_and_Read(self):
+        """High-level check of P_cif.tostring()"""
+        # high-level check
+        stru_check = Structure()
+        stru_check.read(self.cdsebulkpdffitfile)
+        s_s = stru_check.writeStr("cif")
+        stru = Structure()
+        stru.readStr(s_s, "cif")
+        self.assertAlmostEqual(4.2352, stru.lattice.a, self.places)
+        self.assertAlmostEqual(4.2352, stru.lattice.b, self.places)
+        self.assertAlmostEqual(6.90603, stru.lattice.c, self.places)
+        self.assertEqual(4, len(stru))
+        a0 = stru[0]
+        self.assertEqual("Cd", a0.element)
+        self.assertTrue(numpy.allclose([0.3334, 0.6667, 0.0], a0.xyz))
+        self.assertTrue(a0.anisotropy)
+        self.assertAlmostEqual(0.01303, a0.U[0, 0])
+        self.assertAlmostEqual(0.01303, a0.U[1, 1])
+        self.assertAlmostEqual(0.01402, a0.U[2, 2])
+        a3 = stru[3]
+        self.assertEqual("Se", a3.element)
+        self.assertTrue(numpy.allclose([0.6666, 0.333300, 0.87667], a3.xyz))
+        self.assertAlmostEqual(0.015673, a3.U[0, 0])
+        self.assertAlmostEqual(0.015673, a3.U[1, 1])
+        self.assertAlmostEqual(0.046164, a3.U[2, 2])
+        return
+
     def test_write_and_read(self):
         """High-level check of P_cif.tostring()"""
         # high-level check
