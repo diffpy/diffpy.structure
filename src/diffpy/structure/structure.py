@@ -74,6 +74,7 @@ empty_shared_structure_deprecation_msg = build_deprecation_message(
     removal_version,
 )
 
+
 class Structure(list):
     """Define group of atoms in a specified lattice. Structure --> group
     of atoms.
@@ -434,7 +435,8 @@ class Structure(list):
 
     @deprecated(readStr_deprecation_msg)
     def readStr(self, s, format="auto"):
-        """This function has been deprecated and will be removed in version 3.8.0.
+        """This function has been deprecated and will be removed in
+        version 3.8.0.
 
         Please use diffpy.structure.Structure.read_str instead.
         """
@@ -493,7 +495,8 @@ class Structure(list):
 
     @deprecated(writeStr_deprecation_msg)
     def writeStr(self, format):
-        """This function has been deprecated and will be removed in version 3.8.0.
+        """This function has been deprecated and will be removed in
+        version 3.8.0.
 
         Please use diffpy.structure.Structure.write_str instead.
         """
@@ -1007,7 +1010,8 @@ class Structure(list):
 
     @deprecated(empty_shared_structure_deprecation_msg)
     def __emptySharedStructure(self):
-        """This function has been deprecated and will be removed in version 3.8.0.
+        """This function has been deprecated and will be removed in
+        version 3.8.0.
 
         Please use diffpy.structure.Structure.__empty_shared_structure instead.
         """
