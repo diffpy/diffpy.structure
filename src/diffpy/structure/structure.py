@@ -202,7 +202,6 @@ class Structure(list):
         self.append(a, copy=False)
         return
 
-
     def get_last_atom(self):
         """Return Reference to the last `Atom` in this structure."""
         last_atom = self[-1]
