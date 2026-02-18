@@ -497,8 +497,8 @@ class P_cif(StructureParser):
             if curlabel == "?":
                 continue
             self.labelindex[curlabel] = len(self.stru)
-            self.stru.addNewAtom()
-            a = self.stru.getLastAtom()
+            self.stru.add_new_atom()
+            a = self.stru.get_last_atom()
             for fset, val in zip(prop_setters, values):
                 fset(a, val)
             if does_adp_type:

@@ -13,7 +13,6 @@
 #
 ##############################################################################
 """This module defines class `Structure`."""
-
 import copy as copymod
 
 import numpy
@@ -21,9 +20,59 @@ import numpy
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
 from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol, isiterable
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # ----------------------------------------------------------------------------
 
+base = "diffpy.structure.Structure"
+removal_version = "3.8.0"
+
+addNewAtom_deprecation_msg = build_deprecation_message(
+    base,
+    "addNewAtom",
+    "add_new_atom",
+    removal_version,
+)
+getLastAtom_deprecation_msg = build_deprecation_message(
+    base,
+    "getLastAtom",
+    "get_last_atom",
+    removal_version,
+)
+assignUniqueLabels_deprecation_msg = build_deprecation_message(
+    base,
+    "assignUniqueLabels",
+    "assign_unique_labels",
+    removal_version,
+)
+
+placeInLattice_deprecation_msg = build_deprecation_message(
+    base,
+    "placeInLattice",
+    "place_in_lattice",
+    removal_version,
+)
+
+readStr_deprecation_msg = build_deprecation_message(
+    base,
+    "readStr",
+    "read_str",
+    removal_version,
+)
+
+writeStr_deprecation_msg = build_deprecation_message(
+    base,
+    "writeStr",
+    "write_str",
+    removal_version,
+)
+
+empty_shared_structure_deprecation_msg = build_deprecation_message(
+    base,
+    "__emptySharedStructure",
+    "__empty_shared_structure",
+    removal_version,
+)
 
 class Structure(list):
     """Define group of atoms in a specified lattice. Structure --> group
@@ -145,7 +194,7 @@ class Structure(list):
         s_atoms = "\n".join([str(a) for a in self])
         return s_lattice + "\n" + s_atoms
 
-    def addNewAtom(self, *args, **kwargs):
+    def add_new_atom(self, *args, **kwargs):
         """Add new `Atom` instance to the end of this `Structure`.
 
         Parameters
@@ -158,16 +207,58 @@ class Structure(list):
         self.append(a, copy=False)
         return
 
-    def getLastAtom(self):
+    @deprecated(addNewAtom_deprecation_msg)
+    def addNewAtom(self, *args, **kwargs):
+        """This function has been deprecated and will be removed in
+        version 3.8.0.
+
+        Please use diffpy.structure.Structure.add_new_atom instead.
+        """
+        kwargs["lattice"] = self.lattice
+        a = Atom(*args, **kwargs)
+        self.append(a, copy=False)
+        return
+
+    def get_last_atom(self):
         """Return Reference to the last `Atom` in this structure."""
         last_atom = self[-1]
         return last_atom
 
-    def assignUniqueLabels(self):
+    @deprecated(getLastAtom_deprecation_msg)
+    def getLastAtom(self):
+        """This function has been deprecated and will be removed in
+        version 3.8.0.
+
+        Please use diffpy.structure.Structure.get_last_atom instead.
+        """
+        last_atom = self[-1]
+        return last_atom
+
+    def assign_unique_labels(self):
         """Set a unique label string for each `Atom` in this structure.
 
         The label strings are formatted as "%(baresymbol)s%(index)i",
         where baresymbol is the element right-stripped of "[0-9][+-]".
+        """
+        elnum = {}
+        # support duplicate atom instances
+        islabeled = set()
+        for a in self:
+            if a in islabeled:
+                continue
+            baresmbl = atomBareSymbol(a.element)
+            elnum[baresmbl] = elnum.get(baresmbl, 0) + 1
+            a.label = baresmbl + str(elnum[baresmbl])
+            islabeled.add(a)
+        return
+
+    @deprecated(assignUniqueLabels_deprecation_msg)
+    def assignUniqueLabels(self):
+        """This function has been deprecated and will be removed in
+        version 3.8.0.
+
+        Please use diffpy.structure.Structure.assgin_unique_labels
+        instead.
         """
         elnum = {}
         # support duplicate atom instances
@@ -233,7 +324,7 @@ class Structure(list):
         u12 = a2.xyz - a1.xyz
         return self.lattice.angle(u10, u12)
 
-    def placeInLattice(self, new_lattice):
+    def place_in_lattice(self, new_lattice):
         """Place structure into `new_lattice` coordinate system.
 
         Sets `lattice` to `new_lattice` and recalculate fractional coordinates
@@ -249,6 +340,22 @@ class Structure(list):
         Structure
             Reference to this `Structure` object. The `lattice` attribute
             is updated to `new_lattice`.
+        """
+        Tx = numpy.dot(self.lattice.base, new_lattice.recbase)
+        Tu = numpy.dot(self.lattice.normbase, new_lattice.recnormbase)
+        for a in self:
+            a.xyz = numpy.dot(a.xyz, Tx)
+            if a.anisotropy:
+                a.U = numpy.dot(numpy.transpose(Tu), numpy.dot(a.U, Tu))
+        self.lattice = new_lattice
+        return self
+
+    @deprecated(placeInLattice_deprecation_msg)
+    def placeInLattice(self, new_lattice):
+        """This function has been deprecated and will be removed in
+        version 3.8.0.
+
+        Please use diffpy.structure.Structure.place_in_lattice instead.
         """
         Tx = numpy.dot(self.lattice.base, new_lattice.recbase)
         Tu = numpy.dot(self.lattice.normbase, new_lattice.recnormbase)
@@ -296,7 +403,7 @@ class Structure(list):
             self.title = tailbase
         return p
 
-    def readStr(self, s, format="auto"):
+    def read_str(self, s, format="auto"):
         """Read structure from a string.
 
         Parameters
@@ -312,6 +419,24 @@ class Structure(list):
         Parser
             Return instance of data Parser used to process input string. This
             can be inspected for information related to particular format.
+        """
+        from diffpy.structure.parsers import getParser
+
+        p = getParser(format)
+        new_structure = p.parse(s)
+        # reinitialize data after successful parsing
+        # avoid calling __init__ from a derived class
+        Structure.__init__(self)
+        if new_structure is not None:
+            self.__dict__.update(new_structure.__dict__)
+            self[:] = new_structure
+        return p
+
+    @deprecated(readStr_deprecation_msg)
+    def readStr(self, s, format="auto"):
+        """This function has been deprecated and will be removed in version 3.8.0.
+
+        Please use diffpy.structure.Structure.read_str instead.
         """
         from diffpy.structure.parsers import getParser
 
@@ -350,7 +475,7 @@ class Structure(list):
             fp.write(s)
         return
 
-    def writeStr(self, format):
+    def write_str(self, format):
         """Return string representation of the structure in specified
         format.
 
@@ -359,6 +484,18 @@ class Structure(list):
         Available structure formats can be obtained by:
 
             ``from parsers import formats``
+        """
+        from diffpy.structure.parsers import getParser
+
+        p = getParser(format)
+        s = p.tostring(self)
+        return s
+
+    @deprecated(writeStr_deprecation_msg)
+    def writeStr(self, format):
+        """This function has been deprecated and will be removed in version 3.8.0.
+
+        Please use diffpy.structure.Structure.write_str instead.
         """
         from diffpy.structure.parsers import getParser
 
@@ -488,7 +625,7 @@ class Structure(list):
         >>> stru['Na3', 2, 'Cl2']
         """
         if isinstance(idx, slice):
-            rv = self.__emptySharedStructure()
+            rv = self.__empty_shared_structure()
             lst = super(Structure, self).__getitem__(idx)
             rv.extend(lst, copy=False)
             return rv
@@ -507,7 +644,7 @@ class Structure(list):
                 idx1 = numpy.r_[idx]
             indices = numpy.arange(len(self))[idx1]
             rhs = [list.__getitem__(self, i) for i in indices]
-            rv = self.__emptySharedStructure()
+            rv = self.__empty_shared_structure()
             rv.extend(rhs, copy=False)
             return rv
         # here we need to resolve at least one string label
@@ -868,7 +1005,17 @@ class Structure(list):
 
     # Private Methods --------------------------------------------------------
 
+    @deprecated(empty_shared_structure_deprecation_msg)
     def __emptySharedStructure(self):
+        """This function has been deprecated and will be removed in version 3.8.0.
+
+        Please use diffpy.structure.Structure.__empty_shared_structure instead.
+        """
+        rv = Structure()
+        rv.__dict__.update([(k, getattr(self, k)) for k in rv.__dict__])
+        return rv
+
+    def __empty_shared_structure(self):
         """Return empty `Structure` with standard attributes same as in
         self."""
         rv = Structure()

@@ -132,8 +132,8 @@ class P_pdffit(StructureParser):
                 element = wl1[0][0].upper() + wl1[0][1:].lower()
                 xyz = [float(w) for w in wl1[1:4]]
                 occ = float(wl1[4])
-                stru.addNewAtom(element, xyz=xyz, occupancy=occ)
-                a = stru.getLastAtom()
+                stru.add_new_atom(element, xyz=xyz, occupancy=occ)
+                a = stru.get_last_atom()
                 p_nl += 1
                 wl2 = next(ilines).split()
                 a.sigxyz = [float(w) for w in wl2[0:3]]
@@ -169,7 +169,7 @@ class P_pdffit(StructureParser):
             if stru.pdffit["ncell"][:3] != [1, 1, 1]:
                 superlatpars = [latpars[i] * stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
-                stru.placeInLattice(superlattice)
+                stru.place_in_lattice(superlattice)
                 stru.pdffit["ncell"] = [1, 1, 1, p_natoms]
         except (ValueError, IndexError):
             emsg = "%d: file is not in PDFfit format" % p_nl

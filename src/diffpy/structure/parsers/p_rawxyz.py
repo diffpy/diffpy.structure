@@ -103,7 +103,7 @@ class P_rawxyz(StructureParser):
                 xyz = [float(f) for f in fields[x_idx : x_idx + 3]]
                 if len(xyz) == 2:
                     xyz.append(0.0)
-                stru.addNewAtom(element, xyz=xyz)
+                stru.add_new_atom(element, xyz=xyz)
         except ValueError:
             emsg = "%d: invalid number" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()

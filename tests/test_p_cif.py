@@ -202,9 +202,9 @@ class TestP_cif(unittest.TestCase):
         # high-level check
         stru_check = Structure()
         stru_check.read(self.cdsebulkpdffitfile)
-        s_s = stru_check.writeStr("cif")
+        s_s = stru_check.write_str("cif")
         stru = Structure()
-        stru.readStr(s_s, "cif")
+        stru.read_str(s_s, "cif")
         self.assertAlmostEqual(4.2352, stru.lattice.a, self.places)
         self.assertAlmostEqual(4.2352, stru.lattice.b, self.places)
         self.assertAlmostEqual(6.90603, stru.lattice.c, self.places)

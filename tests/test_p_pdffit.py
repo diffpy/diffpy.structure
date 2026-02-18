@@ -172,7 +172,7 @@ class TestP_pdffit(unittest.TestCase):
             f_s = fp.read()
         f_s = re.sub("[ \t]+", " ", f_s)
         f_s = re.sub("[ \t]+\n", "\n", f_s)
-        s_s = stru.writeStr(self.format)
+        s_s = stru.write_str(self.format)
         s_s = re.sub("[ \t]+", " ", s_s)
         self.assertEqual(f_s, s_s)
         return
@@ -181,9 +181,9 @@ class TestP_pdffit(unittest.TestCase):
         """Check structure with huge occupancy can be read."""
         self.stru.read(self.datafile("Ni.stru"), self.format)
         self.stru[0].occupancy = 16e16
-        s_s = self.stru.writeStr(self.format)
+        s_s = self.stru.write_str(self.format)
         stru1 = Structure()
-        stru1.readStr(s_s, self.format)
+        stru1.read_str(s_s, self.format)
         self.assertEqual(16e16, stru1[0].occupancy)
         return
 
@@ -196,11 +196,11 @@ class TestP_pdffit(unittest.TestCase):
         ni_lines.insert(2, r1 + "\n")
         ni_lines.insert(4, r2 + "\n")
         s_s1 = "".join(ni_lines)
-        p = self.stru.readStr(s_s1, self.format)
+        p = self.stru.read_str(s_s1, self.format)
         self.assertEqual([r1, r2], p.ignored_lines)
         ni_lines.insert(-3, r1 + "\n")
         s_s2 = "".join(ni_lines)
-        self.assertRaises(StructureFormatError, self.stru.readStr, s_s2, self.format)
+        self.assertRaises(StructureFormatError, self.stru.read_str, s_s2, self.format)
         return
 
     def test_spdiameter_parsing(self):
@@ -208,20 +208,20 @@ class TestP_pdffit(unittest.TestCase):
         stru = self.stru
         stru.read(self.datafile("Ni.stru"), self.format)
         self.assertEqual(0, stru.pdffit["spdiameter"])
-        snoshape = stru.writeStr(format=self.format)
+        snoshape = stru.write_str(format=self.format)
         self.assertTrue(not re.search("(?m)^shape", snoshape))
         # produce a string with non-zero spdiameter
         stru.pdffit["spdiameter"] = 13
-        s13 = stru.writeStr(format=self.format)
+        s13 = stru.write_str(format=self.format)
         self.assertTrue(re.search("(?m)^shape +sphere, ", s13))
         stru13 = Structure()
-        stru13.readStr(s13)
+        stru13.read_str(s13)
         self.assertEqual(13, stru13.pdffit["spdiameter"])
         with open(self.datafile("Ni.stru")) as fp:
             ni_lines = fp.readlines()
         ni_lines.insert(3, "shape invalid, 7\n")
         sbad = "".join(ni_lines)
-        self.assertRaises(StructureFormatError, self.stru.readStr, sbad, format=self.format)
+        self.assertRaises(StructureFormatError, self.stru.read_str, sbad, format=self.format)
         return
 
     def test_stepcut_parsing(self):
@@ -229,20 +229,20 @@ class TestP_pdffit(unittest.TestCase):
         stru = self.stru
         stru.read(self.datafile("Ni.stru"), self.format)
         self.assertEqual(0, stru.pdffit["stepcut"])
-        snoshape = stru.writeStr(format=self.format)
+        snoshape = stru.write_str(format=self.format)
         self.assertTrue(not re.search("(?m)^shape", snoshape))
         # produce a string with non-zero stepcut
         stru.pdffit["stepcut"] = 13
-        s13 = stru.writeStr(format=self.format)
+        s13 = stru.write_str(format=self.format)
         self.assertTrue(re.search("(?m)^shape +stepcut, ", s13))
         stru13 = Structure()
-        stru13.readStr(s13)
+        stru13.read_str(s13)
         self.assertEqual(13, stru13.pdffit["stepcut"])
         with open(self.datafile("Ni.stru")) as fp:
             ni_lines = fp.readlines()
         ni_lines.insert(3, "shape invalid, 7\n")
         sbad = "".join(ni_lines)
-        self.assertRaises(StructureFormatError, self.stru.readStr, sbad, format=self.format)
+        self.assertRaises(StructureFormatError, self.stru.read_str, sbad, format=self.format)
         return
 
 
