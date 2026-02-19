@@ -132,7 +132,7 @@ class P_pdffit(StructureParser):
                 element = wl1[0][0].upper() + wl1[0][1:].lower()
                 xyz = [float(w) for w in wl1[1:4]]
                 occ = float(wl1[4])
-                stru.addNewAtom(element, xyz=xyz, occupancy=occ)
+                stru.add_new_atom(element, xyz=xyz, occupancy=occ)
                 a = stru.getLastAtom()
                 p_nl += 1
                 wl2 = next(ilines).split()

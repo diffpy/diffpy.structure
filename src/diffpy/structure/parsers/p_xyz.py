@@ -109,7 +109,7 @@ class P_xyz(StructureParser):
                 element = fields[0]
                 element = element[0].upper() + element[1:].lower()
                 xyz = [float(f) for f in fields[1:4]]
-                stru.addNewAtom(element, xyz=xyz)
+                stru.add_new_atom(element, xyz=xyz)
         except ValueError:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: invalid number format" % p_nl

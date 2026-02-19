@@ -269,7 +269,7 @@ class P_xcfg(StructureParser):
                 elif len(words) == xcfg_entry_count and p_element is not None:
                     fields = [float(w) for w in words]
                     xyz = [xcfg_A * xi for xi in fields[:3]]
-                    stru.addNewAtom(p_element, xyz=xyz)
+                    stru.add_new_atom(p_element, xyz=xyz)
                     a = stru[-1]
                     _assign_auxiliaries(
                         a,

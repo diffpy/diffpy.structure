@@ -21,8 +21,18 @@ import numpy
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
 from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol, isiterable
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # ----------------------------------------------------------------------------
+
+base = "diffpy.structure.Structure"
+removal_version = "4.0.0"
+addNewAtom_deprecation_msg = build_deprecation_message(
+    base,
+    "addNewAtom",
+    "add_new_atom",
+    removal_version,
+)
 
 
 class Structure(list):
@@ -145,7 +155,19 @@ class Structure(list):
         s_atoms = "\n".join([str(a) for a in self])
         return s_lattice + "\n" + s_atoms
 
+    @deprecated(addNewAtom_deprecation_msg)
     def addNewAtom(self, *args, **kwargs):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.add_new_atom instead.
+        """
+        kwargs["lattice"] = self.lattice
+        a = Atom(*args, **kwargs)
+        self.append(a, copy=False)
+        return
+
+    def add_new_atom(self, *args, **kwargs):
         """Add new `Atom` instance to the end of this `Structure`.
 
         Parameters

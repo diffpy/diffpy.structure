@@ -197,7 +197,7 @@ class P_pdb(StructureParser):
                         # get element from the first 2 characters of name
                         element = line[12:14].strip()
                         element = element[0].upper() + element[1:].lower()
-                    stru.addNewAtom(element, occupancy=occupancy, label=name)
+                    stru.add_new_atom(element, occupancy=occupancy, label=name)
                     last_atom = stru.getLastAtom()
                     last_atom.xyz_cartn = rc
                     last_atom.Uisoequiv = uiso
