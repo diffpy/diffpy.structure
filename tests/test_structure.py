@@ -120,6 +120,38 @@ class TestStructure(unittest.TestCase):
     #     """check Structure.getLastAtom()"""
     #     return
 
+    def test_add_new_atom(self):
+        s_lat = Lattice()
+        other_lat = Lattice()
+        expected = Structure(lattice=s_lat)
+
+        length = len(expected)
+        expected.add_new_atom(atype="C", xyz=[0.1, 0.2, 0.3])
+        actual = length + 1
+        assert len(expected) == actual
+
+        object = expected[-1]
+        if hasattr(object, "element"):
+            assert object.element == "C"
+        if hasattr(object, "xyz"):
+            assert numpy.allclose(object.xyz, [0.1, 0.2, 0.3])
+
+    def test_addNewAtom(self):
+        s_lat = Lattice()
+        other_lat = Lattice()
+        expected = Structure(lattice=s_lat)
+
+        length = len(expected)
+        expected.addNewAtom(atype="C", xyz=[0.1, 0.2, 0.3])
+        actual = length + 1
+        assert len(expected) == actual
+
+        object = expected[-1]
+        if hasattr(object, "element"):
+            assert object.element == "C"
+        if hasattr(object, "xyz"):
+            assert numpy.allclose(object.xyz, [0.1, 0.2, 0.3])
+
     def test_assignUniqueLabels(self):
         """Check Structure.assignUniqueLabels()"""
         self.assertEqual("", "".join([a.label for a in self.stru]))
