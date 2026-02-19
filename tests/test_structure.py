@@ -121,29 +121,39 @@ class TestStructure(unittest.TestCase):
     #     return
 
     def test_add_new_atom(self):
+        """Check Structure.add_new_item()"""
+        # Case: We initialize a Structure object, after calling
+        # add_new_item method, we check whether length of Structure
+        # object is added by 1. Moreover, we check added Atom's attributes
+        # are properly loaded into Structure object.
         s_lat = Lattice()
-        expected = Structure(lattice=s_lat)
+        structure = Structure(lattice=s_lat)
 
-        length = len(expected)
-        expected.add_new_atom(atype="C", xyz=[0.1, 0.2, 0.3])
+        length = len(structure)
+        structure.add_new_atom(atype="C", xyz=[0.1, 0.2, 0.3])
+        expected = len(structure)  # length of structure should add by 1
         actual = length + 1
-        assert len(expected) == actual
-
-        object = expected[-1]
-        assert object.element == "C"
-        assert numpy.allclose(object.xyz, [0.1, 0.2, 0.3])
+        assert expected == actual
+        atom_object = structure[-1]
+        assert atom_object.element == "C"
+        assert numpy.allclose(atom_object.xyz, [0.1, 0.2, 0.3])
 
     def test_addNewAtom(self):
-        s_lat = Lattice()
-        expected = Structure(lattice=s_lat)
+        """Duplicate test for the deprecated addNewAtom method.
 
-        length = len(expected)
-        expected.addNewAtom(atype="C", xyz=[0.1, 0.2, 0.3])
+        Remove this test in version 4.0.0
+        """
+        s_lat = Lattice()
+        structure = Structure(lattice=s_lat)
+
+        length = len(structure)
+        structure.addNewAtom(atype="C", xyz=[0.1, 0.2, 0.3])
+        expected = len(structure)
         actual = length + 1
-        assert len(expected) == actual
-        object = expected[-1]
-        assert object.element == "C"
-        assert numpy.allclose(object.xyz, [0.1, 0.2, 0.3])
+        assert expected == actual
+        atom_object = structure[-1]
+        assert atom_object.element == "C"
+        assert numpy.allclose(atom_object.xyz, [0.1, 0.2, 0.3])
 
     def test_assignUniqueLabels(self):
         """Check Structure.assignUniqueLabels()"""
