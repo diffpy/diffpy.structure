@@ -162,9 +162,7 @@ class Structure(list):
 
         Please use diffpy.structure.Structure.add_new_atom instead.
         """
-        kwargs["lattice"] = self.lattice
-        a = Atom(*args, **kwargs)
-        self.append(a, copy=False)
+        self.add_new_atom(*args, **kwargs)
         return
 
     def add_new_atom(self, *args, **kwargs):
