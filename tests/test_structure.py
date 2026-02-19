@@ -123,7 +123,8 @@ class TestStructure(unittest.TestCase):
     def test_assignUniqueLabels(self):
         """Duplicate test with the deprecated assignUniqueLabels method.
 
-        Remove this test in version 4.0.0"""
+        Remove this test in version 4.0.0
+        """
         self.assertEqual("", "".join([a.label for a in self.stru]))
         self.stru.assignUniqueLabels()
         self.assertEqual("C1", self.stru[0].label)

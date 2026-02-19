@@ -34,6 +34,7 @@ assignUniqueLabels_deprecation_msg = build_deprecation_message(
     removal_version,
 )
 
+
 class Structure(list):
     """Define group of atoms in a specified lattice. Structure --> group
     of atoms.
@@ -195,7 +196,8 @@ class Structure(list):
         """This function has been deprecated and will be removed in
         version 4.0.0.
 
-        Please use diffpy.structure.Structure.assign_unique_labels instead.
+        Please use diffpy.structure.Structure.assign_unique_labels
+        instead.
         """
         return self.assign_unique_labels()
 
