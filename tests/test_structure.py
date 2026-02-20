@@ -121,10 +121,7 @@ class TestStructure(unittest.TestCase):
     #     return
 
     def test_assignUniqueLabels(self):
-        """Duplicate test with the deprecated assignUniqueLabels method.
-
-        Remove this test in version 4.0.0
-        """
+        """Check Structure.assignUniqueLabels()"""
         self.assertEqual("", "".join([a.label for a in self.stru]))
         self.stru.assignUniqueLabels()
         self.assertEqual("C1", self.stru[0].label)
@@ -132,7 +129,7 @@ class TestStructure(unittest.TestCase):
         return
 
     def test_assign_unique_labels(self):
-        """Check Structure.assignUniqueLabels()"""
+        """Check Structure.assign_unique_labels()"""
         self.assertEqual("", "".join([a.label for a in self.stru]))
         self.stru.assign_unique_labels()
         self.assertEqual("C1", self.stru[0].label)

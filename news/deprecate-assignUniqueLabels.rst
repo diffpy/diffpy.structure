@@ -1,6 +1,6 @@
 **Added:**
 
-* No News Added: deprecate assignUniqueLabels method
+* Added `diffpy.structure.Structure.assign_unique_labels` in replace of `assignUniqueLabels`
 
 **Changed:**
 
@@ -8,7 +8,7 @@
 
 **Deprecated:**
 
-* <news item>
+* Deprecated `diffpy.structure.Structure.assignUniqueLabels` for removal in 4.0.0
 
 **Removed:**
 
