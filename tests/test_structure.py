@@ -120,8 +120,6 @@ class TestStructure(unittest.TestCase):
     #     """check Structure.getLastAtom()"""
     #     return
 
-
-
     def test_addNewAtom(self):
         """Duplicate test for the deprecated addNewAtom method.
 
@@ -620,6 +618,7 @@ class TestStructure(unittest.TestCase):
 
 # End of class TestStructure
 
+
 # ----------------------------------------------------------------------------
 @pytest.mark.parametrize(
     "existing, atype, xyz, expected_len, expected_element, expected_xyz",
@@ -671,6 +670,7 @@ def test_add_new_atom_duplicate():
     assert len(structure) == 3
     assert structure[-1].element == "C"
     assert numpy.allclose(structure[-1].xyz, [0.1, 0.2, 0.3])
+
 
 if __name__ == "__main__":
     unittest.main()

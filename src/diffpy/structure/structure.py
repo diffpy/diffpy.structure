@@ -15,9 +15,9 @@
 """This module defines class `Structure`."""
 
 import copy as copymod
+import warnings
 
 import numpy
-import warnings
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
