@@ -660,7 +660,7 @@ def test_add_new_atom(existing, atype, xyz, expected_len, expected_element, expe
 
 def test_add_new_atom_duplicate():
     # Case 3: duplicated atom added to the existing atom list.
-    # Expect the atom not to be added and gives a ValueError.
+    # Expect the atom to be added and gives a UserWarning.
     structure = Structure(
         [Atom("C", [0.1, 0.2, 0.3]), Atom("Ni", [0.8, 1.2, 0.9])],
         lattice=Lattice(),
