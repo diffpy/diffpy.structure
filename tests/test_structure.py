@@ -100,9 +100,9 @@ class TestStructure(unittest.TestCase):
     def test___copy__(self):
         """Check Structure.__copy__()"""
         cdse = Structure(filename=self.cdsefile)
-        cdse_str = cdse.writeStr("pdffit")
+        cdse_str = cdse.write_structure("pdffit")
         cdse2 = copy.copy(cdse)
-        self.assertEqual(cdse_str, cdse2.writeStr("pdffit"))
+        self.assertEqual(cdse_str, cdse2.write_structure("pdffit"))
         self.assertFalse(cdse.lattice is cdse2.lattice)
         sameatoms = set(cdse).intersection(cdse2)
         self.assertFalse(sameatoms)
@@ -188,6 +188,17 @@ class TestStructure(unittest.TestCase):
         stru = self.stru
         new_lattice = Lattice(0.5, 0.5, 0.5, 90, 90, 60)
         stru.placeInLattice(new_lattice)
+        a0 = stru[0]
+        self.assertTrue(numpy.allclose(a0.xyz, [0.0, 0.0, 0.0]))
+        a1 = stru[1]
+        self.assertTrue(numpy.allclose(a1.xyz, [2.0, 0.0, 2.0]))
+
+    def test_place_in_lattice(self):
+        """Check Structure.placeInLattice() -- conversion of
+        coordinates."""
+        stru = self.stru
+        new_lattice = Lattice(0.5, 0.5, 0.5, 90, 90, 60)
+        stru.place_in_lattice(new_lattice)
         a0 = stru[0]
         self.assertTrue(numpy.allclose(a0.xyz, [0.0, 0.0, 0.0]))
         a1 = stru[1]
