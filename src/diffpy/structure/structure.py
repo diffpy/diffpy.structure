@@ -32,6 +32,8 @@ assignUniqueLabels_deprecation_msg = build_deprecation_message(
     base,
     "assignUniqueLabels",
     "assign_unique_labels",
+    removal_version,
+)
 addNewAtom_deprecation_msg = build_deprecation_message(
     base,
     "addNewAtom",
