@@ -264,7 +264,7 @@ class P_discus(StructureParser):
         element = words[0][0:1].upper() + words[0][1:].lower()
         xyz = [float(w) for w in words[1:4]]
         Biso = float(words[4])
-        self.stru.addNewAtom(element, xyz)
+        self.stru.add_new_atom(element, xyz)
         a = self.stru.getLastAtom()
         a.Bisoequiv = Biso
         return
