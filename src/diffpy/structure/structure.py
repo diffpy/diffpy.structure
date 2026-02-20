@@ -34,6 +34,12 @@ addNewAtom_deprecation_msg = build_deprecation_message(
     "add_new_atom",
     removal_version,
 )
+getLastAtom_deprecation_msg = build_deprecation_message(
+    base,
+    "getLastAtom",
+    "get_last_atom",
+    removal_version,
+)
 
 
 class Structure(list):
@@ -192,7 +198,16 @@ class Structure(list):
         self.append(atom, copy=False)
         return
 
+    @deprecated(getLastAtom_deprecation_msg)
     def getLastAtom(self):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.get_last_atom instead.
+        """
+        return self.get_last_atom()
+
+    def get_last_atom(self):
         """Return Reference to the last `Atom` in this structure."""
         last_atom = self[-1]
         return last_atom
