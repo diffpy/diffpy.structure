@@ -119,6 +119,23 @@ class TestStructure(unittest.TestCase):
     # def test_getLastAtom(self):
     #     """check Structure.getLastAtom()"""
     #     return
+    def test_getLastAtom(self):
+        """Check Structure.getLastAtom()"""
+        s_lat = Lattice()
+        expected = Atom("C", [0, 0, 0])
+        structure = Structure(atoms=[Atom("C", [0, 0, 0])], lattice=s_lat)
+        actual = structure.getLastAtom()
+        assert actual.element == expected.element
+        assert numpy.allclose(expected.xyz, actual.xyz)
+
+    def test_get_last_atom(self):
+        """Check Structure.get_last_atom()"""
+        s_lat = Lattice()
+        expected = Atom("C", [0, 0, 0])
+        structure = Structure(atoms=[Atom("C", [0, 0, 0])], lattice=s_lat)
+        actual = structure.get_last_atom()
+        assert actual.element == expected.element
+        assert numpy.allclose(expected.xyz, actual.xyz)
 
     def test_addNewAtom(self):
         """Duplicate test for the deprecated addNewAtom method.

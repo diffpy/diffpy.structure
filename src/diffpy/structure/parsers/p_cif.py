@@ -498,7 +498,7 @@ class P_cif(StructureParser):
                 continue
             self.labelindex[curlabel] = len(self.stru)
             self.stru.add_new_atom()
-            a = self.stru.getLastAtom()
+            a = self.stru.get_last_atom()
             for fset, val in zip(prop_setters, values):
                 fset(a, val)
             if does_adp_type:
