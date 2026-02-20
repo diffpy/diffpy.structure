@@ -149,7 +149,7 @@ class TestStructure(unittest.TestCase):
         assert numpy.allclose(atom_object.xyz, [0.8, 1.2, 0.9])
 
         # Case 3: duplicated atom added to the existing atom list.
-        # Expect the atom not to be added and gives an ValueError.
+        # Expect the atom not to be added and gives a ValueError.
         with pytest.raises(ValueError, match=r"Duplicate atom C already exists at array\(\[0\.1, 0\.2, 0\.3\]\)"):
             structure.add_new_atom(atype="C", xyz=[0.1, 0.2, 0.3])
         actual = len(structure)
