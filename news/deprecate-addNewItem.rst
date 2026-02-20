@@ -1,6 +1,6 @@
 **Added:**
 
-* No News Added: deprecate CamelCase function for addNewItem
+* Added `diffpy.structure.Structure.add_new_atom` in replace of `addNewAtom`
 
 **Changed:**
 
@@ -8,7 +8,7 @@
 
 **Deprecated:**
 
-* <news item>
+* Deprecated `diffpy.structure.Structure.addNewAtom` method for removal in version 4.0.0
 
 **Removed:**
 

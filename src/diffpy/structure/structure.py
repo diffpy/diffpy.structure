@@ -168,14 +168,17 @@ class Structure(list):
     def add_new_atom(self, *args, **kwargs):
         """Add new `Atom` instance to the end of this `Structure`.
 
-        Parameters
-        ----------
-        *args, **kwargs :
-            See `Atom` class constructor.
+        Raises
+        ------
+        ValueError
+            If an atom with the same element/type and coordinates already exists.
         """
         kwargs["lattice"] = self.lattice
-        a = Atom(*args, **kwargs)
-        self.append(a, copy=False)
+        atom = Atom(*args, **kwargs)
+        for existing in self:
+            if existing.element == atom.element and numpy.allclose(existing.xyz, atom.xyz):
+                raise ValueError(f"Duplicate atom {atom.element} already exists at {atom.xyz!r}")
+        self.append(atom, copy=False)
         return
 
     def getLastAtom(self):

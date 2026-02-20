@@ -122,21 +122,39 @@ class TestStructure(unittest.TestCase):
 
     def test_add_new_atom(self):
         """Check Structure.add_new_item()"""
-        # Case: We initialize a Structure object, after calling
-        # add_new_item method, we check whether length of Structure
-        # object is added by 1. Moreover, we check added Atom's attributes
-        # are properly loaded into Structure object.
+        # Case 1: valid atom added to an empty structure.
+        # Expect the atom list length to go from 0 to 1.
+        # Expect the atom attributes are successfully loaded.
         s_lat = Lattice()
         structure = Structure(lattice=s_lat)
-
         length = len(structure)
         structure.add_new_atom(atype="C", xyz=[0.1, 0.2, 0.3])
-        expected = len(structure)  # length of structure should add by 1
+        expected = len(structure)
         actual = length + 1
         assert expected == actual
         atom_object = structure[-1]
         assert atom_object.element == "C"
         assert numpy.allclose(atom_object.xyz, [0.1, 0.2, 0.3])
+
+        # Case 2: valid atom added to existing atom list.
+        # Expect the atom list length to go from 1 to 2.
+        # Expect the atom attributes are successfully loaded.
+        length = len(structure)
+        structure.add_new_atom(atype="Ni", xyz=[0.8, 1.2, 0.9])
+        expected = len(structure)
+        actual = length + 1
+        assert expected == actual
+        atom_object = structure[-1]
+        assert atom_object.element == "Ni"
+        assert numpy.allclose(atom_object.xyz, [0.8, 1.2, 0.9])
+
+        # Case 3: duplicated atom added to the existing atom list.
+        # Expect the atom not to be added and gives an ValueError.
+        with pytest.raises(ValueError, match=r"Duplicate atom C already exists at array\(\[0\.1, 0\.2, 0\.3\]\)"):
+            structure.add_new_atom(atype="C", xyz=[0.1, 0.2, 0.3])
+        actual = len(structure)
+        expected = 2
+        assert expected == actual
 
     def test_addNewAtom(self):
         """Duplicate test for the deprecated addNewAtom method.
