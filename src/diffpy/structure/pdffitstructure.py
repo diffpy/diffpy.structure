@@ -97,7 +97,7 @@ class PDFFitStructure(Structure):
         StructureParser
             Instance of `StructureParser` used to load the data.
         """
-        p = Structure.readStr(self, s, format)
+        p = Structure.read_structure(self, s, format)
         sg = getattr(p, "spacegroup", None)
         if sg:
             self.pdffit["spcgr"] = sg.short_name

@@ -125,7 +125,7 @@ class P_discus(StructureParser):
                 latpars = list(self.stru.lattice.abcABG())
                 superlatpars = [latpars[i] * self.stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
-                self.stru.placeInLattice(superlattice)
+                self.stru.place_in_lattice(superlattice)
                 self.stru.pdffit["ncell"] = [1, 1, 1, exp_natoms]
         except (ValueError, IndexError):
             exc_type, exc_value, exc_traceback = sys.exc_info()

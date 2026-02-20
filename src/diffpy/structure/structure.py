@@ -40,6 +40,24 @@ getLastAtom_deprecation_msg = build_deprecation_message(
     "get_last_atom",
     removal_version,
 )
+placeInLattice_deprecation_msg = build_deprecation_message(
+    base,
+    "placeInLattice",
+    "place_in_lattice",
+    removal_version,
+)
+readStr_deprecation_msg = build_deprecation_message(
+    base,
+    "readStr",
+    "read_structure",
+    removal_version,
+)
+writeStr_deprecation_msg = build_deprecation_message(
+    base,
+    "writeStr",
+    "write_structure",
+    removal_version,
+)
 
 
 class Structure(list):
@@ -282,7 +300,16 @@ class Structure(list):
         u12 = a2.xyz - a1.xyz
         return self.lattice.angle(u10, u12)
 
+    @deprecated(placeInLattice_deprecation_msg)
     def placeInLattice(self, new_lattice):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.place_in_lattice instead.
+        """
+        return self.place_in_lattice(new_lattice)
+
+    def place_in_lattice(self, new_lattice):
         """Place structure into `new_lattice` coordinate system.
 
         Sets `lattice` to `new_lattice` and recalculate fractional coordinates
@@ -345,7 +372,16 @@ class Structure(list):
             self.title = tailbase
         return p
 
+    @deprecated(readStr_deprecation_msg)
     def readStr(self, s, format="auto"):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.read_structure instead.
+        """
+        return self.read_structure(s, format)
+
+    def read_structure(self, s, format="auto"):
         """Read structure from a string.
 
         Parameters
@@ -399,7 +435,16 @@ class Structure(list):
             fp.write(s)
         return
 
+    @deprecated(writeStr_deprecation_msg)
     def writeStr(self, format):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.write_structure instead.
+        """
+        return self.write_structure(format)
+
+    def write_structure(self, format):
         """Return string representation of the structure in specified
         format.
 
@@ -537,7 +582,7 @@ class Structure(list):
         >>> stru['Na3', 2, 'Cl2']
         """
         if isinstance(idx, slice):
-            rv = self.__emptySharedStructure()
+            rv = self.__empty_shared_structure()
             lst = super(Structure, self).__getitem__(idx)
             rv.extend(lst, copy=False)
             return rv
@@ -556,7 +601,7 @@ class Structure(list):
                 idx1 = numpy.r_[idx]
             indices = numpy.arange(len(self))[idx1]
             rhs = [list.__getitem__(self, i) for i in indices]
-            rv = self.__emptySharedStructure()
+            rv = self.__empty_shared_structure()
             rv.extend(rhs, copy=False)
             return rv
         # here we need to resolve at least one string label
@@ -917,7 +962,7 @@ class Structure(list):
 
     # Private Methods --------------------------------------------------------
 
-    def __emptySharedStructure(self):
+    def __empty_shared_structure(self):
         """Return empty `Structure` with standard attributes same as in
         self."""
         rv = Structure()

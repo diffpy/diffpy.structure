@@ -95,7 +95,7 @@ class TestP_xyz(unittest.TestCase):
         stru.title = "test of writeStr"
         stru.lattice = Lattice(1.0, 2.0, 3.0, 90.0, 90.0, 90.0)
         stru[:] = [Atom("H", [1.0, 1.0, 1.0]), Atom("Cl", [3.0, 2.0, 1.0])]
-        s1 = stru.writeStr(self.format)
+        s1 = stru.write_structure(self.format)
         s1 = re.sub("[ \t]+", " ", s1)
         s0 = "2\n%s\nH 1 2 3\nCl 3 4 3\n" % stru.title
         self.assertEqual(s1, s0)
@@ -190,12 +190,12 @@ class TestP_rawxyz(unittest.TestCase):
         stru.lattice = Lattice(1.0, 2.0, 3.0, 90.0, 90.0, 90.0)
         # plain version
         stru[:] = [Atom("H", [1.0, 1.0, 1.0])]
-        s1 = stru.writeStr(self.format)
+        s1 = stru.write_structure(self.format)
         s1 = re.sub("[ \t]+", " ", s1)
         s0 = "H 1 2 3\n"
         # brutal raw version
         stru[0].element = ""
-        s1 = stru.writeStr(self.format)
+        s1 = stru.write_structure(self.format)
         s0 = "1 2 3\n"
         self.assertEqual(s1, s0)
         return
@@ -270,13 +270,13 @@ class TestP_pdb(unittest.TestCase):
         """Check conversion to PDB file format."""
         stru = self.stru
         stru.read(self.datafile("CdSe_bulk.stru"), "pdffit")
-        s = stru.writeStr(self.format)
+        s = stru.write_structure(self.format)
         # all lines should be 80 characters long
         linelens = [len(line) for line in s.split("\n") if line != ""]
         self.assertEqual(linelens, len(linelens) * [80])
         # now clean and re-read structure
         stru = Structure()
-        stru.readStr(s, self.format)
+        stru.read_structure(s, self.format)
         s_els = [a.element for a in stru]
         f_els = ["Cd", "Cd", "Se", "Se"]
         self.assertEqual(s_els, f_els)
@@ -343,9 +343,9 @@ class TestP_xcfg(unittest.TestCase):
         """Check conversion to XCFG file format."""
         stru = self.stru
         stru.read(self.datafile("CdSe_bulk.stru"), "pdffit")
-        s = stru.writeStr(self.format)
+        s = stru.write_structure(self.format)
         stru = Structure()
-        stru.readStr(s, self.format)
+        stru.read_structure(s, self.format)
         s_els = [a.element for a in stru]
         f_els = ["Cd", "Cd", "Se", "Se"]
         self.assertEqual(s_els, f_els)

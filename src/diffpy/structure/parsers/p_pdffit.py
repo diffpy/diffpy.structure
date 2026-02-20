@@ -169,7 +169,7 @@ class P_pdffit(StructureParser):
             if stru.pdffit["ncell"][:3] != [1, 1, 1]:
                 superlatpars = [latpars[i] * stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
-                stru.placeInLattice(superlattice)
+                stru.place_in_lattice(superlattice)
                 stru.pdffit["ncell"] = [1, 1, 1, p_natoms]
         except (ValueError, IndexError):
             emsg = "%d: file is not in PDFfit format" % p_nl

@@ -109,10 +109,10 @@ def main():
         strufile = args[1]
         stru = Structure()
         if args[1] == "-":
-            stru.readStr(sys.stdin.read(), infmt)
+            stru.read_structure(sys.stdin.read(), infmt)
         else:
             stru.read(strufile, infmt)
-        sys.stdout.write(stru.writeStr(outfmt))
+        sys.stdout.write(stru.write_structure(outfmt))
     except IndexError:
         print("strufile not specified", file=sys.stderr)
         sys.exit(2)
