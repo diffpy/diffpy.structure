@@ -21,8 +21,18 @@ import numpy
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
 from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol, isiterable
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # ----------------------------------------------------------------------------
+
+base = "diffpy.structure.Structure"
+removal_version = "4.0.0"
+assignUniqueLabels_deprecation_msg = build_deprecation_message(
+    base,
+    "assignUniqueLabels",
+    "assign_unique_labels",
+    removal_version,
+)
 
 
 class Structure(list):
@@ -163,7 +173,7 @@ class Structure(list):
         last_atom = self[-1]
         return last_atom
 
-    def assignUniqueLabels(self):
+    def assign_unique_labels(self):
         """Set a unique label string for each `Atom` in this structure.
 
         The label strings are formatted as "%(baresymbol)s%(index)i",
@@ -180,6 +190,16 @@ class Structure(list):
             a.label = baresmbl + str(elnum[baresmbl])
             islabeled.add(a)
         return
+
+    @deprecated(assignUniqueLabels_deprecation_msg)
+    def assignUniqueLabels(self):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.assign_unique_labels
+        instead.
+        """
+        return self.assign_unique_labels()
 
     def distance(self, aid0, aid1):
         """Calculate distance between 2 `Atoms`, no periodic boundary
