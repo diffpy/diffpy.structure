@@ -17,6 +17,7 @@
 import copy as copymod
 
 import numpy
+import warnings
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
@@ -175,14 +176,19 @@ class Structure(list):
 
         Raises
         ------
-        ValueError
+        UserWarning
             If an atom with the same element/type and coordinates already exists.
         """
         kwargs["lattice"] = self.lattice
         atom = Atom(*args, **kwargs)
         for existing in self:
             if existing.element == atom.element and numpy.allclose(existing.xyz, atom.xyz):
-                raise ValueError(f"Duplicate atom {atom.element} already exists at {atom.xyz!r}")
+                warnings.warn(
+                    f"Duplicate atom {atom.element} already exists at {atom.xyz!r}",
+                    category=UserWarning,
+                    stacklevel=2,
+                )
+                break
         self.append(atom, copy=False)
         return
 
