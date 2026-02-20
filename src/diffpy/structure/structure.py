@@ -168,6 +168,11 @@ class Structure(list):
     def add_new_atom(self, *args, **kwargs):
         """Add new `Atom` instance to the end of this `Structure`.
 
+        Parameters
+        ----------
+        *args, **kwargs :
+            See `Atom` class constructor.
+
         Raises
         ------
         ValueError
