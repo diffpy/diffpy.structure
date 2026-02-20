@@ -15,6 +15,7 @@
 """This module defines class `Structure`."""
 
 import copy as copymod
+import warnings
 
 import numpy
 
@@ -31,6 +32,10 @@ assignUniqueLabels_deprecation_msg = build_deprecation_message(
     base,
     "assignUniqueLabels",
     "assign_unique_labels",
+addNewAtom_deprecation_msg = build_deprecation_message(
+    base,
+    "addNewAtom",
+    "add_new_atom",
     removal_version,
 )
 
@@ -155,17 +160,40 @@ class Structure(list):
         s_atoms = "\n".join([str(a) for a in self])
         return s_lattice + "\n" + s_atoms
 
+    @deprecated(addNewAtom_deprecation_msg)
     def addNewAtom(self, *args, **kwargs):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.add_new_atom instead.
+        """
+        self.add_new_atom(*args, **kwargs)
+        return
+
+    def add_new_atom(self, *args, **kwargs):
         """Add new `Atom` instance to the end of this `Structure`.
 
         Parameters
         ----------
         *args, **kwargs :
             See `Atom` class constructor.
+
+        Raises
+        ------
+        UserWarning
+            If an atom with the same element/type and coordinates already exists.
         """
         kwargs["lattice"] = self.lattice
-        a = Atom(*args, **kwargs)
-        self.append(a, copy=False)
+        atom = Atom(*args, **kwargs)
+        for existing in self:
+            if existing.element == atom.element and numpy.allclose(existing.xyz, atom.xyz):
+                warnings.warn(
+                    f"Duplicate atom {atom.element} already exists at {atom.xyz!r}",
+                    category=UserWarning,
+                    stacklevel=2,
+                )
+                break
+        self.append(atom, copy=False)
         return
 
     def getLastAtom(self):
