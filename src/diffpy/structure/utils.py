@@ -69,7 +69,7 @@ def atomBareSymbol(smbl):
 # Helpers for the Structure class --------------------------------------------
 
 
-def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
+def _link_atom_attribute(attrname, doc, toarray=numpy.array):
     """Create property wrapper that maps the specified atom attribute.
 
     The returned property object provides convenient access to atom
