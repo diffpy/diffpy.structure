@@ -82,7 +82,7 @@ def supercell(S, mno):
     newS.__setitem__(slice(None), newAtoms, copy=False)
 
     # take care of lattice parameters
-    newS.lattice.setLatPar(a=mno[0] * S.lattice.a, b=mno[1] * S.lattice.b, c=mno[2] * S.lattice.c)
+    newS.lattice.set_lat_par(a=mno[0] * S.lattice.a, b=mno[1] * S.lattice.b, c=mno[2] * S.lattice.c)
     return newS
 
 

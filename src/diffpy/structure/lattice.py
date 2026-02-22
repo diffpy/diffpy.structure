@@ -27,6 +27,22 @@ import numpy
 import numpy.linalg as numalg
 
 from diffpy.structure.structureerrors import LatticeError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.Lattice"
+removal_version = "4.0.0"
+setLatPar_deprecation_msg = build_deprecation_message(
+    base,
+    "setLatPar",
+    "set_lat_par",
+    removal_version,
+)
+setLatBase_deprecation_msg = build_deprecation_message(
+    base,
+    "setLatBase",
+    "set_lat_base",
+    removal_version,
+)
 
 # Helper Functions -----------------------------------------------------------
 
@@ -168,37 +184,37 @@ class Lattice(object):
 
     a = property(
         lambda self: self._a,
-        lambda self, value: self.setLatPar(a=value),
+        lambda self, value: self.set_lat_par(a=value),
         doc="The unit cell length *a*.",
     )
 
     b = property(
         lambda self: self._b,
-        lambda self, value: self.setLatPar(b=value),
+        lambda self, value: self.set_lat_par(b=value),
         doc="The unit cell length *b*.",
     )
 
     c = property(
         lambda self: self._c,
-        lambda self, value: self.setLatPar(c=value),
+        lambda self, value: self.set_lat_par(c=value),
         doc="The unit cell length *c*.",
     )
 
     alpha = property(
         lambda self: self._alpha,
-        lambda self, value: self.setLatPar(alpha=value),
+        lambda self, value: self.set_lat_par(alpha=value),
         doc="The cell angle *alpha* in degrees.",
     )
 
     beta = property(
         lambda self: self._beta,
-        lambda self, value: self.setLatPar(beta=value),
+        lambda self, value: self.set_lat_par(beta=value),
         doc="The cell angle *beta* in degrees.",
     )
 
     gamma = property(
         lambda self: self._gamma,
-        lambda self, value: self.setLatPar(gamma=value),
+        lambda self, value: self.set_lat_par(gamma=value),
         doc="The cell angle *gamma* in degrees.",
     )
 
@@ -323,12 +339,12 @@ class Lattice(object):
         # work out argument variants
         # Lattice()
         if not argset:
-            self.setLatPar(1.0, 1.0, 1.0, 90.0, 90.0, 90.0, baserot)
+            self.set_lat_par(1.0, 1.0, 1.0, 90.0, 90.0, 90.0, baserot)
         # Lattice(base=abc)
         elif base is not None:
             if len(argset) > 1:
                 raise ValueError("'base' must be the only argument.")
-            self.setLatBase(base)
+            self.set_lat_base(base)
         # Lattice(lat)
         elif isinstance(a, Lattice):
             if len(argset) > 1:
@@ -339,10 +355,10 @@ class Lattice(object):
             abcabg = ("a", "b", "c", "alpha", "beta", "gamma")
             if not argset.issuperset(abcabg):
                 raise ValueError("Provide all 6 cell parameters.")
-            self.setLatPar(a, b, c, alpha, beta, gamma, baserot=baserot)
+            self.set_lat_par(a, b, c, alpha, beta, gamma, baserot=baserot)
         return
 
-    def setLatPar(
+    def set_lat_par(
         self,
         a=None,
         b=None,
@@ -441,7 +457,34 @@ class Lattice(object):
         self.isotropicunit = _isotropicunit(self.recnormbase)
         return
 
+    @deprecated(setLatPar_deprecation_msg)
+    def setLatPar(
+        self,
+        a=None,
+        b=None,
+        c=None,
+        alpha=None,
+        beta=None,
+        gamma=None,
+        baserot=None,
+    ):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Lattice.set_lat_par instead.
+        """
+        return self.set_lat_par(a, b, c, alpha, beta, gamma, baserot)
+
+    @deprecated(setLatBase_deprecation_msg)
     def setLatBase(self, base):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Lattice.set_lat_base instead.
+        """
+        return self.set_lat_base(base)
+
+    def set_lat_base(self, base):
         """Set new base vectors for this lattice.
 
         This updates the cell lengths and cell angles according to the
