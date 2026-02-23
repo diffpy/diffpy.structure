@@ -34,13 +34,13 @@ removal_version = "4.0.0"
 setLatPar_deprecation_msg = build_deprecation_message(
     base,
     "setLatPar",
-    "set_lat_parms",
+    "set_latt_parms",
     removal_version,
 )
 setLatBase_deprecation_msg = build_deprecation_message(
     base,
     "setLatBase",
-    "set_lat_base",
+    "set_new_latt_base_vec",
     removal_version,
 )
 

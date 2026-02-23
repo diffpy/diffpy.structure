@@ -1,7 +1,7 @@
 **Added:**
 
-* Added ``set_lat_par`` method into ``Lattice`` class
-* Added ``set_lar_base`` method into ``Lattice`` class
+* Added ``set_latt_parms`` method into ``Lattice`` class
+* Added ``set_new_latt_base_vec`` method into ``Lattice`` class
 
 **Changed:**
 
