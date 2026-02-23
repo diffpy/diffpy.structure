@@ -253,7 +253,7 @@ class P_xcfg(StructureParser):
                 emsg = ("%d: auxiliary fields are " "not consistent with entry_count") % p_nl
                 raise StructureFormatError(emsg)
             # define proper lattice
-            stru.lattice.set_lat_base(xcfg_H0)
+            stru.lattice.set_new_latt_base_vec(xcfg_H0)
             # here we are inside the data block
             p_element = None
             for line in ilines:

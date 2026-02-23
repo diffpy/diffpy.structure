@@ -34,7 +34,7 @@ removal_version = "4.0.0"
 setLatPar_deprecation_msg = build_deprecation_message(
     base,
     "setLatPar",
-    "set_lat_par",
+    "set_lat_parms",
     removal_version,
 )
 setLatBase_deprecation_msg = build_deprecation_message(
@@ -184,37 +184,37 @@ class Lattice(object):
 
     a = property(
         lambda self: self._a,
-        lambda self, value: self.set_lat_par(a=value),
+        lambda self, value: self.set_latt_parms(a=value),
         doc="The unit cell length *a*.",
     )
 
     b = property(
         lambda self: self._b,
-        lambda self, value: self.set_lat_par(b=value),
+        lambda self, value: self.set_latt_parms(b=value),
         doc="The unit cell length *b*.",
     )
 
     c = property(
         lambda self: self._c,
-        lambda self, value: self.set_lat_par(c=value),
+        lambda self, value: self.set_latt_parms(c=value),
         doc="The unit cell length *c*.",
     )
 
     alpha = property(
         lambda self: self._alpha,
-        lambda self, value: self.set_lat_par(alpha=value),
+        lambda self, value: self.set_latt_parms(alpha=value),
         doc="The cell angle *alpha* in degrees.",
     )
 
     beta = property(
         lambda self: self._beta,
-        lambda self, value: self.set_lat_par(beta=value),
+        lambda self, value: self.set_latt_parms(beta=value),
         doc="The cell angle *beta* in degrees.",
     )
 
     gamma = property(
         lambda self: self._gamma,
-        lambda self, value: self.set_lat_par(gamma=value),
+        lambda self, value: self.set_latt_parms(gamma=value),
         doc="The cell angle *gamma* in degrees.",
     )
 
@@ -339,12 +339,12 @@ class Lattice(object):
         # work out argument variants
         # Lattice()
         if not argset:
-            self.set_lat_par(1.0, 1.0, 1.0, 90.0, 90.0, 90.0, baserot)
+            self.set_latt_parms(1.0, 1.0, 1.0, 90.0, 90.0, 90.0, baserot)
         # Lattice(base=abc)
         elif base is not None:
             if len(argset) > 1:
                 raise ValueError("'base' must be the only argument.")
-            self.set_lat_base(base)
+            self.set_new_latt_base_vec(base)
         # Lattice(lat)
         elif isinstance(a, Lattice):
             if len(argset) > 1:
@@ -355,10 +355,10 @@ class Lattice(object):
             abcabg = ("a", "b", "c", "alpha", "beta", "gamma")
             if not argset.issuperset(abcabg):
                 raise ValueError("Provide all 6 cell parameters.")
-            self.set_lat_par(a, b, c, alpha, beta, gamma, baserot=baserot)
+            self.set_latt_parms(a, b, c, alpha, beta, gamma, baserot=baserot)
         return
 
-    def set_lat_par(
+    def set_latt_parms(
         self,
         a=None,
         b=None,
@@ -473,7 +473,7 @@ class Lattice(object):
 
         Please use diffpy.structure.Lattice.set_lat_par instead.
         """
-        return self.set_lat_par(a, b, c, alpha, beta, gamma, baserot)
+        return self.set_latt_parms(a, b, c, alpha, beta, gamma, baserot)
 
     @deprecated(setLatBase_deprecation_msg)
     def setLatBase(self, base):
@@ -482,9 +482,9 @@ class Lattice(object):
 
         Please use diffpy.structure.Lattice.set_lat_base instead.
         """
-        return self.set_lat_base(base)
+        return self.set_new_latt_base_vec(base)
 
-    def set_lat_base(self, base):
+    def set_new_latt_base_vec(self, base):
         """Set new base vectors for this lattice.
 
         This updates the cell lengths and cell angles according to the
