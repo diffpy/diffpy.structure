@@ -201,7 +201,7 @@ class P_discus(StructureParser):
         words = self.line.replace(",", " ").split()
         latpars = [float(w) for w in words[1:7]]
         try:
-            self.stru.lattice.setLatPar(*latpars)
+            self.stru.lattice.set_latt_parms(*latpars)
         except ZeroDivisionError:
             emsg = "%d: Invalid lattice parameters - zero cell volume" % self.nl
             raise StructureFormatError(emsg)

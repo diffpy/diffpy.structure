@@ -157,7 +157,7 @@ class P_pdb(StructureParser):
                     alpha = float(line[33:40])
                     beta = float(line[40:47])
                     gamma = float(line[47:54])
-                    stru.lattice.setLatPar(a, b, c, alpha, beta, gamma)
+                    stru.lattice.set_latt_parms(a, b, c, alpha, beta, gamma)
                     scale = numpy.transpose(stru.lattice.recbase)
                 elif record == "SCALE1":
                     sc = numpy.zeros((3, 3), dtype=float)
@@ -171,7 +171,7 @@ class P_pdb(StructureParser):
                     scaleU[2] = float(line[45:55])
                     base = numpy.transpose(numpy.linalg.inv(sc))
                     abcABGcryst = numpy.array(stru.lattice.abcABG())
-                    stru.lattice.setLatBase(base)
+                    stru.lattice.set_new_latt_base_vec(base)
                     abcABGscale = numpy.array(stru.lattice.abcABG())
                     reldiff = numpy.fabs(1.0 - abcABGscale / abcABGcryst)
                     if not numpy.all(reldiff < 1.0e-4):
