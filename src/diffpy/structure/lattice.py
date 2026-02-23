@@ -43,6 +43,12 @@ setLatBase_deprecation_msg = build_deprecation_message(
     "set_new_latt_base_vec",
     removal_version,
 )
+abcABG_deprecation_msg = build_deprecation_message(
+    base,
+    "abcABG",
+    "cell_parms",
+    removal_version,
+)
 
 # Helper Functions -----------------------------------------------------------
 
@@ -559,7 +565,16 @@ class Lattice(object):
         )
         return
 
+    @deprecated(abcABG_deprecation_msg)
     def abcABG(self):
+        """'diffpy.structure.Lattice.abcABG' is deprecated and will be
+        removed in version 4.0.0.
+
+        Please use 'diffpy.structure.Lattice.cell_parms' instead.
+        """
+        return self.cell_parms()
+
+    def cell_parms(self):
         """Return the cell parameters in the standard setting.
 
         Returns

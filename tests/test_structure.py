@@ -420,11 +420,20 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(0, len(self.stru))
         return
 
-    def test__get_lattice(self):
+    def test__get_lattice_dep(self):
         """Check Structure._get_lattice()"""
         lat = Lattice()
         stru = Structure()
         self.assertEqual((1, 1, 1, 90, 90, 90), stru.lattice.abcABG())
+        stru2 = Structure(lattice=lat)
+        self.assertTrue(lat is stru2.lattice)
+        return
+
+    def test__get_lattice(self):
+        """Check Structure._get_lattice()"""
+        lat = Lattice()
+        stru = Structure()
+        self.assertEqual((1, 1, 1, 90, 90, 90), stru.lattice.cell_parms())
         stru2 = Structure(lattice=lat)
         self.assertTrue(lat is stru2.lattice)
         return

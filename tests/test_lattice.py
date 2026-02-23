@@ -50,7 +50,7 @@ class TestLattice(unittest.TestCase):
         L2 = Lattice(base=L0.base)
         self.assertTrue(numpy.array_equal(L0.base, L2.base))
         self.assertTrue(numpy.array_equal(L0.isotropicunit, L2.isotropicunit))
-        L3 = Lattice(*L0.abcABG(), baserot=L0.baserot)
+        L3 = Lattice(*L0.cell_parms(), baserot=L0.baserot)
         self.assertTrue(numpy.allclose(L0.base, L3.base))
         self.assertTrue(numpy.allclose(L0.isotropicunit, L3.isotropicunit))
         return
@@ -229,10 +229,10 @@ class TestLattice(unittest.TestCase):
     def test_reciprocal(self):
         """Check calculation of reciprocal lattice."""
         r1 = self.lattice.reciprocal()
-        self.assertEqual((1, 1, 1, 90, 90, 90), r1.abcABG())
+        self.assertEqual((1, 1, 1, 90, 90, 90), r1.cell_parms())
         L2 = Lattice(2, 4, 8, 90, 90, 90)
         r2 = L2.reciprocal()
-        self.assertEqual((0.5, 0.25, 0.125, 90, 90, 90), r2.abcABG())
+        self.assertEqual((0.5, 0.25, 0.125, 90, 90, 90), r2.cell_parms())
         rr2 = r2.reciprocal()
         self.assertTrue(numpy.array_equal(L2.base, rr2.base))
         return
