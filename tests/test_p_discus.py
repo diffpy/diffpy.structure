@@ -46,7 +46,7 @@ class TestP_discus(unittest.TestCase):
         self.assertEqual("Fm-3m", stru.pdffit["spcgr"])
         # cell record
         abcABG = (3.52, 3.52, 3.52, 90.0, 90.0, 90.0)
-        self.assertEqual(abcABG, stru.lattice.abcABG())
+        self.assertEqual(abcABG, stru.lattice.cell_parms())
         # ncell
         self.assertEqual([1, 1, 1, 4], stru.pdffit["ncell"])
         self.assertEqual(4, len(stru))
