@@ -110,7 +110,7 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_position_difference(self):
-        """Check positionDifference in normal and boundary cases."""
+        """Check position_difference in normal and boundary cases."""
         self.assertTrue(numpy.allclose(position_difference([0.1, 0.9, 0.2], [0.8, 0.1, 0.8]), [0.3, 0.2, 0.4]))
         self.assertTrue(numpy.allclose(position_difference([1.2, -0.1, 2.75], [0.1, 0.4, 0.25]), [0.1, 0.5, 0.5]))
         return
@@ -122,7 +122,7 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_nearest_site_index(self):
-        """Check nearestSiteIndex with single and multiple sites."""
+        """Check nearest_site_index with single and multiple sites."""
         self.assertEqual(nearest_site_index([[0.1, 0.9, 0.2], [0.8, 0.1, 0.8]], [0.8, 0.1, 0.8]), 1)
         self.assertEqual(nearest_site_index([[1.2, -0.1, 2.75]], [0.7, 0.4, 0.25]), 0)
         return
