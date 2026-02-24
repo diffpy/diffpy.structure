@@ -22,8 +22,8 @@ base = "diffpy.structure.PDFFitStructure"
 removal_version = "4.0.0"
 readStr_deprecation_msg = build_deprecation_message(
     base,
-    "isSpaceGroupLatPar",
-    "is_space_group_lat_par",
+    "readStr",
+    "read_structure",
     removal_version,
 )
 

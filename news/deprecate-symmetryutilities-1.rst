@@ -1,6 +1,6 @@
 **Added:**
 
-* Added ``is_space_group_lat_par`` method in ``symmetryutilities.py``
+* Added ``is_space_group_latt_parms`` method in ``symmetryutilities.py``
 * Added ``is_constant_formula`` method in ``symmetryutilities.py``
 
 **Changed:**

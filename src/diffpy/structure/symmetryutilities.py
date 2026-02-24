@@ -39,7 +39,7 @@ removal_version = "4.0.0"
 isSpaceGroupLatPar_deprecation_msg = build_deprecation_message(
     base,
     "isSpaceGroupLatPar",
-    "is_space_group_lat_par",
+    "is_space_group_latt_parms",
     removal_version,
 )
 isconstantFormula_deprecation_msg = build_deprecation_message(
@@ -63,12 +63,12 @@ def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
     """'diffpy.structure.isSpaceGroupLatPar' is deprecated and will be
     removed in version 4.0.0.
 
-    Please use 'diffpy.structure.is_space_group_lat_par' instead.
+    Please use 'diffpy.structure.is_space_group_latt_parms' instead.
     """
-    return is_space_group_lat_par(spacegroup, a, b, c, alpha, beta, gamma)
+    return is_space_group_latt_parms(spacegroup, a, b, c, alpha, beta, gamma)
 
 
-def is_space_group_lat_par(spacegroup, a, b, c, alpha, beta, gamma):
+def is_space_group_latt_parms(spacegroup, a, b, c, alpha, beta, gamma):
     """Check if space group allows passed lattice parameters.
 
     Parameters
