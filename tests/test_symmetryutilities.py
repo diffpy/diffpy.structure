@@ -31,6 +31,10 @@ from diffpy.structure.symmetryutilities import (
     is_space_group_latt_parms,
     isconstantFormula,
     isSpaceGroupLatPar,
+    nearest_site_index,
+    nearestSiteIndex,
+    position_difference,
+    positionDifference,
     pruneFormulaDictionary,
 )
 
@@ -97,6 +101,30 @@ class TestRoutines(unittest.TestCase):
         """Check GetSpaceGroup for non-standard aliases from sgtbx."""
         self.assertIs(GetSpaceGroup("Fm3m"), GetSpaceGroup(225))
         self.assertIs(GetSpaceGroup("Ia3d"), GetSpaceGroup("I a -3 d"))
+        return
+
+    def test_positionDifference(self):
+        """Check positionDifference in normal and boundary cases."""
+        self.assertTrue(numpy.allclose(positionDifference([0.1, 0.9, 0.2], [0.9, 0.1, 0.8]), [0.2, 0.2, 0.4]))
+        self.assertTrue(numpy.allclose(positionDifference([1.2, -0.1, 2.75], [0.1, 0.4, 0.25]), [0.1, 0.5, 0.5]))
+        return
+
+    def test_position_difference(self):
+        """Check positionDifference in normal and boundary cases."""
+        self.assertTrue(numpy.allclose(position_difference([0.1, 0.9, 0.2], [0.8, 0.1, 0.8]), [0.3, 0.2, 0.4]))
+        self.assertTrue(numpy.allclose(position_difference([1.2, -0.1, 2.75], [0.1, 0.4, 0.25]), [0.1, 0.5, 0.5]))
+        return
+
+    def test_nearestSiteIndex(self):
+        """Check nearestSiteIndex with single and multiple sites."""
+        self.assertEqual(nearestSiteIndex([[0.1, 0.9, 0.2], [0.8, 0.1, 0.8]], [0.8, 0.1, 0.8]), 1)
+        self.assertEqual(nearestSiteIndex([[1.2, -0.1, 2.75]], [0.7, 0.4, 0.25]), 0)
+        return
+
+    def test_nearest_site_index(self):
+        """Check nearestSiteIndex with single and multiple sites."""
+        self.assertEqual(nearest_site_index([[0.1, 0.9, 0.2], [0.8, 0.1, 0.8]], [0.8, 0.1, 0.8]), 1)
+        self.assertEqual(nearest_site_index([[1.2, -0.1, 2.75]], [0.7, 0.4, 0.25]), 0)
         return
 
     def test_expandPosition(self):
