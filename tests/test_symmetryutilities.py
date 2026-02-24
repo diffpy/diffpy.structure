@@ -27,6 +27,8 @@ from diffpy.structure.symmetryutilities import (
     SymmetryConstraints,
     _Position2Tuple,
     expandPosition,
+    is_constant_formula,
+    is_space_group_latt_parms,
     isconstantFormula,
     isSpaceGroupLatPar,
     pruneFormulaDictionary,
@@ -67,6 +69,30 @@ class TestRoutines(unittest.TestCase):
         self.assertTrue(isSpaceGroupLatPar(cubic, 3, 3, 3, 90, 90, 90))
         return
 
+    def test_is_space_group_lat_par(self):
+        """Check isSpaceGroupLatPar()"""
+        triclinic = GetSpaceGroup("P1")
+        monoclinic = GetSpaceGroup("P2")
+        orthorhombic = GetSpaceGroup("P222")
+        tetragonal = GetSpaceGroup("P4")
+        trigonal = GetSpaceGroup("P3")
+        hexagonal = GetSpaceGroup("P6")
+        cubic = GetSpaceGroup("P23")
+        self.assertTrue(is_space_group_latt_parms(triclinic, 1, 2, 3, 40, 50, 60))
+        self.assertFalse(is_space_group_latt_parms(monoclinic, 1, 2, 3, 40, 50, 60))
+        self.assertTrue(is_space_group_latt_parms(monoclinic, 1, 2, 3, 90, 50, 90))
+        self.assertFalse(is_space_group_latt_parms(orthorhombic, 1, 2, 3, 90, 50, 90))
+        self.assertTrue(is_space_group_latt_parms(orthorhombic, 1, 2, 3, 90, 90, 90))
+        self.assertFalse(is_space_group_latt_parms(tetragonal, 1, 2, 3, 90, 90, 90))
+        self.assertTrue(is_space_group_latt_parms(tetragonal, 2, 2, 3, 90, 90, 90))
+        self.assertFalse(is_space_group_latt_parms(trigonal, 2, 2, 3, 90, 90, 90))
+        self.assertTrue(is_space_group_latt_parms(trigonal, 2, 2, 2, 80, 80, 80))
+        self.assertFalse(is_space_group_latt_parms(hexagonal, 2, 2, 2, 80, 80, 80))
+        self.assertTrue(is_space_group_latt_parms(hexagonal, 2, 2, 3, 90, 90, 120))
+        self.assertFalse(is_space_group_latt_parms(cubic, 2, 2, 3, 90, 90, 120))
+        self.assertTrue(is_space_group_latt_parms(cubic, 3, 3, 3, 90, 90, 90))
+        return
+
     def test_sgtbx_spacegroup_aliases(self):
         """Check GetSpaceGroup for non-standard aliases from sgtbx."""
         self.assertIs(GetSpaceGroup("Fm3m"), GetSpaceGroup(225))
@@ -98,6 +124,15 @@ class TestRoutines(unittest.TestCase):
         self.assertTrue(isconstantFormula("22/7"))
         self.assertTrue(isconstantFormula("- 22/7"))
         self.assertTrue(isconstantFormula("+13/ 9"))
+        return
+
+    def test_is_constant_formula(self):
+        """Check isconstantFormula()"""
+        self.assertFalse(is_constant_formula("x-y+z"))
+        self.assertTrue(is_constant_formula("6.023e23"))
+        self.assertTrue(is_constant_formula("22/7"))
+        self.assertTrue(is_constant_formula("- 22/7"))
+        self.assertTrue(is_constant_formula("+13/ 9"))
         return
 
 

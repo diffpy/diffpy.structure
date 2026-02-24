@@ -32,6 +32,22 @@ import sys
 import numpy
 
 from diffpy.structure.structureerrors import SymmetryError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure"
+removal_version = "4.0.0"
+isSpaceGroupLatPar_deprecation_msg = build_deprecation_message(
+    base,
+    "isSpaceGroupLatPar",
+    "is_space_group_latt_parms",
+    removal_version,
+)
+isconstantFormula_deprecation_msg = build_deprecation_message(
+    base,
+    "isconstantFormula",
+    "is_constant_formula",
+    removal_version,
+)
 
 # Constants ------------------------------------------------------------------
 
@@ -42,7 +58,17 @@ stdUsymbols = ["U11", "U22", "U33", "U12", "U13", "U23"]
 # ----------------------------------------------------------------------------
 
 
+@deprecated(isSpaceGroupLatPar_deprecation_msg)
 def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
+    """'diffpy.structure.isSpaceGroupLatPar' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.is_space_group_latt_parms' instead.
+    """
+    return is_space_group_latt_parms(spacegroup, a, b, c, alpha, beta, gamma)
+
+
+def is_space_group_latt_parms(spacegroup, a, b, c, alpha, beta, gamma):
     """Check if space group allows passed lattice parameters.
 
     Parameters
@@ -110,7 +136,17 @@ def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
 _rx_constant_formula = re.compile(r"[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)??(/[-+]?\d+)?$")
 
 
+@deprecated(isconstantFormula_deprecation_msg)
 def isconstantFormula(s):
+    """'diffpy.structure.isconstantFormula' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.is_constant_formula' instead.
+    """
+    return is_constant_formula(s)
+
+
+def is_constant_formula(s):
     """Check if formula string is constant.
 
     Parameters
@@ -837,7 +873,7 @@ def pruneFormulaDictionary(eqdict):
     """
     pruned = {}
     for smb, eq in eqdict.items():
-        if not isconstantFormula(eq):
+        if not is_constant_formula(eq):
             pruned[smb] = eq
     return pruned
 

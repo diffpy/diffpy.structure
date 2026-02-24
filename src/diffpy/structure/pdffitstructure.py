@@ -16,6 +16,16 @@
 
 
 from diffpy.structure.structure import Structure
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.PDFFitStructure"
+removal_version = "4.0.0"
+readStr_deprecation_msg = build_deprecation_message(
+    base,
+    "readStr",
+    "read_structure",
+    removal_version,
+)
 
 # ----------------------------------------------------------------------------
 
@@ -78,6 +88,7 @@ class PDFFitStructure(Structure):
             self.pdffit["spcgr"] = sg.short_name
         return p
 
+    @deprecated(readStr_deprecation_msg)
     def readStr(self, s, format="auto"):
         """'diffpy.structure.PDFFitStructure.readStr' is deprecated and
         will be removed in version 4.0.0.
