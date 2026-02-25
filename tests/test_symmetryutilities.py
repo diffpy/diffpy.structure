@@ -27,6 +27,9 @@ from diffpy.structure.symmetryutilities import (
     GeneratorSite,
     SymmetryConstraints,
     _Position2Tuple,
+    equal_positions,
+    equalPositions,
+    expand_position,
     expandPosition,
     is_constant_formula,
     is_space_group_latt_parms,
@@ -34,6 +37,8 @@ from diffpy.structure.symmetryutilities import (
     isSpaceGroupLatPar,
     nearest_site_index,
     nearestSiteIndex,
+    null_space,
+    nullSpace,
     position_difference,
     positionDifference,
     pruneFormulaDictionary,
@@ -127,6 +132,17 @@ class TestRoutines(unittest.TestCase):
         self.assertEqual(4, pmult)
         return
 
+    def test_expand_position(self):
+        """Check expand_position()"""
+        # ok again Ni example
+        fcc = GetSpaceGroup(225)
+        pos, pops, pmult = expand_position(fcc, [0, 0, 0])
+        self.assertTrue(numpy.all(pos[0] == 0.0))
+        self.assertEqual(4, len(pos))
+        self.assertEqual(192, sum([len(line) for line in pops]))
+        self.assertEqual(4, pmult)
+        return
+
     def test_pruneFormulaDictionary(self):
         """Check pruneFormulaDictionary()"""
         fmdict = {"x": "3*y-0.17", "y": "0", "z": "0.13"}
@@ -151,6 +167,12 @@ class TestRoutines(unittest.TestCase):
         self.assertTrue(is_constant_formula("- 22/7"))
         self.assertTrue(is_constant_formula("+13/ 9"))
         return
+
+    def test_equalPositions(self):
+        """Check equalPositions()"""
+        self.assertTrue(equalPositions([0.1, 0.2, 0.3], [0.1, 0.2, 0.3], 1.0e-5))
+        self.assertTrue(equalPositions([0.1 + 0.5e-5, 0.2 + 0.5e-5, 0.3 + 0.5e-5], [0.1, 0.2, 0.3], 1.0e-5))
+        self.assertFalse(equalPositions([0.2, 0.2, 0.3], [0.1, 0.2, 0.3], 1.0e-5))
 
 
 # End of class TestRoutines
@@ -702,6 +724,86 @@ def test_position_difference(xyz0, xyz1, expected):
 def test_nearest_site_index(sites, xyz, expected):
     actual = nearest_site_index(sites, xyz)
     assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "xyz0, xyz1, eps, expected",
+    [
+        pytest.param([0.1, 0.2, 0.3], [0.1, 0.2, 0.3], 1.0e-5, True),  # C1: same position
+        pytest.param(
+            [0.1 + 0.5e-5, 0.2 + 0.5e-5, 0.3 + 0.5e-5], [0.1, 0.2, 0.3], 1.0e-5, True
+        ),  # C2: same position with some tolerance
+        pytest.param([0.2, 0.2, 0.3], [0.1, 0.2, 0.3], 1.0e-5, False),  # C3: different positions
+    ],
+)
+def test_equal_positions(xyz0, xyz1, eps, expected):
+    """Check equalPositions."""
+    actual = equal_positions(xyz0, xyz1, eps)
+    assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "A, expected_dim",
+    [
+        pytest.param(  # C1: full-rank 2x2 matrix
+            [[1.0, 0.0], [0.0, 1.0]],
+            0,
+        ),
+        pytest.param(  # C2: Nullspace has dim 1
+            [[1.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 2.0]],
+            1,
+        ),
+        pytest.param(  # C3: Nullspace has dim 2
+            [[1.0, 2.0, 3.0], [2.0, 4.0, 6.0], [0.0, 0.0, 0.0]],
+            2,
+        ),
+        pytest.param(  # C4: Nullspace has dim 2
+            [[0.0, 0.0], [0.0, 0.0]],
+            2,
+        ),
+    ],
+)
+def test_nullSpace(A, expected_dim):
+    """Check nullSpace returns an orthonormal basis on supported square
+    matrices."""
+    A = numpy.asarray(A, dtype=float)
+    actual = nullSpace(A)
+
+    assert actual.shape == (expected_dim, A.shape[1])
+    assert numpy.allclose(A @ actual.T, numpy.zeros((A.shape[0], expected_dim)), atol=1e-12)
+    assert numpy.allclose(actual @ actual.T, numpy.eye(expected_dim), atol=1e-12)
+
+
+@pytest.mark.parametrize(
+    "A, expected_dim",
+    [
+        pytest.param(  # C1: full-rank 2x2 matrix
+            [[1.0, 0.0], [0.0, 1.0]],
+            0,
+        ),
+        pytest.param(  # C2: Nullspace has dim 1
+            [[1.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 2.0]],
+            1,
+        ),
+        pytest.param(  # C3: Nullspace has dim 2
+            [[1.0, 2.0, 3.0], [2.0, 4.0, 6.0], [0.0, 0.0, 0.0]],
+            2,
+        ),
+        pytest.param(  # C4: Nullspace has dim 2
+            [[0.0, 0.0], [0.0, 0.0]],
+            2,
+        ),
+    ],
+)
+def test_null_space(A, expected_dim):
+    """Check null_space returns an orthonormal basis on supported square
+    matrices."""
+    A = numpy.asarray(A, dtype=float)
+    actual = null_space(A)
+
+    assert actual.shape == (expected_dim, A.shape[1])
+    assert numpy.allclose(A @ actual.T, numpy.zeros((A.shape[0], expected_dim)), atol=1e-12)
+    assert numpy.allclose(actual @ actual.T, numpy.eye(expected_dim), atol=1e-12)
 
 
 if __name__ == "__main__":
