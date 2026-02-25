@@ -412,8 +412,8 @@ def expand_position(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
 
 @deprecated(nullSpace_deprecation_msg)
 def nullSpace(A):
-    """'diffpy.structure.nullSpace' is deprecated and will be
-    removed in version 4.0.0.
+    """'diffpy.structure.nullSpace' is deprecated and will be removed in
+    version 4.0.0.
 
     Please use 'diffpy.structure.null_space' instead.
     """
