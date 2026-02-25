@@ -60,6 +60,24 @@ nearestSiteIndex_deprecation_msg = build_deprecation_message(
     "nearest_site_index",
     removal_version,
 )
+equalPositions_deprecation_msg = build_deprecation_message(
+    base,
+    "equalPositions",
+    "equal_positions",
+    removal_version,
+)
+expandPosition_deprecation_msg = build_deprecation_message(
+    base,
+    "expandPosition",
+    "expand_position",
+    removal_version,
+)
+nullSpace_deprecation_msg = build_deprecation_message(
+    base,
+    "nullSpace",
+    "null_space",
+    removal_version,
+)
 
 # Constants ------------------------------------------------------------------
 
@@ -299,7 +317,17 @@ def nearest_site_index(sites, xyz):
     return nearindex
 
 
+@deprecated(equalPositions_deprecation_msg)
 def equalPositions(xyz0, xyz1, eps):
+    """'diffpy.structure.equalPositions' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.equal_positions' instead.
+    """
+    return equal_positions(xyz0, xyz1, eps)
+
+
+def equal_positions(xyz0, xyz1, eps):
     """Equality of two coordinates with optional tolerance.
 
     Parameters
@@ -319,7 +347,17 @@ def equalPositions(xyz0, xyz1, eps):
     return numpy.all(dxyz <= eps)
 
 
+@deprecated(expandPosition_deprecation_msg)
 def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
+    """'diffpy.structure.expandPosition' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.expand_position' instead.
+    """
+    return expand_position(spacegroup, xyz, sgoffset, eps)
+
+
+def expand_position(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
     """Obtain unique equivalent positions and corresponding operations.
 
     Parameters
@@ -358,7 +396,7 @@ def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
             if positions:
                 nearpos = positions[nearest_site_index(positions, pos)]
                 # is it an equivalent position?
-                if equalPositions(nearpos, pos, eps):
+                if equal_positions(nearpos, pos, eps):
                     # tpl should map to the same list as nearpos
                     site_symops[tpl] = site_symops[pos2tuple(nearpos)]
                     pos_is_new = False
@@ -372,7 +410,17 @@ def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
     return positions, pos_symops, multiplicity
 
 
+@deprecated(nullSpace_deprecation_msg)
 def nullSpace(A):
+    """'diffpy.structure.nullSpace' is deprecated and will be removed in
+    version 4.0.0.
+
+    Please use 'diffpy.structure.null_space' instead.
+    """
+    return null_space(A)
+
+
+def null_space(A):
     """Null space of matrix A."""
     from numpy import linalg
 
@@ -588,7 +636,7 @@ class GeneratorSite(object):
         R0 = self.invariants[0].R
         Rdiff = [(symop.R - R0) for symop in self.invariants]
         Rdiff = numpy.concatenate(Rdiff, axis=0)
-        self.null_space = nullSpace(Rdiff)
+        self.null_space = null_space(Rdiff)
         if self.null_space.size == 0:
             return
         # reverse sort rows of null_space rows by absolute value
@@ -649,7 +697,7 @@ class GeneratorSite(object):
                 Ucj2 = numpy.dot(R, numpy.dot(Ucj, R.T))
                 for i, kl in i6kl:
                     R6z[i, j] += Ucj2[kl]
-        Usp6 = nullSpace(R6zall)
+        Usp6 = null_space(R6zall)
         # normalize Usp6 by its maximum component
         mxcols = numpy.argmax(numpy.fabs(Usp6), axis=1)
         mxrows = numpy.arange(len(mxcols))
@@ -716,7 +764,7 @@ class GeneratorSite(object):
         # find pos in eqxyz
         idx = nearest_site_index(self.eqxyz, pos)
         eqpos = self.eqxyz[idx]
-        if not equalPositions(eqpos, pos, self.eps):
+        if not equal_positions(eqpos, pos, self.eps):
             return {}
         # any rotation matrix should do fine
         R = self.symops[idx][0].R
@@ -768,7 +816,7 @@ class GeneratorSite(object):
         # find pos in eqxyz
         idx = nearest_site_index(self.eqxyz, pos)
         eqpos = self.eqxyz[idx]
-        if not equalPositions(eqpos, pos, self.eps):
+        if not equal_positions(eqpos, pos, self.eps):
             return {}
         # any rotation matrix should do fine
         R = self.symops[idx][0].R
