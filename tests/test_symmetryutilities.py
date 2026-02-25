@@ -19,6 +19,7 @@ import sys
 import unittest
 
 import numpy
+import pytest
 
 from diffpy.structure.spacegroups import GetSpaceGroup
 from diffpy.structure.symmetryutilities import (
@@ -31,6 +32,10 @@ from diffpy.structure.symmetryutilities import (
     is_space_group_latt_parms,
     isconstantFormula,
     isSpaceGroupLatPar,
+    nearest_site_index,
+    nearestSiteIndex,
+    position_difference,
+    positionDifference,
     pruneFormulaDictionary,
 )
 
@@ -97,6 +102,18 @@ class TestRoutines(unittest.TestCase):
         """Check GetSpaceGroup for non-standard aliases from sgtbx."""
         self.assertIs(GetSpaceGroup("Fm3m"), GetSpaceGroup(225))
         self.assertIs(GetSpaceGroup("Ia3d"), GetSpaceGroup("I a -3 d"))
+        return
+
+    def test_positionDifference(self):
+        """Check positionDifference in normal and boundary cases."""
+        self.assertTrue(numpy.allclose(positionDifference([0.1, 0.9, 0.2], [0.9, 0.1, 0.8]), [0.2, 0.2, 0.4]))
+        self.assertTrue(numpy.allclose(positionDifference([1.2, -0.1, 2.75], [0.1, 0.4, 0.25]), [0.1, 0.5, 0.5]))
+        return
+
+    def test_nearestSiteIndex(self):
+        """Check nearestSiteIndex with single and multiple sites."""
+        self.assertEqual(nearestSiteIndex([[0.1, 0.9, 0.2], [0.8, 0.1, 0.8]], [0.8, 0.1, 0.8]), 1)
+        self.assertEqual(nearestSiteIndex([[1.2, -0.1, 2.75]], [0.7, 0.4, 0.25]), 0)
         return
 
     def test_expandPosition(self):
@@ -645,6 +662,47 @@ class TestSymmetryConstraints(unittest.TestCase):
 # End of class TestSymmetryConstraints
 
 # ----------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "xyz0, xyz1, expected",
+    [
+        pytest.param(  # C1: Generic case for symmetry mapping for periodic lattice
+            [0.1, 0.9, 0.2],
+            [0.8, 0.1, 0.8],
+            [0.3, 0.2, 0.4],
+        ),
+        pytest.param(  # C2: Boundary case for entries with mapping on difference equal to 0.5
+            [1.2, -0.1, 2.75],
+            [0.1, 0.4, 0.25],
+            [0.1, 0.5, 0.5],
+        ),
+    ],
+)
+def test_position_difference(xyz0, xyz1, expected):
+    actual = position_difference(xyz0, xyz1)
+    assert numpy.allclose(actual, expected)
+
+
+@pytest.mark.parametrize(
+    "sites, xyz, expected",
+    [
+        pytest.param(  # C1: We have two sites, and the xyz is closest to the index 1 site
+            [[0.1, 0.9, 0.2], [0.8, 0.1, 0.8]],
+            [0.8, 0.1, 0.8],
+            1,
+        ),
+        pytest.param(  # C2: we have one site, and the xyz is closest to the index 0 site by default
+            [[1.2, -0.1, 2.75]],
+            [0.7, 0.4, 0.25],
+            0,
+        ),
+    ],
+)
+def test_nearest_site_index(sites, xyz, expected):
+    actual = nearest_site_index(sites, xyz)
+    assert actual == expected
+
 
 if __name__ == "__main__":
     unittest.main()

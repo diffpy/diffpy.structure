@@ -48,6 +48,18 @@ isconstantFormula_deprecation_msg = build_deprecation_message(
     "is_constant_formula",
     removal_version,
 )
+positionDifference_deprecation_msg = build_deprecation_message(
+    base,
+    "positionDifference",
+    "position_difference",
+    removal_version,
+)
+nearestSiteIndex_deprecation_msg = build_deprecation_message(
+    base,
+    "nearestSiteIndex",
+    "nearest_site_index",
+    removal_version,
+)
 
 # Constants ------------------------------------------------------------------
 
@@ -223,7 +235,17 @@ class _Position2Tuple(object):
 # End of class _Position2Tuple
 
 
+@deprecated(positionDifference_deprecation_msg)
 def positionDifference(xyz0, xyz1):
+    """'diffpy.structure.positionDifference' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.position_difference' instead.
+    """
+    return position_difference(xyz0, xyz1)
+
+
+def position_difference(xyz0, xyz1):
     """Smallest difference between two coordinates in periodic lattice.
 
     Parameters
@@ -245,7 +267,18 @@ def positionDifference(xyz0, xyz1):
     return dxyz
 
 
+@deprecated(nearestSiteIndex_deprecation_msg)
 def nearestSiteIndex(sites, xyz):
+    """'diffpy.structure.nearestSiteIndex' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.nearest_site_index' instead.
+    """
+    # we use box distance to be consistent with _Position2Tuple conversion
+    return nearest_site_index(sites, xyz)
+
+
+def nearest_site_index(sites, xyz):
     """Index of the nearest site to a specified position.
 
     Parameters
@@ -261,7 +294,7 @@ def nearestSiteIndex(sites, xyz):
         Index of the nearest site.
     """
     # we use box distance to be consistent with _Position2Tuple conversion
-    dbox = positionDifference(sites, xyz).max(axis=1)
+    dbox = position_difference(sites, xyz).max(axis=1)
     nearindex = numpy.argmin(dbox)
     return nearindex
 
@@ -282,7 +315,7 @@ def equalPositions(xyz0, xyz1, eps):
         ``True`` when two coordinates are closer than `eps`.
     """
     # we use box distance to be consistent with _Position2Tuple conversion
-    dxyz = positionDifference(xyz0, xyz1)
+    dxyz = position_difference(xyz0, xyz1)
     return numpy.all(dxyz <= eps)
 
 
@@ -323,7 +356,7 @@ def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
             site_symops[tpl] = []
             # double check if there is any position nearby
             if positions:
-                nearpos = positions[nearestSiteIndex(positions, pos)]
+                nearpos = positions[nearest_site_index(positions, pos)]
                 # is it an equivalent position?
                 if equalPositions(nearpos, pos, eps):
                     # tpl should map to the same list as nearpos
@@ -352,7 +385,7 @@ def nullSpace(A):
     return null_space
 
 
-def _findInvariants(symops):
+def _find_invariants(symops):
     """Find a list of symmetry operations which contains identity.
 
     Parameters
@@ -495,7 +528,7 @@ class GeneratorSite(object):
         self.Uparameters = []
         # fill in the values
         sites, ops, mult = expandPosition(spacegroup, xyz, sgoffset, eps)
-        invariants = _findInvariants(ops)
+        invariants = _find_invariants(ops)
         # shift self.xyz exactly to the special position
         if mult > 1:
             xyzdups = numpy.array([op(xyz + self.sgoffset) - self.sgoffset for op in invariants])
@@ -506,7 +539,7 @@ class GeneratorSite(object):
                 self.xyz = xyz + dxyz
                 self.xyz[numpy.fabs(self.xyz) < self.eps] = 0.0
                 sites, ops, mult = expandPosition(spacegroup, self.xyz, self.sgoffset, eps)
-                invariants = _findInvariants(ops)
+                invariants = _find_invariants(ops)
         # self.xyz, sites, ops are all adjusted here
         self.eqxyz = sites
         self.symops = ops
@@ -681,7 +714,7 @@ class GeneratorSite(object):
             ``-x``, ``z +0.5``, ``0.25``.
         """
         # find pos in eqxyz
-        idx = nearestSiteIndex(self.eqxyz, pos)
+        idx = nearest_site_index(self.eqxyz, pos)
         eqpos = self.eqxyz[idx]
         if not equalPositions(eqpos, pos, self.eps):
             return {}
@@ -733,7 +766,7 @@ class GeneratorSite(object):
             pos is not equivalent to generator.
         """
         # find pos in eqxyz
-        idx = nearestSiteIndex(self.eqxyz, pos)
+        idx = nearest_site_index(self.eqxyz, pos)
         eqpos = self.eqxyz[idx]
         if not equalPositions(eqpos, pos, self.eps):
             return {}
@@ -772,7 +805,7 @@ class GeneratorSite(object):
         int
             Index of the nearest generator equivalent site.
         """
-        return nearestSiteIndex(self.eqxyz, pos)
+        return nearest_site_index(self.eqxyz, pos)
 
 
 # End of class GeneratorSite
