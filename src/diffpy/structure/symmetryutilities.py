@@ -469,6 +469,14 @@ def _find_invariants(symops):
 
 # ----------------------------------------------------------------------------
 
+generator_site = "diffpy.symmetryutilities.GeneratorSite"
+signedRatStr_deprecation_msg = build_deprecation_message(
+    generator_site,
+    "signedRatStr",
+    "convert_fp_num_to_signed_rational",
+    removal_version,
+)
+
 
 class GeneratorSite(object):
     """Storage of data related to a generator positions.
@@ -593,14 +601,14 @@ class GeneratorSite(object):
         self.symops = ops
         self.multiplicity = mult
         self.invariants = invariants
-        self._findNullSpace()
-        self._findPosParameters()
-        self._findUSpace()
-        self._findUParameters()
-        self._findeqUij()
+        self._find_null_space()
+        self._find_pos_parameters()
+        self._find_u_space()
+        self._find_u_parameters()
+        self._find_equij()
         return
 
-    def signedRatStr(self, x):
+    def convert_fp_num_to_signed_rational(self, x):
         """Convert floating point number to signed rational
         representation.
 
@@ -628,7 +636,16 @@ class GeneratorSite(object):
         # here we have fraction
         return "%+.0f/%.0f" % (nom[idx[0]], den[idx[0]])
 
-    def _findNullSpace(self):
+    @deprecated(signedRatStr_deprecation_msg)
+    def signedRatStr(self, x):
+        """'diffpy.structure.GeneratorSite.signedRatStr' is deprecated
+        and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.GeneratorSite.convert_fp_num_to_signed_rational' instead.
+        """
+        return self.convert_fp_num_to_signed_rational(x)
+
+    def _find_null_space(self):
         """Calculate `self.null_space` from `self.invariants`.
 
         Try to represent `self.null_space` using small integers.
@@ -660,7 +677,7 @@ class GeneratorSite(object):
             row[:] = (sgrow * abrow) / sgrow[idx] / abrow[idx]
         return
 
-    def _findPosParameters(self):
+    def _find_pos_parameters(self):
         """Find pparameters and their values for expressing
         `self.xyz`."""
         usedsymbol = {}
@@ -677,7 +694,7 @@ class GeneratorSite(object):
             usedsymbol[vname] = True
         return
 
-    def _findUSpace(self):
+    def _find_u_space(self):
         """Find independent U components with respect to invariant
         rotations."""
         n = len(self.invariants)
@@ -710,7 +727,7 @@ class GeneratorSite(object):
         self.Uisotropy = len(self.Uspace) == 1
         return
 
-    def _findUParameters(self):
+    def _find_u_parameters(self):
         """Find Uparameters and their values for expressing
         `self.Uij`."""
         # permute indices as     00 11 22 01 02 12 10 20 21
@@ -726,7 +743,7 @@ class GeneratorSite(object):
             self.Uparameters.append((vname, varvalue))
         return
 
-    def _findeqUij(self):
+    def _find_equij(self):
         """Adjust `self.Uij` and `self.eqUij` to be consistent with
         spacegroup."""
         self.Uij = numpy.zeros((3, 3), dtype=float)
@@ -782,14 +799,14 @@ class GeneratorSite(object):
                 if abs(nvec[i]) < epsilon:
                     continue
                 xyzformula[i] += "%s*%s " % (
-                    self.signedRatStr(nvec[i]),
+                    self.convert_fp_num_to_signed_rational(nvec[i]),
                     name2sym[vname],
                 )
         # add constant offset teqpos to all formulas
         for i in range(3):
             if xyzformula[i] and abs(teqpos[i]) < epsilon:
                 continue
-            xyzformula[i] += self.signedRatStr(teqpos[i])
+            xyzformula[i] += self.convert_fp_num_to_signed_rational(teqpos[i])
         # reduce unnecessary +1* and -1*
         xyzformula = [re.sub("^[+]1[*]|(?<=[+-])1[*]", "", f).strip() for f in xyzformula]
         return dict(zip(("x", "y", "z"), xyzformula))

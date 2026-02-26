@@ -302,6 +302,13 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual("+1", g.signedRatStr(1.00000000000002))
         return
 
+    def test_convert_fp_num_to_signed_rational(self):
+        "check GeneratorSite.test_convert_fp_num_to_signed_rational()"
+        g = self.g117c
+        self.assertEqual("-1", g.convert_fp_num_to_signed_rational(-1.00000000000002))
+        self.assertEqual("+1", g.convert_fp_num_to_signed_rational(1.00000000000002))
+        return
+
     def test_positionFormula(self):
         """Check GeneratorSite.positionFormula()"""
         # 117c
