@@ -605,7 +605,7 @@ class GeneratorSite(object):
         self._find_pos_parameters()
         self._find_u_space()
         self._find_u_parameters()
-        self._find_equij()
+        self._find_eq_uij()
         return
 
     def convert_fp_num_to_signed_rational(self, x):
@@ -743,7 +743,7 @@ class GeneratorSite(object):
             self.Uparameters.append((vname, varvalue))
         return
 
-    def _find_equij(self):
+    def _find_eq_uij(self):
         """Adjust `self.Uij` and `self.eqUij` to be consistent with
         spacegroup."""
         self.Uij = numpy.zeros((3, 3), dtype=float)

@@ -5,7 +5,7 @@
 * Added ``_find_pos_parameters`` method in ``GeneratorSite`` class
 * Added ``_find_u_space`` method in ``GeneratorSite`` class
 * Added ``_find_u_parameters`` method in ``GeneratorSite`` class
-* Added ``_find_equij`` method in ``GeneratorSite`` class
+* Added ``_find_eq_uij`` method in ``GeneratorSite`` class
 
 **Changed:**
 
