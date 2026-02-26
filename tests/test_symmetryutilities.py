@@ -41,6 +41,7 @@ from diffpy.structure.symmetryutilities import (
     nullSpace,
     position_difference,
     positionDifference,
+    prune_formula_dictionary,
     pruneFormulaDictionary,
 )
 
@@ -147,6 +148,13 @@ class TestRoutines(unittest.TestCase):
         """Check pruneFormulaDictionary()"""
         fmdict = {"x": "3*y-0.17", "y": "0", "z": "0.13"}
         pruned = pruneFormulaDictionary(fmdict)
+        self.assertEqual({"x": "3*y-0.17"}, pruned)
+        return
+
+    def test_prune_formula_dictionary(self):
+        """Check prune_formula_dictionary()"""
+        fmdict = {"x": "3*y-0.17", "y": "0", "z": "0.13"}
+        pruned = prune_formula_dictionary(fmdict)
         self.assertEqual({"x": "3*y-0.17"}, pruned)
         return
 
@@ -333,12 +341,47 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual([], self.g227oc.pparameters)
         return
 
+    def test_position_formula(self):
+        """Check GeneratorSite.positionFormula()"""
+        # 117c
+        self.assertEqual([], self.g117c.pparameters)
+        self.assertEqual([("x", self.x)], self.g117h.pparameters)
+        # 143c
+        pfm143c = self.g143c.position_formula(self.g143c.xyz)
+        self.assertEqual("+2/3", pfm143c["x"])
+        self.assertEqual("+1/3", pfm143c["y"])
+        self.assertEqual("z", pfm143c["z"])
+        # 143d
+        x, y, z = self.x, self.y, self.z
+        pfm143d = self.g143d.position_formula([-x + y, -x, z])
+        self.assertEqual("-x+y", pfm143d["x"].replace(" ", ""))
+        self.assertEqual("-x+1", pfm143d["y"].replace(" ", ""))
+        self.assertTrue(re.match("[+]?z", pfm143d["z"].strip()))
+        # 227a
+        self.assertEqual([], self.g227a.pparameters)
+        self.assertEqual([], self.g227oa.pparameters)
+        # 227c
+        self.assertEqual([], self.g227c.pparameters)
+        self.assertEqual([], self.g227oc.pparameters)
+        return
+
     def test_positionFormula_sg209(self):
         "check positionFormula at [x, 1-x, -x] site of the F432 space group."
         sg209 = GetSpaceGroup("F 4 3 2")
         xyz = [0.05198, 0.94802, -0.05198]
         g209e = GeneratorSite(sg209, xyz)
         pfm = g209e.positionFormula(xyz)
+        self.assertEqual("x", pfm["x"])
+        self.assertEqual("-x+1", pfm["y"].replace(" ", ""))
+        self.assertEqual("-x+1", pfm["z"].replace(" ", ""))
+        return
+
+    def test_position_formula_sg209(self):
+        "check positionFormula at [x, 1-x, -x] site of the F432 space group."
+        sg209 = GetSpaceGroup("F 4 3 2")
+        xyz = [0.05198, 0.94802, -0.05198]
+        g209e = GeneratorSite(sg209, xyz)
+        pfm = g209e.position_formula(xyz)
         self.assertEqual("x", pfm["x"])
         self.assertEqual("-x+1", pfm["y"].replace(" ", ""))
         self.assertEqual("-x+1", pfm["z"].replace(" ", ""))
@@ -450,6 +493,112 @@ class TestGeneratorSite(unittest.TestCase):
         self.assertEqual(rule06, ufm)
         return
 
+    def test_u_formula(self):
+        """Check GeneratorSite.UFormula()"""
+        # Ref: Willis and Pryor, Thermal Vibrations in Crystallography,
+        # Cambridge University Press 1975, p. 104-110
+        smbl = ("A", "B", "C", "D", "E", "F")
+        norule = {
+            "U11": "A",
+            "U22": "B",
+            "U33": "C",
+            "U12": "D",
+            "U13": "E",
+            "U23": "F",
+        }
+        rule05 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "C",
+            "U12": "D",
+            "U13": "0",
+            "U23": "0",
+        }
+        rule06 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "C",
+            "U12": "D",
+            "U13": "E",
+            "U23": "E",
+        }
+        rule07 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "C",
+            "U12": "D",
+            "U13": "E",
+            "U23": "-E",
+        }
+        rule15 = {
+            "U11": "A",
+            "U22": "B",
+            "U33": "C",
+            "U12": "0.5*B",
+            "U13": "0.5*F",
+            "U23": "F",
+        }
+        rule16 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "C",
+            "U12": "0.5*A",
+            "U13": "0",
+            "U23": "0",
+        }
+        rule17 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "A",
+            "U12": "0",
+            "U13": "0",
+            "U23": "0",
+        }
+        rule18 = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "A",
+            "U12": "D",
+            "U13": "D",
+            "U23": "D",
+        }
+        ufm = self.g117c.u_formula(self.g117c.xyz, smbl)
+        self.assertEqual(rule05, ufm)
+        ufm = self.g117h.u_formula(self.g117h.xyz, smbl)
+        self.assertEqual(rule07, ufm)
+        ufm = self.g143a.u_formula(self.g143a.xyz, smbl)
+        self.assertEqual(rule16, ufm)
+        ufm = self.g143b.u_formula(self.g143b.xyz, smbl)
+        self.assertEqual(rule16, ufm)
+        ufm = self.g143c.u_formula(self.g143c.xyz, smbl)
+        self.assertEqual(rule16, ufm)
+        ufm = self.g143d.u_formula(self.g143d.xyz, smbl)
+        self.assertEqual(norule, ufm)
+        ufm = self.g164e.u_formula(self.g164e.xyz, smbl)
+        self.assertEqual(rule15, ufm)
+        ufm = self.g164f.u_formula(self.g164f.xyz, smbl)
+        self.assertEqual(rule15, ufm)
+        ufm = self.g164g.u_formula(self.g164g.xyz, smbl)
+        self.assertEqual(rule15, ufm)
+        ufm = self.g164h.u_formula(self.g164h.xyz, smbl)
+        self.assertEqual(rule15, ufm)
+        ufm = self.g186c.u_formula(self.g186c.xyz, smbl)
+        self.assertEqual(rule07, ufm)
+        ufm = self.g227a.u_formula(self.g227a.xyz, smbl)
+        self.assertEqual(rule17, ufm)
+        ufm = self.g227c.u_formula(self.g227c.xyz, smbl)
+        self.assertEqual(rule18, ufm)
+        ufm = self.g227oa.u_formula(self.g227oa.xyz, smbl)
+        self.assertEqual(rule17, ufm)
+        ufm = self.g227oc.u_formula(self.g227oc.xyz, smbl)
+        self.assertEqual(rule18, ufm)
+        # SG 167 in hexagonal and rhombohedral setting
+        ufm = self.gh167e.u_formula(self.gh167e.xyz, smbl)
+        self.assertEqual(rule15, ufm)
+        ufm = self.gr167e.u_formula(self.gr167e.xyz, smbl)
+        self.assertEqual(rule06, ufm)
+        return
+
     def test_UFormula_g186c_eqxyz(self):
         """Check rotated U formulas at the symmetry positions of c-site
         in 186."""
@@ -532,10 +681,99 @@ class TestGeneratorSite(unittest.TestCase):
                 self.assertEqual(uisod[n], eval(fm, upd))
         return
 
+    def test_u_formula_g186c_eqxyz(self):
+        """Check rotated U formulas at the symmetry positions of c-site
+        in 186."""
+        sg186 = GetSpaceGroup(186)
+        crules = [
+            {
+                "U11": "A",
+                "U22": "A",
+                "U33": "C",
+                "U12": "D",
+                "U13": "E",
+                "U23": "-E",
+            },
+            {
+                "U11": "A",
+                "U22": "2*A-2*D",
+                "U33": "C",
+                "U12": "A-D",
+                "U13": "E",
+                "U23": "2*E",
+            },
+            {
+                "U11": "2*A-2*D",
+                "U22": "A",
+                "U33": "C",
+                "U12": "A-D",
+                "U13": "-2*E",
+                "U23": "-E",
+            },
+            {
+                "U11": "A",
+                "U22": "A",
+                "U33": "C",
+                "U12": "D",
+                "U13": "-E",
+                "U23": "E",
+            },
+            {
+                "U11": "A",
+                "U22": "2*A-2*D",
+                "U33": "C",
+                "U12": "A-D",
+                "U13": "-E",
+                "U23": "-2*E",
+            },
+            {
+                "U11": "2*A-2*D",
+                "U22": "A",
+                "U33": "C",
+                "U12": "A-D",
+                "U13": "2*E",
+                "U23": "E",
+            },
+        ]
+        self.assertEqual(6, len(self.g186c.eqxyz))
+        gc = self.g186c
+        for idx in range(6):
+            self.assertEqual(crules[idx], gc.u_formula(gc.eqxyz[idx], "ABCDEF"))
+        uiso = numpy.array([[2, 1, 0], [1, 2, 0], [0, 0, 2]])
+        eau = ExpandAsymmetricUnit(sg186, [gc.xyz], [uiso])
+        for u in eau.expandedUijs:
+            du = numpy.linalg.norm((uiso - u).flatten())
+            self.assertAlmostEqual(0.0, du, 8)
+        symcon = SymmetryConstraints(sg186, sum(eau.expandedpos, []), sum(eau.expandedUijs, []))
+        upd = dict(symcon.Upars)
+        self.assertEqual(2.0, upd["U110"])
+        self.assertEqual(2.0, upd["U330"])
+        self.assertEqual(1.0, upd["U120"])
+        self.assertEqual(0.0, upd["U130"])
+        uisod = {
+            "U11": 2.0,
+            "U22": 2.0,
+            "U33": 2.0,
+            "U12": 1.0,
+            "U13": 0.0,
+            "U23": 0.0,
+        }
+        for ufms in symcon.UFormulas():
+            for n, fm in ufms.items():
+                self.assertEqual(uisod[n], eval(fm, upd))
+        return
+
     def test_UFormula_self_reference(self):
         "Ensure U formulas have no self reference such as U13=0.5*U13."
         for g in self.generators.values():
             badformulas = [(n, fm) for n, fm in g.UFormula(g.xyz).items() if n in fm and n != fm]
+            self.assertEqual([], badformulas)
+        return
+
+    def test_u_formula_self_reference(self):
+        "Ensure U formulas have no self reference such as U13=0.5*U13."
+        for g in self.generators.values():
+            badformulas = [(n, fm) for n, fm in g.u_formula(g.xyz).items() if n in fm and n != fm]
             self.assertEqual([], badformulas)
         return
 
@@ -559,6 +797,11 @@ class TestGeneratorSite(unittest.TestCase):
     def test_eqIndex(self):
         """Check GeneratorSite.eqIndex()"""
         self.assertEqual(13, self.g227oc.eqIndex(self.g227oc.eqxyz[13]))
+        return
+
+    def test_eq_index(self):
+        """Check GeneratorSite.eqIndex()"""
+        self.assertEqual(13, self.g227oc.eq_index(self.g227oc.eqxyz[13]))
         return
 
 
