@@ -1043,6 +1043,39 @@ def prune_formula_dictionary(eqdict):
     return pruned
 
 
+symmetry_constraints = "diffpy.symmetryutilities.SymmetryConstraints"
+posparSymbols_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "posparSymbols",
+    "pospar_symbols",
+    removal_version,
+)
+posparValues_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "posparValues",
+    "pospar_values",
+    removal_version,
+)
+UparSymbols_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "UparSymbols",
+    "upar_symbols",
+    removal_version,
+)
+UparValues_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "UparValues",
+    "upar_values",
+    removal_version,
+)
+UFormulas_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "UFormulas",
+    "u_formulas",
+    removal_version,
+)
+
+
 class SymmetryConstraints(object):
     """Generate symmetry constraints for specified positions.
 
@@ -1132,10 +1165,10 @@ class SymmetryConstraints(object):
         self.Ueqns = numpos * [None]
         self.Uisotropy = numpos * [False]
         # all members should be initialized here
-        self._findConstraints()
+        self._find_constraints()
         return
 
-    def _findConstraints(self):
+    def _find_constraints(self):
         """Find constraints for positions and anisotropic displacements
         `Uij`."""
         numpos = len(self.positions)
@@ -1184,11 +1217,29 @@ class SymmetryConstraints(object):
         self.corepos = [self.positions[i] for i in coreidx]
         return
 
+    @deprecated(posparSymbols_deprecation_msg)
     def posparSymbols(self):
+        """'diffpy.structure.SymmetryConstraints.posparSymbols' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.pospar_symbols' instead.
+        """
+        return self.pospar_symbols()
+
+    def pospar_symbols(self):
         """Return list of standard position parameter symbols."""
         return [n for n, v in self.pospars]
 
+    @deprecated(posparValues_deprecation_msg)
     def posparValues(self):
+        """'diffpy.structure.SymmetryConstraints.posparValues' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.pospar_values' instead.
+        """
+        return self.pospar_values()
+
+    def pospar_values(self):
         """Return list of position parameters values."""
         return [v for n, v in self.pospars]
 
@@ -1214,7 +1265,7 @@ class SymmetryConstraints(object):
             emsg = "Not enough symbols for %i position parameters" % len(self.pospars)
             raise SymmetryError(emsg)
         # build translation dictionary
-        trsmbl = dict(zip(self.posparSymbols(), xyzsymbols))
+        trsmbl = dict(zip(self.pospar_symbols(), xyzsymbols))
 
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
@@ -1249,16 +1300,45 @@ class SymmetryConstraints(object):
         rv = [prune_formula_dictionary(eqns) for eqns in self.positionFormulas(xyzsymbols)]
         return rv
 
+    @deprecated(UparSymbols_deprecation_msg)
     def UparSymbols(self):
+        """'diffpy.structure.SymmetryConstraints.UparSymbols' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.upar_symbols' instead.
+        """
+        return self.upar_symbols()
+
+    def upar_symbols(self):
         """Return list of standard atom displacement parameter
         symbols."""
         return [n for n, v in self.Upars]
 
+    @deprecated(UparValues_deprecation_msg)
     def UparValues(self):
+        """'diffpy.structure.SymmetryConstraints.UparValues' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.upar_values'
+        instead.
+        """
+        return [v for n, v in self.Upars]
+
+    def upar_values(self):
         """Return list of atom displacement parameters values."""
         return [v for n, v in self.Upars]
 
+    @deprecated(UFormula_deprecation_msg)
     def UFormulas(self, Usymbols=None):
+        """'diffpy.structure.SymmetryConstraints.UFormulas' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.u_formulas'
+        instead.
+        """
+        return self.u_formulas(Usymbols)
+
+    def u_formulas(self, Usymbols=None):
         """List of atom displacement formulas with custom parameter
         symbols.
 
@@ -1282,7 +1362,7 @@ class SymmetryConstraints(object):
             emsg = "Not enough symbols for %i U parameters" % len(self.Upars)
             raise SymmetryError(emsg)
         # build translation dictionary
-        trsmbl = dict(zip(self.UparSymbols(), Usymbols))
+        trsmbl = dict(zip(self.upar_symbols(), Usymbols))
 
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
@@ -1315,7 +1395,7 @@ class SymmetryConstraints(object):
             List of atom displacement formulas in tuples of
             ``(U11, U22, U33, U12, U13, U23)``.
         """
-        rv = [prune_formula_dictionary(eqns) for eqns in self.UFormulas(Usymbols)]
+        rv = [prune_formula_dictionary(eqns) for eqns in self.u_formulas(Usymbols)]
         return rv
 
 

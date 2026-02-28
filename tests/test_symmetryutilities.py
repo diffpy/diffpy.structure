@@ -758,7 +758,7 @@ class TestGeneratorSite(unittest.TestCase):
             "U13": 0.0,
             "U23": 0.0,
         }
-        for ufms in symcon.UFormulas():
+        for ufms in symcon.u_formulas():
             for n, fm in ufms.items():
                 self.assertEqual(uisod[n], eval(fm, upd))
         return
@@ -905,6 +905,18 @@ class TestSymmetryConstraints(unittest.TestCase):
         self.assertEqual(["U110"], sc225.UparSymbols())
         return
 
+    def test_upar_symbols(self):
+        """Check SymmetryConstraints.UparSymbols()"""
+        sg1 = GetSpaceGroup(1)
+        sg225 = GetSpaceGroup(225)
+        pos = [[0, 0, 0]]
+        Uijs = numpy.zeros((1, 3, 3))
+        sc1 = SymmetryConstraints(sg1, pos, Uijs)
+        self.assertEqual(6, len(sc1.upar_symbols()))
+        sc225 = SymmetryConstraints(sg225, pos, Uijs)
+        self.assertEqual(["U110"], sc225.upar_symbols())
+        return
+
     def test_UparValues(self):
         """Check SymmetryConstraints.UparValues()"""
         places = 12
@@ -919,6 +931,34 @@ class TestSymmetryConstraints(unittest.TestCase):
         self.assertEqual(1, len(sc225.UparValues()))
         self.assertAlmostEqual(0.2, sc225.UparValues()[0], places)
         return
+
+    def test_upar_values(self):
+        """Check SymmetryConstraints.UparValues()"""
+        places = 12
+        sg1 = GetSpaceGroup(1)
+        sg225 = GetSpaceGroup(225)
+        pos = [[0, 0, 0]]
+        Uijs = [[[0.1, 0.4, 0.5], [0.4, 0.2, 0.6], [0.5, 0.6, 0.3]]]
+        sc1 = SymmetryConstraints(sg1, pos, Uijs)
+        duv = 0.1 * numpy.arange(1, 7) - sc1.upar_values()
+        self.assertAlmostEqual(0, max(numpy.fabs(duv)), places)
+        sc225 = SymmetryConstraints(sg225, pos, Uijs)
+        self.assertEqual(1, len(sc225.upar_values()))
+        self.assertAlmostEqual(0.2, sc225.upar_values()[0], places)
+        return
+
+    def test_posparSymbols_and_posparValues(self):
+        """Check SymmetryConstraints.posparSymbols and_posparValues()"""
+        sg225 = GetSpaceGroup(225)
+        eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
+        sc = SymmetryConstraints(sg225, eau.expandedpos)
+        sc.pospars = [("x", 0.12), ("y", 0.34), ("z", 0.56)]
+        actual_symbols = sc.posparSymbols()
+        actual_values = sc.posparValues()
+        expected_symbols = ["x", "y", "z"]
+        expected_values = [0.12, 0.34, 0.56]
+        assert expected_symbols == actual_symbols
+        assert expected_values == actual_values
 
 
 #   def test_UFormulas(self):
@@ -1054,6 +1094,23 @@ def test_null_space(A, expected_dim):
     assert actual.shape == (expected_dim, A.shape[1])
     assert numpy.allclose(A @ actual.T, numpy.zeros((A.shape[0], expected_dim)), atol=1e-12)
     assert numpy.allclose(actual @ actual.T, numpy.eye(expected_dim), atol=1e-12)
+
+
+@pytest.mark.parametrize(
+    "params, expected_symbols, expected_values",
+    [
+        pytest.param([("x", 0.12), ("y", 0.34), ("z", 0.56)], ["x", "y", "z"], [0.12, 0.34, 0.56]),
+    ],
+)
+def test_pospar_symbols_and_pospar_values(params, expected_symbols, expected_values):
+    """Check SymmetryConstraints.pospar_symbols and_pospar_values()"""
+    sg225 = GetSpaceGroup(225)
+    eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
+    sc = SymmetryConstraints(sg225, eau.expandedpos)
+    sc.pospars = params
+    actual_symbols, actual_values = sc.pospar_symbols(), sc.pospar_values()
+    assert actual_symbols == expected_symbols
+    assert actual_values == expected_values
 
 
 if __name__ == "__main__":
