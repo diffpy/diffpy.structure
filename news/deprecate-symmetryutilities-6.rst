@@ -1,10 +1,10 @@
 **Added:**
 
 * Added ``_find_constraints`` method in ``SymmetryConstraints`` class
-* Added ``pospar_symbols`` method in ``SymmetryConstraints`` class
-* Added ``pospar_values`` method in ``SymmetryConstraints`` class
-* Added ``upar_symbols`` method in ``SymmetryConstraints`` class
-* Added ``upar_values`` method in ``SymmetryConstraints`` class
+* Added ``pos_parm_symbols`` method in ``SymmetryConstraints`` class
+* Added ``pos_parm_values`` method in ``SymmetryConstraints`` class
+* Added ``u_parm_symbols`` method in ``SymmetryConstraints`` class
+* Added ``u_parm_values`` method in ``SymmetryConstraints`` class
 * Added ``u_formulas`` method in ``SymmetryConstraints`` class
 
 **Changed:**

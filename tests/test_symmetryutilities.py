@@ -912,9 +912,9 @@ class TestSymmetryConstraints(unittest.TestCase):
         pos = [[0, 0, 0]]
         Uijs = numpy.zeros((1, 3, 3))
         sc1 = SymmetryConstraints(sg1, pos, Uijs)
-        self.assertEqual(6, len(sc1.upar_symbols()))
+        self.assertEqual(6, len(sc1.u_parm_symbols()))
         sc225 = SymmetryConstraints(sg225, pos, Uijs)
-        self.assertEqual(["U110"], sc225.upar_symbols())
+        self.assertEqual(["U110"], sc225.u_parm_symbols())
         return
 
     def test_UparValues(self):
@@ -940,11 +940,11 @@ class TestSymmetryConstraints(unittest.TestCase):
         pos = [[0, 0, 0]]
         Uijs = [[[0.1, 0.4, 0.5], [0.4, 0.2, 0.6], [0.5, 0.6, 0.3]]]
         sc1 = SymmetryConstraints(sg1, pos, Uijs)
-        duv = 0.1 * numpy.arange(1, 7) - sc1.upar_values()
+        duv = 0.1 * numpy.arange(1, 7) - sc1.u_parm_values()
         self.assertAlmostEqual(0, max(numpy.fabs(duv)), places)
         sc225 = SymmetryConstraints(sg225, pos, Uijs)
-        self.assertEqual(1, len(sc225.upar_values()))
-        self.assertAlmostEqual(0.2, sc225.upar_values()[0], places)
+        self.assertEqual(1, len(sc225.u_parm_values()))
+        self.assertAlmostEqual(0.2, sc225.u_parm_values()[0], places)
         return
 
     def test_posparSymbols_and_posparValues(self):
@@ -1108,7 +1108,7 @@ def test_pospar_symbols_and_pospar_values(params, expected_symbols, expected_val
     eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
     sc = SymmetryConstraints(sg225, eau.expandedpos)
     sc.pospars = params
-    actual_symbols, actual_values = sc.pospar_symbols(), sc.pospar_values()
+    actual_symbols, actual_values = sc.pos_parm_symbols(), sc.pos_parm_values()
     assert actual_symbols == expected_symbols
     assert actual_values == expected_values
 

@@ -1224,9 +1224,9 @@ class SymmetryConstraints(object):
 
         Please use 'diffpy.structure.SymmetryConstraints.pospar_symbols' instead.
         """
-        return self.pospar_symbols()
+        return self.pos_parm_symbols()
 
-    def pospar_symbols(self):
+    def pos_parm_symbols(self):
         """Return list of standard position parameter symbols."""
         return [n for n, v in self.pospars]
 
@@ -1237,9 +1237,9 @@ class SymmetryConstraints(object):
 
         Please use 'diffpy.structure.SymmetryConstraints.pospar_values' instead.
         """
-        return self.pospar_values()
+        return self.pos_parm_values()
 
-    def pospar_values(self):
+    def pos_parm_values(self):
         """Return list of position parameters values."""
         return [v for n, v in self.pospars]
 
@@ -1265,7 +1265,7 @@ class SymmetryConstraints(object):
             emsg = "Not enough symbols for %i position parameters" % len(self.pospars)
             raise SymmetryError(emsg)
         # build translation dictionary
-        trsmbl = dict(zip(self.pospar_symbols(), xyzsymbols))
+        trsmbl = dict(zip(self.pos_parm_symbols(), xyzsymbols))
 
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
@@ -1307,9 +1307,9 @@ class SymmetryConstraints(object):
 
         Please use 'diffpy.structure.SymmetryConstraints.upar_symbols' instead.
         """
-        return self.upar_symbols()
+        return self.u_parm_symbols()
 
-    def upar_symbols(self):
+    def u_parm_symbols(self):
         """Return list of standard atom displacement parameter
         symbols."""
         return [n for n, v in self.Upars]
@@ -1324,7 +1324,7 @@ class SymmetryConstraints(object):
         """
         return [v for n, v in self.Upars]
 
-    def upar_values(self):
+    def u_parm_values(self):
         """Return list of atom displacement parameters values."""
         return [v for n, v in self.Upars]
 
@@ -1362,7 +1362,7 @@ class SymmetryConstraints(object):
             emsg = "Not enough symbols for %i U parameters" % len(self.Upars)
             raise SymmetryError(emsg)
         # build translation dictionary
-        trsmbl = dict(zip(self.upar_symbols(), Usymbols))
+        trsmbl = dict(zip(self.u_parm_symbols(), Usymbols))
 
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
