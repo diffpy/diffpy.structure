@@ -1222,7 +1222,7 @@ class SymmetryConstraints(object):
         """'diffpy.structure.SymmetryConstraints.posparSymbols' is
         deprecated and will be removed in version 4.0.0.
 
-        Please use 'diffpy.structure.SymmetryConstraints.pospar_symbols' instead.
+        Please use 'diffpy.structure.SymmetryConstraints.pos_parm_symbols' instead.
         """
         return self.pos_parm_symbols()
 
@@ -1235,7 +1235,7 @@ class SymmetryConstraints(object):
         """'diffpy.structure.SymmetryConstraints.posparValues' is
         deprecated and will be removed in version 4.0.0.
 
-        Please use 'diffpy.structure.SymmetryConstraints.pospar_values' instead.
+        Please use 'diffpy.structure.SymmetryConstraints.pos_parm_values' instead.
         """
         return self.pos_parm_values()
 
@@ -1305,7 +1305,7 @@ class SymmetryConstraints(object):
         """'diffpy.structure.SymmetryConstraints.UparSymbols' is
         deprecated and will be removed in version 4.0.0.
 
-        Please use 'diffpy.structure.SymmetryConstraints.upar_symbols' instead.
+        Please use 'diffpy.structure.SymmetryConstraints.u_parm_symbols' instead.
         """
         return self.u_parm_symbols()
 
@@ -1319,7 +1319,7 @@ class SymmetryConstraints(object):
         """'diffpy.structure.SymmetryConstraints.UparValues' is
         deprecated and will be removed in version 4.0.0.
 
-        Please use 'diffpy.structure.SymmetryConstraints.upar_values'
+        Please use 'diffpy.structure.SymmetryConstraints.u_parm_values'
         instead.
         """
         return [v for n, v in self.Upars]
