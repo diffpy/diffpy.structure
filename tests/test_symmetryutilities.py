@@ -22,6 +22,7 @@ import numpy
 import pytest
 
 from diffpy.structure.spacegroups import GetSpaceGroup
+from diffpy.structure.structureerrors import SymmetryError
 from diffpy.structure.symmetryutilities import (
     ExpandAsymmetricUnit,
     GeneratorSite,
@@ -960,6 +961,69 @@ class TestSymmetryConstraints(unittest.TestCase):
         assert expected_symbols == actual_symbols
         assert expected_values == actual_values
 
+    def test_positionFormulas(self):
+        sg225 = GetSpaceGroup(225)
+        eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
+        sc = SymmetryConstraints(sg225, eau.expandedpos)
+        # C1: Simulate the "not enough symbols" branch
+        sc.pospars = [("x1", 0.12), ("y1", 0.34), ("z1", 0.56)]
+        sc.poseqns = [
+            {"x": "x1", "y": "y1 +0.5", "z": "-z1 +0.25"},
+            {"x": "-x1 +0.5", "y": "y1", "z": "z1 +0.5"},
+        ]
+        with pytest.raises(SymmetryError):
+            sc.positionFormulas(["x1"])  # too few custom symbols
+        # C2: Normal case, does substitution of x0/y0/z0 tokens in formulas
+        # Make pospars consistent with what positionFormulas expects to replace
+        actual = sc.positionFormulas(["xA", "yA", "zA"])
+        expected = [
+            {"x": "xA", "y": "yA +0.5", "z": "-zA +0.25"},
+            {"x": "-xA +0.5", "y": "yA", "z": "zA +0.5"},
+        ]
+        assert actual == expected
+
+    def test_positionFormulasPruned(self):
+        sg225 = GetSpaceGroup(225)
+        eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
+        sc = SymmetryConstraints(sg225, eau.expandedpos)
+        # C1: Remove any key-value pairs with constant values
+        sc.pospars = [("x1", 0.12), ("y1", 0.34), ("z1", 0.56)]
+        sc.poseqns = [
+            {"x": "x1", "y": "0.25", "z": "-z1 +0.5"},
+            {"x": "0", "y": "y1 +0.5", "z": "0.125"},
+        ]
+        actual = sc.positionFormulasPruned(["xA", "yA", "zA"])
+        expected = [
+            {"x": "xA", "z": "-zA +0.5"},
+            {"y": "yA +0.5"},
+        ]
+        assert actual == expected
+
+    def test_UFormulasPruned(self):
+        """Check SymmetryConstraints.UFormulasPruned()"""
+        u_formulas = {
+            "U11": "A",
+            "U22": "A",
+            "U33": "C",
+            "U12": "0.5*A",
+            "U13": "0",
+            "U23": "0",
+        }
+        expected = [
+            {
+                "U11": "A",
+                "U22": "A",
+                "U33": "C",
+                "U12": "0.5*A",
+            }
+        ]
+        sg225 = GetSpaceGroup(225)
+        eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
+        sc = SymmetryConstraints(sg225, eau.expandedpos)
+        sc.Ueqns = [u_formulas]
+        actual = sc.UFormulasPruned(u_formulas)
+        assert actual == expected
+
 
 #   def test_UFormulas(self):
 #       """check SymmetryConstraints.UFormulas()
@@ -1111,6 +1175,113 @@ def test_pospar_symbols_and_pospar_values(params, expected_symbols, expected_val
     actual_symbols, actual_values = sc.pos_parm_symbols(), sc.pos_parm_values()
     assert actual_symbols == expected_symbols
     assert actual_values == expected_values
+
+
+@pytest.mark.parametrize(
+    "params",
+    [
+        pytest.param(["x1"]),
+    ],
+)
+def test_position_formulas_raises_SymmetryError(params):
+    sg225 = GetSpaceGroup(225)
+    eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
+    sc = SymmetryConstraints(sg225, eau.expandedpos)
+    sc.pospars = [("x1", 0.12), ("y1", 0.34), ("z1", 0.56)]
+    sc.poseqns = [
+        {"x": "x1", "y": "y1 +0.5", "z": "-z1 +0.25"},
+        {"x": "-x1 +0.5", "y": "y1", "z": "z1 +0.5"},
+    ]
+    # C1: Simulate the "not enough symbols" in position_formula
+    with pytest.raises(SymmetryError):
+        sc.position_formulas(params)
+
+
+@pytest.mark.parametrize(
+    "params, expected",
+    [
+        pytest.param(  # C2: Normal case, does substitution of x1/y1/z1 tokens in formulas
+            # Make pospars consistent with what position_formulas expects to replace
+            ["xA", "yA", "zA"],
+            [
+                {"x": "xA", "y": "yA +0.5", "z": "-zA +0.25"},
+                {"x": "-xA +0.5", "y": "yA", "z": "zA +0.5"},
+            ],
+        ),
+    ],
+)
+def test_position_formulas(params, expected):
+    sg225 = GetSpaceGroup(225)
+    eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
+    sc = SymmetryConstraints(sg225, eau.expandedpos)
+    sc.pospars = [("x1", 0.12), ("y1", 0.34), ("z1", 0.56)]
+    sc.poseqns = [
+        {"x": "x1", "y": "y1 +0.5", "z": "-z1 +0.25"},
+        {"x": "-x1 +0.5", "y": "y1", "z": "z1 +0.5"},
+    ]
+    actual = sc.position_formulas(params)
+    assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "poseqns, expected",
+    [
+        pytest.param(
+            [
+                {"x": "x1", "y": "0.25", "z": "-z1 +0.5"},
+                {"x": "0", "y": "y1 +0.5", "z": "0.125"},
+            ],
+            [
+                {"x": "xA", "z": "-zA +0.5"},
+                {"y": "yA +0.5"},
+            ],
+        )
+    ],
+)
+def test_position_formulas_pruned(poseqns, expected):
+    sg225 = GetSpaceGroup(225)
+    eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
+    sc = SymmetryConstraints(sg225, eau.expandedpos)
+
+    sc.pospars = [("x1", 0.12), ("y1", 0.34), ("z1", 0.56)]
+    sc.poseqns = poseqns
+
+    actual = sc.position_formulas_pruned(["xA", "yA", "zA"])
+    assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "u_formulas, expected",
+    [
+        pytest.param(
+            [
+                {
+                    "U11": "A",
+                    "U22": "A",
+                    "U33": "C",
+                    "U12": "0.5*A",
+                    "U13": "0",
+                    "U23": "0",
+                }
+            ],
+            [
+                {
+                    "U11": "A",
+                    "U22": "A",
+                    "U33": "C",
+                    "U12": "0.5*A",
+                }
+            ],
+        )
+    ],
+)
+def test_u_formula_pruned(u_formulas, expected):
+    sg225 = GetSpaceGroup(225)
+    eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
+    sc = SymmetryConstraints(sg225, eau.expandedpos)
+    sc.Ueqns = u_formulas
+    actual = sc.u_formulas_pruned(u_formulas)
+    assert actual == expected
 
 
 if __name__ == "__main__":

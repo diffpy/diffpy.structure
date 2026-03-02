@@ -1074,6 +1074,24 @@ UFormulas_deprecation_msg = build_deprecation_message(
     "u_formulas",
     removal_version,
 )
+positionFormulas_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "positionFormulas",
+    "position_formulas",
+    removal_version,
+)
+positionFormulasPruned_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "positionFormulasPruned",
+    "position_formulas_pruned",
+    removal_version,
+)
+UFormulasPruned_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "UFormulasPruned",
+    "u_formulas_pruned",
+    removal_version,
+)
 
 
 class SymmetryConstraints(object):
@@ -1243,7 +1261,16 @@ class SymmetryConstraints(object):
         """Return list of position parameters values."""
         return [v for n, v in self.pospars]
 
+    @deprecated(posparValues_deprecation_msg)
     def positionFormulas(self, xyzsymbols=None):
+        """'diffpy.structure.SymmetryConstraints.positionFormulas' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.position_formulas' instead.
+        """
+        return self.position_formulas(xyzsymbols)
+
+    def position_formulas(self, xyzsymbols=None):
         """List of position formulas with custom parameter symbols.
 
         Parameters
@@ -1279,7 +1306,16 @@ class SymmetryConstraints(object):
             rv.append(treqns)
         return rv
 
+    @deprecated(positionFormulasPruned_deprecation_msg)
     def positionFormulasPruned(self, xyzsymbols=None):
+        """'diffpy.structure.SymmetryConstraints.positionFormulasPruned'
+        is deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.position_formulas_pruned' instead.
+        """
+        return self.position_formulas_pruned(xyzsymbols)
+
+    def position_formulas_pruned(self, xyzsymbols=None):
         """List of position formula dictionaries with constant items
         removed.
 
@@ -1297,7 +1333,7 @@ class SymmetryConstraints(object):
         list
             List of coordinate formula dictionaries.
         """
-        rv = [prune_formula_dictionary(eqns) for eqns in self.positionFormulas(xyzsymbols)]
+        rv = [prune_formula_dictionary(eqns) for eqns in self.position_formulas(xyzsymbols)]
         return rv
 
     @deprecated(UparSymbols_deprecation_msg)
@@ -1376,7 +1412,17 @@ class SymmetryConstraints(object):
             rv.append(treqns)
         return rv
 
+    @deprecated(UFormulasPruned_deprecation_msg)
     def UFormulasPruned(self, Usymbols=None):
+        """'diffpy.structure.SymmetryConstraints.UFormulasPruned' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.u_formulas_pruned'
+        instead.
+        """
+        return self.u_formulas_pruned(Usymbols)
+
+    def u_formulas_pruned(self, Usymbols=None):
         """List of atom displacement formula dictionaries with constant
         items removed.
 
