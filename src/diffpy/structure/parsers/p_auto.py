@@ -51,7 +51,7 @@ class P_auto(StructureParser):
         return
 
     # parseLines helpers
-    def _getOrderedFormats(self):
+    def _get_ordered_formats(self):
         """Build a list of relevance ordered structure formats.
 
         This only works when `self.filename` has a known extension.
@@ -96,7 +96,7 @@ class P_auto(StructureParser):
         ------
         StructureFormatError
         """
-        return self._wrapParseMethod("parseLines", lines)
+        return self._wrap_parse_method("parseLines", lines)
 
     def parse(self, s):
         """Detect format and create `Structure` instance from a string.
@@ -117,7 +117,7 @@ class P_auto(StructureParser):
         ------
         StructureFormatError
         """
-        return self._wrapParseMethod("parse", s)
+        return self._wrap_parse_method("parse", s)
 
     def parseFile(self, filename):
         """Detect format and create Structure instance from an existing
@@ -143,9 +143,9 @@ class P_auto(StructureParser):
             If the file cannot be read.
         """
         self.filename = filename
-        return self._wrapParseMethod("parseFile", filename)
+        return self._wrap_parse_method("parseFile", filename)
 
-    def _wrapParseMethod(self, method, *args, **kwargs):
+    def _wrap_parse_method(self, method, *args, **kwargs):
         """A helper evaluator method that try the specified parse method
         with each registered structure parser and return the first
         successful result.
@@ -173,7 +173,7 @@ class P_auto(StructureParser):
         """
         from diffpy.structure.parsers import getParser
 
-        ofmts = self._getOrderedFormats()
+        ofmts = self._get_ordered_formats()
         stru = None
         # try all parsers in sequence
         parsers_emsgs = []
