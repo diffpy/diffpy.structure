@@ -104,23 +104,23 @@ class P_cif(StructureParser):
             "_tr_atom_site_cartn_x",
             "_tr_atom_site_cartn_y",
             "_tr_atom_site_cartn_z",
-            "_tr_atom_site_U_iso_or_equiv",
-            "_tr_atom_site_B_iso_or_equiv",
+            "_tr_atom_site_u_iso_or_equiv",
+            "_tr_atom_site_b_iso_or_equiv",
             "_tr_atom_site_adp_type",
             "_tr_atom_site_thermal_displace_type",
             "_tr_atom_site_occupancy",
-            "_tr_atom_site_aniso_U_11",
-            "_tr_atom_site_aniso_U_22",
-            "_tr_atom_site_aniso_U_33",
-            "_tr_atom_site_aniso_U_12",
-            "_tr_atom_site_aniso_U_13",
-            "_tr_atom_site_aniso_U_23",
-            "_tr_atom_site_aniso_B_11",
-            "_tr_atom_site_aniso_B_22",
-            "_tr_atom_site_aniso_B_33",
-            "_tr_atom_site_aniso_B_12",
-            "_tr_atom_site_aniso_B_13",
-            "_tr_atom_site_aniso_B_23",
+            "_tr_atom_site_aniso_u_11",
+            "_tr_atom_site_aniso_u_22",
+            "_tr_atom_site_aniso_u_33",
+            "_tr_atom_site_aniso_u_12",
+            "_tr_atom_site_aniso_u_13",
+            "_tr_atom_site_aniso_u_23",
+            "_tr_atom_site_aniso_b_11",
+            "_tr_atom_site_aniso_b_22",
+            "_tr_atom_site_aniso_b_33",
+            "_tr_atom_site_aniso_b_12",
+            "_tr_atom_site_aniso_b_13",
+            "_tr_atom_site_aniso_b_23",
         )
     )
     # make _atom_setters case insensitive
@@ -185,15 +185,15 @@ class P_cif(StructureParser):
 
     _tr_atom_site_cartn_z = staticmethod(_tr_atom_site_cartn_z)
 
-    def _tr_atom_site_U_iso_or_equiv(a, value):
+    def _tr_atom_site_u_iso_or_equiv(a, value):
         a.Uisoequiv = leading_float(value)
 
-    _tr_atom_site_U_iso_or_equiv = staticmethod(_tr_atom_site_U_iso_or_equiv)
+    _tr_atom_site_u_iso_or_equiv = staticmethod(_tr_atom_site_u_iso_or_equiv)
 
-    def _tr_atom_site_B_iso_or_equiv(a, value):
+    def _tr_atom_site_b_iso_or_equiv(a, value):
         a.Uisoequiv = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_B_iso_or_equiv = staticmethod(_tr_atom_site_B_iso_or_equiv)
+    _tr_atom_site_b_iso_or_equiv = staticmethod(_tr_atom_site_b_iso_or_equiv)
 
     def _tr_atom_site_adp_type(a, value):
         a.anisotropy = value not in ("Uiso", "Biso")
@@ -206,65 +206,65 @@ class P_cif(StructureParser):
 
     _tr_atom_site_occupancy = staticmethod(_tr_atom_site_occupancy)
 
-    def _tr_atom_site_aniso_U_11(a, value):
+    def _tr_atom_site_aniso_u_11(a, value):
         a.U11 = leading_float(value)
 
-    _tr_atom_site_aniso_U_11 = staticmethod(_tr_atom_site_aniso_U_11)
+    _tr_atom_site_aniso_u_11 = staticmethod(_tr_atom_site_aniso_u_11)
 
-    def _tr_atom_site_aniso_U_22(a, value):
+    def _tr_atom_site_aniso_u_22(a, value):
         a.U22 = leading_float(value)
 
-    _tr_atom_site_aniso_U_22 = staticmethod(_tr_atom_site_aniso_U_22)
+    _tr_atom_site_aniso_u_22 = staticmethod(_tr_atom_site_aniso_u_22)
 
-    def _tr_atom_site_aniso_U_33(a, value):
+    def _tr_atom_site_aniso_u_33(a, value):
         a.U33 = leading_float(value)
 
-    _tr_atom_site_aniso_U_33 = staticmethod(_tr_atom_site_aniso_U_33)
+    _tr_atom_site_aniso_u_33 = staticmethod(_tr_atom_site_aniso_u_33)
 
-    def _tr_atom_site_aniso_U_12(a, value):
+    def _tr_atom_site_aniso_u_12(a, value):
         a.U12 = leading_float(value)
 
-    _tr_atom_site_aniso_U_12 = staticmethod(_tr_atom_site_aniso_U_12)
+    _tr_atom_site_aniso_u_12 = staticmethod(_tr_atom_site_aniso_u_12)
 
-    def _tr_atom_site_aniso_U_13(a, value):
+    def _tr_atom_site_aniso_u_13(a, value):
         a.U13 = leading_float(value)
 
-    _tr_atom_site_aniso_U_13 = staticmethod(_tr_atom_site_aniso_U_13)
+    _tr_atom_site_aniso_u_13 = staticmethod(_tr_atom_site_aniso_u_13)
 
-    def _tr_atom_site_aniso_U_23(a, value):
+    def _tr_atom_site_aniso_u_23(a, value):
         a.U23 = leading_float(value)
 
-    _tr_atom_site_aniso_U_23 = staticmethod(_tr_atom_site_aniso_U_23)
+    _tr_atom_site_aniso_u_23 = staticmethod(_tr_atom_site_aniso_u_23)
 
-    def _tr_atom_site_aniso_B_11(a, value):
+    def _tr_atom_site_aniso_b_11(a, value):
         a.U11 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_11 = staticmethod(_tr_atom_site_aniso_B_11)
+    _tr_atom_site_aniso_b_11 = staticmethod(_tr_atom_site_aniso_b_11)
 
-    def _tr_atom_site_aniso_B_22(a, value):
+    def _tr_atom_site_aniso_b_22(a, value):
         a.U22 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_22 = staticmethod(_tr_atom_site_aniso_B_22)
+    _tr_atom_site_aniso_b_22 = staticmethod(_tr_atom_site_aniso_b_22)
 
-    def _tr_atom_site_aniso_B_33(a, value):
+    def _tr_atom_site_aniso_b_33(a, value):
         a.U33 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_33 = staticmethod(_tr_atom_site_aniso_B_33)
+    _tr_atom_site_aniso_b_33 = staticmethod(_tr_atom_site_aniso_b_33)
 
-    def _tr_atom_site_aniso_B_12(a, value):
+    def _tr_atom_site_aniso_b_12(a, value):
         a.U12 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_12 = staticmethod(_tr_atom_site_aniso_B_12)
+    _tr_atom_site_aniso_b_12 = staticmethod(_tr_atom_site_aniso_b_12)
 
-    def _tr_atom_site_aniso_B_13(a, value):
+    def _tr_atom_site_aniso_b_13(a, value):
         a.U13 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_13 = staticmethod(_tr_atom_site_aniso_B_13)
+    _tr_atom_site_aniso_b_13 = staticmethod(_tr_atom_site_aniso_b_13)
 
-    def _tr_atom_site_aniso_B_23(a, value):
+    def _tr_atom_site_aniso_b_23(a, value):
         a.U23 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_23 = staticmethod(_tr_atom_site_aniso_B_23)
+    _tr_atom_site_aniso_b_23 = staticmethod(_tr_atom_site_aniso_b_23)
 
     def _get_atom_setters(cifloop):
         """Static method for finding translators of CifLoop items to
@@ -602,10 +602,10 @@ class P_cif(StructureParser):
         if self.spacegroup is None:
             emsg = "CIF file has unknown space group identifier {!r}."
             raise StructureFormatError(emsg.format(sgid))
-        self._expandAsymmetricUnit(block)
+        self._expand_asymmetric_unit(block)
         return
 
-    def _expandAsymmetricUnit(self, block):
+    def _expand_asymmetric_unit(self, block):
         """Perform symmetry expansion of `self.stru` using
         `self.spacegroup`.
 
