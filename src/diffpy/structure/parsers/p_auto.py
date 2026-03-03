@@ -18,9 +18,20 @@ This Parser does not provide the the `toLines()` method.
 """
 
 import os
+from typing import Any
 
 from diffpy.structure.parsers import StructureParser, parser_index
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.P_auto"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
 
 
 class P_auto(StructureParser):
@@ -76,7 +87,16 @@ class P_auto(StructureParser):
                 ofmts.insert(0, fmt)
         return ofmts
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_auto.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Detect format and create `Structure` instance from a list of
         lines.
 
@@ -96,7 +116,7 @@ class P_auto(StructureParser):
         ------
         StructureFormatError
         """
-        return self._wrap_parse_method("parseLines", lines)
+        return self._wrap_parse_method("parse_lines", lines)
 
     def parse(self, s):
         """Detect format and create `Structure` instance from a string.
@@ -145,7 +165,7 @@ class P_auto(StructureParser):
         self.filename = filename
         return self._wrap_parse_method("parseFile", filename)
 
-    def _wrap_parse_method(self, method, *args, **kwargs):
+    def _wrap_parse_method(self, method: object, *args: object, **kwargs: object) -> Any:
         """A helper evaluator method that try the specified parse method
         with each registered structure parser and return the first
         successful result.

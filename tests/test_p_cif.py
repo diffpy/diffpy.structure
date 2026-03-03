@@ -114,6 +114,22 @@ class TestP_cif(unittest.TestCase):
         self.assertRaises(StructureFormatError, ptest2.parseLines, badlines)
         return
 
+    def test_parse_lines(self):
+        """Check P_cif.parseLines()"""
+        with open(self.pbteciffile) as fp1:
+            goodlines = fp1.readlines()
+        with open(self.badciffile) as fp2:
+            badlines = fp2.readlines()
+        pfile, ptest = self.pfile, self.ptest
+        stru_check = pfile.parseFile(self.pbteciffile)
+        stru = ptest.parse_lines(goodlines)
+        self.assertEqual(str(stru_check), str(stru))
+        self.assertEqual(str(stru_check.lattice), str(stru.lattice))
+        self.assertEqual(pfile.spacegroup.short_name, ptest.spacegroup.short_name)
+        ptest2 = P_cif()
+        self.assertRaises(StructureFormatError, ptest2.parse_lines, badlines)
+        return
+
     def test_parseFile(self):
         """Check P_cif.parseFile()"""
         # pbteciffile

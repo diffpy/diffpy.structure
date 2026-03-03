@@ -29,6 +29,7 @@ from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.utils import isfloat
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # Constants ------------------------------------------------------------------
 
@@ -151,6 +152,15 @@ AtomicMass = {
 
 # ----------------------------------------------------------------------------
 
+base = "diffpy.structure.P_xcfg"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
+
 
 class P_xcfg(StructureParser):
     """Parser for AtomEye extended CFG format.
@@ -171,7 +181,16 @@ class P_xcfg(StructureParser):
         self.format = "xcfg"
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_xcfg.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Parse list of lines in XCFG format.
 
         Parameters
