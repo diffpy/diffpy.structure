@@ -2,7 +2,7 @@
 
 * Added ``position_formulas`` method in ``SymmetryConstraints`` class
 * Added ``position_formulas_pruned`` method in ``SymmetryConstraints`` class
-* Added ``u_formula_pruned`` method in ``SymmetryConstraints`` class
+* Added ``u_formulas_pruned`` method in ``SymmetryConstraints`` class
 
 **Changed:**
 
