@@ -37,8 +37,19 @@ from CifFile.yapps3_compiled_rt import YappsSyntaxError
 from diffpy.structure import Atom, Lattice, Structure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # ----------------------------------------------------------------------------
+
+
+base = "diffpy.structure.P_cif"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
 
 
 class P_cif(StructureParser):
@@ -330,7 +341,17 @@ class P_cif(StructureParser):
         rv = self._parseCifDataSource(fp)
         return rv
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_cif.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    @deprecated(parseLines_deprecation_msg)
+    def parse_lines(self, lines):
         """Parse list of lines in CIF format.
 
         Parameters
@@ -400,7 +421,7 @@ class P_cif(StructureParser):
 
         self.stru = None
         try:
-            with _suppressCifParserOutput():
+            with _suppress_cif_parser_output():
                 # Use `grammar` option to digest values with curly-brackets.
                 # Ref: https://bitbucket.org/jamesrhester/pycifrw/issues/19
                 self.ciffile = CifFile(datasource, grammar="auto")
@@ -871,7 +892,7 @@ def getParser(eps=None):
 
 
 @contextmanager
-def _suppressCifParserOutput():
+def _suppress_cif_parser_output():
     """Context manager which suppresses diagnostic messages from CIF
     parser."""
     from CifFile import yapps3_compiled_rt

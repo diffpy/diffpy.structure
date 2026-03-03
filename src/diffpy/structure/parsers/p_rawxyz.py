@@ -24,6 +24,16 @@ from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.utils import isfloat
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.P_rawxyz"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
 
 
 class P_rawxyz(StructureParser):
@@ -40,7 +50,16 @@ class P_rawxyz(StructureParser):
         self.format = "rawxyz"
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_rawxyz.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Parse list of lines in RAWXYZ format.
 
         Parameters

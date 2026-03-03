@@ -22,6 +22,16 @@ import numpy
 from diffpy.structure import Lattice, PDFFitStructure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.P_pdffit"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
 
 
 class P_pdffit(StructureParser):
@@ -44,7 +54,16 @@ class P_pdffit(StructureParser):
         self.stru = None
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_pdffit.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Parse list of lines in PDFfit format.
 
         Parameters

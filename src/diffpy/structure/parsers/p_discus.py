@@ -134,6 +134,81 @@ class P_discus(StructureParser):
             raise e.with_traceback(exc_traceback)
         return self.stru
 
+    def parse_lines(self, lines):
+        """Parse list of lines in DISCUS format.
+
+        Parameters
+        ----------
+        lines : list of str
+            List of lines from the input file.
+
+        Returns
+        -------
+        PDFFitStructure
+            Parsed `PDFFitStructure` instance.
+
+        Raises
+        ------
+        StructureFormatError
+            If the file is not in DISCUS format.
+        """
+        self.lines = lines
+        ilines = self._linesIterator()
+        self.stru = PDFFitStructure()
+        record_parsers = {
+            "cell": self._parse_cell,
+            "format": self._parse_format,
+            "generator": self._parse_not_implemented,
+            "molecule": self._parse_not_implemented,
+            "ncell": self._parse_ncell,
+            "spcgr": self._parse_spcgr,
+            "symmetry": self._parse_not_implemented,
+            "title": self._parse_title,
+            "shape": self._parse_shape,
+        }
+        try:
+            # parse header
+            for self.line in ilines:
+                words = self.line.split()
+                if not words or words[0][0] == "#":
+                    continue
+                if words[0] == "atoms":
+                    break
+                rp = record_parsers.get(words[0], self._parse_unknown_record)
+                rp(words)
+            # check if cell has been defined
+            if not self.cell_read:
+                emsg = "%d: unit cell not defined" % self.nl
+                raise StructureFormatError(emsg)
+            # parse atoms
+            for self.line in ilines:
+                words = self.line.replace(",", " ").split()
+                if not words or words[0][0] == "#":
+                    continue
+                self._parse_atom(words)
+            # self consistency check
+            exp_natoms = reduce(lambda x, y: x * y, self.stru.pdffit["ncell"])
+            # only check if ncell record exists
+            if self.ncell_read and exp_natoms != len(self.stru):
+                emsg = "Expected %d atoms, read %d." % (
+                    exp_natoms,
+                    len(self.stru),
+                )
+                raise StructureFormatError(emsg)
+            # take care of superlattice
+            if self.stru.pdffit["ncell"][:3] != [1, 1, 1]:
+                latpars = list(self.stru.lattice.abcABG())
+                superlatpars = [latpars[i] * self.stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
+                superlattice = Lattice(*superlatpars)
+                self.stru.place_in_lattice(superlattice)
+                self.stru.pdffit["ncell"] = [1, 1, 1, exp_natoms]
+        except (ValueError, IndexError):
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            emsg = "%d: file is not in DISCUS format" % self.nl
+            e = StructureFormatError(emsg)
+            raise e.with_traceback(exc_traceback)
+        return self.stru
+
     def toLines(self, stru):
         """Convert `Structure` stru to a list of lines in DISCUS format.
 
