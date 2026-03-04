@@ -180,7 +180,6 @@ class P_auto(StructureParser):
         self.filename = filename
         return self._wrap_parse_method("parse_file", filename)
 
-
     def _wrap_parse_method(self, method: object, *args: object, **kwargs: object) -> Any:
         """A helper evaluator method that try the specified parse method
         with each registered structure parser and return the first

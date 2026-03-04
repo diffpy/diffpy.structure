@@ -387,7 +387,6 @@ class P_cif(StructureParser):
         """
         return self.parse_file(filename)
 
-
     def parse_file(self, filename):
         """Create Structure from an existing CIF file.
 
