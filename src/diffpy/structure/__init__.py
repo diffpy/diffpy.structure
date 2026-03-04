@@ -98,7 +98,7 @@ def loadStructure(filename, fmt="auto", **kw):
     """
 
     p = getParser(fmt, **kw)
-    rv = p.parseFile(filename)
+    rv = p.parse_file(filename)
     return rv
 
 

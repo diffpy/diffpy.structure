@@ -50,6 +50,12 @@ parseLines_deprecation_msg = build_deprecation_message(
     "parse_lines",
     removal_version,
 )
+parseFile_deprecation_msg = build_deprecation_message(
+    base,
+    "parseFile",
+    "parse_file",
+    removal_version,
+)
 
 
 class P_cif(StructureParser):
@@ -372,7 +378,17 @@ class P_cif(StructureParser):
         s = "\n".join(lines) + "\n"
         return self.parse(s)
 
+    @deprecated(parseFile_deprecation_msg)
     def parseFile(self, filename):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_cif.parse_file instead.
+        """
+        return self.parse_file(filename)
+
+
+    def parse_file(self, filename):
         """Create Structure from an existing CIF file.
 
         Parameters

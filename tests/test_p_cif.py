@@ -173,6 +173,49 @@ class TestP_cif(unittest.TestCase):
         self.assertEqual(16, len(ptei))
         return
 
+    def test_parse_file(self):
+        """Check P_cif.parse_file()"""
+        # pbteciffile
+        stru = self.pfile.parse_file(self.pbteciffile)
+        self.assertEqual(8, len(stru))
+        self.assertEqual(6.461, stru.lattice.a)
+        self.assertEqual(6.461, stru.lattice.b)
+        self.assertEqual(6.461, stru.lattice.c)
+        self.assertEqual(90.0, stru.lattice.alpha)
+        self.assertEqual(90.0, stru.lattice.beta)
+        self.assertEqual(90.0, stru.lattice.gamma)
+        self.assertEqual("Fm-3m", self.pfile.spacegroup.short_name)
+        a0 = stru[0]
+        self.assertEqual(0.5, a0.x)
+        self.assertEqual(0.5, a0.y)
+        self.assertEqual(0.5, a0.z)
+        self.assertEqual(False, a0.anisotropy)
+        self.assertEqual(1.0, a0.occupancy)
+        self.assertEqual(0.0225566, a0.Uisoequiv)
+        # badciffile
+        pfile2 = P_cif()
+        self.assertRaises(StructureFormatError, pfile2.parse_file, self.badciffile)
+        # graphite
+        pgraphite = P_cif()
+        graphite = pgraphite.parse_file(self.graphiteciffile)
+        self.assertEqual(4, len(graphite))
+        c1 = graphite[0]
+        self.assertEqual(str, type(c1.element))
+        self.assertEqual("C", c1.element)
+        self.assertEqual(str, type(c1.label))
+        self.assertEqual("C1", c1.label)
+        # filename with unicode encoding
+        hasbs = "\\" in self.graphiteciffile
+        uciffile = self.graphiteciffile.replace("\\", "/")
+        if hasbs:  # pragma: no cover
+            uciffile = uciffile.replace("/", "\\")
+        ugraphite = P_cif().parse_file(uciffile)
+        self.assertEqual(4, len(ugraphite))
+        # File with full space group name
+        ptei = P_cif().parse_file(self.teiciffile)
+        self.assertEqual(16, len(ptei))
+        return
+
     #   def test__parseCifBlock(self):
     #       """check P_cif._parseCifBlock()
     #       """
@@ -271,19 +314,19 @@ class TestP_cif(unittest.TestCase):
         """Test the P_cif.eps coordinates resolution."""
         pcif = P_cif()
         pcif.eps = 1e-8
-        grph = pcif.parseFile(self.graphiteciffile)
+        grph = pcif.parse_file(self.graphiteciffile)
         self.assertEqual(8, len(grph))
         self.assertTrue(all(a.label.startswith("C1") for a in grph[:2]))
         self.assertTrue(all(a.label.startswith("C2") for a in grph[2:]))
         pcif2 = P_cif()
         pcif2.eps = 1e-3
-        grph2 = pcif2.parseFile(self.graphiteciffile)
+        grph2 = pcif2.parse_file(self.graphiteciffile)
         self.assertEqual(4, len(grph2))
         return
 
     def test_unknown_occupancy(self):
         "test CIF file with unknown occupancy data"
-        stru = self.ptest.parseFile(self.datafile("TeI-unkocc.cif"))
+        stru = self.ptest.parse_file(self.datafile("TeI-unkocc.cif"))
         self.assertTrue(numpy.array_equal(16 * [1], stru.occupancy))
         return
 
@@ -311,7 +354,7 @@ class TestP_cif(unittest.TestCase):
     def test_nosites_cif(self):
         """Test reading of CIF file with no valid sites."""
         ptest = self.ptest
-        stru = ptest.parseFile(self.datafile("nosites.cif"))
+        stru = ptest.parse_file(self.datafile("nosites.cif"))
         self.assertEqual(0, len(stru))
         self.assertEqual(10.413, stru.lattice.a)
         self.assertEqual(10.413, stru.lattice.b)
@@ -322,14 +365,14 @@ class TestP_cif(unittest.TestCase):
         """Test reading of CIF file with unrecognized space group."""
         ptest = self.ptest
         filename = self.datafile("badspacegroup.cif")
-        self.assertRaises(StructureFormatError, ptest.parseFile, filename)
+        self.assertRaises(StructureFormatError, ptest.parse_file, filename)
         return
 
     def test_custom_spacegroup_cif(self):
         """Test parsing of nonstandard symops-defined space group."""
         pfile = self.pfile
         filename = self.datafile("customsg.cif")
-        pfile.parseFile(filename)
+        pfile.parse_file(filename)
         sg = pfile.spacegroup
         self.assertEqual("CIF data", sg.short_name)
         self.assertEqual(6, len(sg.symop_list))
@@ -349,14 +392,14 @@ class TestP_cif(unittest.TestCase):
 
     def test_spacegroup_anisotropy(self):
         "verify site anisotropy due to site symmetry."
-        stru = self.ptest.parseFile(self.graphiteciffile)
+        stru = self.ptest.parse_file(self.graphiteciffile)
         self.assertTrue(all(stru.anisotropy))
         return
 
     def test_spacegroup_ref(self):
         "verify space group reference"
         pfile = self.pfile
-        pfile.parseFile(self.refciffile)
+        pfile.parse_file(self.refciffile)
         sg = pfile.spacegroup
         self.assertEqual("Fm-3m", sg.short_name)
 
@@ -406,7 +449,7 @@ class TestP_cif(unittest.TestCase):
     def test_curly_brace(self):
         "verify loading of a CIF file with unquoted curly brace"
         ptest = self.ptest
-        stru = ptest.parseFile(self.datafile("curlybrackets.cif"))
+        stru = ptest.parse_file(self.datafile("curlybrackets.cif"))
         self.assertEqual(20, len(stru))
         return
 
@@ -414,12 +457,12 @@ class TestP_cif(unittest.TestCase):
         """Test passing of eps keyword argument by getParser
         function."""
         pcif = getParser("cif", eps=1e-6)
-        grph = pcif.parseFile(self.graphiteciffile)
+        grph = pcif.parse_file(self.graphiteciffile)
         self.assertEqual(8, len(grph))
         self.assertTrue(all(a.label.startswith("C1") for a in grph[:2]))
         self.assertTrue(all(a.label.startswith("C2") for a in grph[2:]))
         pcif2 = getParser("cif")
-        grph2 = pcif2.parseFile(self.graphiteciffile)
+        grph2 = pcif2.parse_file(self.graphiteciffile)
         self.assertEqual(4, len(grph2))
         return
 
