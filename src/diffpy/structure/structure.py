@@ -357,7 +357,7 @@ class Structure(list):
 
         getParser = diffpy.structure.parsers.getParser
         p = getParser(format)
-        new_structure = p.parseFile(filename)
+        new_structure = p.parse_file(filename)
         # reinitialize data after successful parsing
         # avoid calling __init__ from a derived class
         Structure.__init__(self)

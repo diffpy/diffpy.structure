@@ -32,6 +32,12 @@ parseLines_deprecation_msg = build_deprecation_message(
     "parse_lines",
     removal_version,
 )
+parseFile_deprecation_msg = build_deprecation_message(
+    base,
+    "parseFile",
+    "parse_file",
+    removal_version,
+)
 
 
 class P_auto(StructureParser):
@@ -139,7 +145,16 @@ class P_auto(StructureParser):
         """
         return self._wrap_parse_method("parse", s)
 
+    @deprecated(parseFile_deprecation_msg)
     def parseFile(self, filename):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_auto.parse_file instead.
+        """
+        return self.parse_file(filename)
+
+    def parse_file(self, filename):
         """Detect format and create Structure instance from an existing
         file.
 
@@ -163,7 +178,7 @@ class P_auto(StructureParser):
             If the file cannot be read.
         """
         self.filename = filename
-        return self._wrap_parse_method("parseFile", filename)
+        return self._wrap_parse_method("parse_file", filename)
 
     def _wrap_parse_method(self, method: object, *args: object, **kwargs: object) -> Any:
         """A helper evaluator method that try the specified parse method

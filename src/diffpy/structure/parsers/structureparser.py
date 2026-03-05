@@ -24,6 +24,12 @@ parseLines_deprecation_msg = build_deprecation_message(
     "parse_lines",
     removal_version,
 )
+parseFile_deprecation_msg = build_deprecation_message(
+    base,
+    "parseFile",
+    "parse_file",
+    removal_version,
+)
 
 
 class StructureParser(object):
@@ -86,7 +92,16 @@ class StructureParser(object):
         s = "\n".join(lines) + "\n"
         return s
 
+    @deprecated(parseFile_deprecation_msg)
     def parseFile(self, filename):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.StructureParser.parse_file instead.
+        """
+        return self.parse_file(filename)
+
+    def parse_file(self, filename):
         """Create Structure instance from an existing file."""
         self.filename = filename
         with open(filename) as fp:
