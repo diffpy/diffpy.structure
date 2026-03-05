@@ -56,6 +56,12 @@ parseFile_deprecation_msg = build_deprecation_message(
     "parse_file",
     removal_version,
 )
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
 
 
 class P_cif(StructureParser):
@@ -344,7 +350,7 @@ class P_cif(StructureParser):
         self.ciffile = None
         self.filename = ""
         fp = io.StringIO(s)
-        rv = self._parseCifDataSource(fp)
+        rv = self._parse_cif_data_source(fp)
         return rv
 
     @deprecated(parseLines_deprecation_msg)
@@ -409,11 +415,11 @@ class P_cif(StructureParser):
         """
         self.ciffile = None
         self.filename = filename
-        rv = self._parseCifDataSource(filename)
+        rv = self._parse_cif_data_source(filename)
         # all good here
         return rv
 
-    def _parseCifDataSource(self, datasource):
+    def _parse_cif_data_source(self, datasource):
         """Open and process CIF data from the specified `datasource`.
 
         Parameters
@@ -441,7 +447,7 @@ class P_cif(StructureParser):
                 # Ref: https://bitbucket.org/jamesrhester/pycifrw/issues/19
                 self.ciffile = CifFile(datasource, grammar="auto")
                 for blockname in self.ciffile.keys():
-                    self._parseCifBlock(blockname)
+                    self._parse_cif_block(blockname)
                     # stop after reading the first structure
                     if self.stru is not None:
                         break
@@ -452,7 +458,7 @@ class P_cif(StructureParser):
             raise e.with_traceback(exc_traceback)
         return self.stru
 
-    def _parseCifBlock(self, blockname):
+    def _parse_cif_block(self, blockname):
         """Translate CIF file block, skip blocks without
         `_atom_site_label`. Updates data members `stru`, `eau`.
 
@@ -682,7 +688,16 @@ class P_cif(StructureParser):
 
     # conversion to CIF ------------------------------------------------------
 
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_cif.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert `Structure` to a list of lines in basic CIF format.
 
         Parameters
