@@ -170,8 +170,28 @@ class P_rawxyz(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 
+
+@deprecated(getParser_deprecation_msg)
 def getParser():
+    """Return new `parser` object for RAWXYZ format.
+
+    Returns
+    -------
+    P_rawxyz
+        Instance of `P_rawxyz`.
+    """
+    return get_parser()
+
+
+def get_parser():
     """Return new `parser` object for RAWXYZ format.
 
     Returns

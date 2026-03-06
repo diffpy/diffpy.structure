@@ -20,7 +20,7 @@ import numpy
 import pytest
 
 from diffpy.structure import Structure
-from diffpy.structure.parsers import getParser
+from diffpy.structure.parsers import get_parser, getParser
 from diffpy.structure.parsers.p_cif import P_cif, getSymOp, leading_float
 from diffpy.structure.structureerrors import StructureFormatError
 
@@ -462,6 +462,19 @@ class TestP_cif(unittest.TestCase):
         self.assertTrue(all(a.label.startswith("C1") for a in grph[:2]))
         self.assertTrue(all(a.label.startswith("C2") for a in grph[2:]))
         pcif2 = getParser("cif")
+        grph2 = pcif2.parse_file(self.graphiteciffile)
+        self.assertEqual(4, len(grph2))
+        return
+
+    def test_get_parser(self):
+        """Test passing of eps keyword argument by get_parser
+        function."""
+        pcif = get_parser("cif", eps=1e-6)
+        grph = pcif.parse_file(self.graphiteciffile)
+        self.assertEqual(8, len(grph))
+        self.assertTrue(all(a.label.startswith("C1") for a in grph[:2]))
+        self.assertTrue(all(a.label.startswith("C2") for a in grph[2:]))
+        pcif2 = get_parser("cif")
         grph2 = pcif2.parse_file(self.graphiteciffile)
         self.assertEqual(4, len(grph2))
         return

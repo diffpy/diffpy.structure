@@ -39,7 +39,7 @@ import sys
 import diffpy.structure as _structure
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
-from diffpy.structure.parsers import getParser
+from diffpy.structure.parsers import get_parser
 from diffpy.structure.pdffitstructure import PDFFitStructure
 from diffpy.structure.structure import Structure
 from diffpy.structure.structureerrors import LatticeError, StructureFormatError, SymmetryError
@@ -97,7 +97,7 @@ def loadStructure(filename, fmt="auto", **kw):
         and 'discus' formats.
     """
 
-    p = getParser(fmt, **kw)
+    p = get_parser(fmt, **kw)
     rv = p.parse_file(filename)
     return rv
 

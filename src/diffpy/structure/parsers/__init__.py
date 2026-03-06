@@ -33,12 +33,46 @@ Content:
 from diffpy.structure.parsers.parser_index_mod import parser_index
 from diffpy.structure.parsers.structureparser import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # silence pyflakes checker
 assert StructureParser
 
+parsers_base = "diffpy.structure"
+removal_version = "4.0.0"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 
+
+@deprecated(getParser_deprecation_msg)
 def getParser(format, **kw):
+    """Return Parser instance for a given structure format.
+
+    Parameters
+    ----------
+    format : str
+        String with the format name, see `parser_index_mod`.
+    **kw : dict
+        Keyword arguments passed to the Parser init function.
+
+    Returns
+    -------
+    Parser
+        Parser instance for the given format.
+
+    Raises
+    ------
+    StructureFormatError
+        When the format is not defined.
+    """
+    return get_parser(format, **kw)
+
+
+def get_parser(format, **kw):
     """Return Parser instance for a given structure format.
 
     Parameters
@@ -65,7 +99,7 @@ def getParser(format, **kw):
     ns = {}
     import_cmd = "from diffpy.structure.parsers import %s as pm" % pmod
     exec(import_cmd, ns)
-    return ns["pm"].getParser(**kw)
+    return ns["pm"].get_parser(**kw)
 
 
 def inputFormats():
