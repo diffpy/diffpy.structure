@@ -45,6 +45,24 @@ toLines_deprecation_msg = build_deprecation_message(
     "to_lines",
     removal_version,
 )
+titleLines_deprecation_msg = build_deprecation_message(
+    base,
+    "titleLines",
+    "title_lines",
+    removal_version,
+)
+cryst1Lines_deprecation_msg = build_deprecation_message(
+    base,
+    "cryst1Lines",
+    "cryst1_lines",
+    removal_version,
+)
+atomLines_deprecation_msg = build_deprecation_message(
+    base,
+    "atomLines",
+    "atom_lines",
+    removal_version,
+)
 
 
 class P_pdb(StructureParser):
@@ -269,7 +287,12 @@ class P_pdb(StructureParser):
             raise e.with_traceback(exc_traceback)
         return stru
 
+    @deprecated(titleLines_deprecation_msg)
     def titleLines(self, stru):
+        """Build lines corresponding to `TITLE` record."""
+        return self.title_lines(stru)
+
+    def title_lines(self, stru):
         """Build lines corresponding to `TITLE` record."""
         lines = []
         title = stru.title
@@ -288,7 +311,12 @@ class P_pdb(StructureParser):
             title = title[stop:]
         return lines
 
+    @deprecated(cryst1Lines_deprecation_msg)
     def cryst1Lines(self, stru):
+        """Build lines corresponding to `CRYST1` record."""
+        return self.cryst1_lines(stru)
+
+    def cryst1_lines(self, stru):
         """Build lines corresponding to `CRYST1` record."""
         lines = []
         latpar = (
@@ -304,7 +332,13 @@ class P_pdb(StructureParser):
             lines.append("%-80s" % line)
         return lines
 
+    @deprecated(atomLines_deprecation_msg)
     def atomLines(self, stru, idx):
+        """Build `ATOM` records and possibly `SIGATM`, `ANISOU` or
+        `SIGUIJ` records for `structure` stru `atom` number aidx."""
+        return self.atom_lines(stru, idx)
+
+    def atom_lines(self, stru, idx):
         """Build `ATOM` records and possibly `SIGATM`, `ANISOU` or
         `SIGUIJ` records for `structure` stru `atom` number aidx."""
         lines = []
@@ -425,10 +459,10 @@ class P_pdb(StructureParser):
             List of lines in PDB format.
         """
         lines = []
-        lines.extend(self.titleLines(stru))
-        lines.extend(self.cryst1Lines(stru))
+        lines.extend(self.title_lines(stru))
+        lines.extend(self.cryst1_lines(stru))
         for idx in range(len(stru)):
-            lines.extend(self.atomLines(stru, idx))
+            lines.extend(self.atom_lines(stru, idx))
         line = (
             "TER   "  # 1-6
             + "%(serial)5i      "  # 7-11, 12-17

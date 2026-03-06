@@ -181,12 +181,10 @@ getParser_deprecation_msg = build_deprecation_message(
 
 @deprecated(getParser_deprecation_msg)
 def getParser():
-    """Return new `parser` object for RAWXYZ format.
+    """This function has been deprecated and will be removed in version
+    4.0.0.
 
-    Returns
-    -------
-    P_rawxyz
-        Instance of `P_rawxyz`.
+    Please use diffpy.structure.P_rawxyz.get_parser instead.
     """
     return get_parser()
 

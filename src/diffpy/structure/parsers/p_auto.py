@@ -73,9 +73,9 @@ class P_auto(StructureParser):
 
         This only works when `self.filename` has a known extension.
         """
-        from diffpy.structure.parsers import inputFormats
+        from diffpy.structure.parsers import input_formats
 
-        ofmts = [fmt for fmt in inputFormats() if fmt != "auto"]
+        ofmts = [fmt for fmt in input_formats() if fmt != "auto"]
         if not self.filename:
             return ofmts
         # filename is defined here
@@ -252,17 +252,10 @@ getParser_deprecation_msg = build_deprecation_message(
 
 @deprecated(getParser_deprecation_msg)
 def getParser(**kw):
-    """Return a new instance of the automatic parser.
+    """This function has been deprecated and will be removed in version
+    4.0.0.
 
-    Parameters
-    ----------
-    **kw : dict
-        Keyword arguments for the structure parser
-
-    Returns
-    -------
-    P_auto
-        Instance of `P_auto`.
+    Please use diffpy.structure.P_auto.get_parser instead.
     """
     return get_parser(**kw)
 

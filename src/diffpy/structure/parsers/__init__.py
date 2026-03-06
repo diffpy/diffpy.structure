@@ -46,28 +46,26 @@ getParser_deprecation_msg = build_deprecation_message(
     "get_parser",
     removal_version,
 )
+inputFormats_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "inputFormats",
+    "input_formats",
+    removal_version,
+)
+outputFormats_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "outputFormats",
+    "output_formats",
+    removal_version,
+)
 
 
 @deprecated(getParser_deprecation_msg)
 def getParser(format, **kw):
-    """Return Parser instance for a given structure format.
+    """This function has been deprecated and will be removed in version
+    4.0.0.
 
-    Parameters
-    ----------
-    format : str
-        String with the format name, see `parser_index_mod`.
-    **kw : dict
-        Keyword arguments passed to the Parser init function.
-
-    Returns
-    -------
-    Parser
-        Parser instance for the given format.
-
-    Raises
-    ------
-    StructureFormatError
-        When the format is not defined.
+    Please use diffpy.structure.get_parser instead.
     """
     return get_parser(format, **kw)
 
@@ -102,14 +100,34 @@ def get_parser(format, **kw):
     return ns["pm"].get_parser(**kw)
 
 
+@deprecated(inputFormats_deprecation_msg)
 def inputFormats():
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.input_formats instead.
+    """
+    return input_formats()
+
+
+def input_formats():
     """Return list of implemented input structure formats."""
     input_formats = [fmt for fmt, prop in parser_index.items() if prop["has_input"]]
     input_formats.sort()
     return input_formats
 
 
+@deprecated(outputFormats_deprecation_msg)
 def outputFormats():
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.output_formats instead.
+    """
+    return output_formats()
+
+
+def output_formats():
     """Return list of implemented output structure formats."""
     output_formats = [fmt for fmt, prop in parser_index.items() if prop["has_output"]]
     output_formats.sort()

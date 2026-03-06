@@ -72,9 +72,9 @@ def usage(style=None):
     if style == "brief":
         msg = msg.split("\n")[1] + "\n" + "Try `%s --help' for more information." % myname
     else:
-        from diffpy.structure.parsers import inputFormats
+        from diffpy.structure.parsers import input_formats
 
-        fmts = [f for f in inputFormats() if f != "auto"]
+        fmts = [f for f in input_formats() if f != "auto"]
         msg = msg.replace("inputFormats", " ".join(fmts))
     print(msg)
     return
