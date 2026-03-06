@@ -30,6 +30,12 @@ parseFile_deprecation_msg = build_deprecation_message(
     "parse_file",
     removal_version,
 )
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
 
 
 class StructureParser(object):
@@ -69,7 +75,16 @@ class StructureParser(object):
         raise NotImplementedError("parse lines not defined for '%s' format" % self.format)
         return
 
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.StructureParser.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert Structure stru to a list of lines.
 
         Return list of strings.
@@ -78,7 +93,7 @@ class StructureParser(object):
         ----
         This method has to be overloaded in derived class.
         """
-        raise NotImplementedError("toLines not defined for '%s' format" % self.format)
+        raise NotImplementedError("to_lines not defined for '%s' format" % self.format)
 
     def parse(self, s):
         """Create `Structure` instance from a string."""
@@ -88,7 +103,7 @@ class StructureParser(object):
 
     def tostring(self, stru):
         """Convert `Structure` instance to a string."""
-        lines = self.toLines(stru)
+        lines = self.to_lines(stru)
         s = "\n".join(lines) + "\n"
         return s
 
