@@ -34,6 +34,12 @@ parseLines_deprecation_msg = build_deprecation_message(
     "parse_lines",
     removal_version,
 )
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
 
 
 class P_xyz(StructureParser):
@@ -140,7 +146,16 @@ class P_xyz(StructureParser):
             raise StructureFormatError(emsg)
         return stru
 
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_xyz.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert Structure stru to a list of lines in XYZ format.
 
         Parameters

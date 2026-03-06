@@ -22,6 +22,21 @@ from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
+base = "diffpy.structure.P_discus"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
+
 
 class P_discus(StructureParser):
     """Parser for DISCUS structure format. The parser chokes on molecule
@@ -60,6 +75,7 @@ class P_discus(StructureParser):
         self.ncell_read = False
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
         """Parse list of lines in DISCUS format.
 
@@ -79,7 +95,7 @@ class P_discus(StructureParser):
             If the file is not in DISCUS format.
         """
         self.lines = lines
-        ilines = self._linesIterator()
+        ilines = self._lines_iterator()
         self.stru = PDFFitStructure()
         record_parsers = {
             "cell": self._parse_cell,
@@ -154,7 +170,7 @@ class P_discus(StructureParser):
             If the file is not in DISCUS format.
         """
         self.lines = lines
-        ilines = self._linesIterator()
+        ilines = self._lines_iterator()
         self.stru = PDFFitStructure()
         record_parsers = {
             "cell": self._parse_cell,
@@ -210,7 +226,16 @@ class P_discus(StructureParser):
             raise e.with_traceback(exc_traceback)
         return self.stru
 
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_discus.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert `Structure` stru to a list of lines in DISCUS format.
 
         Parameters
@@ -258,7 +283,7 @@ class P_discus(StructureParser):
             )
         return lines
 
-    def _linesIterator(self):
+    def _lines_iterator(self):
         """Iterator over `self.lines`, which increments `self.nl`"""
         # ignore trailing empty lines
         stop = len(self.lines)
