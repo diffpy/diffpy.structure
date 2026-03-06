@@ -52,10 +52,10 @@ def usage(style=None):
     if style == "brief":
         msg = msg.split("\n")[1] + "\n" + "Try `%s --help' for more information." % myname
     else:
-        from diffpy.structure.parsers import inputFormats, outputFormats
+        from diffpy.structure.parsers import input_formats, output_formats
 
-        msg = msg.replace("inputFormats", " ".join(inputFormats()))
-        msg = msg.replace("outputFormats", " ".join(outputFormats()))
+        msg = msg.replace("inputFormats", " ".join(input_formats()))
+        msg = msg.replace("outputFormats", " ".join(output_formats()))
     print(msg)
     return
 
@@ -88,14 +88,14 @@ def main():
         usage("brief")
         sys.exit()
     # process arguments
-    from diffpy.structure.parsers import inputFormats, outputFormats
+    from diffpy.structure.parsers import input_formats, output_formats
 
     try:
         infmt, outfmt = args[0].split("..", 1)
-        if infmt not in inputFormats():
+        if infmt not in input_formats():
             print("'%s' is not valid input format" % infmt, file=sys.stderr)
             sys.exit(2)
-        if outfmt not in outputFormats():
+        if outfmt not in output_formats():
             print("'%s' is not valid output format" % outfmt, file=sys.stderr)
             sys.exit(2)
     except ValueError:

@@ -198,81 +198,12 @@ class P_pdffit(StructureParser):
         return stru
 
     def toLines(self, stru):
-        """Convert `Structure` stru to a list of lines in PDFfit format.
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
 
-        Parameters
-        ----------
-        stru : Structure
-            Structure to be converted.
-
-        Returns
-        -------
-        list of str
-            List of lines in PDFfit format.
+        Please use diffpy.structure.P_pdffit.toLines instead.
         """
-        # build the stru_pdffit dictionary initialized from the defaults
-        # in PDFFitStructure
-        stru_pdffit = PDFFitStructure().pdffit
-        if stru.pdffit:
-            stru_pdffit.update(stru.pdffit)
-        lines = []
-        # default values of standard deviations
-        d_sigxyz = numpy.zeros(3, dtype=float)
-        d_sigo = 0.0
-        d_sigU = numpy.zeros((3, 3), dtype=float)
-        # here we can start
-        line = "title  " + stru.title
-        lines.append(line.strip())
-        lines.append("format pdffit")
-        lines.append("scale  %9.6f" % stru_pdffit["scale"])
-        lines.append(
-            "sharp  %9.6f, %9.6f, %9.6f, %9.6f"
-            % (
-                stru_pdffit["delta2"],
-                stru_pdffit["delta1"],
-                stru_pdffit["sratio"],
-                stru_pdffit["rcut"],
-            )
-        )
-        lines.append("spcgr   " + stru_pdffit["spcgr"])
-        if stru_pdffit.get("spdiameter", 0.0) > 0.0:
-            line = "shape   sphere, %g" % stru_pdffit["spdiameter"]
-            lines.append(line)
-        if stru_pdffit.get("stepcut", 0.0) > 0.0:
-            line = "shape   stepcut, %g" % stru_pdffit["stepcut"]
-            lines.append(line)
-        lat = stru.lattice
-        lines.append(
-            "cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f"
-            % (lat.a, lat.b, lat.c, lat.alpha, lat.beta, lat.gamma)
-        )
-        lines.append("dcell  %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % tuple(stru_pdffit["dcell"]))
-        lines.append("ncell  %9i, %9i, %9i, %9i" % (1, 1, 1, len(stru)))
-        lines.append("atoms")
-        for a in stru:
-            ad = a.__dict__
-            lines.append(
-                "%-4s %17.8f %17.8f %17.8f %12.4f"
-                % (
-                    a.element.upper(),
-                    a.xyz[0],
-                    a.xyz[1],
-                    a.xyz[2],
-                    a.occupancy,
-                )
-            )
-            sigmas = numpy.concatenate((ad.get("sigxyz", d_sigxyz), [ad.get("sigo", d_sigo)]))
-            lines.append("    %18.8f %17.8f %17.8f %12.4f" % tuple(sigmas))
-            sigU = ad.get("sigU", d_sigU)
-            Uii = (a.U[0][0], a.U[1][1], a.U[2][2])
-            Uij = (a.U[0][1], a.U[0][2], a.U[1][2])
-            sigUii = (sigU[0][0], sigU[1][1], sigU[2][2])
-            sigUij = (sigU[0][1], sigU[0][2], sigU[1][2])
-            lines.append("    %18.8f %17.8f %17.8f" % Uii)
-            lines.append("    %18.8f %17.8f %17.8f" % sigUii)
-            lines.append("    %18.8f %17.8f %17.8f" % Uij)
-            lines.append("    %18.8f %17.8f %17.8f" % sigUij)
-        return lines
+        return self.to_lines(stru)
 
     def to_lines(self, stru):
         """Convert `Structure` stru to a list of lines in PDFfit format.
@@ -386,12 +317,10 @@ class P_pdffit(StructureParser):
 
 
 def getParser():
-    """Return new `parser` object for PDFfit format.
+    """This function has been deprecated and will be removed in version
+    4.0.0.
 
-    Returns
-    -------
-    P_pdffit
-        Instance of `P_pdffit`.
+    Please use diffpy.structure.P_pdffit.get_parser instead.
     """
     return get_parser()
 

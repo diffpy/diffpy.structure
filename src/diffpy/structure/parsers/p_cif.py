@@ -910,18 +910,10 @@ def getSymOp(s):
 
 @deprecated(getParser_deprecation_msg)
 def getParser(eps=None):
-    """Return new `parser` object for CIF format.
+    """This function has been deprecated and will be removed in version
+    4.0.0.
 
-    Parameters
-    ----------
-    eps : float, Optional
-        fractional coordinates cutoff for duplicate positions.
-        When ``None`` use the default for `ExpandAsymmetricUnit`: ``1.0e-5``.
-
-    Returns
-    -------
-    P_cif
-        Instance of `P_cif`.
+    Please use diffpy.structure.P_cif.get_parser instead.
     """
     return get_parser(eps)
 

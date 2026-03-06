@@ -424,12 +424,10 @@ getParser_deprecation_msg = build_deprecation_message(
 
 @deprecated(getParser_deprecation_msg)
 def getParser():
-    """Return new `parser` object for DISCUS format.
+    """This function has been deprecated and will be removed in version
+    4.0.0.
 
-    Returns
-    -------
-    P_discus
-        Instance of `P_discus`.
+    Please use diffpy.structure.P_discus.get_parser instead.
     """
     return get_parser()
 
