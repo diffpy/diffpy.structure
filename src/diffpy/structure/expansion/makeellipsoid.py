@@ -19,10 +19,36 @@ from math import ceil
 from numpy import array
 
 from diffpy.structure import Structure
-from diffpy.structure.expansion.shapeutils import findCenter
+from diffpy.structure.expansion.shapeutils import find_center
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure"
+removal_version = "4.0.0"
+makeSphere_deprecation_msg = build_deprecation_message(
+    base,
+    "makeSphere",
+    "make_sphere",
+    removal_version,
+)
+makeEllipsoid_deprecation_msg = build_deprecation_message(
+    base,
+    "makeEllipsoid",
+    "make_ellipsoid",
+    removal_version,
+)
 
 
+@deprecated(makeSphere_deprecation_msg)
 def makeSphere(S, radius):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.make_sphere instead.
+    """
+    return make_sphere(S, radius)
+
+
+def make_sphere(S, radius):
     """Create a spherical nanoparticle.
 
     Parameters
@@ -37,10 +63,20 @@ def makeSphere(S, radius):
     Structure
         A new `Structure` instance.
     """
-    return makeEllipsoid(S, radius)
+    return make_ellipsoid(S, radius)
 
 
+@deprecated(makeEllipsoid_deprecation_msg)
 def makeEllipsoid(S, a, b=None, c=None):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.make_ellipsoid instead.
+    """
+    return make_ellipsoid(S, a, b, c)
+
+
+def make_ellipsoid(S, a, b=None, c=None):
     """Cut a `Structure` out of another one.
 
     Parameters
@@ -78,7 +114,7 @@ def makeEllipsoid(S, a, b=None, c=None):
     lat = newS.lattice
 
     # Find the central atom
-    ncenter = findCenter(newS)
+    ncenter = find_center(newS)
 
     cxyz = lat.cartesian(newS[ncenter].xyz)
 
@@ -111,17 +147,17 @@ if __name__ == "__main__":
     datadir = "../../tests/testdata"
     S = Structure()
     S.read(os.path.join(datadir, "CdSe_bulk.stru"), "pdffit")
-    newS = makeEllipsoid(S, 12)
+    newS = make_ellipsoid(S, 12)
     newS.write("CdSe_d24.stru", "pdffit")
-    newS = makeEllipsoid(S, 20, 10, 10)
+    newS = make_ellipsoid(S, 20, 10, 10)
     newS.write("CdSe_a20_b10_c10.stru", "pdffit")
-    newS = makeEllipsoid(S, 20, 15, 10)
+    newS = make_ellipsoid(S, 20, 15, 10)
     newS.write("CdSe_a20_b15_c10.stru", "pdffit")
     S = Structure()
     S.read(os.path.join(datadir, "Ni.stru"), "pdffit")
-    newS = makeEllipsoid(S, 10)
+    newS = make_ellipsoid(S, 10)
     newS.write("Ni_d20.stru", "pdffit")
-    newS = makeEllipsoid(S, 20, 4)
+    newS = make_ellipsoid(S, 20, 4)
     newS.write("Ni_a20_b4_c20.stru", "pdffit")
-    newS = makeEllipsoid(S, 20, 15, 10)
+    newS = make_ellipsoid(S, 20, 15, 10)
     newS.write("Ni_a20_b15_c10.stru", "pdffit")
