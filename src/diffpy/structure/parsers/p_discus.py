@@ -20,6 +20,7 @@ from functools import reduce
 from diffpy.structure import Lattice, PDFFitStructure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 
 class P_discus(StructureParser):
@@ -386,8 +387,29 @@ class P_discus(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+removal_version = "4.0.0"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 
+
+@deprecated(getParser_deprecation_msg)
 def getParser():
+    """Return new `parser` object for DISCUS format.
+
+    Returns
+    -------
+    P_discus
+        Instance of `P_discus`.
+    """
+    return get_parser()
+
+
+def get_parser():
     """Return new `parser` object for DISCUS format.
 
     Returns

@@ -206,14 +206,14 @@ class P_auto(StructureParser):
         ------
         StructureFormatError
         """
-        from diffpy.structure.parsers import getParser
+        from diffpy.structure.parsers import get_parser
 
         ofmts = self._get_ordered_formats()
         stru = None
         # try all parsers in sequence
         parsers_emsgs = []
         for fmt in ofmts:
-            p = getParser(fmt, **self.pkw)
+            p = get_parser(fmt, **self.pkw)
             try:
                 pmethod = getattr(p, method)
                 stru = pmethod(*args, **kwargs)
@@ -240,8 +240,34 @@ class P_auto(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+removal_version = "4.0.0"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 
+
+@deprecated(getParser_deprecation_msg)
 def getParser(**kw):
+    """Return a new instance of the automatic parser.
+
+    Parameters
+    ----------
+    **kw : dict
+        Keyword arguments for the structure parser
+
+    Returns
+    -------
+    P_auto
+        Instance of `P_auto`.
+    """
+    return get_parser(**kw)
+
+
+def get_parser(**kw):
     """Return a new instance of the automatic parser.
 
     Parameters

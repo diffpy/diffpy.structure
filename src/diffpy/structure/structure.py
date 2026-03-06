@@ -355,8 +355,8 @@ class Structure(list):
         import diffpy.structure
         import diffpy.structure.parsers
 
-        getParser = diffpy.structure.parsers.getParser
-        p = getParser(format)
+        get_parser = diffpy.structure.parsers.get_parser
+        p = get_parser(format)
         new_structure = p.parse_file(filename)
         # reinitialize data after successful parsing
         # avoid calling __init__ from a derived class
@@ -398,9 +398,9 @@ class Structure(list):
             Return instance of data Parser used to process input string. This
             can be inspected for information related to particular format.
         """
-        from diffpy.structure.parsers import getParser
+        from diffpy.structure.parsers import get_parser
 
-        p = getParser(format)
+        p = get_parser(format)
         new_structure = p.parse(s)
         # reinitialize data after successful parsing
         # avoid calling __init__ from a derived class
@@ -426,9 +426,9 @@ class Structure(list):
 
             ``from parsers import formats``
         """
-        from diffpy.structure.parsers import getParser
+        from diffpy.structure.parsers import get_parser
 
-        p = getParser(format)
+        p = get_parser(format)
         p.filename = filename
         s = p.tostring(self)
         with open(filename, "w", encoding="utf-8", newline="") as fp:
@@ -454,9 +454,9 @@ class Structure(list):
 
             ``from parsers import formats``
         """
-        from diffpy.structure.parsers import getParser
+        from diffpy.structure.parsers import get_parser
 
-        p = getParser(format)
+        p = get_parser(format)
         s = p.tostring(self)
         return s
 

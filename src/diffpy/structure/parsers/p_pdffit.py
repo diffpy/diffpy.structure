@@ -316,4 +316,15 @@ def getParser():
     P_pdffit
         Instance of `P_pdffit`.
     """
+    return get_parser()
+
+
+def get_parser():
+    """Return new `parser` object for PDFfit format.
+
+    Returns
+    -------
+    P_pdffit
+        Instance of `P_pdffit`.
+    """
     return P_pdffit()

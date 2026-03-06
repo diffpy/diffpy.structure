@@ -802,6 +802,13 @@ class P_cif(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 # constant regular expression for leading_float()
 rx_float = re.compile(r"[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?")
 
@@ -886,7 +893,25 @@ def getSymOp(s):
     return rv
 
 
+@deprecated(getParser_deprecation_msg)
 def getParser(eps=None):
+    """Return new `parser` object for CIF format.
+
+    Parameters
+    ----------
+    eps : float, Optional
+        fractional coordinates cutoff for duplicate positions.
+        When ``None`` use the default for `ExpandAsymmetricUnit`: ``1.0e-5``.
+
+    Returns
+    -------
+    P_cif
+        Instance of `P_cif`.
+    """
+    return get_parser(eps)
+
+
+def get_parser(eps=None):
     """Return new `parser` object for CIF format.
 
     Parameters
