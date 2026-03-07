@@ -192,24 +192,25 @@ class TestAtom(unittest.TestCase):
 
 # ----------------------------------------------------------------------------
 @pytest.mark.parametrize(
-    "uiso, vl",
-    [
+    "uiso, lattice_vector",
+    [  # C1: isotropic displacement, msd is direction-independent in lattice coordinates.
+        # Expected the msd_latt equals Uisoequiv for any direction.
         (0.0123, [1, 2, 3]),
     ],
 )
-def test_msd_latt_isotropic(uiso, vl):
+def test_msd_latt_isotropic(uiso, lattice_vector):
     """Check Atom.msd_latt()."""
     hexagonal = Lattice(1, 1, 1, 90, 90, 120)
     atom = Atom("C", [0, 0, 0], lattice=hexagonal, Uisoequiv=uiso)
-
-    actual = atom.msd_latt(vl)
+    actual = atom.msd_latt(lattice_vector)
     expected = pytest.approx(uiso, rel=0, abs=1e-15)
     assert actual == expected
 
 
 @pytest.mark.parametrize(
-    "U, vc",
-    [
+    "U, cartesian_vector",
+    [  # C2: anisotropic displacement with same physical direction expressed in lattice vs cartesian coords
+        # Expected msd_latt(fractional(cartesian_vector)) == msd_cart(cartesian_vector)
         (
             numpy.array(
                 [
@@ -234,37 +235,37 @@ def test_msd_latt_isotropic(uiso, vl):
         ),
     ],
 )
-def test_msd_latt_anisotropic(U, vc):
+def test_msd_latt_anisotropic(U, cartesian_vector):
     """Check Atom.msd_latt() anisotropic coordinate-invariance."""
     hexagonal = Lattice(1, 1, 1, 90, 90, 120)
     atom = Atom("C", [0, 0, 0], lattice=hexagonal, U=U)
-
-    vl = hexagonal.fractional(vc)
-
-    actual = atom.msd_latt(vl)
-    expected = pytest.approx(atom.msd_cart(vc), rel=1e-13, abs=1e-13)
+    lattice_vector = hexagonal.fractional(cartesian_vector)
+    actual = atom.msd_latt(lattice_vector)
+    expected = pytest.approx(atom.msd_cart(cartesian_vector), rel=1e-13, abs=1e-13)
     assert actual == expected
 
 
 @pytest.mark.parametrize(
-    "uiso, vc",
-    [
+    "uiso, cartesian_vector",
+    [  # C1: isotropic displacement with msd is direction-independent in cartesian coordinates
+        # Expected msd_cart equals Uisoequiv for any direction
         (0.0456, [0, 5, -2]),
     ],
 )
-def test_msd_cart_isotropic(uiso, vc):
+def test_msd_cart_isotropic(uiso, cartesian_vector):
     """Check Atom.msd_cart()."""
     hexagonal = Lattice(1, 1, 1, 90, 90, 120)
     atom = Atom("C", [0, 0, 0], lattice=hexagonal, Uisoequiv=uiso)
 
-    actual = atom.msd_cart(vc)
+    actual = atom.msd_cart(cartesian_vector)
     expected = pytest.approx(uiso, rel=0, abs=1e-15)
     assert actual == expected
 
 
 @pytest.mark.parametrize(
-    "U, vc, scale",
-    [
+    "U, cartesian_vector, scale",
+    [  # C2: anisotropic displacement with msd_cart normalizes direction vector internally
+        # Expected msd_cart(cartesian_vector) == msd_cart(scale * cartesian_vector)
         (
             numpy.array(
                 [
@@ -291,13 +292,12 @@ def test_msd_cart_isotropic(uiso, vc):
         ),
     ],
 )
-def test_msd_cart_anisotropic(U, vc, scale):
+def test_msd_cart_anisotropic(U, cartesian_vector, scale):
     """Check Atom.msd_cart() anisotropic normalization invariance."""
     hexagonal = Lattice(1, 1, 1, 90, 90, 120)
     atom = Atom("C", [0, 0, 0], lattice=hexagonal, U=U)
-
-    actual = atom.msd_cart(vc)
-    expected = pytest.approx(atom.msd_cart(scale * vc), rel=1e-13, abs=1e-13)
+    actual = atom.msd_cart(cartesian_vector)
+    expected = pytest.approx(atom.msd_cart(scale * cartesian_vector), rel=1e-13, abs=1e-13)
     assert actual == expected
 
 
