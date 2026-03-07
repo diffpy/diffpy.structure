@@ -52,6 +52,46 @@ import signal
 import sys
 
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure"
+removal_version = "4.0.0"
+loadStructureFile_deprecation_msg = build_deprecation_message(
+    base,
+    "loadStructureFile",
+    "load_structure_file",
+    removal_version,
+)
+convertStructureFile_deprecation_msg = build_deprecation_message(
+    base,
+    "loadStructureFile",
+    "load_structure_file",
+    removal_version,
+)
+watchStructureFile_deprecation_msg = build_deprecation_message(
+    base,
+    "watchStructureFile",
+    "watch_structure_file",
+    removal_version,
+)
+cleanUp_deprecation_msg = build_deprecation_message(
+    base,
+    "cleanUp",
+    "clean_up",
+    removal_version,
+)
+parseFormula_deprecation_msg = build_deprecation_message(
+    base,
+    "parseFormula",
+    "parse_formula",
+    removal_version,
+)
+signalHandler_deprecation_msg = build_deprecation_message(
+    base,
+    "signalHandler",
+    "signal_handler",
+    removal_version,
+)
 
 # parameter dictionary
 pd = {
@@ -87,7 +127,26 @@ def version():
     return
 
 
+@deprecated(loadStructureFile_deprecation_msg)
 def loadStructureFile(filename, format="auto"):
+    """Load structure from specified file.
+
+    Parameters
+    ----------
+    filename : str
+        Path to the structure file.
+    format : str, Optional
+        File format, by default "auto".
+
+    Returns
+    -------
+    tuple
+        A tuple of (Structure, fileformat).
+    """
+    return load_structure_file(filename, format)
+
+
+def load_structure_file(filename, format="auto"):
     """Load structure from specified file.
 
     Parameters
@@ -110,7 +169,12 @@ def loadStructureFile(filename, format="auto"):
     return (stru, fileformat)
 
 
+@deprecated(convertStructureFile_deprecation_msg)
 def convertStructureFile(pd):
+    return convert_structure_file(pd)
+
+
+def convert_structure_file(pd):
     # make temporary directory on the first pass
     if "tmpdir" not in pd:
         from tempfile import mkdtemp
@@ -134,7 +198,7 @@ def convertStructureFile(pd):
         return
     # otherwise convert to the first recognized viewer format
     if stru is None:
-        stru = loadStructureFile(strufile, fmt)[0]
+        stru = load_structure_file(strufile, fmt)[0]
     if pd["formula"]:
         formula = pd["formula"]
         if len(formula) != len(stru):
@@ -154,19 +218,29 @@ def convertStructureFile(pd):
     return
 
 
+@deprecated(watchStructureFile_deprecation_msg)
 def watchStructureFile(pd):
+    return watch_structure_file(pd)
+
+
+def watch_structure_file(pd):
     from time import sleep
 
     strufile = pd["strufile"]
     tmpfile = pd["tmpfile"]
     while pd["watch"]:
         if os.path.getmtime(tmpfile) < os.path.getmtime(strufile):
-            convertStructureFile(pd)
+            convert_structure_file(pd)
         sleep(1)
     return
 
 
+@deprecated(cleanUp_deprecation_msg)
 def cleanUp(pd):
+    return clean_up(pd)
+
+
+def clean_up(pd):
     if "tmpfile" in pd:
         os.remove(pd["tmpfile"])
         del pd["tmpfile"]
@@ -176,7 +250,14 @@ def cleanUp(pd):
     return
 
 
+@deprecated(parseFormula_deprecation_msg)
 def parseFormula(formula):
+    """Parse chemical formula and return a list of elements."""
+    # remove all blanks
+    return parse_formula(formula)
+
+
+def parse_formula(formula):
     """Parse chemical formula and return a list of elements."""
     # remove all blanks
     formula = re.sub(r"\s", "", formula)
@@ -197,11 +278,17 @@ def parseFormula(formula):
 
 
 def die(exit_status=0, pd={}):
-    cleanUp(pd)
+    clean_up(pd)
     sys.exit(exit_status)
 
 
+@deprecated(signalHandler_deprecation_msg)
 def signalHandler(signum, stackframe):
+    # revert to default handler
+    return signal_handler(signum, stackframe)
+
+
+def signal_handler(signum, stackframe):
     # revert to default handler
     signal.signal(signum, signal.SIG_DFL)
     if signum == signal.SIGCHLD:
@@ -231,7 +318,7 @@ def main():
     for o, a in opts:
         if o in ("-f", "--formula"):
             try:
-                pd["formula"] = parseFormula(a)
+                pd["formula"] = parse_formula(a)
             except RuntimeError as msg:
                 print(msg, file=sys.stderr)
                 die(2)
@@ -255,23 +342,23 @@ def main():
         die(2)
     pd["strufile"] = args[0]
     # trap the following signals
-    signal.signal(signal.SIGHUP, signalHandler)
-    signal.signal(signal.SIGQUIT, signalHandler)
-    signal.signal(signal.SIGSEGV, signalHandler)
-    signal.signal(signal.SIGTERM, signalHandler)
-    signal.signal(signal.SIGINT, signalHandler)
+    signal.signal(signal.SIGHUP, signal_handler)
+    signal.signal(signal.SIGQUIT, signal_handler)
+    signal.signal(signal.SIGSEGV, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+    signal.signal(signal.SIGINT, signal_handler)
     env = os.environ.copy()
     if os.path.basename(pd["viewer"]).startswith("atomeye"):
         env["XLIB_SKIP_ARGB_VISUALS"] = "1"
     # try to run the thing:
     try:
-        convertStructureFile(pd)
+        convert_structure_file(pd)
         spawnargs = (pd["viewer"], pd["viewer"], pd["tmpfile"], env)
         # load strufile in atomeye
         if pd["watch"]:
-            signal.signal(signal.SIGCHLD, signalHandler)
+            signal.signal(signal.SIGCHLD, signal_handler)
             os.spawnlpe(os.P_NOWAIT, *spawnargs)
-            watchStructureFile(pd)
+            watch_structure_file(pd)
         else:
             status = os.spawnlpe(os.P_WAIT, *spawnargs)
             die(status, pd)
