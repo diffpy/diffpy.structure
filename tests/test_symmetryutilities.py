@@ -21,7 +21,7 @@ import unittest
 import numpy
 import pytest
 
-from diffpy.structure.spacegroups import GetSpaceGroup
+from diffpy.structure.spacegroups import get_space_group
 from diffpy.structure.structureerrors import SymmetryError
 from diffpy.structure.symmetryutilities import (
     ExpandAsymmetricUnit,
@@ -59,13 +59,13 @@ class TestRoutines(unittest.TestCase):
 
     def test_isSpaceGroupLatPar(self):
         """Check isSpaceGroupLatPar()"""
-        triclinic = GetSpaceGroup("P1")
-        monoclinic = GetSpaceGroup("P2")
-        orthorhombic = GetSpaceGroup("P222")
-        tetragonal = GetSpaceGroup("P4")
-        trigonal = GetSpaceGroup("P3")
-        hexagonal = GetSpaceGroup("P6")
-        cubic = GetSpaceGroup("P23")
+        triclinic = get_space_group("P1")
+        monoclinic = get_space_group("P2")
+        orthorhombic = get_space_group("P222")
+        tetragonal = get_space_group("P4")
+        trigonal = get_space_group("P3")
+        hexagonal = get_space_group("P6")
+        cubic = get_space_group("P23")
         self.assertTrue(isSpaceGroupLatPar(triclinic, 1, 2, 3, 40, 50, 60))
         self.assertFalse(isSpaceGroupLatPar(monoclinic, 1, 2, 3, 40, 50, 60))
         self.assertTrue(isSpaceGroupLatPar(monoclinic, 1, 2, 3, 90, 50, 90))
@@ -83,13 +83,13 @@ class TestRoutines(unittest.TestCase):
 
     def test_is_space_group_lat_par(self):
         """Check isSpaceGroupLatPar()"""
-        triclinic = GetSpaceGroup("P1")
-        monoclinic = GetSpaceGroup("P2")
-        orthorhombic = GetSpaceGroup("P222")
-        tetragonal = GetSpaceGroup("P4")
-        trigonal = GetSpaceGroup("P3")
-        hexagonal = GetSpaceGroup("P6")
-        cubic = GetSpaceGroup("P23")
+        triclinic = get_space_group("P1")
+        monoclinic = get_space_group("P2")
+        orthorhombic = get_space_group("P222")
+        tetragonal = get_space_group("P4")
+        trigonal = get_space_group("P3")
+        hexagonal = get_space_group("P6")
+        cubic = get_space_group("P23")
         self.assertTrue(is_space_group_latt_parms(triclinic, 1, 2, 3, 40, 50, 60))
         self.assertFalse(is_space_group_latt_parms(monoclinic, 1, 2, 3, 40, 50, 60))
         self.assertTrue(is_space_group_latt_parms(monoclinic, 1, 2, 3, 90, 50, 90))
@@ -106,9 +106,9 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_sgtbx_spacegroup_aliases(self):
-        """Check GetSpaceGroup for non-standard aliases from sgtbx."""
-        self.assertIs(GetSpaceGroup("Fm3m"), GetSpaceGroup(225))
-        self.assertIs(GetSpaceGroup("Ia3d"), GetSpaceGroup("I a -3 d"))
+        """Check get_space_group for non-standard aliases from sgtbx."""
+        self.assertIs(get_space_group("Fm3m"), get_space_group(225))
+        self.assertIs(get_space_group("Ia3d"), get_space_group("I a -3 d"))
         return
 
     def test_positionDifference(self):
@@ -126,7 +126,7 @@ class TestRoutines(unittest.TestCase):
     def test_expandPosition(self):
         """Check expandPosition()"""
         # ok again Ni example
-        fcc = GetSpaceGroup(225)
+        fcc = get_space_group(225)
         pos, pops, pmult = expandPosition(fcc, [0, 0, 0])
         self.assertTrue(numpy.all(pos[0] == 0.0))
         self.assertEqual(4, len(pos))
@@ -137,7 +137,7 @@ class TestRoutines(unittest.TestCase):
     def test_expand_position(self):
         """Check expand_position()"""
         # ok again Ni example
-        fcc = GetSpaceGroup(225)
+        fcc = get_space_group(225)
         pos, pops, pmult = expand_position(fcc, [0, 0, 0])
         self.assertTrue(numpy.all(pos[0] == 0.0))
         self.assertEqual(4, len(pos))
@@ -234,13 +234,13 @@ class TestGeneratorSite(unittest.TestCase):
         if TestGeneratorSite.generators:
             self.__dict__.update(TestGeneratorSite.generators)
             return
-        sg117 = GetSpaceGroup(117)
-        sg143 = GetSpaceGroup(143)
-        sg164 = GetSpaceGroup(164)
-        sg167h = GetSpaceGroup("H-3c")
-        sg167r = GetSpaceGroup("R-3c")
-        sg186 = GetSpaceGroup(186)
-        sg227 = GetSpaceGroup(227)
+        sg117 = get_space_group(117)
+        sg143 = get_space_group(143)
+        sg164 = get_space_group(164)
+        sg167h = get_space_group("H-3c")
+        sg167r = get_space_group("R-3c")
+        sg186 = get_space_group(186)
+        sg227 = get_space_group(227)
         g117c = GeneratorSite(sg117, [0, 0.5, 0])
         g117h = GeneratorSite(sg117, [x, x + 0.5, 0.5])
         g143a = GeneratorSite(sg143, [0, 0, z])
@@ -368,7 +368,7 @@ class TestGeneratorSite(unittest.TestCase):
 
     def test_positionFormula_sg209(self):
         "check positionFormula at [x, 1-x, -x] site of the F432 space group."
-        sg209 = GetSpaceGroup("F 4 3 2")
+        sg209 = get_space_group("F 4 3 2")
         xyz = [0.05198, 0.94802, -0.05198]
         g209e = GeneratorSite(sg209, xyz)
         pfm = g209e.positionFormula(xyz)
@@ -379,7 +379,7 @@ class TestGeneratorSite(unittest.TestCase):
 
     def test_position_formula_sg209(self):
         "check positionFormula at [x, 1-x, -x] site of the F432 space group."
-        sg209 = GetSpaceGroup("F 4 3 2")
+        sg209 = get_space_group("F 4 3 2")
         xyz = [0.05198, 0.94802, -0.05198]
         g209e = GeneratorSite(sg209, xyz)
         pfm = g209e.position_formula(xyz)
@@ -603,7 +603,7 @@ class TestGeneratorSite(unittest.TestCase):
     def test_UFormula_g186c_eqxyz(self):
         """Check rotated U formulas at the symmetry positions of c-site
         in 186."""
-        sg186 = GetSpaceGroup(186)
+        sg186 = get_space_group(186)
         crules = [
             {
                 "U11": "A",
@@ -685,7 +685,7 @@ class TestGeneratorSite(unittest.TestCase):
     def test_u_formula_g186c_eqxyz(self):
         """Check rotated U formulas at the symmetry positions of c-site
         in 186."""
-        sg186 = GetSpaceGroup(186)
+        sg186 = get_space_group(186)
         crules = [
             {
                 "U11": "A",
@@ -786,7 +786,7 @@ class TestGeneratorSite(unittest.TestCase):
                 self.assertEqual(0.0, uval)
         # special test for g117h
         Uij = numpy.array([[1, 3, 4], [3, 1, -4], [4, -4, 2]])
-        sg117 = GetSpaceGroup(117)
+        sg117 = get_space_group(117)
         g117h = GeneratorSite(sg117, self.g117h.xyz, Uij)
         upd = dict(g117h.Uparameters)
         self.assertEqual(1, upd["U11"])
@@ -821,7 +821,7 @@ class TestSymmetryConstraints(unittest.TestCase):
 
     def test___init__(self):
         """Check SymmetryConstraints.__init__()"""
-        sg225 = GetSpaceGroup(225)
+        sg225 = get_space_group(225)
         # initialize from nested lists and arrays from ExpandAsymmetricUnit
         eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
         sc0 = SymmetryConstraints(sg225, eau.expandedpos)
@@ -845,7 +845,7 @@ class TestSymmetryConstraints(unittest.TestCase):
 
     def test_corepos(self):
         """test_corepos - find positions in the asymmetric unit."""
-        sg225 = GetSpaceGroup(225)
+        sg225 = get_space_group(225)
         corepos = [[0, 0, 0], [0.1, 0.13, 0.17]]
         eau = ExpandAsymmetricUnit(sg225, corepos)
         sc = SymmetryConstraints(sg225, eau.expandedpos)
@@ -861,7 +861,7 @@ class TestSymmetryConstraints(unittest.TestCase):
 
     def test_Uisotropy(self):
         """Check isotropy value for ADP-s at specified sites."""
-        sg225 = GetSpaceGroup(225)
+        sg225 = get_space_group(225)
         corepos = [[0, 0, 0], [0.1, 0.13, 0.17]]
         eau = ExpandAsymmetricUnit(sg225, corepos)
         self.assertEqual([True, False], eau.Uisotropy)
@@ -896,8 +896,8 @@ class TestSymmetryConstraints(unittest.TestCase):
     #
     def test_UparSymbols(self):
         """Check SymmetryConstraints.UparSymbols()"""
-        sg1 = GetSpaceGroup(1)
-        sg225 = GetSpaceGroup(225)
+        sg1 = get_space_group(1)
+        sg225 = get_space_group(225)
         pos = [[0, 0, 0]]
         Uijs = numpy.zeros((1, 3, 3))
         sc1 = SymmetryConstraints(sg1, pos, Uijs)
@@ -908,8 +908,8 @@ class TestSymmetryConstraints(unittest.TestCase):
 
     def test_upar_symbols(self):
         """Check SymmetryConstraints.UparSymbols()"""
-        sg1 = GetSpaceGroup(1)
-        sg225 = GetSpaceGroup(225)
+        sg1 = get_space_group(1)
+        sg225 = get_space_group(225)
         pos = [[0, 0, 0]]
         Uijs = numpy.zeros((1, 3, 3))
         sc1 = SymmetryConstraints(sg1, pos, Uijs)
@@ -921,8 +921,8 @@ class TestSymmetryConstraints(unittest.TestCase):
     def test_UparValues(self):
         """Check SymmetryConstraints.UparValues()"""
         places = 12
-        sg1 = GetSpaceGroup(1)
-        sg225 = GetSpaceGroup(225)
+        sg1 = get_space_group(1)
+        sg225 = get_space_group(225)
         pos = [[0, 0, 0]]
         Uijs = [[[0.1, 0.4, 0.5], [0.4, 0.2, 0.6], [0.5, 0.6, 0.3]]]
         sc1 = SymmetryConstraints(sg1, pos, Uijs)
@@ -936,8 +936,8 @@ class TestSymmetryConstraints(unittest.TestCase):
     def test_upar_values(self):
         """Check SymmetryConstraints.UparValues()"""
         places = 12
-        sg1 = GetSpaceGroup(1)
-        sg225 = GetSpaceGroup(225)
+        sg1 = get_space_group(1)
+        sg225 = get_space_group(225)
         pos = [[0, 0, 0]]
         Uijs = [[[0.1, 0.4, 0.5], [0.4, 0.2, 0.6], [0.5, 0.6, 0.3]]]
         sc1 = SymmetryConstraints(sg1, pos, Uijs)
@@ -950,7 +950,7 @@ class TestSymmetryConstraints(unittest.TestCase):
 
     def test_posparSymbols_and_posparValues(self):
         """Check SymmetryConstraints.posparSymbols and_posparValues()"""
-        sg225 = GetSpaceGroup(225)
+        sg225 = get_space_group(225)
         eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
         sc = SymmetryConstraints(sg225, eau.expandedpos)
         sc.pospars = [("x", 0.12), ("y", 0.34), ("z", 0.56)]
@@ -962,7 +962,7 @@ class TestSymmetryConstraints(unittest.TestCase):
         assert expected_values == actual_values
 
     def test_positionFormulas(self):
-        sg225 = GetSpaceGroup(225)
+        sg225 = get_space_group(225)
         eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
         sc = SymmetryConstraints(sg225, eau.expandedpos)
         # C1: Simulate the "not enough symbols" branch
@@ -983,7 +983,7 @@ class TestSymmetryConstraints(unittest.TestCase):
         assert actual == expected
 
     def test_positionFormulasPruned(self):
-        sg225 = GetSpaceGroup(225)
+        sg225 = get_space_group(225)
         eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
         sc = SymmetryConstraints(sg225, eau.expandedpos)
         # C1: Remove any key-value pairs with constant values
@@ -1017,7 +1017,7 @@ class TestSymmetryConstraints(unittest.TestCase):
                 "U12": "0.5*A",
             }
         ]
-        sg225 = GetSpaceGroup(225)
+        sg225 = get_space_group(225)
         eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
         sc = SymmetryConstraints(sg225, eau.expandedpos)
         sc.Ueqns = [u_formulas]
@@ -1168,7 +1168,7 @@ def test_null_space(A, expected_dim):
 )
 def test_pospar_symbols_and_pospar_values(params, expected_symbols, expected_values):
     """Check SymmetryConstraints.pospar_symbols and_pospar_values()"""
-    sg225 = GetSpaceGroup(225)
+    sg225 = get_space_group(225)
     eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
     sc = SymmetryConstraints(sg225, eau.expandedpos)
     sc.pospars = params
@@ -1184,7 +1184,7 @@ def test_pospar_symbols_and_pospar_values(params, expected_symbols, expected_val
     ],
 )
 def test_position_formulas_raises_SymmetryError(params):
-    sg225 = GetSpaceGroup(225)
+    sg225 = get_space_group(225)
     eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
     sc = SymmetryConstraints(sg225, eau.expandedpos)
     sc.pospars = [("x1", 0.12), ("y1", 0.34), ("z1", 0.56)]
@@ -1211,7 +1211,7 @@ def test_position_formulas_raises_SymmetryError(params):
     ],
 )
 def test_position_formulas(params, expected):
-    sg225 = GetSpaceGroup(225)
+    sg225 = get_space_group(225)
     eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
     sc = SymmetryConstraints(sg225, eau.expandedpos)
     sc.pospars = [("x1", 0.12), ("y1", 0.34), ("z1", 0.56)]
@@ -1239,7 +1239,7 @@ def test_position_formulas(params, expected):
     ],
 )
 def test_position_formulas_pruned(poseqns, expected):
-    sg225 = GetSpaceGroup(225)
+    sg225 = get_space_group(225)
     eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
     sc = SymmetryConstraints(sg225, eau.expandedpos)
 
@@ -1276,7 +1276,7 @@ def test_position_formulas_pruned(poseqns, expected):
     ],
 )
 def test_u_formula_pruned(u_formulas, expected):
-    sg225 = GetSpaceGroup(225)
+    sg225 = get_space_group(225)
     eau = ExpandAsymmetricUnit(sg225, [[0, 0, 0]])
     sc = SymmetryConstraints(sg225, eau.expandedpos)
     sc.Ueqns = u_formulas

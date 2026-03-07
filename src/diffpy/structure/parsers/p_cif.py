@@ -593,7 +593,12 @@ class P_cif(StructureParser):
         block : CifBlock
             Instance of `CifBlock`.
         """
-        from diffpy.structure.spacegroups import FindSpaceGroup, GetSpaceGroup, IsSpaceGroupIdentifier, SpaceGroup
+        from diffpy.structure.spacegroups import (
+            SpaceGroup,
+            find_space_group,
+            get_space_group,
+            is_space_group_identifier,
+        )
 
         self.asymmetric_unit = list(self.stru)
         sym_synonyms = (
@@ -608,7 +613,7 @@ class P_cif(StructureParser):
             sym_loop_name = sym_loop_name[0]
             sym_loop = block.GetLoop(sym_loop_name)
             for eqxyz in sym_loop[sym_loop_name]:
-                opcif = getSymOp(eqxyz)
+                opcif = get_symop(eqxyz)
                 symop_list.append(opcif)
         # determine space group number
         sg_nameHall = block.get("_space_group_name_Hall", "") or block.get("_symmetry_space_group_name_Hall", "")
@@ -623,12 +628,12 @@ class P_cif(StructureParser):
         # try to reuse existing space group from symmetry operations
         if symop_list:
             try:
-                self.spacegroup = FindSpaceGroup(symop_list)
+                self.spacegroup = find_space_group(symop_list)
             except ValueError:
                 pass
         # otherwise lookup the space group from its identifier
-        if self.spacegroup is None and sgid and IsSpaceGroupIdentifier(sgid):
-            self.spacegroup = GetSpaceGroup(sgid)
+        if self.spacegroup is None and sgid and is_space_group_identifier(sgid):
+            self.spacegroup = get_space_group(sgid)
         # define new spacegroup when symmetry operations were listed, but
         # there is no match to an existing definition
         if symop_list and self.spacegroup is None:
@@ -824,6 +829,12 @@ getParser_deprecation_msg = build_deprecation_message(
     "get_parser",
     removal_version,
 )
+getSymOp_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getSymOp",
+    "get_symop",
+    removal_version,
+)
 # constant regular expression for leading_float()
 rx_float = re.compile(r"[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?")
 
@@ -878,7 +889,17 @@ symvec["+y"] = symvec["y"]
 symvec["+z"] = symvec["z"]
 
 
+@deprecated(getSymOp_deprecation_msg)
 def getSymOp(s):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.get_symop instead.
+    """
+    return get_symop(s)
+
+
+def get_symop(s):
     """Create `SpaceGroups.SymOp` instance from a string.
 
     Parameters
@@ -913,7 +934,7 @@ def getParser(eps=None):
     """This function has been deprecated and will be removed in version
     4.0.0.
 
-    Please use diffpy.structure.P_cif.get_parser instead.
+    Please use diffpy.structure.get_parser instead.
     """
     return get_parser(eps)
 
