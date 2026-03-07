@@ -76,7 +76,7 @@ class TestAtom(unittest.TestCase):
     #       return
 
     def test_msdLat(self):
-        """Check Atom.msd_latt (and deprecated Atom.msdLat alias)."""
+        """Check Atom.msdLat."""
         hexagonal = Lattice(1, 1, 1, 90, 90, 120)
         atom_1 = Atom("C", [0, 0, 0], lattice=hexagonal, Uisoequiv=0.0123)
         assert atom_1.msdLat([1, 2, 3]) == pytest.approx(0.0123, rel=0, abs=1e-15)
@@ -95,10 +95,9 @@ class TestAtom(unittest.TestCase):
         vl = hexagonal.fractional(vc)
 
         assert atom_2.msdLat(vl) == pytest.approx(atom_2.msd_cart(vc), rel=1e-13, abs=1e-13)
-        return
 
     def test_msdCart(self):
-        """Check Atom.msd_cart (and deprecated Atom.msdCart alias)."""
+        """Check Atom.msdCart."""
         hexagonal = Lattice(1, 1, 1, 90, 90, 120)
         atom_1 = Atom("C", [0, 0, 0], lattice=hexagonal, Uisoequiv=0.0456)
         assert atom_1.msdCart([1, 0, 0]) == pytest.approx(0.0456, rel=0, abs=1e-15)
@@ -117,7 +116,6 @@ class TestAtom(unittest.TestCase):
 
         vc = numpy.array([0.4, 1.1, -0.6], dtype=float)
         assert atom_2.msdCart(vc) == pytest.approx(atom_2.msdCart(3.7 * vc), rel=1e-13, abs=1e-13)
-        return
 
     def test_xyz_cartn(self):
         """Check Atom.xyz_cartn property."""
