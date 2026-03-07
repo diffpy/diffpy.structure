@@ -18,6 +18,7 @@
 import unittest
 
 import numpy
+import pytest
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
@@ -73,6 +74,50 @@ class TestAtom(unittest.TestCase):
     #       """check Atom.__copy__()
     #       """
     #       return
+
+    def test_msdLat(self):
+        """Check Atom.msd_latt (and deprecated Atom.msdLat alias)."""
+        hexagonal = Lattice(1, 1, 1, 90, 90, 120)
+        atom_1 = Atom("C", [0, 0, 0], lattice=hexagonal, Uisoequiv=0.0123)
+        assert atom_1.msdLat([1, 2, 3]) == pytest.approx(0.0123, rel=0, abs=1e-15)
+        assert atom_1.msdLat([9, 0, -4]) == pytest.approx(0.0123, rel=0, abs=1e-15)
+        U = numpy.array(
+            [
+                [0.010, 0.002, 0.001],
+                [0.002, 0.020, 0.003],
+                [0.001, 0.003, 0.030],
+            ],
+            dtype=float,
+        )
+        atom_2 = Atom("C", [0, 0, 0], lattice=hexagonal, U=U)
+
+        vc = numpy.array([1.2, -0.3, 0.7], dtype=float)
+        vl = hexagonal.fractional(vc)
+
+        assert atom_2.msdLat(vl) == pytest.approx(atom_2.msd_cart(vc), rel=1e-13, abs=1e-13)
+        return
+
+    def test_msdCart(self):
+        """Check Atom.msd_cart (and deprecated Atom.msdCart alias)."""
+        hexagonal = Lattice(1, 1, 1, 90, 90, 120)
+        atom_1 = Atom("C", [0, 0, 0], lattice=hexagonal, Uisoequiv=0.0456)
+        assert atom_1.msdCart([1, 0, 0]) == pytest.approx(0.0456, rel=0, abs=1e-15)
+        assert atom_1.msdCart([0, 5, -2]) == pytest.approx(0.0456, rel=0, abs=1e-15)
+        assert atom_1.msdCart([0, 5, -2]) == pytest.approx(0.0456, rel=0, abs=1e-15)
+
+        U = numpy.array(
+            [
+                [0.011, 0.001, 0.000],
+                [0.001, 0.019, 0.002],
+                [0.000, 0.002, 0.027],
+            ],
+            dtype=float,
+        )
+        atom_2 = Atom("C", [0, 0, 0], lattice=hexagonal, U=U)
+
+        vc = numpy.array([0.4, 1.1, -0.6], dtype=float)
+        assert atom_2.msdCart(vc) == pytest.approx(atom_2.msdCart(3.7 * vc), rel=1e-13, abs=1e-13)
+        return
 
     def test_xyz_cartn(self):
         """Check Atom.xyz_cartn property."""
@@ -146,7 +191,117 @@ class TestAtom(unittest.TestCase):
 
 # End of class TestAtom
 
+
 # ----------------------------------------------------------------------------
+@pytest.mark.parametrize(
+    "uiso, vl",
+    [
+        (0.0123, [1, 2, 3]),
+    ],
+)
+def test_msd_latt_isotropic(uiso, vl):
+    """Check Atom.msd_latt()."""
+    hexagonal = Lattice(1, 1, 1, 90, 90, 120)
+    atom = Atom("C", [0, 0, 0], lattice=hexagonal, Uisoequiv=uiso)
+
+    actual = atom.msd_latt(vl)
+    expected = pytest.approx(uiso, rel=0, abs=1e-15)
+    assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "U, vc",
+    [
+        (
+            numpy.array(
+                [
+                    [0.010, 0.002, 0.001],
+                    [0.002, 0.020, 0.003],
+                    [0.001, 0.003, 0.030],
+                ],
+                dtype=float,
+            ),
+            numpy.array([1.2, -0.3, 0.7], dtype=float),
+        ),
+        (
+            numpy.array(
+                [
+                    [0.018, -0.001, 0.002],
+                    [-0.001, 0.012, 0.004],
+                    [0.002, 0.004, 0.025],
+                ],
+                dtype=float,
+            ),
+            numpy.array([-0.8, 0.9, 0.1], dtype=float),
+        ),
+    ],
+)
+def test_msd_latt_anisotropic(U, vc):
+    """Check Atom.msd_latt() anisotropic coordinate-invariance."""
+    hexagonal = Lattice(1, 1, 1, 90, 90, 120)
+    atom = Atom("C", [0, 0, 0], lattice=hexagonal, U=U)
+
+    vl = hexagonal.fractional(vc)
+
+    actual = atom.msd_latt(vl)
+    expected = pytest.approx(atom.msd_cart(vc), rel=1e-13, abs=1e-13)
+    assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "uiso, vc",
+    [
+        (0.0456, [0, 5, -2]),
+    ],
+)
+def test_msd_cart_isotropic(uiso, vc):
+    """Check Atom.msd_cart()."""
+    hexagonal = Lattice(1, 1, 1, 90, 90, 120)
+    atom = Atom("C", [0, 0, 0], lattice=hexagonal, Uisoequiv=uiso)
+
+    actual = atom.msd_cart(vc)
+    expected = pytest.approx(uiso, rel=0, abs=1e-15)
+    assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "U, vc, scale",
+    [
+        (
+            numpy.array(
+                [
+                    [0.011, 0.001, 0.000],
+                    [0.001, 0.019, 0.002],
+                    [0.000, 0.002, 0.027],
+                ],
+                dtype=float,
+            ),
+            numpy.array([0.4, 1.1, -0.6], dtype=float),
+            3.7,
+        ),
+        (
+            numpy.array(
+                [
+                    [0.020, 0.003, -0.001],
+                    [0.003, 0.014, 0.002],
+                    [-0.001, 0.002, 0.009],
+                ],
+                dtype=float,
+            ),
+            numpy.array([2.0, -1.0, 0.5], dtype=float),
+            0.25,
+        ),
+    ],
+)
+def test_msd_cart_anisotropic(U, vc, scale):
+    """Check Atom.msd_cart() anisotropic normalization invariance."""
+    hexagonal = Lattice(1, 1, 1, 90, 90, 120)
+    atom = Atom("C", [0, 0, 0], lattice=hexagonal, U=U)
+
+    actual = atom.msd_cart(vc)
+    expected = pytest.approx(atom.msd_cart(scale * vc), rel=1e-13, abs=1e-13)
+    assert actual == expected
+
 
 if __name__ == "__main__":
     unittest.main()

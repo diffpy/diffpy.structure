@@ -18,12 +18,27 @@ model."""
 import numpy
 
 from diffpy.structure.lattice import cartesian as cartesian_lattice
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # conversion constants
 _BtoU = 1.0 / (8 * numpy.pi**2)
 _UtoB = 1.0 / _BtoU
 
 # ----------------------------------------------------------------------------
+base = "diffpy.structure.Atom"
+removal_version = "4.0.0"
+msdLat_deprecation_msg = build_deprecation_message(
+    base,
+    "msdLat",
+    "msd_latt",
+    removal_version,
+)
+msdCart_deprecation_msg = build_deprecation_message(
+    base,
+    "msdCart",
+    "msd_cart",
+    removal_version,
+)
 
 
 class Atom(object):
@@ -149,7 +164,16 @@ class Atom(object):
             self.anisotropy = bool(anisotropy)
         return
 
+    @deprecated(msdLat_deprecation_msg)
     def msdLat(self, vl):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Atom.msd_latt instead.
+        """
+        return self.msd_latt(vl)
+
+    def msd_latt(self, vl):
         """Calculate mean square displacement along the lattice vector.
 
         Parameters
@@ -173,7 +197,16 @@ class Atom(object):
         msd = numpy.dot(rhs, numpy.dot(self.U, rhs))
         return msd
 
+    @deprecated(msdLat_deprecation_msg)
     def msdCart(self, vc):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Atom.msd_cart instead.
+        """
+        return self.msd_cart(vc)
+
+    def msd_cart(self, vc):
         """Calculate mean square displacement along the Cartesian
         vector.
 
@@ -336,14 +369,14 @@ class Atom(object):
 
     # Uij elements
 
-    def _get_Uij(self, i, j):
+    def _get_uij(self, i, j):
         """The getter function for the `U11`, `U22`, ..., properties."""
         if self.anisotropy:
             return self._U[i, j]
         lat = self.lattice or cartesian_lattice
         return self._U[0, 0] * lat.isotropicunit[i, j]
 
-    def _set_Uij(self, i, j, value):
+    def _set_uij(self, i, j, value):
         """The setter function for the `U11`, `U22`, ..., properties."""
         self._U[i, j] = value
         self._U[j, i] = value
@@ -361,18 +394,18 @@ class Atom(object):
         """
 
     U11 = property(
-        lambda self: self._get_Uij(0, 0),
-        lambda self, value: self._set_Uij(0, 0, value),
+        lambda self: self._get_uij(0, 0),
+        lambda self, value: self._set_uij(0, 0, value),
         doc=_doc_uii.format(0),
     )
     U22 = property(
-        lambda self: self._get_Uij(1, 1),
-        lambda self, value: self._set_Uij(1, 1, value),
+        lambda self: self._get_uij(1, 1),
+        lambda self, value: self._set_uij(1, 1, value),
         doc=_doc_uii.format(1),
     )
     U33 = property(
-        lambda self: self._get_Uij(2, 2),
-        lambda self, value: self._set_Uij(2, 2, value),
+        lambda self: self._get_uij(2, 2),
+        lambda self, value: self._set_uij(2, 2, value),
         doc=_doc_uii.format(2),
     )
 
@@ -384,18 +417,18 @@ class Atom(object):
         """
 
     U12 = property(
-        lambda self: self._get_Uij(0, 1),
-        lambda self, value: self._set_Uij(0, 1, value),
+        lambda self: self._get_uij(0, 1),
+        lambda self, value: self._set_uij(0, 1, value),
         doc=_doc_uij.format(0, 1),
     )
     U13 = property(
-        lambda self: self._get_Uij(0, 2),
-        lambda self, value: self._set_Uij(0, 2, value),
+        lambda self: self._get_uij(0, 2),
+        lambda self, value: self._set_uij(0, 2, value),
         doc=_doc_uij.format(0, 2),
     )
     U23 = property(
-        lambda self: self._get_Uij(1, 2),
-        lambda self, value: self._set_Uij(1, 2, value),
+        lambda self: self._get_uij(1, 2),
+        lambda self, value: self._set_uij(1, 2, value),
         doc=_doc_uij.format(1, 2),
     )
 
@@ -463,33 +496,33 @@ class Atom(object):
         """
 
     B11 = property(
-        lambda self: _UtoB * self._get_Uij(0, 0),
-        lambda self, value: self._set_Uij(0, 0, _BtoU * value),
+        lambda self: _UtoB * self._get_uij(0, 0),
+        lambda self, value: self._set_uij(0, 0, _BtoU * value),
         doc=_doc_bii.format(1),
     )
     B22 = property(
-        lambda self: _UtoB * self._get_Uij(1, 1),
-        lambda self, value: self._set_Uij(1, 1, _BtoU * value),
+        lambda self: _UtoB * self._get_uij(1, 1),
+        lambda self, value: self._set_uij(1, 1, _BtoU * value),
         doc=_doc_bii.format(2),
     )
     B33 = property(
-        lambda self: _UtoB * self._get_Uij(2, 2),
-        lambda self, value: self._set_Uij(2, 2, _BtoU * value),
+        lambda self: _UtoB * self._get_uij(2, 2),
+        lambda self, value: self._set_uij(2, 2, _BtoU * value),
         doc=_doc_bii.format(3),
     )
     B12 = property(
-        lambda self: _UtoB * self._get_Uij(0, 1),
-        lambda self, value: self._set_Uij(0, 1, _BtoU * value),
+        lambda self: _UtoB * self._get_uij(0, 1),
+        lambda self, value: self._set_uij(0, 1, _BtoU * value),
         doc=_doc_bij.format(1, 2),
     )
     B13 = property(
-        lambda self: _UtoB * self._get_Uij(0, 2),
-        lambda self, value: self._set_Uij(0, 2, _BtoU * value),
+        lambda self: _UtoB * self._get_uij(0, 2),
+        lambda self, value: self._set_uij(0, 2, _BtoU * value),
         doc=_doc_bij.format(1, 3),
     )
     B23 = property(
-        lambda self: _UtoB * self._get_Uij(1, 2),
-        lambda self, value: self._set_Uij(1, 2, _BtoU * value),
+        lambda self: _UtoB * self._get_uij(1, 2),
+        lambda self, value: self._set_uij(1, 2, _BtoU * value),
         doc=_doc_bij.format(2, 3),
     )
 
