@@ -21,7 +21,7 @@ import pytest
 
 from diffpy.structure import Structure
 from diffpy.structure.parsers import get_parser, getParser
-from diffpy.structure.parsers.p_cif import P_cif, getSymOp, leading_float
+from diffpy.structure.parsers.p_cif import P_cif, get_symop, getSymOp, leading_float
 from diffpy.structure.structureerrors import StructureFormatError
 
 # ----------------------------------------------------------------------------
@@ -52,6 +52,20 @@ class TestRoutines(unittest.TestCase):
         from diffpy.structure.spacegroups import Rot_mX_mXY_Z, Tr_0_0_12
 
         op1 = getSymOp("-x,-x+y,1/2+z")
+        op1_std = SymOp(Rot_mX_mXY_Z, Tr_0_0_12)
+        self.assertEqual(str(op1_std), str(op1))
+        return
+
+    def test_get_symop(self):
+        """Check get_symop()"""
+        from diffpy.structure.spacegroups import Rot_X_mY_Z, SymOp, Tr_0_12_12
+
+        op = get_symop("x,1/2-y,1/2+z")
+        op_std = SymOp(Rot_X_mY_Z, Tr_0_12_12)
+        self.assertEqual(str(op_std), str(op))
+        from diffpy.structure.spacegroups import Rot_mX_mXY_Z, Tr_0_0_12
+
+        op1 = get_symop("-x,-x+y,1/2+z")
         op1_std = SymOp(Rot_mX_mXY_Z, Tr_0_0_12)
         self.assertEqual(str(op1_std), str(op1))
         return
@@ -332,7 +346,7 @@ class TestP_cif(unittest.TestCase):
 
     def test_unknown_spacegroup_number(self):
         "test CIF file with unknown space group symbol"
-        from diffpy.structure.spacegroups import GetSpaceGroup, _hashSymOpList
+        from diffpy.structure.spacegroups import _hash_symop_list, get_space_group
 
         with open(self.pbteciffile) as fp:
             lines = fp.readlines()
@@ -346,9 +360,9 @@ class TestP_cif(unittest.TestCase):
         ciftxt = "".join(lines)
         stru = self.ptest.parse(ciftxt)
         self.assertEqual(8, len(stru))
-        h225 = _hashSymOpList(GetSpaceGroup(225).iter_symops())
+        h225 = _hash_symop_list(get_space_group(225).iter_symops())
         sgcif = self.ptest.spacegroup
-        self.assertEqual(h225, _hashSymOpList(sgcif.iter_symops()))
+        self.assertEqual(h225, _hash_symop_list(sgcif.iter_symops()))
         return
 
     def test_nosites_cif(self):

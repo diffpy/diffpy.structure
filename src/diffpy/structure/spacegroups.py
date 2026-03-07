@@ -643,14 +643,50 @@ from diffpy.structure.spacegroupmod import (
     Tr_34_34_14,
     Tr_34_34_34,
 )
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # Import SpaceGroup objects --------------------------------------------------
-
+base = "diffpy.structure"
+removal_version = "4.0.0"
+GetSpaceGroup_deprecation_msg = build_deprecation_message(
+    base,
+    "GetSpaceGroup",
+    "get_space_group",
+    removal_version,
+)
+FindSpaceGroup_deprecation_msg = build_deprecation_message(
+    base,
+    "FindSpaceGroup",
+    "find_space_group",
+    removal_version,
+)
+IsSpaceGroupIdentifier_deprecation_msg = build_deprecation_message(
+    base,
+    "IsSpaceGroupIdentifier",
+    "is_space_group_identifier",
+    removal_version,
+)
+_hashSymOpList_deprecation_msg = build_deprecation_message(
+    base,
+    "_hashSymOpList",
+    "_hash_symop_list",
+    removal_version,
+)
 
 SpaceGroupList = mmLibSpaceGroupList + sgtbxSpaceGroupList
 
 
+@deprecated(GetSpaceGroup_deprecation_msg)
 def GetSpaceGroup(sgid):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.get_space_group instead.
+    """
+    return get_space_group(sgid)
+
+
+def get_space_group(sgid):
     """Returns the SpaceGroup instance for the given identifier.
 
     Parameters
@@ -670,7 +706,7 @@ def GetSpaceGroup(sgid):
         When the identifier is not found.
     """
     if not _sg_lookup_table:
-        _buildSGLookupTable()
+        _build_sg_lookup_table()
     if sgid in _sg_lookup_table:
         return _sg_lookup_table[sgid]
     # Try different versions of sgid, first make sure it is a string
@@ -691,7 +727,19 @@ def GetSpaceGroup(sgid):
     raise ValueError(emsg)
 
 
+@deprecated(IsSpaceGroupIdentifier_deprecation_msg)
 def IsSpaceGroupIdentifier(sgid):
+    """Check if identifier can be used as an argument to
+    `GetSpaceGroup`.
+
+    Returns
+    -------
+    bool
+    """
+    return is_space_group_identifier(sgid)
+
+
+def is_space_group_identifier(sgid):
     """Check if identifier can be used as an argument to
     `GetSpaceGroup`.
 
@@ -707,7 +755,17 @@ def IsSpaceGroupIdentifier(sgid):
     return rv
 
 
+@deprecated(FindSpaceGroup_deprecation_msg)
 def FindSpaceGroup(symops, shuffle=False):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.find_space_group instead.
+    """
+    return find_space_group(symops, shuffle=shuffle)
+
+
+def find_space_group(symops, shuffle=False):
     """Lookup SpaceGroup from a given list of symmetry operations.
 
     Parameters
@@ -732,8 +790,8 @@ def FindSpaceGroup(symops, shuffle=False):
         When `symops` do not match any known SpaceGroup.
     """
 
-    tb = _getSGHashLookupTable()
-    hh = _hashSymOpList(symops)
+    tb = _get_sg_hash_lookup_table()
+    hh = _hash_symop_list(symops)
     if hh not in tb:
         raise ValueError("Cannot find SpaceGroup for the specified symops.")
     rv = tb[hh]
@@ -746,7 +804,17 @@ def FindSpaceGroup(symops, shuffle=False):
     return rv
 
 
+@deprecated(_hashSymOpList_deprecation_msg)
 def _hashSymOpList(symops):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure._hash_symop_list instead.
+    """
+    return _hash_symop_list(symops)
+
+
+def _hash_symop_list(symops):
     """Return hash value for a sequence of `SymOp` objects.
 
     The symops are sorted so the results is independent of symops order.
@@ -766,7 +834,7 @@ def _hashSymOpList(symops):
     return rv
 
 
-def _buildSGLookupTable():
+def _build_sg_lookup_table():
     """Rebuild space group lookup table from the `SpaceGroupList` data.
 
     This routine updates the global `_sg_lookup_table` dictionary.
@@ -809,16 +877,16 @@ def _buildSGLookupTable():
 _sg_lookup_table = {}
 
 
-def _getSGHashLookupTable():
+def _get_sg_hash_lookup_table():
     """Return lookup table of symop hashes to standard `SpaceGroup`
     objects."""
     if _sg_hash_lookup_table:
         return _sg_hash_lookup_table
     for sg in SpaceGroupList:
-        h = _hashSymOpList(sg.symop_list)
+        h = _hash_symop_list(sg.symop_list)
         _sg_hash_lookup_table[h] = sg
     assert len(_sg_hash_lookup_table) == len(SpaceGroupList)
-    return _getSGHashLookupTable()
+    return _get_sg_hash_lookup_table()
 
 
 _sg_hash_lookup_table = {}

@@ -17,7 +17,7 @@ import re
 import numpy
 from cctbx import sgtbx
 
-from diffpy.structure.spacegroups import IsSpaceGroupIdentifier, SpaceGroup, SymOp, mmLibSpaceGroupList
+from diffpy.structure.spacegroups import SpaceGroup, SymOp, is_space_group_identifier, mmLibSpaceGroupList
 
 
 def tupleToSGArray(tpl):
@@ -196,7 +196,7 @@ def main():
         if findEquivalentMMSpaceGroup(grp):
             continue
         shn = smbls.hermann_mauguin().replace(" ", "")
-        if IsSpaceGroupIdentifier(shn):
+        if is_space_group_identifier(shn):
             continue
         sg = mmSpaceGroupFromSymbol(uhm)
         hsg = hashMMSpaceGroup(sg)
