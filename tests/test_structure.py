@@ -678,9 +678,13 @@ def test_get_isotropic_displacement_parameters(datafile):
     assert numpy.allclose(actual_isotropic_displacement, expected_isotropic_displacement)
 
 
-# def test_get_occupancies(datafile):
-#     """Check Structure.get_occupancies()"""
-#     assert False
+def test_get_occupancies(datafile):
+    """Check Structure.get_occupancies()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_occupancies = pbte_stru.get_occupancies()
+    expected_occupancies = numpy.ones(8)
+    assert numpy.allclose(actual_occupancies, expected_occupancies)
+
 
 # def test_convert_ase_to_diffpy_structure(datafile):
 #     """Check convert_ase_to_diffpy_structure()"""
