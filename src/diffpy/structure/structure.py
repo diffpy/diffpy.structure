@@ -17,6 +17,7 @@
 import copy as copymod
 
 import numpy
+from ase import Atoms as ASEAtoms
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
@@ -172,6 +173,179 @@ class Structure(list):
         """Return Reference to the last `Atom` in this structure."""
         last_atom = self[-1]
         return last_atom
+
+    def get_chemical_symbols(self, include_charge_state=False):
+        """Return list of chemical symbols for all `Atoms` in this
+        structure.
+
+        Parameters
+        ----------
+        include_charge_state : bool, optional
+            If ``True``, include charge state in the chemical symbol (e.g., "Fe2+").
+        Returns
+        -------
+        list of str
+            The list of chemical symbols for all `Atoms` in this structure.
+        """
+        symbols_with_charge = [a.element for a in self]
+        if include_charge_state:
+            return symbols_with_charge
+        else:
+            symbols = [atomBareSymbol(sym) for sym in symbols_with_charge]
+            return symbols
+
+    def get_fractional_coordinates(self):
+        """Return array of fractional coordinates of all `Atoms` in this
+        structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of fractional coordinates of all `Atoms` in this structure.
+        """
+        coords = numpy.array([a.xyz for a in self])
+        return coords
+
+    def get_cartesian_coordinates(self):
+        """Return array of Cartesian coordinates of all `Atoms` in this
+        structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of Cartesian coordinates of all `Atoms` in this structure.
+        """
+        cartn_coords = numpy.array([a.xyz_cartn for a in self])
+        return cartn_coords
+
+    def get_anisotropic_displacement_parameters(self):
+        """Return array of anisotropic displacement parameters of all
+        `Atoms` in this structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of anisotropic displacement parameters of all `Atoms` in this structure.
+        """
+        adps = numpy.array([a.U for a in self])
+        return adps
+
+    def get_isotropic_displacement_parameters(self):
+        """Return array of isotropic displacement parameters of all
+        `Atoms` in this structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of isotropic displacement parameters of all `Atoms` in this structure.
+        """
+        idps = numpy.array([a.Uisoequiv for a in self])
+        return idps
+
+    def get_occupancies(self):
+        """Return array of occupancies of all `Atoms` in this structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of occupancies of all `Atoms` in this structure.
+        """
+        occupancies = numpy.array([a.occupancy for a in self])
+        return occupancies
+
+    def convert_ase_to_diffpy_structure(
+        self,
+        ase_atoms: ASEAtoms,
+        lost_info: list[str] | None = None,
+    ) -> Structure | tuple[Structure, dict]:  # noqa
+        """Convert ASE `Atoms` object to this `Structure` instance.
+
+        Parameters
+        ----------
+        ase_structure : ase.Atoms
+            The ASE `Atoms` object to be converted.
+        lost_info : list of str, optional
+            The list of attribute names to extract from the ASE `Atoms`
+            object that do not have a direct equivalent in the `Structure` class.
+            object that is not currently available in the `Structure` class.
+             Default is False.
+
+        Returns
+        -------
+        Structure
+            Reference to this `Structure` object with updated attributes and `Atom` instances.
+        lost_info : dict, optional
+            The dictionary containing any information from the ASE `Atoms`
+            object that is not currently available in the `Structure` class.
+            Default behavior is to return only the `Structure` instance.
+            If `lost_info` is provided, it will be a dictionary containing
+            any information from the ASE `Atoms`.
+            This may include information such as magnetic moments, charge states,
+            or other ASE-specific properties that do not have a direct equivalent
+            in the `Structure` class.
+
+        Raises
+        ------
+        TypeError
+            If the input `ase_structure` is not an instance of `ase.Atoms`.
+        ValueError
+            If any of the specified `lost_info` attributes are not present in the ASE `Atoms` object.
+
+        Examples
+        --------
+        An example of converting an `ASE.Atoms` instance to a `Structure` instance,
+
+        .. code-block:: python
+            from ase import Atoms
+            from diffpy.structure import Structure
+
+            # Create an ASE Atoms object
+            ase_atoms = Atoms('H2O', positions=[[0, 0, 0], [0, 0, 1], [1, 0, 0]])
+
+            # Convert to a diffpy Structure object
+            structure = Structure()
+            structure.convert_ase_to_diffpy(ase_atoms,
+
+
+        To extract additional information from the ASE `Atoms` object that is not
+        directly represented in the `Structure` class, such as magnetic moments,
+        you can specify an attribute or method of `ASE.Atoms` as
+        a list of strings in `lost_info` list. For example,
+
+        .. code-block:: python
+                lost_info = structure.convert_ase_to_diffpy(
+                                                            ase_atoms,
+                                                            lost_info=['get_magnetic_moments']
+                                                            )
+
+        will return a dictionary with the magnetic moments of the atoms in the ASE `Atoms` object.
+        """
+        if not isinstance(ase_atoms, ASEAtoms):
+            raise TypeError("Input must be an instance of ase.Atoms.")
+        # --- structure conversion ---
+        symbols = ase_atoms.get_chemical_symbols()
+        scaled_positions = ase_atoms.get_scaled_positions()
+        for sym, xyz in zip(symbols, scaled_positions):
+            self.append(Atom(sym, xyz=xyz))
+        # --- optional extraction ---
+        if lost_info is None:
+            return
+        extracted_info = {}
+        for name in lost_info:
+            if not hasattr(ase_atoms, name):
+                raise ValueError(f"ASE.Atoms object has no attribute '{name}'.")
+            try:
+                attr = getattr(ase_atoms, name)
+                value = attr() if callable(attr) else attr
+                # try to copy (safe for numpy arrays, dicts, etc.)
+                try:
+                    value = value.copy()
+                except Exception:
+                    pass
+                extracted_info[name] = value
+            except Exception as e:
+                extracted_info[name] = f"ERROR: {type(e).__name__}: {e}"
+        return extracted_info
 
     def assign_unique_labels(self):
         """Set a unique label string for each `Atom` in this structure.

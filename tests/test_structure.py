@@ -609,6 +609,51 @@ class TestStructure(unittest.TestCase):
 
 # End of class TestStructure
 
+
+@pytest.mark.parametrize(
+    "include_charge_state,expected",
+    [
+        (False, ["Pb"] * 4 + ["Te"] * 4),
+        (True, ["Pb"] * 4 + ["Te"] * 4),
+    ],
+)
+def test_get_chemical_symbols(datafile, include_charge_state, expected):
+    """Check Structure.get_chemical_symbols()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_chemical_symbols = pbte_stru.get_chemical_symbols(include_charge_state=include_charge_state)
+    expected_chemical_symbols = expected
+    assert actual_chemical_symbols == expected_chemical_symbols
+
+
+# def test_get_fractional_coordinates(datafile):
+#     """Check Structure.get_fractional_coordinates()"""
+#     pbte_cif = Structure(filename=datafile("PbTe.cif"))
+#     assert False
+
+
+# def test_get_cartesian_coordinates(datafile):
+#     """Check Structure.get_cartesian_coordinates()"""
+#     assert False
+
+
+# def test_get_anisotropic_displacement_parameters(datafile):
+#     """Check Structure.get_anisotropic_displacement_parameters()"""
+#     assert False
+
+
+# def test_get_isotropic_displacement_parameters(datafile):
+#     """Check Structure.get_isotropic_displacement_parameters()"""
+#     assert False
+
+
+# def test_get_occupancies(datafile):
+#     """Check Structure.get_occupancies()"""
+#     assert False
+
+# def test_convert_ase_to_diffpy_structure(datafile):
+#     """Check convert_ase_to_diffpy_structure()"""
+#     assert False
+
 # ----------------------------------------------------------------------------
 
 if __name__ == "__main__":
