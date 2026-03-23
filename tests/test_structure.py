@@ -652,14 +652,30 @@ def test_get_cartesian_coordinates(datafile):
     assert numpy.allclose(actual_cartesian_coords, expected_cartesian_coords)
 
 
-# def test_get_anisotropic_displacement_parameters(datafile):
-#     """Check Structure.get_anisotropic_displacement_parameters()"""
-#     assert False
+def test_get_anisotropic_displacement_parameters(datafile):
+    """Check Structure.get_anisotropic_displacement_parameters()"""
+    tei_stru = Structure(filename=datafile("TeI.cif"))
+    actual_displacement = tei_stru.get_anisotropic_displacement_parameters()
+    expected_one_atom = numpy.array(
+        [
+            [[0.0211, 0.0, 0.0109], [0.0, 0.0195, 0.0], [0.0109, 0.0, 0.016]],
+            [[0.0223, 0.0, 0.0179], [0.0, 0.018, 0.0], [0.0179, 0.0, 0.0254]],
+            [[0.025, 0.0, 0.0226], [0.0, 0.0234, 0.0], [0.0226, 0.0, 0.0345]],
+            [[0.0234, 0.0, 0.0138], [0.0, 0.0295, 0.0], [0.0138, 0.0, 0.0253]],
+        ]
+    )
+    expected_displacement = numpy.repeat(expected_one_atom, 4, axis=0)
+    assert numpy.allclose(actual_displacement, expected_displacement)
 
 
-# def test_get_isotropic_displacement_parameters(datafile):
-#     """Check Structure.get_isotropic_displacement_parameters()"""
-#     assert False
+def test_get_isotropic_displacement_parameters(datafile):
+    """Check Structure.get_isotropic_displacement_parameters()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_isotropic_displacement = pbte_stru.get_isotropic_displacement_parameters()
+    expected_isotropic_displacement = numpy.array(
+        [0.0225566, 0.0225566, 0.0225566, 0.0225566, 0.0155528, 0.0155528, 0.0155528, 0.0155528]
+    )
+    assert numpy.allclose(actual_isotropic_displacement, expected_isotropic_displacement)
 
 
 # def test_get_occupancies(datafile):

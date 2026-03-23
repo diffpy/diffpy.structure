@@ -224,8 +224,8 @@ class Structure(list):
         numpy.ndarray
             The array of anisotropic displacement parameters of all `Atoms` in this structure.
         """
-        adps = numpy.array([a.U for a in self])
-        return adps
+        aniso_adps = numpy.array([a.U for a in self])
+        return aniso_adps
 
     def get_isotropic_displacement_parameters(self):
         """Return array of isotropic displacement parameters of all
@@ -236,8 +236,8 @@ class Structure(list):
         numpy.ndarray
             The array of isotropic displacement parameters of all `Atoms` in this structure.
         """
-        idps = numpy.array([a.Uisoequiv for a in self])
-        return idps
+        iso_adps = numpy.array([a.Uisoequiv for a in self])
+        return iso_adps
 
     def get_occupancies(self):
         """Return array of occupancies of all `Atoms` in this structure.
