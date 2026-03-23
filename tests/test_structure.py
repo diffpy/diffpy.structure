@@ -634,12 +634,22 @@ def test_get_fractional_coordinates(datafile):
             [0.5, 0.5, 0.0],
         ]
     )
-    assert actual_fractional_coords.tolist() == expected_fractional_coords.tolist()
+    assert numpy.allclose(actual_fractional_coords, expected_fractional_coords)
 
 
-# def test_get_cartesian_coordinates(datafile):
-#     """Check Structure.get_cartesian_coordinates()"""
-#     assert False
+def test_get_cartesian_coordinates(datafile):
+    """Check Structure.get_cartesian_coordinates()"""
+    cdse_stru = Structure(filename=datafile("CdSe_bulk.stru"))
+    actual_cartesian_coords = cdse_stru.get_cartesian_coordinates()
+    expected_cartesian_coords = numpy.array(
+        [
+            [1.22284, 2.1176, 0.0],
+            [2.44495, 0.0, 3.45301],
+            [1.22284, 2.1176, 2.60129],
+            [2.44495, 0.0, 6.05431],
+        ]
+    )
+    assert numpy.allclose(actual_cartesian_coords, expected_cartesian_coords)
 
 
 # def test_get_anisotropic_displacement_parameters(datafile):

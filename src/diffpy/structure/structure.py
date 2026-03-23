@@ -174,7 +174,7 @@ class Structure(list):
         last_atom = self[-1]
         return last_atom
 
-    def get_chemical_symbols(self, include_charge_state=False):
+    def get_chemical_symbols(self):
         """Return list of chemical symbols for all `Atoms` in this
         structure.
 
@@ -194,7 +194,8 @@ class Structure(list):
         Returns
         -------
         numpy.ndarray
-            The array of fractional coordinates of all `Atoms` in this structure.
+            The array of fractional coordinates of all `Atoms` in this structure
+            in the same order as `Structure.get_chemical_symbols()`.
         """
         coords = numpy.array([a.xyz for a in self])
         return coords
@@ -206,9 +207,12 @@ class Structure(list):
         Returns
         -------
         numpy.ndarray
-            The array of Cartesian coordinates of all `Atoms` in this structure.
+            The array of Cartesian coordinates of all `Atoms` in this structure
+            in the same order as `Structure.get_chemical_symbols()`.
         """
         cartn_coords = numpy.array([a.xyz_cartn for a in self])
+        # round coordinates to avoid negative numbers close to zero
+        cartn_coords = numpy.round(cartn_coords, 5)
         return cartn_coords
 
     def get_anisotropic_displacement_parameters(self):
