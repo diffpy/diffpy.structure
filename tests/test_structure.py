@@ -610,25 +610,31 @@ class TestStructure(unittest.TestCase):
 # End of class TestStructure
 
 
-@pytest.mark.parametrize(
-    "include_charge_state,expected",
-    [
-        (False, ["Pb"] * 4 + ["Te"] * 4),
-        (True, ["Pb"] * 4 + ["Te"] * 4),
-    ],
-)
-def test_get_chemical_symbols(datafile, include_charge_state, expected):
+def test_get_chemical_symbols(datafile):
     """Check Structure.get_chemical_symbols()"""
     pbte_stru = Structure(filename=datafile("PbTe.cif"))
-    actual_chemical_symbols = pbte_stru.get_chemical_symbols(include_charge_state=include_charge_state)
-    expected_chemical_symbols = expected
+    actual_chemical_symbols = pbte_stru.get_chemical_symbols()
+    expected_chemical_symbols = ["Pb"] * 4 + ["Te"] * 4
     assert actual_chemical_symbols == expected_chemical_symbols
 
 
-# def test_get_fractional_coordinates(datafile):
-#     """Check Structure.get_fractional_coordinates()"""
-#     pbte_cif = Structure(filename=datafile("PbTe.cif"))
-#     assert False
+def test_get_fractional_coordinates(datafile):
+    """Check Structure.get_fractional_coordinates()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_fractional_coords = pbte_stru.get_fractional_coordinates()
+    expected_fractional_coords = numpy.array(
+        [
+            [0.5, 0.5, 0.5],
+            [0.5, 0.0, 0.0],
+            [0.0, 0.5, 0.0],
+            [0.0, 0.0, 0.5],
+            [0.0, 0.0, 0.0],
+            [0.0, 0.5, 0.5],
+            [0.5, 0.0, 0.5],
+            [0.5, 0.5, 0.0],
+        ]
+    )
+    assert actual_fractional_coords.tolist() == expected_fractional_coords.tolist()
 
 
 # def test_get_cartesian_coordinates(datafile):

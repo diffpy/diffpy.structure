@@ -178,21 +178,14 @@ class Structure(list):
         """Return list of chemical symbols for all `Atoms` in this
         structure.
 
-        Parameters
-        ----------
-        include_charge_state : bool, optional
-            If ``True``, include charge state in the chemical symbol (e.g., "Fe2+").
         Returns
         -------
         list of str
             The list of chemical symbols for all `Atoms` in this structure.
         """
         symbols_with_charge = [a.element for a in self]
-        if include_charge_state:
-            return symbols_with_charge
-        else:
-            symbols = [atomBareSymbol(sym) for sym in symbols_with_charge]
-            return symbols
+        symbols = [atomBareSymbol(sym) for sym in symbols_with_charge]
+        return symbols
 
     def get_fractional_coordinates(self):
         """Return array of fractional coordinates of all `Atoms` in this
