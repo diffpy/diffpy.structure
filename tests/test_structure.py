@@ -643,13 +643,13 @@ def test_get_cartesian_coordinates(datafile):
     actual_cartesian_coords = cdse_stru.get_cartesian_coordinates()
     expected_cartesian_coords = numpy.array(
         [
-            [1.22284, 2.1176, 0.0],
-            [2.44495, 0.0, 3.45301],
-            [1.22284, 2.1176, 2.60129],
-            [2.44495, 0.0, 6.05431],
+            [1.22284264, 2.11760202, 0.0],
+            [2.44495161, 0.0, 3.4530135],
+            [1.22284264, 2.11760202, 2.60129319],
+            [2.44495161, 0.0, 6.05430669],
         ]
     )
-    assert numpy.allclose(actual_cartesian_coords, expected_cartesian_coords)
+    assert numpy.allclose(actual_cartesian_coords, expected_cartesian_coords, atol=1e-6)
 
 
 def test_get_anisotropic_displacement_parameters(datafile):

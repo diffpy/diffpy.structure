@@ -211,8 +211,6 @@ class Structure(list):
             in the same order as `Structure.get_chemical_symbols()`.
         """
         cartn_coords = numpy.array([a.xyz_cartn for a in self])
-        # round coordinates to avoid negative numbers close to zero
-        cartn_coords = numpy.round(cartn_coords, 5)
         return cartn_coords
 
     def get_anisotropic_displacement_parameters(self):
