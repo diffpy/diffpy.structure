@@ -392,6 +392,8 @@ class P_vesta(StructureParser):
         lines.append("")
         lines.append("EOF")
         return lines
+
+
 # End of class P_vesta
 
 from diffpy.structure.parsers.P_xcfg import P_xcfg  # noqa: E402, F401
