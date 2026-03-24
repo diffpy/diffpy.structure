@@ -353,7 +353,7 @@ class P_xcfg(StructureParser):
         lo_xyz = allxyz.min(axis=0)
         hi_xyz = allxyz.max(axis=0)
         max_range_xyz = (hi_xyz - lo_xyz).max()
-        if numpy.allclose(stru.lattice.abcABG(), (1, 1, 1, 90, 90, 90)):
+        if numpy.allclose(stru.lattice.cell_parms(), (1, 1, 1, 90, 90, 90)):
             max_range_xyz += self.cluster_boundary
         # range of CFG coordinates must be less than 1
         p_A = numpy.ceil(max_range_xyz + 1.0e-13)
