@@ -301,11 +301,11 @@ class Structure(list):
         Returns
         -------
         lost_info : dict, optional
-            The dictionary containing any information from the ASE `Atoms`
+            If specified, the dictionary containing any information from the ASE `Atoms`
             object that is not currently available in the `Structure` class.
-            Default behavior is to return only the `Structure` instance.
-            If `lost_info` is provided, it will be a dictionary containing
-            any information from the ASE `Atoms`.
+            Default behavior is to return `None`.
+            If `lost_info` is provided, a dictionary containing
+            any information from the ASE `Atoms` will be returned.
             This may include information such as magnetic moments, charge states,
             or other ASE-specific properties that do not have a direct equivalent
             in the `Structure` class.
