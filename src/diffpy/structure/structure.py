@@ -282,15 +282,23 @@ class Structure(list):
     ) -> Structure | tuple[Structure, dict]:  # noqa
         """Convert ASE `Atoms` object to this `Structure` instance.
 
+        The conversion process involves extracting the lattice parameters, chemical symbols,
+        and fractional coordinates from the ASE `Atoms` object and populating the corresponding
+        attributes of this `Structure` instance. The `lattice` attribute is set based on the
+        cell parameters of the ASE `Atoms` object, and each `Atom` in this `Structure` is created
+        with the chemical symbol and fractional coordinates extracted from the ASE `Atoms`.
+
         Parameters
         ----------
         ase_structure : ase.Atoms
             The ASE `Atoms` object to be converted.
-        lost_info : list of str, optional
-            The list of attribute names to extract from the ASE `Atoms`
+        lost_info : str or list of str, optional
+            The method(s) or attribute(s) to extract from the ASE `Atoms`
             object that do not have a direct equivalent in the `Structure` class.
-            object that is not currently available in the `Structure` class.
-             Default is False.
+            This will be provided in a dictionary format where keys are the
+            method/attribute name(s) and value(s) are the corresponding data
+            extracted from the ASE `Atoms` object.
+            Default is None. See `Examples` for usage.
 
         Returns
         -------
@@ -324,7 +332,7 @@ class Structure(list):
 
             # Convert to a diffpy Structure object
             structure = Structure()
-            structure.convert_ase_to_diffpy(ase_atoms,
+            structure.convert_ase_to_diffpy(ase_atoms)
 
 
         To extract additional information from the ASE `Atoms` object that is not
@@ -333,10 +341,10 @@ class Structure(list):
         a list of strings in `lost_info` list. For example,
 
         .. code-block:: python
-                lost_info = structure.convert_ase_to_diffpy(
-                                                            ase_atoms,
-                                                            lost_info=['get_magnetic_moments']
-                                                            )
+            lost_info = structure.convert_ase_to_diffpy(
+                                                    ase_atoms,
+                                                    lost_info='get_magnetic_moments'
+                                                    )
 
         will return a dictionary with the magnetic moments of the atoms in the ASE `Atoms` object.
         """
@@ -348,11 +356,13 @@ class Structure(list):
         self.lattice = Lattice(base=numpy.array(cell))
         symbols = ase_atoms.get_chemical_symbols()
         scaled_positions = ase_atoms.get_scaled_positions()
-        for sym, xyz in zip(symbols, scaled_positions):
-            self.append(Atom(sym, xyz=xyz))
+        for atom_symbol, frac_coord in zip(symbols, scaled_positions):
+            self.append(Atom(atom_symbol, xyz=frac_coord))
         if lost_info is None:
             return
         extracted_info = {}
+        if isinstance(lost_info, str):
+            lost_info = [lost_info]
         for name in lost_info:
             if not hasattr(ase_atoms, name):
                 raise ValueError(f"ASE.Atoms object has no attribute '{name}'.")

@@ -735,7 +735,7 @@ def test_convert_ase_to_diffpy_structure(input, build_ase_atom_object, build_dif
     # set the lost_info variable, which gets the attribute of method from ASE.Atoms object, gets the values
     # and stores it in a dict. This is used because ASE.Atoms stores more/different
     # info that a diffpy.structure object
-    lost_info_dict = actual_structure.convert_ase_to_diffpy_structure(ase_zb, lost_info=["get_masses"])
+    lost_info_dict = actual_structure.convert_ase_to_diffpy_structure(ase_zb, lost_info="get_masses")
     actual_masses = lost_info_dict["get_masses"]
     expected_masses = ase_zb.get_masses()
     assert numpy.allclose(actual_masses, expected_masses)
