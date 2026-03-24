@@ -686,9 +686,112 @@ def test_get_occupancies(datafile):
     assert numpy.allclose(actual_occupancies, expected_occupancies)
 
 
-# def test_convert_ase_to_diffpy_structure(datafile):
-#     """Check convert_ase_to_diffpy_structure()"""
-#     assert False
+def test_get_lattice_vectors(datafile):
+    """Check Structure.get_lattice_vectors()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_lattice_vectors = pbte_stru.get_lattice_vectors()
+    expected_lattice_vectors = numpy.array([[6.461, 0.0, 0.0], [0.0, 6.461, 0.0], [0.0, 0.0, 6.461]])
+    assert numpy.allclose(actual_lattice_vectors, expected_lattice_vectors)
+
+
+def test_get_lattice_vector_angles(datafile):
+    """Check Structure.get_lattice_vector_angles()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_lattice_vector_angles = pbte_stru.get_lattice_vector_angles()
+    expected_lattice_vector_angles = numpy.array([90.0, 90.0, 90.0])
+    assert numpy.allclose(actual_lattice_vector_angles, expected_lattice_vector_angles)
+
+
+@pytest.mark.parametrize(
+    "input",
+    [
+        # case: user calls the conversion function on a Structure object that already contains
+        # a structure
+        # expected: the structure is wiped clean and replaced with the converted structure
+        # we use the fixture to create a Structure object that already contains a structure.
+        "use_diffpy_structure_fixture",
+        # case: user calls the conversion function on an empty Structure object
+        # expected: the converted structure is added to the empty Structure object without issue
+        Structure(),
+    ],
+)
+def test_convert_ase_to_diffpy_structure(input, build_ase_atom_object, build_diffpy_structure_object):
+    """Check convert_ase_to_diffpy_structure()"""
+    # input: User wants to convert an ASE.Atoms object to a diffpy.structure.Structure object
+    # expected: All similar data is transferred correctly,
+    #           including chemical symbols, fractional coordinates, and lattice parameters.
+
+    # Create an ASE.Atoms object
+    ase_zb = build_ase_atom_object
+    # Create an identical expected diffpy Structure object
+    expected_structure = build_diffpy_structure_object
+
+    # Create new Structure object and convert ase to diffpy structure.
+    # Use the string input to determine which type of Structure object to create for the test
+    if isinstance(input, str):
+        actual_structure = build_diffpy_structure_object
+    else:
+        actual_structure = input
+    # set the lost_info variable, which gets the attribute of method from ASE.Atoms object, gets the values
+    # and stores it in a dict. This is used because ASE.Atoms stores more/different
+    # info that a diffpy.structure object
+    lost_info_dict = actual_structure.convert_ase_to_diffpy_structure(ase_zb, lost_info=["get_masses"])
+    actual_masses = lost_info_dict["get_masses"]
+    expected_masses = ase_zb.get_masses()
+    assert numpy.allclose(actual_masses, expected_masses)
+
+    # Compare the actual and expected values
+    expected_lattice_vectors = expected_structure.get_lattice_vectors()
+    actual_lattice_vectors = actual_structure.get_lattice_vectors()
+    assert numpy.allclose(expected_lattice_vectors, actual_lattice_vectors)
+
+    expected_lattice_angle = expected_structure.get_lattice_vector_angles()
+    actual_lattice_angle = actual_structure.get_lattice_vector_angles()
+    assert numpy.allclose(expected_lattice_angle, actual_lattice_angle)
+
+    expected_symbols = expected_structure.get_chemical_symbols()
+    actual_symbols = actual_structure.get_chemical_symbols()
+    assert actual_symbols == expected_symbols
+
+    expected_coords = expected_structure.get_fractional_coordinates()
+    actual_coords = actual_structure.get_fractional_coordinates()
+    assert numpy.allclose(actual_coords, expected_coords)
+
+
+def test_convert_ase_to_diffpy_structure_bad_typeerror():
+    """Check convert_ase_to_diffpy_structure() with bad input."""
+    bad_input = "string"  # pass a string instead of ase.Atoms
+    expected_error_msg = "Input must be an instance of ase.Atoms but got type str."
+    actual_structure = Structure()
+    with pytest.raises(TypeError, match=expected_error_msg):
+        actual_structure.convert_ase_to_diffpy_structure(bad_input)
+
+
+@pytest.mark.parametrize(
+    "bad_lost_info,error,expected_error_msg",
+    [  # case: User provides an ASE.Atoms object but requests lost_info that is not an attribute of ASE.Atoms
+        # expected: A ValueError is raised with a clear error message indicating the requested lost_info
+        #           attribute is invalid.
+        (["invalid_method"], ValueError, "ASE.Atoms object has no attribute 'invalid_method'"),
+        # case: User provides an ASE.Atoms object but requests lost_info that is an attribute of ASE.Atoms
+        # but has not been set yet.
+        # expected: The error message from ase is raised indicating the specific issue with the
+        #           requested lost_info attribute.
+        # We set the expected error message to None because this expectation is
+        # out of our control, but it is good to make sure that we are
+        # raising the error from ASE.
+        (["get_magnetic_moments"], RuntimeError, None),
+    ],
+)
+def test_convert_ase_to_diffpy_structure_bad_valueerror(
+    bad_lost_info, error, expected_error_msg, build_ase_atom_object
+):
+    """Check convert_ase_to_diffpy_structure() with bad lost_info."""
+    ase_zb = build_ase_atom_object
+    actual_structure = Structure()
+    with pytest.raises(error, match=expected_error_msg):
+        actual_structure.convert_ase_to_diffpy_structure(ase_zb, lost_info=bad_lost_info)
+
 
 # ----------------------------------------------------------------------------
 

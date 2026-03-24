@@ -250,6 +250,31 @@ class Structure(list):
         occupancies = numpy.array([a.occupancy for a in self])
         return occupancies
 
+    def get_lattice_vectors(self):
+        """Return array of lattice vectors for this structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of lattice vectors for this structure.
+        """
+        lattice_vectors = self.lattice.base
+        return lattice_vectors
+
+    def get_lattice_vector_angles(self):
+        """Return array of lattice vector angles for this structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of lattice vector angles for this structure.
+        """
+        a, b, c = self.lattice.base
+        alpha = self.lattice.angle(b, c)
+        beta = self.lattice.angle(a, c)
+        gamma = self.lattice.angle(a, b)
+        return numpy.array([alpha, beta, gamma])
+
     def convert_ase_to_diffpy_structure(
         self,
         ase_atoms: ASEAtoms,
@@ -269,8 +294,6 @@ class Structure(list):
 
         Returns
         -------
-        Structure
-            Reference to this `Structure` object with updated attributes and `Atom` instances.
         lost_info : dict, optional
             The dictionary containing any information from the ASE `Atoms`
             object that is not currently available in the `Structure` class.
@@ -317,31 +340,24 @@ class Structure(list):
 
         will return a dictionary with the magnetic moments of the atoms in the ASE `Atoms` object.
         """
+        # clear structure before populating it with new atoms
+        del self[:]
         if not isinstance(ase_atoms, ASEAtoms):
-            raise TypeError("Input must be an instance of ase.Atoms.")
-        # --- structure conversion ---
+            raise TypeError(f"Input must be an instance of ase.Atoms but got type {ase_atoms}.")
+        cell = ase_atoms.get_cell()
+        self.lattice = Lattice(base=numpy.array(cell))
         symbols = ase_atoms.get_chemical_symbols()
         scaled_positions = ase_atoms.get_scaled_positions()
         for sym, xyz in zip(symbols, scaled_positions):
             self.append(Atom(sym, xyz=xyz))
-        # --- optional extraction ---
         if lost_info is None:
             return
         extracted_info = {}
         for name in lost_info:
             if not hasattr(ase_atoms, name):
                 raise ValueError(f"ASE.Atoms object has no attribute '{name}'.")
-            try:
-                attr = getattr(ase_atoms, name)
-                value = attr() if callable(attr) else attr
-                # try to copy (safe for numpy arrays, dicts, etc.)
-                try:
-                    value = value.copy()
-                except Exception:
-                    pass
-                extracted_info[name] = value
-            except Exception as e:
-                extracted_info[name] = f"ERROR: {type(e).__name__}: {e}"
+            attr = getattr(ase_atoms, name)
+            extracted_info[name] = attr() if callable(attr) else attr
         return extracted_info
 
     def assign_unique_labels(self):
