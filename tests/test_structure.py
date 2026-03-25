@@ -897,7 +897,7 @@ def test_convert_ase_to_diffpy_structure(input, build_ase_atom_object, build_dif
 def test_convert_ase_to_diffpy_structure_bad_typeerror():
     """Check convert_ase_to_diffpy_structure() with bad input."""
     bad_input = "string"  # pass a string instead of ase.Atoms
-    expected_error_msg = "Input must be an instance of ase.Atoms but got type str."
+    expected_error_msg = "Input must be an instance of ase.Atoms but got type <class 'str'>."
     actual_structure = Structure()
     with pytest.raises(TypeError, match=expected_error_msg):
         actual_structure.convert_ase_to_diffpy_structure(bad_input)

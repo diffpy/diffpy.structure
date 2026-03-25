@@ -214,8 +214,7 @@ class Structure(list):
         return cartn_coords
 
     def get_anisotropic_displacement_parameters(self, return_array=False):
-        """Return a dictionary of anisotropic displacement parameters
-        for all atoms.
+        """Return the anisotropic displacement parameters for all atoms.
 
         Parameters
         ----------
@@ -244,8 +243,7 @@ class Structure(list):
             return adp_dict
 
     def get_isotropic_displacement_parameters(self, return_array=False):
-        """Return a dictionary of isotropic displacement parameters for
-        all atoms.
+        """Return a the isotropic displacement parameters for all atoms.
 
         Parameters
         ----------
@@ -368,7 +366,7 @@ class Structure(list):
         To extract additional information from the ASE `Atoms` object that is not
         directly represented in the `Structure` class, such as magnetic moments,
         you can specify an attribute or method of `ASE.Atoms` as
-        a list of strings in `lost_info` list. For example,
+        a string or list of strings in `lost_info` list. For example,
 
         .. code-block:: python
             lost_info = structure.convert_ase_to_diffpy(
@@ -381,7 +379,7 @@ class Structure(list):
         # clear structure before populating it with new atoms
         del self[:]
         if not isinstance(ase_atoms, ASEAtoms):
-            raise TypeError(f"Input must be an instance of ase.Atoms but got type {ase_atoms}.")
+            raise TypeError(f"Input must be an instance of ase.Atoms but got type {type(ase_atoms)}.")
         cell = ase_atoms.get_cell()
         self.lattice = Lattice(base=numpy.array(cell))
         symbols = ase_atoms.get_chemical_symbols()
