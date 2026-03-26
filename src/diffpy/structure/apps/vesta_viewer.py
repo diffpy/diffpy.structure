@@ -3,10 +3,10 @@
 #
 # diffpy.structure  by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2026 University of California, Santa Barbara.
 #                   All rights reserved.
 #
-# File coded by:    Pavol Juhas
+# File coded by:    Simon J. L. Billinge, Rundong Hua
 #
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE_DANSE.txt for license information.
@@ -55,12 +55,11 @@ parser (``P_xcfg``) remains available in ``diffpy.structure.parsers``
 for backward compatibility.
 """
 
-from __future__ import print_function
-
 import os
 import re
 import signal
 import sys
+from pathlib import Path
 
 from diffpy.structure.structureerrors import StructureFormatError
 
@@ -73,155 +72,148 @@ pd = {
 
 
 def usage(style=None):
-    """Show usage info; for ``style=="brief"`` show only first 2
-    lines."""
-    import os.path
-
-    myname = os.path.basename(sys.argv[0])
-    msg = __doc__.replace("vestaview", myname)
-    if style == "brief":
-        msg = msg.split("\n")[1] + "\n" + "Try `%s --help' for more information." % myname
-    else:
-        from diffpy.structure.parsers import input_formats
-
-        fmts = [f for f in input_formats() if f != "auto"]
-        msg = msg.replace("inputFormats", " ".join(fmts))
-    print(msg)
-    return
-
-
-def version():
-    from diffpy.structure import __version__
-
-    print("vestaview", __version__)
-    return
-
-
-def load_structure_file(filename, format="auto"):
-    """Load structure from specified file.
+    """Show usage info. for ``style=="brief"`` show only first 2 lines.
 
     Parameters
     ----------
-    filename : str
-        Path to the structure file.
+    style : str, optional
+        The usage display style.
+    """
+    myname = Path(sys.argv[0]).name
+    msg = __doc__.replace("vestaview", myname)
+    if style == "brief":
+        msg = f"{msg.splitlines()[1]}\n" f"Try `{myname} --help' for more information."
+    else:
+        from diffpy.structure.parsers import input_formats
+
+        fmts = [fmt for fmt in input_formats() if fmt != "auto"]
+        msg = msg.replace("inputFormats", " ".join(fmts))
+    print(msg)
+
+
+def version():
+    """Print the script version."""
+    from diffpy.structure import __version__
+
+    print(f"vestaview {__version__}")
+
+
+def load_structure_file(filename, format="auto"):
+    """Load structure from the specified file.
+
+    Parameters
+    ----------
+    filename : str or Path
+        The path to the structure file.
     format : str, optional
-        File format, by default "auto".
+        The file format, by default ``"auto"``.
 
     Returns
     -------
     tuple
-        A tuple of (Structure, fileformat).
+        The loaded ``(Structure, fileformat)`` pair.
     """
     from diffpy.structure import Structure
 
     stru = Structure()
-    p = stru.read(filename, format)
-    fileformat = p.format
-    return (stru, fileformat)
+    parser = stru.read(str(filename), format)
+    return stru, parser.format
 
 
 def convert_structure_file(pd):
-    """Convert `strufile` to a temporary file understood by the viewer.
+    """Convert ``strufile`` to a temporary file understood by the
+    viewer.
 
-    On first call a temporary directory is created and stored in *pd*.
-    Subsequent calls in watch mode reuse the directory.
+    On the first call, a temporary directory is created and stored in
+    ``pd``. Subsequent calls in watch mode reuse the directory.
 
     The VESTA viewer natively reads ``.vesta`` and ``.cif`` files, so if
-    the source is already in one of the formats listed in ``pd["formats"]``
-    and no formula override is requested the file is copied unchanged.
-    Otherwise the structure is loaded and re-written in the first format
-    listed in ``pd["formats"]``.
+    the source is already in one of the formats listed in
+    ``pd["formats"]`` and no formula override is requested, the file is
+    copied unchanged. Otherwise the structure is loaded and re-written in
+    the first format listed in ``pd["formats"]``.
 
     Parameters
     ----------
     pd : dict
-        Parameter dictionary containing at minimum ``"strufile"`` and
-        ``"formats"`` keys.  Modified in-place to add ``"tmpdir"`` and
-        ``"tmpfile"`` on first call.
+        The parameter dictionary containing at minimum ``"strufile"``
+        and ``"formats"`` keys. It is modified in place to add
+        ``"tmpdir"`` and ``"tmpfile"`` on the first call.
     """
-    # Make temporary directory on the first pass.
     if "tmpdir" not in pd:
         from tempfile import mkdtemp
 
-        pd["tmpdir"] = mkdtemp()
-    strufile = pd["strufile"]
-    tmpfile = os.path.join(pd["tmpdir"], os.path.basename(strufile))
+        pd["tmpdir"] = Path(mkdtemp())
+    strufile = Path(pd["strufile"])
+    tmpfile = pd["tmpdir"] / strufile.name
+    tmpfile_tmp = Path(f"{tmpfile}.tmp")
     pd["tmpfile"] = tmpfile
-    # Speed up file processing in the watch mode by caching format.
-    fmt = pd.get("format", "auto")
     stru = None
+    fmt = pd.get("fmt", "auto")
     if fmt == "auto":
         stru, fmt = load_structure_file(strufile)
         pd["fmt"] = fmt
-    # If fmt is already recognised by the viewer and no override, copy as-is.
     if fmt in pd["formats"] and pd["formula"] is None:
         import shutil
 
-        shutil.copyfile(strufile, tmpfile + ".tmp")
-        os.rename(tmpfile + ".tmp", tmpfile)
+        shutil.copyfile(strufile, tmpfile_tmp)
+        tmpfile_tmp.replace(tmpfile)
         return
-    # Otherwise convert to the first viewer-recognised format.
     if stru is None:
         stru = load_structure_file(strufile, fmt)[0]
     if pd["formula"]:
         formula = pd["formula"]
         if len(formula) != len(stru):
-            emsg = "Formula has %i atoms while structure %i" % (
-                len(formula),
-                len(stru),
-            )
+            emsg = f"Formula has {len(formula)} atoms while structure has " f"{len(stru)}"
             raise RuntimeError(emsg)
-        for a, el in zip(stru, formula):
-            a.element = el
+        for atom, element in zip(stru, formula):
+            atom.element = element
     elif fmt == "rawxyz":
-        for a in stru:
-            if a.element == "":
-                a.element = "C"
-    stru.write(tmpfile + ".tmp", pd["formats"][0])
-    os.rename(tmpfile + ".tmp", tmpfile)
-    return
+        for atom in stru:
+            if atom.element == "":
+                atom.element = "C"
+    stru.write(str(tmpfile_tmp), pd["formats"][0])
+    tmpfile_tmp.replace(tmpfile)
 
 
 def watch_structure_file(pd):
-    """Watch *strufile* for modifications and reconvert when changed.
+    """Watch ``strufile`` for modifications and reconvert when changed.
 
     Polls the modification timestamps of ``pd["strufile"]`` and
-    ``pd["tmpfile"]`` once per second. When the source is newer the
+    ``pd["tmpfile"]`` once per second. When the source is newer, the
     file is reconverted via :func:`convert_structure_file`.
 
     Parameters
     ----------
     pd : dict
-        Parameter dictionary as used by :func:`convert_structure_file`.
+        The parameter dictionary as used by
+        :func:`convert_structure_file`.
     """
     from time import sleep
 
-    strufile = pd["strufile"]
-    tmpfile = pd["tmpfile"]
+    strufile = Path(pd["strufile"])
+    tmpfile = Path(pd["tmpfile"])
     while pd["watch"]:
-        if os.path.getmtime(tmpfile) < os.path.getmtime(strufile):
+        if tmpfile.stat().st_mtime < strufile.stat().st_mtime:
             convert_structure_file(pd)
         sleep(1)
-    return
 
 
 def clean_up(pd):
-    """Remove temporary file and directory created by
-    :func:`convert_structure_file`.
+    """Remove temporary file and directory created during conversion.
 
     Parameters
     ----------
     pd : dict
-        Parameter dictionary that may contain ``"tmpfile"`` and
+        The parameter dictionary that may contain ``"tmpfile"`` and
         ``"tmpdir"`` entries to be removed.
     """
-    if "tmpfile" in pd:
-        os.remove(pd["tmpfile"])
-        del pd["tmpfile"]
-    if "tmpdir" in pd:
-        os.rmdir(pd["tmpdir"])
-        del pd["tmpdir"]
-    return
+    tmpfile = pd.pop("tmpfile", None)
+    if tmpfile is not None and Path(tmpfile).exists():
+        Path(tmpfile).unlink()
+    tmpdir = pd.pop("tmpdir", None)
+    if tmpdir is not None and Path(tmpdir).exists():
+        Path(tmpdir).rmdir()
 
 
 def parse_formula(formula):
@@ -230,49 +222,48 @@ def parse_formula(formula):
     Parameters
     ----------
     formula : str
-        Chemical formula string such as ``"Na4Cl4"`` or ``"H2O"``.
+        The chemical formula string such as ``"Na4Cl4"`` or ``"H2O"``.
 
     Returns
     -------
     list of str
-        Ordered list of element symbols with repetition matching the
-        formula, e.g. ``["Na", "Na", "Na", "Na", "Cl", "Cl", "Cl", "Cl"]``.
+        The ordered list of element symbols with repetition matching the
+        formula.
 
     Raises
     ------
     RuntimeError
-        When *formula* does not start with an uppercase letter or contains
-        a non-integer count.
+        Raised when ``formula`` does not start with an uppercase letter
+        or contains a non-integer count.
     """
-    # Remove all whitespace.
     formula = re.sub(r"\s", "", formula)
-    if not re.match("^[A-Z]", formula):
-        raise RuntimeError("InvalidFormula '%s'" % formula)
-    elcnt = re.split("([A-Z][a-z]?)", formula)[1:]
+    if not re.match(r"^[A-Z]", formula):
+        raise RuntimeError(f"InvalidFormula '{formula}'")
+
+    elcnt = re.split(r"([A-Z][a-z]?)", formula)[1:]
     ellst = []
     try:
         for i in range(0, len(elcnt), 2):
-            el = elcnt[i]
-            cnt = elcnt[i + 1]
-            cnt = (cnt == "") and 1 or int(cnt)
-            ellst.extend(cnt * [el])
+            element = elcnt[i]
+            count = int(elcnt[i + 1]) if elcnt[i + 1] else 1
+            ellst.extend([element] * count)
     except ValueError:
-        emsg = "Invalid formula, %r is not valid count" % elcnt[i + 1]
+        emsg = f"Invalid formula, {elcnt[i + 1]!r} is not valid count"
         raise RuntimeError(emsg)
     return ellst
 
 
-def die(exit_status=0, pd={}):
-    """Clean up temporary files and exit with *exit_status*.
+def die(exit_status=0, pd=None):
+    """Clean up temporary files and exit with ``exit_status``.
 
     Parameters
     ----------
     exit_status : int, optional
-        Exit code passed to :func:`sys.exit`, by default 0.
+        The exit code passed to :func:`sys.exit`, by default 0.
     pd : dict, optional
-        Parameter dictionary forwarded to :func:`clean_up`.
+        The parameter dictionary forwarded to :func:`clean_up`.
     """
-    clean_up(pd)
+    clean_up({} if pd is None else pd)
     sys.exit(exit_status)
 
 
@@ -287,26 +278,24 @@ def signal_handler(signum, stackframe):
     Parameters
     ----------
     signum : int
-        Signal number.
+        The signal number.
     stackframe : frame
-        Current stack frame (unused).
+        The current stack frame. Unused.
     """
-    # Revert to default handler before acting to avoid re-entrancy.
+    del stackframe
     signal.signal(signum, signal.SIG_DFL)
     if signum == signal.SIGCHLD:
-        pid, exit_status = os.wait()
+        _, exit_status = os.wait()
         exit_status = (exit_status >> 8) + (exit_status & 0x00FF)
         die(exit_status, pd)
     else:
         die(1, pd)
-    return
 
 
 def main():
     """Entry point for the ``vestaview`` command-line tool."""
     import getopt
 
-    # Reset to defaults each invocation.
     pd["watch"] = False
     try:
         opts, args = getopt.getopt(
@@ -317,46 +306,47 @@ def main():
     except getopt.GetoptError as errmsg:
         print(errmsg, file=sys.stderr)
         die(2)
-    # Process options.
-    for o, a in opts:
-        if o in ("-f", "--formula"):
+
+    for option, argument in opts:
+        if option in ("-f", "--formula"):
             try:
-                pd["formula"] = parse_formula(a)
-            except RuntimeError as msg:
-                print(msg, file=sys.stderr)
+                pd["formula"] = parse_formula(argument)
+            except RuntimeError as err:
+                print(err, file=sys.stderr)
                 die(2)
-        elif o in ("-w", "--watch"):
+        elif option in ("-w", "--watch"):
             pd["watch"] = True
-        elif o == "--viewer":
-            pd["viewer"] = a
-        elif o == "--formats":
-            pd["formats"] = [w.strip() for w in a.split(",")]
-        elif o in ("-h", "--help"):
+        elif option == "--viewer":
+            pd["viewer"] = argument
+        elif option == "--formats":
+            pd["formats"] = [word.strip() for word in argument.split(",")]
+        elif option in ("-h", "--help"):
             usage()
             die()
-        elif o in ("-V", "--version"):
+        elif option in ("-V", "--version"):
             version()
             die()
     if len(args) < 1:
         usage("brief")
         die()
-    elif len(args) > 1:
+    if len(args) > 1:
         print("too many structure files", file=sys.stderr)
         die(2)
-    pd["strufile"] = args[0]
-    # Trap the following signals.
+    pd["strufile"] = Path(args[0])
     signal.signal(signal.SIGHUP, signal_handler)
     signal.signal(signal.SIGQUIT, signal_handler)
     signal.signal(signal.SIGSEGV, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
     env = os.environ.copy()
-    # VESTA does not require the XLIB_SKIP_ARGB_VISUALS workaround that
-    # AtomEye needed; this block is intentionally omitted.
-    # Try to run the viewer:
     try:
         convert_structure_file(pd)
-        spawnargs = (pd["viewer"], pd["viewer"], pd["tmpfile"], env)
+        spawnargs = (
+            pd["viewer"],
+            pd["viewer"],
+            str(pd["tmpfile"]),
+            env,
+        )
         if pd["watch"]:
             signal.signal(signal.SIGCHLD, signal_handler)
             os.spawnlpe(os.P_NOWAIT, *spawnargs)
@@ -364,13 +354,12 @@ def main():
         else:
             status = os.spawnlpe(os.P_WAIT, *spawnargs)
             die(status, pd)
-    except IOError as e:
-        print("%s: %s" % (args[0], e.strerror), file=sys.stderr)
+    except IOError as err:
+        print(f"{args[0]}: {err.strerror}", file=sys.stderr)
         die(1, pd)
-    except StructureFormatError as e:
-        print("%s: %s" % (args[0], e), file=sys.stderr)
+    except StructureFormatError as err:
+        print(f"{args[0]}: {err}", file=sys.stderr)
         die(1, pd)
-    return
 
 
 if __name__ == "__main__":
