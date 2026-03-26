@@ -35,12 +35,8 @@ from diffpy.structure.parsers import StructureParser
 from diffpy.structure.parsers.p_xcfg import AtomicMass
 from diffpy.structure.structureerrors import StructureFormatError
 
+
 # Constants ------------------------------------------------------------------
-
-# Atomic Mass of elements
-# This can be later when PeriodicTable package becomes available.
-
-
 class P_vesta(StructureParser):
     """Parser for VESTA native structure format (.vesta).
 
