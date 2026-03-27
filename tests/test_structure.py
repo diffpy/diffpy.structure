@@ -162,11 +162,19 @@ class TestStructure(unittest.TestCase):
         self.assertEqual("C2", self.stru[1].label)
         return
 
+    def test_assign_unique_labels(self):
+        """Check Structure.assign_unique_labels()"""
+        self.assertEqual("", "".join([a.label for a in self.stru]))
+        self.stru.assign_unique_labels()
+        self.assertEqual("C1", self.stru[0].label)
+        self.assertEqual("C2", self.stru[1].label)
+        return
+
     def test_distance(self):
         """Check Structure.distance()"""
         from math import sqrt
 
-        self.stru.assignUniqueLabels()
+        self.stru.assign_unique_labels()
         self.assertRaises(IndexError, self.stru.distance, 333, "C1")
         self.assertRaises(IndexError, self.stru.distance, "C", "C1")
         self.assertAlmostEqual(sqrt(2.0), self.stru.distance(0, 1), self.places)
@@ -177,7 +185,7 @@ class TestStructure(unittest.TestCase):
     def test_angle(self):
         """Check Structure.angle()"""
         cdse = Structure(filename=self.cdsefile)
-        cdse.assignUniqueLabels()
+        cdse.assign_unique_labels()
         self.assertEqual(109, round(cdse.angle(0, 2, 1)))
         self.assertEqual(109, round(cdse.angle("Cd1", "Se1", "Cd2")))
         return
@@ -281,7 +289,7 @@ class TestStructure(unittest.TestCase):
         cdse013.pop(2)
         self.assertEqual(cdse013, cdse[:2, 3].tolist())
         self.assertRaises(IndexError, cdse.__getitem__, "Cd1")
-        cdse.assignUniqueLabels()
+        cdse.assign_unique_labels()
         self.assertTrue(cdse[0] is cdse["Cd1"])
         cdse[0].label = "Hohenzollern"
         self.assertRaises(IndexError, cdse.__getitem__, "Cd1")
@@ -520,7 +528,7 @@ class TestStructure(unittest.TestCase):
         """Check Structure.label."""
         cdse = Structure(filename=self.cdsefile)
         self.assertEqual(4 * [""], cdse.label.tolist())
-        cdse.assignUniqueLabels()
+        cdse.assign_unique_labels()
         self.assertEqual("Cd1 Cd2 Se1 Se2".split(), cdse.label.tolist())
         cdse.label = cdse.label.lower()
         self.assertEqual("cd1 cd2 se1 se2".split(), cdse.label.tolist())
