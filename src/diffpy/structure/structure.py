@@ -21,13 +21,19 @@ import numpy
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
-from diffpy.structure.utils import _link_atom_attribute, atomBareSymbol, isiterable
+from diffpy.structure.utils import _link_atom_attribute, atom_bare_symbol, isiterable
 from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # ----------------------------------------------------------------------------
 
 base = "diffpy.structure.Structure"
 removal_version = "4.0.0"
+assignUniqueLabels_deprecation_msg = build_deprecation_message(
+    base,
+    "assignUniqueLabels",
+    "assign_unique_labels",
+    removal_version,
+)
 addNewAtom_deprecation_msg = build_deprecation_message(
     base,
     "addNewAtom",
@@ -242,7 +248,7 @@ class Structure(list):
         for a in self:
             if a in islabeled:
                 continue
-            baresmbl = atomBareSymbol(a.element)
+            baresmbl = atom_bare_symbol(a.element)
             elnum[baresmbl] = elnum.get(baresmbl, 0) + 1
             a.label = baresmbl + str(elnum[baresmbl])
             islabeled.add(a)
