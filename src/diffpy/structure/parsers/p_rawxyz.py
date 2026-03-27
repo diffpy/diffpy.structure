@@ -24,6 +24,22 @@ from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.utils import isfloat
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.P_rawxyz"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
 
 
 class P_rawxyz(StructureParser):
@@ -40,7 +56,16 @@ class P_rawxyz(StructureParser):
         self.format = "rawxyz"
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_rawxyz.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Parse list of lines in RAWXYZ format.
 
         Parameters
@@ -103,7 +128,7 @@ class P_rawxyz(StructureParser):
                 xyz = [float(f) for f in fields[x_idx : x_idx + 3]]
                 if len(xyz) == 2:
                     xyz.append(0.0)
-                stru.addNewAtom(element, xyz=xyz)
+                stru.add_new_atom(element, xyz=xyz)
         except ValueError:
             emsg = "%d: invalid number" % p_nl
             exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -111,7 +136,16 @@ class P_rawxyz(StructureParser):
             raise e.with_traceback(exc_traceback)
         return stru
 
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_rawxyz.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert Structure stru to a list of lines in RAWXYZ format.
 
         Parameters
@@ -136,8 +170,26 @@ class P_rawxyz(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 
+
+@deprecated(getParser_deprecation_msg)
 def getParser():
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.P_rawxyz.get_parser instead.
+    """
+    return get_parser()
+
+
+def get_parser():
     """Return new `parser` object for RAWXYZ format.
 
     Returns

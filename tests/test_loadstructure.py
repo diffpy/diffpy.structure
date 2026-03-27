@@ -6,7 +6,7 @@ import unittest
 
 import pytest
 
-from diffpy.structure import PDFFitStructure, Structure, loadStructure
+from diffpy.structure import PDFFitStructure, Structure, load_structure, loadStructure
 from diffpy.structure.structureerrors import StructureFormatError
 
 
@@ -19,22 +19,22 @@ class TestLoadStructure(unittest.TestCase):
     def test_xcfg(self):
         """Check loading of atomeye xcfg format."""
         f = self.datafile("BubbleRaftShort.xcfg")
-        stru = loadStructure(f)
+        stru = load_structure(f)
         self.assertTrue(type(stru) is Structure)
-        self.assertRaises(StructureFormatError, loadStructure, f, "xyz")
+        self.assertRaises(StructureFormatError, load_structure, f, "xyz")
         return
 
     def test_discus(self):
         """Check loading of discus file format."""
         f = self.datafile("Ni-discus.stru")
-        stru = loadStructure(f)
+        stru = load_structure(f)
         self.assertTrue(type(stru) is PDFFitStructure)
         return
 
     def test_cif(self):
         """Check loading of CIF file format."""
         f = self.datafile("PbTe.cif")
-        stru = loadStructure(f)
+        stru = load_structure(f)
         self.assertTrue(isinstance(stru, Structure))
         self.assertFalse(isinstance(stru, PDFFitStructure))
         return
@@ -45,11 +45,17 @@ class TestLoadStructure(unittest.TestCase):
         self.assertRaises(StructureFormatError, loadStructure, f)
         return
 
+    def test_load_bad_file(self):
+        """Check loading of CIF file format."""
+        f = self.datafile("Ni-bad.stru")
+        self.assertRaises(StructureFormatError, load_structure, f)
+        return
+
     def test_goodkwarg(self):
         """Check loading of CIF file and passing of parser keyword
         argument."""
         f = self.datafile("graphite.cif")
-        stru = loadStructure(f, eps=1e-10)
+        stru = load_structure(f, eps=1e-10)
         self.assertEqual(8, len(stru))
         return
 
@@ -57,13 +63,33 @@ class TestLoadStructure(unittest.TestCase):
         """Check loading of xyz file format with invalid keyword
         argument."""
         f = self.datafile("bucky.xyz")
-        self.assertRaises(TypeError, loadStructure, f, eps=1e-10)
+        self.assertRaises(TypeError, load_structure, f, eps=1e-10)
         return
 
 
 # End of class TestLoadStructure
 
+
 # ----------------------------------------------------------------------------
+@pytest.mark.parametrize(
+    "filename, expected",
+    [  # C1: Load the cif file in Path object, expected to load the Structure instance.
+        ("PbTe.cif", (True, False)),
+    ],
+)
+def test_load_structure_cif_in_path(datafile, filename, expected):
+    from pathlib import Path
+
+    f = datafile(filename)
+    f_path = Path(f)
+    stru = load_structure(f_path)
+    actual = (
+        isinstance(stru, Structure),
+        isinstance(stru, PDFFitStructure),
+    )
+
+    assert actual == expected
+
 
 if __name__ == "__main__":
     unittest.main()

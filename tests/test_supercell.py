@@ -59,8 +59,8 @@ class TestSuperCell(unittest.TestCase):
         """Check supercell expansion for Ni."""
         ni_123 = supercell(self.stru_ni, (1, 2, 3))
         self.assertEqual(6 * len(self.stru_ni), len(ni_123))
-        a, b, c = self.stru_ni.lattice.abcABG()[:3]
-        a1, b2, c3 = ni_123.lattice.abcABG()[:3]
+        a, b, c = self.stru_ni.lattice.cell_parms()[:3]
+        a1, b2, c3 = ni_123.lattice.cell_parms()[:3]
         self.assertAlmostEqual(a, a1, 8)
         self.assertAlmostEqual(b * 2, b2, 8)
         self.assertAlmostEqual(c * 3, c3, 8)
