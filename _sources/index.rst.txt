@@ -4,10 +4,14 @@
 
 .. |title| replace:: diffpy.structure documentation
 
-diffpy.structure - Crystal structure container and parsers for structure formats.
+``diffpy.structure`` - Crystal structure container and parsers for structure formats.
 
-| Software version |release|.
+| Software version |release|
 | Last updated |today|.
+
+===============
+Getting started
+===============
 
 The diffpy.structure package provides objects for storing atomic
 coordinates, displacement parameters and other crystal structure data.
@@ -22,16 +26,19 @@ includes definitions of all space groups in over 500 symmetry settings.
 Authors
 =======
 
-diffpy.structure is developed by members of the Billinge Group at
-Columbia University and at Brookhaven National Laboratory including
-Pavol Juhás, Christopher L. Farrow, Xiaohao Yang, Simon J.L. Billinge.
-
-For a detailed list of contributors see
+``diffpy.structure`` is developed by Chris Farrow, Pavol Juhas, Simon Billinge, Billinge Group members. This project is maintained by Simon Billinge. For a detailed list of contributors see
 https://github.com/diffpy/diffpy.structure/graphs/contributors.
 
-===============
-Acknowledgments
-===============
+============
+Installation
+============
+
+See the `README <https://github.com/diffpy/diffpy.structure#installation>`_
+file included with the distribution.
+
+================
+Acknowledgements
+================
 
 Space group codes in *spacegroupmod.py* and *mmlibspacegroups.py*
 originate from the pymmlib project, http://pymmlib.sourceforge.net.
@@ -58,23 +65,15 @@ by citing the following paper in your publication:
    <http://dx.doi.org/10.1107/S2053273315014473>`__,
    *Acta Crystallogr. A* **71**, 562-568 (2015).
 
-============
-Installation
-============
-
-See the `README <https://github.com/diffpy/diffpy.structure#installation>`_
-file included with the distribution.
-
 =================
 Table of contents
 =================
-
 .. toctree::
-   :titlesonly:
+   :maxdepth: 2
 
-   license
-   release
    Package API <api/diffpy.structure>
+   release
+   license
 
 =======
 Indices

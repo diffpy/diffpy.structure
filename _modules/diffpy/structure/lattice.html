@@ -5,17 +5,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.lattice &mdash; diffpy.structure 3.3.1 documentation</title>
+  <title>diffpy.structure.lattice &mdash; diffpy.structure 3.4.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=6f23fdb8"></script>
-      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/documentation_options.js?v=1c984258"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -43,9 +43,9 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.structure.html">Package API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
 </ul>
 
         </div>
@@ -63,7 +63,6 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-          <li class="breadcrumb-item"><a href="../structure.html">diffpy.structure</a></li>
       <li class="breadcrumb-item active">diffpy.structure.lattice</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -107,7 +106,16 @@
 <span class="c1"># Helper Functions -----------------------------------------------------------</span>
 
 <span class="c1"># exact values of cosd</span>
-<span class="n">_EXACT_COSD</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">:</span> <span class="o">+</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">:</span> <span class="o">+</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">240.0</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">270.0</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">:</span> <span class="o">+</span><span class="mf">0.5</span><span class="p">}</span>
+<span class="n">_EXACT_COSD</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mf">0.0</span><span class="p">:</span> <span class="o">+</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="mf">60.0</span><span class="p">:</span> <span class="o">+</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="mf">90.0</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="mf">120.0</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="mf">180.0</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="mf">240.0</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="mf">270.0</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="mf">300.0</span><span class="p">:</span> <span class="o">+</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">}</span>
 
 
 <div class="viewcode-block" id="cosd">
@@ -242,15 +250,21 @@
     <span class="c1"># properties -------------------------------------------------------------</span>
 
     <span class="n">a</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="p">,</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLatPar</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">value</span><span class="p">),</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell length *a*.&quot;</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLatPar</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">value</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell length *a*.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">b</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">,</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLatPar</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">value</span><span class="p">),</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell length *b*.&quot;</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLatPar</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">value</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell length *b*.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">c</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLatPar</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">value</span><span class="p">),</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell length *c*.&quot;</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setLatPar</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">value</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell length *c*.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">alpha</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
@@ -284,19 +298,40 @@
         <span class="n">rv</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">ca</span> <span class="o">*</span> <span class="n">cb</span> <span class="o">*</span> <span class="n">cg</span> <span class="o">-</span> <span class="n">ca</span> <span class="o">*</span> <span class="n">ca</span> <span class="o">-</span> <span class="n">cb</span> <span class="o">*</span> <span class="n">cb</span> <span class="o">-</span> <span class="n">cg</span> <span class="o">*</span> <span class="n">cg</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rv</span>
 
-    <span class="n">volume</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">unitvolume</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell volume.&quot;</span><span class="p">)</span>
+    <span class="n">volume</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">unitvolume</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell volume.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">ar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ar</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell length *a* of the reciprocal lattice.&quot;</span><span class="p">)</span>
+    <span class="n">ar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ar</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell length *a* of the reciprocal lattice.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">br</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_br</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell length *b* of the reciprocal lattice.&quot;</span><span class="p">)</span>
+    <span class="n">br</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_br</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell length *b* of the reciprocal lattice.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">cr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell length *c* of the reciprocal lattice.&quot;</span><span class="p">)</span>
+    <span class="n">cr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell length *c* of the reciprocal lattice.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">alphar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alphar</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The reciprocal cell angle *alpha* in degrees.&quot;</span><span class="p">)</span>
+    <span class="n">alphar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alphar</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The reciprocal cell angle *alpha* in degrees.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">betar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_betar</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The reciprocal cell angle *beta* in degrees&quot;</span><span class="p">)</span>
+    <span class="n">betar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_betar</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The reciprocal cell angle *beta* in degrees&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">gammar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gammar</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The reciprocal cell angle *gamma* in degrees&quot;</span><span class="p">)</span>
+    <span class="n">gammar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gammar</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The reciprocal cell angle *gamma* in degrees&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">ca</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ca</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the cell angle *alpha*.&quot;</span><span class="p">)</span>
 
@@ -310,11 +345,20 @@
 
     <span class="n">sg</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sg</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The sine of the cell angle *gamma*.&quot;</span><span class="p">)</span>
 
-    <span class="n">car</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_car</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the reciprocal angle *alpha*.&quot;</span><span class="p">)</span>
+    <span class="n">car</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_car</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the reciprocal angle *alpha*.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">cbr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cbr</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the reciprocal angle *beta*.&quot;</span><span class="p">)</span>
+    <span class="n">cbr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cbr</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the reciprocal angle *beta*.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="n">cgr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cgr</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the reciprocal angle *gamma*.&quot;</span><span class="p">)</span>
+    <span class="n">cgr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cgr</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the reciprocal angle *gamma*.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">sar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sar</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The sine of the reciprocal angle *alpha*.&quot;</span><span class="p">)</span>
 
@@ -324,7 +368,17 @@
 
     <span class="c1"># done with properties ---------------------------------------------------</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">baserot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">baserot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">base</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="c1"># build a set of provided argument names for later use.</span>
         <span class="n">apairs</span> <span class="o">=</span> <span class="p">(</span>
             <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">),</span>
@@ -373,7 +427,16 @@
 
 <div class="viewcode-block" id="Lattice.setLatPar">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.setLatPar">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">setLatPar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">baserot</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setLatPar</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">a</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">baserot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set one or more lattice parameters.</span>
 
 <span class="sd">        This updates all attributes that depend on the lattice parameters.</span>
@@ -447,7 +510,11 @@
         <span class="p">)</span>
         <span class="c1"># standard Cartesian coordinates of lattice vectors</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdbase</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">ar</span><span class="p">,</span> <span class="o">-</span><span class="n">cgr</span> <span class="o">/</span> <span class="n">sgr</span> <span class="o">/</span> <span class="n">ar</span><span class="p">,</span> <span class="n">cb</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="n">sa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="n">ca</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">]],</span>
+            <span class="p">[</span>
+                <span class="p">[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">ar</span><span class="p">,</span> <span class="o">-</span><span class="n">cgr</span> <span class="o">/</span> <span class="n">sgr</span> <span class="o">/</span> <span class="n">ar</span><span class="p">,</span> <span class="n">cb</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="n">sa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="n">ca</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">],</span>
+            <span class="p">],</span>
             <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># Cartesian coordinates of lattice vectors</span>
@@ -512,7 +579,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_gammar</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">cgr</span><span class="p">))</span>
         <span class="c1"># standard orientation of lattice vectors</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdbase</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">ar</span><span class="p">,</span> <span class="o">-</span><span class="n">cgr</span> <span class="o">/</span> <span class="n">sgr</span> <span class="o">/</span> <span class="n">ar</span><span class="p">,</span> <span class="n">cb</span> <span class="o">*</span> <span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">sa</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">ca</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">c</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+            <span class="p">[</span>
+                <span class="p">[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">ar</span><span class="p">,</span> <span class="o">-</span><span class="n">cgr</span> <span class="o">/</span> <span class="n">sgr</span> <span class="o">/</span> <span class="n">ar</span><span class="p">,</span> <span class="n">cb</span> <span class="o">*</span> <span class="n">a</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">sa</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">ca</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span>
+            <span class="p">],</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># calculate unit cell rotation matrix, base = stdbase @ baserot</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">baserot</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">numalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdbase</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>
@@ -523,7 +595,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">isotropicunit</span> <span class="o">=</span> <span class="n">_isotropicunit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recnormbase</span><span class="p">)</span>
         <span class="c1"># update metrics tensor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[[</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">cg</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="n">cb</span><span class="p">],</span> <span class="p">[</span><span class="n">b</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">cg</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="n">ca</span><span class="p">],</span> <span class="p">[</span><span class="n">c</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">cb</span><span class="p">,</span> <span class="n">c</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">ca</span><span class="p">,</span> <span class="n">c</span> <span class="o">*</span> <span class="n">c</span><span class="p">]],</span>
+            <span class="p">[</span>
+                <span class="p">[</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">cg</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="n">cb</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">b</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">cg</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="n">ca</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">c</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">cb</span><span class="p">,</span> <span class="n">c</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">ca</span><span class="p">,</span> <span class="n">c</span> <span class="o">*</span> <span class="n">c</span><span class="p">],</span>
+            <span class="p">],</span>
             <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span></div>
@@ -792,7 +868,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2026, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

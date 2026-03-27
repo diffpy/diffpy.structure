@@ -6,23 +6,23 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure documentation &mdash; diffpy.structure 3.3.1 documentation</title>
+  <title>diffpy.structure documentation &mdash; diffpy.structure 3.4.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=6f23fdb8"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=1c984258"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=cca77546"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="License" href="license.html" /> 
+    <link rel="next" title="diffpy.structure package" href="api/diffpy.structure.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,9 +45,9 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/diffpy.structure.html">Package API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
         </div>
@@ -76,11 +76,13 @@
              
   <section id="title">
 <h1>diffpy.structure documentation<a class="headerlink" href="#title" title="Link to this heading"></a></h1>
-<p>diffpy.structure - Crystal structure container and parsers for structure formats.</p>
+<p><code class="docutils literal notranslate"><span class="pre">diffpy.structure</span></code> - Crystal structure container and parsers for structure formats.</p>
 <div class="line-block">
-<div class="line">Software version 3.3.1.</div>
-<div class="line">Last updated July 25, 2025.</div>
+<div class="line">Software version 3.4.0rc0</div>
+<div class="line">Last updated March 27, 2026.</div>
 </div>
+<section id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
 <p>The diffpy.structure package provides objects for storing atomic
 coordinates, displacement parameters and other crystal structure data.
 diffpy.structure supports import and export of structure data in several
@@ -89,16 +91,19 @@ between fractional and absolute Cartesian coordinates, functions for
 symmetry expansion from asymmetric unit and generation of symmetry
 constraints for atom positions and displacement parameters.  diffpy.structure
 includes definitions of all space groups in over 500 symmetry settings.</p>
+</section>
 <section id="authors">
 <h2>Authors<a class="headerlink" href="#authors" title="Link to this heading"></a></h2>
-<p>diffpy.structure is developed by members of the Billinge Group at
-Columbia University and at Brookhaven National Laboratory including
-Pavol Juhás, Christopher L. Farrow, Xiaohao Yang, Simon J.L. Billinge.</p>
-<p>For a detailed list of contributors see
+<p><code class="docutils literal notranslate"><span class="pre">diffpy.structure</span></code> is developed by Chris Farrow, Pavol Juhas, Simon Billinge, Billinge Group members. This project is maintained by Simon Billinge. For a detailed list of contributors see
 <a class="reference external" href="https://github.com/diffpy/diffpy.structure/graphs/contributors">https://github.com/diffpy/diffpy.structure/graphs/contributors</a>.</p>
 </section>
-<section id="acknowledgments">
-<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Link to this heading"></a></h2>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>See the <a class="reference external" href="https://github.com/diffpy/diffpy.structure#installation">README</a>
+file included with the distribution.</p>
+</section>
+<section id="acknowledgements">
+<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Link to this heading"></a></h2>
 <p>Space group codes in <em>spacegroupmod.py</em> and <em>mmlibspacegroups.py</em>
 originate from the pymmlib project, <a class="reference external" href="http://pymmlib.sourceforge.net">http://pymmlib.sourceforge.net</a>.
 Less common settings of space groups were generating using the
@@ -119,21 +124,27 @@ nanostructure inverse problems</a>,
 <em>Acta Crystallogr. A</em> <strong>71</strong>, 562-568 (2015).</p>
 </div></blockquote>
 </section>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
-<p>See the <a class="reference external" href="https://github.com/diffpy/diffpy.structure#installation">README</a>
-file included with the distribution.</p>
-</section>
 <section id="table-of-contents">
 <h2>Table of contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/diffpy.structure.html">Package API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/diffpy.structure.parsers.html">diffpy.structure.parsers package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/diffpy.structure.expansion.html">diffpy.structure.expansion package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/diffpy.structure.apps.html">diffpy.structure.apps package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.structure.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.structure.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release.html#id1">3.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release.html#id2">3.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release.html#id3">3.2.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release.html#id4">3.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release.html#id5">3.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release.html#id6">3.2.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="license.html#open-source-license-agreement">OPEN SOURCE LICENSE AGREEMENT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="license.html#brookhaven-national-laboratory-notice">Brookhaven National Laboratory Notice</a></li>
 </ul>
 </li>
 </ul>
@@ -152,13 +163,13 @@ file included with the distribution.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api/diffpy.structure.html" class="btn btn-neutral float-right" title="diffpy.structure package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2026, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
