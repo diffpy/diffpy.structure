@@ -623,7 +623,7 @@ class P_cif(StructureParser):
             or block.get("_symmetry_space_group_name_H-M", "")
         )
         self.cif_sgname = sg_nameHall or sg_nameHM or None
-        sgid = block.get("_space_group_IT_number", "") or block.get("_symmetry_Int_Tables_number", "") or sg_nameHM
+        sgid = sg_nameHM or block.get("_space_group_IT_number", "") or block.get("_symmetry_Int_Tables_number", "")
         self.spacegroup = None
         # try to reuse existing space group from symmetry operations
         if symop_list:
