@@ -18,6 +18,9 @@ Copyright (c) 2014-2019, Brookhaven Science Associates, Brookhaven National Labo
 Copyright (c) 2024-2025, The Trustees of Columbia University in the City of New York.
 All rights reserved.
 
+Copyright (c) 2026-present, The Contributors to the diffpy.structure project.
+All rights reserved.
+
 The "DiffPy-CMI" is distributed subject to the following license conditions:
 
 .. code-block:: text
