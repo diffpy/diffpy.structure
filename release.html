@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Release notes &mdash; diffpy.structure 3.4.0rc1 documentation</title>
+  <title>Release notes &mdash; diffpy.structure 3.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=b5d8363e"></script>
+      <script src="_static/documentation_options.js?v=237dbe43"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,12 +48,13 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="api/diffpy.structure.html">Package API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Release notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">3.3.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">3.3.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">3.2.3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">3.2.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">3.2.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">3.2.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">3.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">3.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">3.2.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">3.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">3.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">3.2.0</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#version-3-1-0-2022-12-04">Version 3.1.0 - 2022-12-04</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#version-3-0-2-2022-10-12">Version 3.0.2 - 2022-10-12</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#version-3-0-1-2019-06-27">Version 3.0.1 - 2019-06-27</a></li>
@@ -92,7 +93,227 @@
   <section id="release-notes">
 <span id="index-0"></span><h1>Release notes<a class="headerlink" href="#release-notes" title="Link to this heading"></a></h1>
 <section id="id1">
-<h2>3.3.1<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>3.4.0<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Added:</strong></p>
+<ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">set_latt_parms</span></code> method into <code class="docutils literal notranslate"><span class="pre">Lattice</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">set_new_latt_base_vec</span></code> method into <code class="docutils literal notranslate"><span class="pre">Lattice</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_auto.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_discus.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdffit.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_rawxyz.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xcfg.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xyz.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">structureparser.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_suppress_cif_parser_output</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Add deprecation warning for <code class="docutils literal notranslate"><span class="pre">diffpy.Structure</span></code> import.</p></li>
+<li><p>Added <cite>diffpy.structure.Structure.add_new_atom</cite> in replace of <cite>addNewAtom</cite></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">load_structure_file</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">convert_structure_file</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">watch_structure_file</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">clean_up</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_formula</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">signal_handler</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code></p></li>
+<li><p>Added method <code class="docutils literal notranslate"><span class="pre">load_structure</span></code> in <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code></p></li>
+<li><p>Added <cite>diffpy.structure.Structure.assign_unique_labels</cite> in replace of <cite>assignUniqueLabels</cite></p></li>
+<li><p>Support for Python 3.14</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">place_in_lattice</span></code> method to <code class="docutils literal notranslate"><span class="pre">Structure</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">read_structure</span></code> method to <code class="docutils literal notranslate"><span class="pre">Structure</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">write_structure</span></code> method to <code class="docutils literal notranslate"><span class="pre">Structure</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">position_formula</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">u_formula</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">eq_index</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">prune_formula_dictionary</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_link_atom_attribute</span></code> method in <code class="docutils literal notranslate"><span class="pre">diffpy.structure.utils</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">msd_latt</span></code> method in <code class="docutils literal notranslate"><span class="pre">atom.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">msd_cart</span></code> method in <code class="docutils literal notranslate"><span class="pre">atom.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_get_uij</span></code> method in <code class="docutils literal notranslate"><span class="pre">atom.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_set_uij</span></code> method in <code class="docutils literal notranslate"><span class="pre">atom.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_file</span></code> method in <code class="docutils literal notranslate"><span class="pre">structureparser.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">parse_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_auto.py</span></code></p></li>
+<li><p>Added parser for vesta specific files and viewer for vesta</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">atom_bare_symbol</span></code> method in <code class="docutils literal notranslate"><span class="pre">utils.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_get_ordered_formats</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_auto.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_wrap_parse_method</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_auto.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_u_iso_or_equiv</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_b_iso_or_equiv</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_u_11</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_u_22</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_u_33</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_u_12</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_u_13</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_u_23</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_b_11</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_b_22</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_b_33</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_b_12</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_b_13</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_tr_atom_site_aniso_b_23</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_symop</span></code> method in <code class="docutils literal notranslate"><span class="pre">parsers/p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_space_group</span></code> method in <code class="docutils literal notranslate"><span class="pre">spacegroups.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">find_space_group</span></code> method in <code class="docutils literal notranslate"><span class="pre">spacegroups.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">is_space_group_identifier</span></code> method in <code class="docutils literal notranslate"><span class="pre">spacegroups.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_hash_symop_list</span></code> method in <code class="docutils literal notranslate"><span class="pre">spacegroups.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_build_sg_lookup_table</span></code> method in <code class="docutils literal notranslate"><span class="pre">spacegroups.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_get_sg_hash_lookup_table</span></code> method in <code class="docutils literal notranslate"><span class="pre">spacegroups.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">read_structure</span></code> method into <code class="docutils literal notranslate"><span class="pre">PDFFitStructure</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">cell_parms</span></code> method into <code class="docutils literal notranslate"><span class="pre">Lattice</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_find_constraints</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">pos_parm_symbols</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">pos_parm_values</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">u_parm_symbols</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">u_parm_values</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">u_formulas</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class</p></li>
+<li><p>Added <cite>diffpy.structure.Structure.get_last_atom</cite> in replace of <cite>getLastAtom</cite></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_parser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_auto.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_parser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_parser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_discus.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_parser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_parser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdffit.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_parser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_rawxyz.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_parser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xcfg.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_parser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xyz.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">get_parser</span></code> method in <code class="docutils literal notranslate"><span class="pre">parsers/__init__.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">position_formulas</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">position_formulas_pruned</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">u_formulas_pruned</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_parse_cif_data_source</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_parse_cif_block</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">to_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">to_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">to_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_rawxyz.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">to_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xcfg.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">to_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xyz.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">to_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">structureparser.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_lines_iterator</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_discus.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">to_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_discus.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">is_space_group_latt_parms</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">is_constant_formula</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">find_center</span></code> method in <code class="docutils literal notranslate"><span class="pre">expansion/shapeutils.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">make_sphere</span></code> method in <code class="docutils literal notranslate"><span class="pre">expansion/makeellipsoid.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">make_ellipsoid</span></code> method in <code class="docutils literal notranslate"><span class="pre">expansion/makeellipsoid.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">position_difference</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">nearest_site_index</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_find_invariants</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">equal_positions</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">expand_position</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">null_space</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">input_formats</span></code> method in <code class="docutils literal notranslate"><span class="pre">parsers/__init__.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">output_formats</span></code> method in <code class="docutils literal notranslate"><span class="pre">parsers/__init__.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">title_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">cryst1_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">atom_lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">convert_fp_num_to_signed_rational</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_find_null_space</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_find_pos_parameters</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_find_u_space</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_find_u_parameters</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">_find_eq_uij</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class</p></li>
+</ul>
+<p><strong>Changed:</strong></p>
+<ul class="simple">
+<li><p>Changed private method <code class="docutils literal notranslate"><span class="pre">__emptySharedStructure</span></code> to <code class="docutils literal notranslate"><span class="pre">__empty_shared_structure</span></code></p></li>
+</ul>
+<p><strong>Deprecated:</strong></p>
+<ul class="simple">
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">setLatPar</span></code> method in <code class="docutils literal notranslate"><span class="pre">Lattice</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">setLatBase</span></code> method in <code class="docutils literal notranslate"><span class="pre">Lattice</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parseLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_auto.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parseLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parseLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_discus.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parseLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parseLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdffit.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parseLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_rawxyz.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parseLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xcfg.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parseLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xyz.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parseLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">structureparser.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <cite>diffpy.structure.Structure.addNewAtom</cite> method for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">loadStructureFile</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">convertStructureFile</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">watchStructureFile</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">cleanUp</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parseFormula</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">signalHandler</span></code> method in <code class="docutils literal notranslate"><span class="pre">apps/anyeye.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated method <code class="docutils literal notranslate"><span class="pre">loadStructure</span></code> in <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <cite>diffpy.structure.Structure.assignUniqueLabels</cite> for removal in 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">placeInLattice</span></code> method of <code class="docutils literal notranslate"><span class="pre">Structure</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">readStr</span></code> method of <code class="docutils literal notranslate"><span class="pre">Structure</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">writeStr</span></code> method of <code class="docutils literal notranslate"><span class="pre">Structure</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">positionFormula</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">UFormula</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">eqIndex</span></code> method in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">pruneFormulaDictionary</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Derecated <code class="docutils literal notranslate"><span class="pre">_linkAtomAttribute</span></code> method in <code class="docutils literal notranslate"><span class="pre">diffpy.structure.utils</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">msdLat</span></code> method in <code class="docutils literal notranslate"><span class="pre">atom.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">msdCart</span></code> method in <code class="docutils literal notranslate"><span class="pre">atom.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parse_file</span></code> method in <code class="docutils literal notranslate"><span class="pre">structureparser.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parse_file</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">parse_file</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_auto.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">atomBareSymbol</span></code> method in <code class="docutils literal notranslate"><span class="pre">utils.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">getSymOp</span></code> method in <code class="docutils literal notranslate"><span class="pre">parsers/p_cif.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">GetSpaceGroup</span></code> method in <code class="docutils literal notranslate"><span class="pre">spacegroups.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">IsSpaceGroupIdentifier</span></code> method in <code class="docutils literal notranslate"><span class="pre">spacegroups.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">FindSpaceGroup</span></code> method in <code class="docutils literal notranslate"><span class="pre">spacegroups.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">_hashSymOpList</span></code> method in <code class="docutils literal notranslate"><span class="pre">spacegroups.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">readStr</span></code> method in <code class="docutils literal notranslate"><span class="pre">PDFFitStructure</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">abcABG</span></code> method in <code class="docutils literal notranslate"><span class="pre">Lattice</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">posparSymbols</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">posparValues</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">UparSymbols</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">UparValues</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">UFormulas</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <cite>diffpy.structure.Structure.getLastAtom</cite> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">getParser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_auto.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">getParser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">getParser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_discus.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">getParser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">getParser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdffit.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">getParser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_rawxyz.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">getParser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xcfg.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">getParser</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xyz.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">getParser</span></code> method in <code class="docutils literal notranslate"><span class="pre">parsers/__init__.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">positionFormulas</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">positionFormulasPruned</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">UFormulasPruned</span></code> method in <code class="docutils literal notranslate"><span class="pre">SymmetryConstraints</span></code> class for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">toLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_cif.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">toLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">toLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_rawxyz.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">toLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xcfg.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">toLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_xyz.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">toLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">structureparser.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">toLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_discus.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">isSpaceGroupLatPar</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">isconstantFormula</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">findCenter</span></code> method in <code class="docutils literal notranslate"><span class="pre">expansion/shapeutils.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">makeSphere</span></code> method in <code class="docutils literal notranslate"><span class="pre">expansion/makeellipsoid.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">makeEllipsoid</span></code> method in <code class="docutils literal notranslate"><span class="pre">expansion/makeellipsoid.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">positionDifference</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">nearestSiteIndex</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">equalPositions</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">expandPosition</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">nullSpace</span></code> method in <code class="docutils literal notranslate"><span class="pre">symmetryutilities.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">inputFormats</span></code> method in <code class="docutils literal notranslate"><span class="pre">parsers/__init__.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">outputFormats</span></code> method in <code class="docutils literal notranslate"><span class="pre">parsers/__init__.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">titleLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">crystl1Lines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">atomLines</span></code> method in <code class="docutils literal notranslate"><span class="pre">p_pdb.py</span></code> for removal in version 4.0.0</p></li>
+<li><p>Deprecated <code class="docutils literal notranslate"><span class="pre">signedRatStr</span></code> method in in <code class="docutils literal notranslate"><span class="pre">GeneratorSite</span></code> class for removal in version 4.0.0</p></li>
+</ul>
+<p><strong>Fixed:</strong></p>
+<ul class="simple">
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">load_structure</span></code> with successfully loading <cite>Path</cite> object</p></li>
+<li><p>Fix deprecation for open file for Python 3.14</p></li>
+</ul>
+<p><strong>Removed:</strong></p>
+<ul class="simple">
+<li><p>Support for Python 3.11</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>3.3.1<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Spelling check via Codespell in pre-commit</p></li>
@@ -107,8 +328,8 @@
 <li><p>Let <code class="docutils literal notranslate"><span class="pre">diffpy.structure</span></code> pass the tests with <code class="docutils literal notranslate"><span class="pre">pycifrw</span></code> installed from <code class="docutils literal notranslate"><span class="pre">PyPI</span></code>.</p></li>
 </ul>
 </section>
-<section id="id2">
-<h2>3.3.0<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>3.3.0<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Support for Python 3.13</p></li>
@@ -118,8 +339,8 @@
 <li><p>Support for Python 3.10</p></li>
 </ul>
 </section>
-<section id="id3">
-<h2>3.2.3<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>3.2.3<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Use GitHub Actions to build, release, upload to PyPI</p></li>
@@ -133,8 +354,8 @@
 <li><p>Changed requires-python to align with classifiers</p></li>
 </ul>
 </section>
-<section id="id4">
-<h2>3.2.2<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>3.2.2<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Unit test for version.py</p></li>
@@ -148,11 +369,11 @@
 <li><p>Recookiecut package to the group standard</p></li>
 </ul>
 </section>
-<section id="id5">
-<h2>3.2.1<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
-</section>
 <section id="id6">
-<h2>3.2.0<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<h2>3.2.1<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+</section>
+<section id="id7">
+<h2>3.2.0<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <p><strong>Changed:</strong></p>
 <ul class="simple">
 <li><p>Removed support for Python 2</p></li>
