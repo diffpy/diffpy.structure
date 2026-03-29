@@ -1,9 +1,7 @@
 :tocdepth: -1
 
-|title|
-=======
-
-.. |title| replace:: diffpy.structure package
+diffpy.structure package
+========================
 
 .. automodule:: diffpy.structure
     :members:
@@ -22,6 +20,14 @@ Subpackages
 
 Submodules
 ----------
+
+diffpy.structure.structure_app module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: diffpy.structure.structure_app
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 diffpy.structure.spacegroups module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
