@@ -83,6 +83,14 @@ diffpy.structure.parsers.p_discus module
     :undoc-members:
     :show-inheritance:
 
+diffpy.structure.parsers.p_vesta module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: diffpy.structure.parsers.p_vesta
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 diffpy.structure.parsers.p_xyz module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
