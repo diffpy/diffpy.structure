@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.atom &mdash; diffpy.structure 3.4.0rc0 documentation</title>
+  <title>diffpy.structure.atom &mdash; diffpy.structure 3.4.0rc1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=1c984258"></script>
+      <script src="../../../_static/documentation_options.js?v=b5d8363e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -63,6 +63,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../structure.html">diffpy.structure</a></li>
       <li class="breadcrumb-item active">diffpy.structure.atom</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -93,12 +94,27 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">cartesian</span> <span class="k">as</span> <span class="n">cartesian_lattice</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils._deprecator</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_deprecation_message</span><span class="p">,</span> <span class="n">deprecated</span>
 
 <span class="c1"># conversion constants</span>
 <span class="n">_BtoU</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">_UtoB</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">_BtoU</span>
 
 <span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="n">base</span> <span class="o">=</span> <span class="s2">&quot;diffpy.structure.Atom&quot;</span>
+<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">&quot;4.0.0&quot;</span>
+<span class="n">msdLat_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
+    <span class="n">base</span><span class="p">,</span>
+    <span class="s2">&quot;msdLat&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;msd_latt&quot;</span><span class="p">,</span>
+    <span class="n">removal_version</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">msdCart_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
+    <span class="n">base</span><span class="p">,</span>
+    <span class="s2">&quot;msdCart&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;msd_cart&quot;</span><span class="p">,</span>
+    <span class="n">removal_version</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="Atom">
@@ -226,9 +242,18 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">anisotropy</span><span class="p">)</span>
         <span class="k">return</span>
 
-<div class="viewcode-block" id="Atom.msdLat">
-<a class="viewcode-back" href="../../../mod-atom.html#diffpy.structure.atom.Atom.msdLat">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">msdLat_deprecation_msg</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">msdLat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vl</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in</span>
+<span class="sd">        version 4.0.0.</span>
+
+<span class="sd">        Please use diffpy.structure.Atom.msd_latt instead.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">msd_latt</span><span class="p">(</span><span class="n">vl</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Atom.msd_latt">
+<a class="viewcode-back" href="../../../mod-atom.html#diffpy.structure.atom.Atom.msd_latt">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">msd_latt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vl</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate mean square displacement along the lattice vector.</span>
 
 <span class="sd">        Parameters</span>
@@ -253,9 +278,18 @@
         <span class="k">return</span> <span class="n">msd</span></div>
 
 
-<div class="viewcode-block" id="Atom.msdCart">
-<a class="viewcode-back" href="../../../mod-atom.html#diffpy.structure.atom.Atom.msdCart">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">msdLat_deprecation_msg</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">msdCart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in</span>
+<span class="sd">        version 4.0.0.</span>
+
+<span class="sd">        Please use diffpy.structure.Atom.msd_cart instead.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">msd_cart</span><span class="p">(</span><span class="n">vc</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Atom.msd_cart">
+<a class="viewcode-back" href="../../../mod-atom.html#diffpy.structure.atom.Atom.msd_cart">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">msd_cart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vc</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate mean square displacement along the Cartesian</span>
 <span class="sd">        vector.</span>
 
@@ -419,14 +453,14 @@
 
     <span class="c1"># Uij elements</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_Uij</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_uij</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The getter function for the `U11`, `U22`, ..., properties.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
         <span class="n">lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="ow">or</span> <span class="n">cartesian_lattice</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">isotropicunit</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_set_Uij</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_uij</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The setter function for the `U11`, `U22`, ..., properties.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
@@ -444,18 +478,18 @@
 <span class="s2">        &quot;&quot;&quot;</span>
 
     <span class="n">U11</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">U22</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">U33</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
     <span class="p">)</span>
 
@@ -467,18 +501,18 @@
 <span class="s2">        &quot;&quot;&quot;</span>
 
     <span class="n">U12</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">U13</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">U23</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
     <span class="p">)</span>
 
@@ -546,33 +580,33 @@
 <span class="s2">        &quot;&quot;&quot;</span>
 
     <span class="n">B11</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">B22</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">B33</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">B12</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">B13</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">B23</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_Uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_uij</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">_BtoU</span> <span class="o">*</span> <span class="n">value</span><span class="p">),</span>
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_bij</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
     <span class="p">)</span>
 

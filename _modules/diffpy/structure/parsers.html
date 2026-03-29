@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.parsers &mdash; diffpy.structure 3.4.0rc0 documentation</title>
+  <title>diffpy.structure.parsers &mdash; diffpy.structure 3.4.0rc1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=1c984258"></script>
+      <script src="../../../_static/documentation_options.js?v=b5d8363e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -63,6 +63,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../structure.html">diffpy.structure</a></li>
       <li class="breadcrumb-item active">diffpy.structure.parsers</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -108,14 +109,46 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers.parser_index_mod</span><span class="w"> </span><span class="kn">import</span> <span class="n">parser_index</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers.structureparser</span><span class="w"> </span><span class="kn">import</span> <span class="n">StructureParser</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.structureerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">StructureFormatError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils._deprecator</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_deprecation_message</span><span class="p">,</span> <span class="n">deprecated</span>
 
 <span class="c1"># silence pyflakes checker</span>
 <span class="k">assert</span> <span class="n">StructureParser</span>
 
+<span class="n">parsers_base</span> <span class="o">=</span> <span class="s2">&quot;diffpy.structure&quot;</span>
+<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">&quot;4.0.0&quot;</span>
+<span class="n">getParser_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
+    <span class="n">parsers_base</span><span class="p">,</span>
+    <span class="s2">&quot;getParser&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_parser&quot;</span><span class="p">,</span>
+    <span class="n">removal_version</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">inputFormats_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
+    <span class="n">parsers_base</span><span class="p">,</span>
+    <span class="s2">&quot;inputFormats&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;input_formats&quot;</span><span class="p">,</span>
+    <span class="n">removal_version</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">outputFormats_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
+    <span class="n">parsers_base</span><span class="p">,</span>
+    <span class="s2">&quot;outputFormats&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;output_formats&quot;</span><span class="p">,</span>
+    <span class="n">removal_version</span><span class="p">,</span>
+<span class="p">)</span>
 
-<div class="viewcode-block" id="getParser">
-<a class="viewcode-back" href="../../../diffpy.structure.parsers.html#diffpy.structure.parsers.getParser">[docs]</a>
+
+<span class="nd">@deprecated</span><span class="p">(</span><span class="n">getParser_deprecation_msg</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">getParser</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in version</span>
+<span class="sd">    4.0.0.</span>
+
+<span class="sd">    Please use diffpy.structure.get_parser instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_parser</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_parser">
+<a class="viewcode-back" href="../../../diffpy.structure.parsers.html#diffpy.structure.parsers.get_parser">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_parser</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return Parser instance for a given structure format.</span>
 
 <span class="sd">    Parameters</span>
@@ -142,13 +175,23 @@
     <span class="n">ns</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">import_cmd</span> <span class="o">=</span> <span class="s2">&quot;from diffpy.structure.parsers import </span><span class="si">%s</span><span class="s2"> as pm&quot;</span> <span class="o">%</span> <span class="n">pmod</span>
     <span class="n">exec</span><span class="p">(</span><span class="n">import_cmd</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ns</span><span class="p">[</span><span class="s2">&quot;pm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">getParser</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">ns</span><span class="p">[</span><span class="s2">&quot;pm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_parser</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="inputFormats">
-<a class="viewcode-back" href="../../../diffpy.structure.parsers.html#diffpy.structure.parsers.inputFormats">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span><span class="n">inputFormats_deprecation_msg</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">inputFormats</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in version</span>
+<span class="sd">    4.0.0.</span>
+
+<span class="sd">    Please use diffpy.structure.input_formats instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">input_formats</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="input_formats">
+<a class="viewcode-back" href="../../../diffpy.structure.parsers.html#diffpy.structure.parsers.input_formats">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">input_formats</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return list of implemented input structure formats.&quot;&quot;&quot;</span>
     <span class="n">input_formats</span> <span class="o">=</span> <span class="p">[</span><span class="n">fmt</span> <span class="k">for</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">parser_index</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">prop</span><span class="p">[</span><span class="s2">&quot;has_input&quot;</span><span class="p">]]</span>
     <span class="n">input_formats</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
@@ -156,9 +199,19 @@
 
 
 
-<div class="viewcode-block" id="outputFormats">
-<a class="viewcode-back" href="../../../diffpy.structure.parsers.html#diffpy.structure.parsers.outputFormats">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span><span class="n">outputFormats_deprecation_msg</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">outputFormats</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in version</span>
+<span class="sd">    4.0.0.</span>
+
+<span class="sd">    Please use diffpy.structure.output_formats instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">output_formats</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="output_formats">
+<a class="viewcode-back" href="../../../diffpy.structure.parsers.html#diffpy.structure.parsers.output_formats">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">output_formats</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return list of implemented output structure formats.&quot;&quot;&quot;</span>
     <span class="n">output_formats</span> <span class="o">=</span> <span class="p">[</span><span class="n">fmt</span> <span class="k">for</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">parser_index</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">prop</span><span class="p">[</span><span class="s2">&quot;has_output&quot;</span><span class="p">]]</span>
     <span class="n">output_formats</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>

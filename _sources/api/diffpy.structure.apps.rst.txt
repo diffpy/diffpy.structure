@@ -26,3 +26,11 @@ diffpy.structure.apps.anyeye module
     :members:
     :undoc-members:
     :show-inheritance:
+
+diffpy.structure.apps.vesta_viewer module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: diffpy.structure.apps.vesta_viewer
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.structureerrors &mdash; diffpy.structure 3.4.0rc1 documentation</title>
+  <title>diffpy.structure.structure_app &mdash; diffpy.structure 3.4.0rc1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -64,7 +64,7 @@
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../structure.html">diffpy.structure</a></li>
-      <li class="breadcrumb-item active">diffpy.structure.structureerrors</li>
+      <li class="breadcrumb-item active">diffpy.structure.structure_app</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -73,49 +73,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for diffpy.structure.structureerrors</h1><div class="highlight"><pre>
-<span></span><span class="ch">#!/usr/bin/env python</span>
-<span class="c1">##############################################################################</span>
-<span class="c1">#</span>
-<span class="c1"># diffpy.structure  by DANSE Diffraction group</span>
-<span class="c1">#                   Simon J. L. Billinge</span>
-<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
-<span class="c1">#                   All rights reserved.</span>
-<span class="c1">#</span>
-<span class="c1"># File coded by:    Pavol Juhas</span>
-<span class="c1">#</span>
-<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
-<span class="c1"># See LICENSE_DANSE.txt for license information.</span>
-<span class="c1">#</span>
-<span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;Exceptions used in Structure package.&quot;&quot;&quot;</span>
+  <h1>Source code for diffpy.structure.structure_app</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>  <span class="c1"># noqa</span>
 
 
-<div class="viewcode-block" id="StructureFormatError">
-<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structureerrors.StructureFormatError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">StructureFormatError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception for failed IO from Structure file.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structure_app.main">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">prog</span><span class="o">=</span><span class="s2">&quot;diffpy.structure&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Crystal structure container and parsers for structure formats.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;For more information, visit: &quot;</span>
+            <span class="s2">&quot;https://github.com/diffpy/diffpy.structure/&quot;</span>
+        <span class="p">),</span>
+        <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawDescriptionHelpFormatter</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="k">pass</span></div>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--version&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Show the program&#39;s version number and exit&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">version</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;diffpy.structure </span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Default behavior when no arguments are given</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span></div>
 
 
 
-<div class="viewcode-block" id="LatticeError">
-<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structureerrors.LatticeError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">LatticeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception for impossible lattice parameters.&quot;&quot;&quot;</span>
-
-    <span class="k">pass</span></div>
-
-
-
-<div class="viewcode-block" id="SymmetryError">
-<a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.structureerrors.SymmetryError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SymmetryError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised for invalid symmetry operations.&quot;&quot;&quot;</span>
-
-    <span class="k">pass</span></div>
-
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
            </div>

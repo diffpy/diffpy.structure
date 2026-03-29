@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.atom &mdash; diffpy.structure 3.4.0rc0 documentation</title>
+  <title>diffpy.structure.atom &mdash; diffpy.structure 3.4.0rc1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=1c984258"></script>
+      <script src="_static/documentation_options.js?v=b5d8363e"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -432,7 +432,23 @@ account.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msdCart">
-<span class="sig-name descname"><span class="pre">msdCart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom.msdCart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom.msdCart" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">msdCart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.atom.Atom.msdCart" title="Link to this definition"></a></dt>
+<dd><p>This function has been deprecated and will be removed in
+version 4.0.0.</p>
+<p>Please use diffpy.structure.Atom.msd_cart instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msdLat">
+<span class="sig-name descname"><span class="pre">msdLat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vl</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.atom.Atom.msdLat" title="Link to this definition"></a></dt>
+<dd><p>This function has been deprecated and will be removed in
+version 4.0.0.</p>
+<p>Please use diffpy.structure.Atom.msd_latt instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msd_cart">
+<span class="sig-name descname"><span class="pre">msd_cart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom.msd_cart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom.msd_cart" title="Link to this definition"></a></dt>
 <dd><p>Calculate mean square displacement along the Cartesian
 vector.</p>
 <dl class="field-list simple">
@@ -449,8 +465,8 @@ vector.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msdLat">
-<span class="sig-name descname"><span class="pre">msdLat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom.msdLat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom.msdLat" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.structure.atom.Atom.msd_latt">
+<span class="sig-name descname"><span class="pre">msd_latt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vl</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/diffpy/structure/atom.html#Atom.msd_latt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.atom.Atom.msd_latt" title="Link to this definition"></a></dt>
 <dd><p>Calculate mean square displacement along the lattice vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
