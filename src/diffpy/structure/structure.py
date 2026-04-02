@@ -18,7 +18,6 @@ import copy as copymod
 import warnings
 
 import numpy
-from ase import Atoms as ASEAtoms
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
@@ -365,101 +364,6 @@ class Structure(list):
         beta = self.lattice.angle(a, c)
         gamma = self.lattice.angle(a, b)
         return numpy.array([alpha, beta, gamma])
-
-    def convert_ase_to_diffpy_structure(
-        self,
-        ase_atoms: ASEAtoms,
-        lost_info: list[str] | None = None,
-    ) -> Structure | tuple[Structure, dict]:  # noqa
-        """Convert ASE `Atoms` object to this `Structure` instance.
-
-        The conversion process involves extracting the lattice parameters, chemical symbols,
-        and fractional coordinates from the ASE `Atoms` object and populating the corresponding
-        attributes of this `Structure` instance. The `lattice` attribute is set based on the
-        cell parameters of the ASE `Atoms` object, and each `Atom` in this `Structure` is created
-        with the chemical symbol and fractional coordinates extracted from the ASE `Atoms`.
-
-        Parameters
-        ----------
-        ase_structure : ase.Atoms
-            The ASE `Atoms` object to be converted.
-        lost_info : str or list of str, optional
-            The method(s) or attribute(s) to extract from the ASE `Atoms`
-            object that do not have a direct equivalent in the `Structure` class.
-            This will be provided in a dictionary format where keys are the
-            method/attribute name(s) and value(s) are the corresponding data
-            extracted from the ASE `Atoms` object.
-            Default is None. See `Examples` for usage.
-
-        Returns
-        -------
-        lost_info : dict, optional
-            If specified, the dictionary containing any information from the ASE `Atoms`
-            object that is not currently available in the `Structure` class.
-            Default behavior is to return `None`.
-            If `lost_info` is provided, a dictionary containing
-            any information from the ASE `Atoms` will be returned.
-            This may include information such as magnetic moments, charge states,
-            or other ASE-specific properties that do not have a direct equivalent
-            in the `Structure` class.
-
-        Raises
-        ------
-        TypeError
-            If the input `ase_structure` is not an instance of `ase.Atoms`.
-        ValueError
-            If any of the specified `lost_info` attributes are not present in the ASE `Atoms` object.
-
-        Examples
-        --------
-        An example of converting an `ASE.Atoms` instance to a `Structure` instance,
-
-        .. code-block:: python
-            from ase import Atoms
-            from diffpy.structure import Structure
-
-            # Create an ASE Atoms object
-            ase_atoms = Atoms('H2O', positions=[[0, 0, 0], [0, 0, 1], [1, 0, 0]])
-
-            # Convert to a diffpy Structure object
-            structure = Structure()
-            structure.convert_ase_to_diffpy(ase_atoms)
-
-
-        To extract additional information from the ASE `Atoms` object that is not
-        directly represented in the `Structure` class, such as magnetic moments,
-        you can specify an attribute or method of `ASE.Atoms` as
-        a string or list of strings in `lost_info` list. For example,
-
-        .. code-block:: python
-            lost_info = structure.convert_ase_to_diffpy(
-                                                    ase_atoms,
-                                                    lost_info='get_magnetic_moments'
-                                                    )
-
-        will return a dictionary with the magnetic moments of the atoms in the ASE `Atoms` object.
-        """
-        # clear structure before populating it with new atoms
-        del self[:]
-        if not isinstance(ase_atoms, ASEAtoms):
-            raise TypeError(f"Input must be an instance of ase.Atoms but got type {type(ase_atoms)}.")
-        cell = ase_atoms.get_cell()
-        self.lattice = Lattice(base=numpy.array(cell))
-        symbols = ase_atoms.get_chemical_symbols()
-        scaled_positions = ase_atoms.get_scaled_positions()
-        for atom_symbol, frac_coord in zip(symbols, scaled_positions):
-            self.append(Atom(atom_symbol, xyz=frac_coord))
-        if lost_info is None:
-            return
-        extracted_info = {}
-        if isinstance(lost_info, str):
-            lost_info = [lost_info]
-        for name in lost_info:
-            if not hasattr(ase_atoms, name):
-                raise ValueError(f"ASE.Atoms object has no attribute '{name}'.")
-            attr = getattr(ase_atoms, name)
-            extracted_info[name] = attr() if callable(attr) else attr
-        return extracted_info
 
     def assign_unique_labels(self):
         """Set a unique label string for each `Atom` in this structure.
