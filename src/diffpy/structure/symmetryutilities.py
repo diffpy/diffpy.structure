@@ -32,6 +32,52 @@ import sys
 import numpy
 
 from diffpy.structure.structureerrors import SymmetryError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure"
+removal_version = "4.0.0"
+isSpaceGroupLatPar_deprecation_msg = build_deprecation_message(
+    base,
+    "isSpaceGroupLatPar",
+    "is_space_group_latt_parms",
+    removal_version,
+)
+isconstantFormula_deprecation_msg = build_deprecation_message(
+    base,
+    "isconstantFormula",
+    "is_constant_formula",
+    removal_version,
+)
+positionDifference_deprecation_msg = build_deprecation_message(
+    base,
+    "positionDifference",
+    "position_difference",
+    removal_version,
+)
+nearestSiteIndex_deprecation_msg = build_deprecation_message(
+    base,
+    "nearestSiteIndex",
+    "nearest_site_index",
+    removal_version,
+)
+equalPositions_deprecation_msg = build_deprecation_message(
+    base,
+    "equalPositions",
+    "equal_positions",
+    removal_version,
+)
+expandPosition_deprecation_msg = build_deprecation_message(
+    base,
+    "expandPosition",
+    "expand_position",
+    removal_version,
+)
+nullSpace_deprecation_msg = build_deprecation_message(
+    base,
+    "nullSpace",
+    "null_space",
+    removal_version,
+)
 
 # Constants ------------------------------------------------------------------
 
@@ -42,7 +88,17 @@ stdUsymbols = ["U11", "U22", "U33", "U12", "U13", "U23"]
 # ----------------------------------------------------------------------------
 
 
+@deprecated(isSpaceGroupLatPar_deprecation_msg)
 def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
+    """'diffpy.structure.isSpaceGroupLatPar' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.is_space_group_latt_parms' instead.
+    """
+    return is_space_group_latt_parms(spacegroup, a, b, c, alpha, beta, gamma)
+
+
+def is_space_group_latt_parms(spacegroup, a, b, c, alpha, beta, gamma):
     """Check if space group allows passed lattice parameters.
 
     Parameters
@@ -110,7 +166,17 @@ def isSpaceGroupLatPar(spacegroup, a, b, c, alpha, beta, gamma):
 _rx_constant_formula = re.compile(r"[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)??(/[-+]?\d+)?$")
 
 
+@deprecated(isconstantFormula_deprecation_msg)
 def isconstantFormula(s):
+    """'diffpy.structure.isconstantFormula' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.is_constant_formula' instead.
+    """
+    return is_constant_formula(s)
+
+
+def is_constant_formula(s):
     """Check if formula string is constant.
 
     Parameters
@@ -187,7 +253,17 @@ class _Position2Tuple(object):
 # End of class _Position2Tuple
 
 
+@deprecated(positionDifference_deprecation_msg)
 def positionDifference(xyz0, xyz1):
+    """'diffpy.structure.positionDifference' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.position_difference' instead.
+    """
+    return position_difference(xyz0, xyz1)
+
+
+def position_difference(xyz0, xyz1):
     """Smallest difference between two coordinates in periodic lattice.
 
     Parameters
@@ -209,7 +285,18 @@ def positionDifference(xyz0, xyz1):
     return dxyz
 
 
+@deprecated(nearestSiteIndex_deprecation_msg)
 def nearestSiteIndex(sites, xyz):
+    """'diffpy.structure.nearestSiteIndex' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.nearest_site_index' instead.
+    """
+    # we use box distance to be consistent with _Position2Tuple conversion
+    return nearest_site_index(sites, xyz)
+
+
+def nearest_site_index(sites, xyz):
     """Index of the nearest site to a specified position.
 
     Parameters
@@ -225,12 +312,22 @@ def nearestSiteIndex(sites, xyz):
         Index of the nearest site.
     """
     # we use box distance to be consistent with _Position2Tuple conversion
-    dbox = positionDifference(sites, xyz).max(axis=1)
+    dbox = position_difference(sites, xyz).max(axis=1)
     nearindex = numpy.argmin(dbox)
     return nearindex
 
 
+@deprecated(equalPositions_deprecation_msg)
 def equalPositions(xyz0, xyz1, eps):
+    """'diffpy.structure.equalPositions' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.equal_positions' instead.
+    """
+    return equal_positions(xyz0, xyz1, eps)
+
+
+def equal_positions(xyz0, xyz1, eps):
     """Equality of two coordinates with optional tolerance.
 
     Parameters
@@ -246,11 +343,21 @@ def equalPositions(xyz0, xyz1, eps):
         ``True`` when two coordinates are closer than `eps`.
     """
     # we use box distance to be consistent with _Position2Tuple conversion
-    dxyz = positionDifference(xyz0, xyz1)
+    dxyz = position_difference(xyz0, xyz1)
     return numpy.all(dxyz <= eps)
 
 
+@deprecated(expandPosition_deprecation_msg)
 def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
+    """'diffpy.structure.expandPosition' is deprecated and will be
+    removed in version 4.0.0.
+
+    Please use 'diffpy.structure.expand_position' instead.
+    """
+    return expand_position(spacegroup, xyz, sgoffset, eps)
+
+
+def expand_position(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
     """Obtain unique equivalent positions and corresponding operations.
 
     Parameters
@@ -287,9 +394,9 @@ def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
             site_symops[tpl] = []
             # double check if there is any position nearby
             if positions:
-                nearpos = positions[nearestSiteIndex(positions, pos)]
+                nearpos = positions[nearest_site_index(positions, pos)]
                 # is it an equivalent position?
-                if equalPositions(nearpos, pos, eps):
+                if equal_positions(nearpos, pos, eps):
                     # tpl should map to the same list as nearpos
                     site_symops[tpl] = site_symops[pos2tuple(nearpos)]
                     pos_is_new = False
@@ -303,7 +410,17 @@ def expandPosition(spacegroup, xyz, sgoffset=[0, 0, 0], eps=None):
     return positions, pos_symops, multiplicity
 
 
+@deprecated(nullSpace_deprecation_msg)
 def nullSpace(A):
+    """'diffpy.structure.nullSpace' is deprecated and will be removed in
+    version 4.0.0.
+
+    Please use 'diffpy.structure.null_space' instead.
+    """
+    return null_space(A)
+
+
+def null_space(A):
     """Null space of matrix A."""
     from numpy import linalg
 
@@ -316,7 +433,7 @@ def nullSpace(A):
     return null_space
 
 
-def _findInvariants(symops):
+def _find_invariants(symops):
     """Find a list of symmetry operations which contains identity.
 
     Parameters
@@ -351,6 +468,32 @@ def _findInvariants(symops):
 
 
 # ----------------------------------------------------------------------------
+
+generator_site = "diffpy.symmetryutilities.GeneratorSite"
+signedRatStr_deprecation_msg = build_deprecation_message(
+    generator_site,
+    "signedRatStr",
+    "convert_fp_num_to_signed_rational",
+    removal_version,
+)
+positionFormula_deprecation_msg = build_deprecation_message(
+    generator_site,
+    "positionFormula",
+    "position_formula",
+    removal_version,
+)
+UFormula_deprecation_msg = build_deprecation_message(
+    generator_site,
+    "UFormula",
+    "u_formula",
+    removal_version,
+)
+eqIndex_deprecation_msg = build_deprecation_message(
+    generator_site,
+    "eqIndex",
+    "eq_index",
+    removal_version,
+)
 
 
 class GeneratorSite(object):
@@ -459,7 +602,7 @@ class GeneratorSite(object):
         self.Uparameters = []
         # fill in the values
         sites, ops, mult = expandPosition(spacegroup, xyz, sgoffset, eps)
-        invariants = _findInvariants(ops)
+        invariants = _find_invariants(ops)
         # shift self.xyz exactly to the special position
         if mult > 1:
             xyzdups = numpy.array([op(xyz + self.sgoffset) - self.sgoffset for op in invariants])
@@ -470,20 +613,20 @@ class GeneratorSite(object):
                 self.xyz = xyz + dxyz
                 self.xyz[numpy.fabs(self.xyz) < self.eps] = 0.0
                 sites, ops, mult = expandPosition(spacegroup, self.xyz, self.sgoffset, eps)
-                invariants = _findInvariants(ops)
+                invariants = _find_invariants(ops)
         # self.xyz, sites, ops are all adjusted here
         self.eqxyz = sites
         self.symops = ops
         self.multiplicity = mult
         self.invariants = invariants
-        self._findNullSpace()
-        self._findPosParameters()
-        self._findUSpace()
-        self._findUParameters()
-        self._findeqUij()
+        self._find_null_space()
+        self._find_pos_parameters()
+        self._find_u_space()
+        self._find_u_parameters()
+        self._find_eq_uij()
         return
 
-    def signedRatStr(self, x):
+    def convert_fp_num_to_signed_rational(self, x):
         """Convert floating point number to signed rational
         representation.
 
@@ -511,7 +654,16 @@ class GeneratorSite(object):
         # here we have fraction
         return "%+.0f/%.0f" % (nom[idx[0]], den[idx[0]])
 
-    def _findNullSpace(self):
+    @deprecated(signedRatStr_deprecation_msg)
+    def signedRatStr(self, x):
+        """'diffpy.structure.GeneratorSite.signedRatStr' is deprecated
+        and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.GeneratorSite.convert_fp_num_to_signed_rational' instead.
+        """
+        return self.convert_fp_num_to_signed_rational(x)
+
+    def _find_null_space(self):
         """Calculate `self.null_space` from `self.invariants`.
 
         Try to represent `self.null_space` using small integers.
@@ -519,7 +671,7 @@ class GeneratorSite(object):
         R0 = self.invariants[0].R
         Rdiff = [(symop.R - R0) for symop in self.invariants]
         Rdiff = numpy.concatenate(Rdiff, axis=0)
-        self.null_space = nullSpace(Rdiff)
+        self.null_space = null_space(Rdiff)
         if self.null_space.size == 0:
             return
         # reverse sort rows of null_space rows by absolute value
@@ -543,7 +695,7 @@ class GeneratorSite(object):
             row[:] = (sgrow * abrow) / sgrow[idx] / abrow[idx]
         return
 
-    def _findPosParameters(self):
+    def _find_pos_parameters(self):
         """Find pparameters and their values for expressing
         `self.xyz`."""
         usedsymbol = {}
@@ -560,7 +712,7 @@ class GeneratorSite(object):
             usedsymbol[vname] = True
         return
 
-    def _findUSpace(self):
+    def _find_u_space(self):
         """Find independent U components with respect to invariant
         rotations."""
         n = len(self.invariants)
@@ -580,7 +732,7 @@ class GeneratorSite(object):
                 Ucj2 = numpy.dot(R, numpy.dot(Ucj, R.T))
                 for i, kl in i6kl:
                     R6z[i, j] += Ucj2[kl]
-        Usp6 = nullSpace(R6zall)
+        Usp6 = null_space(R6zall)
         # normalize Usp6 by its maximum component
         mxcols = numpy.argmax(numpy.fabs(Usp6), axis=1)
         mxrows = numpy.arange(len(mxcols))
@@ -593,7 +745,7 @@ class GeneratorSite(object):
         self.Uisotropy = len(self.Uspace) == 1
         return
 
-    def _findUParameters(self):
+    def _find_u_parameters(self):
         """Find Uparameters and their values for expressing
         `self.Uij`."""
         # permute indices as     00 11 22 01 02 12 10 20 21
@@ -609,7 +761,7 @@ class GeneratorSite(object):
             self.Uparameters.append((vname, varvalue))
         return
 
-    def _findeqUij(self):
+    def _find_eq_uij(self):
         """Adjust `self.Uij` and `self.eqUij` to be consistent with
         spacegroup."""
         self.Uij = numpy.zeros((3, 3), dtype=float)
@@ -625,7 +777,17 @@ class GeneratorSite(object):
             self.eqUij.append(numpy.dot(R, numpy.dot(self.Uij, Rt)))
         return
 
+    @deprecated(positionFormula_deprecation_msg)
     def positionFormula(self, pos, xyzsymbols=("x", "y", "z")):
+        """'diffpy.structure.GeneratorSite.positionFormula' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.GeneratorSite.position_formula'
+        instead.
+        """
+        return self.position_formula(pos, xyzsymbols)
+
+    def position_formula(self, pos, xyzsymbols=("x", "y", "z")):
         """Formula of equivalent position with respect to generator
         site.
 
@@ -645,9 +807,9 @@ class GeneratorSite(object):
             ``-x``, ``z +0.5``, ``0.25``.
         """
         # find pos in eqxyz
-        idx = nearestSiteIndex(self.eqxyz, pos)
+        idx = nearest_site_index(self.eqxyz, pos)
         eqpos = self.eqxyz[idx]
-        if not equalPositions(eqpos, pos, self.eps):
+        if not equal_positions(eqpos, pos, self.eps):
             return {}
         # any rotation matrix should do fine
         R = self.symops[idx][0].R
@@ -665,19 +827,28 @@ class GeneratorSite(object):
                 if abs(nvec[i]) < epsilon:
                     continue
                 xyzformula[i] += "%s*%s " % (
-                    self.signedRatStr(nvec[i]),
+                    self.convert_fp_num_to_signed_rational(nvec[i]),
                     name2sym[vname],
                 )
         # add constant offset teqpos to all formulas
         for i in range(3):
             if xyzformula[i] and abs(teqpos[i]) < epsilon:
                 continue
-            xyzformula[i] += self.signedRatStr(teqpos[i])
+            xyzformula[i] += self.convert_fp_num_to_signed_rational(teqpos[i])
         # reduce unnecessary +1* and -1*
         xyzformula = [re.sub("^[+]1[*]|(?<=[+-])1[*]", "", f).strip() for f in xyzformula]
         return dict(zip(("x", "y", "z"), xyzformula))
 
+    @deprecated(UFormula_deprecation_msg)
     def UFormula(self, pos, Usymbols=stdUsymbols):
+        """'diffpy.structure.GeneratorSite.UFormula' is deprecated and
+        will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.GeneratorSite.u_formula' instead.
+        """
+        return self.u_formula(pos, Usymbols)
+
+    def u_formula(self, pos, Usymbols=stdUsymbols):
         """List of atom displacement formulas with custom parameter
         symbols.
 
@@ -697,9 +868,9 @@ class GeneratorSite(object):
             pos is not equivalent to generator.
         """
         # find pos in eqxyz
-        idx = nearestSiteIndex(self.eqxyz, pos)
+        idx = nearest_site_index(self.eqxyz, pos)
         eqpos = self.eqxyz[idx]
-        if not equalPositions(eqpos, pos, self.eps):
+        if not equal_positions(eqpos, pos, self.eps):
             return {}
         # any rotation matrix should do fine
         R = self.symops[idx][0].R
@@ -723,7 +894,16 @@ class GeneratorSite(object):
             Uformula[smbl] = f
         return Uformula
 
+    @deprecated(eqIndex_deprecation_msg)
     def eqIndex(self, pos):
+        """'diffpy.structure.GeneratorSite.eqIndex' is deprecated and
+        will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.GeneratorSite.eq_index' instead.
+        """
+        return self.eq_index(pos)
+
+    def eq_index(self, pos):
         """Index of the nearest generator equivalent site.
 
         Parameters
@@ -736,7 +916,7 @@ class GeneratorSite(object):
         int
             Index of the nearest generator equivalent site.
         """
-        return nearestSiteIndex(self.eqxyz, pos)
+        return nearest_site_index(self.eqxyz, pos)
 
 
 # End of class GeneratorSite
@@ -820,8 +1000,29 @@ class ExpandAsymmetricUnit(object):
 # Helper function for SymmetryConstraints class. It may be useful
 # elsewhere therefore its name does not start with underscore.
 
+pruneFormulaDictionary_deprecation_msg = build_deprecation_message(
+    base,
+    "pruneFormulaDictionary",
+    "prune_formula_dictionary",
+    removal_version,
+)
 
+
+@deprecated(pruneFormulaDictionary_deprecation_msg)
 def pruneFormulaDictionary(eqdict):
+    """'diffpy.structure.pruneFormulaDictionary' is deprecated and will
+    be removed in version 4.0.0.
+
+    Please use 'diffpy.structure.prune_formula_dictionary' instead.
+    """
+    pruned = {}
+    for smb, eq in eqdict.items():
+        if not is_constant_formula(eq):
+            pruned[smb] = eq
+    return pruned
+
+
+def prune_formula_dictionary(eqdict):
     """Remove constant items from formula dictionary.
 
     Parameters
@@ -837,9 +1038,60 @@ def pruneFormulaDictionary(eqdict):
     """
     pruned = {}
     for smb, eq in eqdict.items():
-        if not isconstantFormula(eq):
+        if not is_constant_formula(eq):
             pruned[smb] = eq
     return pruned
+
+
+symmetry_constraints = "diffpy.symmetryutilities.SymmetryConstraints"
+posparSymbols_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "posparSymbols",
+    "pospar_symbols",
+    removal_version,
+)
+posparValues_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "posparValues",
+    "pospar_values",
+    removal_version,
+)
+UparSymbols_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "UparSymbols",
+    "upar_symbols",
+    removal_version,
+)
+UparValues_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "UparValues",
+    "upar_values",
+    removal_version,
+)
+UFormulas_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "UFormulas",
+    "u_formulas",
+    removal_version,
+)
+positionFormulas_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "positionFormulas",
+    "position_formulas",
+    removal_version,
+)
+positionFormulasPruned_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "positionFormulasPruned",
+    "position_formulas_pruned",
+    removal_version,
+)
+UFormulasPruned_deprecation_msg = build_deprecation_message(
+    symmetry_constraints,
+    "UFormulasPruned",
+    "u_formulas_pruned",
+    removal_version,
+)
 
 
 class SymmetryConstraints(object):
@@ -931,10 +1183,10 @@ class SymmetryConstraints(object):
         self.Ueqns = numpos * [None]
         self.Uisotropy = numpos * [False]
         # all members should be initialized here
-        self._findConstraints()
+        self._find_constraints()
         return
 
-    def _findConstraints(self):
+    def _find_constraints(self):
         """Find constraints for positions and anisotropic displacements
         `Uij`."""
         numpos = len(self.positions)
@@ -963,7 +1215,7 @@ class SymmetryConstraints(object):
             indies = sorted(independent)
             for indidx in indies:
                 indpos = self.positions[indidx]
-                formula = gen.positionFormula(indpos, gxyzsymbols)
+                formula = gen.position_formula(indpos, gxyzsymbols)
                 # formula is empty when indidx is independent
                 if not formula:
                     continue
@@ -971,9 +1223,9 @@ class SymmetryConstraints(object):
                 independent.remove(indidx)
                 self.coremap[genidx].append(indidx)
                 self.poseqns[indidx] = formula
-                self.Ueqns[indidx] = gen.UFormula(indpos, gUsymbols)
+                self.Ueqns[indidx] = gen.u_formula(indpos, gUsymbols)
                 # make sure positions and Uijs are consistent with spacegroup
-                eqidx = gen.eqIndex(indpos)
+                eqidx = gen.eq_index(indpos)
                 dxyz = gen.eqxyz[eqidx] - indpos
                 self.positions[indidx] += dxyz - dxyz.round()
                 self.Uijs[indidx] = gen.eqUij[eqidx]
@@ -983,15 +1235,42 @@ class SymmetryConstraints(object):
         self.corepos = [self.positions[i] for i in coreidx]
         return
 
+    @deprecated(posparSymbols_deprecation_msg)
     def posparSymbols(self):
+        """'diffpy.structure.SymmetryConstraints.posparSymbols' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.pos_parm_symbols' instead.
+        """
+        return self.pos_parm_symbols()
+
+    def pos_parm_symbols(self):
         """Return list of standard position parameter symbols."""
         return [n for n, v in self.pospars]
 
+    @deprecated(posparValues_deprecation_msg)
     def posparValues(self):
+        """'diffpy.structure.SymmetryConstraints.posparValues' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.pos_parm_values' instead.
+        """
+        return self.pos_parm_values()
+
+    def pos_parm_values(self):
         """Return list of position parameters values."""
         return [v for n, v in self.pospars]
 
+    @deprecated(posparValues_deprecation_msg)
     def positionFormulas(self, xyzsymbols=None):
+        """'diffpy.structure.SymmetryConstraints.positionFormulas' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.position_formulas' instead.
+        """
+        return self.position_formulas(xyzsymbols)
+
+    def position_formulas(self, xyzsymbols=None):
         """List of position formulas with custom parameter symbols.
 
         Parameters
@@ -1013,7 +1292,7 @@ class SymmetryConstraints(object):
             emsg = "Not enough symbols for %i position parameters" % len(self.pospars)
             raise SymmetryError(emsg)
         # build translation dictionary
-        trsmbl = dict(zip(self.posparSymbols(), xyzsymbols))
+        trsmbl = dict(zip(self.pos_parm_symbols(), xyzsymbols))
 
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
@@ -1027,7 +1306,16 @@ class SymmetryConstraints(object):
             rv.append(treqns)
         return rv
 
+    @deprecated(positionFormulasPruned_deprecation_msg)
     def positionFormulasPruned(self, xyzsymbols=None):
+        """'diffpy.structure.SymmetryConstraints.positionFormulasPruned'
+        is deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.position_formulas_pruned' instead.
+        """
+        return self.position_formulas_pruned(xyzsymbols)
+
+    def position_formulas_pruned(self, xyzsymbols=None):
         """List of position formula dictionaries with constant items
         removed.
 
@@ -1045,19 +1333,48 @@ class SymmetryConstraints(object):
         list
             List of coordinate formula dictionaries.
         """
-        rv = [pruneFormulaDictionary(eqns) for eqns in self.positionFormulas(xyzsymbols)]
+        rv = [prune_formula_dictionary(eqns) for eqns in self.position_formulas(xyzsymbols)]
         return rv
 
+    @deprecated(UparSymbols_deprecation_msg)
     def UparSymbols(self):
+        """'diffpy.structure.SymmetryConstraints.UparSymbols' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.u_parm_symbols' instead.
+        """
+        return self.u_parm_symbols()
+
+    def u_parm_symbols(self):
         """Return list of standard atom displacement parameter
         symbols."""
         return [n for n, v in self.Upars]
 
+    @deprecated(UparValues_deprecation_msg)
     def UparValues(self):
+        """'diffpy.structure.SymmetryConstraints.UparValues' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.u_parm_values'
+        instead.
+        """
+        return [v for n, v in self.Upars]
+
+    def u_parm_values(self):
         """Return list of atom displacement parameters values."""
         return [v for n, v in self.Upars]
 
+    @deprecated(UFormula_deprecation_msg)
     def UFormulas(self, Usymbols=None):
+        """'diffpy.structure.SymmetryConstraints.UFormulas' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.u_formulas'
+        instead.
+        """
+        return self.u_formulas(Usymbols)
+
+    def u_formulas(self, Usymbols=None):
         """List of atom displacement formulas with custom parameter
         symbols.
 
@@ -1081,7 +1398,7 @@ class SymmetryConstraints(object):
             emsg = "Not enough symbols for %i U parameters" % len(self.Upars)
             raise SymmetryError(emsg)
         # build translation dictionary
-        trsmbl = dict(zip(self.UparSymbols(), Usymbols))
+        trsmbl = dict(zip(self.u_parm_symbols(), Usymbols))
 
         def translatesymbol(matchobj):
             return trsmbl[matchobj.group(0)]
@@ -1095,7 +1412,17 @@ class SymmetryConstraints(object):
             rv.append(treqns)
         return rv
 
+    @deprecated(UFormulasPruned_deprecation_msg)
     def UFormulasPruned(self, Usymbols=None):
+        """'diffpy.structure.SymmetryConstraints.UFormulasPruned' is
+        deprecated and will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.SymmetryConstraints.u_formulas_pruned'
+        instead.
+        """
+        return self.u_formulas_pruned(Usymbols)
+
+    def u_formulas_pruned(self, Usymbols=None):
         """List of atom displacement formula dictionaries with constant
         items removed.
 
@@ -1114,7 +1441,7 @@ class SymmetryConstraints(object):
             List of atom displacement formulas in tuples of
             ``(U11, U22, U33, U12, U13, U23)``.
         """
-        rv = [pruneFormulaDictionary(eqns) for eqns in self.UFormulas(Usymbols)]
+        rv = [prune_formula_dictionary(eqns) for eqns in self.u_formulas(Usymbols)]
         return rv
 
 
@@ -1129,9 +1456,9 @@ if __name__ == "__main__":
     site = [0.125, 0.625, 0.13]
     Uij = [[1, 2, 3], [2, 4, 5], [3, 5, 6]]
     g = GeneratorSite(sg100, site, Uij=Uij)
-    fm100 = g.positionFormula(site)
+    fm100 = g.position_formula(site)
     print("g = GeneratorSite(sg100, %r)" % site)
     print("g.positionFormula(%r) = %s" % (site, fm100))
     print("g.pparameters =", g.pparameters)
     print("g.Uparameters =", g.Uparameters)
-    print("g.UFormula(%r) =" % site, g.UFormula(site))
+    print("g.UFormula(%r) =" % site, g.u_formula(site))

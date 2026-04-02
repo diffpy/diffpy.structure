@@ -18,9 +18,26 @@ This Parser does not provide the the `toLines()` method.
 """
 
 import os
+from typing import Any
 
 from diffpy.structure.parsers import StructureParser, parser_index
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.P_auto"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
+parseFile_deprecation_msg = build_deprecation_message(
+    base,
+    "parseFile",
+    "parse_file",
+    removal_version,
+)
 
 
 class P_auto(StructureParser):
@@ -51,14 +68,14 @@ class P_auto(StructureParser):
         return
 
     # parseLines helpers
-    def _getOrderedFormats(self):
+    def _get_ordered_formats(self):
         """Build a list of relevance ordered structure formats.
 
         This only works when `self.filename` has a known extension.
         """
-        from diffpy.structure.parsers import inputFormats
+        from diffpy.structure.parsers import input_formats
 
-        ofmts = [fmt for fmt in inputFormats() if fmt != "auto"]
+        ofmts = [fmt for fmt in input_formats() if fmt != "auto"]
         if not self.filename:
             return ofmts
         # filename is defined here
@@ -76,7 +93,16 @@ class P_auto(StructureParser):
                 ofmts.insert(0, fmt)
         return ofmts
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_auto.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Detect format and create `Structure` instance from a list of
         lines.
 
@@ -96,7 +122,7 @@ class P_auto(StructureParser):
         ------
         StructureFormatError
         """
-        return self._wrapParseMethod("parseLines", lines)
+        return self._wrap_parse_method("parse_lines", lines)
 
     def parse(self, s):
         """Detect format and create `Structure` instance from a string.
@@ -117,9 +143,18 @@ class P_auto(StructureParser):
         ------
         StructureFormatError
         """
-        return self._wrapParseMethod("parse", s)
+        return self._wrap_parse_method("parse", s)
 
+    @deprecated(parseFile_deprecation_msg)
     def parseFile(self, filename):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_auto.parse_file instead.
+        """
+        return self.parse_file(filename)
+
+    def parse_file(self, filename):
         """Detect format and create Structure instance from an existing
         file.
 
@@ -143,9 +178,9 @@ class P_auto(StructureParser):
             If the file cannot be read.
         """
         self.filename = filename
-        return self._wrapParseMethod("parseFile", filename)
+        return self._wrap_parse_method("parse_file", filename)
 
-    def _wrapParseMethod(self, method, *args, **kwargs):
+    def _wrap_parse_method(self, method: object, *args: object, **kwargs: object) -> Any:
         """A helper evaluator method that try the specified parse method
         with each registered structure parser and return the first
         successful result.
@@ -171,14 +206,14 @@ class P_auto(StructureParser):
         ------
         StructureFormatError
         """
-        from diffpy.structure.parsers import getParser
+        from diffpy.structure.parsers import get_parser
 
-        ofmts = self._getOrderedFormats()
+        ofmts = self._get_ordered_formats()
         stru = None
         # try all parsers in sequence
         parsers_emsgs = []
         for fmt in ofmts:
-            p = getParser(fmt, **self.pkw)
+            p = get_parser(fmt, **self.pkw)
             try:
                 pmethod = getattr(p, method)
                 stru = pmethod(*args, **kwargs)
@@ -205,8 +240,27 @@ class P_auto(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+removal_version = "4.0.0"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 
+
+@deprecated(getParser_deprecation_msg)
 def getParser(**kw):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.P_auto.get_parser instead.
+    """
+    return get_parser(**kw)
+
+
+def get_parser(**kw):
     """Return a new instance of the automatic parser.
 
     Parameters

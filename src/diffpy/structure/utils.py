@@ -18,6 +18,17 @@ from collections.abc import Iterable as _Iterable
 
 import numpy
 
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure"
+removal_version = "4.0.0"
+atomBareSymbol_deprecation_msg = build_deprecation_message(
+    base,
+    "atomBareSymbol",
+    "atom_bare_symbol",
+    removal_version,
+)
+
 
 def isiterable(obj):
     """``True`` if argument is iterable."""
@@ -35,7 +46,18 @@ def isfloat(s):
     return False
 
 
+@deprecated(atomBareSymbol_deprecation_msg)
 def atomBareSymbol(smbl):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.atom_bare_symbol instead.
+    """
+
+    return atom_bare_symbol(smbl)
+
+
+def atom_bare_symbol(smbl):
     """Remove atom type string stripped of isotope and ion charge
     symbols.
 
@@ -54,14 +76,13 @@ def atomBareSymbol(smbl):
 
     Examples
     --------
-    >>> atomBareSymbol("Cl-")
+    >>> atom_bare_symbol("Cl-")
     'Cl'
-    >>> atomBareSymbol("Ca2+")
+    >>> atom_bare_symbol("Ca2+")
     'Ca'
-    >>> atomBareSymbol("12-C")
+    >>> atom_bare_symbol("12-C")
     'C'
     """
-
     rv = smbl.strip().lstrip("0123456789-").rstrip("123456789+-")
     return rv
 
@@ -69,7 +90,7 @@ def atomBareSymbol(smbl):
 # Helpers for the Structure class --------------------------------------------
 
 
-def _linkAtomAttribute(attrname, doc, toarray=numpy.array):
+def _link_atom_attribute(attrname, doc, toarray=numpy.array):
     """Create property wrapper that maps the specified atom attribute.
 
     The returned property object provides convenient access to atom

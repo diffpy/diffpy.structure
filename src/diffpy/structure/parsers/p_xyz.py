@@ -24,6 +24,22 @@ import sys
 from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.P_xyz"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
 
 
 class P_xyz(StructureParser):
@@ -40,7 +56,16 @@ class P_xyz(StructureParser):
         self.format = "xyz"
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_xyz.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Parse list of lines in XYZ format.
 
         Parameters
@@ -109,7 +134,7 @@ class P_xyz(StructureParser):
                 element = fields[0]
                 element = element[0].upper() + element[1:].lower()
                 xyz = [float(f) for f in fields[1:4]]
-                stru.addNewAtom(element, xyz=xyz)
+                stru.add_new_atom(element, xyz=xyz)
         except ValueError:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             emsg = "%d: invalid number format" % p_nl
@@ -121,7 +146,16 @@ class P_xyz(StructureParser):
             raise StructureFormatError(emsg)
         return stru
 
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_xyz.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert Structure stru to a list of lines in XYZ format.
 
         Parameters
@@ -148,8 +182,26 @@ class P_xyz(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 
+
+@deprecated(getParser_deprecation_msg)
 def getParser():
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.P_xyz.get_parser instead.
+    """
+    return get_parser()
+
+
+def get_parser():
     """Return new `parser` object for XYZ format.
 
     Returns

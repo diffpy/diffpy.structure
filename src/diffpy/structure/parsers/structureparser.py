@@ -14,6 +14,29 @@
 ##############################################################################
 """Definition of StructureParser, a base class for specific parsers."""
 
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.StructureParser"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
+parseFile_deprecation_msg = build_deprecation_message(
+    base,
+    "parseFile",
+    "parse_file",
+    removal_version,
+)
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
+
 
 class StructureParser(object):
     """Base class for all structure parsers.
@@ -31,7 +54,16 @@ class StructureParser(object):
         self.filename = None
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.StructureParser.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Create Structure instance from a list of lines.
 
         Return Structure object or raise StructureFormatError exception.
@@ -40,10 +72,19 @@ class StructureParser(object):
         ----
         This method has to be overloaded in derived class.
         """
-        raise NotImplementedError("parseLines not defined for '%s' format" % self.format)
+        raise NotImplementedError("parse lines not defined for '%s' format" % self.format)
         return
 
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.StructureParser.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert Structure stru to a list of lines.
 
         Return list of strings.
@@ -52,7 +93,7 @@ class StructureParser(object):
         ----
         This method has to be overloaded in derived class.
         """
-        raise NotImplementedError("toLines not defined for '%s' format" % self.format)
+        raise NotImplementedError("to_lines not defined for '%s' format" % self.format)
 
     def parse(self, s):
         """Create `Structure` instance from a string."""
@@ -62,11 +103,20 @@ class StructureParser(object):
 
     def tostring(self, stru):
         """Convert `Structure` instance to a string."""
-        lines = self.toLines(stru)
+        lines = self.to_lines(stru)
         s = "\n".join(lines) + "\n"
         return s
 
+    @deprecated(parseFile_deprecation_msg)
     def parseFile(self, filename):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.StructureParser.parse_file instead.
+        """
+        return self.parse_file(filename)
+
+    def parse_file(self, filename):
         """Create Structure instance from an existing file."""
         self.filename = filename
         with open(filename) as fp:

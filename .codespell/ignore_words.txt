@@ -22,3 +22,7 @@ CONECT
 ;; /src/diffpy/structure/parsers/p_xcfg.py:452
 ;; used in a function
 BU
+
+;; /src/diffpy/structure/parsers/p_vesta.py:452
+;; abbreviation for Structure in vesta
+STRUC

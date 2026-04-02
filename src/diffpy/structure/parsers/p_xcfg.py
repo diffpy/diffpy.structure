@@ -29,6 +29,7 @@ from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
 from diffpy.structure.utils import isfloat
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # Constants ------------------------------------------------------------------
 
@@ -151,6 +152,21 @@ AtomicMass = {
 
 # ----------------------------------------------------------------------------
 
+base = "diffpy.structure.P_xcfg"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
+
 
 class P_xcfg(StructureParser):
     """Parser for AtomEye extended CFG format.
@@ -171,7 +187,16 @@ class P_xcfg(StructureParser):
         self.format = "xcfg"
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_xcfg.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Parse list of lines in XCFG format.
 
         Parameters
@@ -253,7 +278,7 @@ class P_xcfg(StructureParser):
                 emsg = ("%d: auxiliary fields are " "not consistent with entry_count") % p_nl
                 raise StructureFormatError(emsg)
             # define proper lattice
-            stru.lattice.setLatBase(xcfg_H0)
+            stru.lattice.set_new_latt_base_vec(xcfg_H0)
             # here we are inside the data block
             p_element = None
             for line in ilines:
@@ -269,7 +294,7 @@ class P_xcfg(StructureParser):
                 elif len(words) == xcfg_entry_count and p_element is not None:
                     fields = [float(w) for w in words]
                     xyz = [xcfg_A * xi for xi in fields[:3]]
-                    stru.addNewAtom(p_element, xyz=xyz)
+                    stru.add_new_atom(p_element, xyz=xyz)
                     a = stru[-1]
                     _assign_auxiliaries(
                         a,
@@ -290,7 +315,16 @@ class P_xcfg(StructureParser):
             raise e.with_traceback(exc_traceback)
         return stru
 
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_xcfg.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert Structure stru to a list of lines in XCFG atomeye
         format.
 
@@ -319,7 +353,7 @@ class P_xcfg(StructureParser):
         lo_xyz = allxyz.min(axis=0)
         hi_xyz = allxyz.max(axis=0)
         max_range_xyz = (hi_xyz - lo_xyz).max()
-        if numpy.allclose(stru.lattice.abcABG(), (1, 1, 1, 90, 90, 90)):
+        if numpy.allclose(stru.lattice.cell_parms(), (1, 1, 1, 90, 90, 90)):
             max_range_xyz += self.cluster_boundary
         # range of CFG coordinates must be less than 1
         p_A = numpy.ceil(max_range_xyz + 1.0e-13)
@@ -413,8 +447,26 @@ class P_xcfg(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 
+
+@deprecated(getParser_deprecation_msg)
 def getParser():
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.P_xcfg.get_parser instead.
+    """
+    return get_parser()
+
+
+def get_parser():
     """Return new `parser` object for XCFG format.
 
     Returns

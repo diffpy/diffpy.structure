@@ -100,9 +100,9 @@ class TestStructure(unittest.TestCase):
     def test___copy__(self):
         """Check Structure.__copy__()"""
         cdse = Structure(filename=self.cdsefile)
-        cdse_str = cdse.writeStr("pdffit")
+        cdse_str = cdse.write_structure("pdffit")
         cdse2 = copy.copy(cdse)
-        self.assertEqual(cdse_str, cdse2.writeStr("pdffit"))
+        self.assertEqual(cdse_str, cdse2.write_structure("pdffit"))
         self.assertFalse(cdse.lattice is cdse2.lattice)
         sameatoms = set(cdse).intersection(cdse2)
         self.assertFalse(sameatoms)
@@ -119,6 +119,40 @@ class TestStructure(unittest.TestCase):
     # def test_getLastAtom(self):
     #     """check Structure.getLastAtom()"""
     #     return
+    def test_getLastAtom(self):
+        """Check Structure.getLastAtom()"""
+        s_lat = Lattice()
+        expected = Atom("C", [0, 0, 0])
+        structure = Structure(atoms=[Atom("C", [0, 0, 0])], lattice=s_lat)
+        actual = structure.getLastAtom()
+        assert actual.element == expected.element
+        assert np.allclose(expected.xyz, actual.xyz)
+
+    def test_get_last_atom(self):
+        """Check Structure.get_last_atom()"""
+        s_lat = Lattice()
+        expected = Atom("C", [0, 0, 0])
+        structure = Structure(atoms=[Atom("C", [0, 0, 0])], lattice=s_lat)
+        actual = structure.get_last_atom()
+        assert actual.element == expected.element
+        assert np.allclose(expected.xyz, actual.xyz)
+
+    def test_addNewAtom(self):
+        """Duplicate test for the deprecated addNewAtom method.
+
+        Remove this test in version 4.0.0
+        """
+        s_lat = Lattice()
+        structure = Structure(lattice=s_lat)
+
+        length = len(structure)
+        structure.addNewAtom(atype="C", xyz=[0.1, 0.2, 0.3])
+        expected = len(structure)
+        actual = length + 1
+        assert expected == actual
+        atom_object = structure[-1]
+        assert atom_object.element == "C"
+        assert np.allclose(atom_object.xyz, [0.1, 0.2, 0.3])
 
     def test_assignUniqueLabels(self):
         """Check Structure.assignUniqueLabels()"""
@@ -162,6 +196,17 @@ class TestStructure(unittest.TestCase):
         stru = self.stru
         new_lattice = Lattice(0.5, 0.5, 0.5, 90, 90, 60)
         stru.placeInLattice(new_lattice)
+        a0 = stru[0]
+        self.assertTrue(np.allclose(a0.xyz, [0.0, 0.0, 0.0]))
+        a1 = stru[1]
+        self.assertTrue(np.allclose(a1.xyz, [2.0, 0.0, 2.0]))
+
+    def test_place_in_lattice(self):
+        """Check Structure.placeInLattice() -- conversion of
+        coordinates."""
+        stru = self.stru
+        new_lattice = Lattice(0.5, 0.5, 0.5, 90, 90, 60)
+        stru.place_in_lattice(new_lattice)
         a0 = stru[0]
         self.assertTrue(np.allclose(a0.xyz, [0.0, 0.0, 0.0]))
         a1 = stru[1]
@@ -383,11 +428,20 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(0, len(self.stru))
         return
 
-    def test__get_lattice(self):
+    def test__get_lattice_dep(self):
         """Check Structure._get_lattice()"""
         lat = Lattice()
         stru = Structure()
         self.assertEqual((1, 1, 1, 90, 90, 90), stru.lattice.abcABG())
+        stru2 = Structure(lattice=lat)
+        self.assertTrue(lat is stru2.lattice)
+        return
+
+    def test__get_lattice(self):
+        """Check Structure._get_lattice()"""
+        lat = Lattice()
+        stru = Structure()
+        self.assertEqual((1, 1, 1, 90, 90, 90), stru.lattice.cell_parms())
         stru2 = Structure(lattice=lat)
         self.assertTrue(lat is stru2.lattice)
         return
@@ -930,6 +984,57 @@ def test_convert_ase_to_diffpy_structure_bad_valueerror(
 
 
 # ----------------------------------------------------------------------------
+@pytest.mark.parametrize(
+    "existing, atype, xyz, expected_len, expected_element, expected_xyz",
+    [
+        # Case 1: valid atom added to an empty structure.
+        # Expect the atom list length to go from 0 to 1.
+        # Expect the atom attributes are successfully loaded.
+        (
+            None,
+            "C",
+            [0.1, 0.2, 0.3],
+            1,
+            "C",
+            [0.1, 0.2, 0.3],
+        ),
+        # Case 2: valid atom added to existing atom list.
+        # Expect the atom list length to go from 1 to 2.
+        # Expect the atom attributes are successfully loaded.
+        (
+            [Atom("C", [0, 0, 0])],
+            "Ni",
+            [0.8, 1.2, 0.9],
+            2,
+            "Ni",
+            [0.8, 1.2, 0.9],
+        ),
+    ],
+)
+def test_add_new_atom(existing, atype, xyz, expected_len, expected_element, expected_xyz):
+    """Check Structure.add_new_item()"""
+    structure = Structure(existing, lattice=Lattice())
+    structure.add_new_atom(atype=atype, xyz=xyz)
+    actual_length = len(structure)
+    assert expected_len == actual_length
+    atom_object = structure[-1]
+    assert atom_object.element == expected_element
+    assert np.allclose(atom_object.xyz, expected_xyz)
+
+
+def test_add_new_atom_duplicate():
+    # Case 3: duplicated atom added to the existing atom list.
+    # Expect the atom to be added and gives a UserWarning.
+    structure = Structure(
+        [Atom("C", [0.1, 0.2, 0.3]), Atom("Ni", [0.8, 1.2, 0.9])],
+        lattice=Lattice(),
+    )
+    with pytest.warns(UserWarning):
+        structure.add_new_atom(atype="C", xyz=[0.1, 0.2, 0.3])
+    assert len(structure) == 3
+    assert structure[-1].element == "C"
+    assert np.allclose(structure[-1].xyz, [0.1, 0.2, 0.3])
+
 
 if __name__ == "__main__":
     unittest.main()

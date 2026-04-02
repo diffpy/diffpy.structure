@@ -15,13 +15,14 @@
 """This module defines class `Structure`."""
 
 import copy as copymod
+import warnings
 
 import numpy
 from ase import Atoms as ASEAtoms
 
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
-from diffpy.structure.utils import _linkAtomAttribute, atomBareSymbol, isiterable
+from diffpy.structure.utils import _link_atom_attribute, atom_bare_symbol, isiterable
 from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # ----------------------------------------------------------------------------
@@ -32,6 +33,36 @@ assignUniqueLabels_deprecation_msg = build_deprecation_message(
     base,
     "assignUniqueLabels",
     "assign_unique_labels",
+    removal_version,
+)
+addNewAtom_deprecation_msg = build_deprecation_message(
+    base,
+    "addNewAtom",
+    "add_new_atom",
+    removal_version,
+)
+getLastAtom_deprecation_msg = build_deprecation_message(
+    base,
+    "getLastAtom",
+    "get_last_atom",
+    removal_version,
+)
+placeInLattice_deprecation_msg = build_deprecation_message(
+    base,
+    "placeInLattice",
+    "place_in_lattice",
+    removal_version,
+)
+readStr_deprecation_msg = build_deprecation_message(
+    base,
+    "readStr",
+    "read_structure",
+    removal_version,
+)
+writeStr_deprecation_msg = build_deprecation_message(
+    base,
+    "writeStr",
+    "write_structure",
     removal_version,
 )
 
@@ -156,20 +187,52 @@ class Structure(list):
         s_atoms = "\n".join([str(a) for a in self])
         return s_lattice + "\n" + s_atoms
 
+    @deprecated(addNewAtom_deprecation_msg)
     def addNewAtom(self, *args, **kwargs):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.add_new_atom instead.
+        """
+        self.add_new_atom(*args, **kwargs)
+        return
+
+    def add_new_atom(self, *args, **kwargs):
         """Add new `Atom` instance to the end of this `Structure`.
 
         Parameters
         ----------
         *args, **kwargs :
             See `Atom` class constructor.
+
+        Raises
+        ------
+        UserWarning
+            If an atom with the same element/type and coordinates already exists.
         """
         kwargs["lattice"] = self.lattice
-        a = Atom(*args, **kwargs)
-        self.append(a, copy=False)
+        atom = Atom(*args, **kwargs)
+        for existing in self:
+            if existing.element == atom.element and numpy.allclose(existing.xyz, atom.xyz):
+                warnings.warn(
+                    f"Duplicate atom {atom.element} already exists at {atom.xyz!r}",
+                    category=UserWarning,
+                    stacklevel=2,
+                )
+                break
+        self.append(atom, copy=False)
         return
 
+    @deprecated(getLastAtom_deprecation_msg)
     def getLastAtom(self):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.get_last_atom instead.
+        """
+        return self.get_last_atom()
+
+    def get_last_atom(self):
         """Return Reference to the last `Atom` in this structure."""
         last_atom = self[-1]
         return last_atom
@@ -184,7 +247,7 @@ class Structure(list):
             The list of chemical symbols for all `Atoms` in this structure.
         """
         symbols_with_charge = [a.element for a in self]
-        symbols = [atomBareSymbol(sym) for sym in symbols_with_charge]
+        symbols = [atom_bare_symbol(sym) for sym in symbols_with_charge]
         return symbols
 
     def get_fractional_coordinates(self):
@@ -233,7 +296,7 @@ class Structure(list):
         else:
             adp_dict = {}
             for i, atom in enumerate(self):
-                element = atomBareSymbol(atom.element)
+                element = atom_bare_symbol(atom.element)
                 adp_dict[f"{element}_{i}_11"] = self.U11[i]
                 adp_dict[f"{element}_{i}_22"] = self.U22[i]
                 adp_dict[f"{element}_{i}_33"] = self.U33[i]
@@ -263,7 +326,7 @@ class Structure(list):
         else:
             iso_dict = {}
             for i, atom in enumerate(self):
-                element = atomBareSymbol(atom.element)
+                element = atom_bare_symbol(atom.element)
                 iso_dict[f"{element}_{i+1}_Uiso"] = self.Uisoequiv[i]
             return iso_dict
 
@@ -410,7 +473,7 @@ class Structure(list):
         for a in self:
             if a in islabeled:
                 continue
-            baresmbl = atomBareSymbol(a.element)
+            baresmbl = atom_bare_symbol(a.element)
             elnum[baresmbl] = elnum.get(baresmbl, 0) + 1
             a.label = baresmbl + str(elnum[baresmbl])
             islabeled.add(a)
@@ -478,7 +541,16 @@ class Structure(list):
         u12 = a2.xyz - a1.xyz
         return self.lattice.angle(u10, u12)
 
+    @deprecated(placeInLattice_deprecation_msg)
     def placeInLattice(self, new_lattice):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.place_in_lattice instead.
+        """
+        return self.place_in_lattice(new_lattice)
+
+    def place_in_lattice(self, new_lattice):
         """Place structure into `new_lattice` coordinate system.
 
         Sets `lattice` to `new_lattice` and recalculate fractional coordinates
@@ -524,9 +596,9 @@ class Structure(list):
         import diffpy.structure
         import diffpy.structure.parsers
 
-        getParser = diffpy.structure.parsers.getParser
-        p = getParser(format)
-        new_structure = p.parseFile(filename)
+        get_parser = diffpy.structure.parsers.get_parser
+        p = get_parser(format)
+        new_structure = p.parse_file(filename)
         # reinitialize data after successful parsing
         # avoid calling __init__ from a derived class
         Structure.__init__(self)
@@ -541,7 +613,16 @@ class Structure(list):
             self.title = tailbase
         return p
 
+    @deprecated(readStr_deprecation_msg)
     def readStr(self, s, format="auto"):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.read_structure instead.
+        """
+        return self.read_structure(s, format)
+
+    def read_structure(self, s, format="auto"):
         """Read structure from a string.
 
         Parameters
@@ -558,9 +639,9 @@ class Structure(list):
             Return instance of data Parser used to process input string. This
             can be inspected for information related to particular format.
         """
-        from diffpy.structure.parsers import getParser
+        from diffpy.structure.parsers import get_parser
 
-        p = getParser(format)
+        p = get_parser(format)
         new_structure = p.parse(s)
         # reinitialize data after successful parsing
         # avoid calling __init__ from a derived class
@@ -586,16 +667,25 @@ class Structure(list):
 
             ``from parsers import formats``
         """
-        from diffpy.structure.parsers import getParser
+        from diffpy.structure.parsers import get_parser
 
-        p = getParser(format)
+        p = get_parser(format)
         p.filename = filename
         s = p.tostring(self)
         with open(filename, "w", encoding="utf-8", newline="") as fp:
             fp.write(s)
         return
 
+    @deprecated(writeStr_deprecation_msg)
     def writeStr(self, format):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.Structure.write_structure instead.
+        """
+        return self.write_structure(format)
+
+    def write_structure(self, format):
         """Return string representation of the structure in specified
         format.
 
@@ -605,9 +695,9 @@ class Structure(list):
 
             ``from parsers import formats``
         """
-        from diffpy.structure.parsers import getParser
+        from diffpy.structure.parsers import get_parser
 
-        p = getParser(format)
+        p = get_parser(format)
         s = p.tostring(self)
         return s
 
@@ -733,7 +823,7 @@ class Structure(list):
         >>> stru['Na3', 2, 'Cl2']
         """
         if isinstance(idx, slice):
-            rv = self.__emptySharedStructure()
+            rv = self.__empty_shared_structure()
             lst = super(Structure, self).__getitem__(idx)
             rv.extend(lst, copy=False)
             return rv
@@ -752,7 +842,7 @@ class Structure(list):
                 idx1 = numpy.r_[idx]
             indices = numpy.arange(len(self))[idx1]
             rhs = [list.__getitem__(self, i) for i in indices]
-            rv = self.__emptySharedStructure()
+            rv = self.__empty_shared_structure()
             rv.extend(rhs, copy=False)
             return rv
         # here we need to resolve at least one string label
@@ -963,7 +1053,7 @@ class Structure(list):
 
     # linked atom attributes
 
-    element = _linkAtomAttribute(
+    element = _link_atom_attribute(
         "element",
         """Character array of `Atom` types. Assignment updates
         the element attribute of the respective `Atoms`.
@@ -971,31 +1061,31 @@ class Structure(list):
         toarray=lambda items: numpy.char.array(items, itemsize=5),
     )
 
-    xyz = _linkAtomAttribute(
+    xyz = _link_atom_attribute(
         "xyz",
         """Array of fractional coordinates of all `Atoms`.
         Assignment updates `xyz` attribute of all `Atoms`.""",
     )
 
-    x = _linkAtomAttribute(
+    x = _link_atom_attribute(
         "x",
         """Array of all fractional coordinates `x`.
         Assignment updates `xyz` attribute of all `Atoms`.""",
     )
 
-    y = _linkAtomAttribute(
+    y = _link_atom_attribute(
         "y",
         """Array of all fractional coordinates `y`.
         Assignment updates `xyz` attribute of all `Atoms`.""",
     )
 
-    z = _linkAtomAttribute(
+    z = _link_atom_attribute(
         "z",
         """Array of all fractional coordinates `z`.
         Assignment updates `xyz` attribute of all `Atoms`.""",
     )
 
-    label = _linkAtomAttribute(
+    label = _link_atom_attribute(
         "label",
         """Character array of `Atom` names. Assignment updates
         the label attribute of all `Atoms`.
@@ -1003,109 +1093,109 @@ class Structure(list):
         toarray=lambda items: numpy.char.array(items, itemsize=5),
     )
 
-    occupancy = _linkAtomAttribute(
+    occupancy = _link_atom_attribute(
         "occupancy",
         """Array of `Atom` occupancies. Assignment updates the
         occupancy attribute of all `Atoms`.""",
     )
 
-    xyz_cartn = _linkAtomAttribute(
+    xyz_cartn = _link_atom_attribute(
         "xyz_cartn",
         """Array of absolute Cartesian coordinates of all `Atoms`.
         Assignment updates the `xyz` attribute of all `Atoms`.""",
     )
 
-    anisotropy = _linkAtomAttribute(
+    anisotropy = _link_atom_attribute(
         "anisotropy",
         """Boolean array for anisotropic thermal displacement flags.
         Assignment updates the anisotropy attribute of all `Atoms`.""",
     )
 
-    U = _linkAtomAttribute(
+    U = _link_atom_attribute(
         "U",
         """Array of anisotropic thermal displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    Uisoequiv = _linkAtomAttribute(
+    Uisoequiv = _link_atom_attribute(
         "Uisoequiv",
         """Array of isotropic thermal displacement or equivalent values.
         Assignment updates the U attribute of all `Atoms`.""",
     )
 
-    U11 = _linkAtomAttribute(
+    U11 = _link_atom_attribute(
         "U11",
         """Array of `U11` elements of the anisotropic displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    U22 = _linkAtomAttribute(
+    U22 = _link_atom_attribute(
         "U22",
         """Array of `U22` elements of the anisotropic displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    U33 = _linkAtomAttribute(
+    U33 = _link_atom_attribute(
         "U33",
         """Array of `U33` elements of the anisotropic displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    U12 = _linkAtomAttribute(
+    U12 = _link_atom_attribute(
         "U12",
         """Array of `U12` elements of the anisotropic displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    U13 = _linkAtomAttribute(
+    U13 = _link_atom_attribute(
         "U13",
         """Array of `U13` elements of the anisotropic displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    U23 = _linkAtomAttribute(
+    U23 = _link_atom_attribute(
         "U23",
         """Array of `U23` elements of the anisotropic displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    Bisoequiv = _linkAtomAttribute(
+    Bisoequiv = _link_atom_attribute(
         "Bisoequiv",
         """Array of Debye-Waller isotropic thermal displacement or equivalent
         values. Assignment updates the U attribute of all `Atoms`.""",
     )
 
-    B11 = _linkAtomAttribute(
+    B11 = _link_atom_attribute(
         "B11",
         """Array of `B11` elements of the Debye-Waller displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    B22 = _linkAtomAttribute(
+    B22 = _link_atom_attribute(
         "B22",
         """Array of `B22` elements of the Debye-Waller displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    B33 = _linkAtomAttribute(
+    B33 = _link_atom_attribute(
         "B33",
         """Array of `B33` elements of the Debye-Waller displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    B12 = _linkAtomAttribute(
+    B12 = _link_atom_attribute(
         "B12",
         """Array of `B12` elements of the Debye-Waller displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    B13 = _linkAtomAttribute(
+    B13 = _link_atom_attribute(
         "B13",
         """Array of `B13` elements of the Debye-Waller displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
     )
 
-    B23 = _linkAtomAttribute(
+    B23 = _link_atom_attribute(
         "B23",
         """Array of `B23` elements of the Debye-Waller displacement tensors.
         Assignment updates the U and anisotropy attributes of all `Atoms`.""",
@@ -1113,7 +1203,7 @@ class Structure(list):
 
     # Private Methods --------------------------------------------------------
 
-    def __emptySharedStructure(self):
+    def __empty_shared_structure(self):
         """Return empty `Structure` with standard attributes same as in
         self."""
         rv = Structure()

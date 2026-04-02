@@ -20,6 +20,22 @@ from functools import reduce
 from diffpy.structure import Lattice, PDFFitStructure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.P_discus"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
 
 
 class P_discus(StructureParser):
@@ -59,6 +75,7 @@ class P_discus(StructureParser):
         self.ncell_read = False
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
         """Parse list of lines in DISCUS format.
 
@@ -78,7 +95,7 @@ class P_discus(StructureParser):
             If the file is not in DISCUS format.
         """
         self.lines = lines
-        ilines = self._linesIterator()
+        ilines = self._lines_iterator()
         self.stru = PDFFitStructure()
         record_parsers = {
             "cell": self._parse_cell,
@@ -125,7 +142,7 @@ class P_discus(StructureParser):
                 latpars = list(self.stru.lattice.abcABG())
                 superlatpars = [latpars[i] * self.stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
-                self.stru.placeInLattice(superlattice)
+                self.stru.place_in_lattice(superlattice)
                 self.stru.pdffit["ncell"] = [1, 1, 1, exp_natoms]
         except (ValueError, IndexError):
             exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -134,7 +151,91 @@ class P_discus(StructureParser):
             raise e.with_traceback(exc_traceback)
         return self.stru
 
+    def parse_lines(self, lines):
+        """Parse list of lines in DISCUS format.
+
+        Parameters
+        ----------
+        lines : list of str
+            List of lines from the input file.
+
+        Returns
+        -------
+        PDFFitStructure
+            Parsed `PDFFitStructure` instance.
+
+        Raises
+        ------
+        StructureFormatError
+            If the file is not in DISCUS format.
+        """
+        self.lines = lines
+        ilines = self._lines_iterator()
+        self.stru = PDFFitStructure()
+        record_parsers = {
+            "cell": self._parse_cell,
+            "format": self._parse_format,
+            "generator": self._parse_not_implemented,
+            "molecule": self._parse_not_implemented,
+            "ncell": self._parse_ncell,
+            "spcgr": self._parse_spcgr,
+            "symmetry": self._parse_not_implemented,
+            "title": self._parse_title,
+            "shape": self._parse_shape,
+        }
+        try:
+            # parse header
+            for self.line in ilines:
+                words = self.line.split()
+                if not words or words[0][0] == "#":
+                    continue
+                if words[0] == "atoms":
+                    break
+                rp = record_parsers.get(words[0], self._parse_unknown_record)
+                rp(words)
+            # check if cell has been defined
+            if not self.cell_read:
+                emsg = "%d: unit cell not defined" % self.nl
+                raise StructureFormatError(emsg)
+            # parse atoms
+            for self.line in ilines:
+                words = self.line.replace(",", " ").split()
+                if not words or words[0][0] == "#":
+                    continue
+                self._parse_atom(words)
+            # self consistency check
+            exp_natoms = reduce(lambda x, y: x * y, self.stru.pdffit["ncell"])
+            # only check if ncell record exists
+            if self.ncell_read and exp_natoms != len(self.stru):
+                emsg = "Expected %d atoms, read %d." % (
+                    exp_natoms,
+                    len(self.stru),
+                )
+                raise StructureFormatError(emsg)
+            # take care of superlattice
+            if self.stru.pdffit["ncell"][:3] != [1, 1, 1]:
+                latpars = list(self.stru.lattice.abcABG())
+                superlatpars = [latpars[i] * self.stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
+                superlattice = Lattice(*superlatpars)
+                self.stru.place_in_lattice(superlattice)
+                self.stru.pdffit["ncell"] = [1, 1, 1, exp_natoms]
+        except (ValueError, IndexError):
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            emsg = "%d: file is not in DISCUS format" % self.nl
+            e = StructureFormatError(emsg)
+            raise e.with_traceback(exc_traceback)
+        return self.stru
+
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_discus.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert `Structure` stru to a list of lines in DISCUS format.
 
         Parameters
@@ -182,7 +283,7 @@ class P_discus(StructureParser):
             )
         return lines
 
-    def _linesIterator(self):
+    def _lines_iterator(self):
         """Iterator over `self.lines`, which increments `self.nl`"""
         # ignore trailing empty lines
         stop = len(self.lines)
@@ -201,7 +302,7 @@ class P_discus(StructureParser):
         words = self.line.replace(",", " ").split()
         latpars = [float(w) for w in words[1:7]]
         try:
-            self.stru.lattice.setLatPar(*latpars)
+            self.stru.lattice.set_latt_parms(*latpars)
         except ZeroDivisionError:
             emsg = "%d: Invalid lattice parameters - zero cell volume" % self.nl
             raise StructureFormatError(emsg)
@@ -264,8 +365,8 @@ class P_discus(StructureParser):
         element = words[0][0:1].upper() + words[0][1:].lower()
         xyz = [float(w) for w in words[1:4]]
         Biso = float(words[4])
-        self.stru.addNewAtom(element, xyz)
-        a = self.stru.getLastAtom()
+        self.stru.add_new_atom(element, xyz)
+        a = self.stru.get_last_atom()
         a.Bisoequiv = Biso
         return
 
@@ -311,8 +412,27 @@ class P_discus(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+removal_version = "4.0.0"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 
+
+@deprecated(getParser_deprecation_msg)
 def getParser():
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.P_discus.get_parser instead.
+    """
+    return get_parser()
+
+
+def get_parser():
     """Return new `parser` object for DISCUS format.
 
     Returns

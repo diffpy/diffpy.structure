@@ -29,6 +29,40 @@ from numpy import pi
 from diffpy.structure import Structure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.P_pdb"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
+titleLines_deprecation_msg = build_deprecation_message(
+    base,
+    "titleLines",
+    "title_lines",
+    removal_version,
+)
+cryst1Lines_deprecation_msg = build_deprecation_message(
+    base,
+    "cryst1Lines",
+    "cryst1_lines",
+    removal_version,
+)
+atomLines_deprecation_msg = build_deprecation_message(
+    base,
+    "atomLines",
+    "atom_lines",
+    removal_version,
+)
 
 
 class P_pdb(StructureParser):
@@ -111,7 +145,16 @@ class P_pdb(StructureParser):
         self.format = "pdb"
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_pdb.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Parse list of lines in PDB format.
 
         Parameters
@@ -157,7 +200,7 @@ class P_pdb(StructureParser):
                     alpha = float(line[33:40])
                     beta = float(line[40:47])
                     gamma = float(line[47:54])
-                    stru.lattice.setLatPar(a, b, c, alpha, beta, gamma)
+                    stru.lattice.set_latt_parms(a, b, c, alpha, beta, gamma)
                     scale = numpy.transpose(stru.lattice.recbase)
                 elif record == "SCALE1":
                     sc = numpy.zeros((3, 3), dtype=float)
@@ -171,7 +214,7 @@ class P_pdb(StructureParser):
                     scaleU[2] = float(line[45:55])
                     base = numpy.transpose(numpy.linalg.inv(sc))
                     abcABGcryst = numpy.array(stru.lattice.abcABG())
-                    stru.lattice.setLatBase(base)
+                    stru.lattice.set_new_latt_base_vec(base)
                     abcABGscale = numpy.array(stru.lattice.abcABG())
                     reldiff = numpy.fabs(1.0 - abcABGscale / abcABGcryst)
                     if not numpy.all(reldiff < 1.0e-4):
@@ -197,8 +240,8 @@ class P_pdb(StructureParser):
                         # get element from the first 2 characters of name
                         element = line[12:14].strip()
                         element = element[0].upper() + element[1:].lower()
-                    stru.addNewAtom(element, occupancy=occupancy, label=name)
-                    last_atom = stru.getLastAtom()
+                    stru.add_new_atom(element, occupancy=occupancy, label=name)
+                    last_atom = stru.get_last_atom()
                     last_atom.xyz_cartn = rc
                     last_atom.Uisoequiv = uiso
                 elif record == "SIGATM":
@@ -244,7 +287,12 @@ class P_pdb(StructureParser):
             raise e.with_traceback(exc_traceback)
         return stru
 
+    @deprecated(titleLines_deprecation_msg)
     def titleLines(self, stru):
+        """Build lines corresponding to `TITLE` record."""
+        return self.title_lines(stru)
+
+    def title_lines(self, stru):
         """Build lines corresponding to `TITLE` record."""
         lines = []
         title = stru.title
@@ -263,7 +311,12 @@ class P_pdb(StructureParser):
             title = title[stop:]
         return lines
 
+    @deprecated(cryst1Lines_deprecation_msg)
     def cryst1Lines(self, stru):
+        """Build lines corresponding to `CRYST1` record."""
+        return self.cryst1_lines(stru)
+
+    def cryst1_lines(self, stru):
         """Build lines corresponding to `CRYST1` record."""
         lines = []
         latpar = (
@@ -279,7 +332,13 @@ class P_pdb(StructureParser):
             lines.append("%-80s" % line)
         return lines
 
+    @deprecated(atomLines_deprecation_msg)
     def atomLines(self, stru, idx):
+        """Build `ATOM` records and possibly `SIGATM`, `ANISOU` or
+        `SIGUIJ` records for `structure` stru `atom` number aidx."""
+        return self.atom_lines(stru, idx)
+
+    def atom_lines(self, stru, idx):
         """Build `ATOM` records and possibly `SIGATM`, `ANISOU` or
         `SIGUIJ` records for `structure` stru `atom` number aidx."""
         lines = []
@@ -377,7 +436,16 @@ class P_pdb(StructureParser):
                 lines.append(line)
         return lines
 
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_pdb.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert `Structure` stru to a list of lines in PDB format.
 
         Parameters
@@ -391,10 +459,10 @@ class P_pdb(StructureParser):
             List of lines in PDB format.
         """
         lines = []
-        lines.extend(self.titleLines(stru))
-        lines.extend(self.cryst1Lines(stru))
+        lines.extend(self.title_lines(stru))
+        lines.extend(self.cryst1_lines(stru))
         for idx in range(len(stru)):
-            lines.extend(self.atomLines(stru, idx))
+            lines.extend(self.atom_lines(stru, idx))
         line = (
             "TER   "  # 1-6
             + "%(serial)5i      "  # 7-11, 12-17
@@ -420,8 +488,28 @@ class P_pdb(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
 
+
+@deprecated(getParser_deprecation_msg)
 def getParser():
+    """Return new `parser` object for PDB format.
+
+    Returns
+    -------
+    P_pdb
+        Instance of `P_pdb`.
+    """
+    return get_parser()
+
+
+def get_parser():
     """Return new `parser` object for PDB format.
 
     Returns

@@ -1,6 +1,6 @@
 **Added:**
 
-* <news item>
+* No News Added: fix CI badge and target in README.rst
 
 **Changed:**
 
@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* Fix deprecation for open file for Python 3.14
+* <news item>
 
 **Security:**
 

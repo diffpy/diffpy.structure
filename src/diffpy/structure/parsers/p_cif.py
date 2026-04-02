@@ -37,8 +37,31 @@ from CifFile.yapps3_compiled_rt import YappsSyntaxError
 from diffpy.structure import Atom, Lattice, Structure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # ----------------------------------------------------------------------------
+
+
+base = "diffpy.structure.P_cif"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
+parseFile_deprecation_msg = build_deprecation_message(
+    base,
+    "parseFile",
+    "parse_file",
+    removal_version,
+)
+toLines_deprecation_msg = build_deprecation_message(
+    base,
+    "toLines",
+    "to_lines",
+    removal_version,
+)
 
 
 class P_cif(StructureParser):
@@ -104,23 +127,23 @@ class P_cif(StructureParser):
             "_tr_atom_site_cartn_x",
             "_tr_atom_site_cartn_y",
             "_tr_atom_site_cartn_z",
-            "_tr_atom_site_U_iso_or_equiv",
-            "_tr_atom_site_B_iso_or_equiv",
+            "_tr_atom_site_u_iso_or_equiv",
+            "_tr_atom_site_b_iso_or_equiv",
             "_tr_atom_site_adp_type",
             "_tr_atom_site_thermal_displace_type",
             "_tr_atom_site_occupancy",
-            "_tr_atom_site_aniso_U_11",
-            "_tr_atom_site_aniso_U_22",
-            "_tr_atom_site_aniso_U_33",
-            "_tr_atom_site_aniso_U_12",
-            "_tr_atom_site_aniso_U_13",
-            "_tr_atom_site_aniso_U_23",
-            "_tr_atom_site_aniso_B_11",
-            "_tr_atom_site_aniso_B_22",
-            "_tr_atom_site_aniso_B_33",
-            "_tr_atom_site_aniso_B_12",
-            "_tr_atom_site_aniso_B_13",
-            "_tr_atom_site_aniso_B_23",
+            "_tr_atom_site_aniso_u_11",
+            "_tr_atom_site_aniso_u_22",
+            "_tr_atom_site_aniso_u_33",
+            "_tr_atom_site_aniso_u_12",
+            "_tr_atom_site_aniso_u_13",
+            "_tr_atom_site_aniso_u_23",
+            "_tr_atom_site_aniso_b_11",
+            "_tr_atom_site_aniso_b_22",
+            "_tr_atom_site_aniso_b_33",
+            "_tr_atom_site_aniso_b_12",
+            "_tr_atom_site_aniso_b_13",
+            "_tr_atom_site_aniso_b_23",
         )
     )
     # make _atom_setters case insensitive
@@ -185,15 +208,15 @@ class P_cif(StructureParser):
 
     _tr_atom_site_cartn_z = staticmethod(_tr_atom_site_cartn_z)
 
-    def _tr_atom_site_U_iso_or_equiv(a, value):
+    def _tr_atom_site_u_iso_or_equiv(a, value):
         a.Uisoequiv = leading_float(value)
 
-    _tr_atom_site_U_iso_or_equiv = staticmethod(_tr_atom_site_U_iso_or_equiv)
+    _tr_atom_site_u_iso_or_equiv = staticmethod(_tr_atom_site_u_iso_or_equiv)
 
-    def _tr_atom_site_B_iso_or_equiv(a, value):
+    def _tr_atom_site_b_iso_or_equiv(a, value):
         a.Uisoequiv = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_B_iso_or_equiv = staticmethod(_tr_atom_site_B_iso_or_equiv)
+    _tr_atom_site_b_iso_or_equiv = staticmethod(_tr_atom_site_b_iso_or_equiv)
 
     def _tr_atom_site_adp_type(a, value):
         a.anisotropy = value not in ("Uiso", "Biso")
@@ -206,65 +229,65 @@ class P_cif(StructureParser):
 
     _tr_atom_site_occupancy = staticmethod(_tr_atom_site_occupancy)
 
-    def _tr_atom_site_aniso_U_11(a, value):
+    def _tr_atom_site_aniso_u_11(a, value):
         a.U11 = leading_float(value)
 
-    _tr_atom_site_aniso_U_11 = staticmethod(_tr_atom_site_aniso_U_11)
+    _tr_atom_site_aniso_u_11 = staticmethod(_tr_atom_site_aniso_u_11)
 
-    def _tr_atom_site_aniso_U_22(a, value):
+    def _tr_atom_site_aniso_u_22(a, value):
         a.U22 = leading_float(value)
 
-    _tr_atom_site_aniso_U_22 = staticmethod(_tr_atom_site_aniso_U_22)
+    _tr_atom_site_aniso_u_22 = staticmethod(_tr_atom_site_aniso_u_22)
 
-    def _tr_atom_site_aniso_U_33(a, value):
+    def _tr_atom_site_aniso_u_33(a, value):
         a.U33 = leading_float(value)
 
-    _tr_atom_site_aniso_U_33 = staticmethod(_tr_atom_site_aniso_U_33)
+    _tr_atom_site_aniso_u_33 = staticmethod(_tr_atom_site_aniso_u_33)
 
-    def _tr_atom_site_aniso_U_12(a, value):
+    def _tr_atom_site_aniso_u_12(a, value):
         a.U12 = leading_float(value)
 
-    _tr_atom_site_aniso_U_12 = staticmethod(_tr_atom_site_aniso_U_12)
+    _tr_atom_site_aniso_u_12 = staticmethod(_tr_atom_site_aniso_u_12)
 
-    def _tr_atom_site_aniso_U_13(a, value):
+    def _tr_atom_site_aniso_u_13(a, value):
         a.U13 = leading_float(value)
 
-    _tr_atom_site_aniso_U_13 = staticmethod(_tr_atom_site_aniso_U_13)
+    _tr_atom_site_aniso_u_13 = staticmethod(_tr_atom_site_aniso_u_13)
 
-    def _tr_atom_site_aniso_U_23(a, value):
+    def _tr_atom_site_aniso_u_23(a, value):
         a.U23 = leading_float(value)
 
-    _tr_atom_site_aniso_U_23 = staticmethod(_tr_atom_site_aniso_U_23)
+    _tr_atom_site_aniso_u_23 = staticmethod(_tr_atom_site_aniso_u_23)
 
-    def _tr_atom_site_aniso_B_11(a, value):
+    def _tr_atom_site_aniso_b_11(a, value):
         a.U11 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_11 = staticmethod(_tr_atom_site_aniso_B_11)
+    _tr_atom_site_aniso_b_11 = staticmethod(_tr_atom_site_aniso_b_11)
 
-    def _tr_atom_site_aniso_B_22(a, value):
+    def _tr_atom_site_aniso_b_22(a, value):
         a.U22 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_22 = staticmethod(_tr_atom_site_aniso_B_22)
+    _tr_atom_site_aniso_b_22 = staticmethod(_tr_atom_site_aniso_b_22)
 
-    def _tr_atom_site_aniso_B_33(a, value):
+    def _tr_atom_site_aniso_b_33(a, value):
         a.U33 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_33 = staticmethod(_tr_atom_site_aniso_B_33)
+    _tr_atom_site_aniso_b_33 = staticmethod(_tr_atom_site_aniso_b_33)
 
-    def _tr_atom_site_aniso_B_12(a, value):
+    def _tr_atom_site_aniso_b_12(a, value):
         a.U12 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_12 = staticmethod(_tr_atom_site_aniso_B_12)
+    _tr_atom_site_aniso_b_12 = staticmethod(_tr_atom_site_aniso_b_12)
 
-    def _tr_atom_site_aniso_B_13(a, value):
+    def _tr_atom_site_aniso_b_13(a, value):
         a.U13 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_13 = staticmethod(_tr_atom_site_aniso_B_13)
+    _tr_atom_site_aniso_b_13 = staticmethod(_tr_atom_site_aniso_b_13)
 
-    def _tr_atom_site_aniso_B_23(a, value):
+    def _tr_atom_site_aniso_b_23(a, value):
         a.U23 = P_cif.BtoU * leading_float(value)
 
-    _tr_atom_site_aniso_B_23 = staticmethod(_tr_atom_site_aniso_B_23)
+    _tr_atom_site_aniso_b_23 = staticmethod(_tr_atom_site_aniso_b_23)
 
     def _get_atom_setters(cifloop):
         """Static method for finding translators of CifLoop items to
@@ -327,10 +350,20 @@ class P_cif(StructureParser):
         self.ciffile = None
         self.filename = ""
         fp = io.StringIO(s)
-        rv = self._parseCifDataSource(fp)
+        rv = self._parse_cif_data_source(fp)
         return rv
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_cif.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    @deprecated(parseLines_deprecation_msg)
+    def parse_lines(self, lines):
         """Parse list of lines in CIF format.
 
         Parameters
@@ -351,7 +384,16 @@ class P_cif(StructureParser):
         s = "\n".join(lines) + "\n"
         return self.parse(s)
 
+    @deprecated(parseFile_deprecation_msg)
     def parseFile(self, filename):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_cif.parse_file instead.
+        """
+        return self.parse_file(filename)
+
+    def parse_file(self, filename):
         """Create Structure from an existing CIF file.
 
         Parameters
@@ -373,11 +415,11 @@ class P_cif(StructureParser):
         """
         self.ciffile = None
         self.filename = filename
-        rv = self._parseCifDataSource(filename)
+        rv = self._parse_cif_data_source(filename)
         # all good here
         return rv
 
-    def _parseCifDataSource(self, datasource):
+    def _parse_cif_data_source(self, datasource):
         """Open and process CIF data from the specified `datasource`.
 
         Parameters
@@ -400,12 +442,12 @@ class P_cif(StructureParser):
 
         self.stru = None
         try:
-            with _suppressCifParserOutput():
+            with _suppress_cif_parser_output():
                 # Use `grammar` option to digest values with curly-brackets.
                 # Ref: https://bitbucket.org/jamesrhester/pycifrw/issues/19
                 self.ciffile = CifFile(datasource, grammar="auto")
                 for blockname in self.ciffile.keys():
-                    self._parseCifBlock(blockname)
+                    self._parse_cif_block(blockname)
                     # stop after reading the first structure
                     if self.stru is not None:
                         break
@@ -416,7 +458,7 @@ class P_cif(StructureParser):
             raise e.with_traceback(exc_traceback)
         return self.stru
 
-    def _parseCifBlock(self, blockname):
+    def _parse_cif_block(self, blockname):
         """Translate CIF file block, skip blocks without
         `_atom_site_label`. Updates data members `stru`, `eau`.
 
@@ -497,8 +539,8 @@ class P_cif(StructureParser):
             if curlabel == "?":
                 continue
             self.labelindex[curlabel] = len(self.stru)
-            self.stru.addNewAtom()
-            a = self.stru.getLastAtom()
+            self.stru.add_new_atom()
+            a = self.stru.get_last_atom()
             for fset, val in zip(prop_setters, values):
                 fset(a, val)
             if does_adp_type:
@@ -551,7 +593,12 @@ class P_cif(StructureParser):
         block : CifBlock
             Instance of `CifBlock`.
         """
-        from diffpy.structure.spacegroups import FindSpaceGroup, GetSpaceGroup, IsSpaceGroupIdentifier, SpaceGroup
+        from diffpy.structure.spacegroups import (
+            SpaceGroup,
+            find_space_group,
+            get_space_group,
+            is_space_group_identifier,
+        )
 
         self.asymmetric_unit = list(self.stru)
         sym_synonyms = (
@@ -566,7 +613,7 @@ class P_cif(StructureParser):
             sym_loop_name = sym_loop_name[0]
             sym_loop = block.GetLoop(sym_loop_name)
             for eqxyz in sym_loop[sym_loop_name]:
-                opcif = getSymOp(eqxyz)
+                opcif = get_symop(eqxyz)
                 symop_list.append(opcif)
         # determine space group number
         sg_nameHall = block.get("_space_group_name_Hall", "") or block.get("_symmetry_space_group_name_Hall", "")
@@ -581,12 +628,12 @@ class P_cif(StructureParser):
         # try to reuse existing space group from symmetry operations
         if symop_list:
             try:
-                self.spacegroup = FindSpaceGroup(symop_list)
+                self.spacegroup = find_space_group(symop_list)
             except ValueError:
                 pass
         # otherwise lookup the space group from its identifier
-        if self.spacegroup is None and sgid and IsSpaceGroupIdentifier(sgid):
-            self.spacegroup = GetSpaceGroup(sgid)
+        if self.spacegroup is None and sgid and is_space_group_identifier(sgid):
+            self.spacegroup = get_space_group(sgid)
         # define new spacegroup when symmetry operations were listed, but
         # there is no match to an existing definition
         if symop_list and self.spacegroup is None:
@@ -602,10 +649,10 @@ class P_cif(StructureParser):
         if self.spacegroup is None:
             emsg = "CIF file has unknown space group identifier {!r}."
             raise StructureFormatError(emsg.format(sgid))
-        self._expandAsymmetricUnit(block)
+        self._expand_asymmetric_unit(block)
         return
 
-    def _expandAsymmetricUnit(self, block):
+    def _expand_asymmetric_unit(self, block):
         """Perform symmetry expansion of `self.stru` using
         `self.spacegroup`.
 
@@ -646,7 +693,16 @@ class P_cif(StructureParser):
 
     # conversion to CIF ------------------------------------------------------
 
+    @deprecated(toLines_deprecation_msg)
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_cif.to_lines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert `Structure` to a list of lines in basic CIF format.
 
         Parameters
@@ -766,6 +822,19 @@ class P_cif(StructureParser):
 
 # Routines -------------------------------------------------------------------
 
+parsers_base = "diffpy.structure"
+getParser_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getParser",
+    "get_parser",
+    removal_version,
+)
+getSymOp_deprecation_msg = build_deprecation_message(
+    parsers_base,
+    "getSymOp",
+    "get_symop",
+    removal_version,
+)
 # constant regular expression for leading_float()
 rx_float = re.compile(r"[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?")
 
@@ -820,7 +889,17 @@ symvec["+y"] = symvec["y"]
 symvec["+z"] = symvec["z"]
 
 
+@deprecated(getSymOp_deprecation_msg)
 def getSymOp(s):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.get_symop instead.
+    """
+    return get_symop(s)
+
+
+def get_symop(s):
     """Create `SpaceGroups.SymOp` instance from a string.
 
     Parameters
@@ -850,7 +929,17 @@ def getSymOp(s):
     return rv
 
 
+@deprecated(getParser_deprecation_msg)
 def getParser(eps=None):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.get_parser instead.
+    """
+    return get_parser(eps)
+
+
+def get_parser(eps=None):
     """Return new `parser` object for CIF format.
 
     Parameters
@@ -871,7 +960,7 @@ def getParser(eps=None):
 
 
 @contextmanager
-def _suppressCifParserOutput():
+def _suppress_cif_parser_output():
     """Context manager which suppresses diagnostic messages from CIF
     parser."""
     from CifFile import yapps3_compiled_rt

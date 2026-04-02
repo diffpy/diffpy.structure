@@ -34,20 +34,30 @@ Exceptions:
 """
 
 
+import os
 import sys
 
 import diffpy.structure as _structure
 from diffpy.structure.atom import Atom
 from diffpy.structure.lattice import Lattice
-from diffpy.structure.parsers import getParser
+from diffpy.structure.parsers import get_parser
 from diffpy.structure.pdffitstructure import PDFFitStructure
 from diffpy.structure.structure import Structure
 from diffpy.structure.structureerrors import LatticeError, StructureFormatError, SymmetryError
 
 # package version
 from diffpy.structure.version import __version__
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
 # Deprecations -------------------------------------------------------
+base = "diffpy.structure"
+removal_version = "4.0.0"
+loadStructure_deprecation_msg = build_deprecation_message(
+    base,
+    "loadStructure",
+    "load_structure",
+    removal_version,
+)
 
 
 # @deprecated
@@ -72,7 +82,17 @@ sys.modules["diffpy.Structure"] = DeprecatedStructureModule()
 # top level routines
 
 
+@deprecated(loadStructure_deprecation_msg)
 def loadStructure(filename, fmt="auto", **kw):
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.load_structure instead.
+    """
+    return load_structure(filename, fmt, **kw)
+
+
+def load_structure(filename, fmt="auto", **kw):
     """Load new structure object from the specified file.
 
     Parameters
@@ -96,9 +116,9 @@ def loadStructure(filename, fmt="auto", **kw):
         Return a more specific PDFFitStructure type for 'pdffit'
         and 'discus' formats.
     """
-
-    p = getParser(fmt, **kw)
-    rv = p.parseFile(filename)
+    filename = os.fspath(filename)
+    p = get_parser(fmt, **kw)
+    rv = p.parse_file(filename)
     return rv
 
 

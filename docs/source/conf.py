@@ -23,7 +23,7 @@ try:
     fullversion = version("diffpy.structure")
 except Exception:
     fullversion = "No version found. The correct version will appear in the released version."  # noqa: E501
-
+autodoc_mock_imports = ["diffpy.utils"]
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use Path().resolve() to make it absolute, like shown here.  # noqa: E501

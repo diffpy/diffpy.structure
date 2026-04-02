@@ -16,6 +16,16 @@
 
 
 from diffpy.structure.structure import Structure
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.PDFFitStructure"
+removal_version = "4.0.0"
+readStr_deprecation_msg = build_deprecation_message(
+    base,
+    "readStr",
+    "read_structure",
+    removal_version,
+)
 
 # ----------------------------------------------------------------------------
 
@@ -78,7 +88,17 @@ class PDFFitStructure(Structure):
             self.pdffit["spcgr"] = sg.short_name
         return p
 
+    @deprecated(readStr_deprecation_msg)
     def readStr(self, s, format="auto"):
+        """'diffpy.structure.PDFFitStructure.readStr' is deprecated and
+        will be removed in version 4.0.0.
+
+        Please use 'diffpy.structure.PDFFitStructure.read_structure'
+        instead.
+        """
+        return self.read_structure(s, format)
+
+    def read_structure(self, s, format="auto"):
         """Same as `Structure.readStr`, but update `spcgr` value in
         `self.pdffit` when parser can get spacegroup.
 
@@ -97,7 +117,7 @@ class PDFFitStructure(Structure):
         StructureParser
             Instance of `StructureParser` used to load the data.
         """
-        p = Structure.readStr(self, s, format)
+        p = Structure.read_structure(self, s, format)
         sg = getattr(p, "spacegroup", None)
         if sg:
             self.pdffit["spcgr"] = sg.short_name

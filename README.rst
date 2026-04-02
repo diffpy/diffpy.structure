@@ -15,8 +15,8 @@
 .. |Black| image:: https://img.shields.io/badge/code_style-black-black
         :target: https://github.com/psf/black
 
-.. |CI| image:: https://github.com/diffpy/diffpy.structure/actions/workflows/matrix-and-codecov-on-merge-to-main.yml/badge.svg
-        :target: https://github.com/diffpy/diffpy.structure/actions/workflows/matrix-and-codecov-on-merge-to-main.yml
+.. |CI| image:: https://github.com/diffpy/diffpy.structure/actions/workflows/matrix-and-codecov.yml/badge.svg
+        :target: https://github.com/diffpy/diffpy.structure/actions/workflows/matrix-and-codecov.yml
 
 .. |Codecov| image:: https://codecov.io/gh/diffpy/diffpy.structure/branch/main/graph/badge.svg
         :target: https://codecov.io/gh/diffpy/diffpy.structure

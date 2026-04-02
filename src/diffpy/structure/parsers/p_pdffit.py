@@ -22,6 +22,16 @@ import numpy
 from diffpy.structure import Lattice, PDFFitStructure
 from diffpy.structure.parsers import StructureParser
 from diffpy.structure.structureerrors import StructureFormatError
+from diffpy.utils._deprecator import build_deprecation_message, deprecated
+
+base = "diffpy.structure.P_pdffit"
+removal_version = "4.0.0"
+parseLines_deprecation_msg = build_deprecation_message(
+    base,
+    "parseLines",
+    "parse_lines",
+    removal_version,
+)
 
 
 class P_pdffit(StructureParser):
@@ -44,7 +54,16 @@ class P_pdffit(StructureParser):
         self.stru = None
         return
 
+    @deprecated(parseLines_deprecation_msg)
     def parseLines(self, lines):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_pdffit.parse_lines instead.
+        """
+        return self.parse_lines(lines)
+
+    def parse_lines(self, lines):
         """Parse list of lines in PDFfit format.
 
         Parameters
@@ -132,8 +151,8 @@ class P_pdffit(StructureParser):
                 element = wl1[0][0].upper() + wl1[0][1:].lower()
                 xyz = [float(w) for w in wl1[1:4]]
                 occ = float(wl1[4])
-                stru.addNewAtom(element, xyz=xyz, occupancy=occ)
-                a = stru.getLastAtom()
+                stru.add_new_atom(element, xyz=xyz, occupancy=occ)
+                a = stru.get_last_atom()
                 p_nl += 1
                 wl2 = next(ilines).split()
                 a.sigxyz = [float(w) for w in wl2[0:3]]
@@ -169,7 +188,7 @@ class P_pdffit(StructureParser):
             if stru.pdffit["ncell"][:3] != [1, 1, 1]:
                 superlatpars = [latpars[i] * stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
-                stru.placeInLattice(superlattice)
+                stru.place_in_lattice(superlattice)
                 stru.pdffit["ncell"] = [1, 1, 1, p_natoms]
         except (ValueError, IndexError):
             emsg = "%d: file is not in PDFfit format" % p_nl
@@ -179,6 +198,14 @@ class P_pdffit(StructureParser):
         return stru
 
     def toLines(self, stru):
+        """This function has been deprecated and will be removed in
+        version 4.0.0.
+
+        Please use diffpy.structure.P_pdffit.toLines instead.
+        """
+        return self.to_lines(stru)
+
+    def to_lines(self, stru):
         """Convert `Structure` stru to a list of lines in PDFfit format.
 
         Parameters
@@ -290,6 +317,15 @@ class P_pdffit(StructureParser):
 
 
 def getParser():
+    """This function has been deprecated and will be removed in version
+    4.0.0.
+
+    Please use diffpy.structure.P_pdffit.get_parser instead.
+    """
+    return get_parser()
+
+
+def get_parser():
     """Return new `parser` object for PDFfit format.
 
     Returns

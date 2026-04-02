@@ -17,10 +17,10 @@ import re
 import numpy
 from cctbx import sgtbx
 
-from diffpy.structure.spacegroups import IsSpaceGroupIdentifier, SpaceGroup, SymOp, mmLibSpaceGroupList
+from diffpy.structure.spacegroups import SpaceGroup, SymOp, is_space_group_identifier, mmLibSpaceGroupList
 
 
-def tupleToSGArray(tpl):
+def tuple_to_sg_array(tpl):
     if not _rtarrays:
         import diffpy.structure.SpaceGroups as sgmod
 
@@ -40,19 +40,19 @@ def tupleToSGArray(tpl):
 _rtarrays = {}
 
 
-def mmSpaceGroupFromSymbol(symbol):
+def mm_space_group_from_symbol(symbol):
     """Construct SpaceGroup instance from a string symbol using sgtbx
     data."""
     sginfo = sgtbx.space_group_info(symbol)
     symop_list = []
-    symop_list = getSymOpList(sginfo.group())
+    symop_list = get_symop_list(sginfo.group())
     sgtype = sginfo.type()
     uhm = sgtype.lookup_symbol()
     sgsmbls = sgtbx.space_group_symbols(uhm)
     kw = {}
     kw["number"] = sgtype.number()
     kw["num_sym_equiv"] = len(symop_list)
-    kw["num_primitive_sym_equiv"] = countUniqueRotations(symop_list)
+    kw["num_primitive_sym_equiv"] = count_unique_rotations(symop_list)
     kw["short_name"] = sgsmbls.hermann_mauguin().replace(" ", "")
     pgt = sgsmbls.point_group_type()
     pgn = "PG" + re.sub(r"-(\d)", "\\1bar", pgt)
@@ -64,27 +64,27 @@ def mmSpaceGroupFromSymbol(symbol):
     return mmsg
 
 
-def adjustMMSpaceGroupNumber(mmsg):
+def adjust_mm_space_group_number(mmsg):
     sg0 = [x for x in mmLibSpaceGroupList if x.number == mmsg.number]
-    if sg0 and cmpSpaceGroups(sg0[0], mmsg):
+    if sg0 and cmp_space_groups(sg0[0], mmsg):
         return
     while mmsg.number in sgnumbers:
         mmsg.number += 1000
     sgnumbers.append(mmsg.number)
 
 
-def getSymOpList(grp):
+def get_symop_list(grp):
     symop_list = []
     for op in grp:
         r_sgtbx = op.r().as_double()
         t_sgtbx = op.t().as_double()
-        R = tupleToSGArray(r_sgtbx)
-        t = tupleToSGArray(t_sgtbx)
+        R = tuple_to_sg_array(r_sgtbx)
+        t = tuple_to_sg_array(t_sgtbx)
         symop_list.append(SymOp(R, t))
     return symop_list
 
 
-def countUniqueRotations(symop_list):
+def count_unique_rotations(symop_list):
     unique_rotations = set()
     for op in symop_list:
         tpl = tuple(op.R.flatten())
@@ -92,49 +92,49 @@ def countUniqueRotations(symop_list):
     return len(unique_rotations)
 
 
-def cmpSpaceGroups(sg0, sg1):
+def cmp_space_groups(sg0, sg1):
     if sg0 is sg1:
         return True
-    s0 = hashMMSpaceGroup(sg0)
-    s1 = hashMMSpaceGroup(sg1)
+    s0 = hash_mm_space_group(sg0)
+    s1 = hash_mm_space_group(sg1)
     return s0 == s1
 
 
-def findEquivalentMMSpaceGroup(grp):
+def find_equivalent_mm_space_group(grp):
     if not _equivmmsg:
         for sgn in mmLibSpaceGroupList:
-            ssgn = hashMMSpaceGroup(sgn)
+            ssgn = hash_mm_space_group(sgn)
             _equivmmsg.setdefault(ssgn, sgn)
-    ssg = hashSgtbxGroup(grp)
+    ssg = hash_sgtbx_group(grp)
     return _equivmmsg.get(ssg)
 
 
 _equivmmsg = {}
 
 
-def findEquivalentSgtbxSpaceGroup(sgmm):
+def find_equivalent_sgtbx_space_group(sgmm):
     if not _equivsgtbx:
         for smbls in sgtbx.space_group_symbol_iterator():
             uhm = smbls.universal_hermann_mauguin()
             grp = sgtbx.space_group_info(uhm).group()
-            hgrp = hashSgtbxGroup(grp)
+            hgrp = hash_sgtbx_group(grp)
             _equivsgtbx.setdefault(hgrp, grp)
-    hgmm = hashMMSpaceGroup(sgmm)
+    hgmm = hash_mm_space_group(sgmm)
     return _equivsgtbx.get(hgmm)
 
 
 _equivsgtbx = {}
 
 
-def hashMMSpaceGroup(sg):
+def hash_mm_space_group(sg):
     lines = [str(sg.number % 1000)] + sorted(map(str, sg.iter_symops()))
     s = "\n".join(lines)
     return s
 
 
-def hashSgtbxGroup(grp):
+def hash_sgtbx_group(grp):
     n = grp.type().number()
-    lines = [str(n)] + sorted(map(str, getSymOpList(grp)))
+    lines = [str(n)] + sorted(map(str, get_symop_list(grp)))
     s = "\n".join(lines)
     return s
 
@@ -157,19 +157,19 @@ sg%(number)i = SpaceGroup(
 """
 
 
-def SGCode(mmsg):
+def sg_code(mmsg):
     src0 = _SGsrc % mmsg.__dict__
-    src1 = src0.replace("@SYMOPS@", SymOpsCode(mmsg))
+    src1 = src0.replace("@SYMOPS@", symops_code(mmsg))
     return src1
 
 
-def SymOpsCode(mmsg):
-    lst = ["%8s%s," % ("", SymOpCode(op)) for op in mmsg.iter_symops()]
+def symops_code(mmsg):
+    lst = ["%8s%s," % ("", symop_code(op)) for op in mmsg.iter_symops()]
     src = "\n".join(lst).strip()
     return src
 
 
-def SymOpCode(op):
+def symop_code(op):
     if not _rtnames:
         import diffpy.structure.SpaceGroups as sgmod
 
@@ -193,18 +193,18 @@ def main():
     for smbls in sgtbx.space_group_symbol_iterator():
         uhm = smbls.universal_hermann_mauguin()
         grp = sgtbx.space_group_info(uhm).group()
-        if findEquivalentMMSpaceGroup(grp):
+        if find_equivalent_mm_space_group(grp):
             continue
         shn = smbls.hermann_mauguin().replace(" ", "")
-        if IsSpaceGroupIdentifier(shn):
+        if is_space_group_identifier(shn):
             continue
-        sg = mmSpaceGroupFromSymbol(uhm)
-        hsg = hashMMSpaceGroup(sg)
+        sg = mm_space_group_from_symbol(uhm)
+        hsg = hash_mm_space_group(sg)
         if hsg in duplicates:
             continue
-        adjustMMSpaceGroupNumber(sg)
+        adjust_mm_space_group_number(sg)
         duplicates.add(hsg)
-        print(SGCode(sg))
+        print(sg_code(sg))
     return
 
 
