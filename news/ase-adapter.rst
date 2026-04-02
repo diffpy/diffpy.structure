@@ -8,7 +8,6 @@
 * Added ``Structure.get_cartesian_coordinates()`` method to return the Cartesian coordinates of the sites.
 * Added ``Structure.get_fractional_coordinates()`` method to return the fractional coordinates of the sites.
 * Added ``Structure.get_chemical_symbols()`` method to return the chemical symbols of the sites.
-* Added ``Structure.convert_ase_to_diffpy_structure()`` method to convert an ASE Atoms object to a DiffPy Structure object.
 
 **Changed:**
 
