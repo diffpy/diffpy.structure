@@ -844,7 +844,10 @@ def test_get_anisotropic_displacement_parameters(datafile, input, expected):
     [  # case: user wants isotropic displacement parameters as an array
         # so they set return_array=True
         # expected: a 1D array of shape (num_atoms,) with the Uiso values
-        [True, np.array([0.0225566, 0.0225566, 0.0225566, 0.0225566, 0.0155528, 0.0155528, 0.0155528, 0.0155528])],
+        [
+            True,
+            np.array([0.0225566, 0.0225566, 0.0225566, 0.0225566, 0.0155528, 0.0155528, 0.0155528, 0.0155528]),
+        ],
         # case: user wants isotropic displacement parameters as a dictionary
         # so they set return_array=False (default behavior)
         # expected: a dictionary with keys like "I_Uiso" and values as the corresponding Uiso values
