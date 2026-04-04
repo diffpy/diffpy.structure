@@ -236,6 +236,135 @@ class Structure(list):
         last_atom = self[-1]
         return last_atom
 
+    def get_chemical_symbols(self):
+        """Return list of chemical symbols for all `Atoms` in this
+        structure.
+
+        Returns
+        -------
+        list of str
+            The list of chemical symbols for all `Atoms` in this structure.
+        """
+        symbols_with_charge = [a.element for a in self]
+        symbols = [atom_bare_symbol(sym) for sym in symbols_with_charge]
+        return symbols
+
+    def get_fractional_coordinates(self):
+        """Return array of fractional coordinates of all `Atoms` in this
+        structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of fractional coordinates of all `Atoms` in this structure
+            in the same order as `Structure.get_chemical_symbols()`.
+        """
+        coords = numpy.array([a.xyz for a in self])
+        return coords
+
+    def get_cartesian_coordinates(self):
+        """Return array of Cartesian coordinates of all `Atoms` in this
+        structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of Cartesian coordinates of all `Atoms` in this structure
+            in the same order as `Structure.get_chemical_symbols()`.
+        """
+        cartn_coords = numpy.array([a.xyz_cartn for a in self])
+        return cartn_coords
+
+    def get_anisotropic_displacement_parameters(self, return_array=False):
+        """Return the anisotropic displacement parameters for all atoms.
+
+        Parameters
+        ----------
+        return_array : bool, optional
+            If True, return anisotropic displacement parameters as a numpy array instead of a dictionary.
+
+        Returns
+        -------
+        dict
+            The dictionary of anisotropic displacement parameters for all atoms in this structure.
+            Keys are of the form 'Element_i_Ujk', e.g. 'C_0_11', 'C_0_12'.
+        """
+        if return_array:
+            aniso_adps = numpy.array([a.U for a in self])
+            return aniso_adps
+        else:
+            adp_dict = {}
+            for i, atom in enumerate(self):
+                element = atom_bare_symbol(atom.element)
+                adp_dict[f"{element}_{i}_11"] = self.U11[i]
+                adp_dict[f"{element}_{i}_22"] = self.U22[i]
+                adp_dict[f"{element}_{i}_33"] = self.U33[i]
+                adp_dict[f"{element}_{i}_12"] = self.U12[i]
+                adp_dict[f"{element}_{i}_13"] = self.U13[i]
+                adp_dict[f"{element}_{i}_23"] = self.U23[i]
+            return adp_dict
+
+    def get_isotropic_displacement_parameters(self, return_array=False):
+        """Return a the isotropic displacement parameters for all atoms.
+
+        Parameters
+        ----------
+        return_array : bool, optional
+            If True, return isotropic displacement parameters as a numpy array instead of a dictionary.
+            Default is False.
+
+        Returns
+        -------
+        dict
+            The dictionary of isotropic displacement parameters for all atoms in this structure.
+            Keys are of the form 'Element_i_Uiso', e.g. 'C_0_Uiso'.
+        """
+        if return_array:
+            iso_adps = numpy.array([a.Uisoequiv for a in self])
+            return iso_adps
+        else:
+            iso_dict = {}
+            for i, atom in enumerate(self):
+                element = atom_bare_symbol(atom.element)
+                iso_dict[f"{element}_{i+1}_Uiso"] = self.Uisoequiv[i]
+            return iso_dict
+
+    def get_occupancies(self):
+        """Return array of occupancies of all `Atoms` in this structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of occupancies of all `Atoms` in this structure.
+        """
+        occupancies = numpy.array([a.occupancy for a in self])
+        return occupancies
+
+    def get_lattice_vectors(self):
+        """Return array of lattice vectors for this structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of lattice vectors for this structure.
+        """
+        lattice_vectors = self.lattice.base
+        return lattice_vectors
+
+    def get_lattice_vector_angles(self):
+        """Return array of lattice vector angles for this structure.
+
+        Returns
+        -------
+        numpy.ndarray
+            The array of lattice vector angles for this structure.
+        """
+        a, b, c = self.lattice.base
+        alpha = self.lattice.angle(b, c)
+        beta = self.lattice.angle(a, c)
+        gamma = self.lattice.angle(a, b)
+        return numpy.array([alpha, beta, gamma])
+
     def assign_unique_labels(self):
         """Set a unique label string for each `Atom` in this structure.
 

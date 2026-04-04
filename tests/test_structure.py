@@ -19,7 +19,7 @@ import copy
 import pickle
 import unittest
 
-import numpy
+import numpy as np
 import pytest
 
 from diffpy.structure import Atom, Lattice, Structure
@@ -87,8 +87,8 @@ class TestStructure(unittest.TestCase):
         pbte = self.pbte
         pbte2 = pbte.copy()
         self.assertFalse(pbte2.lattice is pbte.lattice)
-        self.assertTrue(numpy.array_equal(pbte.xyz_cartn, pbte2.xyz_cartn))
-        self.assertTrue(numpy.array_equal(pbte.U, pbte2.U))
+        self.assertTrue(np.array_equal(pbte.xyz_cartn, pbte2.xyz_cartn))
+        self.assertTrue(np.array_equal(pbte.U, pbte2.U))
         stru = MyDerivedStructure()
         stru += pbte2[pbte2.element.startswith("Pb")]
         pb3 = stru.copy()
@@ -126,7 +126,7 @@ class TestStructure(unittest.TestCase):
         structure = Structure(atoms=[Atom("C", [0, 0, 0])], lattice=s_lat)
         actual = structure.getLastAtom()
         assert actual.element == expected.element
-        assert numpy.allclose(expected.xyz, actual.xyz)
+        assert np.allclose(expected.xyz, actual.xyz)
 
     def test_get_last_atom(self):
         """Check Structure.get_last_atom()"""
@@ -135,7 +135,7 @@ class TestStructure(unittest.TestCase):
         structure = Structure(atoms=[Atom("C", [0, 0, 0])], lattice=s_lat)
         actual = structure.get_last_atom()
         assert actual.element == expected.element
-        assert numpy.allclose(expected.xyz, actual.xyz)
+        assert np.allclose(expected.xyz, actual.xyz)
 
     def test_addNewAtom(self):
         """Duplicate test for the deprecated addNewAtom method.
@@ -152,7 +152,7 @@ class TestStructure(unittest.TestCase):
         assert expected == actual
         atom_object = structure[-1]
         assert atom_object.element == "C"
-        assert numpy.allclose(atom_object.xyz, [0.1, 0.2, 0.3])
+        assert np.allclose(atom_object.xyz, [0.1, 0.2, 0.3])
 
     def test_assignUniqueLabels(self):
         """Check Structure.assignUniqueLabels()"""
@@ -197,9 +197,9 @@ class TestStructure(unittest.TestCase):
         new_lattice = Lattice(0.5, 0.5, 0.5, 90, 90, 60)
         stru.placeInLattice(new_lattice)
         a0 = stru[0]
-        self.assertTrue(numpy.allclose(a0.xyz, [0.0, 0.0, 0.0]))
+        self.assertTrue(np.allclose(a0.xyz, [0.0, 0.0, 0.0]))
         a1 = stru[1]
-        self.assertTrue(numpy.allclose(a1.xyz, [2.0, 0.0, 2.0]))
+        self.assertTrue(np.allclose(a1.xyz, [2.0, 0.0, 2.0]))
 
     def test_place_in_lattice(self):
         """Check Structure.placeInLattice() -- conversion of
@@ -208,9 +208,9 @@ class TestStructure(unittest.TestCase):
         new_lattice = Lattice(0.5, 0.5, 0.5, 90, 90, 60)
         stru.place_in_lattice(new_lattice)
         a0 = stru[0]
-        self.assertTrue(numpy.allclose(a0.xyz, [0.0, 0.0, 0.0]))
+        self.assertTrue(np.allclose(a0.xyz, [0.0, 0.0, 0.0]))
         a1 = stru[1]
-        self.assertTrue(numpy.allclose(a1.xyz, [2.0, 0.0, 2.0]))
+        self.assertTrue(np.allclose(a1.xyz, [2.0, 0.0, 2.0]))
 
     # def test_read(self):
     #     """check Structure.read()"""
@@ -244,7 +244,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(3, len(self.stru))
         self.assertEqual("Si", alast.element)
         self.assertTrue(lat is alast.lattice)
-        self.assertTrue(numpy.array_equal(a.xyz, alast.xyz))
+        self.assertTrue(np.array_equal(a.xyz, alast.xyz))
         self.assertFalse(a is alast)
         self.assertFalse(lat is a.lattice)
         return
@@ -258,7 +258,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(3, len(self.stru))
         self.assertEqual("Si", a1.element)
         self.assertTrue(lat is a1.lattice)
-        self.assertTrue(numpy.array_equal(a.xyz, a1.xyz))
+        self.assertTrue(np.array_equal(a.xyz, a1.xyz))
         self.assertFalse(a is a1)
         self.assertFalse(lat is a.lattice)
         return
@@ -281,7 +281,7 @@ class TestStructure(unittest.TestCase):
         self.assertTrue(stru[0] is stru.tolist()[0])
         intidx = list(range(len(stru)))[::-1]
         self.assertEqual(stru[intidx].tolist(), stru.tolist()[::-1])
-        flagidx = numpy.arange(len(stru)) > 0
+        flagidx = np.arange(len(stru)) > 0
         self.assertEqual(stru[flagidx].tolist(), stru.tolist()[1:])
         cdse = Structure(self.cdse)
         self.assertEqual([cdse[0], cdse[-2]], cdse[0, -2].tolist())
@@ -318,7 +318,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(2, len(self.stru))
         self.assertEqual("Si", a1.element)
         self.assertTrue(lat is a1.lattice)
-        self.assertTrue(numpy.array_equal(a.xyz, a1.xyz))
+        self.assertTrue(np.array_equal(a.xyz, a1.xyz))
         self.assertFalse(a is a1)
         self.assertFalse(lat is a.lattice)
         return
@@ -332,7 +332,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(1, len(self.stru))
         self.assertEqual("Si", a0.element)
         self.assertTrue(lat is a0.lattice)
-        self.assertTrue(numpy.array_equal(a.xyz, a0.xyz))
+        self.assertTrue(np.array_equal(a.xyz, a0.xyz))
         self.assertFalse(a is a0)
         self.assertFalse(lat is a.lattice)
         return
@@ -346,9 +346,9 @@ class TestStructure(unittest.TestCase):
         ta0 = total[0]
         tam1 = total[-1]
         self.assertEqual("C", ta0.element)
-        self.assertTrue(numpy.array_equal(stru[0].xyz, ta0.xyz))
+        self.assertTrue(np.array_equal(stru[0].xyz, ta0.xyz))
         self.assertEqual("Se", tam1.element)
-        self.assertTrue(numpy.array_equal(cdse[-1].xyz, tam1.xyz))
+        self.assertTrue(np.array_equal(cdse[-1].xyz, tam1.xyz))
         self.assertFalse(total.lattice in (stru.lattice, cdse.lattice))
         self.assertTrue(all([a.lattice is total.lattice for a in total]))
         return
@@ -364,7 +364,7 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(lst, stru[:2].tolist())
         am1 = stru[-1]
         self.assertEqual("Se", am1.element)
-        self.assertTrue(numpy.array_equal(cdse[-1].xyz, am1.xyz))
+        self.assertTrue(np.array_equal(cdse[-1].xyz, am1.xyz))
         self.assertTrue(lat0 is stru.lattice)
         self.assertFalse(stru.lattice is cdse.lattice)
         self.assertTrue(all([a.lattice is stru.lattice for a in stru]))
@@ -377,8 +377,8 @@ class TestStructure(unittest.TestCase):
         self.assertEqual(2, len(cadmiums))
         self.assertEqual("Cd", cadmiums[0].element)
         self.assertEqual("Cd", cadmiums[1].element)
-        self.assertTrue(numpy.array_equal(cdse[0].xyz, cadmiums[0].xyz))
-        self.assertTrue(numpy.array_equal(cdse[1].xyz, cadmiums[1].xyz))
+        self.assertTrue(np.array_equal(cdse[0].xyz, cadmiums[0].xyz))
+        self.assertTrue(np.array_equal(cdse[1].xyz, cadmiums[1].xyz))
         self.assertFalse(cdse[0] is cadmiums[0])
         self.assertFalse(cdse.lattice is cadmiums.lattice)
         return
@@ -405,7 +405,7 @@ class TestStructure(unittest.TestCase):
         cdsex3 = 3 * cdse
         self.assertEqual(12, len(cdsex3))
         self.assertEqual(3 * "Cd Cd Se Se".split(), [a.element for a in cdsex3])
-        self.assertTrue(numpy.array_equal(3 * [a.xyz for a in cdse], [a.xyz for a in cdsex3]))
+        self.assertTrue(np.array_equal(3 * [a.xyz for a in cdse], [a.xyz for a in cdsex3]))
         self.assertFalse(set(cdse).intersection(cdsex3))
         self.assertFalse(cdse.lattice is cdsex3.lattice)
         return
@@ -420,8 +420,8 @@ class TestStructure(unittest.TestCase):
         cdse *= 2
         self.assertEqual(8, len(cdse))
         self.assertEqual(lst, cdse[:4].tolist())
-        self.assertEqual(numpy.tile(els, 2).tolist(), cdse.element.tolist())
-        self.assertTrue(numpy.array_equal(numpy.tile(xyz, (2, 1)), cdse.xyz))
+        self.assertEqual(np.tile(els, 2).tolist(), cdse.element.tolist())
+        self.assertTrue(np.array_equal(np.tile(xyz, (2, 1)), cdse.xyz))
         self.assertEqual(8, len(set(cdse)))
         self.assertEqual(8 * [lat], [a.lattice for a in cdse])
         self.stru *= -3
@@ -477,18 +477,18 @@ class TestStructure(unittest.TestCase):
         """Check Structure.xyz."""
         stru = self.stru
         self.assertEqual((2, 3), stru.xyz.shape)
-        self.assertTrue(numpy.array_equal([1, 1, 1], stru.xyz[1]))
+        self.assertTrue(np.array_equal([1, 1, 1], stru.xyz[1]))
         stru.xyz += 0.1
-        self.assertTrue(numpy.array_equal([0.1, 0.1, 0.1], stru[0].xyz))
-        self.assertTrue(numpy.array_equal([1.1, 1.1, 1.1], stru[1].xyz))
+        self.assertTrue(np.array_equal([0.1, 0.1, 0.1], stru[0].xyz))
+        self.assertTrue(np.array_equal([1.1, 1.1, 1.1], stru[1].xyz))
         stru.xyz = 0
         stru[1].xyz[:] = 1
-        self.assertTrue(numpy.array_equal([0, 0, 0], stru[0].xyz))
-        self.assertTrue(numpy.array_equal([1, 1, 1], stru[1].xyz))
+        self.assertTrue(np.array_equal([0, 0, 0], stru[0].xyz))
+        self.assertTrue(np.array_equal([1, 1, 1], stru[1].xyz))
         # verify noop when changing empty slice
-        xyz0 = numpy.copy(stru.xyz)
+        xyz0 = np.copy(stru.xyz)
         stru[1:1].xyz += 1
-        self.assertTrue(numpy.array_equal(xyz0, stru.xyz))
+        self.assertTrue(np.array_equal(xyz0, stru.xyz))
         return
 
     def test_x(self):
@@ -537,7 +537,7 @@ class TestStructure(unittest.TestCase):
     def test_occupancy(self):
         """Check Structure.occupancy."""
         cdse = self.cdse
-        self.assertTrue(numpy.array_equal(numpy.ones(4), cdse.occupancy))
+        self.assertTrue(np.array_equal(np.ones(4), cdse.occupancy))
         self.stru.occupancy *= 0.5
         self.assertEqual(1.0, sum([a.occupancy for a in self.stru]))
         cdse.occupancy = 1
@@ -548,25 +548,25 @@ class TestStructure(unittest.TestCase):
         """Check Structure.xyz_cartn."""
         pbte = copy.copy(self.pbte)
         self.assertEqual((8, 3), pbte.xyz_cartn.shape)
-        self.assertTrue(numpy.allclose(6.461 / 2.0 * numpy.ones(3), pbte.xyz_cartn[0]))
-        pbte.xyz_cartn += numpy.array([0.1, 0.2, 0.3]) * 6.461
-        self.assertTrue(numpy.allclose([0.6, 0.7, 0.8], pbte[0].xyz))
-        self.assertTrue(numpy.allclose([0.6, 0.7, 0.3], pbte[7].xyz))
+        self.assertTrue(np.allclose(6.461 / 2.0 * np.ones(3), pbte.xyz_cartn[0]))
+        pbte.xyz_cartn += np.array([0.1, 0.2, 0.3]) * 6.461
+        self.assertTrue(np.allclose([0.6, 0.7, 0.8], pbte[0].xyz))
+        self.assertTrue(np.allclose([0.6, 0.7, 0.3], pbte[7].xyz))
         return
 
     def test_anisotropy(self):
         """Check Structure.anisotropy."""
         self.assertEqual((2,), self.stru.anisotropy.shape)
-        self.assertFalse(numpy.any(self.stru.anisotropy))
+        self.assertFalse(np.any(self.stru.anisotropy))
         tei = copy.copy(self.tei)
-        self.assertTrue(numpy.all(tei.anisotropy))
+        self.assertTrue(np.all(tei.anisotropy))
         tei.anisotropy = False
-        self.assertFalse(numpy.any(tei.anisotropy))
+        self.assertFalse(np.any(tei.anisotropy))
         self.assertAlmostEqual(0.019227, tei[0].U11, 6)
         self.assertAlmostEqual(0.019227, tei[0].U22, 6)
         self.assertAlmostEqual(0.019227, tei[0].U33, 6)
         self.assertAlmostEqual(0.0, tei[0].U12, 6)
-        self.assertAlmostEqual(0.019227 * -numpy.cos(numpy.radians(128.09)), tei[0].U13, 6)
+        self.assertAlmostEqual(0.019227 * -np.cos(np.radians(128.09)), tei[0].U13, 6)
         self.assertAlmostEqual(0.0, tei[0].U23, 6)
         self.assertAlmostEqual(0.019227, tei[0].Uisoequiv, 6)
         return
@@ -575,22 +575,22 @@ class TestStructure(unittest.TestCase):
         """Check Structure.U."""
         stru = self.stru
         self.assertEqual((2, 3, 3), stru.U.shape)
-        self.assertFalse(numpy.any(stru.anisotropy))
-        stru.U = numpy.identity(3)
+        self.assertFalse(np.any(stru.anisotropy))
+        stru.U = np.identity(3)
         self.assertEqual(2, len(set([id(a.U) for a in stru])))
         isou = stru.lattice.isotropicunit
-        self.assertTrue(numpy.array_equal(2 * [isou], stru.U))
-        self.assertFalse(numpy.any(stru.anisotropy))
+        self.assertTrue(np.array_equal(2 * [isou], stru.U))
+        self.assertFalse(np.any(stru.anisotropy))
         stru.anisotropy = True
-        stru.U = numpy.identity(3)
-        self.assertTrue(numpy.array_equal(2 * [numpy.identity(3)], stru.U))
-        self.assertTrue(numpy.all(stru.anisotropy))
+        stru.U = np.identity(3)
+        self.assertTrue(np.array_equal(2 * [np.identity(3)], stru.U))
+        self.assertTrue(np.all(stru.anisotropy))
         stru.U = 0
-        self.assertTrue(numpy.all(stru.anisotropy))
-        self.assertFalse(numpy.any(stru.U != 0.0))
+        self.assertTrue(np.all(stru.anisotropy))
+        self.assertFalse(np.any(stru.U != 0.0))
         stru[1].U[:] = 1
-        self.assertTrue(numpy.all(stru[0].U == 0.0))
-        self.assertTrue(numpy.all(stru[1].U == 1.0))
+        self.assertTrue(np.all(stru[0].U == 0.0))
+        self.assertTrue(np.all(stru[1].U == 1.0))
         return
 
     def test_Uisoequiv(self):
@@ -611,19 +611,19 @@ class TestStructure(unittest.TestCase):
         stru = self.stru
         stru[1].anisotropy = True
         stru[1].U = [[1.1, 0.12, 0.13], [0.12, 2.2, 0.23], [0.13, 0.23, 3.3]]
-        self.assertTrue(numpy.array_equal([0, 1.1], stru.U11))
-        self.assertTrue(numpy.array_equal([0, 2.2], stru.U22))
-        self.assertTrue(numpy.array_equal([0, 3.3], stru.U33))
-        self.assertTrue(numpy.array_equal([0, 0.12], stru.U12))
-        self.assertTrue(numpy.array_equal([0, 0.13], stru.U13))
-        self.assertTrue(numpy.array_equal([0, 0.23], stru.U23))
+        self.assertTrue(np.array_equal([0, 1.1], stru.U11))
+        self.assertTrue(np.array_equal([0, 2.2], stru.U22))
+        self.assertTrue(np.array_equal([0, 3.3], stru.U33))
+        self.assertTrue(np.array_equal([0, 0.12], stru.U12))
+        self.assertTrue(np.array_equal([0, 0.13], stru.U13))
+        self.assertTrue(np.array_equal([0, 0.23], stru.U23))
         stru.U11 = stru.U22 = stru.U33 = stru.U12 = stru.U13 = stru.U23 = 0.0
-        self.assertFalse(numpy.any(stru.U != 0.0))
+        self.assertFalse(np.any(stru.U != 0.0))
         return
 
     def test_Bisoequiv(self):
         """Check Structure.Bisoequiv."""
-        utob = 8 * numpy.pi**2
+        utob = 8 * np.pi**2
         tei = copy.copy(self.tei)
         self.assertEqual((16,), tei.Bisoequiv.shape)
         self.assertAlmostEqual(utob * 0.019227, tei.Bisoequiv[0], 4)
@@ -640,15 +640,15 @@ class TestStructure(unittest.TestCase):
         stru = self.stru
         stru[1].anisotropy = True
         stru[1].U = [[1.1, 0.12, 0.13], [0.12, 2.2, 0.23], [0.13, 0.23, 3.3]]
-        stru[1].U /= 8 * numpy.pi**2
-        self.assertTrue(numpy.allclose([0, 1.1], stru.B11))
-        self.assertTrue(numpy.allclose([0, 2.2], stru.B22))
-        self.assertTrue(numpy.allclose([0, 3.3], stru.B33))
-        self.assertTrue(numpy.allclose([0, 0.12], stru.B12))
-        self.assertTrue(numpy.allclose([0, 0.13], stru.B13))
-        self.assertTrue(numpy.allclose([0, 0.23], stru.B23))
+        stru[1].U /= 8 * np.pi**2
+        self.assertTrue(np.allclose([0, 1.1], stru.B11))
+        self.assertTrue(np.allclose([0, 2.2], stru.B22))
+        self.assertTrue(np.allclose([0, 3.3], stru.B33))
+        self.assertTrue(np.allclose([0, 0.12], stru.B12))
+        self.assertTrue(np.allclose([0, 0.13], stru.B13))
+        self.assertTrue(np.allclose([0, 0.23], stru.B23))
         stru.B11 = stru.B22 = stru.B33 = stru.B12 = stru.B13 = stru.B23 = 0.0
-        self.assertFalse(numpy.any(stru.U != 0.0))
+        self.assertFalse(np.any(stru.U != 0.0))
         return
 
     def test_pickling(self):
@@ -662,6 +662,242 @@ class TestStructure(unittest.TestCase):
 
 
 # End of class TestStructure
+
+
+def test_get_chemical_symbols(datafile):
+    """Check Structure.get_chemical_symbols()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_chemical_symbols = pbte_stru.get_chemical_symbols()
+    expected_chemical_symbols = ["Pb"] * 4 + ["Te"] * 4
+    assert actual_chemical_symbols == expected_chemical_symbols
+
+
+def test_get_fractional_coordinates(datafile):
+    """Check Structure.get_fractional_coordinates()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_fractional_coords = pbte_stru.get_fractional_coordinates()
+    expected_fractional_coords = np.array(
+        [
+            [0.5, 0.5, 0.5],
+            [0.5, 0.0, 0.0],
+            [0.0, 0.5, 0.0],
+            [0.0, 0.0, 0.5],
+            [0.0, 0.0, 0.0],
+            [0.0, 0.5, 0.5],
+            [0.5, 0.0, 0.5],
+            [0.5, 0.5, 0.0],
+        ]
+    )
+    assert np.allclose(actual_fractional_coords, expected_fractional_coords)
+
+
+def test_get_cartesian_coordinates(datafile):
+    """Check Structure.get_cartesian_coordinates()"""
+    cdse_stru = Structure(filename=datafile("CdSe_bulk.stru"))
+    actual_cartesian_coords = cdse_stru.get_cartesian_coordinates()
+    expected_cartesian_coords = np.array(
+        [
+            [1.22284264, 2.11760202, 0.0],
+            [2.44495161, 0.0, 3.4530135],
+            [1.22284264, 2.11760202, 2.60129319],
+            [2.44495161, 0.0, 6.05430669],
+        ]
+    )
+    assert np.allclose(actual_cartesian_coords, expected_cartesian_coords, atol=1e-6)
+
+
+@pytest.mark.parametrize(
+    "input,expected",
+    [  # case: user wants ADPs as an array so they set return_array=True
+        # expected: a 3D array of shape (num_atoms, 3, 3) with the Uij values
+        [
+            True,
+            np.array(
+                [
+                    [[0.0211, 0.0, 0.0109], [0.0, 0.0195, 0.0], [0.0109, 0.0, 0.016]],
+                    [[0.0223, 0.0, 0.0179], [0.0, 0.018, 0.0], [0.0179, 0.0, 0.0254]],
+                    [[0.025, 0.0, 0.0226], [0.0, 0.0234, 0.0], [0.0226, 0.0, 0.0345]],
+                    [[0.0234, 0.0, 0.0138], [0.0, 0.0295, 0.0], [0.0138, 0.0, 0.0253]],
+                ]
+            ),
+        ],
+        # case: user wants ADPs as a dictionary so they set return_array=False (default behavior)
+        # expected: a dictionary with keys like "I_8_11" and values as the corresponding Uij values
+        [
+            False,
+            {
+                # Iodine
+                "I_8_11": 0.025,
+                "I_8_12": 0.0,
+                "I_8_13": 0.0226,
+                "I_8_22": 0.0234,
+                "I_8_23": 0.0,
+                "I_8_33": 0.0345,
+                "I_9_11": 0.025,
+                "I_9_12": 0.0,
+                "I_9_13": 0.0226,
+                "I_9_22": 0.0234,
+                "I_9_23": 0.0,
+                "I_9_33": 0.0345,
+                "I_10_11": 0.025,
+                "I_10_12": 0.0,
+                "I_10_13": 0.0226,
+                "I_10_22": 0.0234,
+                "I_10_23": 0.0,
+                "I_10_33": 0.0345,
+                "I_11_11": 0.025,
+                "I_11_12": 0.0,
+                "I_11_13": 0.0226,
+                "I_11_22": 0.0234,
+                "I_11_23": 0.0,
+                "I_11_33": 0.0345,
+                "I_12_11": 0.0234,
+                "I_12_12": 0.0,
+                "I_12_13": 0.0138,
+                "I_12_22": 0.0295,
+                "I_12_23": 0.0,
+                "I_12_33": 0.0253,
+                "I_13_11": 0.0234,
+                "I_13_12": 0.0,
+                "I_13_13": 0.0138,
+                "I_13_22": 0.0295,
+                "I_13_23": 0.0,
+                "I_13_33": 0.0253,
+                "I_14_11": 0.0234,
+                "I_14_12": 0.0,
+                "I_14_13": 0.0138,
+                "I_14_22": 0.0295,
+                "I_14_23": 0.0,
+                "I_14_33": 0.0253,
+                "I_15_11": 0.0234,
+                "I_15_12": 0.0,
+                "I_15_13": 0.0138,
+                "I_15_22": 0.0295,
+                "I_15_23": 0.0,
+                "I_15_33": 0.0253,
+                # Tellurium
+                "Te_0_11": 0.0211,
+                "Te_0_12": 0.0,
+                "Te_0_13": 0.0109,
+                "Te_0_22": 0.0195,
+                "Te_0_23": 0.0,
+                "Te_0_33": 0.016,
+                "Te_1_11": 0.0211,
+                "Te_1_12": 0.0,
+                "Te_1_13": 0.0109,
+                "Te_1_22": 0.0195,
+                "Te_1_23": 0.0,
+                "Te_1_33": 0.016,
+                "Te_2_11": 0.0211,
+                "Te_2_12": 0.0,
+                "Te_2_13": 0.0109,
+                "Te_2_22": 0.0195,
+                "Te_2_23": 0.0,
+                "Te_2_33": 0.016,
+                "Te_3_11": 0.0211,
+                "Te_3_12": 0.0,
+                "Te_3_13": 0.0109,
+                "Te_3_22": 0.0195,
+                "Te_3_23": 0.0,
+                "Te_3_33": 0.016,
+                "Te_4_11": 0.0223,
+                "Te_4_12": 0.0,
+                "Te_4_13": 0.0179,
+                "Te_4_22": 0.018,
+                "Te_4_23": 0.0,
+                "Te_4_33": 0.0254,
+                "Te_5_11": 0.0223,
+                "Te_5_12": 0.0,
+                "Te_5_13": 0.0179,
+                "Te_5_22": 0.018,
+                "Te_5_23": 0.0,
+                "Te_5_33": 0.0254,
+                "Te_6_11": 0.0223,
+                "Te_6_12": 0.0,
+                "Te_6_13": 0.0179,
+                "Te_6_22": 0.018,
+                "Te_6_23": 0.0,
+                "Te_6_33": 0.0254,
+                "Te_7_11": 0.0223,
+                "Te_7_12": 0.0,
+                "Te_7_13": 0.0179,
+                "Te_7_22": 0.018,
+                "Te_7_23": 0.0,
+                "Te_7_33": 0.0254,
+            },
+        ],
+    ],
+)
+def test_get_anisotropic_displacement_parameters(datafile, input, expected):
+    """Check Structure.get_anisotropic_displacement_parameters()"""
+    tei_stru = Structure(filename=datafile("TeI.cif"))
+    actual_displacement = tei_stru.get_anisotropic_displacement_parameters(return_array=input)
+    if isinstance(expected, np.ndarray):
+        expected_displacement = np.repeat(expected, 4, axis=0)
+        assert np.allclose(actual_displacement, expected_displacement)
+    if isinstance(expected, dict):
+        assert actual_displacement == expected
+
+
+@pytest.mark.parametrize(
+    "input,expected",
+    [  # case: user wants isotropic displacement parameters as an array
+        # so they set return_array=True
+        # expected: a 1D array of shape (num_atoms,) with the Uiso values
+        [
+            True,
+            np.array([0.0225566, 0.0225566, 0.0225566, 0.0225566, 0.0155528, 0.0155528, 0.0155528, 0.0155528]),
+        ],
+        # case: user wants isotropic displacement parameters as a dictionary
+        # so they set return_array=False (default behavior)
+        # expected: a dictionary with keys like "I_Uiso" and values as the corresponding Uiso values
+        [
+            False,
+            {
+                "Pb_1_Uiso": 0.0225566,
+                "Pb_2_Uiso": 0.0225566,
+                "Pb_3_Uiso": 0.0225566,
+                "Pb_4_Uiso": 0.0225566,
+                "Te_5_Uiso": 0.0155528,
+                "Te_6_Uiso": 0.0155528,
+                "Te_7_Uiso": 0.0155528,
+                "Te_8_Uiso": 0.0155528,
+            },
+        ],
+    ],
+)
+def test_get_isotropic_displacement_parameters(datafile, input, expected):
+    """Check Structure.get_isotropic_displacement_parameters()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_isotropic_displacement = pbte_stru.get_isotropic_displacement_parameters(return_array=input)
+    if isinstance(expected, np.ndarray):
+        assert np.allclose(actual_isotropic_displacement, expected)
+    if isinstance(expected, dict):
+        assert actual_isotropic_displacement == expected
+
+
+def test_get_occupancies(datafile):
+    """Check Structure.get_occupancies()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_occupancies = pbte_stru.get_occupancies()
+    expected_occupancies = np.ones(8)
+    assert np.allclose(actual_occupancies, expected_occupancies)
+
+
+def test_get_lattice_vectors(datafile):
+    """Check Structure.get_lattice_vectors()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_lattice_vectors = pbte_stru.get_lattice_vectors()
+    expected_lattice_vectors = np.array([[6.461, 0.0, 0.0], [0.0, 6.461, 0.0], [0.0, 0.0, 6.461]])
+    assert np.allclose(actual_lattice_vectors, expected_lattice_vectors)
+
+
+def test_get_lattice_vector_angles(datafile):
+    """Check Structure.get_lattice_vector_angles()"""
+    pbte_stru = Structure(filename=datafile("PbTe.cif"))
+    actual_lattice_vector_angles = pbte_stru.get_lattice_vector_angles()
+    expected_lattice_vector_angles = np.array([90.0, 90.0, 90.0])
+    assert np.allclose(actual_lattice_vector_angles, expected_lattice_vector_angles)
 
 
 # ----------------------------------------------------------------------------
@@ -700,7 +936,7 @@ def test_add_new_atom(existing, atype, xyz, expected_len, expected_element, expe
     assert expected_len == actual_length
     atom_object = structure[-1]
     assert atom_object.element == expected_element
-    assert numpy.allclose(atom_object.xyz, expected_xyz)
+    assert np.allclose(atom_object.xyz, expected_xyz)
 
 
 def test_add_new_atom_duplicate():
@@ -714,7 +950,7 @@ def test_add_new_atom_duplicate():
         structure.add_new_atom(atype="C", xyz=[0.1, 0.2, 0.3])
     assert len(structure) == 3
     assert structure[-1].element == "C"
-    assert numpy.allclose(structure[-1].xyz, [0.1, 0.2, 0.3])
+    assert np.allclose(structure[-1].xyz, [0.1, 0.2, 0.3])
 
 
 if __name__ == "__main__":
