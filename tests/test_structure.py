@@ -14,7 +14,6 @@
 ##############################################################################
 """Unit tests for Structure class."""
 
-
 import copy
 import pickle
 import unittest

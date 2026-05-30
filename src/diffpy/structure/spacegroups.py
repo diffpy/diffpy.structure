@@ -789,7 +789,6 @@ def find_space_group(symops, shuffle=False):
     ValueError
         When `symops` do not match any known SpaceGroup.
     """
-
     tb = _get_sg_hash_lookup_table()
     hh = _hash_symop_list(symops)
     if hh not in tb:

@@ -14,7 +14,6 @@
 ##############################################################################
 """Definition of PDFFitStructure class derived from Structure."""
 
-
 from diffpy.structure.structure import Structure
 from diffpy.utils._deprecator import build_deprecation_message, deprecated
 

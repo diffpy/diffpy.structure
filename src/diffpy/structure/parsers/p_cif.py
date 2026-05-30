@@ -152,7 +152,7 @@ class P_cif(StructureParser):
     del k
 
     BtoU = 1.0 / (8 * numpy.pi**2)
-    """float: Conversion factor from B values to U values."""
+    """Float: Conversion factor from B values to U values."""
 
     def _tr_ignore(a, value):
         return

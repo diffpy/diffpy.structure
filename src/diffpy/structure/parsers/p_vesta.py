@@ -57,9 +57,11 @@ class P_vesta(StructureParser):
     """
 
     cluster_boundary = 2
-    """int: Width of boundary around corners of non-periodic cluster.
-    Retained from the original AtomEye/XCFG parser for API compatibility.
-    VESTA handles periodicity natively so this value has no effect on output.
+    """Int: Width of boundary around corners of non-periodic cluster.
+
+    Retained from the original AtomEye/XCFG parser for API
+    compatibility. VESTA handles periodicity natively so this value has
+    no effect on output.
     """
 
     def __init__(self):

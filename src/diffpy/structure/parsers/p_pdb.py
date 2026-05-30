@@ -135,10 +135,10 @@ class P_pdb(StructureParser):
         "MASTER",
         "END",
     ]
-    """list: Ordered list of PDB record labels."""
+    """List: Ordered list of PDB record labels."""
 
     validRecords = dict.fromkeys(orderOfRecords)
-    """dict: Dictionary of PDB record labels."""
+    """Dict: Dictionary of PDB record labels."""
 
     def __init__(self):
         StructureParser.__init__(self)

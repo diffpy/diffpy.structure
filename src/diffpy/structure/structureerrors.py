@@ -14,7 +14,6 @@
 ##############################################################################
 """Exceptions used in Structure package."""
 
-
 class StructureFormatError(Exception):
     """Exception for failed IO from Structure file."""
 

@@ -53,7 +53,6 @@ def atomBareSymbol(smbl):
 
     Please use diffpy.structure.atom_bare_symbol instead.
     """
-
     return atom_bare_symbol(smbl)
 
 

@@ -573,7 +573,7 @@ class GeneratorSite(object):
         7: "U23",
         8: "U33",
     }
-    """dict: Mapping of index to standard U symbol."""
+    """Dict: Mapping of index to standard U symbol."""
 
     def __init__(
         self,

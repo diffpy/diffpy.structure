@@ -27,7 +27,6 @@ Warning
 This module is deprecated and will be removed in the future.
 """
 
-
 import importlib.abc
 import sys
 from warnings import warn

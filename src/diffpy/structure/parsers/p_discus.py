@@ -39,8 +39,9 @@ toLines_deprecation_msg = build_deprecation_message(
 
 
 class P_discus(StructureParser):
-    """Parser for DISCUS structure format. The parser chokes on molecule
-    and generator records.
+    """Parser for DISCUS structure format.
+
+    The parser chokes on molecule and generator records.
 
     Attributes
     ----------

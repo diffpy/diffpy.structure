@@ -108,13 +108,13 @@ class Atom(object):
 
     # instance attributes that have immutable default values
     element = ""
-    """str: Default values of `element`."""
+    """Str: Default values of `element`."""
 
     label = ""
-    """str: Default values of `label`."""
+    """Str: Default values of `label`."""
 
     occupancy = 1.0
-    """float: Default values of `occupancy`."""
+    """Float: Default values of `occupancy`."""
 
     _anisotropy = False
     lattice = None
@@ -294,8 +294,8 @@ class Atom(object):
         coordinates.
 
         This is computed from fractional coordinates `xyz` and the
-        current `lattice` setup. Assignment to *xyz_cartn* or
-        its components is applied on fractional coordinates `xyz`.
+        current `lattice` setup. Assignment to *xyz_cartn* or its
+        components is applied on fractional coordinates `xyz`.
         """
         if not self.lattice:
             rv = self.xyz
@@ -315,7 +315,7 @@ class Atom(object):
 
     @property
     def anisotropy(self):
-        """bool : Flag for allowing anisotropic displacement parameters.
+        """Bool : Flag for allowing anisotropic displacement parameters.
 
         When ``False`` the tensor of thermal displacement parameters `U`
         must be isotropic and only its diagonal elements are taken into
@@ -439,7 +439,8 @@ class Atom(object):
 
     @property
     def Uisoequiv(self):
-        """float : The isotropic displacement parameter or an equivalent value.
+        """Float : The isotropic displacement parameter or an equivalent
+        value.
 
         Setting a new value rescales tensor `U` so it yields equivalent
         direction-averaged displacements.
@@ -533,7 +534,8 @@ class Atom(object):
 
     @property
     def Bisoequiv(self):
-        """float : The Debye-Waller isotropic displacement or an equivalent value.
+        """Float : The Debye-Waller isotropic displacement or an
+        equivalent value.
 
         This equals ``8 * pi**2 * Uisoequiv``. Setting a new value
         rescales `U` tensor to yield equivalent direction-average of
@@ -575,7 +577,7 @@ class _AtomCartesianCoordinates(numpy.ndarray):
 
     @property
     def asarray(self):
-        """ndarray : This array viewed as standard numpy array."""
+        """Ndarray : This array viewed as standard numpy array."""
         return self.view(numpy.ndarray)
 
     def __setitem__(self, idx, value):
