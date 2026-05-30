@@ -1025,7 +1025,6 @@ class Structure(list):
         """
            ,
     )
-
     xyz_cartn = _link_atom_attribute(
         "xyz_cartn",
         """Array of absolute Cartesian coordinates of all `Atoms`.
@@ -1034,7 +1033,6 @@ class Structure(list):
         """
            ,
     )
-
     anisotropy = _link_atom_attribute(
         "anisotropy",
         """Boolean array for anisotropic thermal displacement flags.
@@ -1171,7 +1169,6 @@ class Structure(list):
         """
            ,
     )
-
     B12 = _link_atom_attribute(
         "B12",
         """Array of `B12` elements of the Debye-Waller displacement
@@ -1182,7 +1179,6 @@ class Structure(list):
         """
            ,
     )
-
     B13 = _link_atom_attribute(
         "B13",
         """Array of `B13` elements of the Debye-Waller displacement
