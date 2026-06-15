@@ -63,6 +63,7 @@ skip = "*.cif,*.dat"
 recursive = true
 wrap-summaries = 72
 wrap-descriptions = 72
+non-cap = ["str", "int", "float", "bool", "list", "dict", "tuple", "set", "none", "ndarray"]
 
 [tool.black]
 line-length = 115

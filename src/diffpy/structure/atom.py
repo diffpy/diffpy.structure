@@ -82,19 +82,19 @@ class Atom(object):
     Attributes
     ----------
     element : str
-        The string type of the atom. An element or ion symbol.
+        The string type of the atom. An element or ion symbol, default "".
     xyz : numpy.ndarray
         The fractional coordinates in the associated `lattice`.
     label : str
         A unique string label referring to this atom, for example, "C_1".
         The *label* can be used to reference this atom when contained in
-        a `Structure` object.
+        a `Structure` object, default "".
     occupancy : float
-        The fractional occupancy of this atom.
+        The fractional occupancy of this atom, default 1.0.
     lattice : Lattice
         Coordinate system for the fractional coordinates `xyz` and
         the tensor of atomic displacement parameters `U`.
-        Use the absolute Cartesian coordinates when ``None``.
+        Use the absolute Cartesian coordinates when ``None``, the default.
 
     Note
     ----
@@ -108,17 +108,13 @@ class Atom(object):
 
     # instance attributes that have immutable default values
     element = ""
-    """Str: Default values of `element`."""
 
     label = ""
-    """Str: Default values of `label`."""
 
     occupancy = 1.0
-    """Float: Default values of `occupancy`."""
 
     _anisotropy = False
     lattice = None
-    """None: Default values of `lattice`."""
 
     def __init__(
         self,
@@ -315,7 +311,7 @@ class Atom(object):
 
     @property
     def anisotropy(self):
-        """Bool : Flag for allowing anisotropic displacement parameters.
+        """bool : Flag for allowing anisotropic displacement parameters.
 
         When ``False`` the tensor of thermal displacement parameters `U`
         must be isotropic and only its diagonal elements are taken into
@@ -439,7 +435,7 @@ class Atom(object):
 
     @property
     def Uisoequiv(self):
-        """Float : The isotropic displacement parameter or an equivalent
+        """float : The isotropic displacement parameter or an equivalent
         value.
 
         Setting a new value rescales tensor `U` so it yields equivalent
@@ -534,7 +530,7 @@ class Atom(object):
 
     @property
     def Bisoequiv(self):
-        """Float : The Debye-Waller isotropic displacement or an
+        """float : The Debye-Waller isotropic displacement or an
         equivalent value.
 
         This equals ``8 * pi**2 * Uisoequiv``. Setting a new value
@@ -577,7 +573,7 @@ class _AtomCartesianCoordinates(numpy.ndarray):
 
     @property
     def asarray(self):
-        """Ndarray : This array viewed as standard numpy array."""
+        """ndarray : This array viewed as standard numpy array."""
         return self.view(numpy.ndarray)
 
     def __setitem__(self, idx, value):

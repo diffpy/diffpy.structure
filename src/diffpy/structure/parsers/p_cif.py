@@ -151,8 +151,8 @@ class P_cif(StructureParser):
         _atom_setters[k] = _atom_setters[k.lower()] = k
     del k
 
+    # Conversion factor from B values to U values, as a float
     BtoU = 1.0 / (8 * numpy.pi**2)
-    """Float: Conversion factor from B values to U values."""
 
     def _tr_ignore(a, value):
         return

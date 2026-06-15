@@ -24,6 +24,9 @@ findCenter_deprecation_msg = build_deprecation_message(
 )
 """Utilities for making shapes."""
 
+# FIXME: remove this line when `docformatter` fixes the blank line bug
+
+
 @deprecated(findCenter_deprecation_msg)
 def findCenter(S):
     """This function has been deprecated and will be removed in version

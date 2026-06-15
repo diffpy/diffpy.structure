@@ -1123,7 +1123,7 @@ class SymmetryConstraints(object):
     eps : float
         Cutoff for equivalent positions. Default is ``1.0e-5``.
     corepos : list
-        List of of positions in the asymmetric unit.
+        List of positions in the asymmetric unit.
     coremap : dict
         Dictionary mapping indices of asymmetric core positions
         to indices of all symmetry related positions.
