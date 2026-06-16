@@ -178,8 +178,8 @@ class P_xcfg(StructureParser):
     """
 
     cluster_boundary = 2
-    """Int: Width of boundary around corners of non-periodic cluster to
-    avoid PBC effects in atomeye."""
+    """``int``: The width of boundary around corners of non-periodic
+    cluster to avoid PBC effects in atomeye."""
 
     def __init__(self):
         StructureParser.__init__(self)

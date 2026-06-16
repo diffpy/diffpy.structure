@@ -546,6 +546,10 @@ class GeneratorSite(object):
         The list of ``(xyz symbol, value)`` pairs.
     Uparameters : list
         The list of ``(U symbol, value)`` pairs.
+    idx2Usymbol : dict
+        The mapping of index to standard U symbol.
+    Ucomponents : numpy.ndarray
+        The 6x3x3 array of independent components of U matrices.
     """
 
     Ucomponents = numpy.array(
@@ -559,8 +563,6 @@ class GeneratorSite(object):
         ],
         dtype=float,
     )
-    """numpy.ndarray: 6x3x3 array of independent components of U
-    matrices."""
 
     idx2Usymbol = {
         0: "U11",
@@ -573,7 +575,6 @@ class GeneratorSite(object):
         7: "U23",
         8: "U33",
     }
-    """Dict: Mapping of index to standard U symbol."""
 
     def __init__(
         self,

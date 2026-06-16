@@ -269,25 +269,25 @@ class Atom(object):
     x = property(
         lambda self: self.xyz[0],
         lambda self, val: self.xyz.__setitem__(0, val),
-        doc="float : fractional coordinate *x*, same as ``xyz[0]``.",
+        doc="The fractional coordinate *x*, same as ``xyz[0]``, as a float",
     )
     y = property(
         lambda self: self.xyz[1],
         lambda self, val: self.xyz.__setitem__(1, val),
-        doc="float : fractional coordinate *y*, same as ``xyz[1]``.",
+        doc="The fractional coordinate *y*, same as ``xyz[1]``, as a float",
     )
     z = property(
         lambda self: self.xyz[2],
         lambda self, val: self.xyz.__setitem__(2, val),
-        doc="float : fractional coordinate *z*, same as ``xyz[2]``.",
+        doc="The fractional coordinate *z*, same as ``xyz[2]``, as a float",
     )
 
     # xyz_cartn
 
     @property
     def xyz_cartn(self):
-        """numpy.ndarray: Atom position in absolute Cartesian
-        coordinates.
+        """Atom position in absolute Cartesian coordinates, as a
+        numpy.ndarray.
 
         This is computed from fractional coordinates `xyz` and the
         current `lattice` setup. Assignment to *xyz_cartn* or its
@@ -311,7 +311,8 @@ class Atom(object):
 
     @property
     def anisotropy(self):
-        """bool : Flag for allowing anisotropic displacement parameters.
+        """The flag for allowing anisotropic displacement parameters, as
+        a bool.
 
         When ``False`` the tensor of thermal displacement parameters `U`
         must be isotropic and only its diagonal elements are taken into
@@ -336,7 +337,7 @@ class Atom(object):
 
     @property
     def U(self):
-        """numpy.ndarray : The 3x3 matrix of anisotropic atomic
+        """The 3x3 matrix of anisotropic atomic, as a numpy.ndarray
         displacements.
 
         For isotropic displacements (when `anisotropy` is ``False``)
@@ -383,7 +384,7 @@ class Atom(object):
     # _doc_uii, _doc_uij are temporary local variables.
 
     _doc_uii = """
-        float : The ``U[{0}, {0}]`` component of the displacement tensor `U`.
+        ``float`` : The ``U[{0}, {0}]`` component of the displacement tensor `U`.
 
         When `anisotropy` is ``False`` setting a new value updates entire
         tensor *U*.
@@ -406,7 +407,7 @@ class Atom(object):
     )
 
     _doc_uij = """
-        float : The ``U[{0}, {1}]`` element of the displacement tensor `U`.
+        ``float`` : The ``U[{0}, {1}]`` element of the displacement tensor `U`.
 
         Sets ``U[{1}, {0}]`` together with ``U[{0}, {1}]``. Assignment
         has no effect when `anisotropy` is ``False``.
@@ -435,8 +436,8 @@ class Atom(object):
 
     @property
     def Uisoequiv(self):
-        """float : The isotropic displacement parameter or an equivalent
-        value.
+        """The isotropic displacement parameter or an equivalent value,
+        as a float.
 
         Setting a new value rescales tensor `U` so it yields equivalent
         direction-averaged displacements.
@@ -478,14 +479,14 @@ class Atom(object):
     # _doc_bii, _doc_bij are local variables.
 
     _doc_bii = """
-        float : The ``B{0}{0}`` element of the Debye-Waller matrix.
+        ``float`` : The ``B{0}{0}`` element of the Debye-Waller matrix.
 
         This is equivalent to ``8 * pi**2 * U{0}{0}``. When `anisotropy`
         is ``False`` setting a new value updates entire tensor `U`.
         """
 
     _doc_bij = """
-        float : The ``B{0}{1}`` element of the Debye-Waller matrix.
+        ``float`` : The ``B{0}{1}`` element of the Debye-Waller matrix.
 
         This is equivalent to ``8 * pi**2 * U{0}{1}``. Setting a new
         value updates `U` in a symmetric way. Assignment has no effect
@@ -530,8 +531,8 @@ class Atom(object):
 
     @property
     def Bisoequiv(self):
-        """float : The Debye-Waller isotropic displacement or an
-        equivalent value.
+        """The Debye-Waller isotropic displacement or an equivalent
+        value, as a float.
 
         This equals ``8 * pi**2 * Uisoequiv``. Setting a new value
         rescales `U` tensor to yield equivalent direction-average of
@@ -551,7 +552,8 @@ class Atom(object):
 
 
 class _AtomCartesianCoordinates(numpy.ndarray):
-    """Specialized `numpy.ndarray` for accessing Cartesian coordinates.
+    """The specialized `numpy.ndarray` for accessing Cartesian
+    coordinates.
 
     Inplace assignments to this array are applied on the *xyz* position
     position of owner `Atom` as per the associated `Atom.lattice`.
@@ -573,7 +575,7 @@ class _AtomCartesianCoordinates(numpy.ndarray):
 
     @property
     def asarray(self):
-        """ndarray : This array viewed as standard numpy array."""
+        """This array viewed as standard numpy array."""
         return self.view(numpy.ndarray)
 
     def __setitem__(self, idx, value):
