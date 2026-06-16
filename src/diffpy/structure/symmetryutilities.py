@@ -18,11 +18,11 @@ generation of positional constraints.
 Attributes
 ----------
 epsilon : float
-    Default tolerance for equality of 2 positions, also
+    The default tolerance for equality of 2 positions, also
     used for identification of special positions.
 
 stdUsymbols : list
-    Standard symbols denoting elements of anisotropic thermal
+    The standard symbols denoting elements of anisotropic thermal
     displacement tensor.
 """
 
@@ -208,12 +208,12 @@ class _Position2Tuple(object):
     Parameters
     ----------
     eps : float
-        Cutoff for equivalent coordinates.
+        The cutoff for equivalent coordinates.
 
     Attributes
     ----------
     eps : float
-        Cutoff for equivalent coordinates. When two coordinates map to the
+        The cutoff for equivalent coordinates. When two coordinates map to the
         same tuple, they are closer than `eps`.
     """
 
@@ -517,35 +517,35 @@ class GeneratorSite(object):
     Attributes
     ----------
     xyz : numpy.ndarray
-        Fractional coordinates of generator site.
+        The fractional coordinates of generator site.
     Uij : numpy.ndarray
-        Anisotropic thermal displacement at generator site.
+        The anisotropic thermal displacement at generator site.
     sgoffset : numpy.ndarray
-        Offset of space group origin ``[0, 0, 0]``.
+        The offset of space group origin ``[0, 0, 0]``.
     eps : float
-        Cutoff for equal positions.
+        The cutoff for equal positions.
     eqxyz : list
-        List of equivalent positions.
+        The list of equivalent positions.
     eqUij : list
-        List of displacement matrices at equivalent positions.
+        The list of displacement matrices at equivalent positions.
     symops : list
-        Nested list of operations per each `eqxyz`.
+        The nested list of operations per each `eqxyz`.
     multiplicity : int
-        Generator site multiplicity.
+        The generator site multiplicity.
     Uisotropy : bool
-        Bool flag for isotropic thermal factors.
+        The bool flag for isotropic thermal factors.
     invariants : list
-        List of invariant operations for generator site.
+        The list of invariant operations for generator site.
     null_space : numpy.ndarray
-        Null space of all possible differences of invariant
+        The null space of all possible differences of invariant
         rotational matrices, this is a base of symmetry
         allowed shifts.
     Uspace : numpy.ndarray
-        3D array of independent components of U matrices.
+        The 3D array of independent components of U matrices.
     pparameters : list
-        List of ``(xyz symbol, value)`` pairs.
+        The list of ``(xyz symbol, value)`` pairs.
     Uparameters : list
-        List of ``(U symbol, value)`` pairs.
+        The list of ``(U symbol, value)`` pairs.
     """
 
     Ucomponents = numpy.array(
@@ -944,24 +944,24 @@ class ExpandAsymmetricUnit(object):
     Attributes
     ----------
     spacegroup : SpaceGroup
-        Instance of `SpaceGroup`.
+        The instance of `SpaceGroup`.
     corepos : array_like
-        List of positions in asymmetric unit,
+        The list of positions in asymmetric unit,
         it may contain duplicates.
     coreUijs : numpy.ndarray
-        Thermal factors for `corepos`. Defaults to zeros.
+        The thermal factors for `corepos`. Defaults to zeros.
     sgoffset : numpy.ndarray
-        Offset of space group origin ``[0, 0, 0]``. Default to zeros.
+        The offset of space group origin ``[0, 0, 0]``. Default to zeros.
     eps : float
-        Cutoff for equivalent positions. Default is ``1.0e-5``.
+        The cutoff for equivalent positions. Default is ``1.0e-5``.
     multiplicity : list
-        Multiplicity of each site in `corepos`.
+        The multiplicity of each site in `corepos`.
     Uisotropy : list
-        Bool flags for isotropic sites in `corepos`.
+        The bool flags for isotropic sites in `corepos`.
     expandedpos : list
-        List of equivalent positions per each site in `corepos`.
+        The list of equivalent positions per each site in `corepos`.
     expandedUijs : list
-        List of thermal factors per each site in `corepos`.
+        The list of thermal factors per each site in `corepos`.
     """
 
     # By design Atom instances are not accepted as arguments to keep
@@ -1113,37 +1113,37 @@ class SymmetryConstraints(object):
     Attributes
     ----------
     spacegroup : SpaceGroup
-        Instance of `SpaceGroup`.
+        The instance of `SpaceGroup`.
     positions : numpy.ndarray
         All positions to be constrained.
     Uijs : numpy.ndarray
-        Thermal factors for all positions. Defaults to zeros.
+        The thermal factors for all positions. Defaults to zeros.
     sgoffset : numpy.ndarray
-        Optional offset of space group origin ``[0, 0, 0]``.
+        The optional offset of space group origin ``[0, 0, 0]``.
     eps : float
-        Cutoff for equivalent positions. Default is ``1.0e-5``.
+        The cutoff for equivalent positions. Default is ``1.0e-5``.
     corepos : list
-        List of positions in the asymmetric unit.
+        The list of positions in the asymmetric unit.
     coremap : dict
-        Dictionary mapping indices of asymmetric core positions
+        The dictionary mapping indices of asymmetric core positions
         to indices of all symmetry related positions.
     poseqns : list
-        List of coordinate formula dictionaries per each site.
+        The list of coordinate formula dictionaries per each site.
         Formula dictionary keys are from ``("x", "y", "z")`` and
         the values are formatted as ``[[-]{x|y|z}%i] [{+|-}%g]``,
         for example: ``x0``, ``-x3``, ``z7 +0.5``, ``0.25``.
     pospars : list
-        List of ``(xyz symbol, value)`` pairs.
+        The list of ``(xyz symbol, value)`` pairs.
     Ueqns : list
-        List of anisotropic atomic displacement formula
+        The list of anisotropic atomic displacement formula
         dictionaries per each position. Formula dictionary
         keys are from ``('U11','U22','U33','U12','U13','U23')``
         and the values are formatted as ``{[%g*][Uij%i]|0}``,
         for example: ``U110``, ``0.5*U2213``, ``0``.
     Upars : list
-        List of ``(U symbol, value)`` pairs.
+        The list of ``(U symbol, value)`` pairs.
     Uisotropy : list
-        List of bool flags for isotropic thermal displacements.
+        The list of bool flags for isotropic thermal displacements.
     """
 
     def __init__(self, spacegroup, positions, Uijs=None, sgoffset=[0, 0, 0], eps=None):

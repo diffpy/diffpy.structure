@@ -18,7 +18,7 @@ lattice coordinate system.
 Attributes
 ----------
 cartesian : Lattice
-    Constant instance of Lattice, default Cartesian system.
+    The constant instance of Lattice, default Cartesian system.
 """
 
 import math

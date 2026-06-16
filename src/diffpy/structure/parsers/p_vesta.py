@@ -22,7 +22,7 @@ VESTA is the actively maintained successor viewer.
 Attributes
 ----------
 AtomicMass : dict
-    Dictionary of atomic masses for elements.
+    The dictionary of atomic masses for elements.
 """
 
 import re
@@ -47,7 +47,7 @@ class P_vesta(StructureParser):
     Attributes
     ----------
     format : str
-        Format name, default "vesta".
+        The format name, default "vesta".
 
     Notes
     -----

@@ -77,17 +77,17 @@ class Structure(list):
     Parameters
     ----------
     atoms : list of Atom or Structure, Optional
-        List of `Atom` instances to be included in this `Structure`.
+        The list of `Atom` instances to be included in this `Structure`.
         When `atoms` argument is an existing `Structure` instance,
         the new structure is its copy.
     lattice : Lattice, Optional
-        Instance of `Lattice` defining coordinate systems, property.
+        The instance of `Lattice` defining coordinate systems, property.
     title : str, Optional
-        String description of the structure.
+        The string description of the structure.
     filename : str, Optional
-        Name of a file to load the structure from.
+        The name of a file to load the structure from.
     format : str, Optional
-        `Structure` format of the loaded `filename`. By default
+        The `Structure` format of the loaded `filename`. By default
         all structure formats are tried one by one. Ignored when
         `filename` has not been specified.
 
@@ -99,109 +99,109 @@ class Structure(list):
     Attributes
     ----------
     title : str
-        String description of the structure, default "".
+        The string description of the structure, default "".
     lattice : Lattice
-        Instance of `Lattice` defining coordinate systems.
+        The instance of `Lattice` defining coordinate systems.
     pdffit : None or dict
-        Dictionary of PDFFit-related metadata, default None.
+        The dictionary of PDFFit-related metadata, default None.
     element : ndarray of str
-        Character array of `Atom` types.
+        The character array of `Atom` types.
         Assignment updates the element attribute of the respective
         `Atoms`. Set the maximum length of the element string to 5
         characters.
     xyz : ndarray
-        Array of fractional coordinates of all `Atoms`.
+        The array of fractional coordinates of all `Atoms`.
         Assignment updates `xyz` attribute of all `Atoms`
     x : ndarray
-        Array of fractional coordinate `x`.
+        The array of fractional coordinate `x`.
         Assignment updates the `xyz` attribute of all `Atoms`.
     y : ndarray
-        Array of fractional coordinate `y`.
+        The array of fractional coordinate `y`.
         Assignment updates the `xyz` attribute of all `Atoms`.
     z : ndarray
-        Array of fractional coordinate `z`.
+        The array of fractional coordinate `z`.
         Assignment updates the `xyz` attribute of all `Atoms`.
     label : ndarray of str
-        Character array of `Atom` names.
+        The character array of `Atom` names.
         Assignment updates the label attribute of all `Atoms`. Set the
         maximum length of the label string to 5 characters.
     occupancy : ndarray
-        Array of `Atom` occupancies.
+        The array of `Atom` occupancies.
         Assignment updates the occupancy attribute of all `Atoms`.
     xyz_cartn : ndarray
-        Array of absolute Cartesian coordinates of all `Atoms`.
+        The array of absolute Cartesian coordinates of all `Atoms`.
         Assignment updates the `xyz` attribute of all `Atoms`.
     anisotropy : ndarray of bool
-        Boolean array for anisotropic thermal displacement flags.
+        The boolean array for anisotropic thermal displacement flags.
         Assignment updates the anisotropy attribute of all `Atoms`.
     U : ndarray
-        Array of anisotropic thermal displacement tensors.
+        The array of anisotropic thermal displacement tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     Uisoequiv : ndarray
-        Array of isotropic thermal displacement or equivalent values.
+        The array of isotropic thermal displacement or equivalent values.
         Assignment updates the U attribute of all `Atoms`.
     U11 : ndarray
-        Array of `U11` elements of the anisotropic displacement
+        The array of `U11` elements of the anisotropic displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     U22 : ndarray
-        Array of `U22` elements of the anisotropic displacement
+        The array of `U22` elements of the anisotropic displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     U33 : ndarray
-        Array of `U33` elements of the anisotropic displacement
+        The array of `U33` elements of the anisotropic displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     U12 : ndarray
-        Array of `U12` elements of the anisotropic displacement
+        The array of `U12` elements of the anisotropic displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     U13 : ndarray
-        Array of `U22` elements of the anisotropic displacement
+        The array of `U13` elements of the anisotropic displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     U23 : ndarray
-        Array of `U33` elements of the anisotropic displacement
+        The array of `U23` elements of the anisotropic displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     Bisoequiv : ndarray
-        Array of Debye-Waller isotropic thermal displacement or
+        The array of Debye-Waller isotropic thermal displacement or
         equivalent values for all `Atoms`. Assignment updates the
         `U` attribute of all `Atoms`.
     B11 : ndarray
-        Array of `B11` elements of the Debye-Waller displacement
+        The array of `B11` elements of the Debye-Waller displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     B22 : ndarray
-        Array of `B22` elements of the Debye-Waller displacement
+        The array of `B22` elements of the Debye-Waller displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     B33 : ndarray
-        Array of `B33` elements of the Debye-Waller displacement
+        The array of `B33` elements of the Debye-Waller displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     B12 : ndarray
-        Array of `B12` elements of the Debye-Waller displacement
+        The array of `B12` elements of the Debye-Waller displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     B13 : ndarray
-        Array of `B13` elements of the Debye-Waller displacement
+        The array of `B13` elements of the Debye-Waller displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.
     B23 : ndarray
-        Array of `B23` elements of the Debye-Waller displacement
+        The array of `B23` elements of the Debye-Waller displacement
         tensors.
         Assignment updates the U and anisotropy attributes of all
         `Atoms`.

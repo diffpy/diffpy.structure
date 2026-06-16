@@ -40,11 +40,11 @@ class P_pdffit(StructureParser):
     Attributes
     ----------
     format : str
-        Format name, default "pdffit".
+        The format name, default "pdffit".
     ignored_lines : list
-        List of lines ignored during parsing.
+        The list of lines ignored during parsing.
     stru : PDFFitStructure
-        Structure instance used for cif input or output.
+        The structure instance used for cif input or output.
     """
 
     def __init__(self):

@@ -86,15 +86,15 @@ class Atom(object):
     xyz : numpy.ndarray
         The fractional coordinates in the associated `lattice`.
     label : str
-        A unique string label referring to this atom, for example, "C_1".
+        The unique string label referring to this atom, for example, "C_1".
         The *label* can be used to reference this atom when contained in
         a `Structure` object, default "".
     occupancy : float
         The fractional occupancy of this atom, default 1.0.
     lattice : Lattice
-        Coordinate system for the fractional coordinates `xyz` and
+        The coordinate system for the fractional coordinates `xyz` and
         the tensor of atomic displacement parameters `U`.
-        Use the absolute Cartesian coordinates when ``None``, the default.
+        Use the absolute Cartesian coordinates when ``None`` as the default.
 
     Note
     ----
@@ -104,7 +104,7 @@ class Atom(object):
     # Private attributes
     #
     #   _U : 3-by-3 ndarray
-    #       Internal storage of the displacement parameters.
+    #       The internal storage of the displacement parameters.
 
     # instance attributes that have immutable default values
     element = ""

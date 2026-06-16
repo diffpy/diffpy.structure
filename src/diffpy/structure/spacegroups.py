@@ -17,7 +17,7 @@
 Attributes
 ----------
 SpaceGroupList : list
-    List of all spacegroup definitions.
+    The list of all spacegroup definitions.
 """
 
 import copy
@@ -692,7 +692,7 @@ def get_space_group(sgid):
     Parameters
     ----------
     sgid : str, int
-        space group symbol, either `short_name` or `pdb_name`,
+        The space group symbol, either `short_name` or `pdb_name`,
         whatever it means in mmlib. Can be also an integer.
 
     Returns

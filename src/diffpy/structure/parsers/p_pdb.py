@@ -74,7 +74,7 @@ class P_pdb(StructureParser):
     Attributes
     ----------
     format : str
-        Format name, default "pdb".
+        The format name, default "pdb".
     orderOfRecords : list
         The ordered list of PDB record labels.
     validRecords : dict
