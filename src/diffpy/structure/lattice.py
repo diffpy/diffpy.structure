@@ -18,7 +18,7 @@ lattice coordinate system.
 Attributes
 ----------
 cartesian : Lattice
-    The constant instance of Lattice, default Cartesian system.
+    The default Cartesian lattice with a=b=c=1 and alpha=beta=gamma=90 degrees.
 """
 
 import math

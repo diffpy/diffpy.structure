@@ -175,11 +175,12 @@ class P_xcfg(StructureParser):
     ----------
     format : str
         The format name, default "xcfg".
+    cluster_boundary : int
+        The width of boundary around corners of non-periodic
+        cluster to avoid PBC effects in atomeye, default 2.
     """
 
     cluster_boundary = 2
-    """``int``: The width of boundary around corners of non-periodic
-    cluster to avoid PBC effects in atomeye."""
 
     def __init__(self):
         StructureParser.__init__(self)

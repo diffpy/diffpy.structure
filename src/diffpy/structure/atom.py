@@ -42,7 +42,7 @@ msdCart_deprecation_msg = build_deprecation_message(
 
 
 class Atom(object):
-    """Storage of structure information relevant for a single atom.
+    """The storage of structure information relevant for a single atom.
 
     This class manages atom information such as element symbol, position
     in fractional and Cartesian coordinates, atomic displacement parameters
@@ -55,10 +55,10 @@ class Atom(object):
         By default an empty string. When of the `Atom` type, create
         a copy of `atype` and adjust it per other arguments.
     xyz : numpy.ndarray, Optional
-        Fractional coordinates within the associated `lattice`.
+        The fractional coordinates within the associated `lattice`.
         By default ``[0, 0, 0]``.
     label : str, Optional
-        A unique string `label` for referring to this `Atom`.
+        The unique string `label` for referring to this `Atom`.
         By default an empty string.
     occupancy : float, Optional
         The initial `occupancy` of this atom, by default ``1``.
@@ -76,7 +76,7 @@ class Atom(object):
         *Uisoequiv* arguments may be provided at the same time. Assume
         zero atomic displacements when *U* and *Uisoequiv* are unset.
     lattice : Lattice, Optional
-        Coordinate system for the fractional coordinates `xyz`.
+        The coordinate system for the fractional coordinates `xyz`.
         Use the absolute Cartesian system when ``None``.
 
     Attributes
@@ -228,7 +228,7 @@ class Atom(object):
         return msd
 
     def __repr__(self):
-        """String representation of this Atom."""
+        """The string representation of this Atom."""
         xyz = self.xyz
         s = "%-4s %8.6f %8.6f %8.6f %6.4f" % (
             self.element,
@@ -337,8 +337,8 @@ class Atom(object):
 
     @property
     def U(self):
-        """The 3x3 matrix of anisotropic atomic, as a numpy.ndarray
-        displacements.
+        """The 3x3 matrix of anisotropic atomic displacements, as a
+        ndarray.
 
         For isotropic displacements (when `anisotropy` is ``False``)
         assignment to *U* uses only the first ``Unew[0, 0]`` element
@@ -384,7 +384,7 @@ class Atom(object):
     # _doc_uii, _doc_uij are temporary local variables.
 
     _doc_uii = """
-        ``float`` : The ``U[{0}, {0}]`` component of the displacement tensor `U`.
+        The ``U[{0}, {0}]`` component of the displacement tensor `U`, as a float
 
         When `anisotropy` is ``False`` setting a new value updates entire
         tensor *U*.
@@ -407,7 +407,7 @@ class Atom(object):
     )
 
     _doc_uij = """
-        ``float`` : The ``U[{0}, {1}]`` element of the displacement tensor `U`.
+        The ``U[{0}, {1}]`` element of the displacement tensor `U`, as a float
 
         Sets ``U[{1}, {0}]`` together with ``U[{0}, {1}]``. Assignment
         has no effect when `anisotropy` is ``False``.
@@ -479,14 +479,14 @@ class Atom(object):
     # _doc_bii, _doc_bij are local variables.
 
     _doc_bii = """
-        ``float`` : The ``B{0}{0}`` element of the Debye-Waller matrix.
+        The ``B{0}{0}`` element of the Debye-Waller matrix, as a float
 
         This is equivalent to ``8 * pi**2 * U{0}{0}``. When `anisotropy`
         is ``False`` setting a new value updates entire tensor `U`.
         """
 
     _doc_bij = """
-        ``float`` : The ``B{0}{1}`` element of the Debye-Waller matrix.
+        The ``B{0}{1}`` element of the Debye-Waller matrix, as a float
 
         This is equivalent to ``8 * pi**2 * U{0}{1}``. Setting a new
         value updates `U` in a symmetric way. Assignment has no effect
@@ -561,7 +561,7 @@ class _AtomCartesianCoordinates(numpy.ndarray):
     Parameters
     ----------
     atom : Atom
-        `Atom` instance to be linked to these coordinate array.
+       The `Atom` instance to be linked to these coordinate array.
     """
 
     def __new__(self, atom):

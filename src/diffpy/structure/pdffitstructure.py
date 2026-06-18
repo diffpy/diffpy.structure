@@ -40,7 +40,7 @@ class PDFFitStructure(Structure):
     Attributes
     ----------
     pdffit : dict
-        The dictionary for storing following extra parameters from
+        This stores the following extra parameters from
         PDFFit structure files:
             `'scale', 'delta1', 'delta2', 'sratio',
             'rcut', 'spcgr', 'dcell', 'ncell'`
