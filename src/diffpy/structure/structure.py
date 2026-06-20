@@ -1098,109 +1098,106 @@ class Structure(list):
     )
 
     occupancy = _link_atom_attribute(
-        "occupancy",
-        "Array of `Atom` occupancies. " "Assignment updates the occupancy attribute of all `Atoms`.",
+        "occupancy", "The `Atom` occupancies. Assignment updates the occupancy attributes of all `Atoms`"
     )
 
     xyz_cartn = _link_atom_attribute(
         "xyz_cartn",
-        "Array of absolute Cartesian coordinates of all `Atoms`. "
-        "Assignment updates the `xyz` attribute of all `Atoms`.",
+        "The `Atom` absolute Cartesian coordinates. Assignment updates the `xyz` attribute of all `Atoms`.",
     )
 
     anisotropy = _link_atom_attribute(
         "anisotropy",
-        "Boolean array for anisotropic thermal displacement flags. "
-        "Assignment updates the anisotropy attribute of all `Atoms`.",
+        " The anisotropic thermal displacement flags. Assignment updates the anisotropy attribute of all `Atoms`.",
     )
 
     U = _link_atom_attribute(
         "U",
-        "Array of anisotropic thermal displacement tensors. "
+        "The anisotropic thermal displacement tensors. "
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     Uisoequiv = _link_atom_attribute(
         "Uisoequiv",
-        "Array of isotropic thermal displacement or equivalent values. "
+        "The isotropic thermal displacement or equivalent values. "
         "Assignment updates the U attribute of all `Atoms`.",
     )
 
     U11 = _link_atom_attribute(
         "U11",
-        "Array of `U11` elements of the anisotropic displacement tensors. "
+        "The `U11` elements of the anisotropic displacement tensors. "
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     U22 = _link_atom_attribute(
         "U22",
-        "Array of `U22` elements of the anisotropic displacement tensors. "
+        "The `U22` elements of the anisotropic displacement tensors. "
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     U33 = _link_atom_attribute(
         "U33",
-        "Array of `U33` elements of the anisotropic displacement tensors. "
+        "The `U33` elements of the anisotropic displacement tensors. "
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     U12 = _link_atom_attribute(
         "U12",
-        "Array of `U12` elements of the anisotropic displacement tensors. "
+        "The `U12` elements of the anisotropic displacement tensors."
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     U13 = _link_atom_attribute(
         "U13",
-        "Array of `U13` elements of the anisotropic displacement tensors. "
+        "The `U13` elements of the anisotropic displacement tensors."
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     U23 = _link_atom_attribute(
         "U23",
-        "Array of `U23` elements of the anisotropic displacement tensors. "
+        "The `U23` elements of the anisotropic displacement tensors."
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     Bisoequiv = _link_atom_attribute(
         "Bisoequiv",
-        "Array of Debye-Waller isotropic thermal displacement or equivalent values. "
+        "The Debye-Waller isotropic thermal displacement or equivalent values."
         "Assignment updates the U attribute of all `Atoms`.",
     )
 
     B11 = _link_atom_attribute(
         "B11",
-        "Array of `B11` elements of the Debye-Waller displacement tensors. "
+        "The `B11` elements of the Debye-Waller displacement tensors. "
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     B22 = _link_atom_attribute(
         "B22",
-        "Array of `B22` elements of the Debye-Waller displacement tensors. "
+        "The `B22` elements of the Debye-Waller displacement tensors."
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     B33 = _link_atom_attribute(
         "B33",
-        "Array of `B33` elements of the Debye-Waller displacement tensors. "
+        "The `B33` elements of the Debye-Waller displacement tensors."
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     B12 = _link_atom_attribute(
         "B12",
-        "Array of `B12` elements of the Debye-Waller displacement tensors. "
+        "The `B12` elements of the Debye-Waller displacement tensors."
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     B13 = _link_atom_attribute(
         "B13",
-        "Array of `B13` elements of the Debye-Waller displacement tensors. "
+        "The `B13` elements of the Debye-Waller displacement tensors."
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     B23 = _link_atom_attribute(
         "B23",
-        "Array of `B23` elements of the Debye-Waller displacement tensors. "
+        "The `B23` elements of the Debye-Waller displacement tensors."
         "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
