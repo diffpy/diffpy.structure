@@ -13,6 +13,7 @@
 #
 ##############################################################################
 """Tests for the expansion module utilities."""
+
 import pytest
 
 from diffpy.structure.atom import Atom

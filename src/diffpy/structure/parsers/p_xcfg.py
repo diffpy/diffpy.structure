@@ -17,7 +17,7 @@
 Attributes
 ----------
 AtomicMass : dict
-    Dictionary of atomic masses for elements.
+    The dictionary of atomic masses for elements.
 """
 
 import re
@@ -174,13 +174,13 @@ class P_xcfg(StructureParser):
     Attributes
     ----------
     format : str
-        Format name, default "xcfg".
+        The format name, default "xcfg".
+    cluster_boundary : int
+        The width of boundary around corners of non-periodic
+        cluster to avoid PBC effects in atomeye, default 2.
     """
 
     cluster_boundary = 2
-    """int: Width of boundary around corners of non-periodic
-    cluster to avoid PBC effects in atomeye.
-    """
 
     def __init__(self):
         StructureParser.__init__(self)

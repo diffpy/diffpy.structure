@@ -53,7 +53,6 @@ def atomBareSymbol(smbl):
 
     Please use diffpy.structure.atom_bare_symbol instead.
     """
-
     return atom_bare_symbol(smbl)
 
 
@@ -103,7 +102,7 @@ def _link_atom_attribute(attrname, doc, toarray=numpy.array):
     doc : str
         The docstring for the property wrapper.
     toarray : callable, Optional
-        Factory function that converts list of attributes to `numpy.ndarray`.
+        The factory function that converts a list of attributes to `numpy.ndarray`.
         Use `numpy.char.array` for string attributes.
 
     Return a property object.

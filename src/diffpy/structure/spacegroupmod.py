@@ -305,7 +305,6 @@ class SpaceGroup(object):
             names of this space group or if it equals its `number`.
             Return ``False`` otherwise.
         """
-
         if name == self.short_name:
             return True
         if name == self.pdb_name:

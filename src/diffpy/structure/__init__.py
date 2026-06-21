@@ -33,7 +33,6 @@ Exceptions:
     * SymmetryError
 """
 
-
 import os
 import sys
 

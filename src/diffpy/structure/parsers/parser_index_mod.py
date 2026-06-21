@@ -22,11 +22,11 @@ parser_index : dict
     and the values are dictionaries with the following keys:
 
     module : str
-        Name of the module that defines the parser class.
+        The name of the module that defines the parser class.
     file_extension : str
-        File extension for the format, including the leading dot.
+        The file extension for the format, including the leading dot.
     file_pattern : str
-        File pattern for the format, using '|' as separator for multiple
+        The file pattern for the format, using '|' as separator for multiple
         patterns.
     has_input : bool
         ``True`` if the parser can read the format.

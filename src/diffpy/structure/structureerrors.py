@@ -14,6 +14,8 @@
 ##############################################################################
 """Exceptions used in Structure package."""
 
+# FIXME: remove this line when `docformatter` fixes the blank line bug
+
 
 class StructureFormatError(Exception):
     """Exception for failed IO from Structure file."""

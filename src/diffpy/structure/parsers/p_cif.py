@@ -17,9 +17,9 @@
 Attributes
 ----------
 rx_float : re.Pattern
-    Constant regular expression for `leading_float()`.
+    The constant regular expression for `leading_float()`.
 symvec : dict
-    Helper dictionary for `getSymOp()`.
+    The helper dictionary for `getSymOp()`.
 
 Note
 ----
@@ -79,26 +79,26 @@ class P_cif(StructureParser):
     Attributes
     ----------
     format : str
-        Structure format name.
+        The structure format name.
     ciffile : CifFile
-        Instance of `CifFile` from `PyCifRW`.
+        The instance of `CifFile` from `PyCifRW`.
     stru : Structure
-        `Structure` instance used for CIF input or output.
+        The `Structure` instance used for CIF input or output.
     spacegroup : SpaceGroup
-        Instance of `SpaceGroup` used for symmetry expansion.
+        The instance of `SpaceGroup` used for symmetry expansion.
     eps : float
-        Resolution in fractional coordinates for non-equal positions.
+        The resolution in fractional coordinates for non-equal positions.
         Used for expansion of asymmetric unit.
     eau : ExpandAsymmetricUnit
-        Instance of `ExpandAsymmetricUnit` from `SymmetryUtilities`.
+        The instance of `ExpandAsymmetricUnit` from `SymmetryUtilities`.
     asymmetric_unit : list
-        List of `Atom` instances for the original asymmetric unit in the CIF file.
+        The list of `Atom` instances for the original asymmetric unit in the CIF file.
     labelindex : dict
-        Dictionary mapping unique atom label to index of `Atom` in `self.asymmetric_unit`.
+        The dictionary mapping unique atom label to index of `Atom` in `self.asymmetric_unit`.
     anisotropy : dict
-        Dictionary mapping unique atom label to displacement anisotropy resolved at that site.
+        The dictionary mapping unique atom label to displacement anisotropy resolved at that site.
     cif_sgname : str or None
-        Space group name obtained by looking up the value of
+        The space group name obtained by looking up the value of
         `_space_group_name_Hall`,
         `_symmetry_space_group_name_Hall`,
         `_space_group_name_H-M_alt`,
@@ -151,8 +151,8 @@ class P_cif(StructureParser):
         _atom_setters[k] = _atom_setters[k.lower()] = k
     del k
 
+    # Conversion factor from B values to U values, as a float
     BtoU = 1.0 / (8 * numpy.pi**2)
-    """float: Conversion factor from B values to U values."""
 
     def _tr_ignore(a, value):
         return

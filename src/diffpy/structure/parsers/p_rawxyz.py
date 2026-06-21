@@ -48,7 +48,7 @@ class P_rawxyz(StructureParser):
     Attributes
     ----------
     format : str
-        Format name, default "rawxyz".
+        The format name, default "rawxyz".
     """
 
     def __init__(self):

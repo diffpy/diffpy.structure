@@ -14,7 +14,6 @@
 ##############################################################################
 """Unit tests for diffpy.structure.spacegroups."""
 
-
 import unittest
 
 from diffpy.structure.spacegroups import (

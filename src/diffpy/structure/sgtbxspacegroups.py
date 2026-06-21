@@ -19,9 +19,8 @@
 Attributes
 ----------
 sgtbxSpaceGroupList : list
-    List of space group instances defined in this module.
+    The list of space group instances defined in this module.
 """
-
 
 from diffpy.structure.spacegroupmod import (
     Rot_mX_mY_mZ,

@@ -44,9 +44,9 @@ class StructureParser(object):
     Attributes
     ----------
     format : str
-        Format name of particular parser.
+        The format name of particular parser.
     filename : str
-        Path to structure file that is read or written.
+        The path to structure file that is read or written.
     """
 
     def __init__(self):

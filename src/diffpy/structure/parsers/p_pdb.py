@@ -74,7 +74,11 @@ class P_pdb(StructureParser):
     Attributes
     ----------
     format : str
-        Format name, default "pdb".
+        The format name, default "pdb".
+    orderOfRecords : list
+        The ordered list of PDB record labels.
+    validRecords : dict
+        The set of valid PDB record labels.
     """
 
     # Static data members
@@ -135,10 +139,8 @@ class P_pdb(StructureParser):
         "MASTER",
         "END",
     ]
-    """list: Ordered list of PDB record labels."""
 
     validRecords = dict.fromkeys(orderOfRecords)
-    """dict: Dictionary of PDB record labels."""
 
     def __init__(self):
         StructureParser.__init__(self)

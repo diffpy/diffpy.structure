@@ -42,7 +42,7 @@ msdCart_deprecation_msg = build_deprecation_message(
 
 
 class Atom(object):
-    """Storage of structure information relevant for a single atom.
+    """The storage of structure information relevant for a single atom.
 
     This class manages atom information such as element symbol, position
     in fractional and Cartesian coordinates, atomic displacement parameters
@@ -55,10 +55,10 @@ class Atom(object):
         By default an empty string. When of the `Atom` type, create
         a copy of `atype` and adjust it per other arguments.
     xyz : numpy.ndarray, Optional
-        Fractional coordinates within the associated `lattice`.
+        The fractional coordinates within the associated `lattice`.
         By default ``[0, 0, 0]``.
     label : str, Optional
-        A unique string `label` for referring to this `Atom`.
+        The unique string `label` for referring to this `Atom`.
         By default an empty string.
     occupancy : float, Optional
         The initial `occupancy` of this atom, by default ``1``.
@@ -76,25 +76,25 @@ class Atom(object):
         *Uisoequiv* arguments may be provided at the same time. Assume
         zero atomic displacements when *U* and *Uisoequiv* are unset.
     lattice : Lattice, Optional
-        Coordinate system for the fractional coordinates `xyz`.
+        The coordinate system for the fractional coordinates `xyz`.
         Use the absolute Cartesian system when ``None``.
 
     Attributes
     ----------
     element : str
-        The string type of the atom. An element or ion symbol.
+        The string type of the atom. An element or ion symbol, default "".
     xyz : numpy.ndarray
         The fractional coordinates in the associated `lattice`.
     label : str
-        A unique string label referring to this atom, for example, "C_1".
+        The unique string label referring to this atom, for example, "C_1".
         The *label* can be used to reference this atom when contained in
-        a `Structure` object.
+        a `Structure` object, default "".
     occupancy : float
-        The fractional occupancy of this atom.
+        The fractional occupancy of this atom, default 1.0.
     lattice : Lattice
-        Coordinate system for the fractional coordinates `xyz` and
+        The coordinate system for the fractional coordinates `xyz` and
         the tensor of atomic displacement parameters `U`.
-        Use the absolute Cartesian coordinates when ``None``.
+        Use the absolute Cartesian coordinates when ``None`` as the default.
 
     Note
     ----
@@ -104,21 +104,17 @@ class Atom(object):
     # Private attributes
     #
     #   _U : 3-by-3 ndarray
-    #       Internal storage of the displacement parameters.
+    #       The internal storage of the displacement parameters.
 
     # instance attributes that have immutable default values
     element = ""
-    """str: Default values of `element`."""
 
     label = ""
-    """str: Default values of `label`."""
 
     occupancy = 1.0
-    """float: Default values of `occupancy`."""
 
     _anisotropy = False
     lattice = None
-    """None: Default values of `lattice`."""
 
     def __init__(
         self,
@@ -232,7 +228,7 @@ class Atom(object):
         return msd
 
     def __repr__(self):
-        """String representation of this Atom."""
+        """The string representation of this Atom."""
         xyz = self.xyz
         s = "%-4s %8.6f %8.6f %8.6f %6.4f" % (
             self.element,
@@ -273,29 +269,29 @@ class Atom(object):
     x = property(
         lambda self: self.xyz[0],
         lambda self, val: self.xyz.__setitem__(0, val),
-        doc="float : fractional coordinate *x*, same as ``xyz[0]``.",
+        doc="The fractional coordinate *x*, same as ``xyz[0]``, as a float",
     )
     y = property(
         lambda self: self.xyz[1],
         lambda self, val: self.xyz.__setitem__(1, val),
-        doc="float : fractional coordinate *y*, same as ``xyz[1]``.",
+        doc="The fractional coordinate *y*, same as ``xyz[1]``, as a float",
     )
     z = property(
         lambda self: self.xyz[2],
         lambda self, val: self.xyz.__setitem__(2, val),
-        doc="float : fractional coordinate *z*, same as ``xyz[2]``.",
+        doc="The fractional coordinate *z*, same as ``xyz[2]``, as a float",
     )
 
     # xyz_cartn
 
     @property
     def xyz_cartn(self):
-        """numpy.ndarray: Atom position in absolute Cartesian
-        coordinates.
+        """Atom position in absolute Cartesian coordinates, as a
+        numpy.ndarray.
 
         This is computed from fractional coordinates `xyz` and the
-        current `lattice` setup. Assignment to *xyz_cartn* or
-        its components is applied on fractional coordinates `xyz`.
+        current `lattice` setup. Assignment to *xyz_cartn* or its
+        components is applied on fractional coordinates `xyz`.
         """
         if not self.lattice:
             rv = self.xyz
@@ -315,7 +311,8 @@ class Atom(object):
 
     @property
     def anisotropy(self):
-        """bool : Flag for allowing anisotropic displacement parameters.
+        """The flag for allowing anisotropic displacement parameters, as
+        a bool.
 
         When ``False`` the tensor of thermal displacement parameters `U`
         must be isotropic and only its diagonal elements are taken into
@@ -340,8 +337,8 @@ class Atom(object):
 
     @property
     def U(self):
-        """numpy.ndarray : The 3x3 matrix of anisotropic atomic
-        displacements.
+        """The 3x3 matrix of anisotropic atomic displacements, as a
+        ndarray.
 
         For isotropic displacements (when `anisotropy` is ``False``)
         assignment to *U* uses only the first ``Unew[0, 0]`` element
@@ -387,7 +384,7 @@ class Atom(object):
     # _doc_uii, _doc_uij are temporary local variables.
 
     _doc_uii = """
-        float : The ``U[{0}, {0}]`` component of the displacement tensor `U`.
+        The ``U[{0}, {0}]`` component of the displacement tensor `U`, as a float
 
         When `anisotropy` is ``False`` setting a new value updates entire
         tensor *U*.
@@ -410,7 +407,7 @@ class Atom(object):
     )
 
     _doc_uij = """
-        float : The ``U[{0}, {1}]`` element of the displacement tensor `U`.
+        The ``U[{0}, {1}]`` element of the displacement tensor `U`, as a float
 
         Sets ``U[{1}, {0}]`` together with ``U[{0}, {1}]``. Assignment
         has no effect when `anisotropy` is ``False``.
@@ -439,7 +436,8 @@ class Atom(object):
 
     @property
     def Uisoequiv(self):
-        """float : The isotropic displacement parameter or an equivalent value.
+        """The isotropic displacement parameter or an equivalent value,
+        as a float.
 
         Setting a new value rescales tensor `U` so it yields equivalent
         direction-averaged displacements.
@@ -481,14 +479,14 @@ class Atom(object):
     # _doc_bii, _doc_bij are local variables.
 
     _doc_bii = """
-        float : The ``B{0}{0}`` element of the Debye-Waller matrix.
+        The ``B{0}{0}`` element of the Debye-Waller matrix, as a float
 
         This is equivalent to ``8 * pi**2 * U{0}{0}``. When `anisotropy`
         is ``False`` setting a new value updates entire tensor `U`.
         """
 
     _doc_bij = """
-        float : The ``B{0}{1}`` element of the Debye-Waller matrix.
+        The ``B{0}{1}`` element of the Debye-Waller matrix, as a float
 
         This is equivalent to ``8 * pi**2 * U{0}{1}``. Setting a new
         value updates `U` in a symmetric way. Assignment has no effect
@@ -533,7 +531,8 @@ class Atom(object):
 
     @property
     def Bisoequiv(self):
-        """float : The Debye-Waller isotropic displacement or an equivalent value.
+        """The Debye-Waller isotropic displacement or an equivalent
+        value, as a float.
 
         This equals ``8 * pi**2 * Uisoequiv``. Setting a new value
         rescales `U` tensor to yield equivalent direction-average of
@@ -553,7 +552,8 @@ class Atom(object):
 
 
 class _AtomCartesianCoordinates(numpy.ndarray):
-    """Specialized `numpy.ndarray` for accessing Cartesian coordinates.
+    """The specialized `numpy.ndarray` for accessing Cartesian
+    coordinates.
 
     Inplace assignments to this array are applied on the *xyz* position
     position of owner `Atom` as per the associated `Atom.lattice`.
@@ -561,7 +561,7 @@ class _AtomCartesianCoordinates(numpy.ndarray):
     Parameters
     ----------
     atom : Atom
-        `Atom` instance to be linked to these coordinate array.
+       The `Atom` instance to be linked to these coordinate array.
     """
 
     def __new__(self, atom):
@@ -575,7 +575,7 @@ class _AtomCartesianCoordinates(numpy.ndarray):
 
     @property
     def asarray(self):
-        """ndarray : This array viewed as standard numpy array."""
+        """This array viewed as standard numpy array."""
         return self.view(numpy.ndarray)
 
     def __setitem__(self, idx, value):

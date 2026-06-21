@@ -39,23 +39,24 @@ toLines_deprecation_msg = build_deprecation_message(
 
 
 class P_discus(StructureParser):
-    """Parser for DISCUS structure format. The parser chokes on molecule
-    and generator records.
+    """Parser for DISCUS structure format.
+
+    The parser chokes on molecule and generator records.
 
     Attributes
     ----------
     format : str
-        File format name, default "discus".
+        The file format name, default "discus".
     nl : int
-        Line number of the current line being parsed.
+        The line number of the current line being parsed.
     lines : list of str
-        List of lines from the input file.
+        The list of lines from the input file.
     line : str
-        Current line being parsed.
+        The current line being parsed.
     stru : PDFFitStructure
-        Structure being parsed.
+        The structure being parsed.
     ignored_lines : list of str
-        List of lines that were ignored during parsing.
+        The list of lines that were ignored during parsing.
     cell_read : bool
         ``True`` if cell record processed.
     ncell_read : bool
