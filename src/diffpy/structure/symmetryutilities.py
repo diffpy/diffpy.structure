@@ -602,7 +602,7 @@ class GeneratorSite(object):
         self.pparameters = []
         self.Uparameters = []
         # fill in the values
-        sites, ops, mult = expandPosition(spacegroup, xyz, sgoffset, eps)
+        sites, ops, mult = expand_position(spacegroup, xyz, sgoffset, eps)
         invariants = _find_invariants(ops)
         # shift self.xyz exactly to the special position
         if mult > 1:
@@ -613,7 +613,7 @@ class GeneratorSite(object):
             if numpy.any(dxyz != 0.0):
                 self.xyz = xyz + dxyz
                 self.xyz[numpy.fabs(self.xyz) < self.eps] = 0.0
-                sites, ops, mult = expandPosition(spacegroup, self.xyz, self.sgoffset, eps)
+                sites, ops, mult = expand_position(spacegroup, self.xyz, self.sgoffset, eps)
                 invariants = _find_invariants(ops)
         # self.xyz, sites, ops are all adjusted here
         self.eqxyz = sites
