@@ -184,7 +184,7 @@ class P_vesta(StructureParser):
                 emsg = "VESTA file is missing STRUC lattice parameters"
                 raise StructureFormatError(emsg)
 
-            stru.lattice.setLatPar(
+            stru.lattice.set_latt_parms(
                 a=latt_abc[0],
                 b=latt_abc[1],
                 c=latt_abc[2],

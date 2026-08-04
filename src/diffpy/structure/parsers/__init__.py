@@ -16,7 +16,7 @@
 
 The recognized structure formats are defined by subclassing `StructureParser`,
 by convention these classes are named `P_<format>.py`. The parser classes should
-to override the `parseLines()` and `toLines()` methods of `StructureParser`.
+to override the `parse_lines()` and `to_lines()` methods of `StructureParser`.
 Any structure parser needs to be registered in `parser_index` module.
 
 For normal usage it should be sufficient to use the routines provided
@@ -25,9 +25,9 @@ in this module.
 Content:
     * StructureParser: base class for a concrete Parser
     * parser_index: dictionary of known structure formats
-    * getParser: factory for Parser at given format
-    * inputFormats: list of available input formats
-    * outputFormats: list of available output formats
+    * get_parser: factory for Parser at given format
+    * input_formats: list of available input formats
+    * output_formats: list of available output formats
 """
 
 from diffpy.structure.parsers.parser_index_mod import parser_index

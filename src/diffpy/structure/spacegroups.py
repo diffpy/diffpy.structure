@@ -748,7 +748,7 @@ def is_space_group_identifier(sgid):
     bool
     """
     try:
-        GetSpaceGroup(sgid)
+        get_space_group(sgid)
         rv = True
     except ValueError:
         rv = False

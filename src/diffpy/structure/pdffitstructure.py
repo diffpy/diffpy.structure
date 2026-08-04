@@ -98,10 +98,10 @@ class PDFFitStructure(Structure):
         return self.read_structure(s, format)
 
     def read_structure(self, s, format="auto"):
-        """Same as `Structure.readStr`, but update `spcgr` value in
-        `self.pdffit` when parser can get spacegroup.
+        """Same as `Structure.read_structure`, but update `spcgr` value
+        in `self.pdffit` when parser can get spacegroup.
 
-        See `Structure.readStr()` for more info.
+        See `Structure.read_structure()` for more info.
 
         Parameters
         ----------

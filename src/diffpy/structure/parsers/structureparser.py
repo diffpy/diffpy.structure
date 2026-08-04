@@ -98,7 +98,7 @@ class StructureParser(object):
     def parse(self, s):
         """Create `Structure` instance from a string."""
         lines = s.rstrip("\r\n").split("\n")
-        stru = self.parseLines(lines)
+        stru = self.parse_lines(lines)
         return stru
 
     def tostring(self, stru):
