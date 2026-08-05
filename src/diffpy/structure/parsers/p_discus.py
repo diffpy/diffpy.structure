@@ -140,7 +140,7 @@ class P_discus(StructureParser):
                 raise StructureFormatError(emsg)
             # take care of superlattice
             if self.stru.pdffit["ncell"][:3] != [1, 1, 1]:
-                latpars = list(self.stru.lattice.abcABG())
+                latpars = list(self.stru.lattice.cell_parms())
                 superlatpars = [latpars[i] * self.stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
                 self.stru.place_in_lattice(superlattice)
@@ -215,7 +215,7 @@ class P_discus(StructureParser):
                 raise StructureFormatError(emsg)
             # take care of superlattice
             if self.stru.pdffit["ncell"][:3] != [1, 1, 1]:
-                latpars = list(self.stru.lattice.abcABG())
+                latpars = list(self.stru.lattice.cell_parms())
                 superlatpars = [latpars[i] * self.stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
                 self.stru.place_in_lattice(superlattice)
@@ -268,7 +268,7 @@ class P_discus(StructureParser):
         if stru_pdffit.get("stepcut", 0.0) > 0.0:
             line = "shape   stepcut, %g" % stru_pdffit["stepcut"]
             lines.append(line)
-        lines.append("cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % self.stru.lattice.abcABG())
+        lines.append("cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % self.stru.lattice.cell_parms())
         lines.append("ncell  %9i, %9i, %9i, %9i" % (1, 1, 1, len(self.stru)))
         lines.append("atoms")
         for a in self.stru:

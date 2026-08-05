@@ -159,8 +159,8 @@ class Lattice(object):
     Note
     ----
     The array attributes are read-only. They get updated by changing
-    some lattice parameters or by calling the `setLatPar()` or
-    `setLatBase()` methods.
+    some lattice parameters or by calling the `set_latt_parms()` or
+    `set_new_latt_base_vec()` methods.
 
     Examples
     --------
@@ -757,13 +757,13 @@ class Lattice(object):
         I3 = numpy.identity(3, dtype=float)
         rotbaseI3diff = max(numpy.reshape(numpy.fabs(self.baserot - I3), 9))
         cartlatpar = numpy.array([1.0, 1.0, 1.0, 90.0, 90.0, 90.0])
-        latpardiff = cartlatpar - self.abcABG()
+        latpardiff = cartlatpar - self.cell_parms()
         if rotbaseI3diff > self._epsilon:
             s = "Lattice(base=%r)" % self.base
         elif numpy.fabs(latpardiff).max() < self._epsilon:
             s = "Lattice()"
         else:
-            s = "Lattice(a=%g, b=%g, c=%g, alpha=%g, beta=%g, gamma=%g)" % self.abcABG()
+            s = "Lattice(a=%g, b=%g, c=%g, alpha=%g, beta=%g, gamma=%g)" % self.cell_parms()
         return s
 
 

@@ -14,7 +14,7 @@
 ##############################################################################
 """Parser for automatic file format detection.
 
-This Parser does not provide the the `toLines()` method.
+This Parser does not provide the the `to_lines()` method.
 """
 
 import os

@@ -19,7 +19,7 @@ Attributes
 rx_float : re.Pattern
     The constant regular expression for `leading_float()`.
 symvec : dict
-    The helper dictionary for `getSymOp()`.
+    The helper dictionary for `get_symop()`.
 
 Note
 ----
@@ -362,7 +362,6 @@ class P_cif(StructureParser):
         """
         return self.parse_lines(lines)
 
-    @deprecated(parseLines_deprecation_msg)
     def parse_lines(self, lines):
         """Parse list of lines in CIF format.
 

@@ -101,10 +101,10 @@ def load_structure(filename, fmt="auto", **kw):
         Path to the file to be loaded.
     fmt : str, Optional
         Format of the structure file such as 'cif' or 'xyz'. Must be
-        one of the formats listed by the `parsers.inputFormats` function.
+        one of the formats listed by the `parsers.input_formats` function.
         When 'auto', all supported formats are tried in a sequence.
     kw : Optional
-        Extra keyword arguments that are passed to `parsers.getParser`
+        Extra keyword arguments that are passed to `parsers.get_parser`
         function. These configure the dedicated Parser object that
         is used to read content in filename.
 
