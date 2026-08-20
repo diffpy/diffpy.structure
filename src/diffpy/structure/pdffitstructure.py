@@ -14,7 +14,6 @@
 ##############################################################################
 """Definition of PDFFitStructure class derived from Structure."""
 
-
 from diffpy.structure.structure import Structure
 from diffpy.utils._deprecator import build_deprecation_message, deprecated
 
@@ -41,7 +40,7 @@ class PDFFitStructure(Structure):
     Attributes
     ----------
     pdffit : dict
-        Dictionary for storing following extra parameters from
+        This stores the following extra parameters from
         PDFFit structure files:
             `'scale', 'delta1', 'delta2', 'sratio',
             'rcut', 'spcgr', 'dcell', 'ncell'`
@@ -99,10 +98,10 @@ class PDFFitStructure(Structure):
         return self.read_structure(s, format)
 
     def read_structure(self, s, format="auto"):
-        """Same as `Structure.readStr`, but update `spcgr` value in
-        `self.pdffit` when parser can get spacegroup.
+        """Same as `Structure.read_structure`, but update `spcgr` value
+        in `self.pdffit` when parser can get spacegroup.
 
-        See `Structure.readStr()` for more info.
+        See `Structure.read_structure()` for more info.
 
         Parameters
         ----------

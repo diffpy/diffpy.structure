@@ -74,7 +74,11 @@ class P_pdb(StructureParser):
     Attributes
     ----------
     format : str
-        Format name, default "pdb".
+        The format name, default "pdb".
+    orderOfRecords : list
+        The ordered list of PDB record labels.
+    validRecords : dict
+        The set of valid PDB record labels.
     """
 
     # Static data members
@@ -135,10 +139,8 @@ class P_pdb(StructureParser):
         "MASTER",
         "END",
     ]
-    """list: Ordered list of PDB record labels."""
 
     validRecords = dict.fromkeys(orderOfRecords)
-    """dict: Dictionary of PDB record labels."""
 
     def __init__(self):
         StructureParser.__init__(self)
@@ -213,9 +215,9 @@ class P_pdb(StructureParser):
                     sc[2, :] = [float(x) for x in line[10:40].split()]
                     scaleU[2] = float(line[45:55])
                     base = numpy.transpose(numpy.linalg.inv(sc))
-                    abcABGcryst = numpy.array(stru.lattice.abcABG())
+                    abcABGcryst = numpy.array(stru.lattice.cell_parms())
                     stru.lattice.set_new_latt_base_vec(base)
-                    abcABGscale = numpy.array(stru.lattice.abcABG())
+                    abcABGscale = numpy.array(stru.lattice.cell_parms())
                     reldiff = numpy.fabs(1.0 - abcABGscale / abcABGcryst)
                     if not numpy.all(reldiff < 1.0e-4):
                         emsg = "%d: " % p_nl + "SCALE and CRYST1 are not consistent."

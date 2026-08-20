@@ -14,7 +14,6 @@
 ##############################################################################
 """Unit tests for the Atom class."""
 
-
 import unittest
 
 import numpy

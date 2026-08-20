@@ -187,7 +187,7 @@ def convert_structure_file(pd):
     fmt = pd.get("format", "auto")
     stru = None
     if fmt == "auto":
-        stru, fmt = loadStructureFile(strufile)
+        stru, fmt = load_structure_file(strufile)
         pd["fmt"] = fmt
     # if fmt is recognized by the viewer, use as is
     if fmt in pd["formats"] and pd["formula"] is None:

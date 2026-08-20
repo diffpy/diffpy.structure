@@ -44,9 +44,9 @@ class StructureParser(object):
     Attributes
     ----------
     format : str
-        Format name of particular parser.
+        The format name of particular parser.
     filename : str
-        Path to structure file that is read or written.
+        The path to structure file that is read or written.
     """
 
     def __init__(self):
@@ -98,7 +98,7 @@ class StructureParser(object):
     def parse(self, s):
         """Create `Structure` instance from a string."""
         lines = s.rstrip("\r\n").split("\n")
-        stru = self.parseLines(lines)
+        stru = self.parse_lines(lines)
         return stru
 
     def tostring(self, stru):

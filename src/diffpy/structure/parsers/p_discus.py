@@ -39,23 +39,24 @@ toLines_deprecation_msg = build_deprecation_message(
 
 
 class P_discus(StructureParser):
-    """Parser for DISCUS structure format. The parser chokes on molecule
-    and generator records.
+    """Parser for DISCUS structure format.
+
+    The parser chokes on molecule and generator records.
 
     Attributes
     ----------
     format : str
-        File format name, default "discus".
+        The file format name, default "discus".
     nl : int
-        Line number of the current line being parsed.
+        The line number of the current line being parsed.
     lines : list of str
-        List of lines from the input file.
+        The list of lines from the input file.
     line : str
-        Current line being parsed.
+        The current line being parsed.
     stru : PDFFitStructure
-        Structure being parsed.
+        The structure being parsed.
     ignored_lines : list of str
-        List of lines that were ignored during parsing.
+        The list of lines that were ignored during parsing.
     cell_read : bool
         ``True`` if cell record processed.
     ncell_read : bool
@@ -139,7 +140,7 @@ class P_discus(StructureParser):
                 raise StructureFormatError(emsg)
             # take care of superlattice
             if self.stru.pdffit["ncell"][:3] != [1, 1, 1]:
-                latpars = list(self.stru.lattice.abcABG())
+                latpars = list(self.stru.lattice.cell_parms())
                 superlatpars = [latpars[i] * self.stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
                 self.stru.place_in_lattice(superlattice)
@@ -214,7 +215,7 @@ class P_discus(StructureParser):
                 raise StructureFormatError(emsg)
             # take care of superlattice
             if self.stru.pdffit["ncell"][:3] != [1, 1, 1]:
-                latpars = list(self.stru.lattice.abcABG())
+                latpars = list(self.stru.lattice.cell_parms())
                 superlatpars = [latpars[i] * self.stru.pdffit["ncell"][i] for i in range(3)] + latpars[3:]
                 superlattice = Lattice(*superlatpars)
                 self.stru.place_in_lattice(superlattice)
@@ -267,7 +268,7 @@ class P_discus(StructureParser):
         if stru_pdffit.get("stepcut", 0.0) > 0.0:
             line = "shape   stepcut, %g" % stru_pdffit["stepcut"]
             lines.append(line)
-        lines.append("cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % self.stru.lattice.abcABG())
+        lines.append("cell   %9.6f, %9.6f, %9.6f, %9.6f, %9.6f, %9.6f" % self.stru.lattice.cell_parms())
         lines.append("ncell  %9i, %9i, %9i, %9i" % (1, 1, 1, len(self.stru)))
         lines.append("atoms")
         for a in self.stru:

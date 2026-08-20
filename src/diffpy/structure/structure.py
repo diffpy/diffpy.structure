@@ -77,17 +77,17 @@ class Structure(list):
     Parameters
     ----------
     atoms : list of Atom or Structure, Optional
-        List of `Atom` instances to be included in this `Structure`.
+        The list of `Atom` instances to be included in this `Structure`.
         When `atoms` argument is an existing `Structure` instance,
         the new structure is its copy.
     lattice : Lattice, Optional
-        Instance of `Lattice` defining coordinate systems, property.
+        The instance of `Lattice` defining coordinate systems, property.
     title : str, Optional
-        String description of the structure.
+        The string description of the structure.
     filename : str, Optional
-        Name of a file to load the structure from.
+        The name of a file to load the structure from.
     format : str, Optional
-        `Structure` format of the loaded `filename`. By default
+        The `Structure` format of the loaded `filename`. By default
         all structure formats are tried one by one. Ignored when
         `filename` has not been specified.
 
@@ -99,11 +99,112 @@ class Structure(list):
     Attributes
     ----------
     title : str
-        String description of the structure.
+        The string description of the structure, default "".
     lattice : Lattice
-        Instance of `Lattice` defining coordinate systems.
+        The instance of `Lattice` defining coordinate systems.
     pdffit : None or dict
-        Dictionary of PDFFit-related metadata.
+        The dictionary of PDFFit-related metadata, default None.
+    element : ndarray of str
+        The character array of `Atom` types.
+        Assignment updates the element attribute of the respective
+        `Atoms`. Set the maximum length of the element string to 5
+        characters.
+    xyz : ndarray
+        The array of fractional coordinates of all `Atoms`.
+        Assignment updates `xyz` attribute of all `Atoms`
+    x : ndarray
+        The array of fractional coordinate `x`.
+        Assignment updates the `xyz` attribute of all `Atoms`.
+    y : ndarray
+        The array of fractional coordinate `y`.
+        Assignment updates the `xyz` attribute of all `Atoms`.
+    z : ndarray
+        The array of fractional coordinate `z`.
+        Assignment updates the `xyz` attribute of all `Atoms`.
+    label : ndarray of str
+        The character array of `Atom` names.
+        Assignment updates the label attribute of all `Atoms`. Set the
+        maximum length of the label string to 5 characters.
+    occupancy : ndarray
+        The array of `Atom` occupancies.
+        Assignment updates the occupancy attribute of all `Atoms`.
+    xyz_cartn : ndarray
+        The array of absolute Cartesian coordinates of all `Atoms`.
+        Assignment updates the `xyz` attribute of all `Atoms`.
+    anisotropy : ndarray of bool
+        The boolean array for anisotropic thermal displacement flags.
+        Assignment updates the anisotropy attribute of all `Atoms`.
+    U : ndarray
+        The array of anisotropic thermal displacement tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    Uisoequiv : ndarray
+        The array of isotropic thermal displacement or equivalent values.
+        Assignment updates the U attribute of all `Atoms`.
+    U11 : ndarray
+        The array of `U11` elements of the anisotropic displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    U22 : ndarray
+        The array of `U22` elements of the anisotropic displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    U33 : ndarray
+        The array of `U33` elements of the anisotropic displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    U12 : ndarray
+        The array of `U12` elements of the anisotropic displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    U13 : ndarray
+        The array of `U13` elements of the anisotropic displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    U23 : ndarray
+        The array of `U23` elements of the anisotropic displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    Bisoequiv : ndarray
+        The array of Debye-Waller isotropic thermal displacement or
+        equivalent values for all `Atoms`. Assignment updates the
+        `U` attribute of all `Atoms`.
+    B11 : ndarray
+        The array of `B11` elements of the Debye-Waller displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    B22 : ndarray
+        The array of `B22` elements of the Debye-Waller displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    B33 : ndarray
+        The array of `B33` elements of the Debye-Waller displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    B12 : ndarray
+        The array of `B12` elements of the Debye-Waller displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    B13 : ndarray
+        The array of `B13` elements of the Debye-Waller displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
+    B23 : ndarray
+        The array of `B23` elements of the Debye-Waller displacement
+        tensors.
+        Assignment updates the U and anisotropy attributes of all
+        `Atoms`.
 
     Examples
     --------
@@ -120,11 +221,9 @@ class Structure(list):
 
     # default values for instance attributes
     title = ""
-    """str: default values for `title`."""
 
     _lattice = None
     pdffit = None
-    """None: default values for `pdffit`."""
 
     def __init__(self, atoms=None, lattice=None, title=None, filename=None, format=None):
         # if filename is specified load it and return
@@ -903,8 +1002,9 @@ class Structure(list):
     __rmul__ = __mul__
 
     def __imul__(self, n):
-        """Concatenate this `Structure` to n-times more `Atoms`. For
-        positive multiple the current `Atom` objects remain at the
+        """Concatenate this `Structure` to n-times more `Atoms`.
+
+        For positive multiple the current `Atom` objects remain at the
         beginning of this `Structure`.
 
         Parameters
@@ -959,150 +1059,146 @@ class Structure(list):
 
     element = _link_atom_attribute(
         "element",
-        """Character array of `Atom` types. Assignment updates
-        the element attribute of the respective `Atoms`.
-        Set the maximum length of the element string to 5 characters.""",
+        (
+            "Character array of `Atom` types. Assignment updates "
+            "the element attribute of the respective `Atoms`. "
+            "Set the maximum length of the element string to 5 characters."
+        ),
         toarray=lambda items: numpy.char.array(items, itemsize=5),
     )
 
     xyz = _link_atom_attribute(
         "xyz",
-        """Array of fractional coordinates of all `Atoms`.
-        Assignment updates `xyz` attribute of all `Atoms`.""",
+        "Array of fractional coordinates of all `Atoms`. " "Assignment updates `xyz` attribute of all `Atoms`.",
     )
 
     x = _link_atom_attribute(
         "x",
-        """Array of all fractional coordinates `x`.
-        Assignment updates `xyz` attribute of all `Atoms`.""",
+        "Array of all fractional coordinates `x`. " "Assignment updates `xyz` attribute of all `Atoms`.",
     )
 
     y = _link_atom_attribute(
         "y",
-        """Array of all fractional coordinates `y`.
-        Assignment updates `xyz` attribute of all `Atoms`.""",
+        "Array of all fractional coordinates `y`. " "Assignment updates `xyz` attribute of all `Atoms`.",
     )
 
     z = _link_atom_attribute(
         "z",
-        """Array of all fractional coordinates `z`.
-        Assignment updates `xyz` attribute of all `Atoms`.""",
+        "Array of all fractional coordinates `z`. " "Assignment updates `xyz` attribute of all `Atoms`.",
     )
 
     label = _link_atom_attribute(
         "label",
-        """Character array of `Atom` names. Assignment updates
-        the label attribute of all `Atoms`.
-        Set the maximum length of the label string to 5 characters.""",
+        (
+            "Character array of `Atom` names. Assignment updates "
+            "the label attribute of all `Atoms`. "
+            "Set the maximum length of the label string to 5 characters."
+        ),
         toarray=lambda items: numpy.char.array(items, itemsize=5),
     )
 
     occupancy = _link_atom_attribute(
-        "occupancy",
-        """Array of `Atom` occupancies. Assignment updates the
-        occupancy attribute of all `Atoms`.""",
+        "occupancy", "The `Atom` occupancies. Assignment updates the occupancy attributes of all `Atoms`"
     )
 
     xyz_cartn = _link_atom_attribute(
         "xyz_cartn",
-        """Array of absolute Cartesian coordinates of all `Atoms`.
-        Assignment updates the `xyz` attribute of all `Atoms`.""",
+        "The `Atom` absolute Cartesian coordinates. Assignment updates the `xyz` attribute of all `Atoms`.",
     )
 
     anisotropy = _link_atom_attribute(
         "anisotropy",
-        """Boolean array for anisotropic thermal displacement flags.
-        Assignment updates the anisotropy attribute of all `Atoms`.""",
+        " The anisotropic thermal displacement flags. Assignment updates the anisotropy attribute of all `Atoms`.",
     )
 
     U = _link_atom_attribute(
         "U",
-        """Array of anisotropic thermal displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The anisotropic thermal displacement tensors. "
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     Uisoequiv = _link_atom_attribute(
         "Uisoequiv",
-        """Array of isotropic thermal displacement or equivalent values.
-        Assignment updates the U attribute of all `Atoms`.""",
+        "The isotropic thermal displacement or equivalent values. "
+        "Assignment updates the U attribute of all `Atoms`.",
     )
 
     U11 = _link_atom_attribute(
         "U11",
-        """Array of `U11` elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `U11` elements of the anisotropic displacement tensors. "
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     U22 = _link_atom_attribute(
         "U22",
-        """Array of `U22` elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `U22` elements of the anisotropic displacement tensors. "
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     U33 = _link_atom_attribute(
         "U33",
-        """Array of `U33` elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `U33` elements of the anisotropic displacement tensors. "
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     U12 = _link_atom_attribute(
         "U12",
-        """Array of `U12` elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `U12` elements of the anisotropic displacement tensors."
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     U13 = _link_atom_attribute(
         "U13",
-        """Array of `U13` elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `U13` elements of the anisotropic displacement tensors."
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     U23 = _link_atom_attribute(
         "U23",
-        """Array of `U23` elements of the anisotropic displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `U23` elements of the anisotropic displacement tensors."
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     Bisoequiv = _link_atom_attribute(
         "Bisoequiv",
-        """Array of Debye-Waller isotropic thermal displacement or equivalent
-        values. Assignment updates the U attribute of all `Atoms`.""",
+        "The Debye-Waller isotropic thermal displacement or equivalent values."
+        "Assignment updates the U attribute of all `Atoms`.",
     )
 
     B11 = _link_atom_attribute(
         "B11",
-        """Array of `B11` elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `B11` elements of the Debye-Waller displacement tensors. "
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     B22 = _link_atom_attribute(
         "B22",
-        """Array of `B22` elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `B22` elements of the Debye-Waller displacement tensors."
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     B33 = _link_atom_attribute(
         "B33",
-        """Array of `B33` elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `B33` elements of the Debye-Waller displacement tensors."
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     B12 = _link_atom_attribute(
         "B12",
-        """Array of `B12` elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `B12` elements of the Debye-Waller displacement tensors."
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     B13 = _link_atom_attribute(
         "B13",
-        """Array of `B13` elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `B13` elements of the Debye-Waller displacement tensors."
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     B23 = _link_atom_attribute(
         "B23",
-        """Array of `B23` elements of the Debye-Waller displacement tensors.
-        Assignment updates the U and anisotropy attributes of all `Atoms`.""",
+        "The `B23` elements of the Debye-Waller displacement tensors."
+        "Assignment updates the U and anisotropy attributes of all `Atoms`.",
     )
 
     # Private Methods --------------------------------------------------------

@@ -14,7 +14,7 @@
 ##############################################################################
 """Parser for automatic file format detection.
 
-This Parser does not provide the the `toLines()` method.
+This Parser does not provide the the `to_lines()` method.
 """
 
 import os
@@ -55,10 +55,10 @@ class P_auto(StructureParser):
     Attributes
     ----------
     format : str
-        Detected structure format. Initially set to "auto" and updated
+        The detected structure format. Initially set to "auto" and updated
         after successful detection of the structure format.
     pkw : dict
-        Keyword arguments passed to the parser.
+        The keyword arguments passed to the parser.
     """
 
     def __init__(self, **kw):

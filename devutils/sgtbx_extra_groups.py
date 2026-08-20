@@ -10,7 +10,6 @@ distribution.
 Not to be included with code distributions.
 """
 
-
 import math
 import re
 

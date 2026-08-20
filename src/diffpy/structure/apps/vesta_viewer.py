@@ -72,12 +72,13 @@ pd = {
 
 
 def usage(style=None):
-    """Show usage info. for ``style=="brief"`` show only first 2 lines.
+    """Show usage info.
 
-    Parameters
-    ----------
-    style : str, optional
-        The usage display style.
+    for ``style=="brief"`` show only first 2 lines.
+        Parameters
+        ----------
+        style : str, optional
+            The usage display style.
     """
     myname = Path(sys.argv[0]).name
     msg = __doc__.replace("vestaview", myname)

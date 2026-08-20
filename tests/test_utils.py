@@ -13,6 +13,7 @@
 #
 ##############################################################################
 """Test for Structure utilities."""
+
 import pytest
 
 from diffpy.structure.utils import atom_bare_symbol, atomBareSymbol
