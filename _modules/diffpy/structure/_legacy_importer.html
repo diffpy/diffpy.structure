@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure._legacy_importer &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure._legacy_importer &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -88,7 +88,7 @@
 <span class="c1"># See LICENSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;Support import of old camel-case module names with</span>
+<span class="sd">"""Support import of old camel-case module names with</span>
 <span class="sd">DeprecationWarning.</span>
 
 <span class="sd">The imported camel-case modules are aliases for the current module</span>
@@ -101,14 +101,13 @@
 <span class="sd">Warning</span>
 <span class="sd">-------</span>
 <span class="sd">This module is deprecated and will be removed in the future.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">importlib.abc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
 
-<span class="n">WMSG</span> <span class="o">=</span> <span class="s2">&quot;Module </span><span class="si">{!r}</span><span class="s2"> is deprecated. Use </span><span class="si">{!r}</span><span class="s2"> instead.&quot;</span>
+<span class="n">WMSG</span> <span class="o">=</span> <span class="s2">"Module </span><span class="si">{!r}</span><span class="s2"> is deprecated. Use </span><span class="si">{!r}</span><span class="s2"> instead."</span>
 
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
@@ -117,7 +116,7 @@
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure._legacy_importer.FindRenamedStructureModule">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FindRenamedStructureModule</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">MetaPathFinder</span><span class="p">):</span>
 
-    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;diffpy.Structure.&quot;</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s2">"diffpy.Structure."</span>
 
 <div class="viewcode-block" id="FindRenamedStructureModule.find_spec">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure._legacy_importer.FindRenamedStructureModule.find_spec">[docs]</a>
@@ -143,10 +142,10 @@
 <div class="viewcode-block" id="MapRenamedStructureModule">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure._legacy_importer.MapRenamedStructureModule">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MapRenamedStructureModule</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Loader</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader for old camel-case module names.</span>
+<span class="w">    </span><span class="sd">"""Loader for old camel-case module names.</span>
 
 <span class="sd">    Import the current module and alias it under the old name.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="MapRenamedStructureModule.create_module">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure._legacy_importer.MapRenamedStructureModule.create_module">[docs]</a>
@@ -172,7 +171,7 @@
 
 <span class="c1"># show deprecation warning for diffpy.Structure</span>
 <span class="n">warn</span><span class="p">(</span>
-    <span class="n">WMSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;diffpy.Structure&quot;</span><span class="p">,</span> <span class="s2">&quot;diffpy.structure&quot;</span><span class="p">),</span>
+    <span class="n">WMSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"diffpy.Structure"</span><span class="p">,</span> <span class="s2">"diffpy.structure"</span><span class="p">),</span>
     <span class="ne">DeprecationWarning</span><span class="p">,</span>
     <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
 <span class="p">)</span>

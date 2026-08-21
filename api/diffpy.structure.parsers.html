@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.parsers package &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.parsers package &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -102,7 +102,7 @@
 <p>Conversion plugins for various structure formats.</p>
 <p>The recognized structure formats are defined by subclassing <cite>StructureParser</cite>,
 by convention these classes are named <cite>P_&lt;format&gt;.py</cite>. The parser classes should
-to override the <cite>parseLines()</cite> and <cite>toLines()</cite> methods of <cite>StructureParser</cite>.
+to override the <cite>parse_lines()</cite> and <cite>to_lines()</cite> methods of <cite>StructureParser</cite>.
 Any structure parser needs to be registered in <cite>parser_index</cite> module.</p>
 <p>For normal usage it should be sufficient to use the routines provided
 in this module.</p>
@@ -110,9 +110,9 @@ in this module.</p>
 <dt>Content:</dt><dd><ul class="simple">
 <li><p>StructureParser: base class for a concrete Parser</p></li>
 <li><p>parser_index: dictionary of known structure formats</p></li>
-<li><p>getParser: factory for Parser at given format</p></li>
-<li><p>inputFormats: list of available input formats</p></li>
-<li><p>outputFormats: list of available output formats</p></li>
+<li><p>get_parser: factory for Parser at given format</p></li>
+<li><p>input_formats: list of available input formats</p></li>
+<li><p>output_formats: list of available output formats</p></li>
 </ul>
 </dd>
 </dl>
@@ -190,7 +190,7 @@ and an optional first column for atom types.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_rawxyz.P_rawxyz.format">
 <span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_rawxyz.P_rawxyz.format" title="Link to this definition"></a></dt>
-<dd><p>Format name, default “rawxyz”.</p>
+<dd><p>The format name, default “rawxyz”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -287,7 +287,7 @@ version 4.0.0.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.structureparser.StructureParser.format">
 <span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#diffpy.structure.parsers.structureparser.StructureParser.format" title="Link to this definition"></a></dt>
-<dd><p>Format name of particular parser.</p>
+<dd><p>The format name of particular parser.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -298,7 +298,7 @@ version 4.0.0.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.structureparser.StructureParser.filename">
 <span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#diffpy.structure.parsers.structureparser.StructureParser.filename" title="Link to this definition"></a></dt>
-<dd><p>Path to structure file that is read or written.</p>
+<dd><p>The path to structure file that is read or written.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -379,7 +379,7 @@ version 4.0.0.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.rx_float">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.parsers.p_cif.</span></span><span class="sig-name descname"><span class="pre">rx_float</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.rx_float" title="Link to this definition"></a></dt>
-<dd><p>Constant regular expression for <cite>leading_float()</cite>.</p>
+<dd><p>The constant regular expression for <cite>leading_float()</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>re.Pattern</p>
@@ -390,7 +390,7 @@ version 4.0.0.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.symvec">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.parsers.p_cif.</span></span><span class="sig-name descname"><span class="pre">symvec</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.symvec" title="Link to this definition"></a></dt>
-<dd><p>Helper dictionary for <cite>getSymOp()</cite>.</p>
+<dd><p>The helper dictionary for <cite>get_symop()</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -418,7 +418,7 @@ When <code class="docutils literal notranslate"><span class="pre">None</span></c
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.format">
 <span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.format" title="Link to this definition"></a></dt>
-<dd><p>Structure format name.</p>
+<dd><p>The structure format name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -429,7 +429,7 @@ When <code class="docutils literal notranslate"><span class="pre">None</span></c
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.ciffile">
 <span class="sig-name descname"><span class="pre">ciffile</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.ciffile" title="Link to this definition"></a></dt>
-<dd><p>Instance of <cite>CifFile</cite> from <cite>PyCifRW</cite>.</p>
+<dd><p>The instance of <cite>CifFile</cite> from <cite>PyCifRW</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>CifFile</p>
@@ -440,7 +440,7 @@ When <code class="docutils literal notranslate"><span class="pre">None</span></c
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.stru">
 <span class="sig-name descname"><span class="pre">stru</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.stru" title="Link to this definition"></a></dt>
-<dd><p><cite>Structure</cite> instance used for CIF input or output.</p>
+<dd><p>The <cite>Structure</cite> instance used for CIF input or output.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="diffpy.structure.html#diffpy.structure.structure.Structure" title="diffpy.structure.structure.Structure">Structure</a></p>
@@ -451,7 +451,7 @@ When <code class="docutils literal notranslate"><span class="pre">None</span></c
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.spacegroup">
 <span class="sig-name descname"><span class="pre">spacegroup</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.spacegroup" title="Link to this definition"></a></dt>
-<dd><p>Instance of <cite>SpaceGroup</cite> used for symmetry expansion.</p>
+<dd><p>The instance of <cite>SpaceGroup</cite> used for symmetry expansion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup" title="diffpy.structure.spacegroupmod.SpaceGroup">SpaceGroup</a></p>
@@ -462,7 +462,7 @@ When <code class="docutils literal notranslate"><span class="pre">None</span></c
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.eps">
 <span class="sig-name descname"><span class="pre">eps</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.eps" title="Link to this definition"></a></dt>
-<dd><p>Resolution in fractional coordinates for non-equal positions.
+<dd><p>The resolution in fractional coordinates for non-equal positions.
 Used for expansion of asymmetric unit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -474,7 +474,7 @@ Used for expansion of asymmetric unit.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.eau">
 <span class="sig-name descname"><span class="pre">eau</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.eau" title="Link to this definition"></a></dt>
-<dd><p>Instance of <cite>ExpandAsymmetricUnit</cite> from <cite>SymmetryUtilities</cite>.</p>
+<dd><p>The instance of <cite>ExpandAsymmetricUnit</cite> from <cite>SymmetryUtilities</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="diffpy.structure.html#diffpy.structure.symmetryutilities.ExpandAsymmetricUnit" title="diffpy.structure.symmetryutilities.ExpandAsymmetricUnit">ExpandAsymmetricUnit</a></p>
@@ -485,7 +485,7 @@ Used for expansion of asymmetric unit.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.asymmetric_unit">
 <span class="sig-name descname"><span class="pre">asymmetric_unit</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.asymmetric_unit" title="Link to this definition"></a></dt>
-<dd><p>List of <cite>Atom</cite> instances for the original asymmetric unit in the CIF file.</p>
+<dd><p>The list of <cite>Atom</cite> instances for the original asymmetric unit in the CIF file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
@@ -496,7 +496,7 @@ Used for expansion of asymmetric unit.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.labelindex">
 <span class="sig-name descname"><span class="pre">labelindex</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.labelindex" title="Link to this definition"></a></dt>
-<dd><p>Dictionary mapping unique atom label to index of <cite>Atom</cite> in <cite>self.asymmetric_unit</cite>.</p>
+<dd><p>The dictionary mapping unique atom label to index of <cite>Atom</cite> in <cite>self.asymmetric_unit</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -507,7 +507,7 @@ Used for expansion of asymmetric unit.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.anisotropy">
 <span class="sig-name descname"><span class="pre">anisotropy</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.anisotropy" title="Link to this definition"></a></dt>
-<dd><p>Dictionary mapping unique atom label to displacement anisotropy resolved at that site.</p>
+<dd><p>The dictionary mapping unique atom label to displacement anisotropy resolved at that site.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -518,7 +518,7 @@ Used for expansion of asymmetric unit.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.cif_sgname">
 <span class="sig-name descname"><span class="pre">cif_sgname</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.cif_sgname" title="Link to this definition"></a></dt>
-<dd><p>Space group name obtained by looking up the value of
+<dd><p>The space group name obtained by looking up the value of
 <cite>_space_group_name_Hall</cite>,
 <cite>_symmetry_space_group_name_Hall</cite>,
 <cite>_space_group_name_H-M_alt</cite>,
@@ -534,13 +534,7 @@ items. <code class="docutils literal notranslate"><span class="pre">None</span><
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.BtoU">
 <span class="sig-name descname"><span class="pre">BtoU</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.012665147955292222</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.BtoU" title="Link to this definition"></a></dt>
-<dd><p>Conversion factor from B values to U values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.parse">
@@ -603,7 +597,7 @@ version 4.0.0.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_cif.P_cif.parse_lines">
-<span class="sig-name descname"><span class="pre">parse_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.parse_lines" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parse_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/parsers/p_cif.html#P_cif.parse_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.parsers.p_cif.P_cif.parse_lines" title="Link to this definition"></a></dt>
 <dd><p>Parse list of lines in CIF format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -729,7 +723,7 @@ format stands for inapplicable and unknown, respectively.</p></li>
 <section id="module-diffpy.structure.parsers.p_auto">
 <span id="diffpy-structure-parsers-p-auto-module"></span><h3>diffpy.structure.parsers.p_auto module<a class="headerlink" href="#module-diffpy.structure.parsers.p_auto" title="Link to this heading"></a></h3>
 <p>Parser for automatic file format detection.</p>
-<p>This Parser does not provide the the <cite>toLines()</cite> method.</p>
+<p>This Parser does not provide the the <cite>to_lines()</cite> method.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_auto.P_auto">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">diffpy.structure.parsers.p_auto.</span></span><span class="sig-name descname"><span class="pre">P_auto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/structure/parsers/p_auto.html#P_auto"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.parsers.p_auto.P_auto" title="Link to this definition"></a></dt>
@@ -746,7 +740,7 @@ its <cite>format</cite> attribute to the detected structure format.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_auto.P_auto.format">
 <span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_auto.P_auto.format" title="Link to this definition"></a></dt>
-<dd><p>Detected structure format. Initially set to “auto” and updated
+<dd><p>The detected structure format. Initially set to “auto” and updated
 after successful detection of the structure format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -758,7 +752,7 @@ after successful detection of the structure format.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_auto.P_auto.pkw">
 <span class="sig-name descname"><span class="pre">pkw</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_auto.P_auto.pkw" title="Link to this definition"></a></dt>
-<dd><p>Keyword arguments passed to the parser.</p>
+<dd><p>The keyword arguments passed to the parser.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -889,7 +883,7 @@ lines.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdffit.P_pdffit.format">
 <span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_pdffit.P_pdffit.format" title="Link to this definition"></a></dt>
-<dd><p>Format name, default “pdffit”.</p>
+<dd><p>The format name, default “pdffit”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -900,7 +894,7 @@ lines.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdffit.P_pdffit.ignored_lines">
 <span class="sig-name descname"><span class="pre">ignored_lines</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_pdffit.P_pdffit.ignored_lines" title="Link to this definition"></a></dt>
-<dd><p>List of lines ignored during parsing.</p>
+<dd><p>The list of lines ignored during parsing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
@@ -911,7 +905,7 @@ lines.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdffit.P_pdffit.stru">
 <span class="sig-name descname"><span class="pre">stru</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_pdffit.P_pdffit.stru" title="Link to this definition"></a></dt>
-<dd><p>Structure instance used for cif input or output.</p>
+<dd><p>The structure instance used for cif input or output.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="diffpy.structure.html#diffpy.structure.pdffitstructure.PDFFitStructure" title="diffpy.structure.pdffitstructure.PDFFitStructure">PDFFitStructure</a></p>
@@ -1003,7 +997,7 @@ version 4.0.0.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_xcfg.AtomicMass">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.parsers.p_xcfg.</span></span><span class="sig-name descname"><span class="pre">AtomicMass</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.AtomicMass" title="Link to this definition"></a></dt>
-<dd><p>Dictionary of atomic masses for elements.</p>
+<dd><p>The dictionary of atomic masses for elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -1019,7 +1013,7 @@ version 4.0.0.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_xcfg.P_xcfg.format">
 <span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.P_xcfg.format" title="Link to this definition"></a></dt>
-<dd><p>Format name, default “xcfg”.</p>
+<dd><p>The format name, default “xcfg”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -1029,15 +1023,20 @@ version 4.0.0.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_xcfg.P_xcfg.cluster_boundary">
-<span class="sig-name descname"><span class="pre">cluster_boundary</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.P_xcfg.cluster_boundary" title="Link to this definition"></a></dt>
-<dd><p>Width of boundary around corners of non-periodic
-cluster to avoid PBC effects in atomeye.</p>
+<span class="sig-name descname"><span class="pre">cluster_boundary</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_xcfg.P_xcfg.cluster_boundary" title="Link to this definition"></a></dt>
+<dd><p>The width of boundary around corners of non-periodic
+cluster to avoid PBC effects in atomeye, default 2.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">cluster_boundary</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_xcfg.P_xcfg.parseLines">
@@ -1131,11 +1130,11 @@ associated modules where they are defined.</p>
 <dd><p>Dictionary of recognized structure formats. The keys are format names
 and the values are dictionaries with the following keys:</p>
 <dl class="simple">
-<dt>module<span class="classifier">str</span></dt><dd><p>Name of the module that defines the parser class.</p>
+<dt>module<span class="classifier">str</span></dt><dd><p>The name of the module that defines the parser class.</p>
 </dd>
-<dt>file_extension<span class="classifier">str</span></dt><dd><p>File extension for the format, including the leading dot.</p>
+<dt>file_extension<span class="classifier">str</span></dt><dd><p>The file extension for the format, including the leading dot.</p>
 </dd>
-<dt>file_pattern<span class="classifier">str</span></dt><dd><p>File pattern for the format, using ‘|’ as separator for multiple
+<dt>file_pattern<span class="classifier">str</span></dt><dd><p>The file pattern for the format, using ‘|’ as separator for multiple
 patterns.</p>
 </dd>
 <dt>has_input<span class="classifier">bool</span></dt><dd><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the parser can read the format.</p>
@@ -1177,10 +1176,32 @@ SCALE2, SCALE3, ATOM, SIGATM, ANISOU, SIGUIJ, TER, HETATM, END</cite>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdb.P_pdb.format">
 <span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.format" title="Link to this definition"></a></dt>
-<dd><p>Format name, default “pdb”.</p>
+<dd><p>The format name, default “pdb”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdb.P_pdb.orderOfRecords">
+<span class="sig-name descname"><span class="pre">orderOfRecords</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.orderOfRecords" title="Link to this definition"></a></dt>
+<dd><p>The ordered list of PDB record labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdb.P_pdb.validRecords">
+<span class="sig-name descname"><span class="pre">validRecords</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.validRecords" title="Link to this definition"></a></dt>
+<dd><p>The set of valid PDB record labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1212,15 +1233,9 @@ SCALE2, SCALE3, ATOM, SIGATM, ANISOU, SIGUIJ, TER, HETATM, END</cite>.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdb.P_pdb.orderOfRecords">
-<span class="sig-name descname"><span class="pre">orderOfRecords</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['HEADER',</span> <span class="pre">'OBSLTE',</span> <span class="pre">'TITLE',</span> <span class="pre">'CAVEAT',</span> <span class="pre">'COMPND',</span> <span class="pre">'SOURCE',</span> <span class="pre">'KEYWDS',</span> <span class="pre">'EXPDTA',</span> <span class="pre">'AUTHOR',</span> <span class="pre">'REVDAT',</span> <span class="pre">'SPRSDE',</span> <span class="pre">'JRNL',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'DBREF',</span> <span class="pre">'SEQADV',</span> <span class="pre">'SEQRES',</span> <span class="pre">'MODRES',</span> <span class="pre">'HET',</span> <span class="pre">'HETNAM',</span> <span class="pre">'HETSYN',</span> <span class="pre">'FORMUL',</span> <span class="pre">'HELIX',</span> <span class="pre">'SHEET',</span> <span class="pre">'TURN',</span> <span class="pre">'SSBOND',</span> <span class="pre">'LINK',</span> <span class="pre">'HYDBND',</span> <span class="pre">'SLTBRG',</span> <span class="pre">'CISPEP',</span> <span class="pre">'SITE',</span> <span class="pre">'CRYST1',</span> <span class="pre">'ORIGX1',</span> <span class="pre">'ORIGX2',</span> <span class="pre">'ORIGX3',</span> <span class="pre">'SCALE1',</span> <span class="pre">'SCALE2',</span> <span class="pre">'SCALE3',</span> <span class="pre">'MTRIX1',</span> <span class="pre">'MTRIX2',</span> <span class="pre">'MTRIX3',</span> <span class="pre">'TVECT',</span> <span class="pre">'MODEL',</span> <span class="pre">'ATOM',</span> <span class="pre">'SIGATM',</span> <span class="pre">'ANISOU',</span> <span class="pre">'SIGUIJ',</span> <span class="pre">'TER',</span> <span class="pre">'HETATM',</span> <span class="pre">'ENDMDL',</span> <span class="pre">'CONECT',</span> <span class="pre">'MASTER',</span> <span class="pre">'END']</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.orderOfRecords" title="Link to this definition"></a></dt>
-<dd><p>Ordered list of PDB record labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">orderOfRecords</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['HEADER',</span> <span class="pre">'OBSLTE',</span> <span class="pre">'TITLE',</span> <span class="pre">'CAVEAT',</span> <span class="pre">'COMPND',</span> <span class="pre">'SOURCE',</span> <span class="pre">'KEYWDS',</span> <span class="pre">'EXPDTA',</span> <span class="pre">'AUTHOR',</span> <span class="pre">'REVDAT',</span> <span class="pre">'SPRSDE',</span> <span class="pre">'JRNL',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'REMARK',</span> <span class="pre">'DBREF',</span> <span class="pre">'SEQADV',</span> <span class="pre">'SEQRES',</span> <span class="pre">'MODRES',</span> <span class="pre">'HET',</span> <span class="pre">'HETNAM',</span> <span class="pre">'HETSYN',</span> <span class="pre">'FORMUL',</span> <span class="pre">'HELIX',</span> <span class="pre">'SHEET',</span> <span class="pre">'TURN',</span> <span class="pre">'SSBOND',</span> <span class="pre">'LINK',</span> <span class="pre">'HYDBND',</span> <span class="pre">'SLTBRG',</span> <span class="pre">'CISPEP',</span> <span class="pre">'SITE',</span> <span class="pre">'CRYST1',</span> <span class="pre">'ORIGX1',</span> <span class="pre">'ORIGX2',</span> <span class="pre">'ORIGX3',</span> <span class="pre">'SCALE1',</span> <span class="pre">'SCALE2',</span> <span class="pre">'SCALE3',</span> <span class="pre">'MTRIX1',</span> <span class="pre">'MTRIX2',</span> <span class="pre">'MTRIX3',</span> <span class="pre">'TVECT',</span> <span class="pre">'MODEL',</span> <span class="pre">'ATOM',</span> <span class="pre">'SIGATM',</span> <span class="pre">'ANISOU',</span> <span class="pre">'SIGUIJ',</span> <span class="pre">'TER',</span> <span class="pre">'HETATM',</span> <span class="pre">'ENDMDL',</span> <span class="pre">'CONECT',</span> <span class="pre">'MASTER',</span> <span class="pre">'END']</span></span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdb.P_pdb.parseLines">
@@ -1288,15 +1303,9 @@ version 4.0.0.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.structure.parsers.p_pdb.P_pdb.validRecords">
-<span class="sig-name descname"><span class="pre">validRecords</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'ANISOU':</span> <span class="pre">None,</span> <span class="pre">'ATOM':</span> <span class="pre">None,</span> <span class="pre">'AUTHOR':</span> <span class="pre">None,</span> <span class="pre">'CAVEAT':</span> <span class="pre">None,</span> <span class="pre">'CISPEP':</span> <span class="pre">None,</span> <span class="pre">'COMPND':</span> <span class="pre">None,</span> <span class="pre">'CONECT':</span> <span class="pre">None,</span> <span class="pre">'CRYST1':</span> <span class="pre">None,</span> <span class="pre">'DBREF':</span> <span class="pre">None,</span> <span class="pre">'END':</span> <span class="pre">None,</span> <span class="pre">'ENDMDL':</span> <span class="pre">None,</span> <span class="pre">'EXPDTA':</span> <span class="pre">None,</span> <span class="pre">'FORMUL':</span> <span class="pre">None,</span> <span class="pre">'HEADER':</span> <span class="pre">None,</span> <span class="pre">'HELIX':</span> <span class="pre">None,</span> <span class="pre">'HET':</span> <span class="pre">None,</span> <span class="pre">'HETATM':</span> <span class="pre">None,</span> <span class="pre">'HETNAM':</span> <span class="pre">None,</span> <span class="pre">'HETSYN':</span> <span class="pre">None,</span> <span class="pre">'HYDBND':</span> <span class="pre">None,</span> <span class="pre">'JRNL':</span> <span class="pre">None,</span> <span class="pre">'KEYWDS':</span> <span class="pre">None,</span> <span class="pre">'LINK':</span> <span class="pre">None,</span> <span class="pre">'MASTER':</span> <span class="pre">None,</span> <span class="pre">'MODEL':</span> <span class="pre">None,</span> <span class="pre">'MODRES':</span> <span class="pre">None,</span> <span class="pre">'MTRIX1':</span> <span class="pre">None,</span> <span class="pre">'MTRIX2':</span> <span class="pre">None,</span> <span class="pre">'MTRIX3':</span> <span class="pre">None,</span> <span class="pre">'OBSLTE':</span> <span class="pre">None,</span> <span class="pre">'ORIGX1':</span> <span class="pre">None,</span> <span class="pre">'ORIGX2':</span> <span class="pre">None,</span> <span class="pre">'ORIGX3':</span> <span class="pre">None,</span> <span class="pre">'REMARK':</span> <span class="pre">None,</span> <span class="pre">'REVDAT':</span> <span class="pre">None,</span> <span class="pre">'SCALE1':</span> <span class="pre">None,</span> <span class="pre">'SCALE2':</span> <span class="pre">None,</span> <span class="pre">'SCALE3':</span> <span class="pre">None,</span> <span class="pre">'SEQADV':</span> <span class="pre">None,</span> <span class="pre">'SEQRES':</span> <span class="pre">None,</span> <span class="pre">'SHEET':</span> <span class="pre">None,</span> <span class="pre">'SIGATM':</span> <span class="pre">None,</span> <span class="pre">'SIGUIJ':</span> <span class="pre">None,</span> <span class="pre">'SITE':</span> <span class="pre">None,</span> <span class="pre">'SLTBRG':</span> <span class="pre">None,</span> <span class="pre">'SOURCE':</span> <span class="pre">None,</span> <span class="pre">'SPRSDE':</span> <span class="pre">None,</span> <span class="pre">'SSBOND':</span> <span class="pre">None,</span> <span class="pre">'TER':</span> <span class="pre">None,</span> <span class="pre">'TITLE':</span> <span class="pre">None,</span> <span class="pre">'TURN':</span> <span class="pre">None,</span> <span class="pre">'TVECT':</span> <span class="pre">None}</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_pdb.P_pdb.validRecords" title="Link to this definition"></a></dt>
-<dd><p>Dictionary of PDB record labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">validRecords</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'ANISOU':</span> <span class="pre">None,</span> <span class="pre">'ATOM':</span> <span class="pre">None,</span> <span class="pre">'AUTHOR':</span> <span class="pre">None,</span> <span class="pre">'CAVEAT':</span> <span class="pre">None,</span> <span class="pre">'CISPEP':</span> <span class="pre">None,</span> <span class="pre">'COMPND':</span> <span class="pre">None,</span> <span class="pre">'CONECT':</span> <span class="pre">None,</span> <span class="pre">'CRYST1':</span> <span class="pre">None,</span> <span class="pre">'DBREF':</span> <span class="pre">None,</span> <span class="pre">'END':</span> <span class="pre">None,</span> <span class="pre">'ENDMDL':</span> <span class="pre">None,</span> <span class="pre">'EXPDTA':</span> <span class="pre">None,</span> <span class="pre">'FORMUL':</span> <span class="pre">None,</span> <span class="pre">'HEADER':</span> <span class="pre">None,</span> <span class="pre">'HELIX':</span> <span class="pre">None,</span> <span class="pre">'HET':</span> <span class="pre">None,</span> <span class="pre">'HETATM':</span> <span class="pre">None,</span> <span class="pre">'HETNAM':</span> <span class="pre">None,</span> <span class="pre">'HETSYN':</span> <span class="pre">None,</span> <span class="pre">'HYDBND':</span> <span class="pre">None,</span> <span class="pre">'JRNL':</span> <span class="pre">None,</span> <span class="pre">'KEYWDS':</span> <span class="pre">None,</span> <span class="pre">'LINK':</span> <span class="pre">None,</span> <span class="pre">'MASTER':</span> <span class="pre">None,</span> <span class="pre">'MODEL':</span> <span class="pre">None,</span> <span class="pre">'MODRES':</span> <span class="pre">None,</span> <span class="pre">'MTRIX1':</span> <span class="pre">None,</span> <span class="pre">'MTRIX2':</span> <span class="pre">None,</span> <span class="pre">'MTRIX3':</span> <span class="pre">None,</span> <span class="pre">'OBSLTE':</span> <span class="pre">None,</span> <span class="pre">'ORIGX1':</span> <span class="pre">None,</span> <span class="pre">'ORIGX2':</span> <span class="pre">None,</span> <span class="pre">'ORIGX3':</span> <span class="pre">None,</span> <span class="pre">'REMARK':</span> <span class="pre">None,</span> <span class="pre">'REVDAT':</span> <span class="pre">None,</span> <span class="pre">'SCALE1':</span> <span class="pre">None,</span> <span class="pre">'SCALE2':</span> <span class="pre">None,</span> <span class="pre">'SCALE3':</span> <span class="pre">None,</span> <span class="pre">'SEQADV':</span> <span class="pre">None,</span> <span class="pre">'SEQRES':</span> <span class="pre">None,</span> <span class="pre">'SHEET':</span> <span class="pre">None,</span> <span class="pre">'SIGATM':</span> <span class="pre">None,</span> <span class="pre">'SIGUIJ':</span> <span class="pre">None,</span> <span class="pre">'SITE':</span> <span class="pre">None,</span> <span class="pre">'SLTBRG':</span> <span class="pre">None,</span> <span class="pre">'SOURCE':</span> <span class="pre">None,</span> <span class="pre">'SPRSDE':</span> <span class="pre">None,</span> <span class="pre">'SSBOND':</span> <span class="pre">None,</span> <span class="pre">'TER':</span> <span class="pre">None,</span> <span class="pre">'TITLE':</span> <span class="pre">None,</span> <span class="pre">'TURN':</span> <span class="pre">None,</span> <span class="pre">'TVECT':</span> <span class="pre">None}</span></span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -1336,12 +1345,12 @@ version 4.0.0.</p>
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_discus.P_discus">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">diffpy.structure.parsers.p_discus.</span></span><span class="sig-name descname"><span class="pre">P_discus</span></span><a class="reference internal" href="../_modules/diffpy/structure/parsers/p_discus.html#P_discus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.structure.parsers.p_discus.P_discus" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="../diffpy.structure.parsers.html#diffpy.structure.parsers.structureparser.StructureParser" title="diffpy.structure.parsers.structureparser.StructureParser"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructureParser</span></code></a></p>
-<p>Parser for DISCUS structure format. The parser chokes on molecule
-and generator records.</p>
+<p>Parser for DISCUS structure format.</p>
+<p>The parser chokes on molecule and generator records.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_discus.P_discus.format">
 <span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_discus.P_discus.format" title="Link to this definition"></a></dt>
-<dd><p>File format name, default “discus”.</p>
+<dd><p>The file format name, default “discus”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -1352,7 +1361,7 @@ and generator records.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_discus.P_discus.nl">
 <span class="sig-name descname"><span class="pre">nl</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_discus.P_discus.nl" title="Link to this definition"></a></dt>
-<dd><p>Line number of the current line being parsed.</p>
+<dd><p>The line number of the current line being parsed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
@@ -1363,7 +1372,7 @@ and generator records.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_discus.P_discus.lines">
 <span class="sig-name descname"><span class="pre">lines</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_discus.P_discus.lines" title="Link to this definition"></a></dt>
-<dd><p>List of lines from the input file.</p>
+<dd><p>The list of lines from the input file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list of str</p>
@@ -1374,7 +1383,7 @@ and generator records.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_discus.P_discus.line">
 <span class="sig-name descname"><span class="pre">line</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_discus.P_discus.line" title="Link to this definition"></a></dt>
-<dd><p>Current line being parsed.</p>
+<dd><p>The current line being parsed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -1385,7 +1394,7 @@ and generator records.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_discus.P_discus.stru">
 <span class="sig-name descname"><span class="pre">stru</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_discus.P_discus.stru" title="Link to this definition"></a></dt>
-<dd><p>Structure being parsed.</p>
+<dd><p>The structure being parsed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="diffpy.structure.html#diffpy.structure.pdffitstructure.PDFFitStructure" title="diffpy.structure.pdffitstructure.PDFFitStructure">PDFFitStructure</a></p>
@@ -1396,7 +1405,7 @@ and generator records.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_discus.P_discus.ignored_lines">
 <span class="sig-name descname"><span class="pre">ignored_lines</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_discus.P_discus.ignored_lines" title="Link to this definition"></a></dt>
-<dd><p>List of lines that were ignored during parsing.</p>
+<dd><p>The list of lines that were ignored during parsing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list of str</p>
@@ -1526,7 +1535,7 @@ VESTA is the actively maintained successor viewer.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_vesta.AtomicMass">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.parsers.p_vesta.</span></span><span class="sig-name descname"><span class="pre">AtomicMass</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_vesta.AtomicMass" title="Link to this definition"></a></dt>
-<dd><p>Dictionary of atomic masses for elements.</p>
+<dd><p>The dictionary of atomic masses for elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -1545,10 +1554,21 @@ native VESTA format understood by VESTA 3.x and later.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_vesta.P_vesta.format">
 <span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_vesta.P_vesta.format" title="Link to this definition"></a></dt>
-<dd><p>Format name, default “vesta”.</p>
+<dd><p>The format name, default “vesta”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.structure.parsers.p_vesta.P_vesta.cluster_boundary">
+<span class="sig-name descname"><span class="pre">cluster_boundary</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_vesta.P_vesta.cluster_boundary" title="Link to this definition"></a></dt>
+<dd><p>The width of boundary around corners of non-periodic cluster, default 2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1558,17 +1578,9 @@ native VESTA format understood by VESTA 3.x and later.</p>
 AtomEye/XCFG parser for API compatibility; it is not used by VESTA
 because VESTA handles periodicity natively.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.structure.parsers.p_vesta.P_vesta.cluster_boundary">
-<span class="sig-name descname"><span class="pre">cluster_boundary</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_vesta.P_vesta.cluster_boundary" title="Link to this definition"></a></dt>
-<dd><p>Width of boundary around corners of non-periodic cluster.
-Retained from the original AtomEye/XCFG parser for API compatibility.
-VESTA handles periodicity natively so this value has no effect on output.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">cluster_boundary</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_vesta.P_vesta.parse_lines">
@@ -1648,7 +1660,7 @@ from the structure’s lattice and atomic data.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.parsers.p_xyz.P_xyz.format">
 <span class="sig-name descname"><span class="pre">format</span></span><a class="headerlink" href="#diffpy.structure.parsers.p_xyz.P_xyz.format" title="Link to this definition"></a></dt>
-<dd><p>Format name, default “xyz”.</p>
+<dd><p>The format name, default “xyz”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>

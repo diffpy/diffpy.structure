@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.apps.transtru &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.apps.transtru &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -88,12 +88,12 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;Translate structure file to different format.</span>
+<span class="sd">"""Translate structure file to different format.</span>
 
 <span class="sd">Usage: ``transtru INFMT..OUTFMT strufile``</span>
 
 <span class="sd">Translates structure file strufile from `INFMT` to `OUTFMT` format and prints it</span>
-<span class="sd">to the screen. Use &quot;-&quot; as `strufile` to read from standard input. To save the</span>
+<span class="sd">to the screen. Use "-" as `strufile` to read from standard input. To save the</span>
 <span class="sd">translated file, use</span>
 
 <span class="sd">    ``transtru INFMT..OUTFMT strufile &gt; strufile.out``</span>
@@ -108,7 +108,7 @@
 
 <span class="sd">  -V, --version</span>
 <span class="sd">    Show script version.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_function</span>
 
@@ -121,19 +121,19 @@
 <div class="viewcode-block" id="usage">
 <a class="viewcode-back" href="../../../../diffpy.structure.apps.html#diffpy.structure.apps.transtru.usage">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">usage</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show usage info, for ``style==&quot;brief&quot;`` show only first 2</span>
-<span class="sd">    lines.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Show usage info, for ``style=="brief"`` show only first 2</span>
+<span class="sd">    lines."""</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 
     <span class="n">myname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">msg</span> <span class="o">=</span> <span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;transtru&quot;</span><span class="p">,</span> <span class="n">myname</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;brief&quot;</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;Try `</span><span class="si">%s</span><span class="s2"> --help&#39; for more information.&quot;</span> <span class="o">%</span> <span class="n">myname</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"transtru"</span><span class="p">,</span> <span class="n">myname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">"brief"</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"Try `</span><span class="si">%s</span><span class="s2"> --help' for more information."</span> <span class="o">%</span> <span class="n">myname</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">input_formats</span><span class="p">,</span> <span class="n">output_formats</span>
 
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;inputFormats&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_formats</span><span class="p">()))</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;outputFormats&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_formats</span><span class="p">()))</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"inputFormats"</span><span class="p">,</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_formats</span><span class="p">()))</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"outputFormats"</span><span class="p">,</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_formats</span><span class="p">()))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">return</span></div>
 
@@ -144,7 +144,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">version</span><span class="p">():</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;diffpy.structure&quot;</span><span class="p">,</span> <span class="n">__version__</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"diffpy.structure"</span><span class="p">,</span> <span class="n">__version__</span><span class="p">)</span>
     <span class="k">return</span></div>
 
 
@@ -156,35 +156,35 @@
 
     <span class="c1"># default parameters</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">opts</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;hV&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">])</span>
+        <span class="n">opts</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">"hV"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"help"</span><span class="p">,</span> <span class="s2">"version"</span><span class="p">])</span>
     <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span> <span class="k">as</span> <span class="n">errmsg</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">errmsg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="c1"># process options</span>
     <span class="k">for</span> <span class="n">o</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-h&quot;</span><span class="p">,</span> <span class="s2">&quot;--help&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"-h"</span><span class="p">,</span> <span class="s2">"--help"</span><span class="p">):</span>
             <span class="n">usage</span><span class="p">()</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-V&quot;</span><span class="p">,</span> <span class="s2">&quot;--version&quot;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"-V"</span><span class="p">,</span> <span class="s2">"--version"</span><span class="p">):</span>
             <span class="n">version</span><span class="p">()</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">usage</span><span class="p">(</span><span class="s2">&quot;brief&quot;</span><span class="p">)</span>
+        <span class="n">usage</span><span class="p">(</span><span class="s2">"brief"</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
     <span class="c1"># process arguments</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">input_formats</span><span class="p">,</span> <span class="n">output_formats</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">infmt</span><span class="p">,</span> <span class="n">outfmt</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">infmt</span><span class="p">,</span> <span class="n">outfmt</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">infmt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">input_formats</span><span class="p">():</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; is not valid input format&quot;</span> <span class="o">%</span> <span class="n">infmt</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"'</span><span class="si">%s</span><span class="s2">' is not valid input format"</span> <span class="o">%</span> <span class="n">infmt</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">outfmt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_formats</span><span class="p">():</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; is not valid output format&quot;</span> <span class="o">%</span> <span class="n">outfmt</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"'</span><span class="si">%s</span><span class="s2">' is not valid output format"</span> <span class="o">%</span> <span class="n">outfmt</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="s2">&quot;invalid format specification &#39;</span><span class="si">%s</span><span class="s2">&#39; does not contain ..&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s2">"invalid format specification '</span><span class="si">%s</span><span class="s2">' does not contain .."</span> <span class="o">%</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -192,25 +192,25 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">strufile</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">stru</span> <span class="o">=</span> <span class="n">Structure</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"-"</span><span class="p">:</span>
             <span class="n">stru</span><span class="o">.</span><span class="n">read_structure</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">infmt</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">stru</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">strufile</span><span class="p">,</span> <span class="n">infmt</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">stru</span><span class="o">.</span><span class="n">write_structure</span><span class="p">(</span><span class="n">outfmt</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;strufile not specified&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"strufile not specified"</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">strufile</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">strufile</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">strerror</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">StructureFormatError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">strufile</span><span class="p">,</span> <span class="n">e</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">strufile</span><span class="p">,</span> <span class="n">e</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span></div>
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 

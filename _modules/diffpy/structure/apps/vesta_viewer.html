@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.apps.vesta_viewer &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.apps.vesta_viewer &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -88,7 +88,7 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;View structure file in VESTA.</span>
+<span class="sd">"""View structure file in VESTA.</span>
 
 <span class="sd">Usage: ``vestaview [options] strufile``</span>
 
@@ -105,12 +105,12 @@
 <span class="sd">      Watch input file for changes.</span>
 
 <span class="sd">  --viewer=VIEWER</span>
-<span class="sd">      The structure viewer program, by default &quot;vesta&quot;.</span>
-<span class="sd">      The program will be executed as &quot;VIEWER structurefile&quot;.</span>
+<span class="sd">      The structure viewer program, by default "vesta".</span>
+<span class="sd">      The program will be executed as "VIEWER structurefile".</span>
 
 <span class="sd">  --formats=FORMATS</span>
 <span class="sd">      Comma-separated list of file formats that are understood</span>
-<span class="sd">      by the VIEWER, by default ``&quot;vesta,cif&quot;``. Files of other</span>
+<span class="sd">      by the VIEWER, by default ``"vesta,cif"``. Files of other</span>
 <span class="sd">      formats will be converted to the first listed format.</span>
 
 <span class="sd">  -h, --help</span>
@@ -129,7 +129,7 @@
 <span class="sd">AtomEye XCFG format is no longer a default target format but the XCFG</span>
 <span class="sd">parser (``P_xcfg``) remains available in ``diffpy.structure.parsers``</span>
 <span class="sd">for backward compatibility.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
@@ -140,32 +140,33 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.structureerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">StructureFormatError</span>
 
 <span class="n">pd</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;formula&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="s2">&quot;watch&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="s2">&quot;viewer&quot;</span><span class="p">:</span> <span class="s2">&quot;vesta&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;formats&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;vesta&quot;</span><span class="p">,</span> <span class="s2">&quot;cif&quot;</span><span class="p">],</span>
+    <span class="s2">"formula"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">"watch"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">"viewer"</span><span class="p">:</span> <span class="s2">"vesta"</span><span class="p">,</span>
+    <span class="s2">"formats"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"vesta"</span><span class="p">,</span> <span class="s2">"cif"</span><span class="p">],</span>
 <span class="p">}</span>
 
 
 <div class="viewcode-block" id="usage">
 <a class="viewcode-back" href="../../../../api/diffpy.structure.apps.html#diffpy.structure.apps.vesta_viewer.usage">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">usage</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Show usage info. for ``style==&quot;brief&quot;`` show only first 2 lines.</span>
+<span class="w">    </span><span class="sd">"""Show usage info.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    style : str, optional</span>
-<span class="sd">        The usage display style.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    for ``style=="brief"`` show only first 2 lines.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        style : str, optional</span>
+<span class="sd">            The usage display style.</span>
+<span class="sd">    """</span>
     <span class="n">myname</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">name</span>
-    <span class="n">msg</span> <span class="o">=</span> <span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;vestaview&quot;</span><span class="p">,</span> <span class="n">myname</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;brief&quot;</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="sa">f</span><span class="s2">&quot;Try `</span><span class="si">{</span><span class="n">myname</span><span class="si">}</span><span class="s2"> --help&#39; for more information.&quot;</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"vestaview"</span><span class="p">,</span> <span class="n">myname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">"brief"</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span> <span class="sa">f</span><span class="s2">"Try `</span><span class="si">{</span><span class="n">myname</span><span class="si">}</span><span class="s2"> --help' for more information."</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">input_formats</span>
 
-        <span class="n">fmts</span> <span class="o">=</span> <span class="p">[</span><span class="n">fmt</span> <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">input_formats</span><span class="p">()</span> <span class="k">if</span> <span class="n">fmt</span> <span class="o">!=</span> <span class="s2">&quot;auto&quot;</span><span class="p">]</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;inputFormats&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmts</span><span class="p">))</span>
+        <span class="n">fmts</span> <span class="o">=</span> <span class="p">[</span><span class="n">fmt</span> <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">input_formats</span><span class="p">()</span> <span class="k">if</span> <span class="n">fmt</span> <span class="o">!=</span> <span class="s2">"auto"</span><span class="p">]</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"inputFormats"</span><span class="p">,</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmts</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
 
@@ -173,30 +174,30 @@
 <div class="viewcode-block" id="version">
 <a class="viewcode-back" href="../../../../api/diffpy.structure.apps.html#diffpy.structure.apps.vesta_viewer.version">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">version</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print the script version.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Print the script version."""</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;vestaview </span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"vestaview </span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="load_structure_file">
 <a class="viewcode-back" href="../../../../api/diffpy.structure.apps.html#diffpy.structure.apps.vesta_viewer.load_structure_file">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">load_structure_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load structure from the specified file.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_structure_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Load structure from the specified file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    filename : str or Path</span>
 <span class="sd">        The path to the structure file.</span>
 <span class="sd">    format : str, optional</span>
-<span class="sd">        The file format, by default ``&quot;auto&quot;``.</span>
+<span class="sd">        The file format, by default ``"auto"``.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    tuple</span>
 <span class="sd">        The loaded ``(Structure, fileformat)`` pair.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Structure</span>
 
     <span class="n">stru</span> <span class="o">=</span> <span class="n">Structure</span><span class="p">()</span>
@@ -208,7 +209,7 @@
 <div class="viewcode-block" id="convert_structure_file">
 <a class="viewcode-back" href="../../../../api/diffpy.structure.apps.html#diffpy.structure.apps.vesta_viewer.convert_structure_file">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">convert_structure_file</span><span class="p">(</span><span class="n">pd</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert ``strufile`` to a temporary file understood by the</span>
+<span class="w">    </span><span class="sd">"""Convert ``strufile`` to a temporary file understood by the</span>
 <span class="sd">    viewer.</span>
 
 <span class="sd">    On the first call, a temporary directory is created and stored in</span>
@@ -216,31 +217,31 @@
 
 <span class="sd">    The VESTA viewer natively reads ``.vesta`` and ``.cif`` files, so if</span>
 <span class="sd">    the source is already in one of the formats listed in</span>
-<span class="sd">    ``pd[&quot;formats&quot;]`` and no formula override is requested, the file is</span>
+<span class="sd">    ``pd["formats"]`` and no formula override is requested, the file is</span>
 <span class="sd">    copied unchanged. Otherwise the structure is loaded and re-written in</span>
-<span class="sd">    the first format listed in ``pd[&quot;formats&quot;]``.</span>
+<span class="sd">    the first format listed in ``pd["formats"]``.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    pd : dict</span>
-<span class="sd">        The parameter dictionary containing at minimum ``&quot;strufile&quot;``</span>
-<span class="sd">        and ``&quot;formats&quot;`` keys. It is modified in place to add</span>
-<span class="sd">        ``&quot;tmpdir&quot;`` and ``&quot;tmpfile&quot;`` on the first call.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;tmpdir&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pd</span><span class="p">:</span>
+<span class="sd">        The parameter dictionary containing at minimum ``"strufile"``</span>
+<span class="sd">        and ``"formats"`` keys. It is modified in place to add</span>
+<span class="sd">        ``"tmpdir"`` and ``"tmpfile"`` on the first call.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="s2">"tmpdir"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pd</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">tempfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">mkdtemp</span>
 
-        <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">mkdtemp</span><span class="p">())</span>
-    <span class="n">strufile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">&quot;strufile&quot;</span><span class="p">])</span>
-    <span class="n">tmpfile</span> <span class="o">=</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpdir&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">strufile</span><span class="o">.</span><span class="n">name</span>
-    <span class="n">tmpfile_tmp</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tmpfile</span><span class="si">}</span><span class="s2">.tmp&quot;</span><span class="p">)</span>
-    <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpfile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmpfile</span>
+        <span class="n">pd</span><span class="p">[</span><span class="s2">"tmpdir"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">mkdtemp</span><span class="p">())</span>
+    <span class="n">strufile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">"strufile"</span><span class="p">])</span>
+    <span class="n">tmpfile</span> <span class="o">=</span> <span class="n">pd</span><span class="p">[</span><span class="s2">"tmpdir"</span><span class="p">]</span> <span class="o">/</span> <span class="n">strufile</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">tmpfile_tmp</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">tmpfile</span><span class="si">}</span><span class="s2">.tmp"</span><span class="p">)</span>
+    <span class="n">pd</span><span class="p">[</span><span class="s2">"tmpfile"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmpfile</span>
     <span class="n">stru</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">fmt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fmt"</span><span class="p">,</span> <span class="s2">"auto"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">:</span>
         <span class="n">stru</span><span class="p">,</span> <span class="n">fmt</span> <span class="o">=</span> <span class="n">load_structure_file</span><span class="p">(</span><span class="n">strufile</span><span class="p">)</span>
-        <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;fmt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fmt</span>
-    <span class="k">if</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formats&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formula&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pd</span><span class="p">[</span><span class="s2">"fmt"</span><span class="p">]</span> <span class="o">=</span> <span class="n">fmt</span>
+    <span class="k">if</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">pd</span><span class="p">[</span><span class="s2">"formats"</span><span class="p">]</span> <span class="ow">and</span> <span class="n">pd</span><span class="p">[</span><span class="s2">"formula"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 
         <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">strufile</span><span class="p">,</span> <span class="n">tmpfile_tmp</span><span class="p">)</span>
@@ -248,18 +249,18 @@
         <span class="k">return</span>
     <span class="k">if</span> <span class="n">stru</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">stru</span> <span class="o">=</span> <span class="n">load_structure_file</span><span class="p">(</span><span class="n">strufile</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formula&quot;</span><span class="p">]:</span>
-        <span class="n">formula</span> <span class="o">=</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formula&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="p">[</span><span class="s2">"formula"</span><span class="p">]:</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="n">pd</span><span class="p">[</span><span class="s2">"formula"</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">):</span>
-            <span class="n">emsg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Formula has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span><span class="si">}</span><span class="s2"> atoms while structure has &quot;</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Formula has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span><span class="si">}</span><span class="s2"> atoms while structure has "</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">stru</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">atom</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">stru</span><span class="p">,</span> <span class="n">formula</span><span class="p">):</span>
             <span class="n">atom</span><span class="o">.</span><span class="n">element</span> <span class="o">=</span> <span class="n">element</span>
-    <span class="k">elif</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s2">&quot;rawxyz&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s2">"rawxyz"</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">stru</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">atom</span><span class="o">.</span><span class="n">element</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-                <span class="n">atom</span><span class="o">.</span><span class="n">element</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span>
-    <span class="n">stru</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmpfile_tmp</span><span class="p">),</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formats&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">atom</span><span class="o">.</span><span class="n">element</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="n">atom</span><span class="o">.</span><span class="n">element</span> <span class="o">=</span> <span class="s2">"C"</span>
+    <span class="n">stru</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmpfile_tmp</span><span class="p">),</span> <span class="n">pd</span><span class="p">[</span><span class="s2">"formats"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">tmpfile_tmp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tmpfile</span><span class="p">)</span></div>
 
 
@@ -267,10 +268,10 @@
 <div class="viewcode-block" id="watch_structure_file">
 <a class="viewcode-back" href="../../../../api/diffpy.structure.apps.html#diffpy.structure.apps.vesta_viewer.watch_structure_file">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">watch_structure_file</span><span class="p">(</span><span class="n">pd</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Watch ``strufile`` for modifications and reconvert when changed.</span>
+<span class="w">    </span><span class="sd">"""Watch ``strufile`` for modifications and reconvert when changed.</span>
 
-<span class="sd">    Polls the modification timestamps of ``pd[&quot;strufile&quot;]`` and</span>
-<span class="sd">    ``pd[&quot;tmpfile&quot;]`` once per second. When the source is newer, the</span>
+<span class="sd">    Polls the modification timestamps of ``pd["strufile"]`` and</span>
+<span class="sd">    ``pd["tmpfile"]`` once per second. When the source is newer, the</span>
 <span class="sd">    file is reconverted via :func:`convert_structure_file`.</span>
 
 <span class="sd">    Parameters</span>
@@ -278,12 +279,12 @@
 <span class="sd">    pd : dict</span>
 <span class="sd">        The parameter dictionary as used by</span>
 <span class="sd">        :func:`convert_structure_file`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
 
-    <span class="n">strufile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">&quot;strufile&quot;</span><span class="p">])</span>
-    <span class="n">tmpfile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpfile&quot;</span><span class="p">])</span>
-    <span class="k">while</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;watch&quot;</span><span class="p">]:</span>
+    <span class="n">strufile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">"strufile"</span><span class="p">])</span>
+    <span class="n">tmpfile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">"tmpfile"</span><span class="p">])</span>
+    <span class="k">while</span> <span class="n">pd</span><span class="p">[</span><span class="s2">"watch"</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">tmpfile</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span> <span class="o">&lt;</span> <span class="n">strufile</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_mtime</span><span class="p">:</span>
             <span class="n">convert_structure_file</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span>
         <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
@@ -293,18 +294,18 @@
 <div class="viewcode-block" id="clean_up">
 <a class="viewcode-back" href="../../../../api/diffpy.structure.apps.html#diffpy.structure.apps.vesta_viewer.clean_up">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">clean_up</span><span class="p">(</span><span class="n">pd</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove temporary file and directory created during conversion.</span>
+<span class="w">    </span><span class="sd">"""Remove temporary file and directory created during conversion.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    pd : dict</span>
-<span class="sd">        The parameter dictionary that may contain ``&quot;tmpfile&quot;`` and</span>
-<span class="sd">        ``&quot;tmpdir&quot;`` entries to be removed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">tmpfile</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;tmpfile&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="sd">        The parameter dictionary that may contain ``"tmpfile"`` and</span>
+<span class="sd">        ``"tmpdir"`` entries to be removed.</span>
+<span class="sd">    """</span>
+    <span class="n">tmpfile</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"tmpfile"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">tmpfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpfile</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="n">Path</span><span class="p">(</span><span class="n">tmpfile</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
-    <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;tmpdir&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"tmpdir"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">tmpdir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span><span class="o">.</span><span class="n">rmdir</span><span class="p">()</span></div>
 
@@ -313,12 +314,12 @@
 <div class="viewcode-block" id="parse_formula">
 <a class="viewcode-back" href="../../../../api/diffpy.structure.apps.html#diffpy.structure.apps.vesta_viewer.parse_formula">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse chemical formula and return a list of elements.</span>
+<span class="w">    </span><span class="sd">"""Parse chemical formula and return a list of elements.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    formula : str</span>
-<span class="sd">        The chemical formula string such as ``&quot;Na4Cl4&quot;`` or ``&quot;H2O&quot;``.</span>
+<span class="sd">        The chemical formula string such as ``"Na4Cl4"`` or ``"H2O"``.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -331,12 +332,12 @@
 <span class="sd">    RuntimeError</span>
 <span class="sd">        Raised when ``formula`` does not start with an uppercase letter</span>
 <span class="sd">        or contains a non-integer count.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">formula</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">formula</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[A-Z]&quot;</span><span class="p">,</span> <span class="n">formula</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;InvalidFormula &#39;</span><span class="si">{</span><span class="n">formula</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">formula</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\s"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">formula</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^[A-Z]"</span><span class="p">,</span> <span class="n">formula</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"InvalidFormula '</span><span class="si">{</span><span class="n">formula</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
 
-    <span class="n">elcnt</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([A-Z][a-z]?)&quot;</span><span class="p">,</span> <span class="n">formula</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">elcnt</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">"([A-Z][a-z]?)"</span><span class="p">,</span> <span class="n">formula</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
     <span class="n">ellst</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">elcnt</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
@@ -344,7 +345,7 @@
             <span class="n">count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">elcnt</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">elcnt</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="mi">1</span>
             <span class="n">ellst</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">element</span><span class="p">]</span> <span class="o">*</span> <span class="n">count</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="n">emsg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid formula, </span><span class="si">{</span><span class="n">elcnt</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="si">!r}</span><span class="s2"> is not valid count&quot;</span>
+        <span class="n">emsg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Invalid formula, </span><span class="si">{</span><span class="n">elcnt</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="si">!r}</span><span class="s2"> is not valid count"</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ellst</span></div>
 
@@ -353,7 +354,7 @@
 <div class="viewcode-block" id="die">
 <a class="viewcode-back" href="../../../../api/diffpy.structure.apps.html#diffpy.structure.apps.vesta_viewer.die">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">die</span><span class="p">(</span><span class="n">exit_status</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pd</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clean up temporary files and exit with ``exit_status``.</span>
+<span class="w">    </span><span class="sd">"""Clean up temporary files and exit with ``exit_status``.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -361,7 +362,7 @@
 <span class="sd">        The exit code passed to :func:`sys.exit`, by default 0.</span>
 <span class="sd">    pd : dict, optional</span>
 <span class="sd">        The parameter dictionary forwarded to :func:`clean_up`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">clean_up</span><span class="p">({}</span> <span class="k">if</span> <span class="n">pd</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">pd</span><span class="p">)</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">exit_status</span><span class="p">)</span></div>
 
@@ -370,7 +371,7 @@
 <div class="viewcode-block" id="signal_handler">
 <a class="viewcode-back" href="../../../../api/diffpy.structure.apps.html#diffpy.structure.apps.vesta_viewer.signal_handler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">signal_handler</span><span class="p">(</span><span class="n">signum</span><span class="p">,</span> <span class="n">stackframe</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle OS signals by reverting to the default handler and</span>
+<span class="w">    </span><span class="sd">"""Handle OS signals by reverting to the default handler and</span>
 <span class="sd">    exiting.</span>
 
 <span class="sd">    On ``SIGCHLD`` the child exit status is harvested via</span>
@@ -383,7 +384,7 @@
 <span class="sd">        The signal number.</span>
 <span class="sd">    stackframe : frame</span>
 <span class="sd">        The current stack frame. Unused.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">del</span> <span class="n">stackframe</span>
     <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signum</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIG_DFL</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">signum</span> <span class="o">==</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGCHLD</span><span class="p">:</span>
@@ -398,46 +399,46 @@
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../../../../api/diffpy.structure.apps.html#diffpy.structure.apps.vesta_viewer.main">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Entry point for the ``vestaview`` command-line tool.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Entry point for the ``vestaview`` command-line tool."""</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">getopt</span>
 
-    <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;watch&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">pd</span><span class="p">[</span><span class="s2">"watch"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">opts</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
-            <span class="s2">&quot;f:whV&quot;</span><span class="p">,</span>
-            <span class="p">[</span><span class="s2">&quot;formula=&quot;</span><span class="p">,</span> <span class="s2">&quot;watch&quot;</span><span class="p">,</span> <span class="s2">&quot;viewer=&quot;</span><span class="p">,</span> <span class="s2">&quot;formats=&quot;</span><span class="p">,</span> <span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">],</span>
+            <span class="s2">"f:whV"</span><span class="p">,</span>
+            <span class="p">[</span><span class="s2">"formula="</span><span class="p">,</span> <span class="s2">"watch"</span><span class="p">,</span> <span class="s2">"viewer="</span><span class="p">,</span> <span class="s2">"formats="</span><span class="p">,</span> <span class="s2">"help"</span><span class="p">,</span> <span class="s2">"version"</span><span class="p">],</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span> <span class="k">as</span> <span class="n">errmsg</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">errmsg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
         <span class="n">die</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">option</span><span class="p">,</span> <span class="n">argument</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--formula&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"-f"</span><span class="p">,</span> <span class="s2">"--formula"</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formula&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse_formula</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+                <span class="n">pd</span><span class="p">[</span><span class="s2">"formula"</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse_formula</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
                 <span class="n">die</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-w&quot;</span><span class="p">,</span> <span class="s2">&quot;--watch&quot;</span><span class="p">):</span>
-            <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;watch&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="s2">&quot;--viewer&quot;</span><span class="p">:</span>
-            <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;viewer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">argument</span>
-        <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="s2">&quot;--formats&quot;</span><span class="p">:</span>
-            <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;formats&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">argument</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
-        <span class="k">elif</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-h&quot;</span><span class="p">,</span> <span class="s2">&quot;--help&quot;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"-w"</span><span class="p">,</span> <span class="s2">"--watch"</span><span class="p">):</span>
+            <span class="n">pd</span><span class="p">[</span><span class="s2">"watch"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="s2">"--viewer"</span><span class="p">:</span>
+            <span class="n">pd</span><span class="p">[</span><span class="s2">"viewer"</span><span class="p">]</span> <span class="o">=</span> <span class="n">argument</span>
+        <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="s2">"--formats"</span><span class="p">:</span>
+            <span class="n">pd</span><span class="p">[</span><span class="s2">"formats"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">argument</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"-h"</span><span class="p">,</span> <span class="s2">"--help"</span><span class="p">):</span>
             <span class="n">usage</span><span class="p">()</span>
             <span class="n">die</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-V&quot;</span><span class="p">,</span> <span class="s2">&quot;--version&quot;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"-V"</span><span class="p">,</span> <span class="s2">"--version"</span><span class="p">):</span>
             <span class="n">version</span><span class="p">()</span>
             <span class="n">die</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">usage</span><span class="p">(</span><span class="s2">&quot;brief&quot;</span><span class="p">)</span>
+        <span class="n">usage</span><span class="p">(</span><span class="s2">"brief"</span><span class="p">)</span>
         <span class="n">die</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;too many structure files&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"too many structure files"</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
         <span class="n">die</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;strufile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">pd</span><span class="p">[</span><span class="s2">"strufile"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGHUP</span><span class="p">,</span> <span class="n">signal_handler</span><span class="p">)</span>
     <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGQUIT</span><span class="p">,</span> <span class="n">signal_handler</span><span class="p">)</span>
     <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGSEGV</span><span class="p">,</span> <span class="n">signal_handler</span><span class="p">)</span>
@@ -447,12 +448,12 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">convert_structure_file</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span>
         <span class="n">spawnargs</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;viewer&quot;</span><span class="p">],</span>
-            <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;viewer&quot;</span><span class="p">],</span>
-            <span class="nb">str</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">&quot;tmpfile&quot;</span><span class="p">]),</span>
+            <span class="n">pd</span><span class="p">[</span><span class="s2">"viewer"</span><span class="p">],</span>
+            <span class="n">pd</span><span class="p">[</span><span class="s2">"viewer"</span><span class="p">],</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">pd</span><span class="p">[</span><span class="s2">"tmpfile"</span><span class="p">]),</span>
             <span class="n">env</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">pd</span><span class="p">[</span><span class="s2">&quot;watch&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">pd</span><span class="p">[</span><span class="s2">"watch"</span><span class="p">]:</span>
             <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGCHLD</span><span class="p">,</span> <span class="n">signal_handler</span><span class="p">)</span>
             <span class="n">os</span><span class="o">.</span><span class="n">spawnlpe</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">P_NOWAIT</span><span class="p">,</span> <span class="o">*</span><span class="n">spawnargs</span><span class="p">)</span>
             <span class="n">watch_structure_file</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span>
@@ -460,15 +461,15 @@
             <span class="n">status</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">spawnlpe</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">P_WAIT</span><span class="p">,</span> <span class="o">*</span><span class="n">spawnargs</span><span class="p">)</span>
             <span class="n">die</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">pd</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="o">.</span><span class="n">strerror</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="o">.</span><span class="n">strerror</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
         <span class="n">die</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pd</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">StructureFormatError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
         <span class="n">die</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pd</span><span class="p">)</span></div>
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.utils &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.utils &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -88,7 +88,7 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;Small shared functions.&quot;&quot;&quot;</span>
+<span class="sd">"""Small shared functions."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span> <span class="k">as</span> <span class="n">_Iterable</span>
 
@@ -96,12 +96,12 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils._deprecator</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_deprecation_message</span><span class="p">,</span> <span class="n">deprecated</span>
 
-<span class="n">base</span> <span class="o">=</span> <span class="s2">&quot;diffpy.structure&quot;</span>
-<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">&quot;4.0.0&quot;</span>
+<span class="n">base</span> <span class="o">=</span> <span class="s2">"diffpy.structure"</span>
+<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">"4.0.0"</span>
 <span class="n">atomBareSymbol_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;atomBareSymbol&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;atom_bare_symbol&quot;</span><span class="p">,</span>
+    <span class="s2">"atomBareSymbol"</span><span class="p">,</span>
+    <span class="s2">"atom_bare_symbol"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -109,7 +109,7 @@
 <div class="viewcode-block" id="isiterable">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.utils.isiterable">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">isiterable</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;``True`` if argument is iterable.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""``True`` if argument is iterable."""</span>
     <span class="n">rv</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">_Iterable</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rv</span></div>
 
@@ -118,7 +118,7 @@
 <div class="viewcode-block" id="isfloat">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.utils.isfloat">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">isfloat</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;``True`` if argument can be converted to float.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""``True`` if argument can be converted to float."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
@@ -130,19 +130,18 @@
 
 <span class="nd">@deprecated</span><span class="p">(</span><span class="n">atomBareSymbol_deprecation_msg</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">atomBareSymbol</span><span class="p">(</span><span class="n">smbl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in version</span>
+<span class="w">    </span><span class="sd">"""This function has been deprecated and will be removed in version</span>
 <span class="sd">    4.0.0.</span>
 
 <span class="sd">    Please use diffpy.structure.atom_bare_symbol instead.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">atom_bare_symbol</span><span class="p">(</span><span class="n">smbl</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="atom_bare_symbol">
 <a class="viewcode-back" href="../../../api/diffpy.structure.html#diffpy.structure.utils.atom_bare_symbol">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">atom_bare_symbol</span><span class="p">(</span><span class="n">smbl</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove atom type string stripped of isotope and ion charge</span>
+<span class="w">    </span><span class="sd">"""Remove atom type string stripped of isotope and ion charge</span>
 <span class="sd">    symbols.</span>
 
 <span class="sd">    This function removes any blank, isotope numbers (0-9), leading hyphens (-), and ion charge</span>
@@ -160,14 +159,14 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; atom_bare_symbol(&quot;Cl-&quot;)</span>
-<span class="sd">    &#39;Cl&#39;</span>
-<span class="sd">    &gt;&gt;&gt; atom_bare_symbol(&quot;Ca2+&quot;)</span>
-<span class="sd">    &#39;Ca&#39;</span>
-<span class="sd">    &gt;&gt;&gt; atom_bare_symbol(&quot;12-C&quot;)</span>
-<span class="sd">    &#39;C&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">rv</span> <span class="o">=</span> <span class="n">smbl</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;0123456789-&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;123456789+-&quot;</span><span class="p">)</span>
+<span class="sd">    &gt;&gt;&gt; atom_bare_symbol("Cl-")</span>
+<span class="sd">    'Cl'</span>
+<span class="sd">    &gt;&gt;&gt; atom_bare_symbol("Ca2+")</span>
+<span class="sd">    'Ca'</span>
+<span class="sd">    &gt;&gt;&gt; atom_bare_symbol("12-C")</span>
+<span class="sd">    'C'</span>
+<span class="sd">    """</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">smbl</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"0123456789-"</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"123456789+-"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rv</span></div>
 
 
@@ -176,7 +175,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_link_atom_attribute</span><span class="p">(</span><span class="n">attrname</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">toarray</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create property wrapper that maps the specified atom attribute.</span>
+<span class="w">    </span><span class="sd">"""Create property wrapper that maps the specified atom attribute.</span>
 
 <span class="sd">    The returned property object provides convenient access to atom</span>
 <span class="sd">    attributes from the owner `Structure` class.</span>
@@ -188,11 +187,11 @@
 <span class="sd">    doc : str</span>
 <span class="sd">        The docstring for the property wrapper.</span>
 <span class="sd">    toarray : callable, Optional</span>
-<span class="sd">        Factory function that converts list of attributes to `numpy.ndarray`.</span>
+<span class="sd">        The factory function that converts a list of attributes to `numpy.ndarray`.</span>
 <span class="sd">        Use `numpy.char.array` for string attributes.</span>
 
 <span class="sd">    Return a property object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">repeat</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">setitem</span>
 

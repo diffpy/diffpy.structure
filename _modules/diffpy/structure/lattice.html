@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.lattice &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.lattice &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -88,14 +88,14 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;Class Lattice stores properties and provides simple operations in</span>
+<span class="sd">"""Class Lattice stores properties and provides simple operations in</span>
 <span class="sd">lattice coordinate system.</span>
 
 <span class="sd">Attributes</span>
 <span class="sd">----------</span>
 <span class="sd">cartesian : Lattice</span>
-<span class="sd">    Constant instance of Lattice, default Cartesian system.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The default Cartesian lattice with a=b=c=1 and alpha=beta=gamma=90 degrees.</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
@@ -105,24 +105,24 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.structureerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">LatticeError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils._deprecator</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_deprecation_message</span><span class="p">,</span> <span class="n">deprecated</span>
 
-<span class="n">base</span> <span class="o">=</span> <span class="s2">&quot;diffpy.structure.Lattice&quot;</span>
-<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">&quot;4.0.0&quot;</span>
+<span class="n">base</span> <span class="o">=</span> <span class="s2">"diffpy.structure.Lattice"</span>
+<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">"4.0.0"</span>
 <span class="n">setLatPar_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;setLatPar&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;set_latt_parms&quot;</span><span class="p">,</span>
+    <span class="s2">"setLatPar"</span><span class="p">,</span>
+    <span class="s2">"set_latt_parms"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">setLatBase_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;setLatBase&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;set_new_latt_base_vec&quot;</span><span class="p">,</span>
+    <span class="s2">"setLatBase"</span><span class="p">,</span>
+    <span class="s2">"set_new_latt_base_vec"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">abcABG_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;abcABG&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;cell_parms&quot;</span><span class="p">,</span>
+    <span class="s2">"abcABG"</span><span class="p">,</span>
+    <span class="s2">"cell_parms"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -144,7 +144,7 @@
 <div class="viewcode-block" id="cosd">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.cosd">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cosd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the cosine of *x* (measured in degrees).</span>
+<span class="w">    </span><span class="sd">"""Return the cosine of *x* (measured in degrees).</span>
 
 <span class="sd">    Avoid round-off errors for exact cosine values.</span>
 
@@ -157,7 +157,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        The cosine of the angle *x*.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">rv</span> <span class="o">=</span> <span class="n">_EXACT_COSD</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span> <span class="o">%</span> <span class="mf">360.0</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
@@ -168,7 +168,7 @@
 <div class="viewcode-block" id="sind">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.sind">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sind</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the sine of *x* (measured in degrees).</span>
+<span class="w">    </span><span class="sd">"""Return the sine of *x* (measured in degrees).</span>
 
 <span class="sd">    Avoid round-off errors for exact sine values.</span>
 
@@ -181,7 +181,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        The sine of the angle *x*.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">cosd</span><span class="p">(</span><span class="mf">90.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span></div>
 
 
@@ -192,7 +192,7 @@
 <div class="viewcode-block" id="Lattice">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Lattice</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;General coordinate system and associated operations.</span>
+<span class="w">    </span><span class="sd">"""General coordinate system and associated operations.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -243,8 +243,8 @@
 <span class="sd">    Note</span>
 <span class="sd">    ----</span>
 <span class="sd">    The array attributes are read-only. They get updated by changing</span>
-<span class="sd">    some lattice parameters or by calling the `setLatPar()` or</span>
-<span class="sd">    `setLatBase()` methods.</span>
+<span class="sd">    some lattice parameters or by calling the `set_latt_parms()` or</span>
+<span class="sd">    `set_new_latt_base_vec()` methods.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -265,7 +265,7 @@
 <span class="sd">    of the `abc` matrix:</span>
 
 <span class="sd">    &gt;&gt;&gt; Lattice(base=abc)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># round-off tolerance</span>
     <span class="n">_epsilon</span> <span class="o">=</span> <span class="mf">1.0e-8</span>
@@ -275,44 +275,44 @@
     <span class="n">a</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="p">,</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_latt_parms</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">value</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell length *a*.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The unit cell length *a*."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">b</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">,</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_latt_parms</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">value</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell length *b*.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The unit cell length *b*."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">c</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_latt_parms</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">value</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell length *c*.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The unit cell length *c*."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">alpha</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_latt_parms</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">value</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell angle *alpha* in degrees.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The cell angle *alpha* in degrees."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">beta</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta</span><span class="p">,</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_latt_parms</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">value</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell angle *beta* in degrees.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The cell angle *beta* in degrees."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">gamma</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span><span class="p">,</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_latt_parms</span><span class="p">(</span><span class="n">gamma</span><span class="o">=</span><span class="n">value</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell angle *gamma* in degrees.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The cell angle *gamma* in degrees."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># read-only derived properties</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">unitvolume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The unit cell volume when `a = b = c = 1`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The unit cell volume when `a = b = c = 1`."""</span>
         <span class="c1"># Recalculate lattice cosines to ensure this is right</span>
         <span class="c1"># even if ca, cb, cg data were not yet updated.</span>
         <span class="n">ca</span> <span class="o">=</span> <span class="n">cosd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
@@ -323,71 +323,71 @@
 
     <span class="n">volume</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">unitvolume</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The unit cell volume.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The unit cell volume."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">ar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ar</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell length *a* of the reciprocal lattice.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The cell length *a* of the reciprocal lattice."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">br</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_br</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell length *b* of the reciprocal lattice.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The cell length *b* of the reciprocal lattice."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">cr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cr</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cell length *c* of the reciprocal lattice.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The cell length *c* of the reciprocal lattice."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">alphar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alphar</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The reciprocal cell angle *alpha* in degrees.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The reciprocal cell angle *alpha* in degrees."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">betar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_betar</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The reciprocal cell angle *beta* in degrees&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The reciprocal cell angle *beta* in degrees"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">gammar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gammar</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The reciprocal cell angle *gamma* in degrees&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The reciprocal cell angle *gamma* in degrees"</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">ca</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ca</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the cell angle *alpha*.&quot;</span><span class="p">)</span>
+    <span class="n">ca</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ca</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">"The cosine of the cell angle *alpha*."</span><span class="p">)</span>
 
-    <span class="n">cb</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cb</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the cell angle *beta*.&quot;</span><span class="p">)</span>
+    <span class="n">cb</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cb</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">"The cosine of the cell angle *beta*."</span><span class="p">)</span>
 
-    <span class="n">cg</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cg</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the cell angle *gamma*.&quot;</span><span class="p">)</span>
+    <span class="n">cg</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cg</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">"The cosine of the cell angle *gamma*."</span><span class="p">)</span>
 
-    <span class="n">sa</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sa</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The sine of the cell angle *alpha*.&quot;</span><span class="p">)</span>
+    <span class="n">sa</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sa</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">"The sine of the cell angle *alpha*."</span><span class="p">)</span>
 
-    <span class="n">sb</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sb</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The sine of the cell angle *beta*.&quot;</span><span class="p">)</span>
+    <span class="n">sb</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sb</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">"The sine of the cell angle *beta*."</span><span class="p">)</span>
 
-    <span class="n">sg</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sg</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The sine of the cell angle *gamma*.&quot;</span><span class="p">)</span>
+    <span class="n">sg</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sg</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">"The sine of the cell angle *gamma*."</span><span class="p">)</span>
 
     <span class="n">car</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_car</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the reciprocal angle *alpha*.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The cosine of the reciprocal angle *alpha*."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">cbr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cbr</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the reciprocal angle *beta*.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The cosine of the reciprocal angle *beta*."</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">cgr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cgr</span><span class="p">,</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The cosine of the reciprocal angle *gamma*.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The cosine of the reciprocal angle *gamma*."</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">sar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sar</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The sine of the reciprocal angle *alpha*.&quot;</span><span class="p">)</span>
+    <span class="n">sar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sar</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">"The sine of the reciprocal angle *alpha*."</span><span class="p">)</span>
 
-    <span class="n">sbr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sbr</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The sine of the reciprocal angle *beta*.&quot;</span><span class="p">)</span>
+    <span class="n">sbr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sbr</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">"The sine of the reciprocal angle *beta*."</span><span class="p">)</span>
 
-    <span class="n">sgr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sgr</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;The sine of the reciprocal angle *gamma*.&quot;</span><span class="p">)</span>
+    <span class="n">sgr</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sgr</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">"The sine of the reciprocal angle *gamma*."</span><span class="p">)</span>
 
     <span class="c1"># done with properties ---------------------------------------------------</span>
 
@@ -404,14 +404,14 @@
     <span class="p">):</span>
         <span class="c1"># build a set of provided argument names for later use.</span>
         <span class="n">apairs</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="n">gamma</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;baserot&quot;</span><span class="p">,</span> <span class="n">baserot</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;base&quot;</span><span class="p">,</span> <span class="n">base</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">a</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"c"</span><span class="p">,</span> <span class="n">c</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="n">alpha</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"beta"</span><span class="p">,</span> <span class="n">beta</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"gamma"</span><span class="p">,</span> <span class="n">gamma</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"baserot"</span><span class="p">,</span> <span class="n">baserot</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"base"</span><span class="p">,</span> <span class="n">base</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">argset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">apairs</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
         <span class="c1"># initialize data members, they values will be set by setLatPar()</span>
@@ -433,18 +433,18 @@
         <span class="c1"># Lattice(base=abc)</span>
         <span class="k">elif</span> <span class="n">base</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">argset</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;base&#39; must be the only argument.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"'base' must be the only argument."</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_new_latt_base_vec</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
         <span class="c1"># Lattice(lat)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">Lattice</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">argset</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Lattice object must be the only argument.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Lattice object must be the only argument."</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
         <span class="c1"># otherwise do default Lattice(a, b, c, alpha, beta, gamma)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">abcabg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">)</span>
+            <span class="n">abcabg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">,</span> <span class="s2">"alpha"</span><span class="p">,</span> <span class="s2">"beta"</span><span class="p">,</span> <span class="s2">"gamma"</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">argset</span><span class="o">.</span><span class="n">issuperset</span><span class="p">(</span><span class="n">abcabg</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Provide all 6 cell parameters.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Provide all 6 cell parameters."</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_latt_parms</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">baserot</span><span class="o">=</span><span class="n">baserot</span><span class="p">)</span>
         <span class="k">return</span>
 
@@ -460,7 +460,7 @@
         <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">baserot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set one or more lattice parameters.</span>
+<span class="w">        </span><span class="sd">"""Set one or more lattice parameters.</span>
 
 <span class="sd">        This updates all attributes that depend on the lattice parameters.</span>
 
@@ -486,7 +486,7 @@
 <span class="sd">        ----</span>
 <span class="sd">        Parameters that are not specified will keep their initial</span>
 <span class="sd">        values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -561,26 +561,26 @@
         <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">baserot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in</span>
+<span class="w">        </span><span class="sd">"""This function has been deprecated and will be removed in</span>
 <span class="sd">        version 4.0.0.</span>
 
 <span class="sd">        Please use diffpy.structure.Lattice.set_lat_par instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_latt_parms</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">baserot</span><span class="p">)</span>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="n">setLatBase_deprecation_msg</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">setLatBase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in</span>
+<span class="w">        </span><span class="sd">"""This function has been deprecated and will be removed in</span>
 <span class="sd">        version 4.0.0.</span>
 
 <span class="sd">        Please use diffpy.structure.Lattice.set_lat_base instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_new_latt_base_vec</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Lattice.set_new_latt_base_vec">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.set_new_latt_base_vec">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_new_latt_base_vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set new base vectors for this lattice.</span>
+<span class="w">        </span><span class="sd">"""Set new base vectors for this lattice.</span>
 
 <span class="sd">        This updates the cell lengths and cell angles according to the</span>
 <span class="sd">        new base. The `stdbase`, `baserot`, and `metrics` attributes</span>
@@ -591,14 +591,14 @@
 <span class="sd">        base : array_like</span>
 <span class="sd">            The 3x3 matrix of row base vectors expressed</span>
 <span class="sd">            in Cartesian coordinates.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
         <span class="n">detbase</span> <span class="o">=</span> <span class="n">numalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">detbase</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-8</span><span class="p">:</span>
-            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;base vectors are degenerate&quot;</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">"base vectors are degenerate"</span>
             <span class="k">raise</span> <span class="n">LatticeError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">detbase</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
-            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;base is not right-handed&quot;</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">"base is not right-handed"</span>
             <span class="k">raise</span> <span class="n">LatticeError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_b</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]))</span>
@@ -657,23 +657,23 @@
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="n">abcABG_deprecation_msg</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">abcABG</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;&#39;diffpy.structure.Lattice.abcABG&#39; is deprecated and will be</span>
+<span class="w">        </span><span class="sd">"""'diffpy.structure.Lattice.abcABG' is deprecated and will be</span>
 <span class="sd">        removed in version 4.0.0.</span>
 
-<span class="sd">        Please use &#39;diffpy.structure.Lattice.cell_parms&#39; instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Please use 'diffpy.structure.Lattice.cell_parms' instead.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell_parms</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Lattice.cell_parms">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.cell_parms">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cell_parms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the cell parameters in the standard setting.</span>
+<span class="w">        </span><span class="sd">"""Return the cell parameters in the standard setting.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        tuple :</span>
 <span class="sd">            A tuple of ``(a, b, c, alpha, beta, gamma)``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rv</span></div>
 
@@ -681,13 +681,13 @@
 <div class="viewcode-block" id="Lattice.reciprocal">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.reciprocal">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reciprocal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the reciprocal lattice of the current lattice.</span>
+<span class="w">        </span><span class="sd">"""Return the reciprocal lattice of the current lattice.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        Lattice</span>
 <span class="sd">            The reciprocal lattice of the current lattice.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="n">Lattice</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">recbase</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">rv</span></div>
 
@@ -695,7 +695,7 @@
 <div class="viewcode-block" id="Lattice.cartesian">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.cartesian">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transform lattice vector to Cartesian coordinates.</span>
+<span class="w">        </span><span class="sd">"""Transform lattice vector to Cartesian coordinates.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -707,7 +707,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        rc : numpy.ndarray</span>
 <span class="sd">            Cartesian coordinates of the *u* vector.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">rc</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rc</span></div>
 
@@ -715,7 +715,7 @@
 <div class="viewcode-block" id="Lattice.fractional">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.fractional">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fractional</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transform Cartesian vector to fractional lattice coordinates.</span>
+<span class="w">        </span><span class="sd">"""Transform Cartesian vector to fractional lattice coordinates.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -727,7 +727,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        u : numpy.ndarray</span>
 <span class="sd">            Fractional coordinates of the Cartesian vector *rc*.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">u</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">recbase</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">u</span></div>
 
@@ -735,7 +735,7 @@
 <div class="viewcode-block" id="Lattice.dot">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.dot">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate dot product of 2 lattice vectors.</span>
+<span class="w">        </span><span class="sd">"""Calculate dot product of 2 lattice vectors.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -749,7 +749,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        float or numpy.ndarray</span>
 <span class="sd">            The dot product of lattice vectors *u*, *v*.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">dp</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dp</span></div>
 
@@ -757,7 +757,7 @@
 <div class="viewcode-block" id="Lattice.norm">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.norm">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate norm of a lattice vector.</span>
+<span class="w">        </span><span class="sd">"""Calculate norm of a lattice vector.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -768,7 +768,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        float or numpy.ndarray</span>
 <span class="sd">            The magnitude of the lattice vector *xyz*.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># this is a few percent faster than sqrt(dot(u, u)).</span>
         <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">cartesian</span><span class="p">(</span><span class="n">xyz</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span></div>
 
@@ -776,7 +776,7 @@
 <div class="viewcode-block" id="Lattice.rnorm">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.rnorm">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hkl</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate norm of a reciprocal vector.</span>
+<span class="w">        </span><span class="sd">"""Calculate norm of a reciprocal vector.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -787,7 +787,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        float or numpy.ndarray</span>
 <span class="sd">            The magnitude of the reciprocal vector *hkl*.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">hklcartn</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">hkl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">recbase</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">hklcartn</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span></div>
 
@@ -795,7 +795,7 @@
 <div class="viewcode-block" id="Lattice.dist">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.dist">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">dist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate distance between 2 points in lattice coordinates.</span>
+<span class="w">        </span><span class="sd">"""Calculate distance between 2 points in lattice coordinates.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -812,7 +812,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        float or numpy.ndarray</span>
 <span class="sd">            The distance between lattice points *u* and *v*.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">duv</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="n">v</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">duv</span><span class="p">)</span></div>
 
@@ -820,7 +820,7 @@
 <div class="viewcode-block" id="Lattice.angle">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.angle">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate angle between 2 lattice vectors in degrees.</span>
+<span class="w">        </span><span class="sd">"""Calculate angle between 2 lattice vectors in degrees.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -833,7 +833,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
 <span class="sd">            The angle between lattice vectors *u* and *v* in degrees.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ca</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
         <span class="c1"># avoid round-off errors that would make abs(ca) greater than 1</span>
         <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">ca</span><span class="p">):</span>
@@ -849,7 +849,7 @@
 <div class="viewcode-block" id="Lattice.isanisotropic">
 <a class="viewcode-back" href="../../../mod-lattice.html#diffpy.structure.lattice.Lattice.isanisotropic">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">isanisotropic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">umx</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True if displacement parameter matrix is anisotropic.</span>
+<span class="w">        </span><span class="sd">"""True if displacement parameter matrix is anisotropic.</span>
 
 <span class="sd">        This checks if the specified matrix of anisotropic displacement</span>
 <span class="sd">        parameters (ADP) differs from isotropic values for this lattice</span>
@@ -864,7 +864,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        bool</span>
 <span class="sd">            True when *umx* is anisotropic by more than a round-off error.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">umx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">umx</span><span class="p">)</span>
         <span class="n">utr</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">umx</span><span class="p">)</span> <span class="o">/</span> <span class="n">umx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">udmax</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">umx</span> <span class="o">-</span> <span class="n">utr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">isotropicunit</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -873,17 +873,17 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;String representation of this lattice.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""String representation of this lattice."""</span>
         <span class="n">I3</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="n">rotbaseI3diff</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baserot</span> <span class="o">-</span> <span class="n">I3</span><span class="p">),</span> <span class="mi">9</span><span class="p">))</span>
         <span class="n">cartlatpar</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">])</span>
-        <span class="n">latpardiff</span> <span class="o">=</span> <span class="n">cartlatpar</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">abcABG</span><span class="p">()</span>
+        <span class="n">latpardiff</span> <span class="o">=</span> <span class="n">cartlatpar</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell_parms</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">rotbaseI3diff</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Lattice(base=</span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s2">"Lattice(base=</span><span class="si">%r</span><span class="s2">)"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span>
         <span class="k">elif</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">latpardiff</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Lattice()&quot;</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s2">"Lattice()"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Lattice(a=</span><span class="si">%g</span><span class="s2">, b=</span><span class="si">%g</span><span class="s2">, c=</span><span class="si">%g</span><span class="s2">, alpha=</span><span class="si">%g</span><span class="s2">, beta=</span><span class="si">%g</span><span class="s2">, gamma=</span><span class="si">%g</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">abcABG</span><span class="p">()</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s2">"Lattice(a=</span><span class="si">%g</span><span class="s2">, b=</span><span class="si">%g</span><span class="s2">, c=</span><span class="si">%g</span><span class="s2">, alpha=</span><span class="si">%g</span><span class="s2">, beta=</span><span class="si">%g</span><span class="s2">, gamma=</span><span class="si">%g</span><span class="s2">)"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell_parms</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">s</span></div>
 
 
@@ -894,7 +894,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_isotropicunit</span><span class="p">(</span><span class="n">recnormbase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate tensor of unit isotropic displacement parameters.</span>
+<span class="w">    </span><span class="sd">"""Calculate tensor of unit isotropic displacement parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -906,7 +906,7 @@
 <span class="sd">    numpy.ndarray</span>
 <span class="sd">        The 3x3 matrix of displacement parameters corresponding to</span>
 <span class="sd">        a unit isotropic displacements.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">isounit</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">recnormbase</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">recnormbase</span><span class="p">)</span>
     <span class="c1"># ensure there are no round-off deviations on the diagonal</span>
     <span class="n">isounit</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>

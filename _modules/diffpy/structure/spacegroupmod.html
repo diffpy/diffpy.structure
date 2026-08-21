@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.spacegroupmod &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.spacegroupmod &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -79,7 +79,7 @@
 <span class="c1"># This code is part of the PyMMLib distribution and governed by</span>
 <span class="c1"># its license. Please see the LICENSE_pymmlib file that should have been</span>
 <span class="c1"># included as part of this package.</span>
-<span class="sd">&quot;&quot;&quot;Symmetry operations as functions on vectors or arrays.&quot;&quot;&quot;</span>
+<span class="sd">"""Symmetry operations as functions on vectors or arrays."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
@@ -187,7 +187,7 @@
 <div class="viewcode-block" id="SymOp">
 <a class="viewcode-back" href="../../../mod-spacegroup.html#diffpy.structure.spacegroupmod.SymOp">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SymOp</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The transformation of coordinates to a symmetry-related position.</span>
+<span class="w">    </span><span class="sd">"""The transformation of coordinates to a symmetry-related position.</span>
 
 <span class="sd">    The SymOp operation involves rotation and translation in cell coordinates.</span>
 
@@ -206,7 +206,7 @@
 <span class="sd">        or inversion. The determinant of *R* is either +1 or -1.</span>
 <span class="sd">    t : numpy.ndarray</span>
 <span class="sd">        The translation of cell coordinates applied after rotation *R*.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">R</span>
@@ -214,20 +214,20 @@
         <span class="k">return</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Printable representation of this SymOp object.&quot;&quot;&quot;</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;[</span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+<span class="w">        </span><span class="sd">"""Printable representation of this SymOp object."""</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="s2">"[</span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="p">)</span>
-        <span class="n">x</span> <span class="o">+=</span> <span class="s2">&quot;[</span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">x</span> <span class="o">+=</span> <span class="s2">"[</span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
         <span class="p">)</span>
-        <span class="n">x</span> <span class="o">+=</span> <span class="s2">&quot;[</span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">x</span> <span class="o">+=</span> <span class="s2">"[</span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2"> </span><span class="si">%6.3f</span><span class="s2">]</span><span class="se">\n</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
@@ -238,7 +238,7 @@
 <div class="viewcode-block" id="SymOp.__call__">
 <a class="viewcode-back" href="../../../mod-spacegroup.html#diffpy.structure.spacegroupmod.SymOp.__call__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return symmetry-related position for the specified</span>
+<span class="w">        </span><span class="sd">"""Return symmetry-related position for the specified</span>
 <span class="sd">        coordinates.</span>
 
 <span class="sd">        Parameters</span>
@@ -250,32 +250,32 @@
 <span class="sd">        -------</span>
 <span class="sd">        numpy.ndarray</span>
 <span class="sd">            The transformed position after this symmetry operation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">vec</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span></div>
 
 
 <div class="viewcode-block" id="SymOp.__eq__">
 <a class="viewcode-back" href="../../../mod-spacegroup.html#diffpy.structure.spacegroupmod.SymOp.__eq__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symop</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Implement the ``self == symop`` test of equality.</span>
+<span class="w">        </span><span class="sd">"""Implement the ``self == symop`` test of equality.</span>
 
 <span class="sd">        Return ``True`` when *self* and *symop* difference is within</span>
 <span class="sd">        tiny round-off errors.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">symop</span><span class="o">.</span><span class="n">R</span><span class="p">)</span> <span class="ow">and</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">symop</span><span class="o">.</span><span class="n">t</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SymOp.is_identity">
 <a class="viewcode-back" href="../../../mod-spacegroup.html#diffpy.structure.spacegroupmod.SymOp.is_identity">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_identity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this SymOp is an identity operation.</span>
+<span class="w">        </span><span class="sd">"""Check if this SymOp is an identity operation.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        bool</span>
 <span class="sd">            ``True`` if this is an identity operation within a small round-off.</span>
 <span class="sd">            Return ``False`` otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">rv</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">rv</span></div>
 </div>
@@ -288,7 +288,7 @@
 <div class="viewcode-block" id="SpaceGroup">
 <a class="viewcode-back" href="../../../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SpaceGroup</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Definition and basic operations for a specific space group.</span>
+<span class="w">    </span><span class="sd">"""Definition and basic operations for a specific space group.</span>
 
 <span class="sd">    Provide standard names and all symmetry operations contained in</span>
 <span class="sd">    one space group.</span>
@@ -330,14 +330,14 @@
 <span class="sd">        The point group to which this space group belongs to.</span>
 <span class="sd">    crystal_system : str</span>
 <span class="sd">        The crystal system of this space group. The possible values are</span>
-<span class="sd">        ``&quot;TRICLINIC&quot;, &quot;MONOCLINIC&quot;, &quot;ORTHORHOMBIC&quot;, &quot;TETRAGONAL&quot;,</span>
-<span class="sd">        &quot;TRIGONAL&quot; &quot;HEXAGONAL&quot;, &quot;CUBIC&quot;``.</span>
+<span class="sd">        ``"TRICLINIC", "MONOCLINIC", "ORTHORHOMBIC", "TETRAGONAL",</span>
+<span class="sd">        "TRIGONAL" "HEXAGONAL", "CUBIC"``.</span>
 <span class="sd">    pdb_name : str</span>
 <span class="sd">        The full Hermann-Mauguin symbol of the space group.</span>
 <span class="sd">    symop_list : list of SymOp</span>
 <span class="sd">        A list of `SymOp` objects for all symmetry operations</span>
 <span class="sd">        in this space group.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -361,8 +361,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">symop_list</span> <span class="o">=</span> <span class="n">symop_list</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the space group.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;SpaceGroup #</span><span class="si">%i</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">). Symmetry matrices: </span><span class="si">%i</span><span class="s2">, &quot;</span> <span class="s2">&quot;point sym. matr.: </span><span class="si">%i</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span>
+<span class="w">        </span><span class="sd">"""Return a string representation of the space group."""</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">"SpaceGroup #</span><span class="si">%i</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">). Symmetry matrices: </span><span class="si">%i</span><span class="s2">, "</span> <span class="s2">"point sym. matr.: </span><span class="si">%i</span><span class="s2">"</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">short_name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">crystal_system</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">crystal_system</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
@@ -373,20 +373,20 @@
 <div class="viewcode-block" id="SpaceGroup.iter_symops">
 <a class="viewcode-back" href="../../../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup.iter_symops">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">iter_symops</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over all symmetry operations in the space group.</span>
+<span class="w">        </span><span class="sd">"""Iterate over all symmetry operations in the space group.</span>
 
 <span class="sd">        Yields</span>
 <span class="sd">        ------</span>
 <span class="sd">        SymOp</span>
 <span class="sd">            Generate all symmetry operations for this space group.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symop_list</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SpaceGroup.check_group_name">
 <a class="viewcode-back" href="../../../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup.check_group_name">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">check_group_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if given name matches this space group.</span>
+<span class="w">        </span><span class="sd">"""Check if given name matches this space group.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -399,8 +399,7 @@
 <span class="sd">            ``True`` if the specified name matches one of the recognized</span>
 <span class="sd">            names of this space group or if it equals its `number`.</span>
 <span class="sd">            Return ``False`` otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">short_name</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_name</span><span class="p">:</span>
@@ -415,7 +414,7 @@
 <div class="viewcode-block" id="SpaceGroup.iter_equivalent_positions">
 <a class="viewcode-back" href="../../../mod-spacegroup.html#diffpy.structure.spacegroupmod.SpaceGroup.iter_equivalent_positions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">iter_equivalent_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate symmetry equivalent positions for the specified</span>
+<span class="w">        </span><span class="sd">"""Generate symmetry equivalent positions for the specified</span>
 <span class="sd">        position.</span>
 
 <span class="sd">        The initial position must be in fractional coordinates and so</span>
@@ -434,7 +433,7 @@
 <span class="sd">            The symmetry equivalent positions in fractional coordinates.</span>
 <span class="sd">            The positions may be duplicate or outside of the ``0 &lt;= x &lt; 1``</span>
 <span class="sd">            unit cell bounds.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">symop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">symop_list</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">symop</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
         <span class="k">pass</span></div>

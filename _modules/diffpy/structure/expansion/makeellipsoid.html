@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.expansion.makeellipsoid &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.expansion.makeellipsoid &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -88,7 +88,7 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;Make a spheroid nanoparticle from a template structure.&quot;&quot;&quot;</span>
+<span class="sd">"""Make a spheroid nanoparticle from a template structure."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">ceil</span>
 
@@ -98,36 +98,36 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.expansion.shapeutils</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_center</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils._deprecator</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_deprecation_message</span><span class="p">,</span> <span class="n">deprecated</span>
 
-<span class="n">base</span> <span class="o">=</span> <span class="s2">&quot;diffpy.structure&quot;</span>
-<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">&quot;4.0.0&quot;</span>
+<span class="n">base</span> <span class="o">=</span> <span class="s2">"diffpy.structure"</span>
+<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">"4.0.0"</span>
 <span class="n">makeSphere_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;makeSphere&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;make_sphere&quot;</span><span class="p">,</span>
+    <span class="s2">"makeSphere"</span><span class="p">,</span>
+    <span class="s2">"make_sphere"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">makeEllipsoid_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;makeEllipsoid&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;make_ellipsoid&quot;</span><span class="p">,</span>
+    <span class="s2">"makeEllipsoid"</span><span class="p">,</span>
+    <span class="s2">"make_ellipsoid"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 
 
 <span class="nd">@deprecated</span><span class="p">(</span><span class="n">makeSphere_deprecation_msg</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">makeSphere</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in version</span>
+<span class="w">    </span><span class="sd">"""This function has been deprecated and will be removed in version</span>
 <span class="sd">    4.0.0.</span>
 
 <span class="sd">    Please use diffpy.structure.make_sphere instead.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">make_sphere</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="make_sphere">
 <a class="viewcode-back" href="../../../../diffpy.structure.expansion.html#diffpy.structure.expansion.makeellipsoid.make_sphere">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">make_sphere</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a spherical nanoparticle.</span>
+<span class="w">    </span><span class="sd">"""Create a spherical nanoparticle.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -140,25 +140,25 @@
 <span class="sd">    -------</span>
 <span class="sd">    Structure</span>
 <span class="sd">        A new `Structure` instance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">make_ellipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span></div>
 
 
 
 <span class="nd">@deprecated</span><span class="p">(</span><span class="n">makeEllipsoid_deprecation_msg</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">makeEllipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in version</span>
+<span class="w">    </span><span class="sd">"""This function has been deprecated and will be removed in version</span>
 <span class="sd">    4.0.0.</span>
 
 <span class="sd">    Please use diffpy.structure.make_ellipsoid instead.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">make_ellipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="make_ellipsoid">
 <a class="viewcode-back" href="../../../../diffpy.structure.expansion.html#diffpy.structure.expansion.makeellipsoid.make_ellipsoid">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">make_ellipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cut a `Structure` out of another one.</span>
+<span class="w">    </span><span class="sd">"""Cut a `Structure` out of another one.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -177,7 +177,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    Structure :</span>
 <span class="sd">        A new `Structure` instance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
     <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -223,26 +223,26 @@
 
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 
-    <span class="n">datadir</span> <span class="o">=</span> <span class="s2">&quot;../../tests/testdata&quot;</span>
+    <span class="n">datadir</span> <span class="o">=</span> <span class="s2">"../../tests/testdata"</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">Structure</span><span class="p">()</span>
-    <span class="n">S</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">datadir</span><span class="p">,</span> <span class="s2">&quot;CdSe_bulk.stru&quot;</span><span class="p">),</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">datadir</span><span class="p">,</span> <span class="s2">"CdSe_bulk.stru"</span><span class="p">),</span> <span class="s2">"pdffit"</span><span class="p">)</span>
     <span class="n">newS</span> <span class="o">=</span> <span class="n">make_ellipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
-    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;CdSe_d24.stru&quot;</span><span class="p">,</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"CdSe_d24.stru"</span><span class="p">,</span> <span class="s2">"pdffit"</span><span class="p">)</span>
     <span class="n">newS</span> <span class="o">=</span> <span class="n">make_ellipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;CdSe_a20_b10_c10.stru&quot;</span><span class="p">,</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"CdSe_a20_b10_c10.stru"</span><span class="p">,</span> <span class="s2">"pdffit"</span><span class="p">)</span>
     <span class="n">newS</span> <span class="o">=</span> <span class="n">make_ellipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;CdSe_a20_b15_c10.stru&quot;</span><span class="p">,</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"CdSe_a20_b15_c10.stru"</span><span class="p">,</span> <span class="s2">"pdffit"</span><span class="p">)</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">Structure</span><span class="p">()</span>
-    <span class="n">S</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">datadir</span><span class="p">,</span> <span class="s2">&quot;Ni.stru&quot;</span><span class="p">),</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">datadir</span><span class="p">,</span> <span class="s2">"Ni.stru"</span><span class="p">),</span> <span class="s2">"pdffit"</span><span class="p">)</span>
     <span class="n">newS</span> <span class="o">=</span> <span class="n">make_ellipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Ni_d20.stru&quot;</span><span class="p">,</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"Ni_d20.stru"</span><span class="p">,</span> <span class="s2">"pdffit"</span><span class="p">)</span>
     <span class="n">newS</span> <span class="o">=</span> <span class="n">make_ellipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Ni_a20_b4_c20.stru&quot;</span><span class="p">,</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"Ni_a20_b4_c20.stru"</span><span class="p">,</span> <span class="s2">"pdffit"</span><span class="p">)</span>
     <span class="n">newS</span> <span class="o">=</span> <span class="n">make_ellipsoid</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Ni_a20_b15_c10.stru&quot;</span><span class="p">,</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+    <span class="n">newS</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"Ni_a20_b15_c10.stru"</span><span class="p">,</span> <span class="s2">"pdffit"</span><span class="p">)</span>
 </pre></div>
 
            </div>

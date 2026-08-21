@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.parsers.p_auto &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.parsers.p_auto &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -89,10 +89,10 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;Parser for automatic file format detection.</span>
+<span class="sd">"""Parser for automatic file format detection.</span>
 
-<span class="sd">This Parser does not provide the the `toLines()` method.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This Parser does not provide the the `to_lines()` method.</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
@@ -101,18 +101,18 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.structureerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">StructureFormatError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils._deprecator</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_deprecation_message</span><span class="p">,</span> <span class="n">deprecated</span>
 
-<span class="n">base</span> <span class="o">=</span> <span class="s2">&quot;diffpy.structure.P_auto&quot;</span>
-<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">&quot;4.0.0&quot;</span>
+<span class="n">base</span> <span class="o">=</span> <span class="s2">"diffpy.structure.P_auto"</span>
+<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">"4.0.0"</span>
 <span class="n">parseLines_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;parseLines&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;parse_lines&quot;</span><span class="p">,</span>
+    <span class="s2">"parseLines"</span><span class="p">,</span>
+    <span class="s2">"parse_lines"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">parseFile_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;parseFile&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;parse_file&quot;</span><span class="p">,</span>
+    <span class="s2">"parseFile"</span><span class="p">,</span>
+    <span class="s2">"parse_file"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -120,7 +120,7 @@
 <div class="viewcode-block" id="P_auto">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_auto.P_auto">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">P_auto</span><span class="p">(</span><span class="n">StructureParser</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parser with automatic detection of structure format.</span>
+<span class="w">    </span><span class="sd">"""Parser with automatic detection of structure format.</span>
 
 <span class="sd">    This parser attempts to automatically detect the format of a given</span>
 <span class="sd">    structure file and parse it accordingly. When successful, it sets</span>
@@ -134,27 +134,27 @@
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    format : str</span>
-<span class="sd">        Detected structure format. Initially set to &quot;auto&quot; and updated</span>
+<span class="sd">        The detected structure format. Initially set to "auto" and updated</span>
 <span class="sd">        after successful detection of the structure format.</span>
 <span class="sd">    pkw : dict</span>
-<span class="sd">        Keyword arguments passed to the parser.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        The keyword arguments passed to the parser.</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="n">StructureParser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s2">"auto"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pkw</span> <span class="o">=</span> <span class="n">kw</span>
         <span class="k">return</span>
 
     <span class="c1"># parseLines helpers</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_ordered_formats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a list of relevance ordered structure formats.</span>
+<span class="w">        </span><span class="sd">"""Build a list of relevance ordered structure formats.</span>
 
 <span class="sd">        This only works when `self.filename` has a known extension.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">input_formats</span>
 
-        <span class="n">ofmts</span> <span class="o">=</span> <span class="p">[</span><span class="n">fmt</span> <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">input_formats</span><span class="p">()</span> <span class="k">if</span> <span class="n">fmt</span> <span class="o">!=</span> <span class="s2">&quot;auto&quot;</span><span class="p">]</span>
+        <span class="n">ofmts</span> <span class="o">=</span> <span class="p">[</span><span class="n">fmt</span> <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">input_formats</span><span class="p">()</span> <span class="k">if</span> <span class="n">fmt</span> <span class="o">!=</span> <span class="s2">"auto"</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ofmts</span>
         <span class="c1"># filename is defined here</span>
@@ -163,10 +163,10 @@
 
         <span class="c1"># loop over copy of ofmts</span>
         <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ofmts</span><span class="p">):</span>
-            <span class="n">pattern</span> <span class="o">=</span> <span class="n">parser_index</span><span class="p">[</span><span class="n">fmt</span><span class="p">][</span><span class="s2">&quot;file_pattern&quot;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;*.*&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">):</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="n">parser_index</span><span class="p">[</span><span class="n">fmt</span><span class="p">][</span><span class="s2">"file_pattern"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"*.*"</span><span class="p">,</span> <span class="s2">"*"</span><span class="p">):</span>
                 <span class="k">continue</span>
-            <span class="n">anymatch</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">fnmatch</span><span class="p">(</span><span class="n">filebase</span><span class="p">,</span> <span class="n">p</span><span class="p">)]</span>
+            <span class="n">anymatch</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"|"</span><span class="p">)</span> <span class="k">if</span> <span class="n">fnmatch</span><span class="p">(</span><span class="n">filebase</span><span class="p">,</span> <span class="n">p</span><span class="p">)]</span>
             <span class="k">if</span> <span class="n">anymatch</span><span class="p">:</span>
                 <span class="n">ofmts</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
                 <span class="n">ofmts</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
@@ -174,17 +174,17 @@
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="n">parseLines_deprecation_msg</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">parseLines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in</span>
+<span class="w">        </span><span class="sd">"""This function has been deprecated and will be removed in</span>
 <span class="sd">        version 4.0.0.</span>
 
 <span class="sd">        Please use diffpy.structure.P_auto.parse_lines instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
 <div class="viewcode-block" id="P_auto.parse_lines">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_auto.P_auto.parse_lines">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">parse_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect format and create `Structure` instance from a list of</span>
+<span class="w">        </span><span class="sd">"""Detect format and create `Structure` instance from a list of</span>
 <span class="sd">        lines.</span>
 
 <span class="sd">        Set format attribute to the detected file format.</span>
@@ -202,14 +202,14 @@
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        StructureFormatError</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrap_parse_method</span><span class="p">(</span><span class="s2">&quot;parse_lines&quot;</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrap_parse_method</span><span class="p">(</span><span class="s2">"parse_lines"</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="P_auto.parse">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_auto.P_auto.parse">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect format and create `Structure` instance from a string.</span>
+<span class="w">        </span><span class="sd">"""Detect format and create `Structure` instance from a string.</span>
 
 <span class="sd">        Set format attribute to the detected file format.</span>
 
@@ -226,23 +226,23 @@
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        StructureFormatError</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrap_parse_method</span><span class="p">(</span><span class="s2">&quot;parse&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrap_parse_method</span><span class="p">(</span><span class="s2">"parse"</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
 
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="n">parseFile_deprecation_msg</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">parseFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in</span>
+<span class="w">        </span><span class="sd">"""This function has been deprecated and will be removed in</span>
 <span class="sd">        version 4.0.0.</span>
 
 <span class="sd">        Please use diffpy.structure.P_auto.parse_file instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
 <div class="viewcode-block" id="P_auto.parse_file">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_auto.P_auto.parse_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">parse_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect format and create Structure instance from an existing</span>
+<span class="w">        </span><span class="sd">"""Detect format and create Structure instance from an existing</span>
 <span class="sd">        file.</span>
 
 <span class="sd">        Set format attribute to the detected file format.</span>
@@ -263,13 +263,13 @@
 <span class="sd">            If the structure format is unknown or invalid.</span>
 <span class="sd">        IOError</span>
 <span class="sd">            If the file cannot be read.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrap_parse_method</span><span class="p">(</span><span class="s2">&quot;parse_file&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrap_parse_method</span><span class="p">(</span><span class="s2">"parse_file"</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_wrap_parse_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A helper evaluator method that try the specified parse method</span>
+<span class="w">        </span><span class="sd">"""A helper evaluator method that try the specified parse method</span>
 <span class="sd">        with each registered structure parser and return the first</span>
 <span class="sd">        successful result.</span>
 
@@ -293,7 +293,7 @@
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        StructureFormatError</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_parser</span>
 
         <span class="n">ofmts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_ordered_formats</span><span class="p">()</span>
@@ -308,14 +308,14 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">fmt</span>
                 <span class="k">break</span>
             <span class="k">except</span> <span class="n">StructureFormatError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                <span class="n">parsers_emsgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">err</span><span class="p">))</span>
+                <span class="n">parsers_emsgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">err</span><span class="p">))</span>
             <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
                 <span class="k">pass</span>
         <span class="k">if</span> <span class="n">stru</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                 <span class="p">[</span>
-                    <span class="s2">&quot;Unknown or invalid structure format.&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;Errors per each tested structure format:&quot;</span><span class="p">,</span>
+                    <span class="s2">"Unknown or invalid structure format."</span><span class="p">,</span>
+                    <span class="s2">"Errors per each tested structure format:"</span><span class="p">,</span>
                 <span class="p">]</span>
                 <span class="o">+</span> <span class="n">parsers_emsgs</span>
             <span class="p">)</span>
@@ -329,30 +329,30 @@
 
 <span class="c1"># Routines -------------------------------------------------------------------</span>
 
-<span class="n">parsers_base</span> <span class="o">=</span> <span class="s2">&quot;diffpy.structure&quot;</span>
-<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">&quot;4.0.0&quot;</span>
+<span class="n">parsers_base</span> <span class="o">=</span> <span class="s2">"diffpy.structure"</span>
+<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">"4.0.0"</span>
 <span class="n">getParser_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">parsers_base</span><span class="p">,</span>
-    <span class="s2">&quot;getParser&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_parser&quot;</span><span class="p">,</span>
+    <span class="s2">"getParser"</span><span class="p">,</span>
+    <span class="s2">"get_parser"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 
 
 <span class="nd">@deprecated</span><span class="p">(</span><span class="n">getParser_deprecation_msg</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">getParser</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in version</span>
+<span class="w">    </span><span class="sd">"""This function has been deprecated and will be removed in version</span>
 <span class="sd">    4.0.0.</span>
 
 <span class="sd">    Please use diffpy.structure.P_auto.get_parser instead.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">get_parser</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="get_parser">
 <a class="viewcode-back" href="../../../../diffpy.structure.parsers.html#diffpy.structure.parsers.p_auto.get_parser">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_parser</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a new instance of the automatic parser.</span>
+<span class="w">    </span><span class="sd">"""Return a new instance of the automatic parser.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -363,7 +363,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    P_auto</span>
 <span class="sd">        Instance of `P_auto`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">P_auto</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span></div>
 
 </pre></div>

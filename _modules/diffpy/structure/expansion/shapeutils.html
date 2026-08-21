@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.expansion.shapeutils &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.expansion.shapeutils &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -90,31 +90,33 @@
 <span class="c1">##############################################################################</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils._deprecator</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_deprecation_message</span><span class="p">,</span> <span class="n">deprecated</span>
 
-<span class="n">base</span> <span class="o">=</span> <span class="s2">&quot;diffpy.structure&quot;</span>
-<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">&quot;4.0.0&quot;</span>
+<span class="n">base</span> <span class="o">=</span> <span class="s2">"diffpy.structure"</span>
+<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">"4.0.0"</span>
 <span class="n">findCenter_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;findCenter&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;find_center&quot;</span><span class="p">,</span>
+    <span class="s2">"findCenter"</span><span class="p">,</span>
+    <span class="s2">"find_center"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="sd">&quot;&quot;&quot;Utilities for making shapes.&quot;&quot;&quot;</span>
+<span class="sd">"""Utilities for making shapes."""</span>
+
+<span class="c1"># FIXME: remove this line when `docformatter` fixes the blank line bug</span>
 
 
 <span class="nd">@deprecated</span><span class="p">(</span><span class="n">findCenter_deprecation_msg</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">findCenter</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in version</span>
+<span class="w">    </span><span class="sd">"""This function has been deprecated and will be removed in version</span>
 <span class="sd">    4.0.0.</span>
 
 <span class="sd">    Please use diffpy.structure.find_center instead.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">find_center</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="find_center">
 <a class="viewcode-back" href="../../../../diffpy.structure.expansion.html#diffpy.structure.expansion.shapeutils.find_center">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">find_center</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the approximate center `Atom` of a `Structure`.</span>
+<span class="w">    </span><span class="sd">"""Find the approximate center `Atom` of a `Structure`.</span>
 
 <span class="sd">    The center of the `Structure` is the `Atom` closest to ``(0.5, 0.5, 0.5)``.</span>
 
@@ -127,7 +129,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    int</span>
 <span class="sd">        The index of the center `Atom`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">best</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="n">bestd</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
     <span class="n">center</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>  <span class="c1"># the canonical center</span>

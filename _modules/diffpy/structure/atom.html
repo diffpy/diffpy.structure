@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.atom &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.atom &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -88,8 +88,8 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;Provide class Atom for managing properties of an atom in structure</span>
-<span class="sd">model.&quot;&quot;&quot;</span>
+<span class="sd">"""Provide class Atom for managing properties of an atom in structure</span>
+<span class="sd">model."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
@@ -101,18 +101,18 @@
 <span class="n">_UtoB</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">_BtoU</span>
 
 <span class="c1"># ----------------------------------------------------------------------------</span>
-<span class="n">base</span> <span class="o">=</span> <span class="s2">&quot;diffpy.structure.Atom&quot;</span>
-<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">&quot;4.0.0&quot;</span>
+<span class="n">base</span> <span class="o">=</span> <span class="s2">"diffpy.structure.Atom"</span>
+<span class="n">removal_version</span> <span class="o">=</span> <span class="s2">"4.0.0"</span>
 <span class="n">msdLat_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;msdLat&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;msd_latt&quot;</span><span class="p">,</span>
+    <span class="s2">"msdLat"</span><span class="p">,</span>
+    <span class="s2">"msd_latt"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">msdCart_deprecation_msg</span> <span class="o">=</span> <span class="n">build_deprecation_message</span><span class="p">(</span>
     <span class="n">base</span><span class="p">,</span>
-    <span class="s2">&quot;msdCart&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;msd_cart&quot;</span><span class="p">,</span>
+    <span class="s2">"msdCart"</span><span class="p">,</span>
+    <span class="s2">"msd_cart"</span><span class="p">,</span>
     <span class="n">removal_version</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -120,7 +120,7 @@
 <div class="viewcode-block" id="Atom">
 <a class="viewcode-back" href="../../../mod-atom.html#diffpy.structure.atom.Atom">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Atom</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Storage of structure information relevant for a single atom.</span>
+<span class="w">    </span><span class="sd">"""The storage of structure information relevant for a single atom.</span>
 
 <span class="sd">    This class manages atom information such as element symbol, position</span>
 <span class="sd">    in fractional and Cartesian coordinates, atomic displacement parameters</span>
@@ -133,10 +133,10 @@
 <span class="sd">        By default an empty string. When of the `Atom` type, create</span>
 <span class="sd">        a copy of `atype` and adjust it per other arguments.</span>
 <span class="sd">    xyz : numpy.ndarray, Optional</span>
-<span class="sd">        Fractional coordinates within the associated `lattice`.</span>
+<span class="sd">        The fractional coordinates within the associated `lattice`.</span>
 <span class="sd">        By default ``[0, 0, 0]``.</span>
 <span class="sd">    label : str, Optional</span>
-<span class="sd">        A unique string `label` for referring to this `Atom`.</span>
+<span class="sd">        The unique string `label` for referring to this `Atom`.</span>
 <span class="sd">        By default an empty string.</span>
 <span class="sd">    occupancy : float, Optional</span>
 <span class="sd">        The initial `occupancy` of this atom, by default ``1``.</span>
@@ -154,49 +154,45 @@
 <span class="sd">        *Uisoequiv* arguments may be provided at the same time. Assume</span>
 <span class="sd">        zero atomic displacements when *U* and *Uisoequiv* are unset.</span>
 <span class="sd">    lattice : Lattice, Optional</span>
-<span class="sd">        Coordinate system for the fractional coordinates `xyz`.</span>
+<span class="sd">        The coordinate system for the fractional coordinates `xyz`.</span>
 <span class="sd">        Use the absolute Cartesian system when ``None``.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    element : str</span>
-<span class="sd">        The string type of the atom. An element or ion symbol.</span>
+<span class="sd">        The string type of the atom. An element or ion symbol, default "".</span>
 <span class="sd">    xyz : numpy.ndarray</span>
 <span class="sd">        The fractional coordinates in the associated `lattice`.</span>
 <span class="sd">    label : str</span>
-<span class="sd">        A unique string label referring to this atom, for example, &quot;C_1&quot;.</span>
+<span class="sd">        The unique string label referring to this atom, for example, "C_1".</span>
 <span class="sd">        The *label* can be used to reference this atom when contained in</span>
-<span class="sd">        a `Structure` object.</span>
+<span class="sd">        a `Structure` object, default "".</span>
 <span class="sd">    occupancy : float</span>
-<span class="sd">        The fractional occupancy of this atom.</span>
+<span class="sd">        The fractional occupancy of this atom, default 1.0.</span>
 <span class="sd">    lattice : Lattice</span>
-<span class="sd">        Coordinate system for the fractional coordinates `xyz` and</span>
+<span class="sd">        The coordinate system for the fractional coordinates `xyz` and</span>
 <span class="sd">        the tensor of atomic displacement parameters `U`.</span>
-<span class="sd">        Use the absolute Cartesian coordinates when ``None``.</span>
+<span class="sd">        Use the absolute Cartesian coordinates when ``None`` as the default.</span>
 
 <span class="sd">    Note</span>
 <span class="sd">    ----</span>
 <span class="sd">    Cannot use both U and Uisoequiv arguments at the same time.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Private attributes</span>
     <span class="c1">#</span>
     <span class="c1">#   _U : 3-by-3 ndarray</span>
-    <span class="c1">#       Internal storage of the displacement parameters.</span>
+    <span class="c1">#       The internal storage of the displacement parameters.</span>
 
     <span class="c1"># instance attributes that have immutable default values</span>
-    <span class="n">element</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: Default values of `element`.&quot;&quot;&quot;</span>
+    <span class="n">element</span> <span class="o">=</span> <span class="s2">""</span>
 
-    <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;str: Default values of `label`.&quot;&quot;&quot;</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="s2">""</span>
 
     <span class="n">occupancy</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;float: Default values of `occupancy`.&quot;&quot;&quot;</span>
 
     <span class="n">_anisotropy</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">lattice</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;None: Default values of `lattice`.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -211,7 +207,7 @@
     <span class="p">):</span>
         <span class="c1"># check arguments</span>
         <span class="k">if</span> <span class="n">U</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Uisoequiv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Cannot use both U and Uisoequiv arguments.&quot;</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">"Cannot use both U and Uisoequiv arguments."</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
         <span class="c1"># declare data members</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
@@ -244,17 +240,17 @@
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="n">msdLat_deprecation_msg</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">msdLat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vl</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in</span>
+<span class="w">        </span><span class="sd">"""This function has been deprecated and will be removed in</span>
 <span class="sd">        version 4.0.0.</span>
 
 <span class="sd">        Please use diffpy.structure.Atom.msd_latt instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">msd_latt</span><span class="p">(</span><span class="n">vl</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Atom.msd_latt">
 <a class="viewcode-back" href="../../../mod-atom.html#diffpy.structure.atom.Atom.msd_latt">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">msd_latt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vl</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate mean square displacement along the lattice vector.</span>
+<span class="w">        </span><span class="sd">"""Calculate mean square displacement along the lattice vector.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -265,7 +261,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
 <span class="sd">            The mean square displacement along *vl*.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uisoequiv</span>
         <span class="c1"># here we need to calculate msd</span>
@@ -280,17 +276,17 @@
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="n">msdLat_deprecation_msg</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">msdCart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function has been deprecated and will be removed in</span>
+<span class="w">        </span><span class="sd">"""This function has been deprecated and will be removed in</span>
 <span class="sd">        version 4.0.0.</span>
 
 <span class="sd">        Please use diffpy.structure.Atom.msd_cart instead.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">msd_cart</span><span class="p">(</span><span class="n">vc</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Atom.msd_cart">
 <a class="viewcode-back" href="../../../mod-atom.html#diffpy.structure.atom.Atom.msd_cart">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">msd_cart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vc</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate mean square displacement along the Cartesian</span>
+<span class="w">        </span><span class="sd">"""Calculate mean square displacement along the Cartesian</span>
 <span class="sd">        vector.</span>
 
 <span class="sd">        Parameters</span>
@@ -302,7 +298,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
 <span class="sd">            The mean square displacement along *vc*.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uisoequiv</span>
         <span class="c1"># here we need to calculate msd</span>
@@ -316,9 +312,9 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;String representation of this Atom.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The string representation of this Atom."""</span>
         <span class="n">xyz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%-4s</span><span class="s2"> </span><span class="si">%8.6f</span><span class="s2"> </span><span class="si">%8.6f</span><span class="s2"> </span><span class="si">%8.6f</span><span class="s2"> </span><span class="si">%6.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%-4s</span><span class="s2"> </span><span class="si">%8.6f</span><span class="s2"> </span><span class="si">%8.6f</span><span class="s2"> </span><span class="si">%8.6f</span><span class="s2"> </span><span class="si">%6.4f</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">,</span>
             <span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
@@ -328,7 +324,7 @@
         <span class="k">return</span> <span class="n">s</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a copy of this instance.</span>
+<span class="w">        </span><span class="sd">"""Create a copy of this instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -342,7 +338,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Atom</span>
 <span class="sd">            The copy of this object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">Atom</span><span class="p">()</span>
         <span class="k">elif</span> <span class="n">target</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
@@ -357,30 +353,30 @@
     <span class="n">x</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">val</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;float : fractional coordinate *x*, same as ``xyz[0]``.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The fractional coordinate *x*, same as ``xyz[0]``, as a float"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">val</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;float : fractional coordinate *y*, same as ``xyz[1]``.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The fractional coordinate *y*, same as ``xyz[1]``, as a float"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">z</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">val</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;float : fractional coordinate *z*, same as ``xyz[2]``.&quot;</span><span class="p">,</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"The fractional coordinate *z*, same as ``xyz[2]``, as a float"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># xyz_cartn</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">xyz_cartn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;numpy.ndarray: Atom position in absolute Cartesian</span>
-<span class="sd">        coordinates.</span>
+<span class="w">        </span><span class="sd">"""Atom position in absolute Cartesian coordinates, as a</span>
+<span class="sd">        numpy.ndarray.</span>
 
 <span class="sd">        This is computed from fractional coordinates `xyz` and the</span>
-<span class="sd">        current `lattice` setup. Assignment to *xyz_cartn* or</span>
-<span class="sd">        its components is applied on fractional coordinates `xyz`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        current `lattice` setup. Assignment to *xyz_cartn* or its</span>
+<span class="sd">        components is applied on fractional coordinates `xyz`.</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">:</span>
             <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyz</span>
         <span class="k">else</span><span class="p">:</span>
@@ -399,12 +395,13 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">anisotropy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;bool : Flag for allowing anisotropic displacement parameters.</span>
+<span class="w">        </span><span class="sd">"""The flag for allowing anisotropic displacement parameters, as</span>
+<span class="sd">        a bool.</span>
 
 <span class="sd">        When ``False`` the tensor of thermal displacement parameters `U`</span>
 <span class="sd">        must be isotropic and only its diagonal elements are taken into</span>
 <span class="sd">        account.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anisotropy</span>
 
     <span class="nd">@anisotropy</span><span class="o">.</span><span class="n">setter</span>
@@ -424,8 +421,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">U</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;numpy.ndarray : The 3x3 matrix of anisotropic atomic</span>
-<span class="sd">        displacements.</span>
+<span class="w">        </span><span class="sd">"""The 3x3 matrix of anisotropic atomic displacements, as a</span>
+<span class="sd">        ndarray.</span>
 
 <span class="sd">        For isotropic displacements (when `anisotropy` is ``False``)</span>
 <span class="sd">        assignment to *U* uses only the first ``Unew[0, 0]`` element</span>
@@ -438,7 +435,7 @@
 <span class="sd">        considered read-only as setting them directly leads to</span>
 <span class="sd">        undefined behavior. Use the `U11`, `U22`, ..., or `B11`,</span>
 <span class="sd">        `B22`, ..., descriptors to set only some *U* components.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
             <span class="c1"># for isotropic displacements assume first element</span>
             <span class="c1"># to be equal to the displacement value</span>
@@ -454,14 +451,14 @@
     <span class="c1"># Uij elements</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_uij</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The getter function for the `U11`, `U22`, ..., properties.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The getter function for the `U11`, `U22`, ..., properties."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
         <span class="n">lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="ow">or</span> <span class="n">cartesian_lattice</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">isotropicunit</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_set_uij</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The setter function for the `U11`, `U22`, ..., properties.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The setter function for the `U11`, `U22`, ..., properties."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anisotropy</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
@@ -470,12 +467,12 @@
 
     <span class="c1"># _doc_uii, _doc_uij are temporary local variables.</span>
 
-    <span class="n">_doc_uii</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        float : The ``U[</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{0}</span><span class="s2">]`` component of the displacement tensor `U`.</span>
+    <span class="n">_doc_uii</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">        The ``U[</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{0}</span><span class="s2">]`` component of the displacement tensor `U`, as a float</span>
 
 <span class="s2">        When `anisotropy` is ``False`` setting a new value updates entire</span>
 <span class="s2">        tensor *U*.</span>
-<span class="s2">        &quot;&quot;&quot;</span>
+<span class="s2">        """</span>
 
     <span class="n">U11</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
@@ -493,12 +490,12 @@
         <span class="n">doc</span><span class="o">=</span><span class="n">_doc_uii</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="n">_doc_uij</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        float : The ``U[</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">]`` element of the displacement tensor `U`.</span>
+    <span class="n">_doc_uij</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">        The ``U[</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">]`` element of the displacement tensor `U`, as a float</span>
 
 <span class="s2">        Sets ``U[</span><span class="si">{1}</span><span class="s2">, </span><span class="si">{0}</span><span class="s2">]`` together with ``U[</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">]``. Assignment</span>
 <span class="s2">        has no effect when `anisotropy` is ``False``.</span>
-<span class="s2">        &quot;&quot;&quot;</span>
+<span class="s2">        """</span>
 
     <span class="n">U12</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
@@ -523,11 +520,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Uisoequiv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;float : The isotropic displacement parameter or an equivalent value.</span>
+<span class="w">        </span><span class="sd">"""The isotropic displacement parameter or an equivalent value,</span>
+<span class="sd">        as a float.</span>
 
 <span class="sd">        Setting a new value rescales tensor `U` so it yields equivalent</span>
 <span class="sd">        direction-averaged displacements.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -564,20 +562,20 @@
 
     <span class="c1"># _doc_bii, _doc_bij are local variables.</span>
 
-    <span class="n">_doc_bii</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        float : The ``B</span><span class="si">{0}{0}</span><span class="s2">`` element of the Debye-Waller matrix.</span>
+    <span class="n">_doc_bii</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">        The ``B</span><span class="si">{0}{0}</span><span class="s2">`` element of the Debye-Waller matrix, as a float</span>
 
 <span class="s2">        This is equivalent to ``8 * pi**2 * U</span><span class="si">{0}{0}</span><span class="s2">``. When `anisotropy`</span>
 <span class="s2">        is ``False`` setting a new value updates entire tensor `U`.</span>
-<span class="s2">        &quot;&quot;&quot;</span>
+<span class="s2">        """</span>
 
-    <span class="n">_doc_bij</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        float : The ``B</span><span class="si">{0}{1}</span><span class="s2">`` element of the Debye-Waller matrix.</span>
+    <span class="n">_doc_bij</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">        The ``B</span><span class="si">{0}{1}</span><span class="s2">`` element of the Debye-Waller matrix, as a float</span>
 
 <span class="s2">        This is equivalent to ``8 * pi**2 * U</span><span class="si">{0}{1}</span><span class="s2">``. Setting a new</span>
 <span class="s2">        value updates `U` in a symmetric way. Assignment has no effect</span>
 <span class="s2">        when `anisotropy` is ``False``.</span>
-<span class="s2">        &quot;&quot;&quot;</span>
+<span class="s2">        """</span>
 
     <span class="n">B11</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uij</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
@@ -617,12 +615,13 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Bisoequiv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;float : The Debye-Waller isotropic displacement or an equivalent value.</span>
+<span class="w">        </span><span class="sd">"""The Debye-Waller isotropic displacement or an equivalent</span>
+<span class="sd">        value, as a float.</span>
 
 <span class="sd">        This equals ``8 * pi**2 * Uisoequiv``. Setting a new value</span>
 <span class="sd">        rescales `U` tensor to yield equivalent direction-average of</span>
 <span class="sd">        Debye-Waller displacements.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_UtoB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Uisoequiv</span>
 
     <span class="nd">@Bisoequiv</span><span class="o">.</span><span class="n">setter</span>
@@ -638,7 +637,8 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_AtomCartesianCoordinates</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Specialized `numpy.ndarray` for accessing Cartesian coordinates.</span>
+<span class="w">    </span><span class="sd">"""The specialized `numpy.ndarray` for accessing Cartesian</span>
+<span class="sd">    coordinates.</span>
 
 <span class="sd">    Inplace assignments to this array are applied on the *xyz* position</span>
 <span class="sd">    position of owner `Atom` as per the associated `Atom.lattice`.</span>
@@ -646,11 +646,11 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    atom : Atom</span>
-<span class="sd">        `Atom` instance to be linked to these coordinate array.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">       The `Atom` instance to be linked to these coordinate array.</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the underlying numpy array base object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create the underlying numpy array base object."""</span>
         <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom</span><span class="p">):</span>
@@ -660,22 +660,22 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">asarray</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;ndarray : This array viewed as standard numpy array.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""This array viewed as standard numpy array."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set some element or slice of this Cartesian coordinates.</span>
+<span class="w">        </span><span class="sd">"""Set some element or slice of this Cartesian coordinates.</span>
 
 <span class="sd">        This overrides inplace array assignment to update the</span>
 <span class="sd">        *xyz* fractional coordinate of the linked `Atom`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">asarray</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_atom</span><span class="o">.</span><span class="n">xyz</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_atom</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">fractional</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__array_wrap__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_scalar</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure math operations on this type yield standard numpy</span>
-<span class="sd">        array.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Ensure math operations on this type yield standard numpy</span>
+<span class="sd">        array."""</span>
         <span class="k">return</span> <span class="n">out_arr</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
 
 

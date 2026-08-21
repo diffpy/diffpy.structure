@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.lattice &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.lattice &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=237dbe43"></script>
+      <script src="_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -80,7 +80,7 @@ lattice coordinate system.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.structure.lattice.cartesian">
 <span class="sig-prename descclassname"><span class="pre">diffpy.structure.lattice.</span></span><span class="sig-name descname"><span class="pre">cartesian</span></span><a class="headerlink" href="#diffpy.structure.lattice.cartesian" title="Link to this definition"></a></dt>
-<dd><p>Constant instance of Lattice, default Cartesian system.</p>
+<dd><p>The default Cartesian lattice with a=b=c=1 and alpha=beta=gamma=90 degrees.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#diffpy.structure.lattice.Lattice" title="diffpy.structure.lattice.Lattice">Lattice</a></p>
@@ -206,8 +206,8 @@ is orthonormal.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The array attributes are read-only. They get updated by changing
-some lattice parameters or by calling the <cite>setLatPar()</cite> or
-<cite>setLatBase()</cite> methods.</p>
+some lattice parameters or by calling the <cite>set_latt_parms()</cite> or
+<cite>set_new_latt_base_vec()</cite> methods.</p>
 </div>
 <p class="rubric">Examples</p>
 <p>Create a Cartesian coordinate system:</p>

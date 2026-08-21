@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.expansion.supercell_mod &mdash; diffpy.structure 3.4.0 documentation</title>
+  <title>diffpy.structure.expansion.supercell_mod &mdash; diffpy.structure 3.5.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=237dbe43"></script>
+      <script src="../../../../_static/documentation_options.js?v=e1e87d1e"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -88,8 +88,8 @@
 <span class="c1"># See LICENSE_DANSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;This module contains functions for simple `Structure`</span>
-<span class="sd">manipulation.&quot;&quot;&quot;</span>
+<span class="sd">"""This module contains functions for simple `Structure`</span>
+<span class="sd">manipulation."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
@@ -99,7 +99,7 @@
 <div class="viewcode-block" id="supercell">
 <a class="viewcode-back" href="../../../../diffpy.structure.expansion.html#diffpy.structure.expansion.supercell_mod.supercell">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">supercell</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">mno</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform supercell expansion for a `Structure`.</span>
+<span class="w">    </span><span class="sd">"""Perform supercell expansion for a `Structure`.</span>
 
 <span class="sd">    New `lattice` parameters are multiplied and fractional coordinates</span>
 <span class="sd">    divided by corresponding multiplier. New `Atoms` are grouped with</span>
@@ -124,16 +124,16 @@
 <span class="sd">        `S` is not a `Structure` instance.</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        Invalid `mno` argument.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># check arguments</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mno</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Argument mno must contain 3 numbers.&quot;</span>
+        <span class="n">emsg</span> <span class="o">=</span> <span class="s2">"Argument mno must contain 3 numbers."</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">min</span><span class="p">(</span><span class="n">mno</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Multipliers must be greater or equal 1&quot;</span>
+        <span class="n">emsg</span> <span class="o">=</span> <span class="s2">"Multipliers must be greater or equal 1"</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">Structure</span><span class="p">):</span>
-        <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;The first argument must be a Structure instance.&quot;</span>
+        <span class="n">emsg</span> <span class="o">=</span> <span class="s2">"The first argument must be a Structure instance."</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
 
     <span class="c1"># convert mno to a tuple of integers so it can be used as range limit.</span>
