@@ -4,6 +4,14 @@ Release notes
 
 .. current developments
 
+3.5.1
+=====
+
+**Security:**
+
+* Fixed arbitrary code execution when reading a CIF file by parsing the translation part of symmetry operations in ``get_symop`` as numbers instead of passing it to ``eval``.
+
+
 3.5.0
 =====
 
