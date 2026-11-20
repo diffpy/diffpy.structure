@@ -888,6 +888,35 @@ symvec["+y"] = symvec["y"]
 symvec["+z"] = symvec["z"]
 
 
+_symop_number = r"(?:\d+\.?\d*|\.\d+)"
+_symop_term = rf"{_symop_number}(?:/{_symop_number})?"
+_rx_symop_translation = re.compile(rf"[+-]?{_symop_term}(?:[+-]{_symop_term})*")
+_rx_symop_term = re.compile(rf"([+-]?)({_symop_number})(?:/({_symop_number}))?")
+
+
+def _get_symop_translation(tpart, s):
+    # Sum the numeric terms in tpart without evaluating it as Python code.
+    # Only signed integers, decimals and fractions such as 1/2 are accepted.
+    emsg = (
+        f"Cannot read the symmetry operation {s!r} because {tpart!r} is not a number or a fraction. "
+        "Please correct the symmetry operations in the CIF file so that each one "
+        "looks like 'x,1/2-y,1/2+z' and try again."
+    )
+    if not tpart:
+        return 0.0
+    if not _rx_symop_translation.fullmatch(tpart):
+        raise StructureFormatError(emsg)
+    translation = 0.0
+    for sign, numerator, denominator in _rx_symop_term.findall(tpart):
+        value = float(numerator)
+        if denominator:
+            if float(denominator) == 0:
+                raise StructureFormatError(emsg)
+            value /= float(denominator)
+        translation += -value if sign == "-" else value
+    return translation
+
+
 @deprecated(getSymOp_deprecation_msg)
 def getSymOp(s):
     """This function has been deprecated and will be removed in version
@@ -910,6 +939,11 @@ def get_symop(s):
     -------
     SymOp
         Instance of `SymOp`.
+
+    Raises
+    ------
+    StructureFormatError
+        The translation part of the formula is not a number or a fraction.
     """
     from diffpy.structure.spacegroups import SymOp
 
@@ -922,7 +956,7 @@ def get_symop(s):
         for Rpart in eqparts[1::2]:
             R[i, :] += symvec[Rpart.lower()]
         for tpart in eqparts[::2]:
-            t[i] += eval("1.0*%s+0" % tpart)
+            t[i] += _get_symop_translation(tpart, s)
     t -= numpy.floor(t)
     rv = SymOp(R, t)
     return rv

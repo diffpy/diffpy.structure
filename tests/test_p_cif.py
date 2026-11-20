@@ -15,6 +15,7 @@
 """Unit tests for diffpy.structure.parsers.p_cif module."""
 
 import unittest
+from pathlib import Path
 
 import numpy
 import pytest
@@ -495,6 +496,113 @@ class TestP_cif(unittest.TestCase):
 
 
 # End of class TestP_cif
+
+
+# Test that get_symop reads the rotation and translation of a symmetry
+# operation formula.
+#   C1: fraction before and after the coordinate, expect the fractions as
+#       translations
+#   C2: mixed coordinates in one component, expect off-diagonal rotation
+#   C3: decimal translations with and without leading zero, expect the same
+#       values as floats
+#   C4: blanks, upper case and explicit plus signs, expect them to be ignored
+#   C5: negative translations, expect them wrapped into the unit cell
+#   C6: several numeric terms in one component, expect their sum
+@pytest.mark.parametrize(
+    "symop_string, expected_rotation, expected_translation",
+    [
+        pytest.param(
+            "x,1/2-y,1/2+z",
+            [[1, 0, 0], [0, -1, 0], [0, 0, 1]],
+            [0, 0.5, 0.5],
+            id="fractions",
+        ),
+        pytest.param(
+            "-x,-x+y,z+1/2",
+            [[-1, 0, 0], [-1, 1, 0], [0, 0, 1]],
+            [0, 0, 0.5],
+            id="mixed-coordinates",
+        ),
+        pytest.param(
+            "x+0.25,y+.5,z+1.",
+            [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+            [0.25, 0.5, 0],
+            id="decimals",
+        ),
+        pytest.param(
+            " +X, +1/4 + Y, -Z ",
+            [[1, 0, 0], [0, 1, 0], [0, 0, -1]],
+            [0, 0.25, 0],
+            id="blanks-case-plus-signs",
+        ),
+        pytest.param(
+            "x-1/4,-3/4+y,z",
+            [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+            [0.75, 0.25, 0],
+            id="negative-translations",
+        ),
+        pytest.param(
+            "1/2+x+1/4,y,z",
+            [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+            [0.75, 0, 0],
+            id="several-numeric-terms",
+        ),
+    ],
+)
+def test_get_symop_values(symop_string, expected_rotation, expected_translation):
+    actual_symop = get_symop(symop_string)
+    numpy.testing.assert_allclose(actual_symop.R, expected_rotation)
+    numpy.testing.assert_allclose(actual_symop.t, expected_translation)
+
+
+# Test that get_symop rejects translations that are not plain numbers
+# instead of evaluating them as Python code.
+#   C1: Python call in a component, expect StructureFormatError and no
+#       code execution
+#   C2: arithmetic that is not a sum of numbers, expect StructureFormatError
+#   C3: letters other than the coordinates, expect StructureFormatError
+#   C4: fraction with zero denominator, expect StructureFormatError
+# The code avoids blanks, commas and the letters of the coordinates so
+# that it would be executed if the formula were evaluated.
+symop_code = "__import__('builtins').__dict__.update(_cif_pwned=1)"
+
+
+@pytest.mark.parametrize(
+    "symop_string",
+    [
+        pytest.param(f"x,y,{symop_code}", id="python-call"),
+        pytest.param("x,2**8+y,z", id="non-sum-arithmetic"),
+        pytest.param("x,y,z+a", id="unknown-letter"),
+        pytest.param("x,y+1/0,z", id="zero-denominator"),
+    ],
+)
+def test_get_symop_bad(symop_string, monkeypatch):
+    import builtins
+
+    monkeypatch.delattr(builtins, "_cif_pwned", raising=False)
+    try:
+        with pytest.raises(StructureFormatError, match="Cannot read the symmetry operation"):
+            get_symop(symop_string)
+        assert not hasattr(builtins, "_cif_pwned")
+    finally:
+        vars(builtins).pop("_cif_pwned", None)
+
+
+def test_parse_cif_does_not_execute_symop(datafile, tmp_path):
+    """Check that code in a CIF symmetry operation is never executed."""
+    import builtins
+
+    cif_text = Path(datafile("graphite.cif")).read_text()
+    assert "'x,y,z'" in cif_text
+    bad_cif = tmp_path / "bad.cif"
+    bad_cif.write_text(cif_text.replace("'x,y,z'", f'"x,y,z+{symop_code}"', 1))
+    try:
+        with pytest.raises(StructureFormatError):
+            get_parser("cif").parse_file(str(bad_cif))
+        assert not hasattr(builtins, "_cif_pwned")
+    finally:
+        vars(builtins).pop("_cif_pwned", None)
+
 
 # ----------------------------------------------------------------------------
 
