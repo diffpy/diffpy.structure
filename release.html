@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Release notes &mdash; diffpy.structure 3.5.0 documentation</title>
+  <title>Release notes &mdash; diffpy.structure 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=47b26e07"></script>
+      <script src="_static/documentation_options.js?v=eef21a61"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,14 +48,15 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="api/diffpy.structure.html">Package API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Release notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">3.5.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">3.4.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">3.3.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">3.3.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">3.2.3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">3.2.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">3.2.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">3.2.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">3.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3.5.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">3.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">3.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">3.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">3.2.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">3.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">3.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">3.2.0</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#version-3-1-0-2022-12-04">Version 3.1.0 - 2022-12-04</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#version-3-0-2-2022-10-12">Version 3.0.2 - 2022-10-12</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#version-3-0-1-2019-06-27">Version 3.0.1 - 2019-06-27</a></li>
@@ -94,7 +95,14 @@
   <section id="release-notes">
 <span id="index-0"></span><h1>Release notes<a class="headerlink" href="#release-notes" title="Link to this heading"></a></h1>
 <section id="id1">
-<h2>3.5.0<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>3.5.1<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Security:</strong></p>
+<ul class="simple">
+<li><p>Fixed arbitrary code execution when reading a CIF file by parsing the translation part of symmetry operations in <code class="docutils literal notranslate"><span class="pre">get_symop</span></code> as numbers instead of passing it to <code class="docutils literal notranslate"><span class="pre">eval</span></code>.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>3.5.0<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">Structure.get_lattice_vectors()</span></code> method to return the lattice vectors.</p></li>
@@ -107,8 +115,8 @@
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">Structure.get_chemical_symbols()</span></code> method to return the chemical symbols of the sites.</p></li>
 </ul>
 </section>
-<section id="id2">
-<h2>3.4.0<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>3.4.0<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">set_latt_parms</span></code> method into <code class="docutils literal notranslate"><span class="pre">Lattice</span></code> class</p></li>
@@ -327,8 +335,8 @@
 <li><p>Support for Python 3.11</p></li>
 </ul>
 </section>
-<section id="id3">
-<h2>3.3.1<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>3.3.1<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Spelling check via Codespell in pre-commit</p></li>
@@ -343,8 +351,8 @@
 <li><p>Let <code class="docutils literal notranslate"><span class="pre">diffpy.structure</span></code> pass the tests with <code class="docutils literal notranslate"><span class="pre">pycifrw</span></code> installed from <code class="docutils literal notranslate"><span class="pre">PyPI</span></code>.</p></li>
 </ul>
 </section>
-<section id="id4">
-<h2>3.3.0<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>3.3.0<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Support for Python 3.13</p></li>
@@ -354,8 +362,8 @@
 <li><p>Support for Python 3.10</p></li>
 </ul>
 </section>
-<section id="id5">
-<h2>3.2.3<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>3.2.3<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Use GitHub Actions to build, release, upload to PyPI</p></li>
@@ -369,8 +377,8 @@
 <li><p>Changed requires-python to align with classifiers</p></li>
 </ul>
 </section>
-<section id="id6">
-<h2>3.2.2<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h2>3.2.2<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Unit test for version.py</p></li>
@@ -384,11 +392,11 @@
 <li><p>Recookiecut package to the group standard</p></li>
 </ul>
 </section>
-<section id="id7">
-<h2>3.2.1<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
-</section>
 <section id="id8">
-<h2>3.2.0<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<h2>3.2.1<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+</section>
+<section id="id9">
+<h2>3.2.0<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
 <p><strong>Changed:</strong></p>
 <ul class="simple">
 <li><p>Removed support for Python 2</p></li>

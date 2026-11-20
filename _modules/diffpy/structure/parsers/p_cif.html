@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.structure.parsers.p_cif &mdash; diffpy.structure 3.5.0 documentation</title>
+  <title>diffpy.structure.parsers.p_cif &mdash; diffpy.structure 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=47b26e07"></script>
+      <script src="../../../../_static/documentation_options.js?v=eef21a61"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -983,6 +983,35 @@
 <span class="n">symvec</span><span class="p">[</span><span class="s2">"+z"</span><span class="p">]</span> <span class="o">=</span> <span class="n">symvec</span><span class="p">[</span><span class="s2">"z"</span><span class="p">]</span>
 
 
+<span class="n">_symop_number</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"(?:\d+\.?\d*|\.\d+)"</span>
+<span class="n">_symop_term</span> <span class="o">=</span> <span class="sa">rf</span><span class="s2">"</span><span class="si">{</span><span class="n">_symop_number</span><span class="si">}</span><span class="s2">(?:/</span><span class="si">{</span><span class="n">_symop_number</span><span class="si">}</span><span class="s2">)?"</span>
+<span class="n">_rx_symop_translation</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">rf</span><span class="s2">"[+-]?</span><span class="si">{</span><span class="n">_symop_term</span><span class="si">}</span><span class="s2">(?:[+-]</span><span class="si">{</span><span class="n">_symop_term</span><span class="si">}</span><span class="s2">)*"</span><span class="p">)</span>
+<span class="n">_rx_symop_term</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">rf</span><span class="s2">"([+-]?)(</span><span class="si">{</span><span class="n">_symop_number</span><span class="si">}</span><span class="s2">)(?:/(</span><span class="si">{</span><span class="n">_symop_number</span><span class="si">}</span><span class="s2">))?"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_symop_translation</span><span class="p">(</span><span class="n">tpart</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="c1"># Sum the numeric terms in tpart without evaluating it as Python code.</span>
+    <span class="c1"># Only signed integers, decimals and fractions such as 1/2 are accepted.</span>
+    <span class="n">emsg</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"Cannot read the symmetry operation </span><span class="si">{</span><span class="n">s</span><span class="si">!r}</span><span class="s2"> because </span><span class="si">{</span><span class="n">tpart</span><span class="si">!r}</span><span class="s2"> is not a number or a fraction. "</span>
+        <span class="s2">"Please correct the symmetry operations in the CIF file so that each one "</span>
+        <span class="s2">"looks like 'x,1/2-y,1/2+z' and try again."</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tpart</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_rx_symop_translation</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">tpart</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+    <span class="n">translation</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">sign</span><span class="p">,</span> <span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span> <span class="ow">in</span> <span class="n">_rx_symop_term</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">tpart</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">numerator</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">denominator</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">denominator</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">StructureFormatError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">/=</span> <span class="nb">float</span><span class="p">(</span><span class="n">denominator</span><span class="p">)</span>
+        <span class="n">translation</span> <span class="o">+=</span> <span class="o">-</span><span class="n">value</span> <span class="k">if</span> <span class="n">sign</span> <span class="o">==</span> <span class="s2">"-"</span> <span class="k">else</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">translation</span>
+
+
 <span class="nd">@deprecated</span><span class="p">(</span><span class="n">getSymOp_deprecation_msg</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">getSymOp</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""This function has been deprecated and will be removed in version</span>
@@ -1007,6 +1036,11 @@
 <span class="sd">    -------</span>
 <span class="sd">    SymOp</span>
 <span class="sd">        Instance of `SymOp`.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    StructureFormatError</span>
+<span class="sd">        The translation part of the formula is not a number or a fraction.</span>
 <span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.structure.spacegroups</span><span class="w"> </span><span class="kn">import</span> <span class="n">SymOp</span>
 
@@ -1019,7 +1053,7 @@
         <span class="k">for</span> <span class="n">Rpart</span> <span class="ow">in</span> <span class="n">eqparts</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]:</span>
             <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">symvec</span><span class="p">[</span><span class="n">Rpart</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
         <span class="k">for</span> <span class="n">tpart</span> <span class="ow">in</span> <span class="n">eqparts</span><span class="p">[::</span><span class="mi">2</span><span class="p">]:</span>
-            <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">"1.0*</span><span class="si">%s</span><span class="s2">+0"</span> <span class="o">%</span> <span class="n">tpart</span><span class="p">)</span>
+            <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">_get_symop_translation</span><span class="p">(</span><span class="n">tpart</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
     <span class="n">t</span> <span class="o">-=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
     <span class="n">rv</span> <span class="o">=</span> <span class="n">SymOp</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rv</span></div>
